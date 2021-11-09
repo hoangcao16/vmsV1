@@ -1,0 +1,25 @@
+@import "../../../assets/scss/core//variables//vms-variable";
+
+.search-input {
+    .ant-input-affix-wrapper {
+      border: 1px solid rgba(234, 240, 247, 0.1);
+      background-color: transparent;
+      box-sizing: border-box;
+      border-radius: 8px;
+        .ant-input {
+          background-color: transparent;
+          height: 30px;
+        }
+      }
+      &__filter {
+        color: $vms-blue;
+        background-color: $vms-gray;
+        width: 36px;
+        height: 36px;
+        border-radius: 4px;
+        padding: 9px;
+      }
+      &__filter-icon {
+        font-size: 18px;
+      }
+    }

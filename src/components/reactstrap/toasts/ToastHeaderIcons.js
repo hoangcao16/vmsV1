@@ -139,7 +139,7 @@ class ToastHeaderIcons extends React.Component {
                     <Toast>
                       <ToastHeader>
                         <img src={logo} alt="logo" className="mr-1" />
-                        VMS
+                        Vuexy
                       </ToastHeader>
                       <ToastBody>
                         This is a toast with a logo — check it out!

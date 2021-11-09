@@ -1,0 +1,238 @@
+@import "../../assets/scss/core/variables/vms-variable";
+@import "../../assets/scss/core/mixins/vms-mixins";
+
+//end: search
+
+//begin: table list user
+
+.dp-change {
+  justify-content: space-around;
+  align-items: center;
+  border-bottom: 1px solid rgba(234, 240, 247, 0.1);
+  margin-bottom: 15px;
+}
+
+.table__list--camera-add {
+  .ant-table {
+    background-color: $vms-bg-primary;
+    border-radius: 0 12px 12px 0;
+    border: 1px solid rgba(234, 240, 247, 0.1);
+    // padding-bottom: 24px;
+    margin-top: 106px;
+    // height: 88vh;
+
+    //begin: title table
+    .ant-table-title {
+      padding: 0;
+      h4 {
+        margin-bottom: 0;
+        font-size: 16px;
+        line-height: 28px;
+        margin: 16px 0px;
+      }
+
+      hr {
+        border: 1px solid rgba(234, 240, 247, 0.1);
+        margin: 16px 0;
+      }
+
+      .searchData {
+        margin: 0 16px 17px 16px !important;
+      }
+
+      .filter__search {
+        margin: 0 16px !important;
+        padding: 0 !important;
+        // max-width: 504px;
+        .address__choose {
+          display: flex;
+          justify-content: space-between;
+          margin-bottom: 8px;
+
+          .ant-form-item {
+            flex: 1;
+            border-radius: 4px;
+
+            .ant-form-item-control-input {
+              border-radius: 4px;
+            }
+
+            &:nth-child(2) {
+              margin: 0 12px;
+            }
+          }
+        }
+
+        .ant-form-item {
+          border-radius: 4px;
+          .ant-form-item-control-input {
+            border-radius: 4px;
+          }
+        }
+
+        .div__2 {
+          display: flex;
+          width: 100%;
+          justify-content: space-between;
+          margin-bottom: 16px;
+          align-items: center;
+          .ant-form-item {
+            flex: 2;
+          }
+          .number--element__selected {
+            flex: 1;
+            color: $vms-main-blue-primary;
+            text-align: end;
+            // height: 40px;
+            // border-radius: 6px;
+            // border: $vms-border-gray;
+            // margin-right: 12px;
+            // background-color: $vms-bg-sub;
+            // line-height: 40px;
+          }
+        }
+      }
+    }
+
+    //end: title table
+
+    //begin: head table
+    .ant-table-thead {
+      tr {
+        .ant-table-cell {
+          background-color: $vms-bg-sub;
+          padding: 0 8px;
+          color: $vms-soft-statuts;
+          border-top: 1px solid rgba(234, 240, 247, 0.1);
+          border-bottom: 1px solid rgba(234, 240, 247, 0.1);
+          font-weight: 600;
+          height: 5.5vh;
+
+          &:first-child {
+            padding: 8px;
+            // padding: 0;
+
+            .ant-checkbox-inner {
+              background-color: transparent;
+              border: 1px solid #1380ff;
+              border-radius: 3px;
+            }
+            .ant-checkbox-checked {
+              .ant-checkbox-inner {
+                background-color: $vms-main-blue-primary;
+              }
+            }
+          }
+
+          &:nth-child(2) {
+            padding: 0 8px;
+            text-align: center;
+          }
+
+          &:last-child {
+            padding-right: 8px;
+          }
+        }
+      }
+    }
+
+    .ant-table-body {
+      max-height: calc(53.2vh - 108px) !important;
+      overflow-y: auto;
+      @include scrollbar-styling(12px, 0);
+    }
+    .ant-table-tbody {
+      // max-height: calc(53.2vh - 104px);
+      // overflow-y: auto;
+      tr {
+        .ant-table-cell {
+          background-color: $vms-bg-primary;
+          // font-weight: 500;
+          padding: 0 0 0 16px;
+          color: $vms-status-07;
+          border-top: 1px solid rgba(234, 240, 247, 0.1);
+          border-bottom: 1px solid rgba(234, 240, 247, 0.1);
+          height: 6.65vh;
+          span {
+            color: $vms-status-07;
+          }
+
+          .ant-typography-warning {
+            color: #faad14;
+          }
+
+          &:nth-child(2) {
+            padding: 0;
+            text-align: center;
+          }
+          &:first-child {
+            padding: 0;
+
+            .ant-checkbox-inner {
+              background-color: transparent;
+              border: 1px solid #1380ff;
+              border-radius: 3px;
+            }
+
+            .ant-checkbox-checked {
+              .ant-checkbox-inner {
+                background-color: $vms-main-blue-primary;
+              }
+            }
+          }
+
+          &:last-child {
+            padding-right: 8px;
+            text-align: start;
+          }
+        }
+      }
+
+      tr:last-child td:last-child {
+        border-radius: 0 0 12px 0;
+      }
+    }
+
+    //end: head table
+  }
+
+  @include paginationDontShowTotal;
+  .ant-pagination {
+    border-radius: 0 0 12px 0;
+  }
+}
+
+//end: table list user
+.submit {
+  .ant-space-item:first-child {
+    button {
+      background-color: $vms-main-blue-primary;
+      padding: 7px 16px;
+      line-height: 24px;
+      height: 100%;
+      border-radius: 4px;
+      border: none;
+
+      span {
+        background-color: $vms-main-blue-primary;
+        color: $vms-soft-statuts;
+      }
+    }
+  }
+
+  .ant-space-item:last-child {
+    button {
+      background-color: transparent;
+      padding: 7px 16px;
+      line-height: 24px;
+      height: 100%;
+      border-radius: 4px;
+      border: 1px solid #1380ff;
+
+      span {
+        background-color: transparent;
+        color: $vms-main-blue-primary;
+      }
+    }
+  }
+}

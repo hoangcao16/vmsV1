@@ -1,0 +1,387 @@
+@import "../../../../assets/scss/core/variables/vms-variable";
+
+.detail-user--information{
+  //begin: card-infor
+  .card-infor {
+    margin-top: 48px;
+    border: 1px solid rgba(234, 240, 247, 0.1);
+    background-color: $vms-bg-sub;
+    border-radius: 12px 12px 0 0;
+
+    .ant-card-body {
+      padding: 0;
+      .avatar-uploader {
+        margin-top: 16px !important;
+      }
+      .title__user--detail {
+        margin: 20px 16px;
+        font-size: 16px;
+        line-height: 16px;
+        display: flex;
+        align-items: center;
+
+        .anticon{
+          padding: 4px;
+          &:hover {
+          background-color: $vms-main-blue-primary;
+          transition: 0.3s;
+          border-radius: 4px;
+          svg {
+            color: $vms-soft-statuts;
+          }
+        }
+        }
+        
+
+      }
+
+      .ant-upload-picture-card-wrapper {
+        width: 100%;
+        display: flex;
+        justify-content: center;
+        padding: 0;
+        margin: 0;
+        div.ant-upload {
+          height: 101px;
+          width: 101px;
+          margin: 0;
+          object-fit: cover;
+          background-color: $vms-bg-sub;
+          border-radius: 50%;
+          display: flex;
+          justify-content: center;
+          align-items: center;
+          border: solid 1px rgba(234, 240, 246, 0.1) !important;
+          .ant-upload {
+            // width: 100%;
+            // height: 100%;
+            .ant-avatar {
+              height: 101px !important;
+              width: 101px !important;
+            }
+          }
+        }
+  
+      }
+
+      
+      .title-avatar {
+        padding-bottom: 22px;
+        border-bottom: 1px solid rgba(234, 240, 247, 0.1);
+
+        .ant-avatar {
+          width: 100px;
+          height: 100px;
+        }
+      }
+
+      .ant-collapse {
+        padding: 0 16px 0 16px !important;
+        background-color: $vms-bg-primary ;
+        border: none;
+        // margin: 0;
+
+        .ant-collapse-item {
+          border: none;
+          border-bottom: 1px solid rgba(234, 240, 247, 0.1);
+          padding: 22px 0;
+
+          &:last-child {
+            border: none;
+          }
+
+          .ant-collapse-header {
+            color: $vms-soft-statuts;
+            padding: 0;
+
+            .dataUser__name {
+              width: 38.5%;
+              opacity: 0.7;
+              font-size: 12px;
+            }
+          }
+
+          .ant-collapse-content {
+            background-color: $vms-bg-primary;
+            border: none;
+
+            .ant-collapse-content-box {
+              padding: 0;
+              padding-top: 16px;
+
+              .formData {
+                margin-left: 38.5% !important;
+
+                .ant-form-item-control-input-content {
+                  background-color: $vms-bg-primary;
+                }
+
+                input {
+                  background-color: $vms-bg-3 !important;
+                  border: 1px solid #d0e5ff !important;
+                  padding: 8px 16px;
+                }
+
+                button {
+                  background-color: $vms-bg-primary;
+                  border: none;
+                  padding: 0;
+                  margin-right: 16px;
+
+                  .anticon-check {
+                    color: $vms-main-blue-primary;
+                  }
+                }
+                .ant-select {
+                  background-color: $vms-bg-primary;
+                }
+                .ant-select-selector {
+                  background-color: $vms-bg-3;
+                  border: 1px solid #d0e5ff !important;
+                  width: 5vw;
+                  min-width: 75px;
+                }
+
+                .ant-picker {
+                  background-color: $vms-bg-3;
+                  border: 1px solid #d0e5ff !important;
+                  #date_of_birth {
+                    padding: 0;
+                  }
+
+                  input {
+                    border: none !important;
+                    color: $vms-soft-statuts;
+                  }
+
+                  svg {
+                    color: $vms-soft-statuts;
+                  }
+                }
+              }
+            }
+          }
+        }
+
+        .phone__input {
+          .ant-form-item-control-input {
+            border: 1px solid #d0e5ff !important;
+            border-radius: 6px;
+
+            .ant-form-item-control-input-content {
+              background-color: $vms-bg-sub !important;
+              border-radius: 6px;
+
+            }
+            .MuiFormControl-root{
+              height: 40px;
+              width: 100%;
+              .MuiInput-root{
+                border-radius: 6px;
+                // border: $vms-border-gray;
+                height: 40px;
+    
+                .MuiInput-input{
+                  border:0 !important;
+                  height: 40px;
+                  font-size: 1.4rem;
+                  padding: 0;
+                  background-color: $vms-bg-sub !important;
+                }
+                .MuiButtonBase-root{
+                  background-color: $vms-bg-sub;
+                  svg {
+                    width: 20px;
+                  }
+                }
+              }
+              .css-1480iag-MuiInputBase-root-MuiInput-root{
+                &::after,&::before {
+                  border: 0;
+                }
+              }
+            }
+          }
+          
+        }
+      }
+    }
+  }
+  //end: card-infor
+
+  //begin: account
+  .detail-user--account {
+    margin-top: 32px;
+    border: 1px solid rgba(234, 240, 247, 0.1);
+    background-color: $vms-bg-sub;
+    border-radius: 12px 12px 0 0 ;
+
+    .ant-card-body {
+      padding: 0;
+
+      .titleUserDetail {
+        padding-bottom: 22px;
+        padding: 16px 0 0 16px !important;
+        font-size: 16px;
+        margin-bottom: 14px;
+      }
+
+      .ant-collapse {
+        padding: 0 16px 0 16px !important;
+        background-color: $vms-bg-primary;
+        border: none;
+
+        .ant-collapse-item {
+          border: none;
+          border-bottom: 1px solid rgba(234, 240, 247, 0.1);
+          padding: 22px 0;
+
+          &:last-child {
+            border: none;
+          }
+
+          .ant-collapse-header {
+            color: $vms-soft-statuts;
+            padding: 0;
+
+            .dataUser__name {
+              width: 38.5%;
+              opacity: 0.7;
+              font-size: 12px;
+            }
+          }
+
+          .ant-collapse-content {
+            background-color: $vms-bg-primary;
+            border: none;
+
+            .ant-collapse-content-box {
+              padding: 0;
+              padding-top: 16px;
+
+              .formData {
+                margin-left: 38.5% !important;
+                .ant-form-item-control-input-content {
+                  background-color: $vms-bg-primary;
+                }
+                input {
+                  background-color: $vms-bg-3 !important;
+                  border: 1px solid #d0e5ff !important;
+
+                  &::placeholder {
+                    color: $vms-status !important;
+                  }
+                }
+
+                .ant-select-item-option-content {
+                  width: 20px;
+                }
+                
+
+                button {
+                  background-color: $vms-bg-primary;
+                  border: none;
+                  padding: 0;
+                  margin-right: 16px;
+
+                  .anticon-check {
+                    color: $vms-main-blue-primary;
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+  //end: account
+
+  //begin: cardPosition
+  .detail-user--organization {
+    margin-top: 32px;
+    border: 1px solid rgba(234, 240, 247, 0.1);
+    background-color: $vms-bg-sub;
+    border-radius: 12px 12px 0 0;
+
+    .ant-card-body {
+      padding: 0;
+
+      .titleUserDetail {
+        padding-bottom: 22px;
+        padding: 16px 0 0 16px !important;
+        font-size: 16px;
+        margin-bottom: 14px;
+      }
+
+      .ant-collapse {
+        padding: 0 16px 0 16px !important;
+        background-color: $vms-bg-primary;
+        border: none;
+
+        .ant-collapse-item {
+          border: none;
+          border-bottom: 1px solid rgba(234, 240, 247, 0.1);
+          padding: 22px 0;
+
+          &:last-child {
+            border: none;
+          }
+
+          .ant-collapse-header {
+            color: $vms-soft-statuts;
+            padding: 0;
+
+            .dataUser__name {
+              width: 38.5%;
+              opacity: 0.7;
+              font-size: 12px;
+            }
+          }
+
+          .ant-collapse-content {
+            background-color: $vms-bg-primary;
+            border: none;
+
+            .ant-collapse-content-box {
+              padding: 0;
+              padding-top: 16px;
+              .ant-form-item-control-input-content {
+                background-color: $vms-bg-primary;
+              }
+              .formData {
+                margin-left: 38.5% !important;
+
+                input {
+                  background-color: $vms-bg-3 !important;
+                  border: 1px solid #d0e5ff !important;
+
+                  &::placeholder {
+                    color: $vms-status !important;
+                  }
+                }
+
+                button {
+                  background-color: $vms-bg-primary;
+                  border: none;
+                  padding: 0;
+                  margin-right: 16px;
+
+                  .anticon-check {
+                    color: $vms-main-blue-primary;
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+  //end: cardPosition
+}
+
+.disableCard {
+  pointer-events: none;
+  opacity: 0.4;
+}

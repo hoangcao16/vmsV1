@@ -1,0 +1,70 @@
+.bookmark {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  &__title {
+    font-size: 14px;
+    text-align: center;
+    margin-right: 12px;
+    color: white;
+    width: 80px !important;
+  }
+
+  &__name {
+    position: relative;
+    &-err {
+      position: absolute;
+      top: 100%;
+    }
+  }
+
+  &__input {
+    outline: none;
+    background-color: #414141;
+    color: #fcfcfc;
+    border-radius: 10px;
+    padding-top: 9px;
+    padding-left: 12px;
+    padding-bottom: 9px;
+    border: 1px solid #828282;
+    margin-right: 12px;
+
+    &::placeholder {
+      color: #828282;
+    }
+  }
+
+  &__actions {
+    display: flex;
+    align-items: center;
+
+    &-save {
+      padding: 9px;
+      background-color: #d0e5ff;
+      color: black;
+      font-size: 15px;
+      font-weight: 300;
+      border-radius: 10px;
+      outline: none;
+      cursor: pointer;
+      margin-right: 12px;
+
+      &:hover {
+        color: white;
+        background-color: #007bff;
+        box-shadow: 5px 5px 5px 0px rgba(0, 0, 0, 0.75);
+      }
+    }
+
+    &-setting {
+      color: white;
+      font-size: 15px;
+      cursor: pointer;
+
+      &:hover {
+        color: #007bff;
+      }
+    }
+  }
+}

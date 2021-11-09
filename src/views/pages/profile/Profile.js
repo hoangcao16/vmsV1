@@ -1,33 +1,33 @@
-import React from "react"
-import { Row, Col, Button, Spinner } from "reactstrap"
-import Breadcrumbs from "../../../components/@vuexy/breadCrumbs/BreadCrumb"
-import ProfileHeader from "./ProfileHeader"
-import AboutCard from "./AboutCard"
-import SuggestedPages from "./SuggestedPages"
-import TwitterFeed from "./TwitterFeeds"
-import Posts from "./Posts"
-import LatestPhotos from "./LatestPhotos"
-import Suggestions from "./Suggestions"
-import Polls from "./Polls"
+import React from 'react';
+import { Row, Col, Button, Spinner } from 'reactstrap';
+import Breadcrumbs from '../../../components/@vuexy/breadCrumbs/BreadCrumb';
+import ProfileHeader from './ProfileHeader';
+import AboutCard from './AboutCard';
+import SuggestedPages from './SuggestedPages';
+import TwitterFeed from './TwitterFeeds';
+import Posts from './Posts';
+import LatestPhotos from './LatestPhotos';
+import Suggestions from './Suggestions';
+import Polls from './Polls';
 
-import "../../../assets/scss/pages/users-profile.scss"
+import '../../../assets/scss/pages/users-profile.scss';
 
 class Profile extends React.Component {
   state = {
     isLoading: false
-  }
+  };
 
   toggleLoading = () => {
     this.setState({
       isLoading: true
-    })
+    });
 
     setTimeout(() => {
       this.setState({
         isLoading: false
-      })
-    }, 2000)
-  }
+      });
+    }, 500);
+  };
 
   render() {
     return (
@@ -65,7 +65,7 @@ class Profile extends React.Component {
                   color="primary"
                   onClick={this.toggleLoading}
                   className={`${
-                    this.state.isLoading ? "btn-loading" : ""
+                    this.state.isLoading ? 'btn-loading' : ''
                   } btn-load`}
                 >
                   <Spinner color="primary" />
@@ -76,8 +76,8 @@ class Profile extends React.Component {
           </div>
         </div>
       </React.Fragment>
-    )
+    );
   }
 }
 
-export default Profile
+export default Profile;

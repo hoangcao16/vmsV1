@@ -1,0 +1,36 @@
+@import '../../assets/scss/core/variables/vms-variable';
+.map__edit-mode{
+    // position: relative !important;
+    width: 4rem;
+    height: 4rem;
+    left: calc(50% + 6rem) !important;
+    transform: translateX(-50%);
+    button{
+        width: 4rem;
+        height: 4rem;
+        padding: 0;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        border-radius: 0 4px 4px 0 ;
+        .ant-image {
+            width: 2rem;
+            height: 2rem;
+            img{
+                filter:invert(37%) sepia(7%) saturate(600%) hue-rotate(181deg) brightness(40%) contrast(140%)
+            }
+        }
+        background-color: $vms-status;
+        border: 0;
+        outline: 0;
+    }
+
+    .btn-active {
+        background-color: $vms-main-blue-primary;
+        border-radius: 4px;
+        img {
+            filter: invert(20%) sepia(99%) saturate(100%) hue-rotate(
+                176deg) brightness(102%) contrast(102%) !important;     
+        }
+    }
+}

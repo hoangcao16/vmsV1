@@ -2,7 +2,7 @@ import React from "react"
 import { Card, CardHeader, CardTitle, CardBody } from "reactstrap"
 import { Pie } from "react-chartjs-2"
 
-const $primary = "#7367F0",
+const $primary = "#40a9ff",
   $success = "#28C76F",
   $danger = "#EA5455",
   $warning = "#FF9F43",

@@ -1,0 +1,16 @@
+.ant-table {
+    .ant-table-container {
+        .ant-table-tbody {
+            .ant-table-row {
+                &:hover td {
+                    background: #1380ff;
+                    color: #fcfeff;
+                  }
+            }
+            .ant-table-placeholder {
+                background: $vms-black;
+                color: rgba(208, 229, 255, 0.7)
+              }
+        }
+    }
+}

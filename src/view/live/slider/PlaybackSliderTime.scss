@@ -1,0 +1,109 @@
+.slider-container {
+  height: 100px;
+  position: relative;
+  width: 100vw;
+  background-color: white;
+
+
+}
+
+.slider {
+  height: 100%;
+  width: 100vw;
+  position: relative;
+  left: 0;
+  z-index: 0;
+  background-color: slateblue;
+
+  &__zoom {
+    position: absolute;
+    left: 0;
+    top: 0;
+    color: white;
+    background-color: black;
+    zoom {
+      cursor: pointer;
+    }
+  }
+
+  &header {
+    cursor: move;
+  }
+
+  &:after {
+    content: "\f095";
+    position: absolute;
+    bottom: 0%;
+    left: 50%;
+    width: 3px;
+    height: 70%;
+    background-color: yellow;
+    z-index: 1200;
+  }
+
+  &__markers {
+    position: relative;
+    display: flex;
+    background-color: black;
+    height: 70px;
+    width: 100%;
+    z-index: 1000;
+    & #slider__mask {
+      background-color: transparent;
+    }
+
+    &::before {
+      content: "";
+      position: absolute;
+      top: 50%;
+      left: 0%;
+      border: 1px solid white;
+      width: 100vw;
+      height: 1px;
+      background-color: white;
+      z-index: 100;
+    }
+
+
+    //seek time
+    &-seekTime {
+      position: absolute;
+      top: -30%;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 50px;
+      height: 100px;
+      color: white;
+      z-index: 200;
+    }
+  }
+
+  &__marker {
+    // position: absolute;
+    &:before {
+      content: '';
+      width: 1px;
+      height: 40%;
+      top: 80%;
+      left: 50%;
+      position: absolute;
+      background-color: white;
+    }
+
+    &-hour {
+      position: absolute;
+      left: 50%;
+      transform: translateX(-50%);
+      top: 10%;
+    }
+
+    &-date {
+      position: absolute;
+      left: 50%;
+      top: 120%;
+      transform: translateX(-50%);
+    }
+
+  }
+
+}

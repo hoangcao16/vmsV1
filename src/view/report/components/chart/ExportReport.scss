@@ -1,0 +1,11 @@
+.Export {
+  display: flex;
+  cursor: pointer;
+  align-items: center;
+  
+  &__title {
+    padding: 0 10px;
+    padding-bottom: 0;
+    margin-bottom: 0
+  }
+}

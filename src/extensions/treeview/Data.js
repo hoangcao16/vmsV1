@@ -30,7 +30,7 @@ export const data = {
     },
     {
       name: "themes",
-      children: [{ name: "animations.js" }, { name: "default.js" }]
+      children: [{ name: "animations.js" }, { name: "defaultConfig.js" }]
     },
     { name: "gulpfile.js" },
     { name: "index.js" },

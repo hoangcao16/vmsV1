@@ -1,0 +1,116 @@
+@import "../../../assets/scss/core/variables/vms-variable";
+
+.modal--zone {
+  width: 32vw;
+  top: 56px !important;
+  .ant-modal-content {
+    border-radius: 20px !important;
+
+    .ant-modal-header {
+      padding: 0;
+      background-color: $vms-bg-primary;
+      border: 0;
+
+      .ant-modal-title {
+        border-radius: 12px 12px 0 0;
+        background-color: $vms-bg-primary;
+        color: $vms-soft-statuts;
+        text-align: center;
+        padding-top: 32px;
+        padding-top: 24px;
+
+      }
+    }
+
+    .ant-modal-body {
+      background-color: $vms-bg-primary;
+      padding: 14px 32px 30px 32px !important;
+      border-radius: 0 0 12px 12px;
+      .ant-form-item-control-input {
+        border-radius: 6px;
+      }
+      input {
+        background-color: $vms-bg-sub !important;
+      }
+
+      label {
+        color: $vms-soft-statuts;
+      }
+
+      .ant-select-selector{
+        input{
+          color: $vms-soft-statuts;
+        }
+      }
+
+      .row--submit {
+        display: flex;
+        justify-content: center;
+
+        .submit {
+          margin-top: 16px;
+          button {
+            height: 40px;
+            background-color: $vms-main-blue-primary;
+            padding: 8px 16px;
+            border-radius: 4px;
+            border: none;
+            span {
+              color: $vms-soft-statuts;
+            }
+          }
+        }
+      }
+
+      .ant-select-selection-search {
+        overflow: hidden;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+      }
+
+      .ant-select-multiple {
+        height: 100%;
+        .ant-select-selector {
+          .ant-select-selection-item {
+            background-color: $vms-bg-primary;
+            border-radius: 8px;
+            border: 0;
+            margin: 0;
+            padding: 5px 22px;
+            height: 34px;
+            position: relative;
+            overflow: visible;
+            margin-right: 20px;
+            margin-bottom: 9px;
+            margin-top: 9px;
+            .ant-select-selection-item-remove {
+              position: absolute;
+              right: 0;
+              width: 12px;
+              height: 100%;
+              top: 0;
+              .anticon-close {
+                position: absolute;
+                right: 0;
+                top: 0;
+                transform: translate(50%, -50%);
+                border-radius: 50%;
+                width: 14px;
+                height: 14px;
+                background-color: $vms-red-drak-mode;
+                display: flex;
+                justify-content: center;
+                align-items: center;
+              }
+            }
+          }
+        }
+
+        .ant-select-arrow {
+          display: none;
+        }
+      }
+    }
+  }
+}

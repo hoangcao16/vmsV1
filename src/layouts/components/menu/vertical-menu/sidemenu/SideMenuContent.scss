@@ -1,0 +1,190 @@
+@import "../../../../../assets/scss/core/variables/vms-variable";
+
+.main-menu-content {
+  // height: calc(100% - 6rem) !important;
+  position: relative;
+  transition: all 0.25s ease;
+  // margin-top: 0.45rem;
+  height: 100%;
+  ul.navigation-main {
+    list-style: none;
+    margin-top: 10vh;
+    margin-bottom: 0;
+    padding: 0;
+    padding-top: 10px;
+    height: 85vh;
+    position: relative;
+
+    &.navigation-main {
+      // overflow-x: hidden;
+      background-color: $vms-bg-sub !important;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+
+      li.nav-item {
+        width: 100%;
+        height: 4.8rem;
+        margin: 0;
+        padding: 0;
+        // margin-top: 8px;
+        // text-align: center;
+
+        a {
+          padding: 0;
+          height: 4.8rem;
+          width: 8rem;
+          overflow: visible;
+          text-align: center;
+
+          .inActive:hover {
+            box-shadow: 0 0 8px #1380ff inset;
+            transform: scale(1.1);
+            transition: 0.3s;
+          }
+
+          .active {
+            // border: 1px solid #1380FF;
+            box-shadow: 0 0 8px #1380ff;
+            background-color: $vms-main-blue-primary;
+          }
+
+          .menu-text {
+            display: inline-block;
+            width: 4rem !important;
+            height: 4rem;
+            margin-bottom: 8px;
+            text-align: center;
+            position: relative;
+            background-repeat: no-repeat;
+            background-position: center;
+            border-radius: 4px;
+
+            .ant-image {
+              position: absolute;
+              top: 50%;
+              right: 50%;
+              transform: translate(50%, -50%);
+
+              .active {
+                background-color: $vms-bg-sub;
+              }
+
+              .inActive {
+                border-radius: 4px;
+                &:hover {
+                  box-shadow: 0px 0px 10px #1380ff;
+                  transition: 0.5s;
+                }
+              }
+            }
+          }
+
+          .infor {
+            height: 3.2rem !important;
+            width: 3.2rem !important;
+            border-radius: 50%;
+            background-size: 3.2rem 3.2rem !important;
+            &:hover {
+              box-shadow: none;
+            }
+          }
+        }
+      }
+
+      .menu__items--top {
+        display: flex;
+        flex-direction: column;
+      }
+
+      .menu__items--bottom {
+        display: flex;
+        flex-direction: column;
+        height: 140px;
+        margin-bottom: 20vh;
+        & > li {
+          justify-content: center;
+        }
+
+        .select--language {
+          display: flex;
+          justify-content: center;
+          align-items: center;
+          .ant-select {
+            width: 4.2rem;
+            height: 4.2rem;
+            .ant-select-selector {
+              padding: 0;
+              background-color: $vms-bg-3 !important;
+              .ant-select-selection-item {
+                text-align: center;
+                padding-right: 0;
+              }
+            }
+            .ant-select-arrow {
+              display: none;
+            }
+          }
+        }
+      }
+
+      .notification {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        cursor: pointer;
+        & > div {
+          width: 4rem !important;
+          height: 4rem;
+          display: flex;
+          justify-content: center;
+          align-items: center;
+          border-radius: 4px;
+          background-color: $vms-bg-sub;
+          svg {
+            height: 4rem;
+          }
+        }
+        .ant-badge-count {
+          background-color: $vms-red-drak-mode;
+          border: $vms-border-gray;
+
+          .ant-scroll-number-only-unit {
+            color: $vms-soft-statuts;
+          }
+        }
+        .ant-image:hover {
+          box-shadow: inset 0 0 8px $vms-main-blue-primary;
+          transform: scale(1.1);
+          transition: 0.3s;
+          border-radius: 4px;
+        }
+      }
+
+      li.infor a {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        .infor {
+          background-color: $vms-bg-primary;
+          align-self: center;
+          margin-bottom: 0 !important;
+        }
+      }
+    }
+  }
+}
+.dropdown__select--language {
+  .ant-select-item {
+    padding: 0;
+
+    .ant-select-item-option-content {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+    }
+  }
+  .ant-select-selection-item {
+    padding-right: 0 !important;
+  }
+}

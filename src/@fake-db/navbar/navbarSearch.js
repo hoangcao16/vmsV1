@@ -7,7 +7,7 @@ export const searchResult = [
     data: [
       {
         id: 1,
-        target: "AnalyticsDashboard",
+        target: "Giammm sat",
         title: "Analytics Dashboard",
         link: "/",
         icon: "Home"
@@ -414,6 +414,7 @@ export const searchResult = [
       {
         id: 61,
         target: "Formik",
+        title: "Formik",
         link: "/forms/formik",
         icon: "FileText"
       },

@@ -28,8 +28,7 @@ const jwtConfig = {
 }
 
 // POST: Check User Login Details and return user
-mock.onPost("/authz/login").reply( request => {
-  console.log("backend: /authz/login", request)
+mock.onPost("/api/authenticate/login/user").reply( request => {
 
   let { email, password } = JSON.parse(request.data)
   let error = "Something went wrong"

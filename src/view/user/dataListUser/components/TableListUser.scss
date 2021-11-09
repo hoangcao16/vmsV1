@@ -1,0 +1,211 @@
+@import "../../../../assets/scss/core/variables/vms-variable";
+@import "../../../../assets//scss/core//mixins/vms-mixins";
+
+.user__list--tab {
+    //begin: search
+    margin-top: 48px !important;
+    .userTableContent__menu-search {
+        .ant-col:first-child {
+            padding-right: 0 !important;
+
+            .selected__user--by .ant-select-selector {
+                background-color: $vms-bg-sub !important;
+                border-radius: 8px 0 0 8px;
+                border-right: none !important;
+
+                .ant-select-selection-search input {
+                    width: 100%;
+                }
+                .ant-select-selection-search input:hover {
+                    cursor: default;
+                }
+                .ant-select-arrow:hover {
+                    cursor: default;
+                }
+
+                input {
+                    color: $vms-soft-statuts !important;
+                }
+            }
+            .selected__user--by:hover {
+                cursor: pointer !important;
+            }
+        }
+        .ant-col:last-child {
+            padding-left: 0 !important;
+
+            .search--user {
+                // border-radius: 0 8px 8px 0;
+
+                .ant-select-selector {
+                    background-color: $vms-bg-sub !important;
+                    border-radius: 0 8px 8px 0;
+
+                    .ant-form-item-control-input {
+                        border-left: none !important;
+                    }
+                }
+            }
+        }
+    }
+
+    //end: search
+
+    //begin: table list user
+    .table__list--user {
+        margin-top: 24px !important;
+
+        .ant-table {
+            background-color: $vms-bg-sub;
+            border-radius: 12px 12px 0 0;
+            border: 1px solid rgba(234, 240, 247, 0.1);
+            margin-top: 0;
+
+            //begin: title table
+            .ant-table-title {
+                padding: 13px 16px;
+
+                h4 {
+                    margin: 0;
+                    font-size: 16px;
+                }
+
+                .ant-btn {
+                    width: 40px;
+                    height: 40px;
+                    padding: 9px;
+                    margin-right: 0 !important;
+                    background-color: $vms-main-blue-primary;
+
+                    span {
+                        font-size: 22px;
+                    }
+                }
+            }
+
+            .userRow {
+                height: 50px !important;
+            }
+            //end: title table
+
+            //begin: head table
+            .ant-table-thead {
+                .ant-table-cell {
+                    background-color: $vms-bg-3;
+                    padding: 13px 8px 11px;
+                    color: $vms-soft-statuts;
+                    border-top: 1px solid rgba(234, 240, 247, 0.1);
+                    border-bottom: 1px solid rgba(234, 240, 247, 0.1);
+                    &:first-child {
+                        padding-left: 16px;
+                    }
+                }
+                .ant-table-cell:last-child,
+                .ant-table-cell:nth-last-child(2) {
+                    padding: 8px;
+                    text-align: center;
+                }
+                .ant-table-cell:last-child {
+                    padding: 0 16px;
+                }
+            }
+
+            .ant-table-tbody {
+                .ant-table-cell {
+                    background-color: $vms-bg-primary;
+                    // font-weight: 500;
+                    padding: 13px 8px 11px;
+
+                    height: 50px !important;
+                    border-top: 1px solid rgba(234, 240, 247, 0.1);
+                    border-bottom: 1px solid rgba(234, 240, 247, 0.1);
+
+                    span.ant-typography.ant-typography-ellipsis.ant-typography-single-line {
+                        width: 100px;
+                        color: $vms-status-07;
+                        span {
+                            color: $vms-status-07;
+                        }
+
+                    }
+                    .ant-switch {
+                        background-color: #fff;
+
+                        .anticon {
+                            position: absolute;
+                            top: 50%;
+                            transform: translateY(-50%);
+                        }
+
+                        .anticon-check {
+                            left: 7px;
+                            color: #fcfeff;
+                        }
+
+                        .anticon-close {
+                            right: 7px;
+                            color: #002045;
+                        }
+                    }
+
+                    .ant-switch-checked {
+                        background: #1380ff;
+                    }
+
+                    .table__list--user__toolbar {
+                        display: flex;
+                        justify-content: center;
+                        .anticon:hover {
+                            svg {
+                                color: $vms-main-blue-primary;
+                            }
+                        }
+                        .anticon-edit {
+                            padding: 4px;
+                            svg {
+                                font-size: 20px;
+                                font-weight: 800;
+                                color: $vms-soft-statuts;
+                            }
+                        }
+
+                        .anticon-delete {
+                            padding: 4px;
+
+                            svg {
+                                font-size: 20px;
+                                font-weight: 800;
+                                color: $vms-soft-statuts;
+                            }
+                        }
+
+                    }
+
+                    // }
+                    &:first-child {
+                        padding-left: 16px;
+                    }
+
+                }
+                tr .ant-table-cell:last-child,
+                tr .ant-table-cell:nth-last-child(2) {
+                    border-radius: 0;
+                    padding: 0;
+                    text-align: center;
+                }
+
+            }
+
+            //end: head table
+        }
+        @include paginationShowTotal;
+        li.ant-pagination-item:nth-last-child(3) {
+            box-shadow: none !important;
+        }
+    }
+
+    //end: table list user
+}
+span.ant-typography.ant-typography-ellipsis.ant-typography-single-line {
+    float: left;
+}

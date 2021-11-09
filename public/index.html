@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en" dir="ltr">
+<html lang="en" dir="ltr" >
   <head>
     <meta charset="utf-8" />
     <link rel="shortcut icon" href="%PUBLIC_URL%/favicon.ico" />
@@ -19,15 +19,29 @@
       work correctly both with client-side routing and a non-root public URL.
       Learn how to configure a non-root public URL by running `npm run build`.
     -->
-    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Montserrat:300,400,500,600" />
+    <link
+      rel="stylesheet"
+      href="https://fonts.googleapis.com/css?family=Montserrat:300,400,500,600"
+    />
+    <script src='https://vietmaps.vn/vietmap-gl-js/v1.0.0/vietmap-gl.js'></script>
+    <link href='https://vietmaps.vn/vietmap-gl-js/v1.0.0/vietmap-gl.css' rel='stylesheet' />
+    <link
+      href="https://api.mapbox.com/mapbox-gl-js/v2.3.1/mapbox-gl.css"
+      rel="stylesheet"
+    />
+    <script src="https://api.mapbox.com/mapbox-gl-js/v2.3.1/mapbox-gl.js"></script>
     <link
       rel="stylesheet"
       href="https://unpkg.com/leaflet@1.5.1/dist/leaflet.css"
       crossorigin=""
     />
-    <title>VMS-Edsolabs</title>
+    <link href="https://vjs.zencdn.net/7.11.4/video-js.css" rel="stylesheet" />
+    <script src="https://cdn.jsdelivr.net/npm/hls.js@latest"></script>
+    <title>VMS - Hệ thống giám sát an ninh</title>
+    <script id="react-dotenv" src="/env.js"></script>
   </head>
-  <body>
+
+  <body style="font-family: Montserrat;">
     <div id="root"></div>
     <!--
       This HTML file is a template.

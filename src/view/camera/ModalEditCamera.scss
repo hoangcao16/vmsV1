@@ -1,0 +1,116 @@
+@import '../../assets/scss/core/variables/vms-variable';
+
+.modal--edit-camera {
+    .ant-modal-content {
+        border-radius: 12px !important;
+        width: 100% !important;
+
+        
+        button.ant-modal-close {
+            top: 15px;
+        }
+
+        .ant-modal-header {
+            padding-top: 32px;
+            padding-bottom: 8px;
+            background-color: $vms-bg-primary;
+            .ant-modal-title {
+                padding-top: 0;
+                color: $vms-status;
+                background-color: $vms-bg-primary;
+
+            }
+        }
+
+        .ant-modal-body {
+            background-color: $vms-bg-primary;
+            padding: 0 40px 1px 40px;
+            border-radius: 0 0 12px 12px;
+            
+            .edit-tag-item {
+                color: #1380ff;
+                cursor: pointer;
+                &:hover {
+                    text-decoration: underline;
+                }
+            }
+            .btn--submit{
+                text-align: center;
+                margin: 24px;
+                button {
+                    background-color: $vms-main-blue-primary;
+                    border: none;
+                    border-radius: 4px;
+                    padding: 8px 16px;
+                    height: 100%;
+                    span {
+                        color: $vms-soft-statuts;
+                        line-height: 24px;
+
+                    }
+                    &:hover{
+                        box-shadow: 0 0 8px 0 $vms-main-blue-primary;
+                    }
+                }
+            }
+        }
+
+        .ant-select-selector{
+            background-color:$vms-bg-3 ;
+            border: 1px solid rgba(234, 240, 247, 0.1);
+        }
+
+        .ant-form-item-control-input-content .ant-input {
+            background-color:$vms-bg-3 !important;
+
+        }
+
+
+        .ant-upload-picture-card-wrapper{
+            margin: 0;
+            padding: 0;
+            padding-left: 8px;
+            padding-top: 16px;
+            display: flex;
+            height: 100%;
+            justify-content: center;
+            align-items: center;
+            .ant-upload {
+                margin: 0;
+                background-color: $vms-bg-3;
+                height: 125px;
+                width: 125px;
+                object-fit: cover;
+                border-radius:50% ;
+                border: 1px solid rgba(234, 240, 247, 0.1);
+                span,div{
+                    color: $vms-status;
+                }
+            }
+    
+        }
+        
+        
+        input::placeholder {
+            color: $vms-status-05;
+        }
+
+        .ant-select-selection-placeholder{
+            color: $vms-status;
+        }
+
+        .ant-form-item-control-input {
+            border-radius: 6px;
+        }
+
+        label {
+            font-weight: 500;
+            color: $vms-status;
+            line-height: 24px;
+            height: 28px;
+            margin-top: 14px;
+        }
+
+    }
+
+}

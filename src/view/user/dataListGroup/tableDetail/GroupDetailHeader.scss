@@ -1,0 +1,91 @@
+@import '../../../../assets/scss/core/variables/vms-variable';
+
+
+
+
+
+.detail-group-user__info {
+  margin-top: 48px;
+  background-color: $vms-black;
+  border: solid 1px  rgba(234, 240, 246, 0.1) !important;
+
+  color: white;
+  border-radius: 12px 12px 0 0 ;
+
+  
+  .ant-card-head{
+    padding: 0;
+  border-radius: 12px 12px 0 0 ;
+
+    background-color: $vms-bg-sub;
+    .ant-card-head-title {
+      padding: 10px 16px;
+
+      
+      h4 {
+        margin: 0;
+        display: flex;
+        font-size: 1.625rem;
+
+        align-items: center;
+        .anticon-arrow-left {
+          padding: 4px;
+
+          &:hover {
+            background-color: $vms-main-blue-primary;
+            transition: 0.3s;
+            border-radius: 4px;
+            svg {
+              color: $vms-soft-statuts;
+            }
+          }
+        }
+      }
+    }
+
+    .ant-card-extra{
+      padding: 10px 16px;
+      button {
+        margin: 0;
+        padding: 0;
+        width: 40px;
+        height: 40px;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        background-color: $vms-main-blue-primary;
+        border-radius: 4px;
+        &:hover {
+          box-shadow: 0 0 8px 2px $vms-main-blue-primary;
+        }
+        .anticon {
+          font-size: 20px;
+          color: $vms-soft-statuts;
+        }
+      }
+    }
+    
+  }
+
+  .ant-card-body {
+    padding: 0;
+    .name__group-user {
+      padding: 11px 16px;
+      background-color: $vms-bg-3;
+      color: $vms-status-07;
+    }
+    .description__group-user {
+      padding: 11px 16px;
+      background-color: $vms-bg-primary;
+      color: $vms-status-05;
+    }
+  }
+  
+
+
+}
+
+.disableCard {
+  pointer-events: none;
+  opacity: 0.4;
+}

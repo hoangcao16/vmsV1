@@ -1,0 +1,108 @@
+@import "../../../assets/scss/core/variables/vms-variable";
+
+@import "../../../assets//scss/core//mixins/vms-mixins";
+
+
+.search .ant-select-selector {
+  background-color: $vms-bg-sub !important;
+}
+
+.tabs__container--device {
+  margin-top: 32px;
+
+  .search {
+    width: 100%;
+    margin-bottom: 24px;
+    display: flex;
+
+    .search--zone {
+      width: 100%;
+      // background-color: $vms-bg-sub !important;
+
+      .ant-form-item-control-input {
+        border-radius: 8px !important;
+
+        .ant-select-selector {
+          border-radius: 8px !important;
+          background-color: $vms-bg-sub;
+        }
+      }
+    }
+  }
+
+  .card--listDevice {
+    background-color: $vms-bg-primary;
+    border: none;
+
+    .ant-card-head {
+      padding: 0 16px;
+      .ant-card-head-wrapper {
+        .ant-card-head-title {
+          line-height: 24px;
+        }
+        padding: 0;
+      }
+    }
+
+    .ant-card-extra .ant-btn {
+      width: 40px;
+      height: 40px;
+      padding: 0;
+      background-color: $vms-main-blue-primary;
+      border: none;
+      border-radius: 4px;
+
+      span {
+        position: absolute;
+        font-size: 21px;
+        right: 9px;
+        transform: translateY(-50%);
+      }
+    }
+
+    .ant-table {
+      background-color: $vms-bg-primary;
+      border-bottom: 1px solid rgba(234, 240, 247, 0.1);
+      border-radius: 0 0 12px 12px;
+
+      th.ant-table-cell {
+        background-color: $vms-bg-3 !important;
+        color: $vms-soft-statuts;
+        border-bottom: 1px solid rgba(234, 240, 247, 0.1);
+        padding: 12px 0 12px 10px;
+        &:nth-last-child(2) {
+          // text-align: center;
+        }
+      }
+
+      .ant-table-body {
+        border-radius: 0 0 12px 12px;
+        tr {
+          td.ant-table-cell {
+            background-color: $vms-bg-primary;
+            color: $vms-soft-statuts;
+            border-bottom: 1px solid rgba(234, 240, 247, 0.1);
+            padding: 12px 0 12px 10px;
+          }
+          td:last-child {
+            text-align: center;
+            .ant-space {
+              line-height: 24px;
+              .ant-space-item {
+                display: flex;
+                align-items: center;
+                span {
+                  svg {
+                    font-size: 18px;
+                    color: $vms-soft-statuts;
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+    @include paginationShowTotal;
+  }
+}

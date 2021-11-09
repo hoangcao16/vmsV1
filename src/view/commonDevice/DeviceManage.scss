@@ -1,0 +1,100 @@
+@import "../../assets/scss/core/variables/vms-variable";
+
+//css template tab-ant
+.tabs__container--store p {
+  margin: 0;
+}
+.tabs__container--store > .ant-tabs-card .ant-tabs-content {
+  // height: 120px;
+  margin-top: -16px;
+}
+.tabs__container--store > .ant-tabs-card .ant-tabs-content > .ant-tabs-tabpane {
+  background: $vms-bg-primary;
+}
+.tabs__container--store > .ant-tabs-card > .ant-tabs-nav::before {
+  display: none;
+}
+.tabs__container--store > .ant-tabs-card .ant-tabs-tab,
+[data-theme="compact"] .tabs__container--store > .ant-tabs-card .ant-tabs-tab {
+  background: transparent;
+  border-color: transparent;
+}
+.tabs__container--store > .ant-tabs-card .ant-tabs-tab-active,
+[data-theme="compact"]
+  .tabs__container--store
+  > .ant-tabs-card
+  .ant-tabs-tab-active {
+  background: #fff;
+  border-color: #fff;
+}
+#components-tabs-demo-card-top .code-box-demo {
+  padding: 24px;
+  overflow: hidden;
+  background: #f5f5f5;
+}
+[data-theme="compact"]
+  .tabs__container--store
+  > .ant-tabs-card
+  .ant-tabs-content {
+  height: 120px;
+  margin-top: -8px;
+}
+[data-theme="dark"] .tabs__container--store > .ant-tabs-card .ant-tabs-tab {
+  background: transparent;
+  border-color: transparent;
+}
+[data-theme="dark"] #components-tabs-demo-card-top .code-box-demo {
+  background: #000;
+}
+[data-theme="dark"]
+  .tabs__container--store
+  > .ant-tabs-card
+  .ant-tabs-content
+  > .ant-tabs-tabpane {
+  background: #141414;
+}
+[data-theme="dark"]
+  .tabs__container--store
+  > .ant-tabs-card
+  .ant-tabs-tab-active {
+  background: #141414;
+  border-color: #141414;
+}
+
+//begin: zone
+.tabs__container--store {
+  // margin-top: 56px;
+
+  .ant-tabs-nav-list {
+    // background-color: #232323;
+    width: 100%;
+    align-items: center;
+
+    .ant-tabs-tab {
+      border-top: 1px solid rgba(234, 240, 247, 0.1);
+      border-right: 1px solid rgba(234, 240, 247, 0.1);
+      border-left: 1px solid rgba(234, 240, 247, 0.1);
+      border-bottom: 1px solid $vms-bg-sub;
+      color: $vms-status;
+      display: inline;
+      text-align: center !important;
+      border-radius: 4px 4px 0 0 !important;
+      padding: 12px 48px;
+      width: 17vw;
+      line-height: 28px;
+      font-size: 16px;
+      font-weight: 600;
+      background-color: $vms-bg-3;
+    }
+
+    .ant-tabs-tab-active {
+      background-color: $vms-main-blue-primary;
+      border-bottom: 1px solid $vms-main-blue-primary !important;
+
+      .ant-tabs-tab-btn {
+        color: $vms-status;
+      }
+    }
+  }
+}
+//end: zone

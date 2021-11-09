@@ -1,24 +1,20 @@
-import React from "react"
-import {
-  TabContent,
-  TabPane,
-  Nav,
-  NavItem,
-  NavLink,
-  Card,
-  CardBody
-} from "reactstrap"
 import classnames from "classnames"
-import { Settings, Lock, Info, Instagram, Link, Bell } from "react-feather"
-import GeneralTab from "./General"
+import React from "react"
+import { Info, Instagram, Lock, Settings } from "react-feather"
+import {
+  Card,
+  CardBody, Nav,
+  NavItem,
+  NavLink, TabContent,
+  TabPane
+} from "reactstrap"
+import "../../../assets/scss/pages/account-settings.scss"
+import Breadcrumbs from "../../../components/@vuexy/breadCrumbs/BreadCrumb"
 import ChangePassword from "./ChangePassword"
+import Account from "./Account"
 import InfoTab from "./Info"
 import SocialLinks from "./SocialLinks"
-import Connection from "./Connection"
-import Notifications from "./Notifications"
-import Breadcrumbs from "../../../components/@vuexy/breadCrumbs/BreadCrumb"
 
-import "../../../assets/scss/pages/account-settings.scss"
 
 class AccountSettings extends React.Component {
   state = {
@@ -49,9 +45,9 @@ class AccountSettings extends React.Component {
     return (
       <React.Fragment>
         <Breadcrumbs
-          breadCrumbTitle="Account Settings"
-          breadCrumbParent="Pages"
-          breadCrumbActive="Account Settings"
+          breadCrumbTitle="Cài đặt"
+          breadCrumbParent="Tài khoản"
+          breadCrumbActive="Người dùng"
         />
         <div className={`${windowWidth >= 769 ? "nav-vertical" : "account-setting-wrapper"}`}>
           <Nav className="account-settings-tab nav-left mr-0 mr-sm-3" tabs>
@@ -65,7 +61,7 @@ class AccountSettings extends React.Component {
                 }}
               >
                 <Settings size={16} />
-                <span className="d-md-inline-block d-none align-middle ml-1">General</span>
+                <span className="d-md-inline-block d-none align-middle ml-1">Tài khoản</span>
               </NavLink>
             </NavItem>
             <NavItem>
@@ -78,7 +74,7 @@ class AccountSettings extends React.Component {
                 }}
               >
                 <Lock size={16} />
-                <span className="d-md-inline-block d-none align-middle ml-1">Change Password</span>
+                <span className="d-md-inline-block d-none align-middle ml-1">Camera</span>
               </NavLink>
             </NavItem>
             <NavItem>
@@ -91,7 +87,7 @@ class AccountSettings extends React.Component {
                 }}
               >
                 <Info size={16} />
-                <span className="d-md-inline-block d-none align-middle ml-1">Info</span>
+                <span className="d-md-inline-block d-none align-middle ml-1">Cấu hình</span>
               </NavLink>
             </NavItem>
             <NavItem>
@@ -104,33 +100,7 @@ class AccountSettings extends React.Component {
                 }}
               >
                 <Instagram size={16} />
-                <span className="d-md-inline-block d-none align-middle ml-1">Social Links</span>
-              </NavLink>
-            </NavItem>
-            <NavItem>
-              <NavLink
-                className={classnames({
-                  active: this.state.activeTab === "5"
-                })}
-                onClick={() => {
-                  this.toggle("5")
-                }}
-              >
-                <Link size={16} />
-                <span className="d-md-inline-block d-none align-middle ml-1">Connections</span>
-              </NavLink>
-            </NavItem>
-            <NavItem>
-              <NavLink
-                className={classnames({
-                  active: this.state.activeTab === "6"
-                })}
-                onClick={() => {
-                  this.toggle("6")
-                }}
-              >
-                <Bell size={16} />
-                <span className="d-md-inline-block d-none align-middle ml-1">Notifications</span>
+                <span className="d-md-inline-block d-none align-middle ml-1">Lưu trữ</span>
               </NavLink>
             </NavItem>
           </Nav>
@@ -138,7 +108,7 @@ class AccountSettings extends React.Component {
             <CardBody>
               <TabContent activeTab={this.state.activeTab}>
                 <TabPane tabId="1">
-                  <GeneralTab />
+                  <Account />
                 </TabPane>
                 <TabPane tabId="2">
                   <ChangePassword />
@@ -148,12 +118,6 @@ class AccountSettings extends React.Component {
                 </TabPane>
                 <TabPane tabId="4">
                   <SocialLinks />
-                </TabPane>
-                <TabPane tabId="5">
-                  <Connection />
-                </TabPane>
-                <TabPane tabId="6">
-                  <Notifications />
                 </TabPane>
               </TabContent>
             </CardBody>

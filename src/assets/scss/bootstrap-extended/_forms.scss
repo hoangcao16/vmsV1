@@ -40,7 +40,7 @@ textarea.form-control {
 }
 
 // Form group Scscc
-.form-group {
+.form-group { 
   margin-bottom: 1.5rem;
   .valid-tooltip,
   .invalid-tooltip {
@@ -230,6 +230,7 @@ select.form-control {
     &::placeholder {
       // color: transparent;
       // opacity: 1;
+      color: #c2c6dc !important;
     }
     // from-input on focus change label color
     &:focus,
@@ -238,11 +239,13 @@ select.form-control {
         color: rgba($primary, 1) !important;
         transition: all 0.25s ease-in-out;
         opacity: 1;
+        color: #c2c6dc !important;
       }
     }
     &:not(:focus) {
       &:not(:placeholder-shown) ~ label {
         color: rgba($black, 0.4) !important;
+        color: #c2c6dc !important;
       }
     }
     // form-label after entering text in input box
@@ -252,6 +255,7 @@ select.form-control {
       top: -20px;
       left: 3px;
       z-index: 1;
+      color: #c2c6dc !important;
     }
   }
 

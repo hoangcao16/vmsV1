@@ -1,0 +1,26 @@
+@import '../../assets/scss/core/variables/vms-variable';
+
+.ant-select-single .ant-select-selector .ant-select-selection-search-input {
+  width: 100%;
+  height: 40px;
+  border-radius: 6px;
+}
+
+[dir] .ant-input-affix-wrapper:not(.ant-input-affix-wrapper-disabled):hover {
+  border-color: #7367F0;
+}
+
+
+[dir] .ant-input-affix-wrapper:not(.ant-input-affix-wrapper-disabled):focus {
+  border-color: #7367F0;
+}
+
+.certain-category-search.ant-select-focused .certain-category-icon {
+  color: $vms-main-blue-primary;
+}
+
+.certain-category-icon {
+  color: #6e6e6e;
+  transition: all 0.3s cubic-bezier(0.645, 0.045, 0.355, 1);
+  font-size: 16px;
+}

@@ -1,0 +1,45 @@
+@import "../../../assets/scss/core/variables/vms-variable";
+.ant-select.ant-select-auto-complete.searchInputCamproxy.ant-select-single.ant-select-show-search {
+  width: 350px;
+  height: 40px;
+  border-radius: 6px;
+  margin-right: 8px;
+}
+
+//[dir] .ant-select:not(.ant-select-customize-input) .ant-select-selector {
+//  background-color: #fff;
+//  border: 1px solid #d9d9d9;
+//  border-radius: 6px;
+//  height: 40px;
+//  line-height: 40px;
+//}
+
+[dir] .ant-select-single .ant-select-selector .ant-select-selection-item,
+[dir]
+  .ant-select-single
+  .ant-select-selector
+  .ant-select-selection-placeholder {
+  padding: 0;
+  line-height: 40px;
+}
+
+td:last-child {
+  text-align: center;
+  .ant-space {
+    line-height: 24px;
+    .ant-space-item {
+      display: flex;
+      align-items: center;
+      span {
+        svg {
+          font-size: 18px;
+          color: $vms-soft-statuts;
+        }
+      }
+    }
+  }
+}
+
+// .tabs__container--device {
+//   margin-top: 48px !important;
+// }

@@ -1,0 +1,68 @@
+@import '../../../assets/scss/core//variables//z-index';
+@import '../../../assets/scss/core/variables/vms-variable';
+
+.ant-modal-mask {
+    max-width: fit-content;
+}
+.modal-control-panel {
+    width: 200px;
+    max-height: fit-content;
+    position: absolute;
+    top: 20%;
+    left: 50%;
+    z-index: $zindex-control-panel;
+    overflow: visible;
+    .ant-modal {
+        width: 100% !important;
+        top: 0px;
+        padding-bottom: 0px;
+    }
+    .ant-modal-content {
+        background-color: $vms-bg-primary;
+        border-radius: 12px;
+        .ant-modal-close-icon {
+            position: absolute;
+            top: 10px;
+            // top: ;
+            background-color: $vms-main-card;
+            opacity: 0.8;
+            border-radius: 50%;
+            width: 20px;
+            height: 20px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+           
+        }
+        .ant-modal-close-x {
+            width: 0px;
+            height: 0px;
+            .ant-modal-close-icon {
+                position: absolute;
+                top: 10px;
+                right: 5px;
+            }
+        }
+        .ant-modal-header {
+            border-radius: 12px 12px 0 0;
+            padding: 0;
+            height: 36px;
+            background: #191919;
+            border-bottom: 1px solid rgba(234, 240, 247, 0.1);;
+            .ant-modal-title {
+                height: 100%;
+                padding: 0; 
+                & > div {
+                    height: 100%;
+                    width: 100%;
+                    cursor: move;
+                }
+             
+            }
+        }
+
+        .ant-modal-body {
+            padding: 32px;
+        }
+    }
+}

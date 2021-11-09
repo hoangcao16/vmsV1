@@ -3,9 +3,6 @@ import VerticalLayout from "../../layouts/VerticalLayout"
 import FullLayout from "../../layouts/FullpageLayout"
 import HorizontalLayout from "../../layouts/HorizontalLayout"
 import themeConfig from "../../configs/themeConfig"
-import { ToastContainer } from "react-toastify"
-import "react-toastify/dist/ReactToastify.css"
-import "../../assets/scss/plugins/extensions/toastr.scss"
 const layouts = {
   vertical: VerticalLayout,
   full: FullLayout,
@@ -98,9 +95,7 @@ class Layout extends React.Component {
           }
         }}
       >
-        <ToastContainer />
         {children}
-        
       </ContextLayout.Provider>
     )
   }

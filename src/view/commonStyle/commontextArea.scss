@@ -1,0 +1,9 @@
+@import '../../assets/scss/core/variables/vms-variable';
+
+[dir] .ant-form-item-has-error :not(.ant-input-disabled):not(.ant-input-borderless).ant-input,
+[dir] .ant-form-item-has-error :not(.ant-input-affix-wrapper-disabled):not(.ant-input-affix-wrapper-borderless).ant-input-affix-wrapper,
+[dir] .ant-form-item-has-error :not(.ant-input-disabled):not(.ant-input-borderless).ant-input:hover,
+[dir] .ant-form-item-has-error :not(.ant-input-affix-wrapper-disabled):not(.ant-input-affix-wrapper-borderless).ant-input-affix-wrapper:hover {
+    background-color: $vms-bg-sub;
+    border-color: #ff4d4f;
+}

@@ -1,0 +1,107 @@
+@import '../../../../assets/scss/core/variables/vms-variable';
+
+.detail-user--role {
+  margin-top: 32px;
+  
+  .ant-card {
+    background-color: $vms-bg-sub;
+    border: 1px solid rgba(234, 240, 247, 0.1);
+    border-radius: 12px 12px 0 0;
+
+    .ant-card-body {
+      padding: 0;
+      
+      h4 {
+        margin: 16px;
+        font-size: 16px;
+      }
+
+      .ant-form {
+        background-color: $vms-bg-primary;
+        .ant-form-item-control-input {
+          border-radius: 10px;
+
+          .ant-select {
+            height: 100% !important;
+
+            .ant-select-selector {
+              padding: 18px 16px;
+              height: 100%;
+              background-color: $vms-bg-primary !important;
+              border: none !important;
+              outline: none;
+    
+              .ant-select-selection-item {
+                height: 100%;
+                margin: 8px 9px 8px 9px;
+                background-color: $vms-bg-sub;
+                border: none;
+                border-radius: 8px;
+                background-color: rgba(108, 117, 125, 0.12);
+                color: $vms-soft-statuts;
+                padding: 5px 22px;
+                overflow: visible;
+
+                .ant-select-selection-item-content .role__item{
+                  display: flex;
+                  align-items: center;
+                  margin: 0;
+                  .roll__item--name {
+                    padding-right: 4px;
+                    // border-right: 1px dotted $vms-status;
+                  }
+                  .anticon-link{
+                    margin-left: 4px;
+                    &:hover{
+                      svg {
+                        color: $vms-main-blue-primary;
+                        transform: scale(1.2);
+                        transition: 0.3s;
+                      }
+                    }
+                  }
+                }
+
+                span.anticon-close {
+                  position: absolute;
+                  right: -5px;
+                  top: -5px;
+                  background-color: #FF4646;
+                  border-radius: 50%;
+                  width: 14px;
+                  height: 14px;
+                  line-height: 13px;
+                  color:  #FCFEFF;
+                }
+              }
+              .ant-select-selection-search-input{
+                color: $vms-status;
+                height: 32px;
+                line-height: 32px;
+              }
+            }
+
+            .ant-select.ant-select-multiple.ant-select-show-search {
+              border: none !important;
+              outline: none !important;
+          }
+            
+            .ant-select.ant-select-focused.ant-select-multiple.ant-select-show-search.ant-select-open {
+              border: none !important;
+              outline: none !important;
+            }
+          }
+          
+        }
+      }
+
+      
+      
+      
+    }
+  
+  }
+  
+  
+  
+}

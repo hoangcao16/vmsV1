@@ -1,0 +1,17 @@
+.topbar {
+  display: flex;
+  width: 100%;
+  justify-content: space-between;
+  margin-top: 20px;
+  margin-bottom: 20px;
+  align-items: center;
+}
+
+.topbarTitle {
+  color: #1380FF;
+  font-weight: 700;
+}
+
+.topbarIcons {
+  cursor: pointer;
+}

@@ -1,0 +1,114 @@
+// VARIABELS
+
+$white: #fff !default;
+$gray-100: #f8f9fa !default;
+$gray-200: #e9ecef !default;
+$gray-300: #dee2e6 !default;
+$gray-400: #ced4da !default;
+$gray-500: #adb5bd !default;
+$gray-600: #6c757d !default;
+$gray-700: #495057 !default;
+$gray-800: #343a40 !default;
+$gray-900: #212529 !default;
+$black: #000 !default;
+
+$grays: () !default;
+$grays: map-merge(
+  (
+    '100': $gray-100,
+    '200': $gray-200,
+    '300': $gray-300,
+    '400': $gray-400,
+    '500': $gray-500,
+    '600': $gray-600,
+    '700': $gray-700,
+    '800': $gray-800,
+    '900': $gray-900,
+  ),
+  $grays
+);
+
+$blue: #007bff !default;
+$indigo: #6610f2 !default;
+$purple: #6f42c1 !default;
+$pink: #e83e8c !default;
+$red: #dc3545 !default;
+$orange: #fd7e14 !default;
+$yellow: #ffc107 !default;
+$green: #28a745 !default;
+$teal: #20c997 !default;
+$cyan: #17a2b8 !default;
+
+$colors: () !default;
+$colors: map-merge(
+  (
+    'blue': $blue,
+    'indigo': $indigo,
+    'purple': $purple,
+    'pink': $pink,
+    'red': $red,
+    'orange': $orange,
+    'yellow': $yellow,
+    'green': $green,
+    'teal': $teal,
+    'cyan': $cyan,
+    'white': $white,
+    'gray': $gray-600,
+    'gray-dark': $gray-800,
+  ),
+  $colors
+);
+
+// VMS VARIABLES
+// Main/Blue - Primary
+$vms-blue: #1380ff;
+$vms-black: #191919;
+$vms-gray: #333333;
+$vms-white: #e3f0ff;
+$vms-white1: #d0e5ff;
+$vms-green-status: #28c76f;
+
+// VMS variables css
+$vms-main-blue-primary: #1380ff;
+$vms-soft-statuts: #e3f0ff;
+$vms-status: #d0e5ff;
+$vms-status-05: rgba(208, 229, 255, 0.5);
+$vms-status-07: rgba(208, 229, 255, 0.7);
+$vms-bg-primary: #191919; //bg chinh
+$vms-bg-3: #232323;
+$vms-bg-sub: #333333; // bg phu
+$vms-main-card: #fcfeff;
+$vms-red-drak-mode: #ff4646;
+$vms-main-bg: #fafcff;
+$vms-only-white: #ffffff;
+$vms-success: rgba(40, 199, 111, 1);
+$vms-warning: rgba(255, 159, 67, 1);
+$vms-danger: rgba(234, 84, 85, 1);
+$vms-border-gray: 1px solid rgba(234, 240, 247, 0.1);
+$vms-main-card:rgba(252, 254, 255, 1);
+
+$primary: $vms-blue !default;
+$secondary: $gray-600 !default;
+$success: $green !default;
+$info: $cyan !default;
+$warning: $yellow !default;
+$danger: $red !default;
+$light: $gray-100 !default;
+$dark: $gray-800 !default;
+
+$border: rgba(234, 240, 247, 0.1);
+
+$theme-colors: () !default;
+$theme-colors: map-merge(
+  (
+    'primary': $primary,
+    'secondary': $secondary,
+    'success': $success,
+    'info': $info,
+    'warning': $warning,
+    'danger': $danger,
+    'light': $light,
+    'dark': $dark,
+  ),
+  $theme-colors
+);

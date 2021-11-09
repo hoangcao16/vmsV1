@@ -1,0 +1,285 @@
+@import "../../../assets/scss/core/variables/vms-variable";
+@import "../../../assets/scss/core/mixins/vms-mixins";
+
+.bookmarks {
+  &__filter {
+    margin-bottom: 20px;
+    height: 40px;
+    position: relative;
+    &-input {
+      width: 22.2vw;
+      height: 100%;
+      border-radius: 8px;
+      background-color: $vms-bg-sub;
+      border: none;
+      outline: none;
+
+      padding-left: 16px;
+      padding-right: 16px;
+
+      color: $vms-status;
+
+      &::placeholder {
+        color: $vms-status-05;
+      }
+    }
+    &-gridType {
+      margin-left: 16px;
+      width: 10vw;
+      border-radius: 4px;
+      height: 100%;
+      position: absolute;
+      .ant-select-clear {
+        display: none;
+      }
+
+      .ant-select-selector {
+        height: 100% !important;
+        border: none !important;
+        border-radius: 8px !important;
+        padding-left: 0 !important;
+        padding-left: 12px;
+        .ant-select-selection-search {
+          line-height: 40px;
+        }
+        .ant-select-selection-item {
+          margin-left: 16px;
+          line-height: 40px;
+        }
+        .ant-select-selection-placeholder {
+          color: $vms-status-05;
+          line-height: 40px;
+          padding-left: 16px;
+        }
+      }
+    }
+  }
+
+  &__content {
+    display: flex;
+    flex-wrap: nowrap;
+    justify-content: space-between;
+    .ant-image {
+      flex: 1;
+      align-self: center;
+      padding-bottom: 37px;
+    }
+  }
+
+  &__list {
+    flex: 12;
+    margin-right: 32px;
+
+    &-heading {
+      padding: 13px 32px 13px 20px;
+      display: flex;
+      justify-content: space-between;
+      background-color: $vms-bg-3;
+      border: 1px solid rgba(234, 240, 247, 0.1);
+      & span {
+        color: $vms-soft-statuts !important;
+        font-size: 15px;
+        font-weight: bold;
+      }
+      > span:first-child {
+        flex: 6;
+      }
+      > span:nth-child(2) {
+        flex: 1.5;
+        text-align: center;
+      }
+      > span:last-child {
+        flex: 1.5;
+        text-align: center;
+      }
+    }
+
+    &-items {
+      height: 300px;
+      overflow: auto;
+      @include scrollbar-styling(12px, 0);
+    }
+
+    &-icon {
+      font-size: 16px;
+      color: red;
+    }
+
+    &-item {
+      cursor: pointer;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      height: 50px;
+      background-color: $vms-bg-primary;
+      border-left: 1px solid rgba(234, 240, 247, 0.1);
+      border-right: 1px solid rgba(234, 240, 247, 0.1);
+      border-bottom: 1px solid rgba(234, 240, 247, 0.1);
+      padding: 0 20px;
+      &:hover {
+        background-color: $vms-bg-3;
+        color: black;
+      }
+
+      &--name {
+        color: $vms-status-07 !important;
+        flex: 6;
+        overflow: hidden;
+        white-space: nowrap;
+        text-overflow: ellipsis;
+      }
+
+      &--grid {
+        flex: 1.5;
+        color: $vms-status-07 !important;
+        text-align: center;
+      }
+      &--edit-input {
+        display: none;
+        flex: 6;
+        input {
+          background-color: $vms-bg-sub;
+          border: none;
+          color: $vms-status;
+          border-radius: 8px;
+          padding-left: 8px;
+          height: 32px;
+          width: 20vh;
+        }
+        span.anticon {
+          font-size: 20px;
+          color: $vms-status;
+          margin-left: 4px;
+        }
+      }
+    }
+    &-actions {
+      flex: 1.5;
+      text-align: center;
+      min-width: 100px;
+    }
+    &-icon {
+      margin: 0 4px;
+      color: $vms-status;
+      font-size: 20px;
+      &--active{
+        color: $primary !important;
+      }
+    }
+
+    &-info {
+      margin-top: 15px;
+      color: $vms-status;
+
+      & p {
+      }
+    }
+  }
+
+  &__detail {
+    // width: calc(50% - 30px);
+    flex: 12;
+    margin-left: 32px;
+  }
+
+  &__container {
+    align-items: center;
+    justify-content: center;
+    display: flex;
+    flex-wrap: wrap;
+    height: 350px;
+    padding: 0;
+  }
+}
+
+.game-cell {
+  border: 1px solid rgba(234, 240, 247, 0.1);
+  box-sizing: border-box;
+  background-color: $vms-bg-sub;
+  color: $vms-status;
+}
+
+.h-33 {
+  height: 33%;
+}
+
+.demo-loading-container {
+  position: absolute;
+  bottom: 40px;
+  width: 100%;
+  text-align: center;
+}
+
+//begin: modal bookmark
+.modal--bookmark {
+  width: 78.5vw !important;
+  .ant-modal-content {
+    border-radius: 12px;
+    background-color: $vms-bg-primary;
+    width: 100%;
+    .ant-modal-close-x {
+      width: 76px;
+      height: 76px;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      svg {
+        color: $vms-status-05;
+        font-size: 14px;
+      }
+    }
+    .ant-modal-header {
+      background-color: $vms-bg-primary;
+      border: none;
+      padding: 24px 0 24px 32px;
+      border-radius: 12px 12px 0 0;
+      .ant-modal-title {
+        color: $vms-status;
+        font-weight: 600;
+        line-height: 28px;
+        font-size: 20px;
+        padding-top: 0; 
+        background-color: $vms-bg-primary;
+      }
+    }
+
+    .ant-modal-body {
+      padding: 0 32px;
+      background-color: $vms-bg-primary;
+    }
+
+    .ant-modal-footer {
+      border: none;
+      display: flex;
+      flex-direction: row-reverse;
+      padding: 8px 32px 32px 32px;
+      background-color: $vms-bg-primary;
+      border-radius: 0 0 12px 12px;
+      button:first-child {
+        background-color: transparent;
+        border-radius: 4px;
+        padding: 0;
+        height: 100%;
+        border: 1px solid $vms-main-blue-primary;
+        margin-left: 20px;
+
+        span {
+          color: $vms-main-blue-primary;
+          margin: 8px 16px;
+        }
+      }
+      button:last-child {
+        background-color: $vms-main-blue-primary;
+        border-radius: 4px;
+        padding: 0;
+        border: 1px solid $vms-main-blue-primary;
+        height: 100%;
+        span {
+          margin: 8px 16px;
+          color: $vms-status;
+        }
+      }
+    }
+  }
+}
+//end: modal bookmark

@@ -1,0 +1,27 @@
+@import '../../assets/scss/core/variables/vms-variable';
+@import "../../assets/scss/core/mixins/vms-mixins";
+
+
+.ant-picker-time-panel-column > li.ant-picker-time-panel-cell .ant-picker-time-panel-cell-inner:hover {
+    padding: 0 0 0 14px;
+    background: $vms-bg-primary;
+}
+
+// background: $vms-bg-primary;
+.ant-picker-time-panel-column > li.ant-picker-time-panel-cell .ant-picker-time-panel-cell-inner {
+    color: white;
+}
+
+.ant-picker-time-panel-cell.ant-picker-time-panel-cell-selected {
+    background: $vms-bg-primary;
+    color:$vms-green-status;
+}
+.ant-picker-time-panel-column > li.ant-picker-time-panel-cell-selected .ant-picker-time-panel-cell-inner {
+    background: $vms-main-blue-primary;
+}
+.ant-picker-time-panel-column:hover {
+    overflow-y: auto;
+    @include scrollbar-styling(16px,0);
+
+
+}

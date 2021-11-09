@@ -1,0 +1,31 @@
+[dir] .ant-form-vertical .ant-form-item-label,
+[dir] .ant-col-24.ant-form-item-label,
+[dir] .ant-col-xl-24.ant-form-item-label {
+  padding: 0;
+}
+
+[dir] .ant-form-item {
+  padding: 0;
+  margin: 0 0 0;
+}
+
+.ant-form-item-label>label {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  height: 40px;
+  color: rgba(0, 0, 0, 0.85);
+  font-size: 14px;
+}
+
+
+.ant-col.ant-col-24.ant-form-item-label {
+  font-size: 14px;
+  font-weight: 600;
+}
+
+
+.ant-col.ant-col-12.ant-form-item-label {
+  font-size: 14px;
+  font-weight: 600;
+}

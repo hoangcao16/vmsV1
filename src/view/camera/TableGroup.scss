@@ -1,0 +1,16 @@
+@import '../../assets/scss/core/variables/vms-variable';
+
+.search .ant-select-selector {
+  background-color: $vms-bg-sub !important;
+}
+
+
+.CameraGroup {
+  .search__camera-group {
+    .ant-select-selector {
+      background-color: $vms-bg-sub !important;
+    }
+  }
+} 
+
+

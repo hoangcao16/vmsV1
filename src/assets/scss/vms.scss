@@ -1,0 +1,140 @@
+@import 'core/variables/_vms-variable.scss';
+
+* {
+  padding: 0;
+  margin: 0;
+}
+
+.main-menu.menu-light .navigation li .menu-text {
+  //color: black;
+}
+
+
+html[dir] body .content .content-wrapper {
+  padding: 0;
+}
+
+html body .content .content-wrapper {
+  min-height: 100vh;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.mapboxgl-map {
+  min-height: 100vh;
+}
+
+[dir] footer.footer {
+  padding: 0;
+}
+
+//Menu
+[dir] body.dark-layout .main-menu {
+  background-color: $vms-black;
+}
+
+[dir] body.dark-layout .main-menu-content .navigation-main {
+  background-color: $vms-black;
+}
+
+body.dark-layout .main-menu-content .navigation-main .nav-item svg {
+  stroke: $vms-blue;
+  border: $vms-blue;
+}
+
+[dir] body.dark-layout .nav-tabs .nav-item .nav-link, [dir] body.dark-layout .nav-tabs.nav-justified .nav-item .nav-link, [dir] body.dark-layout .nav:not(.nav-pills) .nav-item .nav-link {
+  background-color: #191919;
+}
+
+::placeholder {
+  color: $vms-white1;
+}
+
+.ant-form-item-control-input {
+  background-color: $vms-gray;
+}
+
+.ant-select-selection {
+  background-color: $vms-gray;
+}
+
+.ant-select:not(.ant-select-customize-input) .ant-select-selector {
+  background-color: $vms-gray;
+}
+
+.ant-select-selector {
+  background-color: $vms-gray;
+}
+
+[dir] .ant-upload.ant-upload-drag {
+  background: $vms-gray;
+}
+
+[dir] .anticon.anticon-plus {
+  color: $vms-white;
+}
+
+[dir] .ant-input {
+  background-color: $vms-gray;
+  color: $vms-white1;
+}
+
+
+[dir] .mapboxgl-popup-content {
+  background: $vms-black;
+}
+
+body .content .content-wrapper {
+  padding: 0;
+  background-color: $vms-black;
+}
+
+[dir] .mapboxgl-popup-anchor-bottom .mapboxgl-popup-tip {
+  border-bottom: none;
+  border-top-color: $vms-black;
+}
+
+
+.vms-main-blue-primary {
+  color: #1380FF !important;
+}
+
+.vms-soft-statuts {
+  color: #E3F0FF !important;
+}
+
+.vms-status {
+  color: #D0E5FF !important;
+}
+
+.vms-bg-primary {
+  background-color: #191919 !important;
+}
+
+.vms-bg-sub {
+  width: 896px;
+  border: 1px solid rgba(234, 240, 247, 0.1);
+  border-radius: 12px;
+  background-color: #333333 !important;
+}
+
+.vms-main-card {
+  color: #FCFEFF !important;
+}
+
+.vms-red-drak-mode {
+  color: #FF4646 !important;
+}
+
+[dir] .ant-form-item {
+  padding: 0;
+  margin: 0 0 0px;
+}
+
+[dir] .map-wrapper .ant-form-item {
+  margin-bottom: 0rem;
+}
+
+[dir] .ant-form-item-has-error :not(.ant-input-disabled).ant-input, [dir] .ant-form-item-has-error :not(.ant-input-affix-wrapper-disabled).ant-input-affix-wrapper, [dir] .ant-form-item-has-error :not(.ant-input-disabled).ant-input:hover, [dir] .ant-form-item-has-error :not(.ant-input-affix-wrapper-disabled).ant-input-affix-wrapper:hover {
+  background-color: #030303;
+}

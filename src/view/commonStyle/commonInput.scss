@@ -1,0 +1,52 @@
+@import '../../assets/scss/core/variables/vms-variable';
+
+input#name,
+input#code,
+input#address,
+input#cameraUrl,
+input#long_,
+input#lat_,
+input#note,
+input#description,
+input#captureNumberTime,
+input#dailyNumberTime,
+input#eventNumberTime,
+input#ip,
+input#port, input#tel,
+input#phone,
+input#email,
+input#password,
+input#position,
+input#unit,
+input#username {
+  width: 100%;
+  height: 40px;
+  border-radius: 6px;
+  background-color: $vms-bg-sub;
+  border: 1px solid #EAF0F61A;
+  color: $vms-status;
+}
+
+.ant-input {
+  width: 100%;
+  height: 40px;
+  border-radius: 6px;
+  background-color: $vms-bg-sub;
+  border: 1px solid #EAF0F61A;
+  color: $vms-status;
+}
+
+input.ant-input.selectedTimeInput {
+  height: 40px;
+  border-radius: 6px;
+}
+
+.ant-input:hover {
+  border-color: $vms-main-blue-primary;
+}
+
+.ant-input:focus {
+  border-color: $vms-main-blue-primary;
+}
+
+

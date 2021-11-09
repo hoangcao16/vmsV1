@@ -2,10 +2,8 @@ import * as firebase from "firebase/app"
 import { history } from "../../../history"
 import "firebase/auth"
 import "firebase/database"
+import axios from "axios"
 import { config } from "../../../authServices/firebase/firebaseConfig"
-import { authzApi } from "../../../api/authzApi"
-import { handleToken } from "../../../boot/axios"
-import { toast } from "react-toastify"
 
 // Init firebase if not already initialized
 if (!firebase.apps.length) {
@@ -62,7 +60,6 @@ export const submitLoginWithFireBase = (email, password, remember) => {
         })
       })
       .catch(error => {
-      
         console.log(error)
       })
   }
@@ -102,7 +99,7 @@ export const loginWithTwitter = () => {
     let provider = new firebase.auth.TwitterAuthProvider()
     firebaseAuth
       .signInWithPopup(provider)
-      .then(function (result) {
+      .then(function(result) {
         let token = result.credential.accessToken,
           user = result.user.email,
           name = result.user.displayName,
@@ -119,7 +116,7 @@ export const loginWithTwitter = () => {
         })
         history.push("/")
       })
-      .catch(function (error) {
+      .catch(function(error) {
         console.log(error)
       })
   }
@@ -130,7 +127,7 @@ export const loginWithGoogle = () => {
     let provider = new firebase.auth.GoogleAuthProvider()
     firebaseAuth
       .signInWithPopup(provider)
-      .then(function (result) {
+      .then(function(result) {
         let token = result.credential.accessToken,
           user = result.user.email,
           name = result.user.displayName,
@@ -147,7 +144,7 @@ export const loginWithGoogle = () => {
         })
         history.push("/")
       })
-      .catch(function (error) {
+      .catch(function(error) {
         console.log(error)
       })
   }
@@ -158,7 +155,7 @@ export const loginWithGithub = () => {
     let provider = new firebase.auth.GithubAuthProvider()
     firebaseAuth
       .signInWithPopup(provider)
-      .then(function (result) {
+      .then(function(result) {
         let token = result.credential.accessToken,
           user = result.user.email,
           name = result.additionalUserInfo.username,
@@ -176,7 +173,7 @@ export const loginWithGithub = () => {
         })
         history.push("/")
       })
-      .catch(function (error) {
+      .catch(function(error) {
         console.log(error)
       })
   }
@@ -184,42 +181,26 @@ export const loginWithGithub = () => {
 
 export const loginWithJWT = user => {
   return dispatch => {
-    authzApi.login({
-      email: user.email,
-      password: user.password,
-      name: user.name,
-      domain: user.domain
-    }).then(response => {
-      console.log("loginWithJWT:", response)
-      var loggedInUser = {}
-
-      if (response.data) {
-        console.log("response.data", response)
-        handleToken(response.data)
-        authzApi.me().then(res => {
-          console.log("res:", res)
-          if (res.data){
-            loggedInUser.name = res.data.Name
-            loggedInUser.domain = res.data.Domain
-            loggedInUser.UserUuid = res.data.UserUuid
-            dispatch({
-              type: "LOGIN_WITH_JWT",
-              payload: { loggedInUser, loggedInWith: "jwt" }
-            })
-            toast.info("Đăng nhập thành công.")
-            history.push("/")
-          }
-        }).catch(err => {
-          console.log(err)
-          console.log("tuanpa: login failed")
-        })
-      }
-    })
-      .catch(err => {
-        toast.error("Đăng nhập thất bại. Vui lòng điền lại.")
-        console.log("tuanpa: login failed")
-        console.log(err)
+    axios
+      .post("/api/authenticate/login/user", {
+        email: user.email,
+        password: user.password
       })
+      .then(response => {
+        var loggedInUser
+
+        if (response.data) {
+          loggedInUser = response.data.user
+
+          dispatch({
+            type: "LOGIN_WITH_JWT",
+            payload: { loggedInUser, loggedInWith: "jwt" }
+          })
+
+          history.push("/")
+        }
+      })
+      .catch(err => console.log(err))
   }
 }
 

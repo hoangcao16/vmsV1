@@ -1,0 +1,9 @@
+@import "../../../assets/scss/core/mixins/vms-mixins";
+
+.control-panel-wrapper {
+    @include controlPanel;
+}
+
+
+
+

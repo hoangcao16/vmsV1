@@ -1,0 +1,627 @@
+@import "../../assets/scss/core/variables/vms-variable";
+@import "../../assets/scss/core/mixins/vms-mixins";
+
+.preset__container {
+  margin-top: 0 !important;
+  height: 93.5vh;
+  background-color: $vms-bg-primary;
+
+  .setting__preset {
+    display: flex;
+    justify-content: space-between;
+    padding: 0 24px 24px 24px;
+    height: 54.3vh;
+    background-color: $vms-bg-primary;
+    // border: $vms-border-gray;
+
+    .camera__control {
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+      justify-content: flex-end;
+      align-items: center;
+      max-width: 160px;
+
+      .camera__direction {
+        width: 160px;
+        height: 160px;
+        position: relative;
+        button {
+          position: absolute;
+          background: $vms-bg-sub;
+          height: 40px;
+          width: 40px;
+          border: 1px solid rgba(234, 240, 247, 0.1);
+          box-sizing: border-box;
+          border-radius: 6px;
+          display: flex;
+          justify-content: center;
+          align-items: center;
+          span {
+            font-size: 20px;
+          }
+          &:hover {
+            background-color: $vms-main-blue-primary !important;
+            svg {
+              color: $vms-only-white;
+            }
+          }
+        }
+        button.down {
+          left: 50%;
+          bottom: 0;
+          transform: translatex(-50%);
+        }
+        button.up {
+          left: 50%;
+          top: 0;
+          transform: translatex(-50%);
+        }
+        button.left {
+          left: 0;
+          top: 50%;
+          transform: translateY(-50%);
+        }
+        button.right {
+          right: 0;
+          top: 50%;
+          transform: translateY(-50%);
+        }
+
+        button.play-camera {
+          left: 50%;
+          top: 50%;
+          transform: translate(-50%,-50%);
+          background-color: $vms-bg-primary;
+          border: 0;
+          
+          &:hover{
+            background-color: $vms-bg-primary !important;
+            svg {
+              border-radius: 16px;
+              color: $vms-main-blue-primary !important; 
+              transition: 0.3s;
+              box-shadow: 0 0 8px 4px $vms-main-blue-primary;   
+            }
+          }
+          svg {
+            font-size: 32px;
+            color: $vms-only-white;
+          }
+        }
+
+        .ant-image {
+          width: 61px;
+          height: 58px;
+          position: absolute;
+          top: 50%;
+          left: 50%;
+          transform: translate(-50%, -50%);
+          .ant-image-img {
+            position: absolute;
+            width: 61px;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+          }
+        }
+      }
+
+      .camera__zoom {
+        margin-top: 32px;
+        margin-bottom: 24px;
+        position: relative;
+        width: 160px;
+        height: 40px;
+        button {
+          position: absolute;
+          background: $vms-bg-sub;
+          height: 40px;
+          width: 40px;
+          border: 1px solid rgba(234, 240, 247, 0.1);
+          box-sizing: border-box;
+          border-radius: 50%;
+          display: flex;
+          justify-content: center;
+          align-items: center;
+
+          span {
+            font-size: 20px;
+          }
+          &:hover {
+            background-color: $vms-main-blue-primary;
+            svg {
+              color: $vms-only-white;
+            }
+          }
+        }
+        button.plus {
+          left: 0;
+          // top: 50%;
+          // transform: translateY(-50%);
+        }
+        button.minus {
+          right: 0;
+          // top: 50%;
+          // transform: translateY(-50%);
+        }
+      }
+    }
+    .camera__monitor {
+      flex: 5;
+      margin-left: 24px;
+      border: 1px solid rgba(234, 240, 247, 0.1);
+      position: relative;
+      .video-js {
+        margin-top: -24px;
+      }
+      button{
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%,-50%);
+        background-color: $vms-bg-sub;
+        color: $vms-status;
+        border: 0;
+      }
+        // width: 100%;
+        // height: 100%;
+        // justify-content: center;
+        // align-items: center;
+    }
+    .zoom {
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      font-size: 18px;
+      font-weight: 500;
+      background-color: $vms-bg-primary;
+      height: 20px;
+      line-height: 20px;
+      padding: 0;
+      text-align: center;
+    }
+  }
+  .table__preset--setting {
+    display: flex;
+    padding: 0 24px 0 24px;
+    justify-content: space-between;
+
+    .table__preset {
+      margin-right: 24px;
+      // flex: 2.5;
+      width: 36vw;
+      .preset__tool {
+        display: flex;
+        justify-content: space-between;
+        margin-bottom: 20px;
+        .ant-select {
+          flex: 1;
+          margin-right: 20px;
+          height: 40px;
+          .ant-select-selector {
+            border-radius: 8px;
+            border: $vms-border-gray;
+            height: 40px;
+            position: relative;
+            .ant-select-selection-search {
+              input {
+                border-radius: 8px;
+                outline: none;
+                height: 100%;
+                background-color: $vms-bg-sub;
+                width: 100%;
+                border: 0;
+                color: $vms-status;
+                padding-left: 12px;
+                padding-right: 12px;
+              }
+            }
+
+            .ant-select-selection-placeholder {
+              position: absolute;
+              left: 12px;
+              top: 50%;
+              transform: translateY(-50%);
+              color: $vms-status-05;
+            }
+          }
+        }
+        .ant-image {
+          width: 40px;
+          height: 40px;
+          border-radius: 50%;
+          background-color: $vms-bg-sub;
+          border: $vms-border-gray;
+          display: flex;
+          justify-content: center;
+          align-items: center;
+          .ant-image-img {
+            width: 10px;
+            height: 18px;
+          }
+          &:hover {
+            background-color: $vms-main-blue-primary;
+            transition: 0.3s;
+
+            cursor: pointer;
+          }
+        }
+      }
+      .ant-table {
+        border: $vms-border-gray;
+        width: 100%;
+        background-color: $vms-bg-sub;
+        .ant-table-container {
+          width: 100%;
+
+          thead {
+            color: $vms-soft-statuts;
+            tr {
+              th {
+                padding-top: 16px;
+                padding-bottom: 16px;
+
+                background-color: $vms-bg-sub !important;
+                color: $vms-soft-statuts;
+                &:first-child {
+                  padding-left: 12px;
+                  padding-right: 16px;
+                }
+                &:nth-child(2) {
+                  padding: 0 !important;
+                  text-align: center;
+                  // max-width: 10px;
+                }
+                &:nth-child(3) {
+                  padding-left: 24px;
+                }
+                &:last-child {
+                  padding-right: 2.5px;
+                }
+              }
+            }
+          }
+          .ant-table-body {
+            @include scrollbar-styling(12px, 0);
+            height: 240px;
+            background-color: $vms-bg-primary;
+            .ant-table-tbody {
+              tr {
+                
+                td {
+                  background-color: $vms-bg-primary;
+                  padding-top: 8.5px;
+                  padding-bottom: 12px;
+                  border-bottom: $vms-border-gray;
+                  &:first-child {
+                    padding-left: 12px;
+                    padding-right: 16px;
+                    // max-width: 20px;
+                    .ant-checkbox {
+                      .ant-checkbox-input {
+                        background-color: $vms-bg-primary;
+                      }
+                    }
+                  }
+                  &:nth-child(2) {
+                    text-align: center;
+                    padding: 0;
+                    color: $vms-status-07;
+                    // max-width: 10px;
+                  }
+                  &:nth-child(3) {
+                    padding-left: 24px;
+                    display: flex;
+                    align-items: center;
+                    input {
+                      background-color: $vms-bg-sub;
+                      color: $vms-status;
+                      border: 1px solid rgba(108, 117, 125, 0.12);
+                      box-sizing: border-box;
+                      padding: 8px 10px;
+                      border-radius: 4px;
+                      outline: none;
+                    }
+                    & > span {
+                      height: 20px;
+                      & > span {
+                        margin-left: 8px;
+                        svg {
+                          font-size: 20px;
+                        }
+                        &:hover {
+                          svg {
+                            color: $vms-main-blue-primary;
+                            // box-shadow: 0 0 4px $vms-main-blue-primary;
+                            transform: scale(1.3);
+                            transition: 0.3s;
+                          }
+                        }
+                      }
+                    }
+                  }
+                  &:last-child {
+                    .ant-space {
+                      display: flex;
+                      // justify-content: center;
+                      align-items: center;
+                      button {
+                        background-color: $vms-bg-primary;
+                        border: 0;
+                        span {
+                          svg {
+                            font-size: 20px;
+                            color: $vms-status;
+                          }
+                          &:hover {
+                            svg {
+                              color: $vms-main-blue-primary;
+                              // box-shadow: 0 0 4px $vms-main-blue-primary;
+                              transform: scale(1.3);
+                              transition: 0.3s;
+                            }
+                          }
+                        }
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+    .confirm__choosing--preset {
+      // flex: 1;
+      width: 14vw;
+      display: flex;
+      align-items: center;
+      flex-direction: column;
+      margin-top: 60px;
+      // min-width: 150px;
+
+      select {
+        display: flex;
+        width: 100%;
+        background-color: $vms-bg-sub;
+        justify-content: space-between;
+        border-radius: 8px;
+        padding: 12px;
+        color: $vms-status;
+        border: 1px solid rgba(234, 240, 247, 0.1);
+        outline: none;
+        appearance: none;
+        position: relative;
+      }
+      button {
+        height: 40px;
+        width: 40px;
+        border: $vms-border-gray;
+        border-radius: 50%;
+        background-color: $vms-bg-sub;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        margin-top: 24px;
+        &:hover:enabled {
+          background-color: $vms-main-blue-primary;
+          transition: 0.3s;
+        }
+        .ant-image {
+          .ant-image-img {
+            width: 10px;
+            height: 18px;
+            transform: rotate(270deg);
+          }
+         
+        }
+      }
+      
+    }
+    .table__preset-tour {
+      // flex: 2.5;
+      width: 36vw;
+      margin-left: 24px;
+
+      .preset-tour__tool {
+        display: flex;
+        width: 100%;
+        margin-bottom: 20px;
+        justify-content: space-between;
+        .ant-select {
+          flex: 3;
+          margin-right: 20px;
+          height: 40px;
+          .ant-select-selector {
+            border-radius: 8px;
+            border: $vms-border-gray;
+            height: 40px;
+            position: relative;
+            .ant-select-selection-search {
+              input {
+                border-radius: 8px;
+                outline: none;
+                height: 100%;
+                background-color: $vms-bg-sub;
+                width: 100%;
+                border: 0;
+                color: $vms-status;
+                padding-left: 12px;
+                padding-right: 12px;
+              }
+            }
+
+            .ant-select-selection-placeholder {
+              position: absolute;
+              left: 12px;
+              top: 50%;
+              transform: translateY(-50%);
+              color: $vms-status-05;
+            }
+          }
+        }
+        #name__preset-tour {
+          flex: 3;
+          max-width: 186px;
+          border-radius: 8px;
+          border: 0;
+          outline: none;
+          border: $vms-border-gray;
+          padding: 8px;
+          background-color: $vms-bg-sub;
+          color: $vms-status;
+        }
+        #rename__preset-tour {
+          width: 56px !important;
+          display: flex;
+          justify-content: flex-end;
+          align-items: center;
+          span {
+            margin-left: 8px;
+            svg {
+              font-size: 20px;
+            }
+            &:hover {
+              svg {
+                color: $vms-main-blue-primary;
+                transition: 0.3s;
+                transform: scale(1.3);
+              }
+            }
+          }
+        }
+
+        #delete__preset-tour {
+          width: 56px !important;
+          display: flex;
+          justify-content: center;
+          align-items: center;
+          button {
+            background-color: transparent;
+            border: 0;
+            span {
+              display: flex;
+              align-items: center;
+              svg {
+                font-size: 20px;
+                color: $vms-status;
+              }
+              &:hover {
+                svg {
+                  color: $vms-main-blue-primary;
+                  transition: 0.3s;
+                  transform: scale(1.3);
+                }
+              }
+            }
+          }
+        }
+      }
+      .ant-table {
+        border: $vms-border-gray;
+        width: 100%;
+        background-color: $vms-bg-sub;
+        .ant-table-container {
+          width: 100%;
+          .ant-table-thead {
+            tr {
+              th {
+                padding-top: 16px;
+                padding-bottom: 16px;
+                background-color: $vms-bg-sub;
+                color: $vms-soft-statuts;
+                &:first-child {
+                  padding-left: 12px;
+                  padding-right: 16px;
+                }
+                &:nth-child(2) {
+                  text-align: center;
+                  padding: 0 !important;
+                }
+                &:nth-child(3) {
+                  padding-left: 24px;
+                }
+                &:nth-child(4) {
+                  text-align: center;
+                  padding: 0;
+                }
+                &:nth-last-child(2) {
+                  text-align: center;
+                }
+              }
+            }
+          }
+        }
+        .ant-table-body {
+          @include scrollbar-styling(12px, 0);
+          height: 240px;
+          background-color: $vms-bg-primary;
+
+          .ant-table-tbody {
+            tr {
+              td {
+                border-bottom: $vms-border-gray;
+                background-color: $vms-bg-primary;
+                padding-top: 11px;
+                padding-bottom: 11px;
+                &:first-child {
+                  padding-left: 12px;
+                  padding-right: 16px;
+                }
+                &:nth-child(2) {
+                  text-align: center;
+                  color: $vms-status-07;
+                  padding: 0;
+
+                  // max-width: 10px;
+                }
+                &:nth-child(3) {
+                  color: $vms-status-07;
+
+                  padding-left: 24px;
+                }
+                &:nth-child(4) {
+                  min-width: 100px;
+                  height: 60px;
+                  text-align: center;
+                  padding: 0;
+                  select {
+                    background-color: $vms-bg-sub;
+                    border: none;
+                    color: $vms-status;
+                    border: 1px solid rgba(108, 117, 125, 0.12);
+                    box-sizing: border-box;
+                    text-align: center;
+                    border-radius: 4px;
+                    outline: none;
+                    width: 40px;
+                    height: 40px;
+                    appearance: none;
+                  }
+                  span {
+                    margin-left: 12px;
+                    color: $vms-status-07;
+                  }
+                }
+                &:last-child {
+                  text-align: center;
+                  button {
+                    background-color: $vms-bg-primary;
+                    border: 0;
+                    svg {
+                      font-size: 20px;
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+  // }
+}

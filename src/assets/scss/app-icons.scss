@@ -1,0 +1,53 @@
+@import 'vms.scss';
+@import './core/variables/vms-variable';
+
+.app-icon {
+  background-repeat: no-repeat;
+  background-size: contain;
+  width: 32px;
+  height: 32px;
+  display: inline-block;
+
+  &.icon-camera-list {
+    background-image: url(../img/vms/camera.png);
+    color: $primary;
+    margin-right: 8px;
+  }
+
+  &.icon-grid-1 {
+    background-image: url(../img/svg/grid-1.svg);
+    color: $vms-status;
+  }
+
+  &.icon-grid-4 {
+    background-image: url(../img/svg/grid-4.svg);
+    color: $vms-status;
+  }
+
+  &.icon-grid-9 {
+    background-image: url(../img/svg/grid-9.svg);
+    color: $vms-status;
+  }
+
+  &.icon-grid-16 {
+    background-image: url(../img/svg/grid-16.svg);
+    color: $vms-status;
+  }
+  &.live-icon {
+    background-image: url(../img/vms/live-icon.png);
+  }
+
+  &.playback-icon {
+    background-image: url(../img/vms/playback-icon-dark.png);
+    color: #1380FF;
+  }
+  &.icon-close {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    &:hover {
+      color: #1380FF;
+    }
+  }
+
+}

@@ -1,0 +1,24 @@
+.containerReport {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+
+  .header {
+    width: 100%;
+  }
+
+  .body {
+    display: flex;
+    width: 100%;
+    overflow-x: hidden;
+
+    &__content {
+      width: 72%;
+    }
+
+    &__slidebar {
+      width: 28%;
+    }
+  }
+}

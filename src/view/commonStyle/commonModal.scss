@@ -1,0 +1,42 @@
+
+@import '../../assets/scss/core/variables/vms-variable';
+
+[dir] .ant-modal-title {
+  margin: 0;
+  text-align: center;
+  font-size: 16px;
+  font-weight: 700;
+  padding-top: 20px;
+  // background-color: $dark;
+}
+
+.ant-modal-content {
+  border-radius: 10px !important;
+  // background-color: $dark;
+
+}
+
+[dir] .ant-modal-header {
+  border-radius: 10px 10px 0 0;
+  border-bottom: none;
+  // background-color: $dark;
+
+  
+}
+[dir] .ant-modal-footer {
+
+  // background-color: $dark;
+
+  
+}
+
+[dir] .ant-modal-body {
+  padding: 0px 40px;
+  // background-color: $dark;
+
+}
+[dir] .ant-form-item {
+  margin: 0;
+  padding: 0;
+  /* margin-bottom: 8px; */
+}

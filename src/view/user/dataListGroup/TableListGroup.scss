@@ -1,0 +1,141 @@
+@import "../../../assets/scss/core/variables/vms-variable";
+@import "../../../assets/scss/core/mixins/vms-mixins";
+
+.groupTableContent {
+  //begin: search-bar
+  margin-top: 48px;
+  .search__group {
+    .ant-select-selector {
+      background-color: $vms-bg-sub !important;
+    }
+  }
+
+  //begin: table list user
+  .table__list--group-user {
+    margin-top: 24px !important;
+    .ant-table {
+      background-color: $vms-bg-sub;
+      border-radius: 12px 12px 0 0;
+      border: 1px solid rgba(234, 240, 247, 0.1);
+
+      //begin: title table
+      .ant-table-title {
+        padding: 13px 16px;
+        h4 {
+          font-size: 16px;
+          margin-bottom: 0;
+        }
+
+        .ant-btn {
+          width: 40px;
+          height: 40px;
+          padding: 9px;
+          margin-right: 0 !important;
+          background-color: $vms-main-blue-primary;
+
+          span {
+            font-size: 22px;
+          }
+        }
+      }
+
+      .groupRow {
+        height: 50px !important;
+      }
+
+      //end: title table
+
+      //begin: head table
+      .ant-table-thead {
+        .ant-table-cell {
+          background-color: $vms-bg-3;
+          padding: 13px 0 11px 16px;
+          color: $vms-soft-statuts;
+          border-top: 1px solid rgba(234, 240, 247, 0.1);
+          border-bottom: 1px solid rgba(234, 240, 247, 0.1);
+          font-weight: 600;
+         
+        }
+        tr > th:last-child {
+          text-align: center;
+          padding: 0 16px;
+        }
+
+
+      }
+
+      .ant-table-tbody {
+        .ant-table-cell {
+          background-color: $vms-bg-primary;
+          // font-weight: 500;
+          padding: 13px 0 11px 16px;
+
+          border-top: 1px solid rgba(234, 240, 247, 0.1);
+          border-bottom: 1px solid rgba(234, 240, 247, 0.1);
+          text-align: left;
+
+          span.ant-typography.ant-typography-ellipsis.ant-typography-single-line {
+            width: 100px;
+            color: $vms-status-07;
+            span {
+              color: $vms-status-07;
+            }
+          }
+
+          .item--toolbar {
+            display: flex;
+            padding: 0 16px;
+            justify-content: center;
+            align-items: center;
+            .anticon:hover {
+              svg {
+                color: $vms-main-blue-primary;
+              }
+            }
+
+            .anticon-edit {
+              margin: 4px;
+              svg {
+                font-size: 20px;
+                font-weight: 800;
+                color: $vms-soft-statuts;
+              }
+            }
+  
+            .anticon-delete {
+              margin: 4px;
+
+              svg {
+                font-size: 20px;
+                font-weight: 800;
+                color: $vms-soft-statuts;
+              }
+            }
+          }
+        }
+
+        tr > td:last-child {
+          padding: 0;
+        }
+
+        tr .ant-table-cell:last-child {
+          border-radius: 0;
+          padding: 0;
+          text-align: center;
+        }
+
+        tr .ant-table-cell:nth-last-child(2){
+          text-align: start;
+          padding: 0 16px;
+        }
+      }
+      .ant-table-tbody > tr.ant-table-placeholder {
+        height: 50px !important;
+      }
+
+      //end: head table
+    }
+
+    @include paginationShowTotal;
+  }
+}

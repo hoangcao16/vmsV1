@@ -1,0 +1,191 @@
+@import "../../../../assets/scss/core/variables/vms-variable";
+@import '../../../../assets/scss/core/mixins/vms-mixins';
+
+.modal__add-camera--in-detail-user {
+  width: 65vw !important;
+  top: 56px !important;
+  position: absolute;
+  left: 50%;
+  transform: translateX(-50%);
+
+  .ant-modal-content {
+    border-radius: 12px !important;
+    .ant-modal-header {
+      border-radius: 12px 12px 0 0;
+      background-color: $vms-bg-primary;
+      padding: 24px 32px;
+
+      .ant-modal-title {
+        background-color: $vms-bg-primary;
+        color: $vms-status;
+        font-size: 20px;
+        font-weight: 600;
+        text-align: left;
+        margin-top: 20px 0 20px 32px;
+        padding: 0;
+      }
+    }
+
+
+    .ant-modal-body {
+      background-color: $vms-bg-primary;
+      // border-top: 1px solid rgba(234, 240, 247, 0.1);
+      padding: 24px 32px !important;
+      border-radius: 0;
+
+      .tableAddCamera {
+        border: none !important;
+
+        .ant-select-selector{
+          .ant-select-selection-search {
+            input {
+              height: 100%;
+            }
+          }
+          .ant-select-selection-placeholder > div {
+            height: 100% !important;
+          } 
+        }
+
+        .ant-table {
+          background-color: $vms-bg-primary !important;
+
+          .ant-table-title {
+            background-color: $vms-bg-primary;
+            border: none;
+            padding: 0;
+
+            .ant-select-selector {
+              background-color: $vms-bg-sub;
+              border: 1px solid rgba(234, 240, 247, 0.1);
+              border-radius: 8px;
+              height: 46px;
+
+              .ant-select-selection-placeholder {
+                line-height: 46px;
+              }
+            }
+
+            .ant-form-item-control-input {
+              border-radius: 6px;
+
+              input {
+                // background-color: $vms-bg-sub !important;
+                color: $vms-status;
+              }
+            }
+          }
+
+          .ant-table-container {
+            border: 1px solid rgba(234, 240, 247, 0.1);
+            .ant-table-content {
+              &::-webkit-scrollbar {
+                height: 12px;
+              }
+              &::-webkit-scrollbar-track {
+                background-color: $vms-bg-sub;
+              }
+              &::-webkit-scrollbar-thumb {
+                background-color: $vms-status-05;
+              }
+            }
+            .ant-table-thead {
+              th {
+                background-color: $vms-bg-sub !important;
+                color: $vms-soft-statuts;
+                border-bottom: 1px solid rgba(234, 240, 247, 0.1);
+              }
+
+              .ant-checkbox-inner {
+                background-color: transparent;
+                border: 1.5px solid #1380ff;
+              }
+
+              .ant-checkbox-checked .ant-checkbox-inner {
+                background-color: $vms-main-blue-primary;
+              }
+            }
+
+            .ant-table-tbody {
+              td {
+                border-bottom: 1px solid rgba(234, 240, 247, 0.1);
+                color: $vms-soft-statuts;
+                background-color: $vms-bg-primary;
+              }
+              tr > td:last-child{
+                text-align: left;
+              }
+
+              .ant-table-placeholder {
+                .ant-table-cell{
+                  text-align: center;
+                }
+              }
+
+              .ant-checkbox-inner {
+                background-color: $vms-bg-primary;
+                border-radius: 3px;
+                border: 1.5px solid #1380ff;
+                width: 16px;
+                height: 16px;
+              }
+
+              .ant-checkbox-checked {
+                .ant-checkbox-inner {
+                  background-color: $vms-main-blue-primary !important;
+                }
+              }
+            }
+          }
+        } 
+        @include paginationDontShowTotal;
+
+        .choose__records {
+          padding: 20px 0 20px 16px;
+          color: #ffffff;
+        }
+
+        
+      }
+    }
+
+    .ant-modal-footer {
+      border-radius: 0 0 12px 12px;
+      background-color: $vms-bg-primary;
+      border-top: none;
+      padding-bottom: 41px;
+      padding-right: 32px;
+
+      .ant-btn {
+        padding: 8px 36px;
+        height: 40px;
+      }
+
+      & button:first-child {
+        background-color: $vms-bg-primary;
+        border-radius: 4px;
+        border: 1px solid $vms-main-blue-primary;
+
+        span {
+          color: $vms-main-blue-primary;
+        }
+      }
+
+      & button:last-child {
+        background-color: $vms-main-blue-primary;
+        border-radius: 4px;
+        border: 1px solid $vms-main-blue-primary;
+
+        span {
+          color: #ffffff;
+        }
+      }
+    }
+  }
+
+}
+
+.disabled-row {
+  background-color: #dcdcdc;
+  pointer-events: none;
+}

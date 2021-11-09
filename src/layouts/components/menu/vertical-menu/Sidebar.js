@@ -1,20 +1,36 @@
-import React, { Component } from "react"
-import classnames from "classnames"
-import { ContextLayout } from "../../../../utility/context/Layout"
-import { connect } from "react-redux"
-import SidebarHeader from "./SidebarHeader"
-import Hammer from "react-hammerjs"
-import SideMenuContent from "./sidemenu/SideMenuContent"
-import PerfectScrollbar from "react-perfect-scrollbar"
+import React, { Component } from 'react';
+import classnames from 'classnames';
+import { ContextLayout } from '../../../../utility/context/Layout';
+import { connect } from 'react-redux';
+import SidebarHeader from './SidebarHeader';
+import Hammer from 'react-hammerjs';
+import SideMenuContent from './sidemenu/SideMenuContent';
+import PerfectScrollbar from 'react-perfect-scrollbar';
+import { bindActionCreators } from 'redux';
+import { removeAllCamLiveOnMap } from '../../../../redux/actions/map/camLiveAction';
+import { resetMapObject } from '../../../../redux/actions/map/formMapActions';
+import { removeAllPlayBackHlsLive } from '../../../../redux/actions/live';
+import { CAM_LIVE_ITEMS, FORM_MAP_ITEM } from '../../../../view/common/vms/constans/map';
 class Sidebar extends Component {
   static getDerivedStateFromProps(props, state) {
     if (props.activePath !== state.activeItem) {
+      sessionStorage.removeItem(FORM_MAP_ITEM);
+      sessionStorage.removeItem(CAM_LIVE_ITEMS);
+      props.resetMapObject();
+      props.removeAllCamLiveOnMap();
+      props.listCamLive.length > 0 && props.listCamLive.forEach((cam) => {
+        cam && cam.hls && cam.hls.destroy()
+      })
+      props.listPlayBackHls.length > 0 && props.listPlayBackHls.forEach((cam) => {
+        cam && cam.hls && cam.hls.destroy()
+      })
+      props.removeAllCamLiveOnMap();
       return {
         activeItem: props.activePath
-      }
+      };
     }
     // Return null if the state hasn't changed
-    return null
+    return null;
   }
   state = {
     width: window.innerWidth,
@@ -23,83 +39,87 @@ class Sidebar extends Component {
     activeItem: this.props.activePath,
     menuShadow: false,
     ScrollbarTag: PerfectScrollbar
-  }
+  };
 
-  mounted = false
+
+  mounted = false;
 
   updateWidth = () => {
     if (this.mounted) {
-      this.setState(prevState => ({
+      this.setState((prevState) => ({
         width: window.innerWidth
-      }))
-      this.checkDevice()
+      }));
+      this.checkDevice();
     }
-  }
+  };
 
   componentDidMount() {
-    this.mounted = true
+    this.mounted = true;
     if (this.mounted) {
-      if (window !== "undefined") {
-        window.addEventListener("resize", this.updateWidth, false)
+      if (window !== 'undefined') {
+        window.addEventListener('resize', this.updateWidth, false);
       }
-      this.checkDevice()
+      this.checkDevice();
     }
   }
 
   componentWillUnmount() {
-    this.mounted = false
+    this.mounted = false;
   }
 
   checkDevice = () => {
-    var prefixes = " -webkit- -moz- -o- -ms- ".split(" ")
-    var mq = function(query) {
-      return window.matchMedia(query).matches
-    }
+    var prefixes = ' -webkit- -moz- -o- -ms- '.split(' ');
+    var mq = function (query) {
+      return window.matchMedia(query).matches;
+    };
 
-    if ("ontouchstart" in window || window.DocumentTouch) {
+    if ('ontouchstart' in window || window.DocumentTouch) {
       this.setState({
-        ScrollbarTag: "div"
-      })
+        ScrollbarTag: 'div'
+      });
     } else {
       this.setState({
         ScrollbarTag: PerfectScrollbar
-      })
+      });
     }
-    var query = ["(", prefixes.join("touch-enabled),("), "heartz", ")"].join("")
-    return mq(query)
-  }
+    var query = ['(', prefixes.join('touch-enabled),('), 'heartz', ')'].join(
+      ''
+    );
+    return mq(query);
+  };
 
-  changeActiveIndex = id => {
+  changeActiveIndex = (id) => {
     if (id !== this.state.activeIndex) {
       this.setState({
         activeIndex: id
-      })
+      });
     } else {
       this.setState({
         activeIndex: null
-      })
+      });
     }
-  }
+  };
 
-  handleSidebarMouseEnter = id => {
+  handleSidebarMouseEnter = (id) => {
     if (id !== this.state.hoveredMenuItem) {
       this.setState({
         hoveredMenuItem: id
-      })
+      });
     } else {
       this.setState({
         hoveredMenuItem: null
-      })
+      });
     }
-  }
+  };
 
-  handleActiveItem = url => {
+  handleActiveItem = (url) => {
     this.setState({
       activeItem: url
-    })
-  }
+    });
+  };
 
   render() {
+    console.log("render sideber", this.state.activeItem);
     let {
       visibilityState,
       toggleSidebarMenu,
@@ -114,83 +134,62 @@ class Sidebar extends Component {
       currentLang,
       permission,
       currentUser,
-      collapsedMenuPaths
-    } = this.props
+      collapsedMenuPaths,
+      isZoom,
+      setLanguage
+    } = this.props;
 
-    let {
-      menuShadow,
-      activeIndex,
-      hoveredMenuItem,
-      activeItem,
-      ScrollbarTag
-    } = this.state
+    let { menuShadow, activeIndex, hoveredMenuItem, activeItem, ScrollbarTag } =
+      this.state;
+
     let scrollShadow = (container, dir) => {
-      if (container && dir === "up" && container.scrollTop >= 100) {
-        this.setState({ menuShadow: true })
-      } else if (container && dir === "down" && container.scrollTop < 100) {
-        this.setState({ menuShadow: false })
+      if (container && dir === 'up' && container.scrollTop >= 100) {
+        this.setState({ menuShadow: true });
+      } else if (container && dir === 'down' && container.scrollTop < 100) {
+        this.setState({ menuShadow: false });
       } else {
-        return
+        return;
       }
-    }
+    };
     return (
       <ContextLayout.Consumer>
-        {context => {
-          let dir = context.state.direction
+        {(context) => {
+          let dir = context.state.direction;
           return (
             <React.Fragment>
-              <Hammer
-                onSwipe={e => {
-                  sidebarVisibility()
-                }}
-                direction={
-                  dir === "rtl" ? "DIRECTION_LEFT" : "DIRECTION_RIGHT"
-                }>
-                <div className="menu-swipe-area d-xl-none d-block vh-100"></div>
-              </Hammer>
-
               <div
                 className={classnames(
                   `main-menu menu-fixed menu-light menu-accordion menu-shadow theme-${activeTheme}`,
-                  {
-                    collapsed: sidebarState === true,
-                    "hide-sidebar":
-                      this.state.width < 1200 && visibilityState === false
-                  }
+                  { collapsed: sidebarState === true }
                 )}
-                onMouseEnter={() => sidebarHover(false)}
-                onMouseLeave={() => sidebarHover(true)}>
-                <SidebarHeader
-                  toggleSidebarMenu={toggleSidebarMenu}
-                  toggle={toggle}
-                  sidebarBgColor={color}
-                  sidebarVisibility={sidebarVisibility}
-                  activeTheme={activeTheme}
-                  collapsed={collapsed}
-                  menuShadow={menuShadow}
-                  activePath={activePath}
-                  sidebarState={sidebarState}
-                />
-                <ScrollbarTag
-                  className={classnames("main-menu-content", {
-                    "overflow-hidden": ScrollbarTag !== "div",
-                    "overflow-scroll": ScrollbarTag === "div"
+                style={{ width: isZoom ? 0 : null }}
+              // onMouseEnter={() => sidebarHover(false)}
+              // onMouseLeave={() => sidebarHover(true)}
+              >
+                <SidebarHeader />
+                <div
+                  className={classnames('main-menu-content', {
+                    // 'overflow-hidden': ScrollbarTag != 'div',
+                    // 'overflow-scroll': ScrollbarTag == 'div'
                   })}
-                  {...(ScrollbarTag !== "div" && {
+                  {...(ScrollbarTag != 'div' && {
                     options: { wheelPropagation: false },
-                    onScrollDown: container => scrollShadow(container, "down"),
-                    onScrollUp: container => scrollShadow(container, "up"),
+                    onScrollDown: (container) =>
+                      scrollShadow(container, 'down'),
+                    onScrollUp: (container) => scrollShadow(container, 'up'),
                     onYReachStart: () =>
                       menuShadow === true &&
                       this.setState({ menuShadow: false })
-                  })}>
+                  })}
+                >
                   <Hammer
                     onSwipe={() => {
-                      sidebarVisibility()
+                      sidebarVisibility();
                     }}
                     direction={
-                      dir === "rtl" ? "DIRECTION_RIGHT" : "DIRECTION_LEFT"
-                    }>
+                      dir === 'rtl' ? 'DIRECTION_RIGHT' : 'DIRECTION_LEFT'
+                    }
+                  >
                     <ul className="navigation navigation-main">
                       <SideMenuContent
                         setActiveIndex={this.changeActiveIndex}
@@ -203,26 +202,36 @@ class Sidebar extends Component {
                         lang={currentLang}
                         permission={permission}
                         currentUser={currentUser}
-                        collapsedMenuPaths={collapsedMenuPaths}
-                        toggleMenu={sidebarVisibility}
+                        collapsedMenuPaths={false}
+                        toggleMenu={false}
                         deviceWidth={this.props.deviceWidth}
+                        setLanguage={setLanguage}
                       />
                     </ul>
                   </Hammer>
-                </ScrollbarTag>
+                </div>
               </div>
             </React.Fragment>
-          )
+          );
         }}
       </ContextLayout.Consumer>
-    )
+    );
   }
 }
 
-const mapStateToProps = state => {
+const mapStateToProps = (state) => {
   return {
-    currentUser: state.auth.login.userRole
-  }
-}
+    currentUser: state.auth.login.userRole,
+    isZoom: state.customizer.customizer.zoom,
+    listCamLive: state.map.camsLive.listCamLive,
+    listPlayBackHls: state.live.listPlayBack
+  };
+};
 
-export default connect(mapStateToProps)(Sidebar)
+const mapDispatchToProps = (dispatch) => {
+  return bindActionCreators(
+    { removeAllCamLiveOnMap, resetMapObject, removeAllPlayBackHlsLive },
+    dispatch
+  );
+};
+export default connect(mapStateToProps, mapDispatchToProps)(Sidebar);

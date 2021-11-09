@@ -1,15 +1,21 @@
-import { createStore, applyMiddleware, compose } from "redux"
-import createDebounce from "redux-debounced"
-import thunk from "redux-thunk"
-import rootReducer from "../reducers/rootReducer"
+import { createStore, applyMiddleware, compose } from 'redux';
+import createDebounce from 'redux-debounced';
+import thunk from 'redux-thunk';
+import rootReducer from '../reducers/rootReducer';
+import createSagaMiddleware from '@redux-saga/core';
+import RootSaga from '../sagas/RootSaga';
 
-const middlewares = [thunk, createDebounce()]
+const middlewares = [thunk, createDebounce()];
 
-const composeEnhancers = window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || compose
+const sagaMiddleware = createSagaMiddleware();
+
+const composeEnhancers = window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || compose;
 const store = createStore(
   rootReducer,
   {},
-  composeEnhancers(applyMiddleware(...middlewares))
-)
+  composeEnhancers(applyMiddleware(...middlewares, sagaMiddleware))
+);
 
-export { store }
+sagaMiddleware.run(RootSaga);
+
+export { store };

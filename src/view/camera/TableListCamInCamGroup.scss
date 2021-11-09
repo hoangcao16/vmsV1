@@ -1,0 +1,135 @@
+@import "../../assets/scss/core/variables/vms-variable";
+@import "../../assets/scss/core/mixins/vms-mixins";
+
+//end: search
+
+//begin: table list user
+.table__list--cam-in-cam-group {
+  .ant-table {
+    // max-height: 60vh;
+    height: calc(132px + 5.5vh + 53.2vh);
+    background-color: $vms-bg-primary;
+    border-radius: 0 12px 0 0;
+    border: 1px solid rgba(234, 240, 247, 0.1);
+    // padding-bottom: 24px;
+    margin-top: 106px;
+
+    //begin: title table
+    .ant-table-title {
+      padding: 0;
+      h4 {
+        margin-bottom: 0;
+        font-size: 16px;
+        line-height: 28px;
+        margin: 16px 17px;
+      }
+
+      hr {
+        border: 1px solid rgba(234, 240, 247, 0.1);
+        margin: 16px 0;
+      }
+
+      .toolbar {
+        margin: 0 17px 20px 17px;
+
+        button {
+          line-height: 24px;
+          padding: 8px 16px;
+          height: 100%;
+          border-radius: 4px;
+          border: none;
+          background-color: $vms-main-blue-primary;
+          span {
+            color: #ffffff;
+          }
+        }
+
+        > div {
+          max-width: 272px;
+        }
+      }
+    }
+
+    //end: title table
+
+    //begin: head table
+    .ant-table-thead {
+      .ant-table-cell {
+        background-color: $vms-bg-sub;
+        height: 5.5vh;
+        padding: 0 8px;
+        color: $vms-soft-statuts;
+        border: none;
+
+        border-top: 1px solid rgba(234, 240, 247, 0.1);
+        border-bottom: 1px solid rgba(234, 240, 247, 0.1);
+        font-weight: 600;
+      }
+
+      .ant-table-cell:first-child {
+        padding-left: 8px;
+      }
+
+      .ant-table-cell:last-child {
+        padding: 0;
+        padding-right: 4px;
+        padding-left: 4px;
+        text-align: center;
+      }
+    }
+    .ant-table-tbody {
+      tr {
+        .ant-table-cell {
+          background-color: $vms-bg-primary;
+          // font-weight: 500;
+          padding: 0 0 0 8px;
+          color: $vms-status-07;
+          border-top: 1px solid rgba(234, 240, 247, 0.1);
+          border-bottom: 1px solid rgba(234, 240, 247, 0.1);
+          line-height: 24px;
+          height: 6.65vh;
+          span {
+            color: $vms-status-07;
+          }
+
+          .ant-typography-warning {
+            color: #faad14;
+          }
+
+          &:last-child {
+            span {
+              position: relative;
+              height: 24px;
+              width: 30px;
+
+              svg {
+                position: absolute;
+                top: 50%;
+                right: 50%;
+                transform: translate(50%, -50%);
+                color: $vms-status-07;
+              }
+            }
+          }
+        }
+      }
+
+      .ant-table-cell:last-child {
+        padding: 0;
+      }
+
+      tr:last-child {
+        border-bottom: 0;
+        border: none;
+      }
+    }
+
+    //end: head table
+  }
+  @include paginationDontShowTotal;
+  .ant-pagination {
+    border-bottom-left-radius: 0;
+  }
+}
+
+//end: table list user

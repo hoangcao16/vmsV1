@@ -308,6 +308,11 @@ class HorizontalSidebar extends React.Component {
                 target={item.newTab ? "_blank" : undefined}>
                 <span className="menu-icon align-middle mr-75">
                   {item.icon}
+                  {/*<Image*/}
+                  {/*    width={200}*/}
+                  {/*    src="https://zos.alipayobjects.com/rmsportal/jkjgkEfvpUPVyRjUImniVslZfWPnJuuZ.png"*/}
+                  {/*/>*/}
+                  {/*<img src="https://zos.alipayobjects.com/rmsportal/jkjgkEfvpUPVyRjUImniVslZfWPnJuuZ.png" alt=""/>*/}
                 </span>
                 <span className="menu-title align-middle">
                   <FormattedMessage

@@ -1,0 +1,799 @@
+@import "../core/variables/vms-variable.scss";
+@import "../core/variables/z-index";
+
+.map-filter-dropdown-list {
+  z-index: $zindex-map-filter-dropdown-list !important;
+}
+
+.map-wrapper {
+  .map__setting-map {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    .search-cam-item {
+      position: absolute;
+      top: 20px;
+      right: 300px;
+      z-index: 100;
+      left: calc(50% + 10.1rem) !important;
+      transform: translateX(-50%);
+      width: 40px;
+      height: 40px;
+      transition: 0.5s;
+      background:#d0e5ff;
+      & .list-data-search {
+        transition: 0.5s;
+        margin-top: 2px;
+        width: calc(100% - 40px);        
+        opacity: 0 ;
+        visibility: hidden;        
+        ul {
+          list-style-type: none;
+          li {
+            padding: 5px 10px;
+            border-bottom: 1px solid #d9d9d9;
+            cursor: pointer;  
+            &:hover {
+              background: #1380ff;
+              color: #fff;
+            }
+          }
+        }
+        background: white;
+      }
+      & .search-box  {
+        display: flex;
+        .search-icon {
+          width: 40px;
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          font-size: 24px;
+          color: black;
+          cursor: pointer;
+        }
+        .input-box {
+          position: relative;
+          width: calc(100% - 40px);
+          height: 40px;
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          & input {
+            position: absolute;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            font-size: 14px;
+            border: none;
+            outline: none;
+          }
+        }
+      }
+      &.active {
+        width: 235px;
+        left: calc(50% + 20rem) !important;
+        & .list-data-search {
+          opacity: 1 ;
+          visibility: visible;
+        }
+      }
+    }
+  }
+  .mode-container {
+    width: 400px;
+    position: absolute;
+    display: flex;
+    bottom: 0;
+    left: 40%;
+
+    & .live-playback-containner,
+    & .playbackDateTime {
+      display: flex;
+    }
+  }
+
+  .view-map-offline {
+    .mapboxql-control-popup {
+      .mapboxgl-popup-content {
+        padding: 0 !important;
+        border-radius: 8px;
+
+        .video-js {
+          border-radius: 8px;
+        }
+      }
+
+      max-width: fit-content !important;
+
+      .mapboxgl-popup-tip {
+        border-bottom-color: #414561;
+      }
+    }
+
+    .control-popup-content {
+      .mapboxgl-popup-tip {
+        border-right-color: #191919;
+        border-bottom-color: transparent !important;
+      }
+    }
+
+    .mapboxgl-control-container {
+      .mapboxgl-ctrl-bottom-right {
+        background-color: transparent;
+        box-shadow: none;
+        right: 244px;
+
+        .mapboxgl-ctrl-group {
+          display: flex;
+          background-color: transparent;
+          box-shadow: none;
+          flex-direction: row-reverse;
+
+          button {
+            width: 40px;
+            height: 40px;
+            background: #d0e5ff;
+            box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
+            border-radius: 4px;
+          }
+
+          .mapboxgl-ctrl-zoom-out {
+            margin-right: 12px;
+          }
+        }
+      }
+    }
+  }
+
+  .btn-active {
+    background: #1380ff;
+    color: #fff;
+  }
+
+  .ant-form-item {
+    margin-bottom: 1rem;
+  }
+
+  .map__edit-mode {
+    left: calc(50% + 44px);
+    border-right: 1px solid #d9d9d9;
+
+    & > .mapboxgl-popup-content {
+      border-radius: 8px;
+    }
+  }
+
+  .toggle-collapse {
+    position: absolute;
+    width: 16px;
+    height: 60px;
+    top: 76px;
+    content: "";
+    background-image: url(../../img/vms/collapse-icon1.png);
+    background-position: center;
+    z-index: $zindex-map-toggle-collapse;
+
+    &:before {
+      content: "";
+      width: 10px;
+      height: 14px;
+      background-image: url(../../img/vms/collaspe-arrow.png);
+      background-position: center;
+      display: block;
+      top: 50%;
+      transform: translateY(-50%);
+      position: absolute;
+    }
+  }
+
+  .camera-form {
+    top: 0;
+    left: 0;
+    bottom: 0;
+    width: 344px;
+    box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
+    z-index: $zindex-map-cam-form;
+    padding: 10px;
+    transition: all 0.5s;
+    background: $vms-black;
+
+    &-inner {
+      overflow-y: auto;
+      overflow-x: hidden;
+
+      .camera-image {
+      }
+    }
+
+    &.collapsed {
+      transform: translateX(-344px);
+
+      .toggle-collapse {
+        &:before {
+          transform: scale(-1) translateY(50%);
+        }
+      }
+    }
+
+    .toggle-collapse {
+      right: -15px;
+      filter: drop-shadow(0px 4px 4px rgba(0, 0, 0, 0.25));
+    }
+  }
+
+  .ant-input-disabled {
+    background-color: #333333 !important;
+  }
+
+  .camera-live {
+    &__save {
+      margin: 10px auto;
+    }
+
+    top: 0;
+    left: 0;
+    bottom: 0;
+    width: 344px;
+    background: $vms-black;
+    box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
+    z-index: $zindex-map-cam-live;
+    padding: 10px;
+    transition: all 0.5s;
+    justify-content: center;
+
+    &-inner {
+      overflow-y: auto;
+      overflow-x: hidden;
+
+      .camera-image {
+      }
+    }
+
+    &.collapsed {
+      transform: translateX(-344px) translateY(6rem);
+
+      .toggle-collapse {
+        &:before {
+          transform: scale(-1) translateY(50%);
+        }
+      }
+    }
+
+    .toggle-collapse {
+      right: -15px;
+      filter: drop-shadow(0px 4px 4px rgba(0, 0, 0, 0.25));
+    }
+  }
+
+  .right-sidebar-map {
+    .card-cam__item__content {
+      max-width: 80% !important;
+    }
+  }
+
+  .card-cam__item {
+    margin-bottom: 2px;
+
+    &.active {
+      background: rgba(234, 240, 247, 0.1);
+    }
+
+    &__control {
+      margin-left: 10px;
+    }
+  }
+
+  .camera-list {
+    top: 0;
+    right: 0;
+    bottom: 0;
+    width: 18.4vw;
+    height: calc(100vh);
+    background-color: $vms-black;
+    z-index: $zindex-map-cam-list;
+    padding: 10px;
+    transition: all 0.5s;
+    &__filter-box {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+    .camera-list__header {
+      h5 {
+        display: flex;
+        align-items: center;
+        font-size: 16px;
+        font-weight: 600;
+
+        .icon-camera-list {
+          width: 2rem;
+          height: 2rem;
+        }
+      }
+    }
+
+    .search-input {
+      .search-input__item {
+        background-color: $vms-bg-sub;
+        input::placeholder {
+          color: $vms-status-05;
+        }
+        .anticon-search {
+          height: 2rem;
+          width: 2rem;
+          svg {
+            font-size: 2rem;
+            color: $vms-soft-statuts;
+          }
+        }
+      }
+      .search-input__filter {
+        width: 4rem;
+        height: 4rem;
+        border: $vms-border-gray;
+        border-radius: 8px;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        .anticon-filter {
+          font-size: 2rem;
+          svg {
+            color: $vms-soft-statuts;
+          }
+        }
+        &:hover {
+          background-color: $vms-main-blue-primary;
+        }
+      }
+    }
+
+    &__page-number {
+      color: $vms-white;
+    }
+
+    &__page-icon {
+      font-size: 1.4rem;
+      font-weight: bold;
+    }
+
+    ul {
+      & > li {
+        width: 100%;
+        height: 36px;
+      }
+      background-color: $vms-bg-sub;
+      border-radius: 8px;
+    }
+
+    &__cam {
+      display: flex;
+      align-items: center;
+      width: 100%;
+      color: $vms-white;
+
+      .bg-secondary {
+        background-color: #ea5455 !important;
+      }
+
+      .bg-success {
+        background-color: #28c76f !important;
+      }
+
+      &__text:hover {
+        color: $primary;
+        cursor: pointer;
+      }
+
+      &__text {
+        display: inline-block;
+        max-width: 90%;
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        margin-right: 5px;
+      }
+    }
+
+    .toggle-collapse {
+      left: -14px;
+      transform: scale(-1);
+    }
+
+    &.collapsed {
+      transform: translateX(18.4vw);
+
+      .toggle-collapse {
+        &:before {
+          transform: scale(-1) translateY(50%);
+        }
+      }
+    }
+
+    .camera-status {
+      min-width: 10px;
+      height: 10px;
+      margin-right: 5px;
+    }
+
+    .pagination-wrapper {
+      align-items: center;
+      .change__page {
+        height: 2rem;
+        display: flex;
+        align-items: center;
+        .camera-list__page-icon {
+          width: 100%;
+          height: 100%;
+          display: flex;
+          align-items: center;
+          svg {
+            font-size: 2rem;
+            color: $vms-soft-statuts;
+            &:hover {
+              color: $vms-main-blue-primary;
+            }
+          }
+        }
+      }
+
+      input {
+        width: 40px;
+      }
+    }
+
+    &__header {
+      display: flex;
+      align-items: center;
+
+      & h5 {
+        color: $primary;
+        font-size: 16px;
+        font-weight: 600;
+      }
+    }
+
+    &__search {
+      width: 178px;
+      height: 36px;
+      border-radius: 4px;
+      background-color: $vms-gray;
+
+      & input {
+        padding: 10px 8px;
+        background-color: $vms-gray;
+        color: $vms-white;
+      }
+    }
+
+    &__filter-box {
+      color: $vms-blue;
+      background-color: $vms-gray;
+      width: 36px;
+      height: 36px;
+      border-radius: 4px;
+      padding: 9px;
+    }
+
+    &__filter-icon {
+      font-size: 18px;
+    }
+  }
+
+  .camera-filter {
+    top: 0;
+    right: 0;
+    bottom: 0;
+    width: 244px;
+    z-index: $zindex-map-cam-filter;
+    padding: 10px;
+    transition: all 0.5s;
+    transform: translateX(280px);
+    background-color: $vms-black;
+
+    &.open {
+      transform: translateX(0);
+    }
+
+    & > .ant-form-item-control {
+      background-color: $vms-gray;
+    }
+  }
+}
+
+.mapboxgl-popup-content {
+  height: auto;
+  background-color: $vms-gray;
+  color: $vms-white;
+  padding: 0;
+
+  .control-item {
+    & > a > span {
+      display: inline-block;
+      margin-left: 10px;
+    }
+  }
+
+  .camera-control {
+    margin: 0px 20px 0px 20px;
+
+    &:not(:first-child) {
+      border-top: 1px solid $vms-white1;
+    }
+
+    & a {
+      display: flex;
+      justify-content: start;
+      align-items: center;
+      padding: 16px 0px;
+    }
+
+    & > a .anticon-plus-circle {
+      color: $primary;
+      font-size: 14px;
+      margin-right: 10px;
+
+      & span {
+        font-size: 16px;
+      }
+    }
+  }
+}
+
+.camera-popup {
+  transition: 0.25s linear;
+}
+
+.map-popup-node {
+  .camera-info {
+    height: auto;
+    width: 310px;
+    padding-bottom: 0 !important;
+
+    &__detail {
+      list-style-type: none;
+      padding: 0rem 1rem 0rem 1rem !important;
+      height: 100%;
+      margin-bottom: 0 !important;
+    }
+
+    &__header {
+      &--loading {
+        top: 50%;
+        position: absolute;
+        z-index: $zindex-map-popup-info-loading;
+        width: 100%;
+        height: 100%;
+      }
+
+      &__title {
+        padding: 1rem 1rem;
+        line-height: inherit;
+      }
+
+      height: 49%;
+
+      &-action {
+        // width: 100px;
+        .icon-item {
+          &:hover {
+            background-color: #1380ff;
+          }
+
+          &:hover * {
+            fill: white;
+            stroke: white;
+          }
+
+          width: 24px;
+          height: 24px;
+          text-align: center;
+          /* background-color: red; */
+          background: #fafcff;
+          opacity: 0.5;
+          border-radius: 4px;
+          line-height: 24px;
+          display: inline-block;
+
+          &:not(:last-child) {
+            margin-right: 8px;
+          }
+
+          &__pin {
+            display: none;
+          }
+        }
+      }
+    }
+  }
+}
+
+.camera-info {
+  border-radius: 2rem;
+  width: 25rem;
+  height: 35rem;
+  padding-bottom: 1rem;
+
+  &__header {
+    position: relative;
+    height: 70%;
+
+    & img {
+      width: 100%;
+      height: 100%;
+      object-fit: fill;
+    }
+
+    &-action {
+      position: absolute;
+      top: 5px;
+      right: 10px;
+      cursor: pointer;
+    }
+  }
+
+  &__icon {
+    // font-size: 2rem;
+    color: white;
+    display: inline-block;
+
+    &--black {
+      color: black;
+    }
+  }
+
+  &__title {
+    padding: 1rem 1rem;
+    background-color: #6c757d1f;
+    display: inline-block;
+    width: 100%;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+
+  &__detail {
+    list-style-type: none;
+    padding: 0rem 1rem 1rem 1rem;
+    height: 100%;
+
+    & li {
+      font-size: 1.2rem;
+      font-weight: 150;
+      padding-bottom: 1rem;
+      display: flex;
+      align-items: center;
+    }
+
+    &-desc {
+      font-style: normal;
+      display: inline-block;
+      font-weight: 500;
+      font-size: 12px;
+      line-height: 20px;
+      margin-left: 10px;
+      color: #d0e5ff;
+      opacity: 0.7;
+    }
+
+    &--phone,
+    &--adminis,
+    &--venderName {
+      margin-left: 24px;
+    }
+  }
+}
+
+.map__live-card-full {
+  width: auto !important;
+  position: fixed !important;
+  left: 80px;
+  right: 0;
+  top: 0;
+  bottom: 0;
+  height: 100vh !important;
+  z-index: $zindex-map-live-card-full;
+
+  .cam-toolbar__control {
+    right: 15px;
+  }
+}
+
+.map__live-slot {
+  &--selected {
+    border: 1px solid yellow;
+  }
+
+  &:hover .cam-toolbar__control {
+    display: block;
+  }
+
+  width: 100%;
+  padding-bottom: 0.2rem;
+  height: calc(((100vh - 39px) / 4) - 0.2rem);
+  padding-left: 0;
+  padding-right: 0;
+  object-fit: cover;
+  position: relative;
+
+  .ant-spin-nested-loading {
+    height: 100%;
+
+    .ant-spin-container {
+      height: 100%;
+    }
+  }
+
+  .cam-toolbar__control {
+    display: block;
+    position: absolute;
+    top: 10px;
+    z-index: $zindex-toolbar-control-cam;
+    right: 8px;
+
+    &__item {
+      &:hover {
+        background-color: #1380ff;
+      }
+
+      &__icon:hover * {
+        fill: white;
+        stroke: white;
+      }
+
+      background: #fcfeff;
+      opacity: 0.6;
+      border-radius: 4px;
+    }
+  }
+
+  & video {
+    object-fit: fill !important;
+  }
+
+  &-cam {
+    color: white;
+    position: absolute;
+    display: inline-block;
+  }
+
+  &-not-permission {
+    top: 63%;
+    width: 100%;
+    padding: 10px;
+    text-align: center;
+  }
+
+  &-cam-name {
+    left: 8px;
+    color: #002045 !important;
+    background: rgba(252, 254, 255, 0.8);
+    border-radius: 2px;
+    height: 18px;
+    line-height: 18px;
+    padding: 0 6px;
+    bottom: 8px;
+  }
+}
+
+.camera-form-inner {
+  & .ant-row {
+    margin-top: 8px;
+  }
+
+  & .submit {
+    margin-top: 32px;
+
+    &__button {
+      width: 92px;
+      height: 34px;
+      border-radius: 4px;
+      color: $vms-white;
+
+      &--cancel {
+        border-radius: 1px solid $primary;
+        color: $primary;
+      }
+    }
+  }
+}

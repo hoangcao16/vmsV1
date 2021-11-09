@@ -1,0 +1,228 @@
+@import "../../assets/scss/core/variables/vms-variable";
+@import "../../assets/scss/core/mixins/vms-mixins";
+
+
+
+.ant-list {
+  margin-top: 20px;
+  border: 1px solid rgba(234, 240, 247, 0.1);
+  border-radius: 12px;
+
+  .ant-list-header {
+    background-color: $vms-bg-sub;
+    border-radius: 12px 12px 0 0;
+    padding: 16px;
+    border-bottom: 1px solid rgba(234, 240, 247, 0.1);
+
+    >div {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+
+      .total-camera {
+        color: $vms-main-blue-primary;
+        font-size: 12px !important;
+        text-transform: uppercase;
+
+        span {
+          color: $vms-status;
+          font-size: 16px;
+          margin: 0 8px;
+        }
+      }
+
+      h4 {
+        line-height: 40px;
+        margin: 0;
+        font-size: 18px;
+        color: $vms-soft-statuts;
+      }
+
+      button {
+        width: 40px;
+        height: 40px;
+        padding: 0;
+        background-color: $vms-main-blue-primary;
+        border: none;
+        margin-right: 10px !important;
+
+        span {
+          justify-content: center !important;
+
+          svg {
+            font-size: 22px;
+          }
+        }
+      }
+    }
+  }
+
+  .ant-list-item {
+    padding: 16px;
+    padding-right: 140px;
+    border-bottom: 1px solid rgba(234, 240, 247, 0.1);
+
+    .camera__detail {
+      width: 100%;
+
+      .camera__header {
+        position: relative;
+        margin-bottom: 8px;
+
+        h4 {
+          font-size: 20px;
+          line-height: 28px;
+          margin-bottom: 0;
+        }
+
+        .ant-space {
+          position: absolute;
+          right: -120px;
+          top: 0;
+          display: flex;
+
+          // flex-direction: column-reverse;
+          span {
+            border: 1px solid $vms-main-blue-primary;
+            border-radius: 4px;
+
+            svg {
+              padding: 4px;
+              color: $vms-main-blue-primary;
+              font-size: 20px;
+            }
+          }
+        }
+      }
+
+      .camera__infor {
+        ul {
+          list-style: none;
+        }
+
+        .camera__infor--fisrt,
+        .camera__infor--second,
+        .camera__infor--third,
+        .camera__infor--forth {
+          margin-left: 34px;
+          display: flex;
+          justify-content: space-between;
+          color: $vms-status-07;
+          width: 100%;
+
+          // max-width: 275px
+          li {
+            width: 20vw;
+            // flex: 1;
+            position: relative;
+
+            &::before {
+              content: "";
+              color: $vms-soft-statuts;
+              display: inline;
+              font-weight: bold;
+              position: absolute;
+              left: -34px;
+              top: 4px;
+            }
+          }
+        }
+
+        .camera__infor--fisrt {
+          margin-bottom: 8px;
+
+          li:first-child {
+            margin-left: -34px;
+          }
+
+          li {
+            .ant-tag {
+              background-color: $vms-bg-sub;
+              border-radius: 20px;
+              border: none;
+              margin-bottom: 4px;
+            }
+
+            &::before {
+              content: "";
+            }
+          }
+        }
+
+        li.camera--cameraUrl::before {
+          background: transparent url("../../assets/img/icons/camera-list/cameraUrl.png") no-repeat center;
+          background-size: contain;
+          width: 14px;
+          height: 14px;
+        }
+
+        li.camera--active::before {
+          background: transparent url("../../assets/img/icons/camera-list/active.png") no-repeat center;
+          background-size: contain;
+          width: 16px;
+          height: 16px;
+          left: -35px;
+        }
+
+        li.camera--long-lat::before {
+          background: transparent url("../../assets/img/icons/camera-list/long-lat.png") no-repeat center;
+          background-size: contain;
+          width: 14px;
+          height: 14px;
+        }
+
+        li.camera--resolution::before {
+          background: transparent url("../../assets/img/icons/camera-list/resolution.png") no-repeat center;
+          background-size: contain;
+          width: 14px;
+          height: 14px;
+        }
+
+        li.camera--address::before {
+          background: transparent url("../../assets/img/icons/camera-list/address.png") no-repeat center;
+          background-size: contain;
+          width: 14px;
+          height: 14px;
+        }
+
+        li.camera--IP::before {
+          background: transparent url("../../assets/img/icons/camera-list/IP.png") no-repeat center;
+          background-size: contain;
+          width: 14px;
+          height: 14px;
+        }
+
+        li.camera--zoneName::before {
+          background: transparent url("../../assets/img/icons/camera-list/zoneName.png") no-repeat center;
+          background-size: contain;
+          width: 14px;
+          height: 14px;
+        }
+      }
+    }
+  }
+
+  .other {
+    background-color:  $vms-bg-sub ;
+  }
+}
+
+.btn--submit{
+  text-align: center;
+  // margin: 24px;
+  button {
+      background-color: $vms-main-blue-primary;
+      border: none;
+      border-radius: 4px;
+      padding: 8px 16px;
+      height: 100%;
+      span {
+          color: $vms-soft-statuts;
+          line-height: 24px;
+
+      }
+      &:hover{
+          box-shadow: 0 0 8px 0 $vms-main-blue-primary;
+      }
+  }
+}

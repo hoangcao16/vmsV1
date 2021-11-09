@@ -1,0 +1,74 @@
+@import "../../../assets/scss/core/variables/vms-variable";
+
+.modal--detail-zone {
+  width: 32vw;
+  top: 56px !important;
+
+  .ant-modal-content {
+    border-radius: 20px !important;
+
+    button.ant-modal-close {
+      top: 15px;
+    }
+
+    .ant-modal-header {
+      padding-top: 24px;
+      padding-bottom: 16px;
+      background-color: $vms-bg-primary;
+      border: 0;
+
+      .ant-modal-title {
+        padding-top: 0;
+        color: $vms-status;
+        background-color: $vms-bg-primary;
+        text-align: center;
+      }
+    }
+
+    .ant-modal-body {
+      background-color: $vms-bg-primary;
+      padding: 0 32px 1px 32px;
+      border-radius: 0 0 12px 12px;
+      justify-content: space-between;
+
+      .row--submit {
+        display: flex;
+        justify-content: center;
+
+        .submit {
+          margin-top: 16px;
+          margin-bottom: 24px;
+          button {
+            height: 40px;
+            background-color: $vms-main-blue-primary;
+            padding: 8px 24px;
+            border-radius: 4px;
+            border: none;
+            span {
+              color: $vms-soft-statuts;
+            }
+          }
+        }
+      }
+
+      .ant-typography {
+        & > p:first-child {
+          color: $vms-soft-statuts;
+          margin-bottom: 4px;
+        }
+
+        & > p:last-child {
+          color: $vms-status-07;
+        }
+      }
+    }
+
+    label {
+      font-weight: 500;
+      color: $vms-status;
+      line-height: 24px;
+      height: 28px;
+      margin-top: 14px;
+    }
+  }
+}

@@ -1,0 +1,424 @@
+@import "../../assets/scss/core/variables/vms-variable";
+@import "../../assets/scss/core/mixins/vms-mixins";
+
+.Camera {
+  .table--camera__container {
+    //begin: search
+    margin-top: 24px !important;
+    width: 100%;
+
+    .ant-col:first-child {
+      padding-right: 0 !important;
+
+      .selected__user--by .ant-select-selector {
+        background-color: $vms-bg-sub !important;
+        border-radius: 8px 0 0 8px;
+        border-right: none !important;
+
+        .ant-select-selection-search input {
+          width: 100%;
+        }
+
+        .ant-select-selection-search input:hover {
+          cursor: default;
+        }
+
+        .ant-select-arrow:hover {
+          cursor: default;
+        }
+
+        input {
+          color: $vms-soft-statuts !important;
+        }
+      }
+
+      .selected__user--by:hover {
+        cursor: pointer !important;
+      }
+    }
+
+    .ant-col:last-child {
+      padding-left: 0 !important;
+
+      .search--user .ant-form-item-control-input {
+        border-radius: 0 8px 8px 0;
+
+        .ant-select-selector {
+          background-color: $vms-bg-sub !important;
+          border-radius: 0 8px 8px 0;
+
+          .ant-form-item-control-input {
+            border-left: none !important;
+          }
+        }
+      }
+    }
+  }
+
+  // border-radius: 0 12px 12px 12px !important;
+  .search__bar {
+    justify-content: space-between;
+    margin-bottom: 24px;
+    margin-top: 24px;
+
+    .ant-select-selection-placeholder {
+      position: relative;
+
+      span:last-child {
+        color: $vms-status-05;
+      }
+
+      .anticon {
+        position: absolute;
+        top: 50%;
+        right: 0;
+        transform: translateY(-50%);
+      }
+    }
+
+    button {
+      background-color: $vms-main-blue-primary;
+      border: none;
+
+      span {
+        color: $vms-soft-statuts;
+        font-weight: 500;
+      }
+    }
+  }
+
+  .search-filter {
+    display: flex;
+    margin-bottom: 24px;
+    height: 48px;
+    align-items: center;
+
+    .selected__user--by {
+      height: 100%;
+      width: 11.5vw;
+
+      .ant-select-selector {
+        border-right: 0 !important;
+        border-radius: 8px 0 0 8px;
+        padding-left: 16px;
+        outline: none;
+
+        input {
+          height: 48px !important;
+        }
+
+        .ant-select-selection-item {
+          line-height: 48px;
+          color: $vms-status-05;
+        }
+      }
+    }
+
+    .searchData {
+      flex: 1;
+      height: 100%;
+      width: 50vh;
+
+      .ant-form-item {
+        height: 100%;
+
+        .ant-form-item-control-input {
+          height: 100%;
+
+          .ant-select {
+            height: 100%;
+
+            .ant-select-selector {
+              height: 48px;
+              border-left: none;
+              border-right: none;
+              border-radius: 0;
+
+              input {
+                height: 48px !important;
+              }
+
+              .ant-select-selection-placeholder {
+                line-height: 48px;
+
+                .placeholder {
+                  display: flex;
+                  justify-content: space-between;
+                  align-items: center;
+                }
+
+                .anticon {
+                  svg {
+                    font-size: 24px;
+                    color: $vms-status;
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+
+    .filter-advance {
+      height: 100%;
+      width: 48px;
+      border-radius: 0 8px 8px 0;
+      background-color: $vms-bg-sub;
+      border: 1px solid rgba(234, 240, 247, 0.1);
+      border-left: 0;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+
+      .anticon {
+        svg {
+          font-size: 24px;
+          color: $vms-status;
+        }
+      }
+    }
+  }
+
+  .ant-list {
+    border: 1px solid rgba(234, 240, 247, 0.1);
+    border-radius: 12px;
+
+    .ant-list-header {
+      background-color: $vms-bg-sub;
+      border-radius: 12px 12px 0 0;
+      padding: 16px;
+      border-bottom: 1px solid rgba(234, 240, 247, 0.1);
+
+      >div {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+
+        .total-camera {
+          color: $vms-main-blue-primary;
+          font-size: 12px !important;
+          text-transform: uppercase;
+
+          span {
+            color: $vms-status;
+            font-size: 16px;
+            margin: 0 8px;
+          }
+        }
+
+        h4 {
+          line-height: 40px;
+          margin: 0;
+          font-size: 18px;
+          color: $vms-soft-statuts;
+        }
+
+        button {
+          width: 40px;
+          height: 40px;
+          padding: 0;
+          background-color: $vms-main-blue-primary;
+          border: none;
+          margin-right: 10px !important;
+
+          span {
+            justify-content: center !important;
+
+            svg {
+              color: $vms-status;
+              font-size: 22px;
+            }
+          }
+        }
+      }
+    }
+
+    .ant-list-item {
+      padding: 16px;
+      padding-right: 140px;
+      border-bottom: 1px solid rgba(234, 240, 247, 0.1);
+
+      .camera__detail {
+        width: 100%;
+
+        .camera__header {
+          position: relative;
+          margin-bottom: 8px;
+
+          h4 {
+            font-size: 20px;
+            line-height: 28px;
+            margin-bottom: 0;
+          }
+
+          .ant-space {
+            position: absolute;
+            right: -120px;
+            top: 0;
+            display: flex;
+
+            // flex-direction: column-reverse;
+            span {
+              border: 1px solid $vms-main-blue-primary;
+              border-radius: 4px;
+
+              svg {
+                padding: 4px;
+                color: $vms-main-blue-primary;
+                font-size: 20px;
+              }
+            }
+          }
+        }
+
+        .camera__infor {
+          ul {
+            list-style: none;
+          }
+
+          .camera__infor--fisrt,
+          .camera__infor--second,
+          .camera__infor--third,
+          .camera__infor--forth {
+            margin-left: 34px;
+            display: flex;
+            justify-content: space-between;
+            color: $vms-status-07;
+            width: 100%;
+
+            // max-width: 275px
+            li {
+              width: 20vw;
+              // flex: 1;
+              position: relative;
+
+              &::before {
+                content: "";
+                color: $vms-soft-statuts;
+                display: inline;
+                font-weight: bold;
+                position: absolute;
+                left: -34px;
+                top: 4px;
+              }
+            }
+          }
+
+          .camera__infor--fisrt {
+            margin-bottom: 8px;
+
+            li:first-child {
+              margin-left: -34px;
+            }
+
+            li {
+              .ant-tag {
+                background-color: $vms-bg-sub;
+                border-radius: 20px;
+                border: none;
+                margin-bottom: 4px;
+              }
+
+              &::before {
+                content: "";
+              }
+            }
+          }
+
+          li.camera--cameraUrl::before {
+            background: transparent url("../../assets/img/icons/camera-list/cameraUrl.png") no-repeat center;
+            background-size: contain;
+            width: 14px;
+            height: 14px;
+          }
+
+          li.camera--active::before {
+            background: transparent url("../../assets/img/icons/camera-list/active.png") no-repeat center;
+            background-size: contain;
+            width: 16px;
+            height: 16px;
+            left: -35px;
+          }
+
+          li.camera--long-lat::before {
+            background: transparent url("../../assets/img/icons/camera-list/long-lat.png") no-repeat center;
+            background-size: contain;
+            width: 14px;
+            height: 14px;
+          }
+
+          li.camera--resolution::before {
+            background: transparent url("../../assets/img/icons/camera-list/resolution.png") no-repeat center;
+            background-size: contain;
+            width: 14px;
+            height: 14px;
+          }
+
+          li.camera--address::before {
+            background: transparent url("../../assets/img/icons/camera-list/address.png") no-repeat center;
+            background-size: contain;
+            width: 14px;
+            height: 14px;
+          }
+
+          li.camera--IP::before {
+            background: transparent url("../../assets/img/icons/camera-list/IP.png") no-repeat center;
+            background-size: contain;
+            width: 14px;
+            height: 14px;
+          }
+
+          li.camera--zoneName::before {
+            background: transparent url("../../assets/img/icons/camera-list/zoneName.png") no-repeat center;
+            background-size: contain;
+            width: 14px;
+            height: 14px;
+          }
+        }
+      }
+    }
+  }
+}
+
+@include modalBase;
+
+.modal__filter-advance {
+  width: 42.8vw !important;
+
+  .ant-modal-body {
+    form {
+      .ant-row {
+        &>div {
+          padding: 0 !important;
+
+          .ant-select-selection-placeholder {
+            color: $vms-status-05;
+          }
+        }
+
+        &>div:nth-child(1) {
+          padding-right: 24px !important;
+        }
+
+        &>div:nth-child(3) {
+          padding-left: 24px !important;
+        }
+
+        &>div:nth-child(4),
+        &>div:nth-child(6) {
+          padding-right: 12px !important;
+        }
+
+        &>div:nth-child(5),
+        &>div:nth-child(7) {
+          padding-left: 12px !important;
+        }
+      }
+    }
+
+    .btn--submit {
+      margin: 24px 0 0 0 !important;
+    }
+  }
+}

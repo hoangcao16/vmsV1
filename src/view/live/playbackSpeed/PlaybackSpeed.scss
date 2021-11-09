@@ -1,0 +1,14 @@
+.speed {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-left: auto;
+
+
+  &__title {
+    font-size: 16px;
+    line-height: 28px;
+    font-weight: 500;
+    color: #FCFEFF;
+  }
+}

@@ -1,0 +1,9 @@
+th.ant-table-cell.headerColums {
+  background-color: #EAE9F0 !important;
+  height: 40px !important;
+}
+
+[dir=ltr] .ant-table-thead>tr>th:not(:last-child):not(.ant-table-selection-column):not(.ant-table-row-expand-icon-cell):not([colspan])::before {
+  right: 0;
+  display: none !important;
+}

@@ -1,6 +1,5 @@
 .breadcrumb {
   font-size: $font-size-base;
-  font-family: $font-family-monospace;
   background-color: transparent;
   padding: 0.5rem 0 0.5rem $breadcrumb-padding-x !important;
   border-radius: 0;
@@ -16,7 +15,6 @@
     padding-left: 0;
     &:before {
       content: "\e847";
-      font-family: "feather";
       color: $body-color;
     }
   }
@@ -76,7 +74,6 @@
   .breadcrumb-chevron {
     .breadcrumb-item + .breadcrumb-item:before {
       content: "\e844";
-      font-family: "feather";
       position: relative;
       top: 1px;
     }

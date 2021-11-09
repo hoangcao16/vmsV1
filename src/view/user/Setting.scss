@@ -1,0 +1,81 @@
+@import '../../assets/scss/core/variables/vms-variable';
+
+.content {
+  background-color: $vms-bg-primary !important;
+
+  .card-body {
+    padding: 0 !important;
+  }
+}
+
+.nav-vertical {
+  //   display: flex;
+  //   position: relative;
+  .setting-subtabs {
+    // flex: 1;
+    position: fixed;
+    bottom: -1vh;
+    // height: calc(100vh);
+    margin-bottom: 0 !important;
+    display: flex !important;
+    flex-direction: column;
+    justify-content: flex-end;
+    padding-bottom: 10vh;
+    width: 170px;
+    margin-right: 0 !important;
+    li {
+      a {
+        padding: 4px 9px !important;
+        width: 172px;
+        display: inline-block;
+
+        span {
+          margin-left: 0 !important;
+          line-height: 24px;
+          color: $vms-soft-statuts;
+          font-weight: 500;
+        }
+      }
+      &:last-child {
+        span {
+          padding: 4px 9px !important;
+          width: 170px;
+          display: inline-block;
+
+          margin-left: 0 !important;
+          line-height: 24px;
+          color: $vms-soft-statuts;
+          font-weight: 500;
+        }
+      }
+    }
+
+    .active {
+      border-right: 2px solid $vms-main-blue-primary !important;
+      span {
+        color: $vms-main-blue-primary;
+      }
+    }
+  }
+
+  .content {
+    // flex: 5;
+    margin-left: 16vw;
+    .card-body {
+      width: 100%;
+
+      .tab-content {
+        background-color: $vms-bg-primary;
+        width: 79%;
+      }
+    }
+  }
+}
+
+span.d-md-inline-block.d-none.align-middle.ml-1.active {
+  color: red;
+}
+
+.curson {
+  cursor: pointer;
+}

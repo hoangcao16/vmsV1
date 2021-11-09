@@ -1,0 +1,50 @@
+@import "../../../assets/scss/core/variables/vms-variable";
+.preset--setting {
+  overflow: hidden;
+  .ant-modal {
+    width: calc(100vw - 80px) !important;
+    left: 80px;
+    height: 100vh;
+    top: 0;
+    margin: 0;
+    .ant-modal-content {
+      width: 100%;
+      .ant-modal-close {
+        height: 63px;
+        right: 10px;
+        .ant-modal-close-x {
+          display: flex;
+          justify-content: center;
+          align-items: center;
+          .anticon {
+            background-color: $vms-status-07;
+            border-radius: 50%;
+            height: 32px;
+            width: 32px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            svg {
+              color: $vms-bg-primary;
+              font-size: 18px;
+            }
+          }
+        }
+      }
+      .ant-modal-header {
+        padding: 20px 24px;
+        background-color: $vms-bg-primary;
+        border-bottom: 0;
+        .ant-modal-title {
+          color: $vms-soft-statuts;
+          background-color: $vms-bg-primary;
+          padding: 0;
+        }
+      }
+
+      .ant-modal-body {
+        padding: 0;
+      }
+    }
+  }
+}

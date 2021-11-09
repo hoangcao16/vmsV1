@@ -1,48 +1,32 @@
-import React, { Component } from "react"
-import {
-  Button,
-  Progress,
-  UncontrolledDropdown,
-  DropdownMenu,
-  DropdownToggle,
-  DropdownItem,
-  Input
-} from "reactstrap"
-import DataTable from "react-data-table-component"
 import classnames from "classnames"
-import ReactPaginate from "react-paginate"
-import { history } from "../../../history"
+import React, { Component } from "react"
+import DataTable from "react-data-table-component"
 import {
-  Edit,
-  Trash,
-  ChevronDown,
-  Plus,
-  Check,
-  ChevronLeft,
-  ChevronRight
+  Check, ChevronDown, ChevronLeft,
+  ChevronRight, Edit, Plus, Trash
 } from "react-feather"
+import ReactPaginate from "react-paginate"
 import { connect } from "react-redux"
 import {
-  getData,
-  getInitialData,
-  deleteData,
-  updateData,
-  addData,
-  filterData
+  Button, DropdownItem, DropdownMenu,
+  DropdownToggle, Input, UncontrolledDropdown
+} from "reactstrap"
+import "../../../assets/scss/pages/data-list.scss"
+import "../../../assets/scss/plugins/extensions/react-paginate.scss"
+import Checkbox from "../../../components/@vuexy/checkbox/CheckboxesVuexy"
+import { history } from "../../../history"
+import {
+  addData, deleteData, filterData, getData,
+  getInitialData, updateData
 } from "../../../redux/actions/data-list/"
 import Sidebar from "./DataListSidebar"
-import Chip from "../../../components/@vuexy/chips/ChipComponent"
-import Checkbox from "../../../components/@vuexy/checkbox/CheckboxesVuexy"
 
-import "../../../assets/scss/plugins/extensions/react-paginate.scss"
-import "../../../assets/scss/pages/data-list.scss"
-
-const chipColors = {
-  "on hold": "warning",
-  delivered: "success",
-  pending: "primary",
-  canceled: "danger"
+const NUMBER_ITEM_IN_PAGE = {
+  LITTLE : 10,
+  MEDIUM:15,
+  MANY:20
 }
+
 
 const selectedStyle = {
   rows: {
@@ -82,25 +66,13 @@ const CustomHeader = props => {
   return (
     <div className="data-list-header d-flex justify-content-between flex-wrap">
       <div className="actions-left d-flex flex-wrap">
-        <UncontrolledDropdown className="data-list-dropdown mr-1">
-          <DropdownToggle className="p-1" color="primary">
-            <span className="align-middle mr-1">Actions</span>
-            <ChevronDown size={15} />
-          </DropdownToggle>
-          <DropdownMenu tag="div" right>
-            <DropdownItem tag="a">Delete</DropdownItem>
-            <DropdownItem tag="a">Archive</DropdownItem>
-            <DropdownItem tag="a">Print</DropdownItem>
-            <DropdownItem tag="a">Export</DropdownItem>
-          </DropdownMenu>
-        </UncontrolledDropdown>
         <Button
           className="add-new-btn"
           color="primary"
           onClick={() => props.handleSidebar(true, true)}
           outline>
           <Plus size={15} />
-          <span className="align-middle">Add New</span>
+          <span className="align-middle">Add Camera</span>
         </Button>
       </div>
       <div className="actions-right d-flex flex-wrap mt-sm-0 mt-2">
@@ -112,17 +84,14 @@ const CustomHeader = props => {
             <ChevronDown size={15} />
           </DropdownToggle>
           <DropdownMenu tag="div" right>
-            <DropdownItem tag="a" onClick={() => props.handleRowsPerPage(4)}>
-              4
+            <DropdownItem tag="a" onClick={() => props.handleRowsPerPage(NUMBER_ITEM_IN_PAGE.LITTLE)}>
+            {NUMBER_ITEM_IN_PAGE.LITTLE}
             </DropdownItem>
-            <DropdownItem tag="a" onClick={() => props.handleRowsPerPage(10)}>
-              10
+            <DropdownItem tag="a" onClick={() => props.handleRowsPerPage(NUMBER_ITEM_IN_PAGE.MEDIUM)}>
+              {NUMBER_ITEM_IN_PAGE.MEDIUM}
             </DropdownItem>
-            <DropdownItem tag="a" onClick={() => props.handleRowsPerPage(15)}>
-              15
-            </DropdownItem>
-            <DropdownItem tag="a" onClick={() => props.handleRowsPerPage(20)}>
-              20
+            <DropdownItem tag="a" onClick={() => props.handleRowsPerPage(NUMBER_ITEM_IN_PAGE.MANY)}>
+              {NUMBER_ITEM_IN_PAGE.MANY}
             </DropdownItem>
           </DropdownMenu>
         </UncontrolledDropdown>
@@ -161,10 +130,20 @@ class DataListConfig extends Component {
     currentPage: 0,
     columns: [
       {
-        name: "Name",
-        selector: "name",
+        name: "Mã",
+        selector: "code",
         sortable: true,
         minWidth: "300px",
+        cell: row => (
+          <p title={row.code} className="text-truncate text-bold-500 mb-0">
+            {row.code}
+          </p>
+        )
+      },
+      {
+        name: "Tên",
+        selector: "name",
+        sortable: true,
         cell: row => (
           <p title={row.name} className="text-truncate text-bold-500 mb-0">
             {row.name}
@@ -172,42 +151,28 @@ class DataListConfig extends Component {
         )
       },
       {
-        name: "Category",
-        selector: "category",
-        sortable: true
-      },
-      {
-        name: "Popularity",
-        selector: "popularity",
+        name: "Nhãn hiệu",
+        selector: "vendor",
         sortable: true,
-        cell: row => (
-          <Progress
-            className="w-100 mb-0"
-            color={row.popularity.color}
-            value={row.popularity.popValue}
-          />
-        )
       },
       {
-        name: "Order Status",
-        selector: "order_status",
+        name: "Loại Camera",
+        selector: "cameraType",
         sortable: true,
-        cell: row => (
-          <Chip
-            className="m-0"
-            color={chipColors[row.order_status]}
-            text={row.order_status}
-          />
-        )
       },
       {
-        name: "Price",
-        selector: "price",
+        name: "Địa chỉ",
+        selector: "address",
         sortable: true,
-        cell: row => `$${row.price}`
       },
       {
-        name: "Actions",
+        name: "Mô tả",
+        selector: "description",
+        sortable: true,
+        cell: row => `${row.description}`
+      },
+      {
+        name: "Chỉnh sửa",
         sortable: true,
         cell: row => (
           <ActionsComponent
@@ -222,7 +187,7 @@ class DataListConfig extends Component {
     ],
     allData: [],
     value: "",
-    rowsPerPage: 4,
+    rowsPerPage: 10,
     sidebar: false,
     currentData: null,
     selected: [],
@@ -234,83 +199,16 @@ class DataListConfig extends Component {
   thumbView = this.props.thumbView
 
   componentDidMount() {
+
+
+
+
     this.props.getData(this.props.parsedFilter)
     this.props.getInitialData()
+
+
   }
 
-  componentDidUpdate(prevProps, prevState) {
-    if (this.thumbView) {
-      this.thumbView = false
-      let columns = [
-        {
-          name: "Image",
-          selector: "img",
-          minWidth: "220px",
-          cell: row => <img src={row.img} height="100" alt={row.name} />
-        },
-        {
-          name: "Name",
-          selector: "name",
-          sortable: true,
-          minWidth: "250px",
-          cell: row => (
-            <p title={row.name} className="text-truncate text-bold-500 mb-0">
-              {row.name}
-            </p>
-          )
-        },
-        {
-          name: "Category",
-          selector: "category",
-          sortable: true
-        },
-        {
-          name: "Popularity",
-          selector: "popularity",
-          sortable: true,
-          cell: row => (
-            <Progress
-              className="w-100 mb-0"
-              color={row.popularity.color}
-              value={row.popularity.popValue}
-            />
-          )
-        },
-        {
-          name: "Order Status",
-          selector: "order_status",
-          sortable: true,
-          cell: row => (
-            <Chip
-              className="m-0"
-              color={chipColors[row.order_status]}
-              text={row.order_status}
-            />
-          )
-        },
-        {
-          name: "Price",
-          selector: "price",
-          sortable: true,
-          cell: row => `$${row.price}`
-        },
-        {
-          name: "Actions",
-          sortable: true,
-          cell: row => (
-            <ActionsComponent
-              row={row}
-              getData={this.props.getData}
-              parsedFilter={this.props.parsedFilter}
-              currentData={this.handleCurrentData}
-              deleteRow={this.handleDelete}
-            />
-          )
-        }
-      ]
-      this.setState({ columns })
-    }
-  }
 
   handleFilter = e => {
     this.setState({ value: e.target.value })
@@ -356,7 +254,7 @@ class DataListConfig extends Component {
 
   handlePagination = page => {
     let { parsedFilter, getData } = this.props
-    let perPage = parsedFilter.perPage !== undefined ? parsedFilter.perPage : 4
+    let perPage = parsedFilter.perPage !== undefined ? parsedFilter.perPage : 10
     let urlPrefix = this.props.thumbView
       ? "/data-list/thumb-view/"
       : "/data-list/list-view/"

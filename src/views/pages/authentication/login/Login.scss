@@ -1,0 +1,26 @@
+@import '../../../../assets/scss/core/variables/vms-variable';
+
+.login {
+    .login-tabs-container {
+        .card-body{
+            input {
+                height: 3.2rem;
+                font-size: 1.4rem;
+                &::placeholder {
+                    font-size: 1.4rem;
+        
+                }
+            }
+            label {
+                font-size: 1.1rem ;
+            }
+            .form-control-position {
+                display: flex;
+                align-items: center;
+                height: 100%;
+                margin-top: -1px;
+            }
+        }
+
+    }
+}

@@ -35,11 +35,13 @@
 
   .content {
     margin-left: 0;
+
     .content-wrapper {
       margin-top: 0 !important;
       min-height: calc(100vh - 13.75rem);
     }
   }
+
   footer {
     position: static;
     margin-left: 0;
@@ -49,11 +51,13 @@
     &.fixed-top {
       left: 0;
     }
+
     .brand-logo {
-      background: url("../../../img/logo/vuesax-logo.png") no-repeat;
-      background-position: -65px -54px;
+      background: url("../../../img/logo/Group.png") no-repeat !important;
       height: 24px;
       width: 35px;
+      background-position: center !important;
+      background-size: contain !important;
     }
 
     .navbar-nav.float-right {
@@ -61,6 +65,7 @@
         a.nav-link {
           margin-right: 4px;
         }
+
         .dropdown-notification {
           .nav-link {
             margin-right: 10px;
@@ -70,18 +75,18 @@
     }
   }
 
-  ul#main-menu-navigation > li {
+  ul#main-menu-navigation>li {
     line-height: 1;
+
     &.active {
       .nav-link {
-        background: linear-gradient(
-          118deg,
-          rgba($primary, 1),
-          rgba($primary, 0.7)
-        );
+        background: linear-gradient(118deg,
+            rgba($primary, 1),
+            rgba($primary, 0.7));
         box-shadow: 0px 0px 6px 1px rgba($primary, 0.6);
         color: $white !important;
         border-radius: 4px;
+
         .dropdown-menu {
           .active {
             background-color: $body-bg;
@@ -89,28 +94,35 @@
         }
       }
     }
+
     &.nav-item {
       &:not(:last-child) .nav-link.dropdown {
         margin-right: 4px;
       }
     }
+
     .single-item {
       padding-left: 11px !important;
       padding-right: 11px !important;
+
       .nav-link {
         color: $body-color;
         padding: 0.75rem 1.25rem !important;
       }
     }
+
     .dropdown:not(.sub-menu) {
       padding-top: 0.965rem;
       padding-bottom: 0.965rem;
+
       &.nav-link {
         padding: 0.75rem 1.25rem;
       }
     }
+
     .item-content {
       color: $body-color;
+
       span {
         vertical-align: middle;
       }
@@ -133,34 +145,42 @@
       animation-duration: 0.3s;
       animation-fill-mode: both;
       animation-name: slideIn;
+
       li {
         &:focus {
           outline: none;
         }
       }
+
       .dropdown-item {
         transition: padding 0.35s ease 0s !important;
         line-height: 1;
+
         &:focus {
           outline: 0;
         }
+
         &.hover {
           padding-left: 25px !important;
           transition: padding 0.35s ease 0s !important;
           background-color: transparent;
           color: $body-color;
         }
+
         &.has-sub {
           &:focus {
             outline: 0;
           }
+
           &.hover {
             padding-left: 10px !important;
             background-color: $body-bg;
           }
         }
+
         &.active {
           background: $body-bg;
+
           span,
           svg {
             color: $primary !important;
@@ -171,32 +191,39 @@
 
       .open {
         &.active {
-          > a {
+          >a {
             color: $body-color;
             font-weight: normal;
           }
         }
       }
+
       .dropdown-item {
         font-size: 1rem;
         display: flex;
         align-items: center;
+
         &:not(.has-sub) {
           padding: 0.95rem 1.428rem;
         }
+
         &:hover {
+
           span,
           svg {
             color: $body-color;
           }
         }
+
         &.has-sub {
           padding: 0;
+
           .dropdown {
             padding: 0.95rem 1.4rem;
           }
         }
       }
+
       &::-webkit-scrollbar {
         width: 5px;
         height: 5px;
@@ -212,23 +239,28 @@
         border-radius: 30px;
       }
     }
-    > .dropdown a {
+
+    >.dropdown a {
       display: flex;
       margin-right: 0.5rem;
       align-items: center;
     }
+
     &.hover .nav-link {
       background: $body-bg;
       border-radius: 4px;
     }
+
     .nav-item-wrapper {
       padding: 11px 0;
     }
+
     .dropdown.has-active-child {
       background-color: $body-bg;
     }
 
     .dropdown-menu {
+
       &[x-placement="left-start"],
       &[x-placement="left-start"] .dropdown-menu {
         left: -100%;
@@ -243,34 +275,36 @@
         padding-top: 9.75rem;
       }
     }
+
     .horizontal-menu-wrapper {
-      background: linear-gradient(
-        to bottom,
-        rgba(248, 248, 248, 0.95) 44%,
-        rgba(248, 248, 248, 0.46) 73%,
-        rgba(255, 255, 255, 0) 100%
-      );
+      background: linear-gradient(to bottom,
+          rgba(248, 248, 248, 0.95) 44%,
+          rgba(248, 248, 248, 0.46) 73%,
+          rgba(255, 255, 255, 0) 100%);
       background-repeat: repeat-x;
+
       .navbar-horizontal.floating-nav {
         margin: 1.3rem 2.2rem 0;
       }
     }
   }
+
   &.dark-layout {
     .header-navbar {
       background: inherit !important;
     }
+
     .horizontal-menu-wrapper {
-      background: linear-gradient(
-        to bottom,
-        rgba(37, 43, 71, 0.76) 44%,
-        rgba(56, 53, 53, 0.46) 73%,
-        rgba(255, 255, 255, 0) 100%
-      );
+      background: linear-gradient(to bottom,
+          rgba(37, 43, 71, 0.76) 44%,
+          rgba(56, 53, 53, 0.46) 73%,
+          rgba(255, 255, 255, 0) 100%);
+
       .header-navbar {
         background: $menu-dark-bg-color !important;
+
         &.navbar-horizontal {
-          ul#main-menu-navigation > li:hover:not(.active) > a {
+          ul#main-menu-navigation>li:hover:not(.active)>a {
             background: $content-dark-bg;
           }
         }
@@ -282,10 +316,12 @@
     .app-content {
       padding-top: 8.5rem;
     }
+
     .header-navbar {
       background-color: $body-bg;
       box-shadow: none;
     }
+
     .horizontal-menu-wrapper {
       .navbar-horizontal.header-navbar.fixed-top {
         left: 0;
@@ -294,21 +330,27 @@
       }
     }
   }
+
   &.navbar-static {
     .app-content {
       padding-top: 2.5rem;
     }
+
     .header-navbar:not(.scrolling) {
       background-color: $body-bg;
       box-shadow: none;
+
       .navbar-wrapper {
         width: 100%;
       }
     }
+
     .horizontal-menu-wrapper {
       position: relative;
+
       .navbar-horizontal.header-navbar {
         background: $white;
+
         &.navbar-static-top {
           position: static;
           background: $white;
@@ -317,6 +359,7 @@
       }
     }
   }
+
   //---------------//
   // Navbar Header //
   //---------------//
@@ -326,35 +369,42 @@
     z-index: 990;
     width: 100%;
     height: 99px;
+
     .header-navbar {
       .navbar-container {
         padding-left: 1rem;
         padding-right: 1rem;
         width: 100%;
       }
+
       .navbar-header {
         display: none;
       }
     }
   }
+
   .header-navbar {
     background: $white;
     z-index: 999 !important;
     line-height: 1;
+
     // Navbar- Brand Center - Logo
     &.navbar-horizontal.floating-nav {
       width: calc(100vw - (100vw - 100%) - calc(#{$content-padding} * 2));
       background: $white;
     }
+
     .navbar-container {
       padding-left: #{$content-padding};
       padding-right: calc(#{$content-padding} - 1rem);
       border-radius: $border-radius;
     }
+
     &.navbar-fixed {
       position: fixed;
       width: 100%;
     }
+
     &.navbar-brand-center {
       .navbar-header {
         position: absolute;
@@ -362,6 +412,7 @@
         margin-left: -65px;
         padding: 0;
         z-index: 1000;
+
         .navbar-brand {
           display: flex;
           align-items: center;
@@ -385,19 +436,24 @@
           left: 0.4rem;
         }
       }
+
       .dropdown-menu::before {
         display: none;
       }
+
       .dropdown-menu {
         min-width: 215px;
         border: none;
         min-height: 52px;
+
         .disabled {
           pointer-events: none !important;
+
           a {
             color: $gray-600;
           }
         }
+
         .dropdown-toggle::after {
           left: auto;
           position: absolute;
@@ -409,19 +465,23 @@
 
         .dropdown-submenu {
           position: relative;
+
           &.openLeft {
             .dropdown-menu {
               left: auto;
               right: 100%;
             }
           }
+
           &.show {
             background: $body-bg;
           }
-          & > .dropdown-menu {
+
+          &>.dropdown-menu {
             position: absolute;
             top: 0 !important;
             left: 100% !important;
+
             i {
               font-size: 0.75rem !important;
             }
@@ -430,17 +490,19 @@
       }
     }
   }
+
   &.menu-collapsed {
     #main-menu-navigation {
       .nav-item {
-        > a span {
+        >a span {
           display: none;
         }
       }
     }
   }
+
   .navigation-header {
-    font-family: inherit;
+    // font-family: inherit;
     color: #929292;
     padding: 8px 20px;
     font-size: 1rem;
@@ -449,44 +511,52 @@
 
   .navbar-dark {
     .nav-item {
-      &.active > a {
+      &.active>a {
         border-bottom: 2px solid $primary;
         background-color: #313c50;
       }
     }
   }
+
   // App related CSS for Horizontal
   .content.app-content .content-area-wrapper {
     margin-top: 2.2rem;
+
     .content-wrapper {
       height: calc(100vh - 16rem);
       height: calc(var(--vh, 1vh) * 100 - 16rem);
     }
   }
+
   &.chat-application .sidebar-content,
   &.email-application .content-area-wrapper .sidebar .email-app-sidebar,
   &.todo-application .content-area-wrapper .sidebar .todo-sidebar {
     height: calc(100vh - 16rem);
     height: calc(var(--vh, 1vh) * 100 - 16rem);
   }
+
   &.todo-application .content-area-wrapper .content-right .todo-task-list {
     height: calc(100vh - 19.5rem);
     height: calc(var(--vh, 1vh) * 100 - 19.5rem);
   }
+
   &.email-application .app-content .content-area-wrapper .email-user-list {
     height: calc(100vh - 23.3rem);
     height: calc(var(--vh, 1vh) * 100 - 23.3rem);
   }
+
   &.chat-application {
     .user-profile-sidebar {
       height: calc(100vh - 16.1rem);
       height: calc(var(--vh, 1vh) * 100 - 16.1rem);
       bottom: 4.1rem;
     }
+
     .chat-profile-sidebar {
       height: calc(100vh - 16rem);
       height: calc(var(--vh, 1vh) * 100 - 16rem);
     }
+
     .chat-app-window .user-chats {
       height: calc(100vh - 26.5rem);
       height: calc(var(--vh, 1vh) * 100 - 26.5rem);
@@ -504,12 +574,18 @@
         }
       }
     }
+
     .header-navbar {
       background: $white;
     }
+
     .content .content-wrapper {
       margin-top: 5rem;
     }
+
+
+
+    // app-content content
   }
 }
 

@@ -1,0 +1,172 @@
+@import "../../../../assets/scss/core/variables/vms-variable";
+@import "../../../../assets/scss/core/variables/vms-variable";
+@import "../../../../assets/scss/core/mixins/vms-mixins";
+
+tr.ant-table-row.disabled-row {
+  background-color: $dark; // pointer-events: none;
+}
+
+.ant-table-thead > tr.ant-table-row-hover:not(.ant-table-expanded-row) > td,
+.ant-table-tbody > tr.ant-table-row-hover:not(.ant-table-expanded-row) > td,
+.ant-table-thead > tr:hover:not(.ant-table-expanded-row) > td,
+.ant-table-tbody > tr:hover:not(.ant-table-expanded-row) > td {
+  background: $vms-black; //Change the existing color to `unset`
+}
+
+.tableTag {
+  border-radius: 8px;
+  color: white;
+  padding: 4px 10px;
+  cursor: pointer;
+}
+
+.ant-space-item:hover {
+  color: red;
+}
+
+.detail-user__table-camera-group {
+  margin-top: 32px !important;
+  .ant-table {
+    background-color: $vms-bg-sub;
+    border-radius: 12px 12px 0 0;
+    border: 1px solid rgba(234, 240, 247, 0.1);
+
+    //begin: title table
+    .ant-table-title {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 10px 16px;
+      h4 {
+        margin-bottom: 0;
+        font-size: 16px;
+        line-height: 40px;
+      }
+
+      .ant-btn {
+        width: 40px;
+        height: 40px;
+        padding: 9px;
+        margin-right: 0 !important;
+        background-color: $vms-main-blue-primary;
+
+        span {
+          display: flex;
+          justify-content: center;
+          align-items: center;
+          svg {
+            font-size: 20px;
+          }
+        }
+      }
+
+      .btnInfo {
+        background-color: $vms-bg-sub;
+        border: none;
+        margin-left: 7px;
+
+        svg {
+          font-size: 26px;
+          color: $vms-soft-statuts;
+        }
+      }
+    }
+
+    //end: title table
+    .ant-table-content {
+      @include scrollbar-styling(0,12px)
+    }
+    //begin: head table
+    .ant-table-thead {
+      .ant-table-cell {
+        background-color: $vms-bg-3;
+        padding: 5px 0 5px 16px;
+        color: $vms-soft-statuts;
+        border-top: 1px solid rgba(234, 240, 247, 0.1);
+        border-bottom: 1px solid rgba(234, 240, 247, 0.1);
+        font-weight: 600;
+        min-width: 66px;
+        
+        // &:nth-child(2),
+        // &:nth-child(3) {
+        //   width: 100%;
+        // }
+        &:nth-child(4),
+        &:nth-child(5),
+        &:nth-child(6),
+        &:nth-child(7) {
+          padding: 0 8px;
+          text-align: center;
+          width: 6%;
+
+        }
+        &:last-child {
+          padding: 0 16px;
+          text-align: center;
+
+        }
+      }
+    }
+
+    .ant-table-tbody {
+      .ant-table-cell {
+        background-color: $vms-bg-primary;
+        // font-weight: 500;
+        // padding: 13px 0 11px 16px;
+        padding: 11px 0 15px 16px;
+        color: $vms-status-07 !important;
+        border-top: 1px solid rgba(234, 240, 247, 0.1);
+        border-bottom: 1px solid rgba(234, 240, 247, 0.1);
+
+        &:first-child {
+          color: $vms-soft-statuts;
+        }
+
+        &:nth-child(2),
+        &:nth-child(3) {
+          width: 100%;
+          color: $vms-soft-statuts;
+          font-size: 12px;
+          span.tableTag {
+            padding: 4px 10px;
+            margin: 4px 10px 4px 0;
+          }
+        }
+
+        &:nth-child(4),
+        &:nth-child(5),
+        &:nth-child(6),
+        &:nth-child(7) {
+          padding: 0;
+          text-align: center;
+
+
+          .ant-checkbox-inner {
+            background-color: $vms-bg-primary;
+            border: 1px solid $vms-main-blue-primary !important;
+            color: $vms-soft-statuts !important;
+          }
+
+          .ant-checkbox-checked .ant-checkbox-inner {
+            background-color: $vms-main-blue-primary;
+
+            &::after {
+              border-color: $vms-soft-statuts;
+            }
+          }
+        }
+      }
+
+      tr:last-child .ant-table-cell {
+        border-bottom: 0;
+      }
+    }
+
+    //end: head table
+  }
+
+  @include paginationShowTotal;
+  li.ant-pagination-item:nth-last-child(3) {
+    box-shadow: none !important;
+  }
+}

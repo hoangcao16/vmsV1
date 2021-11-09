@@ -1,0 +1,398 @@
+@import "../core/variables/vms-variable.scss";
+.setting__recording,
+.setting__warning,
+.setting__clean {
+  margin-bottom: 15px;
+ 
+  background-color: $vms-bg-sub;
+  border-radius: 12px;
+  border: 1px solid rgba(234, 240, 247, 0.1);
+
+  .ant-card-body {
+    padding-top: 0;
+  }
+  
+  //begin: card-head
+  .ant-card-head-wrapper {
+    height: 28px;
+    padding-right: 22px;
+  
+    .btn--save {
+      background-color: $vms-main-blue-primary;
+      width: 84px;
+      height: 34px;
+      padding: 10px 28px;
+      line-height: 14px;
+      border-radius: 4px;
+      font-weight: 500;
+      border: none;
+      & span {
+        color: $vms-main-card !important;
+      }
+    }
+  }
+  //end: card-head
+  
+  // begin: content
+  .ant-card-body .content {
+    padding-left: 16px !important;
+    margin-left: 0 !important;
+    background-color: $vms-bg-primary;
+    width: 100%;
+    display: flex;
+    font-size: 14px;
+    padding-top: 16px;
+    min-height: 234px;
+  
+    .content--left {
+      vertical-align: middle;
+      flex: 1;
+      margin-right: 49px;
+    }
+  
+    .content--right {
+      padding-right: 49px;
+      align-self: start;
+      flex: 4;
+  
+      .content__title {
+        font-weight: 600;
+        color: $vms-soft-statuts;
+        line-height: 24px;
+        margin-bottom: 16px;
+      }
+  
+      .content__description {
+        color: $vms-status-07;
+        font-weight: 500;
+        max-width: 622px;
+        line-height: 2.4rem;
+      }
+    }
+  }
+  //end: content
+}
+
+
+//begin: setting (clean setting view)
+.setting--clean {
+  padding: 16px 16px 0 16px;
+
+  .setting__title {
+    color: $vms-soft-statuts;
+    padding-bottom: 20px;
+    line-height: 14px;
+    font-weight: 600;
+    line-height: 24px;
+  }
+
+  .setting__content {
+    display: flex;
+
+    .setting__file--all {
+      flex: 1;
+
+      .section {
+        display: flex;
+        padding-bottom: 16px;
+        justify-content: space-between;
+        align-items: center;
+
+        .title {
+          line-height: 36px;
+          color: $vms-status-07;
+        }
+
+        .file--setting {
+          display: flex;
+          align-items: center;
+          .ant-input {
+            width: 42px;
+            height: 38px;
+            background-color: transparent;
+            border: 1px solid $vms-status-05;
+            border-radius: 4px;
+            margin-right: 4px;
+            color: $vms-status;
+            text-align: center;
+            padding: 4px;
+          }
+
+          .ant-select-selector {
+            align-items: center;
+            width: 92px;
+            height: 39px;
+            background-color: transparent;
+            font-size: 12px;
+            line-height: 36px;
+            border: 1px solid $vms-status-05 !important;
+            border-radius: 4px;
+            span.ant-select-selection-item {
+              color: $vms-soft-statuts;
+            }
+          }
+
+          .ant-select-arrow {
+            font-size: 12px;
+          }
+        }
+      }
+    }
+
+    .setting__file--important {
+      flex: 1;
+      align-self: center;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: space-around;
+
+      .clean-important-img {
+        position: relative;
+        .caution-logo {
+          position: absolute;
+          right: 25px;
+          bottom: 18px;
+        }
+      }
+
+      .ant-image {
+        padding-bottom: 12px;
+      }
+
+      .ant-checkbox-inner {
+        background-color: transparent;
+        border: 1.5px solid $vms-status-05;
+        border-radius: 4px;
+        color: $vms-main-blue-primary;
+
+        span {
+          color: $vms-status-07;
+        }
+      }
+
+      .ant-checkbox-checked {
+        .ant-checkbox-inner {
+          border: 1px solid $vms-main-blue-primary;
+          background-color: $vms-main-blue-primary;
+        }
+      }
+    }
+  }
+}
+//end: setting (clean setting view)
+
+//begin: setting warning (warning store setting)
+.setting--warn {
+  width: 100%;
+  background-color: $vms-bg-primary;
+  display: flex;
+  justify-content: space-around;
+  margin-top: 16px;
+
+  .warning-store {
+    flex: 1;
+    display: flex;
+    justify-content: space-between;
+    margin: 20px 16px 20px 12px;
+    height: 36px;
+    align-items: center;
+
+    .title {
+      color: $vms-soft-statuts;
+      font-weight: 500;
+      width: 300px;
+    }
+
+    > div:last-child {
+      flex-shrink: 0;
+    }
+
+    .ant-select-disabled {
+      .ant-select-selector {
+        background-color: transparent;
+      }
+    }
+
+    .ant-select-open {
+      color: #ffffff;
+    }
+
+    .ant-tooltip-open {
+      color: red;
+    }
+
+    .ant-select-selector {
+      background-color: transparent;
+      width: 60px;
+      height: 40px !important;
+      // padding: 0;
+      border: 1px solid $vms-status-05 !important;
+      border-radius: 4px;
+      text-align: center;
+      span.ant-select-selection-item {
+        text-align: center;
+        padding-right: 0;
+      }
+    }
+
+    .anticon {
+      color: transparent;
+    }
+
+    span.des {
+      font-weight: 500;
+      padding-right: 12px;
+      padding-left: 4px;
+      color: $vms-status;
+    }
+  }
+
+  .frequence-warning {
+    flex: 1;
+    display: flex;
+    justify-content: flex-end;
+    padding: 12px 12px 8px 62px;
+    align-items: center;
+
+    .title {
+      color: $vms-status;
+      font-weight: 500;
+      padding-right: 12px;
+    }
+
+    > div:nth-child(2) {
+      flex-shrink: 0;
+    }
+
+    .ant-select-disabled {
+      .ant-select-selector {
+        background-color: transparent;
+      }
+    }
+
+    .ant-select-selector {
+      margin-right: 10px;
+      background-color: transparent;
+      width: 60px;
+      height: 40px !important;
+      padding: 0;
+      border: 1px solid $vms-status-05 !important;
+      border-radius: 4px;
+
+      span.ant-select-selection-item {
+        text-align: center;
+        padding-right: 0;
+      }
+    }
+
+    .anticon {
+      color: transparent;
+    }
+
+    span.des {
+      display: inline-block;
+      margin-right: 67px;
+      padding-left: 4px;
+      color: $vms-status;
+      font-size: 16px;
+      font-weight: 500;
+    }
+
+    .ant-switch {
+      margin-top: 7px;
+      background-color: #fff;
+
+      .anticon {
+        position: absolute;
+        top: 50%;
+        transform: translateY(-50%);
+      }
+
+      .anticon-check {
+        left: 7px;
+        color: #fcfeff;
+      }
+
+      .anticon-close {
+        right: 7px;
+        color: #002045;
+      }
+    }
+
+    .ant-switch-checked {
+      background: #1380ff;
+    }
+  }
+}
+//end: setting warning (warning store setting)
+
+//begin: auto delete (warning store setting)
+.autoDelete {
+  padding: 28px 32px 4px 32px;
+
+  .ant-radio-group {
+    display: flex;
+    justify-content: space-between;
+
+    .ant-radio-inner {
+      background-color: transparent;
+      border: 1px solid $vms-status-05;
+    }
+
+    .ant-radio-checked {
+      border-color: $vms-main-blue-primary;
+
+      .ant-radio-input {
+        color: $vms-main-blue-primary;
+      }
+    }
+
+    span {
+      color: $vms-status-07 !important;
+      font-weight: 500;
+    }
+  }
+}
+//end: auto delete (warning store setting)
+
+//begin: record setting (record setting)
+.popconfirm--warning {
+  button:disabled,
+  button[disabled] {
+    background-color: transparent;
+    border: none;
+    margin: 0;
+    margin-top: -9px;
+    padding: 0;
+    padding-left: 1px;
+    font-weight: 500;
+  }
+}
+.setting--record {
+  padding: 16px;
+  padding-bottom: 0;
+  display: flex;
+  width: 100%;
+
+  .setting__title {
+    flex-shrink: 0;
+    width: 280px;
+    line-height: 40px;
+    color: $vms-only-white;
+    font-weight: 600;
+    margin-right: 32px;
+  }
+
+  .record--setting {
+    width: 100%;
+    .ant-select-selector {
+      width: 80px;
+      align-items: center;
+    }
+    span.seconds {
+      margin-left: 8px;
+      line-height: 40px;
+    }
+  }
+}

@@ -1,271 +1,247 @@
-import React from "react"
-import { Link } from "react-router-dom"
-import classnames from "classnames"
-import navigationConfig from "../../../../../configs/navigationConfig"
-import SideMenuGroup from "./SideMenuGroup"
-import { Badge } from "reactstrap"
-import { ChevronRight } from "react-feather"
-import { FormattedMessage } from "react-intl"
-import { history } from "../../../../../history"
+import { Select, Tooltip } from "antd";
+import classnames from "classnames";
+import { isEmpty } from "lodash";
+import React, { useEffect, useState } from "react";
+import { useTranslation } from "react-i18next";
+import { connect } from "react-redux";
+import { Link } from "react-router-dom";
+import { reactLocalStorage } from "reactjs-localstorage";
+import ExportEventFileApi from "../../../../../actions/api/exporteventfile/ExportEventFileApi";
+import eventActive from "../../../../../assets/img/icons/menu-bar/active/event.png";
+import { default as presetActive } from "../../../../../assets/img/icons/menu-bar/active/infor.png";
+import {
+  default as mapActive,
+  default as vietmapActive,
+} from "../../../../../assets/img/icons/menu-bar/active/map.png";
+import reportActive from "../../../../../assets/img/icons/menu-bar/active/report.png";
+import settingActive from "../../../../../assets/img/icons/menu-bar/active/setting.png";
+import viewActive from "../../../../../assets/img/icons/menu-bar/active/view.png";
+import event from "../../../../../assets/img/icons/menu-bar/inactive/event.png";
+import { default as preset } from "../../../../../assets/img/icons/menu-bar/inactive/infor.png";
+import {
+  default as map,
+  default as vietmap,
+} from "../../../../../assets/img/icons/menu-bar/inactive/map.png";
+import report from "../../../../../assets/img/icons/menu-bar/inactive/report.png";
+import setting from "../../../../../assets/img/icons/menu-bar/inactive/setting.png";
+import view from "../../../../../assets/img/icons/menu-bar/inactive/view.png";
+import navigationConfig from "../../../../../configs/navigationConfig";
+import NotificationBadge from "./NotificationBadge";
+import "./SideMenuContent.scss";
+const { Option } = Select;
 
-class SideMenuContent extends React.Component {
-  constructor(props) {
-    super(props)
+const LANGUAGES = {
+  vn: "vn",
+  en: "en",
+};
 
-    this.parentArr = []
-    this.collapsedPath = null
-    this.redirectUnauthorized = () => {
-      history.push("/misc/not-authorized")
-    }
-  }
-  state = {
-    flag: true,
-    isHovered: false,
-    activeGroups: [],
-    currentActiveGroup: [],
-    tempArr: []
-  }
+const SideMenuContent = (props) => {
+  const { setLanguage } = props;
+  const { i18n } = useTranslation();
+  const [avatarUrl, setAvatarUrl] = useState("");
+  const language = reactLocalStorage.get("language");
+  console.log("language: ", language);
 
-  handleGroupClick = (id, parent = null, type = "") => {
-    let open_group = this.state.activeGroups
-    let active_group = this.state.currentActiveGroup
-    let temp_arr = this.state.tempArr
-    // Active Group to apply sidebar-group-active class
-    if (type === "item" && parent === null) {
-      active_group = []
-      temp_arr = []
-    } else if (type === "item" && parent !== null) {
-      active_group = []
-      if (temp_arr.includes(parent)) {
-        temp_arr.splice(temp_arr.indexOf(parent) + 1, temp_arr.length)
-      } else {
-        temp_arr = []
-        temp_arr.push(parent)
-      }
-      active_group = temp_arr.slice(0)
-    } else if (type === "collapse" && parent === null) {
-      temp_arr = []
-      temp_arr.push(id)
-    } else if (type === "collapse" && parent !== null) {
-      if (active_group.includes(parent)) {
-        temp_arr = active_group.slice(0)
-      }
-      if (temp_arr.includes(id)) {
-        // temp_arr.splice(temp_arr.indexOf(id), 1)
-        temp_arr.splice(temp_arr.indexOf(id), temp_arr.length)
-      } else {
-        temp_arr.push(id)
-      }
-    } else {
-      temp_arr = []
-    }
+  useEffect(() => {
+    const user = reactLocalStorage.getObject("user");
 
-    if (type === "collapse") {
-      // If open group does not include clicked group item
-      if (!open_group.includes(id)) {
-        // Get unmatched items that are not in the active group
-        let temp = open_group.filter(function(obj) {
-          return active_group.indexOf(obj) === -1
-        })
-        // Remove those unmatched items from open group
-        if (temp.length > 0 && !open_group.includes(parent)) {
-          open_group = open_group.filter(function(obj) {
-            return !temp.includes(obj)
-          })
+    if (!isEmpty(user?.avatar_file_name)) {
+      ExportEventFileApi.getAvatar(user?.avatar_file_name).then((result) => {
+        if (result.data) {
+          let blob = new Blob([result.data], { type: "octet/stream" });
+          let url = window.URL.createObjectURL(blob);
+          setAvatarUrl(url);
+        } else {
+          setAvatarUrl("");
         }
-        if (open_group.includes(parent) && active_group.includes(parent)) {
-          open_group = active_group.slice(0)
-        }
-        // Add group item clicked in open group
-        if (!open_group.includes(id)) {
-          open_group.push(id)
-        }
+      });
+    }
+  }, [props?.isChangeAvatar]);
+
+  const iconInActive = {
+    view: view,
+    map: map,
+    maps: vietmap,
+    event: event,
+    preset: preset,
+    report: report,
+    infor: avatarUrl,
+    setting: setting,
+  };
+  const iconActive = {
+    view: viewActive,
+    map: mapActive,
+    maps: vietmapActive,
+    event: eventActive,
+    preset: presetActive,
+    report: reportActive,
+    infor: avatarUrl,
+    setting: settingActive,
+  };
+  // Loop over sidebar items
+
+  const onChangLanguage = (value) => {
+    setMultilanguageForElement(
+      ".add_camera",
+      "Thêm Camera",
+      "Add Camera",
+      value
+    );
+    setMultilanguageForElement(
+      ".add_location",
+      "Thêm địa điểm",
+      "Add location",
+      value
+    );
+    setMultilanguageForElement(
+      ".delete_this_tracking_location",
+      "Xóa địa điểm theo dõi này",
+      "Delete this tracking location",
+      value
+    );
+    setMultilanguageForElement(
+      ".delete_all_tracking_location",
+      "Xóa tất cả địa điểm theo dõi",
+      "Delete all tracking location",
+      value
+    );
+    setMultilanguageForElement(
+      ".add_tracking_location",
+      "Thêm địa điểm theo dõi",
+      "Add tracking location",
+      value
+    );
+
+    setLanguage && setLanguage(value);
+    reactLocalStorage.set("language", value);
+    i18n.changeLanguage(value);
+  };
+
+  const setMultilanguageForElement = (elm, valVn, valEn, lang) => {
+    const existElm = document.querySelector(elm);
+    if (existElm) {
+      if (lang === "vn") {
+        existElm.innerHTML = valVn;
       } else {
-        // If open group includes click group item, remove it from open group
-        open_group.splice(open_group.indexOf(id), 1)
+        existElm.innerHTML = valEn;
       }
     }
-    if (type === "item") {
-      open_group = active_group.slice(0)
-    }
+  };
 
-    this.setState({
-      activeGroups: open_group,
-      tempArr: temp_arr,
-      currentActiveGroup: active_group
-    })
-  }
-
-  initRender = parentArr => {
-    this.setState({
-      activeGroups: parentArr.slice(0),
-      currentActiveGroup: parentArr.slice(0),
-      flag: false
-    })
-  }
-
-  componentDidMount() {
-    this.initRender(this.parentArr[0] ? this.parentArr[0] : [])
-  }
-
-  componentDidUpdate(prevProps, prevState) {
-    if (prevProps.activePath !== this.props.activePath) {
-      if (this.collapsedMenuPaths !== null) {
-        this.props.collapsedMenuPaths(this.collapsedMenuPaths)
-      }
-
-      this.initRender(
-        this.parentArr[0] ? this.parentArr[this.parentArr.length - 1] : []
-      )
-    }
-  }
-
-  render() {
-    // Loop over sidebar items
-    // eslint-disable-next-line
-    const menuItems = navigationConfig.map(item => {
-      const CustomAnchorTag = item.type === "external-link" ? `a` : Link
-      // checks if item has groupheader
-      if (item.type === "groupHeader") {
-        return (
-          <li
-            className="navigation-header"
-            key={`group-header-${item.groupTitle}`}>
-            <span>{item.groupTitle}</span>
-          </li>
-        )
-      }
-
+  const menuItemsTop = navigationConfig.map((item, index) => {
+    if (index < 4) {
       let renderItem = (
-        <li
-          className={classnames("nav-item", {
-            "has-sub": item.type === "collapse",
-            open: this.state.activeGroups.includes(item.id),
-            "sidebar-group-active": this.state.currentActiveGroup.includes(
-              item.id
-            ),
-            hover: this.props.hoverIndex === item.id,
-            active:
-              (this.props.activeItemState === item.navLink &&
-                item.type === "item") ||
-              (item.parentOf &&
-                item.parentOf.includes(this.props.activeItemState)),
-            disabled: item.disabled
-          })}
-          key={item.id}
-          onClick={e => {
-            e.stopPropagation()
-            if (item.type === "item") {
-              this.props.handleActiveItem(item.navLink)
-              this.handleGroupClick(item.id, null, item.type)
-              if (this.props.deviceWidth <= 1200 && item.type === "item") {
-                this.props.toggleMenu()
-              }
-            } else {
-              this.handleGroupClick(item.id, null, item.type)
-            }
-          }}>
-          <CustomAnchorTag
-            to={
-              item.filterBase
-                ? item.filterBase
-                : item.navLink && item.type === "item"
-                ? item.navLink
-                : ""
-            }
-            href={item.type === "external-link" ? item.navLink : ""}
-            className={`d-flex ${
-              item.badgeText
-                ? "justify-content-between"
-                : "justify-content-start"
-            }`}
-            onMouseEnter={() => {
-              this.props.handleSidebarMouseEnter(item.id)
-            }}
-            onMouseLeave={() => {
-              this.props.handleSidebarMouseEnter(item.id)
-            }}
-            key={item.id}
-            onClick={e => {
-              return item.type === "collapse" ? e.preventDefault() : ""
-            }}
-            target={item.newTab ? "_blank" : undefined}>
-            <div className="menu-text">
-              {item.icon}
-              <span className="menu-item menu-title">
-                <FormattedMessage id={item.title} />
-              </span>
+        <li className={classnames("nav-item", `${item.id}`)} key={item.id}>
+          <Link to={item.navLink} key={item.id}>
+            <Tooltip
+              placement='right'
+              title={language == "en" ? `${item.id}` : `${item.title}`}
+              arrowPointAtCenter={true}
+            >
+              <div
+                className={classnames(
+                  "menu-text",
+                  { active: item.navLink === props.activeItemState },
+                  { inActive: item.navLink !== props.activeItemState },
+                  `${item.id}`
+                )}
+                style={{
+                  backgroundImage: `url(${
+                    item.navLink === props.activeItemState
+                      ? iconActive[`${item.id}`]
+                      : iconInActive[`${item.id}`]
+                  })`,
+                  backgroundSize: `${
+                    item.navLink === props.activeItemState
+                      ? "5.4rem 5.4rem"
+                      : "4rem 4rem"
+                  }`,
+                }}
+              ></div>
+            </Tooltip>
+          </Link>
+        </li>
+      );
+      return renderItem;
+    }
+    return;
+  });
+  const menuItemsBottom = navigationConfig.map((item, index) => {
+    if (index >= 4) {
+      let renderItem = (
+        <li className={classnames('nav-item', `${item.id}`)} key={item.id}>
+          {item.id === 'notification' ? (
+            <div>
+              <NotificationBadge />
             </div>
-
-            {item.badge ? (
-              <div className="menu-badge">
-                <Badge color={item.badge} className="mr-1" pill>
-                  {item.badgeText}
-                </Badge>
-              </div>
-            ) : (
-              ""
-            )}
-            {item.type === "collapse" ? (
-              <ChevronRight className="menu-toggle-icon" size={13} />
-            ) : (
-              ""
-            )}
-          </CustomAnchorTag>
-          {item.type === "collapse" ? (
-            <SideMenuGroup
-              group={item}
-              handleGroupClick={this.handleGroupClick}
-              activeGroup={this.state.activeGroups}
-              handleActiveItem={this.props.handleActiveItem}
-              activeItemState={this.props.activeItemState}
-              handleSidebarMouseEnter={this.props.handleSidebarMouseEnter}
-              activePath={this.props.activePath}
-              hoverIndex={this.props.hoverIndex}
-              initRender={this.initRender}
-              parentArr={this.parentArr}
-              triggerActive={undefined}
-              currentActiveGroup={this.state.currentActiveGroup}
-              permission={this.props.permission}
-              currentUser={this.props.currentUser}
-              redirectUnauthorized={this.redirectUnauthorized}
-              collapsedMenuPaths={this.props.collapsedMenuPaths}
-              toggleMenu={this.props.toggleMenu}
-              deviceWidth={this.props.deviceWidth}
-            />
           ) : (
-            ""
+            <Link to={item.navLink} key={item.id}>
+              <Tooltip
+                placement='right'
+                title={language == "en" ? `${item.id}` : `${item.title}`}
+                arrowPointAtCenter={true}
+              >
+                <div
+                  className={classnames(
+                    "menu-text",
+                    { active: item.navLink === props.activeItemState },
+                    { inActive: item.navLink !== props.activeItemState },
+                    `${item.id}`
+                  )}
+                  style={{
+                    backgroundImage: `url(${
+                      item.navLink === props.activeItemState
+                        ? iconActive[`${item.id}`]
+                        : iconInActive[`${item.id}`]
+                    })`,
+                    backgroundSize: `${
+                      item.navLink === props.activeItemState
+                        ? "54px 54px"
+                        : "40px 40px"
+                    }`,
+                  }}
+                ></div>
+              </Tooltip>
+            </Link>
           )}
         </li>
-      )
+      );
+      return renderItem;
+    }
+    return;
+  });
+  return (
+    <React.Fragment>
+      <div className='menu__items--top'>{menuItemsTop}</div>
+      <div className='menu__items--bottom'>
+        {menuItemsBottom}
+        <div className='select--language'>
+          <Tooltip
+            placement='right'
+            title={language == "en" ? "Language" : "Ngôn ngữ"}
+            arrowPointAtCenter={true}
+          >
+            <Select
+              defaultValue={reactLocalStorage.get("language") || LANGUAGES.vn}
+              onChange={onChangLanguage}
+              bordered={false}
+              dropdownClassName='dropdown__select--language'
+            >
+              <Option value={LANGUAGES.vn}>{LANGUAGES.vn}</Option>
+              <Option value={LANGUAGES.en}>{LANGUAGES.en}</Option>
+            </Select>
+          </Tooltip>
+        </div>
+      </div>
+    </React.Fragment>
+  );
+};
 
-      if (
-        item.navLink &&
-        item.collapsed !== undefined &&
-        item.collapsed === true
-      ) {
-        this.collapsedPath = item.navLink
-        this.props.collapsedMenuPaths(item.navLink)
-      }
+const mapStateToProps = (state) => {
+  return {
+    isZoom: state.customizer.customizer.zoom,
 
-      if (
-        item.type === "collapse" ||
-        item.type === "external-link" ||
-        (item.type === "item" &&
-          item.permissions &&
-          item.permissions.includes(this.props.currentUser)) ||
-        item.permissions === undefined
-      ) {
-        return renderItem
-      } else if (
-        item.type === "item" &&
-        item.navLink === this.props.activePath &&
-        !item.permissions.includes(this.props.currentUser)
-      ) {
-        return this.redirectUnauthorized()
-      }
-    })
-    return <React.Fragment>{menuItems}</React.Fragment>
-  }
-}
-export default SideMenuContent
+    isChangeAvatar: state.customizer.customizer.changeAvatar,
+  };
+};
+export default connect(mapStateToProps)(SideMenuContent);

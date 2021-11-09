@@ -1,0 +1,59 @@
+@import '../../assets/scss/core/variables/vms-variable';
+
+.ant-picker {
+  background: $vms-bg-sub;
+  border: solid 1px rgba(234, 240, 246, 0.1) !important;
+  box-sizing: border-box;
+  border-radius: 6px;
+  height: 40px;
+}
+
+.ant-picker-panel-container .ant-picker-panel {
+  background: $vms-bg-sub;
+}
+
+.ant-picker-panel {
+  background: $vms-bg-sub;
+}
+
+.ant-picker-input > input {
+  color: #fff;
+}
+
+.ant-picker.ant-picker-range {
+  height: 40px;
+  border-radius: 6px;
+}
+
+.ant-picker.ant-picker-focused {
+  border: solid 1px $vms-main-blue-primary !important;
+}
+
+.ant-picker-dropdown {
+  color: $vms-status;
+}
+
+.ant-picker-cell-inner {
+  color: $vms-status;
+}
+
+.ant-picker-cell:hover:not(.ant-picker-cell-in-view) .ant-picker-cell-inner,
+.ant-picker-cell:hover:not(.ant-picker-cell-selected):not(.ant-picker-cell-range-start):not(.ant-picker-cell-range-end):not(.ant-picker-cell-range-hover-start):not(.ant-picker-cell-range-hover-end) .ant-picker-cell-inner {
+  background: $vms-bg-primary;
+}
+
+.ant-picker-header {
+  color: $vms-status;
+}
+
+.ant-picker-content th {
+  color: $vms-status;
+}
+
+.ant-picker-footer a:hover {
+  color: $vms-status !important;
+}
+
+.ant-picker-clear {
+  background: $vms-bg-sub;
+}

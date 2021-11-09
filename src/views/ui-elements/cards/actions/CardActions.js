@@ -1,4 +1,4 @@
-import React from "react"
+import React from 'react';
 import {
   Card,
   CardHeader,
@@ -9,81 +9,81 @@ import {
   Table,
   Collapse,
   Spinner
-} from "reactstrap"
-import { ChevronDown, RotateCw, X } from "react-feather"
-import classnames from "classnames"
-import Breadcrumbs from "../../../../components/@vuexy/breadCrumbs/BreadCrumb"
+} from 'reactstrap';
+import { ChevronDown, RotateCw, X } from 'react-feather';
+import classnames from 'classnames';
+import Breadcrumbs from '../../../../components/@vuexy/breadCrumbs/BreadCrumb';
 
 class CardActions extends React.Component {
   state = {
     collapse: true,
     reload: false,
     isVisible: true,
-    status: "Opened",
+    status: 'Opened',
     isVisibleAll: true,
     reloadAll: false,
     collapseAll: true,
-    statusAll: "Opened"
-  }
+    statusAll: 'Opened'
+  };
 
   refreshCard = () => {
-    this.setState({ reload: true })
+    this.setState({ reload: true });
     setTimeout(() => {
-      this.setState({ reload: false })
-    }, 2000)
-  }
+      this.setState({ reload: false });
+    }, 500);
+  };
   refreshCardAll = () => {
-    this.setState({ reloadAll: true })
+    this.setState({ reloadAll: true });
     setTimeout(() => {
-      this.setState({ reloadAll: false })
-    }, 2000)
-  }
+      this.setState({ reloadAll: false });
+    }, 500);
+  };
 
   toggle = () => {
-    this.setState(state => ({ collapse: !state.collapse }))
-  }
+    this.setState((state) => ({ collapse: !state.collapse }));
+  };
   toggleAll = () => {
-    this.setState(state => ({ collapseAll: !state.collapseAll }))
-  }
+    this.setState((state) => ({ collapseAll: !state.collapseAll }));
+  };
   onEntered = () => {
-    this.setState({ status: "Opened" })
-  }
+    this.setState({ status: 'Opened' });
+  };
   onEnteredAll = () => {
-    this.setState({ status: "Opened" })
-  }
+    this.setState({ status: 'Opened' });
+  };
 
   onEntering = () => {
-    this.setState({ status: "Opening..." })
-  }
+    this.setState({ status: 'Opening...' });
+  };
   onEnteringAll = () => {
-    this.setState({ statusAll: "Opening..." })
-  }
+    this.setState({ statusAll: 'Opening...' });
+  };
 
   onEnteredAll = () => {
-    this.setState({ statusAll: "Opened" })
-  }
+    this.setState({ statusAll: 'Opened' });
+  };
 
   onExited = () => {
-    this.setState({ status: "Closed" })
-  }
+    this.setState({ status: 'Closed' });
+  };
 
   onExiting = () => {
-    this.setState({ status: "Closing..." })
-  }
+    this.setState({ status: 'Closing...' });
+  };
 
   onExitingAll = () => {
-    this.setState({ statusAll: "Closing..." })
-  }
+    this.setState({ statusAll: 'Closing...' });
+  };
   onExitedAll = () => {
-    this.setState({ statusAll: "Closed" })
-  }
+    this.setState({ statusAll: 'Closed' });
+  };
 
   removeCard = () => {
-    this.setState({ isVisible: false })
-  }
+    this.setState({ isVisible: false });
+  };
   removeCardAll = () => {
-    this.setState({ isVisibleAll: false })
-  }
+    this.setState({ isVisibleAll: false });
+  };
 
   render() {
     return (
@@ -137,11 +137,11 @@ class CardActions extends React.Component {
           </Col>
           <Col md="6" sm="12">
             <Card
-              className={classnames("card-action", {
-                "card-collapsed": this.state.status === "Closed",
-                "card-shown": this.state.status === "Opened",
-                closing: this.state.status === "Closing...",
-                opening: this.state.status === "Opening..."
+              className={classnames('card-action', {
+                'card-collapsed': this.state.status === 'Closed',
+                'card-shown': this.state.status === 'Opened',
+                closing: this.state.status === 'Closing...',
+                opening: this.state.status === 'Opening...'
               })}
             >
               <CardHeader>
@@ -175,7 +175,7 @@ class CardActions extends React.Component {
           </Col>
           <Col md="6" sm="12">
             <Card
-              className={classnames("card-reload card-action", {
+              className={classnames('card-reload card-action', {
                 refreshing: this.state.reload
               })}
             >
@@ -187,10 +187,10 @@ class CardActions extends React.Component {
                 {this.state.reload ? (
                   <Spinner color="primary" className="reload-spinner" />
                 ) : (
-                  ""
+                  ''
                 )}
                 <p>
-                  You can add refresh content action to card by adding class{" "}
+                  You can add refresh content action to card by adding class{' '}
                   <code>.card-reload</code> with your card tag, and add
                   conditional spinner into card body to showp when card is
                   refreshing.
@@ -203,8 +203,8 @@ class CardActions extends React.Component {
           </Col>
           <Col md="6" sm="12">
             <Card
-              className={classnames("card-action", {
-                "d-none": this.state.isVisible === false
+              className={classnames('card-action', {
+                'd-none': this.state.isVisible === false
               })}
             >
               <CardHeader>
@@ -213,7 +213,7 @@ class CardActions extends React.Component {
               </CardHeader>
               <CardBody>
                 <p>
-                  You can create a removable card by managing state{" "}
+                  You can create a removable card by managing state{' '}
                   <code>isVisible</code>, which will add conditional d-none
                   class which clicked on icon to remove your card.
                 </p>
@@ -225,12 +225,12 @@ class CardActions extends React.Component {
           </Col>
           <Col md="6" sm="12">
             <Card
-              className={classnames("card-action card-reload", {
-                "d-none": this.state.isVisibleAll === false,
+              className={classnames('card-action card-reload', {
+                'd-none': this.state.isVisibleAll === false,
                 refreshing: this.state.reloadAll,
-                "card-collapsed": this.state.statusAll === "Closed",
-                closing: this.state.statusAll === "Closing...",
-                opening: this.state.statusAll === "Opening..."
+                'card-collapsed': this.state.statusAll === 'Closed',
+                closing: this.state.statusAll === 'Closing...',
+                opening: this.state.statusAll === 'Opening...'
               })}
             >
               <CardHeader>
@@ -260,7 +260,7 @@ class CardActions extends React.Component {
                   {this.state.reloadAll ? (
                     <Spinner color="primary" className="reload-spinner" />
                   ) : (
-                    ""
+                    ''
                   )}
                   You can also add all three action together by managing all
                   three actions's required classes and by managing their states.
@@ -270,7 +270,7 @@ class CardActions extends React.Component {
           </Col>
         </Row>
       </React.Fragment>
-    )
+    );
   }
 }
-export default CardActions
+export default CardActions;

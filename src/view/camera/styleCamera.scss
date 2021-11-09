@@ -1,0 +1,48 @@
+.btnListCamera {
+  margin-right: 8px;
+  width: 170px;
+  height: 40px;
+  border-radius: 6px;
+  background-color: '#7367F0';
+}
+
+.btnListCameraGroup {
+  width: 220px;
+  height: 40px;
+  border-radius: 6px;
+}
+
+// .searchInput {
+//   width: 350px;
+//   height: 40px;
+//   border-radius: 6px;
+//   margin-right: 8px;
+// }
+
+
+.ant-select.ant-select-auto-complete.searchInput.ant-select-single.ant-select-show-search {
+  width: 350px;
+  height: 40px;
+  border-radius: 6px;
+  margin-right: 8px;
+}
+
+.btnAdd {
+  height: 40px;
+  width: 120px;
+  color: '#EAE9F0';
+  border-radius: 6px;
+}
+
+[dir] .ant-select-show-search.ant-select:not(.ant-select-customize-input) .ant-select-selector {
+  cursor: text;
+  width: 100%;
+  height: 100%;
+  border-radius: 6px;
+
+  .ant-select-selection-placeholder {
+    line-height: 40px;
+  }
+}
+
+

@@ -1,0 +1,170 @@
+@import '../../../assets/scss/core/variables/vms-variable';
+
+
+
+.ant-select.ant-select-auto-complete.searchInputCamproxy.ant-select-single.ant-select-show-search {
+  width: 350px;
+  height: 40px;
+  border-radius: 6px;
+  margin-right: 8px;
+}
+
+//[dir] .ant-select:not(.ant-select-customize-input) .ant-select-selector {
+//  background-color: #fff;
+//  border: 1px solid #d9d9d9;
+//  border-radius: 6px;
+//  height: 40px;
+//  line-height: 40px;
+//}
+
+[dir] .ant-select-single .ant-select-selector .ant-select-selection-item,
+[dir] .ant-select-single .ant-select-selector .ant-select-selection-placeholder {
+  padding: 0;
+  line-height: 40px;
+}
+
+
+
+.tabs__container--camproxy {
+  margin-top: 52px;
+
+  
+
+  .ant-tabs-nav-list {
+    background-color: #232323;
+    width: 100%;
+
+    .ant-tabs-tab {
+      border-top: 1px solid rgba(234, 240, 247, 0.1);
+      border-right: 1px solid rgba(234, 240, 247, 0.1);
+      border-left: 1px solid rgba(234, 240, 247, 0.1);
+      border-bottom: 1px solid $vms-bg-sub;
+      width: 25%;
+      color: $vms-status; 
+      display: inline;
+      text-align: center !important;
+      border-radius: 4px 4px 0 0 !important;
+      
+
+    }
+    
+
+    .ant-tabs-tab-active {
+      background-color: $vms-main-blue-primary ;
+      border-bottom: 1px solid $vms-main-blue-primary !important;
+
+      .ant-tabs-tab-btn{
+        color: $vms-status;
+      }
+    }
+  }
+
+  .description {
+    margin: 0;
+    background-color: $vms-bg-sub;
+    border-radius: 0 0 12px 12px;
+    display: flex;
+    margin-bottom: 60px;
+
+    .description__img {
+      margin: 30px 52px 30px 42px;
+    }
+
+    .description__content {
+      margin-top: 18px;
+      margin-right: 44px;
+      color: $vms-soft-statuts;
+    }
+  }
+  
+  .search {
+    width: 100%;
+    margin-bottom: 24px;
+    display: flex;
+
+    // .search__zone--by {
+    //   width: 18.5%;
+
+    //   .ant-select-selector {
+    //     border-radius: 8px 0 0 8px !important;
+    //     border-right: none !important;
+    //     background-color: $vms-bg-sub;
+
+    //   }
+    // }
+
+    .search--camproxy {
+      width: 100% ;
+      // background-color: $vms-bg-sub !important;
+
+      .ant-form-item-control-input {
+        border-radius:8px !important;
+        
+        .ant-select-selector {
+          border-radius: 8px !important;
+          background-color: $vms-bg-sub;
+        }
+      }
+
+      
+    }
+
+  }
+
+  .card--listCamproxy {
+    background-color: $vms-bg-primary;
+    border: none;
+
+    .ant-card-extra .ant-btn{
+      width: 40px;
+      height: 40px;
+      padding: 0;
+      background-color: $vms-main-blue-primary;
+      border: none;
+      border-radius: 4px;
+
+      span{
+        position: absolute;
+        font-size: 21px;
+        right: 9px;
+        transform: translateY(-50%);
+      }
+    }
+
+    .ant-table {
+      background-color: $vms-bg-primary;
+      border-bottom: 1px solid rgba(234, 240, 247, 0.1);
+      border-radius: 0 0 12px 12px;
+
+      .ant-table-container::after {
+        
+      }
+
+      th.ant-table-cell {
+        background-color: $vms-bg-sub !important;
+        color: $vms-soft-statuts;
+        border-bottom: 1px solid rgba(234, 240, 247, 0.1);
+        padding: 12px 0 12px 10px;
+      }
+
+      .ant-table-body {
+        border-radius: 0 0 12px 12px;
+
+        td.ant-table-cell{
+          background-color: $vms-bg-primary;
+          color: $vms-soft-statuts;
+          border-bottom: 1px solid rgba(234, 240, 247, 0.1);
+          padding: 12px 0 12px 10px;
+        }
+      }
+
+      
+
+
+    }
+  }
+
+}
+//end: zone 
+
+

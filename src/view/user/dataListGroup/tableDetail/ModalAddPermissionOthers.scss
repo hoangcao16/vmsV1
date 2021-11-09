@@ -1,0 +1,104 @@
+@import "../../../../assets/scss/core/variables/vms-variable";
+@import "../../../../assets/scss/core/mixins/vms-mixins";
+
+.modal__add-permission-other--in-group-user {
+  width: 65vw !important;
+  top: 56px !important;
+  position: absolute;
+  left: 50%;
+  transform: translateX(-50%);
+
+  .ant-modal-content {
+    .ant-modal-header {
+      border-radius: 12px 12px 0 0;
+      background-color: $vms-bg-primary;
+
+      .ant-modal-title {
+        background-color: $vms-bg-primary;
+        color: $vms-status;
+        font-size: 20px;
+        font-weight: 600;
+        text-align: left;
+        margin-top: 20px 0 20px 32px;
+        padding: 0;
+      }
+    }
+
+    .ant-modal-body {
+      background-color: $vms-bg-primary;
+      padding: 24px 32px !important;
+      width: 100%;
+      .treeData {
+        background-color: $vms-bg-primary;
+        .ant-tree-checkbox{
+          &:hover {
+            border-radius: 4px;
+
+          }
+          .ant-tree-checkbox-inner{
+            background-color: $vms-bg-primary;
+            border: 1px solid $vms-main-blue-primary;
+            border-radius: 4px;
+            
+          }
+        }
+
+        .ant-tree-checkbox-checked .ant-tree-checkbox-inner {
+          background-color: $vms-main-blue-primary;
+        }
+
+        .ant-tree-node-content-wrapper:hover {
+          background-color: $vms-main-blue-primary !important;
+          border-radius: 4px;
+
+          .titleGroup {
+            color: $vms-soft-statuts;
+          }
+        }
+
+        .ant-tree-node-selected{
+          background-color: $vms-bg-primary !important;
+        }
+      }
+      
+    }
+
+    .ant-modal-footer {
+      border-radius: 0 0 12px 12px;
+      background-color: $vms-bg-primary;
+      border-top: none;
+      padding-bottom: 41px;
+      padding-right: 32px;
+
+      .ant-btn {
+        padding: 8px 36px;
+        height: 40px;
+      }
+
+      & button:first-child {
+        background-color: $vms-bg-primary;
+        border-radius: 4px;
+        border: 1px solid $vms-main-blue-primary;
+
+        span {
+          color: $vms-main-blue-primary;
+        }
+      }
+
+      & button:last-child {
+        background-color: $vms-main-blue-primary;
+        border-radius: 4px;
+        border: 1px solid $vms-main-blue-primary;
+
+        span {
+          color: #ffffff;
+        }
+      }
+    }
+  }
+}
+
+.disabled-row {
+  background-color: #dcdcdc;
+  pointer-events: none;
+}

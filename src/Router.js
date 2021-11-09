@@ -1,224 +1,291 @@
-import React, { Suspense, lazy } from "react"
-import { Router, Switch, Route } from "react-router-dom"
-import { history } from "./history"
-import { connect } from "react-redux"
-import { Redirect } from "react-router-dom"
-import Spinner from "./components/@vuexy/spinner/Loading-spinner"
-import knowledgeBaseCategory from "./views/pages/knowledge-base/Category"
-import knowledgeBaseQuestion from "./views/pages/knowledge-base/Questions"
-import { ContextLayout } from "./utility/context/Layout"
+import React, { lazy, Suspense } from 'react';
+import { connect } from 'react-redux';
+import { Redirect, Route, Router, Switch } from 'react-router-dom';
+import Spinner from './components/@vuexy/spinner/Loading-spinner';
+import { history } from './history';
+import { ContextLayout } from './utility/context/Layout';
+import { FORM_MAP_ITEM } from './view/common/vms/constans/map';
+import knowledgeBaseCategory from './views/pages/knowledge-base/Category';
+import knowledgeBaseQuestion from './views/pages/knowledge-base/Questions';
 
 // Route-based code splitting
-const analyticsDashboard = lazy(() =>
-  import("./views/dashboard/analytics/AnalyticsDashboard")
-)
+
 const ecommerceDashboard = lazy(() =>
-  import("./views/dashboard/ecommerce/EcommerceDashboard")
-)
-const email = lazy(() => import("./views/apps/email/Email"))
-const chat = lazy(() => import("./views/apps/chat/Chat"))
-const todo = lazy(() => import("./views/apps/todo/Todo"))
-const calendar = lazy(() => import("./views/apps/calendar/Calendar"))
-const shop = lazy(() => import("./views/apps/ecommerce/shop/Shop"))
-const wishlist = lazy(() => import("./views/apps/ecommerce/wishlist/Wishlist"))
-const checkout = lazy(() => import("./views/apps/ecommerce/cart/Cart"))
-const productDetail = lazy(() => import("./views/apps/ecommerce/detail/Detail"))
-const grid = lazy(() => import("./views/ui-elements/grid/Grid"))
+  import('./views/dashboard/ecommerce/EcommerceDashboard')
+);
+const email = lazy(() => import('./views/apps/email/Email'));
+const chat = lazy(() => import('./views/apps/chat/Chat'));
+const todo = lazy(() => import('./views/apps/todo/Todo'));
+const calendar = lazy(() => import('./views/apps/calendar/Calendar'));
+const shop = lazy(() => import('./views/apps/ecommerce/shop/Shop'));
+const wishlist = lazy(() => import('./views/apps/ecommerce/wishlist/Wishlist'));
+const checkout = lazy(() => import('./views/apps/ecommerce/cart/Cart'));
+const productDetail = lazy(() =>
+  import('./views/apps/ecommerce/detail/Detail')
+);
+const grid = lazy(() => import('./views/ui-elements/grid/Grid'));
 const typography = lazy(() =>
-  import("./views/ui-elements/typography/Typography")
-)
+  import('./views/ui-elements/typography/Typography')
+);
 const textutilities = lazy(() =>
-  import("./views/ui-elements/text-utilities/TextUtilities")
-)
+  import('./views/ui-elements/text-utilities/TextUtilities')
+);
 const syntaxhighlighter = lazy(() =>
-  import("./views/ui-elements/syntax-highlighter/SyntaxHighlighter")
-)
-const colors = lazy(() => import("./views/ui-elements/colors/Colors"))
+  import('./views/ui-elements/syntax-highlighter/SyntaxHighlighter')
+);
+const colors = lazy(() => import('./views/ui-elements/colors/Colors'));
 const reactfeather = lazy(() =>
-  import("./views/ui-elements/icons/FeatherIcons")
-)
-const basicCards = lazy(() => import("./views/ui-elements/cards/basic/Cards"))
+  import('./views/ui-elements/icons/FeatherIcons')
+);
+const basicCards = lazy(() => import('./views/ui-elements/cards/basic/Cards'));
 const statisticsCards = lazy(() =>
-  import("./views/ui-elements/cards/statistics/StatisticsCards")
-)
+  import('./views/ui-elements/cards/statistics/StatisticsCards')
+);
 const analyticsCards = lazy(() =>
-  import("./views/ui-elements/cards/analytics/Analytics")
-)
+  import('./views/ui-elements/cards/analytics/Analytics')
+);
 const actionCards = lazy(() =>
-  import("./views/ui-elements/cards/actions/CardActions")
-)
-const Alerts = lazy(() => import("./components/reactstrap/alerts/Alerts"))
-const Buttons = lazy(() => import("./components/reactstrap/buttons/Buttons"))
+  import('./views/ui-elements/cards/actions/CardActions')
+);
+const Alerts = lazy(() => import('./components/reactstrap/alerts/Alerts'));
+const Buttons = lazy(() => import('./components/reactstrap/buttons/Buttons'));
 const Breadcrumbs = lazy(() =>
-  import("./components/reactstrap/breadcrumbs/Breadcrumbs")
-)
-const Carousel = lazy(() => import("./components/reactstrap/carousel/Carousel"))
-const Collapse = lazy(() => import("./components/reactstrap/collapse/Collapse"))
+  import('./components/reactstrap/breadcrumbs/Breadcrumbs')
+);
+const Carousel = lazy(() =>
+  import('./components/reactstrap/carousel/Carousel')
+);
+const Collapse = lazy(() =>
+  import('./components/reactstrap/collapse/Collapse')
+);
 const Dropdowns = lazy(() =>
-  import("./components/reactstrap/dropdowns/Dropdown")
-)
+  import('./components/reactstrap/dropdowns/Dropdown')
+);
 const ListGroup = lazy(() =>
-  import("./components/reactstrap/listGroup/ListGroup")
-)
-const Modals = lazy(() => import("./components/reactstrap/modal/Modal"))
+  import('./components/reactstrap/listGroup/ListGroup')
+);
+const Modals = lazy(() => import('./components/reactstrap/modal/Modal'));
 const Pagination = lazy(() =>
-  import("./components/reactstrap/pagination/Pagination")
-)
+  import('./components/reactstrap/pagination/Pagination')
+);
 const NavComponent = lazy(() =>
-  import("./components/reactstrap/navComponent/NavComponent")
-)
-const Navbar = lazy(() => import("./components/reactstrap/navbar/Navbar"))
-const Tabs = lazy(() => import("./components/reactstrap/tabs/Tabs"))
-const TabPills = lazy(() => import("./components/reactstrap/tabPills/TabPills"))
-const Tooltips = lazy(() => import("./components/reactstrap/tooltips/Tooltips"))
-const Popovers = lazy(() => import("./components/reactstrap/popovers/Popovers"))
-const Badge = lazy(() => import("./components/reactstrap/badge/Badge"))
+  import('./components/reactstrap/navComponent/NavComponent')
+);
+const Navbar = lazy(() => import('./components/reactstrap/navbar/Navbar'));
+const Tabs = lazy(() => import('./components/reactstrap/tabs/Tabs'));
+const TabPills = lazy(() =>
+  import('./components/reactstrap/tabPills/TabPills')
+);
+const Tooltips = lazy(() =>
+  import('./components/reactstrap/tooltips/Tooltips')
+);
+const Popovers = lazy(() =>
+  import('./components/reactstrap/popovers/Popovers')
+);
+const Badge = lazy(() => import('./components/reactstrap/badge/Badge'));
 const BadgePill = lazy(() =>
-  import("./components/reactstrap/badgePills/BadgePill")
-)
-const Progress = lazy(() => import("./components/reactstrap/progress/Progress"))
-const Media = lazy(() => import("./components/reactstrap/media/MediaObject"))
-const Spinners = lazy(() => import("./components/reactstrap/spinners/Spinners"))
-const Toasts = lazy(() => import("./components/reactstrap/toasts/Toasts"))
-const avatar = lazy(() => import("./components/@vuexy/avatar/Avatar"))
+  import('./components/reactstrap/badgePills/BadgePill')
+);
+const Progress = lazy(() =>
+  import('./components/reactstrap/progress/Progress')
+);
+const Media = lazy(() => import('./components/reactstrap/media/MediaObject'));
+const Spinners = lazy(() =>
+  import('./components/reactstrap/spinners/Spinners')
+);
+const Toasts = lazy(() => import('./components/reactstrap/toasts/Toasts'));
+const avatar = lazy(() => import('./components/@vuexy/avatar/Avatar'));
 const AutoComplete = lazy(() =>
-  import("./components/@vuexy/autoComplete/AutoComplete")
-)
-const chips = lazy(() => import("./components/@vuexy/chips/Chips"))
-const divider = lazy(() => import("./components/@vuexy/divider/Divider"))
-const vuexyWizard = lazy(() => import("./components/@vuexy/wizard/Wizard"))
-const listView = lazy(() => import("./views/ui-elements/data-list/ListView"))
-const thumbView = lazy(() => import("./views/ui-elements/data-list/ThumbView"))
-const select = lazy(() => import("./views/forms/form-elements/select/Select"))
+  import('./components/@vuexy/autoComplete/AutoComplete')
+);
+const chips = lazy(() => import('./components/@vuexy/chips/Chips'));
+const divider = lazy(() => import('./components/@vuexy/divider/Divider'));
+const vuexyWizard = lazy(() => import('./components/@vuexy/wizard/Wizard'));
+const listView = lazy(() => import('./views/ui-elements/data-list/ListView'));
+const thumbView = lazy(() => import('./views/ui-elements/data-list/ThumbView'));
+const select = lazy(() => import('./views/forms/form-elements/select/Select'));
 const switchComponent = lazy(() =>
-  import("./views/forms/form-elements/switch/Switch")
-)
+  import('./views/forms/form-elements/switch/Switch')
+);
 const checkbox = lazy(() =>
-  import("./views/forms/form-elements/checkboxes/Checkboxes")
-)
-const radio = lazy(() => import("./views/forms/form-elements/radio/Radio"))
-const input = lazy(() => import("./views/forms/form-elements/input/Input"))
+  import('./views/forms/form-elements/checkboxes/Checkboxes')
+);
+const radio = lazy(() => import('./views/forms/form-elements/radio/Radio'));
+const input = lazy(() => import('./views/forms/form-elements/input/Input'));
 const group = lazy(() =>
-  import("./views/forms/form-elements/input-groups/InputGoups")
-)
+  import('./views/forms/form-elements/input-groups/InputGoups')
+);
 const numberInput = lazy(() =>
-  import("./views/forms/form-elements/number-input/NumberInput")
-)
+  import('./views/forms/form-elements/number-input/NumberInput')
+);
 const textarea = lazy(() =>
-  import("./views/forms/form-elements/textarea/Textarea")
-)
+  import('./views/forms/form-elements/textarea/Textarea')
+);
 const pickers = lazy(() =>
-  import("./views/forms/form-elements/datepicker/Pickers")
-)
+  import('./views/forms/form-elements/datepicker/Pickers')
+);
 const inputMask = lazy(() =>
-  import("./views/forms/form-elements/input-mask/InputMask")
-)
-const layout = lazy(() => import("./views/forms/form-layouts/FormLayouts"))
-const formik = lazy(() => import("./views/forms/formik/Formik"))
-const tables = lazy(() => import("./views/tables/reactstrap/Tables"))
+  import('./views/forms/form-elements/input-mask/InputMask')
+);
+const layout = lazy(() => import('./views/forms/form-layouts/FormLayouts'));
+const formik = lazy(() => import('./views/forms/formik/Formik'));
+const tables = lazy(() => import('./views/tables/reactstrap/Tables'));
 const ReactTables = lazy(() =>
-  import("./views/tables/react-tables/ReactTables")
-)
-const Aggrid = lazy(() => import("./views/tables/aggrid/Aggrid"))
-const DataTable = lazy(() => import("./views/tables/data-tables/DataTables"))
-const profile = lazy(() => import("./views/pages/profile/Profile"))
-const faq = lazy(() => import("./views/pages/faq/FAQ"))
+  import('./views/tables/react-tables/ReactTables')
+);
+const Aggrid = lazy(() => import('./views/tables/aggrid/Aggrid'));
+const DataTable = lazy(() => import('./views/tables/data-tables/DataTables'));
+const profile = lazy(() => import('./views/pages/profile/Profile'));
+const faq = lazy(() => import('./views/pages/faq/FAQ'));
 const knowledgeBase = lazy(() =>
-  import("./views/pages/knowledge-base/KnowledgeBase")
-)
-const search = lazy(() => import("./views/pages/search/Search"))
-const accountSettings = lazy(() =>
-  import("./views/pages/account-settings/AccountSettings")
-)
-const invoice = lazy(() => import("./views/pages/invoice/Invoice"))
-const comingSoon = lazy(() => import("./views/pages/misc/ComingSoon"))
-const error404 = lazy(() => import("./views/pages/misc/error/404"))
-const error500 = lazy(() => import("./views/pages/misc/error/500"))
-const authorized = lazy(() => import("./views/pages/misc/NotAuthorized"))
-const maintenance = lazy(() => import("./views/pages/misc/Maintenance"))
-const apex = lazy(() => import("./views/charts/apex/ApexCharts"))
-const chartjs = lazy(() => import("./views/charts/chart-js/ChartJS"))
-const extreme = lazy(() => import("./views/charts/recharts/Recharts"))
-const leafletMaps = lazy(() => import("./views/maps/Maps"))
-const toastr = lazy(() => import("./extensions/toastify/Toastify"))
-const sweetAlert = lazy(() => import("./extensions/sweet-alert/SweetAlert"))
-const rcSlider = lazy(() => import("./extensions/rc-slider/Slider"))
-const uploader = lazy(() => import("./extensions/dropzone/Dropzone"))
-const editor = lazy(() => import("./extensions/editor/Editor"))
-const drop = lazy(() => import("./extensions/drag-and-drop/DragAndDrop"))
-const tour = lazy(() => import("./extensions/tour/Tour"))
+  import('./views/pages/knowledge-base/KnowledgeBase')
+);
+const search = lazy(() => import('./views/pages/search/Search'));
+// const accountSettings = lazy(() =>
+//   import('./views/pages/account-settings/AccountSettings')
+// );
+const invoice = lazy(() => import('./views/pages/invoice/Invoice'));
+const comingSoon = lazy(() => import('./views/pages/misc/ComingSoon'));
+const error404 = lazy(() => import('./views/pages/misc/error/404'));
+const error500 = lazy(() => import('./views/pages/misc/error/500'));
+const authorized = lazy(() => import('./views/pages/misc/NotAuthorized'));
+const maintenance = lazy(() => import('./views/pages/misc/Maintenance'));
+const apex = lazy(() => import('./views/charts/apex/ApexCharts'));
+const chartjs = lazy(() => import('./views/charts/chart-js/ChartJS'));
+const extreme = lazy(() => import('./views/charts/recharts/Recharts'));
+const leafletMaps = lazy(() => import('./views/maps/Maps'));
+const toastr = lazy(() => import('./extensions/toastify/Toastify'));
+const sweetAlert = lazy(() => import('./extensions/sweet-alert/SweetAlert'));
+const rcSlider = lazy(() => import('./extensions/rc-slider/Slider'));
+const uploader = lazy(() => import('./extensions/dropzone/Dropzone'));
+const editor = lazy(() => import('./extensions/editor/Editor'));
+const drop = lazy(() => import('./extensions/drag-and-drop/DragAndDrop'));
+const tour = lazy(() => import('./extensions/tour/Tour'));
 const clipboard = lazy(() =>
-  import("./extensions/copy-to-clipboard/CopyToClipboard")
-)
-const menu = lazy(() => import("./extensions/contexify/Contexify"))
-const swiper = lazy(() => import("./extensions/swiper/Swiper"))
-const i18n = lazy(() => import("./extensions/i18n/I18n"))
-const reactPaginate = lazy(() => import("./extensions/pagination/Pagination"))
-const tree = lazy(() => import("./extensions/treeview/TreeView"))
-const Import = lazy(() => import("./extensions/import-export/Import"))
-const Export = lazy(() => import("./extensions/import-export/Export"))
+  import('./extensions/copy-to-clipboard/CopyToClipboard')
+);
+const menu = lazy(() => import('./extensions/contexify/Contexify'));
+const swiper = lazy(() => import('./extensions/swiper/Swiper'));
+const i18n = lazy(() => import('./extensions/i18n/I18n'));
+const reactPaginate = lazy(() => import('./extensions/pagination/Pagination'));
+const tree = lazy(() => import('./extensions/treeview/TreeView'));
+const Import = lazy(() => import('./extensions/import-export/Import'));
+const Export = lazy(() => import('./extensions/import-export/Export'));
 const ExportSelected = lazy(() =>
-  import("./extensions/import-export/ExportSelected")
-)
-const userList = lazy(() => import("./views/apps/user/list/List"))
-const userEdit = lazy(() => import("./views/apps/user/edit/Edit"))
-const userView = lazy(() => import("./views/apps/user/view/View"))
-const Login = lazy(() => import("./views/pages/authentication/login/Login"))
+  import('./extensions/import-export/ExportSelected')
+);
+const Camera = lazy(() => import('./view/camera/index'));
+const CameraGroup = lazy(() => import('./view/camera/TableCameraGroup'));
+
+const Files = lazy(() => import('./view/storage/files/TableStorage'));
+const ClearSetting = lazy(() =>
+  import('./view/storage/clear-setting/TableClearSetting')
+);
+const ExportEventFile = lazy(() =>
+  import('./view/storage/export-event-file/ExportEventFile')
+);
+const HardDriveList = lazy(() =>
+  import('./view/storage/hard-drive-list/TableHardDriveList')
+);
+const RecordSetting = lazy(() =>
+  import('./view/storage/record-setting/TableRecordSetting')
+);
+// const ThreshSaveSetting = lazy(() =>
+//   import('./view/storage/store-setting/StoreSetting')
+// );
+const StoreSetting = lazy(() =>
+  import('./view/storage/store-setting/StoreSetting')
+);
+const Scan = lazy(() => import('./view/camera/TableCameraScan'));
+
+const NVR = lazy(() => import('./view/commonDevice/nvr/TableNVR'));
+const Playback = lazy(() =>
+  import('./view/commonDevice/playback/TablePlayback')
+);
+const Camproxy = lazy(() =>
+  import('./view/commonDevice/camproxy/TableCamproxy')
+);
+const Setting = lazy(() => import('./view/setting/TableSetting'));
+const ptzMan = lazy(() => import('./view/ptz-man/TablePtzManager'));
+
+const Monitoring = lazy(() => import('./view/monitoring/TableMonitoring'));
+const Event = lazy(() => import('./view/event/TableEvent'));
+const Alert = lazy(() => import('./view/alert/TableAlert'));
+const Zone = lazy(() => import('./view/commonDevice/zone/TableZone'));
+const DeviceManage = lazy(() => import('./view/commonDevice/DeviceManage'));
+const Category = lazy(() => import('./view/category/TableCategory'));
+const SettingAccount = lazy(() => import('./view/user/Setting'));
+
+const Login = lazy(() => import('./views/pages/authentication/login/Login'));
 const forgotPassword = lazy(() =>
-  import("./views/pages/authentication/ForgotPassword")
-)
-const lockScreen = lazy(() => import("./views/pages/authentication/LockScreen"))
+  import('./views/pages/authentication/ForgotPassword')
+);
+const lockScreen = lazy(() =>
+  import('./views/pages/authentication/LockScreen')
+);
 const resetPassword = lazy(() =>
-  import("./views/pages/authentication/ResetPassword")
-)
+  import('./views/pages/authentication/ResetPassword')
+);
 const register = lazy(() =>
-  import("./views/pages/authentication/register/Register")
-)
+  import('./views/pages/authentication/register/Register')
+);
 const accessControl = lazy(() =>
-  import("./extensions/access-control/AccessControl")
-)
+  import('./extensions/access-control/AccessControl')
+);
+
+const Live = lazy(() => import('./view/live/Live'));
+const Maps = lazy(() => import('./view/maps/Maps'));
+const Preset = lazy(() => import('./view/preset/Preset'));
+const Report = lazy(() => import('./view/report/Report'));
+const Infor = lazy(() => import('./view/infor/InforUserDetails'));
+const Notification = lazy(() => import('./view/notification/Notification'));
+
 // Set Layout and Component Using App Route
 const RouteConfig = ({ component: Component, fullLayout, ...rest }) => (
   <Route
     {...rest}
-    render={props => {
+    render={(props) => {
       return (
         <ContextLayout.Consumer>
-          {context => {
+          {(context) => {
             let LayoutTag =
               fullLayout === true
                 ? context.fullLayout
-                : context.state.activeLayout === "horizontal"
+                : context.state.activeLayout === 'horizontal'
                 ? context.horizontalLayout
-                : context.VerticalLayout
+                : context.VerticalLayout;
             return (
               <LayoutTag {...props} permission={props.user}>
                 <Suspense fallback={<Spinner />}>
                   <Component {...props} />
                 </Suspense>
               </LayoutTag>
-            )
+            );
           }}
         </ContextLayout.Consumer>
-      )
+      );
     }}
   />
-)
-const mapStateToProps = state => {
+);
+const mapStateToProps = (state) => {
   return {
     user: state.auth.login.userRole
-  }
-}
+  };
+};
 
-const AppRoute = connect(mapStateToProps)(RouteConfig)
+const AppRoute = connect(mapStateToProps)(RouteConfig);
 
 class AppRouter extends React.Component {
+  constructor(props) {
+    super(props);
+  }
   render() {
+    sessionStorage.removeItem(FORM_MAP_ITEM);
     return (
       // Set the directory path if you are deploying in sub-folder
       <Router history={history}>
         <Switch>
-          <AppRoute exact path="/" component={analyticsDashboard} />
+          <AppRoute exact path="/" component={Report} />
           <AppRoute
             path="/ecommerce-dashboard"
             component={ecommerceDashboard}
@@ -309,7 +376,7 @@ class AppRouter extends React.Component {
           <AppRoute path="/forms/elements/pickers" component={pickers} />
           <AppRoute path="/forms/elements/input-mask" component={inputMask} />
           <AppRoute path="/forms/layout/form-layout" component={layout} />
-          <AppRoute path="/forms/formik" component={formik} />{" "}
+          <AppRoute path="/forms/formik" component={formik} />{' '}
           <AppRoute path="/tables/reactstrap" component={tables} />
           <AppRoute path="/tables/react-tables" component={ReactTables} />
           <AppRoute path="/tables/agGrid" component={Aggrid} />
@@ -331,10 +398,10 @@ class AppRouter extends React.Component {
             component={knowledgeBaseQuestion}
           />
           <AppRoute path="/pages/search" component={search} />
-          <AppRoute
-            path="/pages/account-settings"
-            component={accountSettings}
-          />
+          {/*<AppRoute*/}
+          {/*  path="/pages/account-settings"*/}
+          {/*  component={accountSettings}*/}
+          {/*/>*/}
           <AppRoute path="/pages/invoice" component={invoice} />
           <AppRoute
             path="/misc/coming-soon"
@@ -370,9 +437,44 @@ class AppRouter extends React.Component {
             component={maintenance}
             fullLayout
           />
-          <AppRoute path="/app/user/list" component={userList} />
-          <AppRoute path="/app/user/edit" component={userEdit} />
-          <AppRoute path="/app/user/view" component={userView} />
+          <AppRoute path="/app/camera/list" component={Camera} />
+          <AppRoute path="/app/camera_group/list" component={CameraGroup} />
+          <AppRoute path="/app/storage/list" component={Files} />
+          <AppRoute
+            path="/app/storage/clear-setting"
+            component={ClearSetting}
+          />
+          <AppRoute
+            path="/app/storage/export-event-file"
+            component={ExportEventFile}
+          />
+          <AppRoute
+            path="/app/storage/hard-drive-list"
+            component={HardDriveList}
+          />
+          <AppRoute
+            path="/app/storage/record-setting"
+            component={RecordSetting}
+          />
+          <AppRoute
+            path="/app/storage/store-setting"
+            component={StoreSetting}
+          />
+          <AppRoute path="/app/nvr/list" component={NVR} />
+          <AppRoute path="/app/playback/list" component={Playback} />
+          <AppRoute path="/app/camproxy/list" component={Camproxy} />
+          <AppRoute path="/setting" component={Setting} />
+          <AppRoute path="/app/ptz-man/list" component={ptzMan} />
+          <AppRoute path="/app/zone/list" component={Zone} />
+          <AppRoute path="/app/device-manage/list" component={DeviceManage} />
+          <AppRoute path="/app/category/list" component={Category} />
+          <AppRoute path="/app/setting" component={SettingAccount} />
+          {/*<AppRoute path="/app/map" component={MapViewOnline} />*/}
+          <AppRoute path="/app/live" component={Live} />
+          <AppRoute path="/app/maps" component={Maps} />
+          <AppRoute path="/monitoring" component={Monitoring} />
+          <AppRoute path="/event" component={Event} />
+          <AppRoute path="/alert" component={Alert} />
           <AppRoute path="/charts/apex" component={apex} />
           <AppRoute path="/charts/chartjs" component={chartjs} />
           <AppRoute path="/charts/recharts" component={extreme} />
@@ -399,12 +501,16 @@ class AppRouter extends React.Component {
             path="/extensions/export-selected"
             component={ExportSelected}
           />
+          <AppRoute path="/app/preset" component={Preset} />
+          <AppRoute path="/app/report" component={Report} />
+          <AppRoute path="/app/infor" component={Infor} />
           <AppRoute path="/extensions/pagination" component={reactPaginate} />
+          <AppRoute path="/app/setting/scan" component={Scan} />
           <AppRoute component={error404} fullLayout />
         </Switch>
       </Router>
-    )
+    );
   }
 }
 
-export default AppRouter
+export default AppRouter;

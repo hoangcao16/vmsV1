@@ -927,7 +927,7 @@ mock.onGet("/api/datalist/data").reply(response => {
 // UPDATE DATA
 mock.onPost("/api/datalist/update-data").reply(request => {
   let data = JSON.parse(request.data).obj
-  dataList.map(item => {
+  dataList.forEach(item => {
     if (item.id === data.id) {
       let popularity = determinePopularity(data.popularity.popValue)
       return Object.assign(item, { ...data, popularity })
