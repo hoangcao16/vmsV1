@@ -39,6 +39,7 @@ const SideMenuContent = (props) => {
   const { setLanguage } = props;
   const { i18n } = useTranslation();
   const [avatarUrl, setAvatarUrl] = useState("");
+
   const language = reactLocalStorage.get("language");
   console.log("language: ", language);
 
@@ -80,7 +81,8 @@ const SideMenuContent = (props) => {
   };
   // Loop over sidebar items
 
-  const onChangLanguage = (value) => {
+  const onChangLanguage = (e) => {
+    const value = e.target.value
     setMultilanguageForElement(
       ".add_camera",
       "Thêm Camera",
@@ -137,6 +139,7 @@ const SideMenuContent = (props) => {
               placement='right'
               title={language == "en" ? `${item.id}` : `${item.title}`}
               arrowPointAtCenter={true}
+              overlayStyle={{ position: 'fixed' }}
             >
               <div
                 className={classnames(
@@ -145,17 +148,16 @@ const SideMenuContent = (props) => {
                   { inActive: item.navLink !== props.activeItemState },
                   `${item.id}`
                 )}
+
                 style={{
-                  backgroundImage: `url(${
-                    item.navLink === props.activeItemState
-                      ? iconActive[`${item.id}`]
-                      : iconInActive[`${item.id}`]
-                  })`,
-                  backgroundSize: `${
-                    item.navLink === props.activeItemState
-                      ? "5.4rem 5.4rem"
-                      : "4rem 4rem"
-                  }`,
+                  backgroundImage: `url(${item.navLink === props.activeItemState
+                    ? iconActive[`${item.id}`]
+                    : iconInActive[`${item.id}`]
+                    })`,
+                  backgroundSize: `${item.navLink === props.activeItemState
+                    ? "5.4rem 5.4rem"
+                    : "4rem 4rem"
+                    }`,
                 }}
               ></div>
             </Tooltip>
@@ -180,6 +182,8 @@ const SideMenuContent = (props) => {
                 placement='right'
                 title={language == "en" ? `${item.id}` : `${item.title}`}
                 arrowPointAtCenter={true}
+                overlayStyle={{ position: 'fixed' }}
+
               >
                 <div
                   className={classnames(
@@ -189,16 +193,14 @@ const SideMenuContent = (props) => {
                     `${item.id}`
                   )}
                   style={{
-                    backgroundImage: `url(${
-                      item.navLink === props.activeItemState
-                        ? iconActive[`${item.id}`]
-                        : iconInActive[`${item.id}`]
-                    })`,
-                    backgroundSize: `${
-                      item.navLink === props.activeItemState
-                        ? "54px 54px"
-                        : "40px 40px"
-                    }`,
+                    backgroundImage: `url(${item.navLink === props.activeItemState
+                      ? iconActive[`${item.id}`]
+                      : iconInActive[`${item.id}`]
+                      })`,
+                    backgroundSize: `${item.navLink === props.activeItemState
+                      ? "54px 54px"
+                      : "40px 40px"
+                      }`,
                   }}
                 ></div>
               </Tooltip>
@@ -220,20 +222,22 @@ const SideMenuContent = (props) => {
             placement='right'
             title={language == "en" ? "Language" : "Ngôn ngữ"}
             arrowPointAtCenter={true}
+            overlayStyle={{ position: 'fixed' }}
+
           >
-            <Select
+            <select
               defaultValue={reactLocalStorage.get("language") || LANGUAGES.vn}
               onChange={onChangLanguage}
               bordered={false}
-              dropdownClassName='dropdown__select--language'
+            // dropdownClassName='dropdown__select--language'
             >
-              <Option value={LANGUAGES.vn}>{LANGUAGES.vn}</Option>
-              <Option value={LANGUAGES.en}>{LANGUAGES.en}</Option>
-            </Select>
+              <option value={LANGUAGES.vn}>{LANGUAGES.vn}</option>
+              <option value={LANGUAGES.en}>{LANGUAGES.en}</option>
+            </select>
           </Tooltip>
         </div>
       </div>
-    </React.Fragment>
+    </React.Fragment >
   );
 };
 

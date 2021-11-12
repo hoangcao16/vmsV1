@@ -73,6 +73,7 @@ const Live = (props) => {
   const [idCurrCameraSelected, setIdCurrCameraSelected] = useState(null);
   const [resetSpeed, setResetSpeed] = useState(false);
   const [reloadLiveMenuTool, setReloadLiveMenuTool] = useState(false);
+  const [curSpeed, setCurSpeed] = useState();
   let currentItemIdx = 0;
   useEffect(() => {
     initialDataGrid.forEach((it) =>
@@ -295,7 +296,7 @@ const Live = (props) => {
         spin.style.display = "none";
       })
       .catch((e) => console.log(e))
-      .finally(() => {});
+      .finally(() => { });
   };
 
   const playbackCamera = async (name, camUuid, camId, originSlotId) => {
@@ -421,8 +422,8 @@ const Live = (props) => {
             function (event, data) {
               console.log(
                 "manifest loaded, found " +
-                  data.levels.length +
-                  " quality level"
+                data.levels.length +
+                " quality level"
               );
             }
           );
@@ -431,8 +432,8 @@ const Live = (props) => {
             function (event, data) {
               console.log(
                 "media attched loaded, found " +
-                  data.levels.length +
-                  " quality level"
+                data.levels.length +
+                " quality level"
               );
             }
           );
@@ -485,7 +486,7 @@ const Live = (props) => {
       });
     }
   };
-  const handleSelectCameraCallback = (cam, idx) => {};
+  const handleSelectCameraCallback = (cam, idx) => { };
 
   const fetchCameras = async (
     filter,
@@ -1189,11 +1190,15 @@ const Live = (props) => {
   const onSelectVideoSlot = (originSlotId) => {
     const slotIdx = findCameraIndexInGrid(originSlotId);
     prevSelectedSlotRef.current = currentSelectSlotRef.current;
+
+
     const prevCell = document.getElementById(
       "video-slot-" + prevSelectedSlotRef.current
     );
     if (prevCell != null) {
       prevCell.style.border = "";
+      prevCell.playbackRate = 1;
+      setCurSpeed(1)
     }
     const cam = addedCameras[slotIdx];
     const cell = document.getElementById("video-slot-" + cam.id);
@@ -1295,7 +1300,11 @@ const Live = (props) => {
       const slotIdx = findCameraIndexInGrid(currentSelectSlotRef.current);
       const selectedCam = addedCameras[slotIdx];
       const cell = document.getElementById("video-slot-" + selectedCam.id);
+      console.log('cell fasf', cell)
       cell.playbackRate = speed;
+      setCurSpeed(speed)
+      console.log('cell', cell.playbackRate)
+
     } else {
       Notification({
         type: "warning",
@@ -1418,6 +1427,8 @@ const Live = (props) => {
                 playbackChangeSpeedCallback={playbackChangeSpeedCallback}
                 resetSpeed={resetSpeed}
                 reloadLiveMenuTool={reloadLiveMenuTool}
+                curSpeed={curSpeed}
+
               />
             </div>
           </div>

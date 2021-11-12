@@ -27,8 +27,8 @@ const ModalAddMemberInGroup = (props) => {
 
   useEffect(() => {
     let data = {
-      searchName: search,
-      unit: 'all',
+      filter: search,
+      type: 'all',
       page: 0,
       size: 0
     };
@@ -40,7 +40,6 @@ const ModalAddMemberInGroup = (props) => {
       setTotal(result?.metadata?.total);
     });
   }, []);
-
 
   const onSelectChange = (selectedRowKeys) => {
     // setSelectedRowKeys([...props?.checkedGroup, ...selectedRowKeys]);
@@ -58,8 +57,8 @@ const ModalAddMemberInGroup = (props) => {
   const handleSearch = async (value) => {
     setSearch(value);
     let data = {
-      searchName: value,
-      unit: 'all',
+      filter: value,
+      type: 'all',
       page: 0,
       size: 0
     };
@@ -120,10 +119,19 @@ const ModalAddMemberInGroup = (props) => {
             }
           />
         </div>
-        <div style={{ marginRight: 20, marginBottom: 20, marginTop: 20, color: '#ffffff', height: '20px' }}>
+        <div
+          style={{
+            marginRight: 20,
+            marginBottom: 20,
+            marginTop: 20,
+            color: '#ffffff',
+            height: '20px'
+          }}
+        >
           {hasSelected
-            ? `${t('view.storage.choose')} ${selectedRowKeys.length - props.checkedGroup.length
-            } ${t('view.storage.record')}`
+            ? `${t('view.storage.choose')} ${
+                selectedRowKeys.length - props.checkedGroup.length
+              } ${t('view.storage.record')}`
             : ''}
         </div>
       </>
@@ -140,14 +148,14 @@ const ModalAddMemberInGroup = (props) => {
       title: `${t('view.user.detail_list.member_name')}`,
       dataIndex: 'name',
       className: 'name',
-      ellipsis: true,
+      ellipsis: true
     },
     {
       title: 'Email',
       dataIndex: 'email',
       className: 'headerUserColums',
       render: renderText,
-      ellipsis: true,
+      ellipsis: true
     },
     {
       title: `${t('view.user.detail_list.dob')}`,
@@ -163,7 +171,6 @@ const ModalAddMemberInGroup = (props) => {
     }
   ];
 
-
   return (
     <>
       <Modal
@@ -177,7 +184,6 @@ const ModalAddMemberInGroup = (props) => {
         okText={t('view.map.button_save')}
         cancelText={t('view.map.button_cancel')}
         maskStyle={{ background: 'rgba(51, 51, 51, 0.9)' }}
-
       >
         <Table
           className="tableAddMember"
@@ -199,8 +205,11 @@ const ModalAddMemberInGroup = (props) => {
             },
             showTotal: (total, range) => {
               return (
-                <ShowTotal className='show--total'>
-                  {t('view.user.detail_list.viewing')} {range[0]} {t('view.user.detail_list.to')} {range[1]} {t('view.user.detail_list.out_of')} {total} {t('view.user.detail_list.indexes')}
+                <ShowTotal className="show--total">
+                  {t('view.user.detail_list.viewing')} {range[0]}{' '}
+                  {t('view.user.detail_list.to')} {range[1]}{' '}
+                  {t('view.user.detail_list.out_of')} {total}{' '}
+                  {t('view.user.detail_list.indexes')}
                 </ShowTotal>
               );
             }

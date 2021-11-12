@@ -8,7 +8,7 @@ const UserApi = {
 
     try {
       result = await MyService.getRequestData(
-        `/authz/api/v0/users?filter=${params?.searchName}&type=${params?.unit}&page=${params?.page}&size=${params?.size}`
+        `/authz/api/v0/users`, params
       );
     } catch (error) {
       console.log(error);

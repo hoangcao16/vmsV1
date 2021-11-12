@@ -1,5 +1,5 @@
-import React, {useEffect, useState} from 'react';
-import {TimePicker, DatePicker} from 'antd';
+import React, { useEffect, useState } from 'react';
+import { TimePicker, DatePicker } from 'antd';
 import moment from 'moment';
 import PlayControl from "./PlayControl";
 import locale from 'antd/lib/locale/vi_VN';
@@ -10,12 +10,13 @@ import Clock from "react-digital-clock";
 
 
 const PlaybackMenuTool = ({
-                              playbackCameraSeekTypeCallback,
-                              playbackCameraSeekTimeCallback,
-                              pauseOrPlayCallback,
-                              playbackChangeSpeedCallback,
-                              resetSpeed
-                          }) => {
+    playbackCameraSeekTypeCallback,
+    playbackCameraSeekTimeCallback,
+    pauseOrPlayCallback,
+    playbackChangeSpeedCallback,
+    resetSpeed,
+    curSpeed
+}) => {
     const [seekToDate, setSeekToDate] = useState(null);
     const [seekToTime, setSeekToTime] = useState(null);
     const [needToPlayImmediately, setNeedToPlayImmediately] = useState(false)
@@ -42,17 +43,20 @@ const PlaybackMenuTool = ({
         <div className="playback-menu-tool">
             <div className="playback-menu-tool__datetime play-control__left">
                 <DatePicker dropdownClassName="playback-menu-tool__date" locale={locale} value={seekToDate}
-                            defaultValue={moment('2021-09-20', 'YYYY-MM-DD')}
-                            onChange={onDateChange}/>
+                    defaultValue={moment('2021-09-20', 'YYYY-MM-DD')}
+                    onChange={onDateChange} />
                 <TimePicker popupClassName="playback-menu-tool__time" locale={locale} onChange={onTimeChange}
-                            value={seekToTime}/>
+                    value={seekToTime} />
             </div>
             <PlayControl playbackCameraSeekTypeCallback={playbackCameraSeekTypeCallback}
-                         pauseOrPlayCallback={pauseOrPlayCallback}
+                pauseOrPlayCallback={pauseOrPlayCallback}
             />
             <div className='play-control__right'>
-                <Clock className="slider__markers-currentTime"/>
-                <PlaybackSpeed playbackChangeSpeed={playbackChangeSpeedCallback} resetSpeed={resetSpeed}/>
+                <Clock className="slider__markers-currentTime" />
+                <PlaybackSpeed
+                    playbackChangeSpeedCallback={playbackChangeSpeedCallback} resetSpeed={resetSpeed}
+                    curSpeed={curSpeed}
+                />
             </div>
 
         </div>

@@ -86,14 +86,19 @@ export default function ModalEditCameraGroup(props) {
                 required: true,
                 message: `${t('view.map.required_field')}`
               },
-              { max: 256, message: `${t('noti.256_characters_limit')}` }
+              { max: 255, message: `${t('noti.255_characters_limit')}` }
             ]}
           >
             <Input
-              placeholder={t('view.map.please_enter_camera_name', {
+              placeholder={t('view.camera.please_enter_camera_group_name', {
                 plsEnter: t('please_enter'),
                 cam: t('camera')
               })}
+              onBlur={(e) => {
+                form.setFieldsValue({
+                  name: e.target.value.trim()
+                });
+              }}
             />
           </Form.Item>
           <Form.Item
@@ -105,10 +110,17 @@ export default function ModalEditCameraGroup(props) {
                 required: true,
                 message: `${t('view.map.required_field')}`
               },
-              { max: 256, message: `${t('noti.256_characters_limit')}` }
+              { max: 255, message: `${t('noti.255_characters_limit')}` }
             ]}
           >
-            <Input placeholder={t('view.user.detail_list.desc')} />
+            <Input 
+              placeholder={t('view.user.detail_list.desc')} 
+              onBlur={(e) => {
+                form.setFieldsValue({
+                  description: e.target.value.trim()
+                });
+              }}
+            />
           </Form.Item>
           <div className="btn--submit">
             <Button type="primary" htmlType="submit">

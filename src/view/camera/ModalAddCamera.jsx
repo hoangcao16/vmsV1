@@ -127,6 +127,7 @@ const ModalAddCamera = (props) => {
   }, [districtId]);
 
   const { provinces, zones, vendors, cameraTypes, adDivisions } = filterOptions;
+  // console.log('filterOptions', filterOptions)
 
   function getBase64(img, callback) {
     const reader = new FileReader();
@@ -274,6 +275,8 @@ const ModalAddCamera = (props) => {
         onCancel={handleShowModalAdd}
         footer={null}
         className="modal--add-camera"
+        maskStyle={{ background: 'rgba(51, 51, 51, 0.9)' }}
+
       >
         <Form
           className="bg-grey"
@@ -294,10 +297,17 @@ const ModalAddCamera = (props) => {
                 ]}
               >
                 <Input
+                  maxLength={255}
                   placeholder={t('view.map.please_enter_camera_name', {
                     plsEnter: t('please_enter'),
                     cam: t('camera')
                   })}
+                  onBlur={(e) => {
+                    form.setFieldsValue({
+                      name: e.target.value.trim()
+                    })
+                  }}
+
                 />
               </Form.Item>
               <Form.Item
@@ -311,10 +321,17 @@ const ModalAddCamera = (props) => {
                 ]}
               >
                 <Input
+                  maxLength={255}
                   placeholder={t('view.map.please_enter_camera_id', {
                     plsEnter: t('please_enter'),
                     cam: t('camera')
                   })}
+
+                  onBlur={(e) => {
+                    form.setFieldsValue({
+                      code: e.target.value.trim()
+                    })
+                  }}
                 />
               </Form.Item>
             </Col>
@@ -372,13 +389,19 @@ const ModalAddCamera = (props) => {
               </Form.Item>
             </Col>
             <Col span={12}>
-              <Form.Item name={['vendorUuid']} label={t('view.map.vendor')}>
+              <Form.Item
+                name={['vendorUuid']}
+                label={t('view.map.vendor')}
+                rules={[
+                  { required: true, message: `${t('view.map.required_field')}` }
+                ]}
+              >
                 <Select
                   showSearch
                   dataSource={vendors}
                   filterOption={filterOption}
                   options={normalizeOptions('name', 'uuid', vendors)}
-                  placeholder={t('view.map.please_enter_vendor_name', {
+                  placeholder={t('view.map.choose_vendor', {
                     plsEnter: t('please_enter')
                   })}
                 />
@@ -427,7 +450,7 @@ const ModalAddCamera = (props) => {
               <Form.Item
                 name={['wardId']}
                 label={t('view.map.ward_id')}
-                // rules={[{ required: true, message: `${t('view.map.required_field')}` }]}
+              // rules={[{ required: true, message: `${t('view.map.required_field')}` }]}
               >
                 <Select
                   showSearch
@@ -447,7 +470,16 @@ const ModalAddCamera = (props) => {
                   { required: true, message: `${t('view.map.required_field')}` }
                 ]}
               >
-                <Input placeholder={t('view.map.please_choose_location')} />
+                <Input placeholder={t('view.map.please_enter_location', {
+                  plsEnter: t('please_enter')
+                })}
+                  onBlur={(e) => {
+                    form.setFieldsValue({
+                      address: e.target.value.trim()
+                    })
+                  }}
+                  maxLength={255}
+                />
               </Form.Item>
             </Col>
             <Col span={12}>
@@ -471,6 +503,12 @@ const ModalAddCamera = (props) => {
                   placeholder={t('view.map.please_enter_longitude', {
                     plsEnter: t('please_enter')
                   })}
+                  onBlur={(e) => {
+                    form.setFieldsValue({
+                      long_: e.target.value.trim()
+                    })
+                  }}
+                  maxLength={255}
                 />
               </Form.Item>
             </Col>
@@ -480,6 +518,12 @@ const ModalAddCamera = (props) => {
                   placeholder={t('view.map.please_enter_latitude', {
                     plsEnter: t('please_enter')
                   })}
+                  onBlur={(e) => {
+                    form.setFieldsValue({
+                      lat_: e.target.value.trim()
+                    })
+                  }}
+                  maxLength={255}
                 />
               </Form.Item>
             </Col>
@@ -496,6 +540,12 @@ const ModalAddCamera = (props) => {
                   placeholder={t('view.map.please_enter_port', {
                     plsEnter: t('please_enter')
                   })}
+                  onBlur={(e) => {
+                    form.setFieldsValue({
+                      port: e.target.value.trim()
+                    })
+                  }}
+                  maxLength={255}
                 ></Input>
               </Form.Item>
             </Col>
@@ -503,18 +553,17 @@ const ModalAddCamera = (props) => {
               <Form.Item
                 label={t('view.map.zone')}
                 name={['zoneUuid']}
-                rules={[
-                  { required: true, message: `${t('view.map.required_field')}` }
-                ]}
+
               >
                 <Select
                   showSearch
                   dataSource={zones}
                   filterOption={filterOption}
                   options={normalizeOptions('name', 'uuid', zones)}
-                  placeholder={t('view.map.please_enter_zone', {
+                  placeholder={t('view.map.choose_zone', {
                     plsEnter: t('please_enter')
                   })}
+                  allowClear
                 />
               </Form.Item>
             </Col>
@@ -530,6 +579,12 @@ const ModalAddCamera = (props) => {
                   placeholder={t('view.map.please_enter_ip', {
                     plsEnter: t('please_enter')
                   })}
+                  onBlur={(e) => {
+                    form.setFieldsValue({
+                      ip: e.target.value.trim()
+                    })
+                  }}
+                  maxLength={255}
                 />
               </Form.Item>
             </Col>
@@ -545,6 +600,12 @@ const ModalAddCamera = (props) => {
                   placeholder={t('view.map.please_enter_original_url', {
                     plsEnter: t('please_enter')
                   })}
+                  onBlur={(e) => {
+                    form.setFieldsValue({
+                      cameraUrl: e.target.value.trim()
+                    })
+                  }}
+                  maxLength={2000}
                 />
               </Form.Item>
             </Col>
@@ -559,9 +620,12 @@ const ModalAddCamera = (props) => {
               </Form.Item>
             </Col>
           </Row>
-          <div className="btn--submit">
+          <div className="btn--confirm">
             <Button type="primary" htmlType="submit">
               {t('view.user.detail_list.confirm')}
+            </Button>
+            <Button onClick={handleShowModalAdd}>
+              Huỷ
             </Button>
           </div>
         </Form>

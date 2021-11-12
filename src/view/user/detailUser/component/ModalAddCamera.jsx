@@ -569,7 +569,6 @@ const ModalAddCamera = (props) => {
         okText={t('view.map.button_save')}
         cancelText={t('view.map.button_cancel')}
         maskStyle={{ background: 'rgba(51, 51, 51, 0.9)' }}
-
       >
         <Table
           className="tableAddCamera"

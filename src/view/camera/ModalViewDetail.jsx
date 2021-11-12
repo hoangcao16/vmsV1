@@ -1,10 +1,11 @@
-import { Col, Modal, Row, Typography, Button } from "antd";
-import { isEmpty } from "lodash-es";
-import React, { useState } from "react";
-import { useEffect } from "react";
-import CameraApi from "../../actions/api/camera/CameraApi";
-import "./ModalViewDetail.scss";
+import { Col, Modal, Row, Typography, Button, Tag } from 'antd';
+import { isEmpty } from 'lodash-es';
+import React, { useState } from 'react';
+import { useEffect } from 'react';
+import CameraApi from '../../actions/api/camera/CameraApi';
+import './ModalViewDetail.scss';
 import { useTranslation } from 'react-i18next';
+import Loading from '../common/element/Loading';
 
 const { Paragraph } = Typography;
 
@@ -22,6 +23,12 @@ const ModalViewDetail = (props) => {
     CameraApi.getCameraByUuid(selectedCameraId).then(setSelectedCamera);
   }, []);
 
+  console.log('selectedCamera:', selectedCamera);
+
+  if (isEmpty(selectedCamera)) {
+    return <Loading />;
+  }
+
   return (
     <>
       <Modal
@@ -37,13 +44,17 @@ const ModalViewDetail = (props) => {
             <Row gutter={24}>
               <Col span={24}>
                 <Paragraph>
-                  <p style={{ fontWeight: 600, fontSize: 14 }}>{t('view.camera.camera_name', { cam: t('camera') })}</p>
+                  <p style={{ fontWeight: 600, fontSize: 14 }}>
+                    {t('view.camera.camera_name', { cam: t('camera') })}
+                  </p>
                   <p>{selectedCamera?.name}</p>
                 </Paragraph>
               </Col>
               <Col span={24}>
                 <Paragraph>
-                  <p style={{ fontWeight: 600, fontSize: 14 }}>{t('view.map.camera_id', { cam: t('camera') })}</p>
+                  <p style={{ fontWeight: 600, fontSize: 14 }}>
+                    {t('view.map.camera_id', { cam: t('camera') })}
+                  </p>
                   <p>{selectedCamera?.code}</p>
                 </Paragraph>
               </Col>
@@ -59,14 +70,16 @@ const ModalViewDetail = (props) => {
         <Row gutter={24}>
           <Col span={12}>
             <Paragraph>
-              <p style={{ fontWeight: 600, fontSize: 14 }}>{t('view.camera.camera_type', { cam: t('camera') })}</p>
+              <p style={{ fontWeight: 600, fontSize: 14 }}>
+                {t('view.camera.camera_type', { cam: t('camera') })}
+              </p>
               <p>{selectedCamera?.cameraTypeName}</p>
             </Paragraph>
           </Col>
           <Col span={12}>
             <Paragraph>
               <p style={{ fontWeight: 600, fontSize: 14 }}>
-              {t('view.camera.active_stt', { cam: t('camera') })}
+                {t('view.camera.active_stt', { cam: t('camera') })}
               </p>
               <p>
                 {selectedCamera?.recordingStatus === 0
@@ -77,63 +90,83 @@ const ModalViewDetail = (props) => {
           </Col>
           <Col span={24}>
             <Paragraph>
-              <p style={{ fontWeight: 600, fontSize: 14 }}>{t('view.map.vendor')}</p>
+              <p style={{ fontWeight: 600, fontSize: 14 }}>
+                {t('view.map.vendor')}
+              </p>
               <p>{selectedCamera?.vendorName}</p>
             </Paragraph>
           </Col>
           <Col span={8}>
             <Paragraph>
-              <p style={{ fontWeight: 600, fontSize: 14 }}>{t('view.map.province_id')}</p>
+              <p style={{ fontWeight: 600, fontSize: 14 }}>
+                {t('view.map.province_id')}
+              </p>
               <p>{selectedCamera?.provinceName}</p>
             </Paragraph>
           </Col>
           <Col span={8}>
             <Paragraph>
-              <p style={{ fontWeight: 600, fontSize: 14 }}>{t('view.map.district_id')}</p>
+              <p style={{ fontWeight: 600, fontSize: 14 }}>
+                {t('view.map.district_id')}
+              </p>
               <p>{selectedCamera?.districtName}</p>
             </Paragraph>
           </Col>
           <Col span={8}>
             <Paragraph>
-              <p style={{ fontWeight: 600, fontSize: 14 }}>{t('view.map.ward_id')}</p>
+              <p style={{ fontWeight: 600, fontSize: 14 }}>
+                {t('view.map.ward_id')}
+              </p>
               <p>{selectedCamera?.wardName}</p>
             </Paragraph>
           </Col>
           <Col span={12}>
             <Paragraph>
-              <p style={{ fontWeight: 600, fontSize: 14 }}>{t('view.map.location')}</p>
+              <p style={{ fontWeight: 600, fontSize: 14 }}>
+                {t('view.map.location')}
+              </p>
               <p>{selectedCamera?.address}</p>
             </Paragraph>
           </Col>
           <Col span={12}>
             <Paragraph>
-              <p style={{ fontWeight: 600, fontSize: 14 }}>{t('view.map.administrative_unit')}</p>
+              <p style={{ fontWeight: 600, fontSize: 14 }}>
+                {t('view.map.administrative_unit')}
+              </p>
               <p>{selectedCamera?.administrativeUnitName}</p>
             </Paragraph>
           </Col>
 
           <Col span={12}>
             <Paragraph>
-              <p style={{ fontWeight: 600, fontSize: 14 }}>{t('view.map.longitude')}</p>
+              <p style={{ fontWeight: 600, fontSize: 14 }}>
+                {t('view.map.longitude')}
+              </p>
               <p>{selectedCamera?.long_}</p>
             </Paragraph>
           </Col>
           <Col span={12}>
             <Paragraph>
-              <p style={{ fontWeight: 600, fontSize: 14 }}>{t('view.map.latitude')}</p>
+              <p style={{ fontWeight: 600, fontSize: 14 }}>
+                {t('view.map.latitude')}
+              </p>
               <p>{selectedCamera?.lat_}</p>
             </Paragraph>
           </Col>
 
           <Col span={24}>
             <Paragraph>
-              <p style={{ fontWeight: 600, fontSize: 14 }}>{t('view.map.port')}</p>
+              <p style={{ fontWeight: 600, fontSize: 14 }}>
+                {t('view.map.port')}
+              </p>
               <p>{selectedCamera?.port}</p>
             </Paragraph>
           </Col>
           <Col span={24}>
             <Paragraph>
-              <p style={{ fontWeight: 600, fontSize: 14 }}>{t('view.map.zone')}</p>
+              <p style={{ fontWeight: 600, fontSize: 14 }}>
+                {t('view.map.zone')}
+              </p>
               <p>{selectedCamera?.zoneName}</p>
             </Paragraph>
           </Col>
@@ -145,10 +178,36 @@ const ModalViewDetail = (props) => {
           </Col>
           <Col span={24}>
             <Paragraph>
-              <p style={{ fontWeight: 600, fontSize: 14 }}>{t('view.map.original_url')}</p>
+              <p style={{ fontWeight: 600, fontSize: 14 }}>
+                {t('view.map.original_url')}
+              </p>
               <p>{selectedCamera?.cameraUrl}</p>
             </Paragraph>
           </Col>
+
+          <div style={{ display: 'flex' }}>
+            {!isEmpty(selectedCamera.tags) && (
+              <>
+                {selectedCamera.tags.map((t) => {
+                  return (
+                    <Col span={24}>
+                      <div className="renderTag">
+                        <p style={{ fontWeight: 600, fontSize: 14 }}>
+                          {t.key}:
+                        </p>
+                        <p>
+                          {' '}
+                          {t.value.map((v) => {
+                            return <Tag>{v}</Tag>;
+                          })}
+                        </p>
+                      </div>
+                    </Col>
+                  );
+                })}
+              </>
+            )}
+          </div>
         </Row>
         <div className="btn--submit">
           <Button type="primary" onClick={handleShowModal}>

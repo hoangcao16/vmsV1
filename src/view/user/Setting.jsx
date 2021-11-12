@@ -19,6 +19,7 @@ import TableCategory from '../category/TableCategory';
 import DeviceManage from '../commonDevice/DeviceManage';
 import TableStorage from '../storage/files/TableStorage';
 import TableHardDriveList from '../storage/hard-drive-list/TableHardDriveList';
+import TableHumans from '../ai-humans/TableHumans';
 import StoreSetting from '../storage/store-setting/StoreSetting';
 import './../../assets/scss/pages/account-settings.scss';
 import ChangePassword from './ChangePassword';
@@ -111,6 +112,13 @@ function AccountSettings() {
             <NavLink to={`${path}/change-password`}>
               <span className="d-md-inline-block d-none align-middle ml-1">
                 {t('view.user.change_password')}
+              </span>
+            </NavLink>
+          </li>
+          <li>
+            <NavLink to={`${path}/humans`}>
+              <span className="d-md-inline-block d-none align-middle ml-1">
+                {t('view.ai_humans.face')}
               </span>
             </NavLink>
           </li>
@@ -234,6 +242,20 @@ function AccountSettings() {
                   <CardBody>
                     <TabContent>
                       <TableCategory />
+                    </TabContent>
+                  </CardBody>
+                </Card>
+              );
+            }}
+          />
+          <Route
+            path={`${path}/humans`}
+            render={() => {
+              return (
+                <Card className="content">
+                  <CardBody>
+                    <TabContent>
+                      <TableHumans />
                     </TabContent>
                   </CardBody>
                 </Card>

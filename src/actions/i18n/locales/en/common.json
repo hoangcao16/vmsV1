@@ -11,9 +11,9 @@
   "g": "group",
   "R": "Role",
   "r": "role",
-  
-  "components":{
-    "bookmark":{
+
+  "components": {
+    "bookmark": {
       "favorite_screen_list": "Favorite Screen List",
       "enter_screen_name": "Please enter Screen Name",
       "grid_type": "Grid Type",
@@ -27,8 +27,8 @@
     }
   },
 
-  "view":{
-    "camera":{
+  "view": {
+    "camera": {
       "active": "Active",
       "inactive": "Inactive",
       "camera_list": "{{cam}} List",
@@ -55,10 +55,13 @@
       "add_new": "Add New",
       "add_new_camera_group": "Add new Camera Group",
       "edit_tag": "Edit Tag",
-      "add_new_tag": "Add new tag","please_enter_camera_group_name": "Please enter Camera group name"
+      "add_new_tag": "Add new tag",
+      "please_enter_new_camera_group_name": "Please enter new Camera group name",
+      "please_enter_camera_group_name": "Please enter Camera group name",
+      "add_camera_group": "Add Camera to Camera group"
     },
 
-    "category":{
+    "category": {
       "camera_vendor": "{{cam}} vendor",
       "field": "Field",
       "event_type": "Event type",
@@ -99,7 +102,7 @@
       "please_enter_zone_name": "{{plsEnter}} Zone name",
       "please_enter_camproxy_name": "{{plsEnter}} Camproxy name"
     },
-    
+
     "live": {
       "preset_setting": "Preset setting",
       "open_control_panel": "Open control panel",
@@ -110,7 +113,7 @@
       "choose_preset_tour": "Choose preset tour"
     },
 
-    "map":{
+    "map": {
       "search": "Search",
       "camera_list": "{{cam}} List",
       "camera_group": "{{cam}} Group",
@@ -146,27 +149,30 @@
       "vendor_name": "Vendor name",
       "please_enter_name_vendor": "{{plsEnter}} vendor",
       "please_enter_vendor_name": "{{plsEnter}} vendor name",
+      "choose_vendor": "Please choose vendor",
       "administrative_unit": "Administrative Unit",
       "please_choose_administrative_unit": "Please choose administrative unit",
       "location": "Location",
-      "please_choose_location": "Please choose location",
+      "please_choose_location": "Please enter location",
+      "please_enter_location": "{{plsEnter}} location",
       "please_enter_longitude": "{{plsEnter}} longitude",
       "please_enter_latitude": "{{plsEnter}} latitude",
       "please_enter_port": "{{plsEnter}} port",
       "port": "Port",
       "please_enter_zone": "{{plsEnter}} zone",
+      "choose_zone": "Please choose zone",
       "zone": "Zone",
       "please_enter_ip": "{{plsEnter}} IP",
       "original_url": "Original URL",
       "please_enter_original_url": "{{plsEnter}} Original URL",
       "save_live_camera": "Save Live {{cam}}"
     },
-    
-    "maps":{
+
+    "maps": {
       "not_provide": "Not provide",
       "loading": "Loading...",
       "clicked_camera": "Clicked {{cam}}",
-      "add_camera": "{{add}} {{cam}}",
+      "add_camera": "{{add}} new {{cam}}",
       "add_location": "{{add}} {{loc}}",
       "delete_this_tracking_location": "{{del}} this {{loc}}",
       "delete_all_tracking_location": "{{del}} all tracking {{loc}}",
@@ -175,7 +181,7 @@
       "select_time": "Select time"
     },
 
-    "report":{
+    "report": {
       "cameraIsWorking": "Camera is working",
       "cameraIsNotWorking": "Camera is not working",
       "cameraAI": "Camera AI",
@@ -188,7 +194,7 @@
       "export_data": "Export data"
     },
 
-    "pages":{
+    "pages": {
       "login": "Login",
       "wc_pls_login": "Welcome, please login.",
       "account": "Account",
@@ -204,7 +210,7 @@
       "return_to_homepage": "Return to homepage"
     },
 
-    "storage":{
+    "storage": {
       "daily_archive_files_list": "Daily archive files list",
       "captured_files_list": "Captured files list",
       "event_files_list": "Event files list",
@@ -212,7 +218,7 @@
       "list_view": "List view",
       "grid_view": "Grid view",
       "street": "Street",
-      "event":"Event",
+      "event": "Event",
       "violation_time": "Violation time",
       "created_time": "Created time",
       "file_name": "File name",
@@ -260,7 +266,7 @@
       "from": "From",
       "insecurity_level": "Insecurity level",
       "alarm_frequency": "Alarm frequency",
-      "time_execution" : "time / execution",
+      "time_execution": "time / execution",
       "not_be_warned": "You will not be warned",
       "automatically_95_percent": "Automatically delete to 95% when the memory is full",
       "automatically_5gb": "Automatically delete to 5GB when the memory is full",
@@ -281,8 +287,8 @@
       "time_end_record": "Time ending record",
       "tick": "Tick important file"
     },
-  
-    "user":{
+
+    "user": {
       "record": "Record",
       "configuration": "Configuration",
       "archive": "Archive",
@@ -295,7 +301,7 @@
       "user_group": "{{U}} {{G}}",
       "new_password": "New password",
 
-      "detail_list":{
+      "detail_list": {
         "user_list": "{{U}} List",
         "add_user": "{{add}} {{U}}",
         "all": "All",
@@ -364,7 +370,7 @@
         "member_name": "Member name",
         "view_online": "View online",
         "view_offline": "View offline",
-        "preset_setting":"Preset setting",
+        "preset_setting": "Preset setting",
         "control": "Control",
         "grant_permission_by_camera_group": "Grant permission by Camera group",
         "add_camera_group_choose_permission": "Add Camera group and choose permission",
@@ -378,10 +384,11 @@
       }
     }
   },
-  
-  
+  "ai_humans": {
+    "face": "Face Management"
+  },
 
-  "noti":{
+  "noti": {
     "logged_out_successfully": "Logged out successfully",
     "logged_out_failed": "Logged out failed",
 
@@ -402,7 +409,6 @@
     "successfully_edit_zone": "Successfully edited Zone",
     "successfully_delete_zone": "Successfully deleted Zone",
     "255_characters_limit": "255 characters limit",
-    "256_characters_limit": "256 characters limit",
 
     "do_not_have_permission_to_view_list_event": "You don't have permission to view list of events",
     "error_get_file_check_again": "Errors occur while getting file list. Please check again",
@@ -434,7 +440,7 @@
 
     "upload_file_desc": "Only file type JPG/PNG allowed!",
     "size_file_desc": "File size must under 2MB!",
-    "successfully_added_data":"Successfully added data",
+    "successfully_added_data": "Successfully added data",
     "unsuccessfully_add_data": "{{add}}ed data fail, please check again",
     "cancel": "Are you sure you want to cancel?",
 
@@ -444,7 +450,7 @@
     "at_least_8_characters": "At least 8 characters"
   },
 
-  "breadcrumd":{
+  "breadcrumd": {
     "report": "Report Management",
     "info": "Infomation",
     "setting": "Setting"

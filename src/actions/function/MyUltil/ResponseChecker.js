@@ -80,6 +80,7 @@ const DISK_AGENT_CLIENT_NOT_EXIST = 807;
 const TIME_OUT = 810;
 
 export const handleErrCodeMonitorCtrl = (data) => {
+  
   if (isEmpty(data)) {
     const errCode = {
       type: 'error',
@@ -95,6 +96,7 @@ export const handleErrCodeMonitorCtrl = (data) => {
     title: 'Code:' + code,
     description: ''
   };
+
   switch (+code) {
     case OKE:
       return data;
@@ -165,6 +167,36 @@ export const handleErrCodeReport = (data) => {
       return null;
     case AuthZStatusForbidden:
       handleForbiddenCode(deny_permission_codes);
+      return null;
+    default:
+      errCode.description = 'Unknown';
+      Notification(errCode);
+      return null;
+  }
+};
+
+const AI_OKE = 1700;
+const AI_BAD_REQUEST = 1701;
+const AI_FORBIDDEN = 1702;
+const AI_NOT_FOUND = 1703;
+const AI_DUPLICATE_ENTITY = 1704;
+const AI_CANNOT_DELETE_ENTITY = 1705;
+const AI_INTERNAL_SERVER_ERROR = 1706;
+
+
+export const handleErrCodeAI = (data) => {
+  const { code, message, payload } = data;
+  const errCode = {
+    type: 'error',
+    title: 'Code:' + code,
+    description: ''
+  };
+  switch (+code) {
+    case AI_OKE:
+      return data;
+    case AI_BAD_REQUEST:
+      errCode.description = message;
+      Notification(errCode);
       return null;
     default:
       errCode.description = 'Unknown';

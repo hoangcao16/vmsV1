@@ -279,22 +279,30 @@ function CameraGroup(props) {
           {name}
         </div>
         <div className='tools--edit'>
-          <PlusOutlined
-            onClick={(e) => {
-              e.stopPropagation();
-              showModal(id);
-            }}
-          // style={{ fontSize: '16px', color: '#6E6B7B' }}
-          />
-
-          <EditOutlined
-            onClick={(e) => {
-              e.stopPropagation();
-              showModalEdit(id);
-            }}
-          // style={{ fontSize: '16px', color: '#6E6B7B' }}
-          />
-
+          <Tooltip
+            placement="top"
+            title={t('view.camera.add_camera_group')}
+          >
+            <PlusOutlined
+              onClick={(e) => {
+                e.stopPropagation();
+                showModal(id);
+              }}
+            // style={{ fontSize: '16px', color: '#6E6B7B' }}
+            />
+          </Tooltip>
+          <Tooltip
+            placement="top"
+            title={t('view.common_device.edit')}
+          >
+            <EditOutlined
+              onClick={(e) => {
+                e.stopPropagation();
+                showModalEdit(id);
+              }}
+            // style={{ fontSize: '16px', color: '#6E6B7B' }}
+            />
+          </Tooltip>
           <Popconfirm
             title={t('noti.delete_camera', {
               cam: t('camera'),
@@ -308,12 +316,17 @@ function CameraGroup(props) {
             icon={<ExclamationCircleOutlined />}
             okText="Xoá"
           >
-            <DeleteOutlined
-              onClick={(e) => {
-                e.stopPropagation();
-              }}
-            // style={{ fontSize: '16px', color: '#6E6B7B' }}
-            />
+            <Tooltip
+              placement="top"
+              title={t('delete')}
+            >
+              <DeleteOutlined
+                onClick={(e) => {
+                  e.stopPropagation();
+                }}
+              // style={{ fontSize: '16px', color: '#6E6B7B' }}
+              />
+            </Tooltip>
           </Popconfirm>
         </div>
       </div>
@@ -370,12 +383,11 @@ function CameraGroup(props) {
                         &nbsp; {t('view.map.search')}{' '}
                       </span>{' '}
                       <SearchOutlined
-                        style={{ fontSize: 20, color: '#E3F0FF' }}
+                        style={{ fontSize: 20, color: '#E3F0FF'}}
                       />
                     </div>
                   }
                 />
-
                 <Tooltip
                   placement="rightTop"
                   title={t('view.camera.add_new_camera_group')}

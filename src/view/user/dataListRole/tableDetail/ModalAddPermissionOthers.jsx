@@ -1,7 +1,6 @@
 import { SearchOutlined } from '@ant-design/icons';
 import { AutoComplete, Modal, Tree } from 'antd';
 import { isEmpty } from 'lodash-es';
-import debounce from 'lodash/debounce';
 import React, { useEffect, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import CameraApi from '../../../../actions/api/camera/CameraApi';
@@ -14,15 +13,13 @@ const { TreeNode } = Tree;
 const ModalAddPermissionOthers = (props) => {
   const { handleShowModalAdd, selectedAdd } = props;
   const { t } = useTranslation();
-
+  const [search, setSearch] = useState('');
+  const [isEmpt, setIsEmpty] = useState(false);
   const [isModalVisible, setIsModalVisible] = useState(selectedAdd);
   const [selectedRowKeys, setSelectedRowKeys] = useState([]);
-
   const [menuListCode, setMenuListCode] = useState([]);
-
   const [treeData, setTreeData] = useState([]);
   const [treeNodeCamList, setTreeNodeCamList] = useState([]);
-
   const [option, setOption] = useState({
     expandedKeys: [],
     searchValue: '',
@@ -34,7 +31,11 @@ const ModalAddPermissionOthers = (props) => {
 
   useEffect(() => {
     UserApi.getAllPermissionGroup().then((result) => {
-      const newData = result.payload.map((p) => {
+      const dataRemoveMonitoring = result.payload.filter(
+        (r) => r.code !== 'monitoring'
+      );
+
+      const newData = dataRemoveMonitoring.map((p) => {
         return {
           code: p.code,
           name: p.name,
@@ -54,14 +55,9 @@ const ModalAddPermissionOthers = (props) => {
     setMenuListCode(props.checkedPermission);
   }, []);
 
-  useEffect(() => {
-    console.log('menuListCodemenuListCode', menuListCode);
-  }, [menuListCode]);
-
+  useEffect(() => {}, [menuListCode]);
 
   const handleSubmit = async () => {
-    console.log('checkedPermission:', props.checkedPermission);
-
     if (isEmpty(selectedRowKeys)) {
       return;
     }
@@ -125,7 +121,6 @@ const ModalAddPermissionOthers = (props) => {
         <div className="titleGroup" title={name}>
           {name}
         </div>
-
       </div>
     );
   };
@@ -198,6 +193,7 @@ const ModalAddPermissionOthers = (props) => {
   };
 
   const handleSearch = async (value) => {
+    setSearch(value);
     if (isEmpty(value)) {
       setOption({
         ...option,
@@ -219,6 +215,12 @@ const ModalAddPermissionOthers = (props) => {
 
     let newTreeData = JSON.parse(JSON.stringify(treeData));
     const treeDataFilter = handleFilterTreeData(newTreeData, expandedKeys);
+
+    if (isEmpty(treeDataFilter)) {
+      setIsEmpty(true);
+    } else {
+      setIsEmpty(false);
+    }
 
     setTreeNodeCamList(treeDataFilter);
     setOption({
@@ -254,8 +256,6 @@ const ModalAddPermissionOthers = (props) => {
 
   const onCheck = (checkedKeysValue) => {
     setMenuListCode(checkedKeysValue);
-
-    console.log('checkedKeysValue:', checkedKeysValue);
     const dataRemove = [
       'monitoring',
       'nvr',
@@ -267,6 +267,11 @@ const ModalAddPermissionOthers = (props) => {
 
     const data = checkedKeysValue.filter((c) => !dataRemove.includes(c));
     setSelectedRowKeys(data);
+  };
+
+  const handleBlur = (event) => {
+    const value = event.target.value.trim();
+    setSearch(value);
   };
 
   return (
@@ -282,12 +287,14 @@ const ModalAddPermissionOthers = (props) => {
         okText={t('view.map.button_save')}
         cancelText={t('view.map.button_cancel')}
         maskStyle={{ background: 'rgba(51, 51, 51, 0.9)' }}
-
       >
         <AutoComplete
+          value={search}
+          onSearch={handleSearch}
+          onBlur={handleBlur}
+          maxLength={255}
           style={{ marginBottom: 20 }}
           className=" full-width height-40 read search__camera-group"
-          onSearch={debounce(handleSearch, 1000)}
           placeholder={
             <div className="placehoder height-40 justify-content-between d-flex align-items-center">
               <span style={{ opacity: '0.5' }}>
@@ -310,6 +317,12 @@ const ModalAddPermissionOthers = (props) => {
         >
           {loop(treeNodeCamList)}
         </Tree>
+
+        {isEmpt && (
+          <div className="text-center" style={{ color: 'white' }}>
+            {t('view.user.detail_list.no_valid_results_found')}
+          </div>
+        )}
       </Modal>
     </>
   );

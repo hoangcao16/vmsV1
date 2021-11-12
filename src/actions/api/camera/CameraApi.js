@@ -31,7 +31,7 @@ const CameraApi = {
 
     try {
       result = await MyService.getRequestData(
-        `/cctv-controller-svc/api/v1/cameras?name=${data?.name}&provinceId=${data?.provinceId}&districtId=${data?.districtId}&wardId=${data?.id}&administrativeUnitUuid=${data?.administrativeUnitUuid}&vendorUuid=${data?.vendorUuid}&recordingStatus=${data?.status}&cameraGroupUuid=${data?.cameraGroupUuid}`
+        `/cctv-controller-svc/api/v1/cameras`, dataSearch
       );
     } catch (error) {
       console.log(error);
@@ -88,7 +88,7 @@ const CameraApi = {
 
     try {
       result = await MyService.getRequestData(
-        `/cctv-controller-svc/api/v1/camera_groups?name=${data?.name}&parent=${data?.parent}&page=${data?.page}&size=${data?.size}`
+        `/cctv-controller-svc/api/v1/camera_groups`, dataInput
       );
     } catch (error) {
       console.log(error);

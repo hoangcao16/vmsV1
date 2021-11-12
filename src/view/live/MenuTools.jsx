@@ -27,7 +27,8 @@ const MenuTools = (props) => {
         dateTimeSeek,
         playbackChangeSpeedCallback,
         resetSpeed,
-        reloadLiveMenuTool
+        reloadLiveMenuTool,
+        curSpeed
     } = props;
     return (
         <div>
@@ -82,6 +83,8 @@ const MenuTools = (props) => {
                             pauseOrPlayCallback={pauseOrPlayCallback}
                             playbackChangeSpeedCallback={playbackChangeSpeedCallback}
                             resetSpeed={resetSpeed}
+                            curSpeed={curSpeed}
+
                         />
                     )}
 

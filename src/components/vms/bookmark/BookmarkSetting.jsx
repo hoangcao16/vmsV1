@@ -23,7 +23,7 @@ import {
     GRIDALL,
 } from "../../../view/common/vms/constans/grid";
 import { useTranslation } from 'react-i18next';
-import {KControllerOk} from "../../../api/controller-api/code";
+import { KControllerOk } from "../../../api/controller-api/code";
 
 
 
@@ -351,7 +351,7 @@ const BookmarkSetting = ({
         changeEditModeState(false, idx, item);
 
         //API
-        const updateItem = { ...item, name: newName};
+        const updateItem = { ...item, name: newName };
         try {
             const resData = await bookmarkApi.update(updateItem, item.id);
             if (resData) {
@@ -419,6 +419,7 @@ const BookmarkSetting = ({
             onCancel={handleBookmarkCancel}
             width='90%'
             zIndex={1100}
+            maskStyle={{ background: 'rgba(51, 51, 51, 0.9)' }}
         >
             <div className='bookmarks'>
                 <div className='bookmarks__filter'>
@@ -477,7 +478,7 @@ const BookmarkSetting = ({
                                             id={`screenEditInput-${idx}`}
                                         >
                                             <input
-                                                
+
                                                 id={`screenIdInput-${idx}`}
                                                 type='text'
                                                 onChange={(e) => {
@@ -487,7 +488,10 @@ const BookmarkSetting = ({
                                                 defaultValue={item.name}
                                                 onClick={(e) => {
                                                     e.stopPropagation();
-                                                    
+
+                                                }}
+                                                onBlur={(e)=>{
+                                                    setNewName(e.target.value.trim());
                                                 }}
                                             />
                                             <CheckOutlined

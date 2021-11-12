@@ -36,7 +36,8 @@ const TableCamproxy = () => {
 
   const renderTag = (cellValue) => {
     return (
-      <Tag color={cellValue === 'UP' ? '#1380FF' : '#FF4646'} style={{ color: '#ffffff' }}>{cellValue}</Tag>
+      (cellValue === 'UP' ? <Tag color={'#1380FF'} style={{ color: '#ffffff' }}>{t('view.camera.active')}</Tag> 
+      : <Tag color={'#FF4646'} style={{ color: '#ffffff' }}>{t('view.camera.inactive')}</Tag>)
     );
   };
 

@@ -75,6 +75,7 @@ const TableCamera = () => {
   const [selectedCameraId, setSelectedCameraId] = useState(null);
   const [selectedCameraIdEdit, setSelectedCameraIdEdit] = useState(null);
   const [selectedAdd, setSelectedAdd] = useState(false);
+  const [selectedEdit, setSelectedEdit] = useState(false);
   const [selectedScan, setSelectedScan] = useState(false);
   const [loading, setLoading] = useState(false);
   const [provinceId, setProvinceId] = useState('');
@@ -137,7 +138,7 @@ const TableCamera = () => {
       })
       .finally(setLoading(false));
     setLoading(false);
-  }, [selectedAdd]);
+  }, [selectedAdd, selectedEdit]);
 
   const handleDelete = async (cameraId) => {
     const isDeleted = await CameraApi.delete(cameraId);
@@ -177,9 +178,8 @@ const TableCamera = () => {
   }, []);
 
   const handleSearch = async (value) => {
-    console.log('value:', value);
     setSearch(value);
-    setLoading(true);
+    // setLoading(true);
     let data = {
       searchType: unit,
       searchValue: value
@@ -188,7 +188,7 @@ const TableCamera = () => {
 
     setListCamera(result.payload);
     setTotal(result?.metadata?.total);
-    setLoading(false);
+    // setLoading(false);
   };
 
   const handleShowModalInfo = () => {
@@ -197,6 +197,11 @@ const TableCamera = () => {
 
   const handleShowModalEdit = () => {
     setSelectedCameraIdEdit(null);
+    setSelectedEdit(false);
+  };
+
+  const showModalEdit = () => {
+    setSelectedEdit(true);
   };
 
   const showModalAdd = () => {
@@ -209,6 +214,7 @@ const TableCamera = () => {
   const handleShowModalAdd = () => {
     setSelectedAdd(false);
   };
+
   const handleShowModalScan = () => {
     setSelectedScan(false);
   };
@@ -234,6 +240,7 @@ const TableCamera = () => {
   }, [districtId]);
 
   const { provinces, adDivisions, vendors } = filterOptions;
+  // console.log('filterOptions', filterOptions)
 
   const onChangeCity = async (cityId) => {
     setProvinceId(cityId);
@@ -416,6 +423,7 @@ const TableCamera = () => {
               style={{ fontSize: '16px', color: '#6E6B7B' }}
               onClick={() => {
                 setSelectedCameraIdEdit(item.uuid);
+                showModalEdit();
                 // handleSearch(search);
               }}
             />
@@ -439,7 +447,6 @@ const TableCamera = () => {
             <li>
               <>
                 {item?.cameraTypeName && <Tag>{item?.cameraTypeName}</Tag>}
-                {item?.vendorName && <Tag>{item?.vendorName}</Tag>}
                 {item?.vendorName && <Tag>{item?.vendorName}</Tag>}
               </>
             </li>
@@ -467,6 +474,15 @@ const TableCamera = () => {
         </div>
       </div>
     );
+  };
+  const handleBlur = (event) => {
+    const value = event.target.value.trim();
+
+    form.setFieldsValue({
+      searchForm: value
+    });
+
+    setSearch(value);
   };
   return (
     <>
@@ -506,6 +522,9 @@ const TableCamera = () => {
           <Form.Item name={['searchForm']}>
             <AutoComplete
               onSearch={debounce(handleSearch, 1000)}
+              value={search}
+              onBlur={handleBlur}
+              maxLength={255}
               placeholder={
                 <div className="placeholder">
                   <span style={{ opacity: '0.5' }}>
@@ -600,7 +619,15 @@ const TableCamera = () => {
                 name={['address']}
                 // rules={[{ required: true, message: 'Trường này bắt buộc' }]}
               >
-                <Input placeholder={t('view.map.please_choose_location')} />
+                <Input
+                  placeholder={t('view.map.please_choose_location')}
+                  maxLength={255}
+                  onBlur={(e) => {
+                    form.setFieldsValue({
+                      address: e.target.value.trim()
+                    });
+                  }}
+                />
               </Form.Item>
             </Col>
 
@@ -620,19 +647,14 @@ const TableCamera = () => {
             </Col>
 
             <Col span={12}>
-              <Form.Item
-                name={['vendorUuid']}
-                label={t('view.map.vendor_name')}
-              >
+              <Form.Item name={['vendorUuid']} label={t('view.map.vendor')}>
                 <Select
                   allowClear
                   showSearch
                   dataSource={vendors}
                   filterOption={filterOption}
                   options={normalizeOptions('name', 'uuid', vendors)}
-                  placeholder={t('view.map.please_enter_vendor_name', {
-                    plsEnter: t('please_enter')
-                  })}
+                  placeholder={t('view.map.choose_vendor')}
                 />
               </Form.Item>
             </Col>
@@ -679,6 +701,13 @@ const TableCamera = () => {
         renderItem={(item) => {
           return <List.Item>{renderItem(item)}</List.Item>;
         }}
+        locale={{
+          emptyText: (
+            <div style={{ color: 'white' }}>
+              {t('view.user.detail_list.no_valid_results_found')}
+            </div>
+          )
+        }}
       />
 
       {selectedCameraId && (
@@ -721,19 +750,19 @@ async function fetchSelectOptions() {
 
   let provinces = await AddressApi.getAllProvinces();
 
-  if(isEmpty(provinces)){
-    provinces = DATA_FAKE_CAMERA.provinces
+  if (isEmpty(provinces)) {
+    provinces = DATA_FAKE_CAMERA.provinces;
   }
 
   let adDivisions = await AdDivisionApi.getAllAdDivision(data);
 
-  if(isEmpty(adDivisions)){
-    adDivisions = DATA_FAKE_CAMERA.adDivisions
+  if (isEmpty(adDivisions)) {
+    adDivisions = DATA_FAKE_CAMERA.adDivisions;
   }
   let vendors = await VendorApi.getAllVendor(data);
 
-  if(isEmpty(vendors)){
-    vendors = DATA_FAKE_CAMERA.vendors
+  if (isEmpty(vendors)) {
+    vendors = DATA_FAKE_CAMERA.vendors;
   }
 
   return {
@@ -742,8 +771,5 @@ async function fetchSelectOptions() {
     vendors
   };
 }
-
-
-
 
 export default withRouter(TableCamera);

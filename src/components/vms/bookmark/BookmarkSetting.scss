@@ -13,12 +13,9 @@
       background-color: $vms-bg-sub;
       border: none;
       outline: none;
-
       padding-left: 16px;
       padding-right: 16px;
-
       color: $vms-status;
-
       &::placeholder {
         color: $vms-status-05;
       }

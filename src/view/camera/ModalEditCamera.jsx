@@ -152,6 +152,7 @@ const ModalEditCamera = (props) => {
   }, [districtId]);
 
   const { provinces, zones, vendors, cameraTypes, adDivisions } = filterOptions;
+  console.log('filterOptions', filterOptions)
 
   const loadAvatarHandler = async (avatarFileName) => {
     if (avatarFileName !== '' && avatarUrl === '') {
@@ -323,7 +324,7 @@ const ModalEditCamera = (props) => {
                     <Input
                       placeholder={
                         (t('view.map.please_enter_camera_name'),
-                        { plsEnter: t('please_enter'), cam: t('camera') })
+                          { plsEnter: t('please_enter'), cam: t('camera') })
                       }
                     />
                   </Form.Item>
@@ -403,7 +404,7 @@ const ModalEditCamera = (props) => {
                   options={normalizeOptions('name', 'uuid', cameraTypes)}
                   placeholder={
                     (t('view.map.please_choose_camera_type'),
-                    { cam: t('camera') })
+                      { cam: t('camera') })
                   }
                 />
               </Form.Item>
@@ -468,7 +469,7 @@ const ModalEditCamera = (props) => {
               <Form.Item
                 name={['wardId']}
                 label={t('view.map.ward_id')}
-                // rules={[{ required: true, message: "Trường này bắt buộc" }]}
+              // rules={[{ required: true, message: "Trường này bắt buộc" }]}
               >
                 <Select
                   dataSource={wards}

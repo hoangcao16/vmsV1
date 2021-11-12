@@ -6,6 +6,7 @@
   padding-right: 12px !important;
   height: 100vh;
   overflow-y: auto;
+  @include scrollbar-styling(12px,0)
 
   .screenView {
     background-color: #333333;

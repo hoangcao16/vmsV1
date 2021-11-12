@@ -60,7 +60,7 @@ const TablePlayback = () => {
 
   const renderTag = (cellValue) => {
     return (
-      <Tag color={cellValue === 'UP' ? '#1380FF' : '#FF4646'} style={{ color: '#ffffff' }}>{cellValue}</Tag>
+      <Tag color={cellValue === 'UP' ? '#1380FF' : '#FF4646'} style={{ color: '#ffffff' }}>{cellValue === 'UP' ? `${t('view.camera.active')}` : `${t('view.camera.inactive')}`}</Tag>
     );
   };
 

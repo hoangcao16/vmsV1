@@ -734,6 +734,7 @@
       }
       #slider__markers {
         position: relative;
+        cursor: grab;
         width: calc(100% + 48px);
         left: -24px;
         background-color: $vms-bg-primary;

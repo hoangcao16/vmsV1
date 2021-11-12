@@ -23,7 +23,8 @@ const LiveCameraSlot = (props) => {
         liveMode,
         zoomOutByDoubleClick,
         setReloadLiveMenuTool,
-        reloadLiveMenuTool
+        reloadLiveMenuTool,
+        curSpeed
     } = props;
 
     const [showMenus, setShowMenus] = useState({});

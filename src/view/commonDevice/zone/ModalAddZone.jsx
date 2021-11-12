@@ -134,7 +134,6 @@ const ModalAddZone = (props) => {
                       required: true,
                       message: `${t('view.map.required_field')}`
                     },
-
                     {
                       max: 255,
                       message: `${t('noti.255_characters_limit')}`
@@ -216,7 +215,6 @@ const ModalAddZone = (props) => {
                       required: true,
                       message: `${t('view.map.required_field')}`
                     },
-                    { transform: (value) => value.trim() },
                     {
                       max: 255,
                       message: `${t('noti.255_characters_limit')}`
@@ -242,7 +240,6 @@ const ModalAddZone = (props) => {
                       required: true,
                       message: `${t('view.map.required_field')}`
                     },
-                    { transform: (value) => value.trim() },
                     {
                       max: 255,
                       message: `${t('noti.255_characters_limit')}`

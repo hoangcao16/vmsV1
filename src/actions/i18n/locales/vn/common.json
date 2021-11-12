@@ -11,9 +11,8 @@
   "g": "nhóm",
   "R": "Vai trò",
   "r": "vai trò",
-
-  "components":{
-    "bookmark":{
+  "components": {
+    "bookmark": {
       "favorite_screen_list": "Danh sách màn hình ưu thích",
       "enter_screen_name": "Nhập tên màn hình",
       "grid_type": "Loại lưới",
@@ -26,9 +25,8 @@
       "notification": "Thông báo"
     }
   },
-  
-  "view":{
-    "camera":{
+  "view": {
+    "camera": {
       "active": "Đang hoạt động",
       "inactive": "Dừng hoạt động",
       "camera_list": "Danh sách {{cam}}",
@@ -56,10 +54,11 @@
       "add_new_camera_group": "Thêm mới nhóm Camera",
       "edit_tag": "Sửa nhãn",
       "add_new_tag": "Thêm nhãn mới",
-      "please_enter_camera_group_name": "Nhập tên nhóm Camera mới"
+      "please_enter_new_camera_group_name": "Nhập tên nhóm Camera mới",
+      "please_enter_camera_group_name": "Nhập tên nhóm Camera",
+      "add_camera_group": "Thêm Camera vào nhóm Camera"
     },
-
-    "category":{
+    "category": {
       "camera_vendor": "Hãng {{cam}}",
       "field": "Lĩnh vực",
       "event_type": "Loại sự kiện",
@@ -70,7 +69,6 @@
       "administrative_unit_name": "Tên đơn vị hành chính",
       "plsEnter_administrative_unit_name": "{{plsEnter}} tên đơn vị hành chính"
     },
-    
     "common_device": {
       "camproxy_name": "Tên Camproxy",
       "playback_name": "Tên Playback",
@@ -110,8 +108,7 @@
       "add_new_preset_tour": "Thêm mới preset tour",
       "choose_preset_tour": "Chọn một preset tour"
     },
-
-    "map":{
+    "map": {
       "search": "Tìm kiếm",
       "camera_list": "Danh sách {{cam}}",
       "camera_group": "Nhóm {{cam}}",
@@ -147,24 +144,26 @@
       "vendor_name": "Tên hãng sản xuất",
       "please_enter_name_vendor": "{{plsEnter}} tên hãng sản xuất",
       "please_enter_vendor_name": "{{plsEnter}} tên hãng sản xuất",
+      "choose_vendor": "Chọn hãng sản xuất",
       "administrative_unit": "Đơn vị hành chính",
       "please_choose_administrative_unit": "Chọn đơn vị",
       "location": "Địa điểm",
-      "please_choose_location": "Chọn địa điểm",
+      "please_choose_location": "Nhập địa điểm",
+      "please_enter_location": "{{plsEnter}} địa điểm",
       "please_enter_longitude": "{{plsEnter}} kinh độ",
       "please_enter_latitude": "{{plsEnter}} vĩ độ",
       "please_enter_port": "{{plsEnter}} cổng",
       "port": "Cổng",
       "please_enter_zone": "{{plsEnter}} khu vực",
+      "choose_zone":"Chọn khu vực",
       "zone": "Khu vực",
       "please_enter_ip": "{{plsEnter}} IP",
       "original_url": "URL gốc",
       "please_enter_original_url": "{{plsEnter}} URL gốc",
-      "save_live_camera" : "Lưu {{cam}} trực tuyến"
+      "save_live_camera": "Lưu {{cam}} trực tuyến"
     },
-    
     "maps":{
-      "add_camera": "{{add}} {{cam}}",
+      "add_camera": "{{add}} mới {{cam}}",
       "not_provide": "Không cung cấp",
       "loading": "Đang tải...",
       "clicked_camera": "{{cam}} đã chọn",
@@ -175,7 +174,6 @@
       "select_date": "Chọn ngày",
       "select_time": "Chọn giờ"
     },
-
     "report":{
       "cameraIsWorking": "Camera đang hoạt động",
       "cameraIsNotWorking": "Camera không hoạt động",
@@ -204,8 +202,7 @@
       "update": "Cập nhật",
       "return_to_homepage": "Quay lại trang chủ"
     },
-
-    "storage":{
+    "storage": {
       "daily_archive_files_list": "Danh sách tệp lưu trữ hàng ngày",
       "captured_files_list": "Danh sách tệp được chụp",
       "event_files_list": "Danh sách tệp sự kiện",
@@ -213,7 +210,7 @@
       "list_view": "Chế độ xem danh sách",
       "grid_view": "Chế độ xem lưới",
       "street": "Đường phố",
-      "event":"Loại sự kiện",
+      "event": "Loại sự kiện",
       "violation_time": "Ngày ghi nhận",
       "created_time": "Ngày tạo",
       "file_name": "Tên tệp",
@@ -259,14 +256,13 @@
       "greater_than_level_2": "Lớn hơn ngưỡng cảnh báo cấp 2",
       "smaller_than_level_1": "Nhỏ hơn ngưỡng cảnh báo cấp 1",
       "from": "Từ",
-      "insecurity_level" : "Cấp nguy hiểm",
+      "insecurity_level": "Cấp nguy hiểm",
       "alarm_frequency": "Tần suất cảnh báo",
-      "time_execution" : "thời gian / lần",
+      "time_execution": "thời gian / lần",
       "not_be_warned": "Bạn sẽ không nhận được cảnh báo",
       "automatically_95_percent": "Tự động xoá còn 95% khi bộ nhớ đầy",
       "automatically_5gb": "Tự động xoá còn 5GB khi bộ nhớ đầy",
       "email_sending_to_users_setting": "Cấu hình gửi mail cho người dùng",
-
       "daily_record": "Tệp bản ghi hàng ngày",
       "choose": "Đã chọn",
       "record": "bản ghi",
@@ -282,8 +278,7 @@
       "time_end_record": "Thời gian kết thúc ghi hình",
       "tick": "Đánh dấu tệp quan trọng"
     },
-  
-    "user":{
+    "user": {
       "record": "Ghi hình",
       "configuration": "Cấu hình",
       "archive": "Lưu trữ",
@@ -295,8 +290,7 @@
       "log_out": "Đăng xuất",
       "user_group": "{{G}} {{u}}",
       "new_password": "Mật khẩu mới",
-      
-      "detail_list":{
+      "detail_list": {
         "user_list": "Danh sách {{u}}",
         "add_user": "{{add}} {{u}}",
         "all": "Tất cả",
@@ -377,17 +371,22 @@
         "image": "Hình ảnh",
         "enter_alternative_data": "{{plsEnter}} dữ liệu thay thế"
       }
+    },
+    "ai_humans": {
+      "face": "Quản lý khuôn mặt",
+      "name": "Tên",
+      "code": "Mã",
+      "position" : "Chức vụ",
+      "department" : "Phòng ban",
+      "adminUnit" : "Đơn vị",
+      "status" : "Trạng thái"
+
     }
   },
-  
-  
-  
-  "noti":{
+  "noti": {
     "logged_out_successfully": "Đăng xuất thành công",
     "logged_out_failed": "Đăng xuất thất bại",
-
     "delete_camera": "Bạn chắc chắn muốn xóa {{cam}} {{this}}?",
-    
     "successfully_delete_administrative_category": "{{delete}} thành công danh mục hành chính",
     "successfully_delete_camera_type": "{{delete}} thành công loại {{cam}}",
     "successfully_delete_camera_vendor": "{{delete}} thành công hãng {{cam}}",
@@ -403,8 +402,6 @@
     "successfully_add_zone": "Bạn đã thêm Zone thành công",
     "successfully_delete_zone": "Bạn đã xóa Zone thành công",
     "255_characters_limit": "Giới hạn 255 ký tự",
-    "256_characters_limit": "Giới hạn 256 ký tự",
-
     "do_not_have_permission_to_view_list_event": "Bạn không có quyền xem danh sách sự kiện",
     "error_get_file_check_again": "Đã xảy ra lỗi trong quá trình lấy danh sách tệp, hãy kiểm tra lại",
     "do_not_have_permission_to_action": "Bạn không có quyền để thực hiện hành động này",
@@ -420,7 +417,6 @@
     "delete_file": "Bạn chắc chắn muốn xóa tệp {{this}}?",
     "save_change": "Bạn chắc chắn muốn lưu các thay đổi này?",
     "delete_archived_file": "Bạn chắc chắn muốn xóa tệp lưu trữ {{this}}?",
-    
     "successfully_deleted_user": "Bạn đã xóa {{u}} {{this}} thành công",
     "delete_user": "Bạn chắc chắn muốn xóa {{u}} {{this}}?",
     "successfully_deleted_group": "Bạn đã xóa {{g}} thành công",
@@ -432,17 +428,16 @@
     "remove_member": "Bạn chắc chắn muốn xóa thành viên này ra khỏi nhóm?",
     "deleting": "Bạn đang xóa",
     "remove_all_info": "Hành động này sẽ khiến bạn mất thông tin hoàn toàn",
-    
     "upload_file_desc": "Chỉ được phép sử dụng định dạng loại JPG/PNG!",
     "size_file_desc": "Kích thước tệp phải nhỏ hơn 2MB!",
-    "successfully_added_data":"{{add}} dữ liệu thành công",
+    "successfully_added_data": "{{add}} dữ liệu thành công",
     "unsuccessfully_add_data": "{{add}} dữ liệu lỗi, vui lòng kiểm tra lại",
     "cancel": "Bạn có chắc chắn hủy?",
-
     "enter_this_field": "Bạn không được để trống phần này!",
     "input_number": "Chỉ nhập số",
     "at_least_10_characters": "Tối thiểu 10 ký tự",
-    "at_least_8_characters": "Tối thiểu 8 ký tự"
+    "at_least_8_characters": "Tối thiểu 8 ký tự",
+    "successfully_delete_human": "{{delete}} thành công người"
   },
 
   "breadcrumd":{

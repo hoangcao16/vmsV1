@@ -99,15 +99,19 @@ const ModalEditNVR = (props) => {
                     required: true,
                     message: `${t('view.map.required_field')}`
                   },
-
-                  { transform: (value) => value.trim() },
                   {
                     max: 255,
                     message: `${t('noti.255_characters_limit')}`
                   }
                 ]}
               >
-                <Input />
+                <Input
+                    onBlur={(e) => {
+                      form.setFieldsValue({
+                        name: e.target.value.trim()
+                      });
+                    }}
+                  ></Input>
               </Form.Item>
             </Col>
             <Col span={24}>
@@ -119,14 +123,19 @@ const ModalEditNVR = (props) => {
                     required: true,
                     message: `${t('view.map.required_field')}`
                   },
-                  { transform: (value) => value.trim() },
                   {
                     max: 255,
                     message: `${t('noti.255_characters_limit')}`
                   }
                 ]}
               >
-                <TextArea />
+                <TextArea 
+                  onBlur={(e) => {
+                    form.setFieldsValue({
+                      note: e.target.value.trim()
+                    });
+                  }}>
+                </TextArea>
               </Form.Item>
             </Col>
             <Col span={24}>
@@ -138,14 +147,19 @@ const ModalEditNVR = (props) => {
                     required: true,
                     message: `${t('view.map.required_field')}`
                   },
-                  { transform: (value) => value.trim() },
                   {
                     max: 255,
                     message: `${t('noti.255_characters_limit')}`
                   }
                 ]}
               >
-                <TextArea />
+                <TextArea 
+                  onBlur={(e) => {
+                    form.setFieldsValue({
+                      description: e.target.value.trim()
+                    });
+                  }}>
+                </TextArea>
               </Form.Item>
             </Col>
           </Row>

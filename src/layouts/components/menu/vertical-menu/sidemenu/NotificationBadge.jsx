@@ -42,9 +42,11 @@ const NotificationBadge = (props) => {
           {console.log('bye')}
           <Badge count={props?.messageCount}>
             <Tooltip
-              placement="right" 
+              placement="right"
               title={t('components.bookmark.notification')}
               arrowPointAtCenter={true}
+              overlayStyle={{ position: 'fixed' }}
+
             >
               <Image src={isHidden ? notificationActive :
                 notificationInActive}

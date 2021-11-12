@@ -383,6 +383,7 @@ const Preset = (props) => {
         };
         try {
             setIsActionStart(true)
+
             const isPost = await ptzControllerApi.postPan(payload);
         } catch (error) {
             console.log(error);
@@ -390,6 +391,9 @@ const Preset = (props) => {
     };
 
     const onPanLeftEnd = async () => {
+        // setIsActionStart(false)
+
+        console.log('isActionIsStart', isActionIsStart)
         const payload = {
             cameraUuid: idCamera,
             direction: "left",
@@ -400,6 +404,8 @@ const Preset = (props) => {
             if (isActionIsStart) {
                 const isPost = await ptzControllerApi.postPan(payload);
                 setIsActionStart(false)
+
+
             }
         } catch (error) {
             console.log(error);
@@ -564,6 +570,7 @@ const Preset = (props) => {
             console.log(error);
         }
     };
+
 
     // var lastPress = 0;
     // console.log('document', document)
@@ -1212,7 +1219,6 @@ const Preset = (props) => {
                             onMouseDown={onPanLeftStart}
                             onMouseUp={onPanLeftEnd}
                             onMouseLeave={onPanLeftEnd}
-
                         />
                         <Button
                             className='right'
@@ -1220,7 +1226,6 @@ const Preset = (props) => {
                             onMouseDown={onPanRightStart}
                             onMouseUp={onPanRightEnd}
                             onMouseLeave={onPanRightEnd}
-
                         />
                         <Button
                             className='up'
@@ -1228,7 +1233,6 @@ const Preset = (props) => {
                             onMouseDown={onTiltUpStart}
                             onMouseUp={onTiltUpEnd}
                             onMouseLeave={onTiltUpEnd}
-
                         />
                         <Button
                             className='down'

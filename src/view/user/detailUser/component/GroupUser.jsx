@@ -34,7 +34,7 @@ const GroupUser = (props) => {
 
   useEffect(() => {
     UserApi.getAllGroup().then((result) => {
-      setAllGroup(result.sort(compare));
+      setAllGroup(result?.sort(compare));
     });
     UserApi.getGroupByUser({ uuid: props?.id }).then((result) => {
       setGroup(result?.groups || []);
@@ -104,7 +104,7 @@ const GroupUser = (props) => {
   return (
     <div className="detail-user--group-user">
       <Card className="cardRole">
-        <h4>{t('view.user.user_group', { U: t('U'), g: t('g'), u: t('u'), G:t('G') })}</h4>
+        <h4>{t('view.user.user_group', { U: t('U'), g: t('g'), u: t('u'), G: t('G') })}</h4>
         {!isEmpty(allGroup) ? (
           <Form
             className="bg-grey"

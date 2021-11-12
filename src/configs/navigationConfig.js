@@ -42,6 +42,12 @@ const navigationConfig = [
     title: 'Cài đặt',
     type: 'item',
     navLink: '/app/setting'
+  },
+  {
+    id: 'humans',
+    title: 'Quản lý khuân mặt',
+    type: 'item',
+    navLink: '/humans/list'
   }
 ];
 

@@ -110,21 +110,33 @@
           display: flex;
           justify-content: center;
           align-items: center;
-          .ant-select {
-            width: 4.2rem;
-            height: 4.2rem;
-            .ant-select-selector {
-              padding: 0;
-              background-color: $vms-bg-3 !important;
-              .ant-select-selection-item {
-                text-align: center;
-                padding-right: 0;
-              }
-            }
-            .ant-select-arrow {
-              display: none;
-            }
+          select {
+            height: 4rem;
+            width: 4rem;
+            background-color: $vms-bg-primary;
+            border: $vms-border-gray;
+            border-radius: 4px;
+            color: $vms-status;
+            font-size: 1.6rem;
+            appearance: none;
+            text-align: center;
+            outline: none;
           }
+          // .ant-select {
+          //   width: 4.2rem;
+          //   height: 4.2rem;
+          //   .ant-select-selector {
+          //     padding: 0;
+          //     background-color: $vms-bg-3 !important;
+          //     .ant-select-selection-item {
+          //       text-align: center;
+          //       padding-right: 0;
+          //     }
+          //   }
+          //   .ant-select-arrow {
+          //     display: none;
+          //   }
+          // }
         }
       }
 

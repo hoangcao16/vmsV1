@@ -44,6 +44,9 @@ const Bookmark = ({
                     onChange={(e) => {
                         setName(e.target.value);
                     }}
+                    onBlur={(e)=>{
+                        setName(e.target.value.trim());
+                    }}
                 />
                 <p className="bookmark__name-err" style={errStyle}>
                     {errMsg}
