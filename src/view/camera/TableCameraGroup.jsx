@@ -1,21 +1,13 @@
 import {
-  CloseOutlined,
-  DownOutlined,
-  DeleteOutlined,
-  EditOutlined,
+  DeleteOutlined, DownOutlined, EditOutlined,
   ExclamationCircleOutlined,
   PlusOutlined,
   SearchOutlined
 } from '@ant-design/icons';
 import {
   AutoComplete,
-  Button,
-  Col,
-  Form,
-  Popconfirm,
-  Row,
-  Space,
-  Spin,
+  Button, Form,
+  Popconfirm, Spin,
   Tabs,
   Tooltip,
   Tree
@@ -24,10 +16,12 @@ import 'antd/dist/antd.css';
 import { isEmpty } from 'lodash-es';
 import debounce from 'lodash/debounce';
 import React, { useEffect, useState } from 'react';
+import { useTranslation } from 'react-i18next';
 import { connect } from 'react-redux';
 import { reactLocalStorage } from 'reactjs-localstorage';
 import CameraApi from '../../actions/api/camera/CameraApi';
 import Notification from '../../components/vms/notification/Notification';
+import Breadcrumds from '../breadcrumds/Breadcrumds';
 import './../commonStyle/commonAuto.scss';
 import './../commonStyle/commonModal.scss';
 import './../commonStyle/commonSelect.scss';
@@ -39,8 +33,6 @@ import TableCamera from './TableCamera';
 import './TableCameraGroup.scss';
 import './TableGroup.scss';
 import TableListCamInCamGroup from './TableListCamInCamGroup';
-import { useTranslation } from 'react-i18next';
-import Breadcrumds from '../breadcrumds/Breadcrumds';
 
 const { TreeNode } = Tree;
 

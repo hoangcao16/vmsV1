@@ -1,37 +1,38 @@
 import {
   handleErrCodeAuthZ,
   handleErrCodeReport,
-  responseCheckerErrorsController,
-} from "../../function/MyUltil/ResponseChecker";
-import MyService from "../service";
-import Notification from "./../../../components/vms/notification/Notification";
+  responseCheckerErrorsController
+} from '../../function/MyUltil/ResponseChecker';
+import MyService from '../service';
+import Notification from './../../../components/vms/notification/Notification';
 const CameraApi = {
   getAllCamera: async (dataSearch) => {
     const data = {
       ...dataSearch,
       provinceId:
-        dataSearch?.provinceId === undefined ? "" : dataSearch?.provinceId,
+        dataSearch?.provinceId === undefined ? '' : dataSearch?.provinceId,
       districtId:
-        dataSearch?.districtId === undefined ? "" : dataSearch?.districtId,
-      id: dataSearch?.id === undefined ? "" : dataSearch?.id,
+        dataSearch?.districtId === undefined ? '' : dataSearch?.districtId,
+      id: dataSearch?.id === undefined ? '' : dataSearch?.id,
       administrativeUnitUuid:
         dataSearch?.administrativeUnitUuid === undefined
-          ? ""
+          ? ''
           : dataSearch?.administrativeUnitUuid,
       vendorUuid:
-        dataSearch?.vendorUuid === undefined ? "" : dataSearch?.vendorUuid,
-      status: dataSearch?.status === undefined ? "" : dataSearch?.status,
+        dataSearch?.vendorUuid === undefined ? '' : dataSearch?.vendorUuid,
+      status: dataSearch?.status === undefined ? '' : dataSearch?.status,
       cameraGroupUuid:
         dataSearch?.cameraGroupUuid === undefined
-          ? ""
-          : dataSearch?.cameraGroupUuid,
+          ? ''
+          : dataSearch?.cameraGroupUuid
     };
 
     let result;
 
     try {
       result = await MyService.getRequestData(
-        `/cctv-controller-svc/api/v1/cameras`, dataSearch
+        `/cctv-controller-svc/api/v1/cameras`,
+        dataSearch
       );
     } catch (error) {
       console.log(error);
@@ -41,13 +42,29 @@ const CameraApi = {
     }
     return result.payload;
   },
+  getAllCameraWithTotal: async (dataSearch) => {
+    let result;
+
+    try {
+      result = await MyService.getRequestData(
+        `/cctv-controller-svc/api/v1/cameras`,
+        dataSearch
+      );
+    } catch (error) {
+      console.log(error);
+    }
+    if (responseCheckerErrorsController(result) === null) {
+      return [];
+    }
+    return result;
+  },
 
   getReportCamera: async () => {
     let result;
 
     try {
       result = await MyService.getRequestData(
-        "/owl/api/v1/camera/get-report-camera"
+        '/owl/api/v1/camera/get-report-camera'
       );
     } catch (error) {
       console.log(JSON.stringify(error));
@@ -80,15 +97,16 @@ const CameraApi = {
     const data = {
       ...dataInput,
 
-      parent: dataInput?.parent === undefined ? "" : dataInput?.parent,
+      parent: dataInput?.parent === undefined ? '' : dataInput?.parent,
       page: 0,
-      size: 10000,
+      size: 10000
     };
     let result;
 
     try {
       result = await MyService.getRequestData(
-        `/cctv-controller-svc/api/v1/camera_groups`, dataInput
+        `/cctv-controller-svc/api/v1/camera_groups`,
+        dataInput
       );
     } catch (error) {
       console.log(error);
@@ -114,7 +132,7 @@ const CameraApi = {
       return [];
     }
 
-    console.log("result.payload:", result.payload);
+    console.log('result.payload:', result.payload);
 
     return result.payload;
   },
@@ -200,7 +218,7 @@ const CameraApi = {
     } catch (error) {
       console.log(error);
     }
-    console.log("result camera edit", result);
+    console.log('result camera edit', result);
 
     if (responseCheckerErrorsController(result) === null) {
       return false;
@@ -260,7 +278,7 @@ const CameraApi = {
 
     try {
       result = await MyService.postRequestData(
-        "/cctv-controller-svc/api/v1/cameras",
+        '/cctv-controller-svc/api/v1/cameras',
         cameraPayload
       );
     } catch (error) {
@@ -276,7 +294,7 @@ const CameraApi = {
 
     try {
       result = await MyService.postRequestData(
-        "/cctv-controller-svc/api/v1/camera_groups",
+        '/cctv-controller-svc/api/v1/camera_groups',
         cameraGroupPayload
       );
     } catch (error) {
@@ -293,7 +311,7 @@ const CameraApi = {
 
     try {
       result = await MyService.postRequestData(
-        "/authz/api/v0/groups/set",
+        '/authz/api/v0/groups/set',
         data
       );
     } catch (error) {
@@ -309,13 +327,13 @@ const CameraApi = {
 
     try {
       result = await MyService.postRequestData(
-        "/cctv-controller-svc/api/v1/camera_types",
+        '/cctv-controller-svc/api/v1/camera_types',
         cameraTypePayload
       );
     } catch (error) {
       console.log(error);
     }
-    console.log("result result", result);
+    console.log('result result', result);
     if (responseCheckerErrorsController(result) === null) {
       return false;
     }
@@ -327,7 +345,7 @@ const CameraApi = {
 
     try {
       result = await MyService.postRequestData(
-        "/authz/api/v0/authorization/add_permission",
+        '/authz/api/v0/authorization/add_permission',
         data
       );
     } catch (error) {
@@ -343,7 +361,7 @@ const CameraApi = {
 
     try {
       result = await MyService.postRequestData(
-        "/authz/api/v0/authorization/remove_permission",
+        '/authz/api/v0/authorization/remove_permission',
         data
       );
     } catch (error) {
@@ -360,7 +378,7 @@ const CameraApi = {
 
     try {
       result = await MyService.postRequestData(
-        "/authz/api/v0/authorization/add_multi_permission",
+        '/authz/api/v0/authorization/add_multi_permission',
         data
       );
     } catch (error) {
@@ -390,13 +408,13 @@ const CameraApi = {
     }
 
     const notifyMess = {
-      type: "success",
-      title: "",
-      description: "Sửa camera thành công",
+      type: 'success',
+      title: '',
+      description: 'Sửa camera thành công'
     };
     Notification(notifyMess);
     return true;
-  },
+  }
 };
 
 export default CameraApi;
