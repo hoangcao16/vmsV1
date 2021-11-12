@@ -1,8 +1,8 @@
 import { SearchOutlined } from '@ant-design/icons';
 import { AutoComplete, Button, Form, Select, Space, Table } from 'antd';
 import { isEmpty } from 'lodash-es';
-import debounce from 'lodash/debounce';
 import React, { useEffect, useState } from 'react';
+import { useTranslation } from 'react-i18next';
 import AddressApi from '../../actions/api/address/AddressApi';
 import AdDivisionApi from '../../actions/api/advision/AdDivision';
 import CameraApi from '../../actions/api/camera/CameraApi';
@@ -12,7 +12,6 @@ import { filterOption, normalizeOptions } from '../common/select/CustomSelect';
 import { renderText } from '../user/dataListUser/components/TableListUser';
 import { DATA_FAKE_CAMERA } from './ModalAddCamera';
 import './TableAddCamInCamGroup.scss';
-import { useTranslation } from 'react-i18next';
 
 const formItemLayout = {
   wrapperCol: { span: 24 },
@@ -27,7 +26,7 @@ export default function TableAddCamInCamGroup(props) {
   const [listCamera, setListCamera] = useState([]);
 
   const [provinceId, setProvinceId] = useState('');
-
+  const [search, setSearch] = useState('');
   const [districts, setDistrict] = useState([]);
   const [districtId, setDistrictId] = useState('');
   const [wards, setWard] = useState([]);
@@ -47,7 +46,9 @@ export default function TableAddCamInCamGroup(props) {
       id: '',
       administrativeUnitUuid: '',
       vendorUuid: '',
-      status: ''
+      status: '',
+      page: 1,
+      size: 100000
     };
     CameraApi.getAllCamera(data).then((result) => {
       let selectedId = props?.camInGroupKey;
@@ -90,13 +91,14 @@ export default function TableAddCamInCamGroup(props) {
       provinceId: cityId,
       districtId: '',
       id: '',
-      administrativeUnitUuid: administrativeUnitUuid
+      administrativeUnitUuid: administrativeUnitUuid,
+      page: 1,
+      size: 100000
     };
     CameraApi.getAllCamera(data).then((result) => {
       let selectedId = props?.camInGroupKey;
 
       const data = result.filter((r) => !selectedId.includes(r.uuid));
-
       setListCamera(data);
     });
   };
@@ -113,7 +115,9 @@ export default function TableAddCamInCamGroup(props) {
       districtId: districtId,
       id: '',
       name: name,
-      administrativeUnitUuid: administrativeUnitUuid
+      administrativeUnitUuid: administrativeUnitUuid,
+      page: 1,
+      size: 100000
     };
     CameraApi.getAllCamera(data).then((result) => {
       let selectedId = props?.camInGroupKey;
@@ -129,13 +133,14 @@ export default function TableAddCamInCamGroup(props) {
       districtId: districtId,
       id: id,
       name: name,
-      administrativeUnitUuid: administrativeUnitUuid
+      administrativeUnitUuid: administrativeUnitUuid,
+      page: 1,
+      size: 100000
     };
     CameraApi.getAllCamera(data).then((result) => {
       let selectedId = props?.camInGroupKey;
 
       const data = result.filter((r) => !selectedId.includes(r.uuid));
-
       setListCamera(data);
     });
   };
@@ -147,13 +152,14 @@ export default function TableAddCamInCamGroup(props) {
       districtId: districtId,
       id: id,
       name: name,
-      administrativeUnitUuid: administrativeUnitUuid
+      administrativeUnitUuid: administrativeUnitUuid,
+      page: 1,
+      size: 100000
     };
     CameraApi.getAllCamera(data).then((result) => {
       let selectedId = props?.camInGroupKey;
 
       const data = result.filter((r) => !selectedId.includes(r.uuid));
-
       setListCamera(data);
     });
   };
@@ -173,21 +179,22 @@ export default function TableAddCamInCamGroup(props) {
     onChange: onSelectChange
   };
 
-  const hasSelected = selectedRowKeys.length - props.camInGroupKey.length > 0;
   const handleSearch = async (value) => {
+    setSearch(value);
     setName(value);
     let data = {
       name: value,
       provinceId: provinceId,
       districtId: districtId,
       id: id,
-      administrativeUnitUuid: administrativeUnitUuid
+      administrativeUnitUuid: administrativeUnitUuid,
+      page: 1,
+      size: 100000
     };
     CameraApi.getAllCamera(data).then((result) => {
       let selectedId = props?.camInGroupKey;
 
       const data = result.filter((r) => !selectedId.includes(r.uuid));
-
       setListCamera(data);
     });
   };
@@ -215,38 +222,44 @@ export default function TableAddCamInCamGroup(props) {
   };
 
   const columns = [
-    {
-      title: `${t('view.category.no')}`,
-      fixed: 'left',
-      key: 'index',
-      className: 'headerUserColums',
-      width: '7%',
-      render: (text, record, index) => index + 1
-    },
+    // {
+    //   title: `${t('view.category.no')}`,
+    //   fixed: 'left',
+    //   key: 'index',
+    //   className: 'headerUserColums',
+    //   width: '7%',
+    //   render: (text, record, index) => index + 1
+    // },
     {
       title: 'Camera',
       dataIndex: 'name',
+      className: 'headerUserColums',
+      width: '40%',
+      render: renderText
+    },
+    {
+      title: `${t('view.map.location')}`,
+      dataIndex: 'address',
       className: 'headerUserColums',
       width: '20%',
       render: renderText
     },
     {
-      title: `${t('view.map.location')}`,
-      dataIndex: 'email',
-      className: 'headerUserColums',
-      width: '28%',
-      render: renderText
-    },
-    {
       title: `${t('view.map.administrative_unit')}`,
-      dataIndex: 'phone',
+      dataIndex: 'administrativeUnitName',
       className: 'headerUserColums',
-      width: '28%',
+      width: '40%',
       render: renderText
     }
   ];
 
   // const handleSearch = async (value) => {};
+
+  const handleBlur = (event) => {
+    const value = event.target.value.trim();
+
+    setSearch(value);
+  };
 
   const renderHeader = () => {
     return (
@@ -279,7 +292,10 @@ export default function TableAddCamInCamGroup(props) {
         <div className="d-flex justify-content-between">
           <AutoComplete
             className="searchData full-width height-40"
-            onSearch={debounce(handleSearch, 1000)}
+            onSearch={handleSearch}
+            value={search}
+            onBlur={handleBlur}
+            maxLength={255}
             placeholder={
               <div className="placehoder height-40 justify-content-between d-flex align-items-center">
                 <span> &nbsp; {t('view.map.search')} </span>{' '}
@@ -337,18 +353,12 @@ export default function TableAddCamInCamGroup(props) {
                 placeholder={t('view.map.please_choose_location')}
               />
             </Form.Item>
-            <div className="number--element__selected">
-              {hasSelected
-                ? `${t('choose')} ${
-                    selectedRowKeys.length - props.camInGroupKey.length
-                  } ${t('record')}`
-                : ''}
-            </div>
           </div>
         </Form>
       </>
     );
   };
+
   return (
     <div>
       {isEmpty(camGroupUuid) ? null : (
@@ -362,7 +372,10 @@ export default function TableAddCamInCamGroup(props) {
             title={renderHeader}
             rowSelection={rowSelection}
             pagination={{
-              pageSize: 8
+              pageSize: 5
+            }}
+            locale={{
+              emptyText: `${t('view.user.detail_list.no_valid_results_found')}`
             }}
           />
         </div>

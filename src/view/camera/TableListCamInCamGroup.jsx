@@ -1,10 +1,5 @@
 import { DeleteOutlined, EyeOutlined, SearchOutlined } from '@ant-design/icons';
-import {
-  AutoComplete,
-  Button, Popconfirm,
-  Table,
-  Tooltip
-} from 'antd';
+import { AutoComplete, Button, Popconfirm, Table, Tooltip } from 'antd';
 import { isEmpty } from 'lodash-es';
 import debounce from 'lodash/debounce';
 import React, { useEffect, useState } from 'react';
@@ -22,7 +17,7 @@ export default function TableListCamInCamGroup(props) {
 
   const [camInGroup, setCamInGroup] = useState([]);
   const [nameGroup, setNameGroup] = useState('');
-
+  const [search, setSearch] = useState('');
   const [reload, setReload] = useState(false);
 
   const [selectedCameraId, setSelectedCameraId] = useState(null);
@@ -65,49 +60,44 @@ export default function TableListCamInCamGroup(props) {
       Notification(notifyMess);
       setReload(!reload);
       handleAdddCamera(false);
-    } 
+    }
   };
 
   const columns = [
     {
-      title: `${t('view.storage.NO')}`,
-      fixed: 'left',
-      key: 'index',
-      className: 'headerUserColumns',
-      width: '5%',
-      render: (text, record, index) => index + 1
-    },
-    {
       title: 'Camera',
       dataIndex: 'name',
       className: 'headerUserColumns',
-      width: '20%',
+      // width: '20%',
       render: renderText
     },
     {
       title: `${t('view.map.location')}`,
-      dataIndex: 'email',
+      dataIndex: 'address',
       className: 'headerUserColumns',
-      width: '27%',
+      // width: '32%',
       render: renderText
     },
     {
       title: `${t('view.map.administrative_unit')}`,
-      dataIndex: 'phone',
+      dataIndex: 'administrativeUnitName',
       className: 'headerUserColumns',
-      width: '30%',
+      // width: '30%',
       render: renderText
     },
 
     {
       title: `${t('view.storage.action')}`,
       fixed: 'right',
-      width: '13%',
+      // width: '13%',
       className: 'headerUserColumns',
       render: (text, record) => {
         return (
           <div className="d-flex">
-            <Tooltip placement="top" title={t('view.camera.camera_detail', { cam: t('camera') })}>
+            <Tooltip
+              placement="top"
+              title={t('view.camera.camera_detail', { cam: t('camera') })}
+            >
               <EyeOutlined
                 style={{
                   fontSize: '16px',
@@ -119,12 +109,17 @@ export default function TableListCamInCamGroup(props) {
                 }}
               />
             </Tooltip>
-            <Popconfirm
-              title={t('noti.delete_role', { this: t('this')})}
-              onConfirm={() => removeCameraInGroup(record?.uuid)}
-            >
-              <DeleteOutlined style={{ fontSize: '16px', color: '#6E6B7B' }} />
-            </Popconfirm>
+
+            <Tooltip placement="top" title={t('delete')}>
+              <Popconfirm
+                title={t('noti.delete_role', { this: t('this') })}
+                onConfirm={() => removeCameraInGroup(record?.uuid)}
+              >
+                <DeleteOutlined
+                  style={{ fontSize: '16px', color: '#6E6B7B' }}
+                />
+              </Popconfirm>
+            </Tooltip>
           </div>
         );
       }
@@ -132,6 +127,7 @@ export default function TableListCamInCamGroup(props) {
   ];
 
   const handleSearch = async (value) => {
+    setSearch(value);
     let data = {
       name: value,
       provinceId: '',
@@ -140,10 +136,18 @@ export default function TableListCamInCamGroup(props) {
       administrativeUnitUuid: '',
       vendorUuid: '',
       status: '',
-      cameraGroupUuid: camGroupUuid
+      cameraGroupUuid: camGroupUuid,
+      page: 1,
+      size: 100000
     };
     const dataCameraSearch = await CameraApi.getAllCamera(data);
     setCamInGroup(dataCameraSearch);
+  };
+
+  const handleBlur = (event) => {
+    const value = event.target.value.trim();
+
+    setSearch(value);
   };
 
   const renderHeader = () => {
@@ -152,7 +156,10 @@ export default function TableListCamInCamGroup(props) {
         <h4 className="font-weight-700">{nameGroup} </h4>
         <hr />
         <div className=" d-flex justify-content-between align-items-center toolbar">
-          <Tooltip placement="rightTop" title={t('view.camera.add_new_cam_in_group')}>
+          <Tooltip
+            placement="rightTop"
+            title={t('view.camera.add_new_cam_in_group')}
+          >
             <Button type="primary" onClick={onAddCamera}>
               {t('view.camera.add_new')}
             </Button>
@@ -160,10 +167,16 @@ export default function TableListCamInCamGroup(props) {
 
           <AutoComplete
             className=" full-width height-40 read search__camera-group ml-2"
-            onSearch={debounce(handleSearch, 1000)}
+            onSearch={handleSearch}
+            value={search}
+            onBlur={handleBlur}
+            maxLength={255}
             placeholder={
               <div className="placehoder height-40 justify-content-between d-flex align-items-center">
-                <span style={{ opacity: '0.5' }}> &nbsp; {t('view.map.search')} </span>{' '}
+                <span style={{ opacity: '0.5' }}>
+                  {' '}
+                  &nbsp; {t('view.map.search')}{' '}
+                </span>{' '}
                 <SearchOutlined style={{ fontSize: 22 }} />
               </div>
             }
@@ -185,6 +198,9 @@ export default function TableListCamInCamGroup(props) {
             // scroll={{ y: 300 }}
             pagination={{
               pageSize: 8
+            }}
+            locale={{
+              emptyText: `${t('view.user.detail_list.no_valid_results_found')}`
             }}
           />
         </div>

@@ -709,6 +709,8 @@ const TableCamera = () => {
             </div>
           )
         }}
+
+        
       />
 
       {selectedCameraId && (
