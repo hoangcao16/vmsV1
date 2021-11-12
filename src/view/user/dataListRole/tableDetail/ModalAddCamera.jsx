@@ -455,6 +455,7 @@ const ModalAddCamera = (props) => {
               >
                 <Select
                   allowClear
+                  showSearch
                   onChange={(id) => onChangeUnit(id)}
                   dataSource={adDivisions}
                   filterOption={filterOption}

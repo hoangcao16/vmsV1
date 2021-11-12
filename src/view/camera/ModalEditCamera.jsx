@@ -1,10 +1,4 @@
-import {
-  LoadingOutlined,
-  PlusOutlined,
-  UserOutlined,
-  MinusCircleOutlined
-} from '@ant-design/icons';
-
+import { LoadingOutlined, PlusOutlined, UserOutlined } from '@ant-design/icons';
 import {
   Avatar,
   Button,
@@ -14,11 +8,9 @@ import {
   Modal,
   Row,
   Select,
-  Upload,
-  Space
+  Upload
 } from 'antd';
 import 'antd/dist/antd.css';
-import { SpaceContext } from 'antd/lib/space';
 import { isEmpty } from 'lodash-es';
 import React, { useEffect, useState } from 'react';
 import { useTranslation } from 'react-i18next';
@@ -38,10 +30,9 @@ import './../commonStyle/commonInput.scss';
 import './../commonStyle/commonModal.scss';
 import './../commonStyle/commonSelect.scss';
 import { DATA_FAKE_CAMERA } from './ModalAddCamera';
+import ModalAddEditTagBindCam from './ModalAddEditTagBindCam';
 import './ModalEditCamera.scss';
 import './UploadFile.scss';
-import { Link } from 'react-router-dom';
-import ModalAddEditTagBindCam from './ModalAddEditTagBindCam';
 
 const formItemLayout = {
   wrapperCol: { span: 24 },
@@ -54,26 +45,6 @@ function getBase64(img, callback) {
   reader.readAsDataURL(img);
 }
 
-function beforeUpload(file) {
-  const isJpgOrPng = file.type === 'image/jpeg' || file.type === 'image/png';
-  if (!isJpgOrPng) {
-    Notification({
-      type: 'error',
-      title: '',
-      description: 'Chỉ được phép upload file loại JPG/PNG!'
-    });
-  }
-  const isLt2M = file.size / 1024 / 1024 < 2;
-  if (!isLt2M) {
-    Notification({
-      type: 'error',
-      title: '',
-      description: 'File phải nhỏ hơn 2MB'
-    });
-  }
-  return isJpgOrPng && isLt2M;
-}
-
 const ModalEditCamera = (props) => {
   const { t } = useTranslation();
   const { handleShowModalEdit, selectedCameraIdEdit } = props;
@@ -84,10 +55,6 @@ const ModalEditCamera = (props) => {
 
   const [selectedCameraEdit, setSelectedCameraEdit] =
     useState(DATA_FAKE_CAMERA);
-
-  // const [loading, setLoading] = useState(false);
-
-  const [imageUrl, setImageUrl] = useState(null);
 
   const [filterOptions, setFilterOptions] = useState({});
 
@@ -116,7 +83,6 @@ const ModalEditCamera = (props) => {
         loadAvatarHandler(data?.avatarFileName).then();
       }
       setSelectedCameraEdit(data);
-
       setProvinceId(data.provinceId);
       setDistrictId(data.districtId);
       return;
@@ -152,7 +118,6 @@ const ModalEditCamera = (props) => {
   }, [districtId]);
 
   const { provinces, zones, vendors, cameraTypes, adDivisions } = filterOptions;
-  console.log('filterOptions', filterOptions)
 
   const loadAvatarHandler = async (avatarFileName) => {
     if (avatarFileName !== '' && avatarUrl === '') {
@@ -203,7 +168,7 @@ const ModalEditCamera = (props) => {
   };
 
   const uploadImage = async (options) => {
-    const { onSuccess, onError, file, onProgress } = options;
+    const { file } = options;
     await ExportEventFileApi.uploadAvatar(uuidV4(), file).then((result) => {
       if (
         result.data &&
@@ -254,7 +219,6 @@ const ModalEditCamera = (props) => {
   }
 
   const handleSubmit = async (value) => {
-    console.log('valuevaluevalue', value);
     const payload = {
       ...value,
       avatarFileName: avatarFileName
@@ -322,10 +286,10 @@ const ModalEditCamera = (props) => {
                     ]}
                   >
                     <Input
-                      placeholder={
-                        (t('view.map.please_enter_camera_name'),
-                          { plsEnter: t('please_enter'), cam: t('camera') })
-                      }
+                      placeholder={t('view.map.please_enter_camera_name', {
+                        plsEnter: t('please_enter'),
+                        cam: t('camera')
+                      })}
                     />
                   </Form.Item>
                 </Col>
@@ -404,14 +368,23 @@ const ModalEditCamera = (props) => {
                   options={normalizeOptions('name', 'uuid', cameraTypes)}
                   placeholder={
                     (t('view.map.please_choose_camera_type'),
-                      { cam: t('camera') })
+                    { cam: t('camera') })
                   }
                 />
               </Form.Item>
             </Col>
 
             <Col span={12}>
-              <Form.Item name={['vendorUuid']} label={t('view.map.vendor')}>
+              <Form.Item
+                name={['vendorUuid']}
+                label={t('view.map.vendor')}
+                rules={[
+                  {
+                    required: true,
+                    message: `${t('view.map.required_field')}`
+                  }
+                ]}
+              >
                 <Select
                   dataSource={vendors}
                   filterOption={filterOption}
@@ -469,7 +442,7 @@ const ModalEditCamera = (props) => {
               <Form.Item
                 name={['wardId']}
                 label={t('view.map.ward_id')}
-              // rules={[{ required: true, message: "Trường này bắt buộc" }]}
+                // rules={[{ required: true, message: "Trường này bắt buộc" }]}
               >
                 <Select
                   dataSource={wards}
@@ -501,6 +474,8 @@ const ModalEditCamera = (props) => {
                 name={['administrativeUnitUuid']}
               >
                 <Select
+                  allowClear
+                  showSearch
                   dataSource={adDivisions}
                   filterOption={filterOption}
                   options={normalizeOptions('name', 'uuid', adDivisions)}
@@ -632,6 +607,16 @@ const ModalEditCamera = (props) => {
   );
 };
 
+export function compareName(a, b) {
+  if (a.name < b.name) {
+    return -1;
+  }
+  if (a.name > b.name) {
+    return 1;
+  }
+  return 0;
+}
+
 async function fetchSelectOptions() {
   const data = {
     name: '',
@@ -658,8 +643,11 @@ async function fetchSelectOptions() {
   }
 
   let cameraTypes = await CameraApi.getAllCameraTypes(data);
+
   if (isEmpty(cameraTypes)) {
     cameraTypes = DATA_FAKE_CAMERA.cameraTypes;
+  } else {
+    cameraTypes = cameraTypes.sort(compareName);
   }
 
   let vendors = await VendorApi.getAllVendor(data);
