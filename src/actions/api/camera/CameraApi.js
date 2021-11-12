@@ -59,6 +59,23 @@ const CameraApi = {
 
     return result.responseList;
   },
+  getChartData: async (body) => {
+    let result;
+
+    try {
+      result = await MyService.postRequestData(
+        "/owl/api/v1/camera/get-chart", body
+      );
+    } catch (error) {
+      console.log(JSON.stringify(error));
+    }
+
+    if (handleErrCodeReport(result) === null) {
+      return [];
+    }
+
+    return result.payload;
+  },
 
   getAllCameraWidthTotal: async (dataSearch) => {
     let result;

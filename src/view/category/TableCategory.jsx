@@ -11,7 +11,8 @@ import {
   Popconfirm,
   Select,
   Space,
-  Table
+  Table,
+  Tooltip
 } from 'antd';
 import 'antd/dist/antd.css';
 import { isEmpty } from 'lodash-es';
@@ -342,19 +343,23 @@ const TableCategory = () => {
       render: (_text, record) => {
         return (
           <Space>
-            <EditOutlined
-              style={{ fontSize: '16px', color: '#6E6B7B' }}
-              onClick={() => {
-                setSelectedCategoryId(record.uuid);
-                setShowModal(true);
-              }}
-            />
-            <Popconfirm
-              title={t('noti.delete_category', { this: t('this') })}
-              onConfirm={() => handleDelete(record.uuid, dataType)}
-            >
-              <DeleteOutlined style={{ fontSize: '16px', color: '#6E6B7B' }} />
-            </Popconfirm>
+            <Tooltip placement="top" title={t('view.common_device.edit')}>
+              <EditOutlined
+                style={{ fontSize: '16px', color: '#6E6B7B' }}
+                onClick={() => {
+                  setSelectedCategoryId(record.uuid);
+                  setShowModal(true);
+                }}
+              />
+            </Tooltip>
+            <Tooltip placement="top" title={t('delete')}>
+              <Popconfirm
+                title={t('noti.delete_category', { this: t('this') })}
+                onConfirm={() => handleDelete(record.uuid, dataType)}
+              >
+                <DeleteOutlined style={{ fontSize: '16px', color: '#6E6B7B' }} />
+              </Popconfirm>
+            </Tooltip>
           </Space>
         );
       }

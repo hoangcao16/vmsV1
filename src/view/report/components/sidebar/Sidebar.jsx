@@ -28,9 +28,9 @@ const formItemLayout = {
   labelCol: { span: 24 }
 };
 const SELECTED_TIME = {
-  DAY: 'day',
-  MONTH: 'month',
-  YEAR: 'year'
+  DAY: 'DAY',
+  MONTH: 'MONTH',
+  YEAR: 'YEAR'
 };
 
 function Sidebar(props) {
@@ -52,17 +52,17 @@ function Sidebar(props) {
   const [dataTime, setDatatime] = useState(SELECTED_TIME.DAY);
 
   const [timeStartDay, setTimeStartDay] = useState(
-    moment().subtract(12, 'day')
+    moment().subtract(12, 'DAY')
   );
   const [timeEndDay, setTimeEndDay] = useState(moment());
 
   const [timeStartMonth, setTimeStartMonth] = useState(
-    moment().subtract(12, 'month')
+    moment().subtract(12, 'MONTH')
   );
   const [timeEndMonth, setTimeEndMonth] = useState(moment());
 
   const [timeStartYear, setTimeStartYear] = useState(
-    moment().subtract(5, 'year')
+    moment().subtract(5, 'YEAR')
   );
   const [timeEndYear, setTimeEndYear] = useState(moment());
 
@@ -336,7 +336,7 @@ function Sidebar(props) {
         fieldId: feildIds,
         eventList: selectedRowKeys
       };
-
+      console.log('picktimepicktime', data.picktime);
       props.callData(clearData(data));
 
       return;
@@ -943,3 +943,5 @@ const mapDispatchToProps = (dispatch) => {
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(Sidebar);
+
+
