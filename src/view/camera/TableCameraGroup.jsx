@@ -65,7 +65,7 @@ function CameraGroup(props) {
   const [reload, setReload] = useState(false);
   const [isAdd, setIsAdd] = useState(false);
   const [isEdit, setIsEdit] = useState(null);
-
+  const [valueSearch, setValueSearch] = useState()
   const [dataAdd, setDataAdd] = useState(null);
   const [dataEdit, setDataEdit] = useState(null);
   const [treeNodeCamList, setTreeNodeCamList] = useState([]);
@@ -80,7 +80,7 @@ function CameraGroup(props) {
 
   useEffect(() => {
     (document.title = "CCTV | Camera")
-  },[]);
+  }, []);
 
   useEffect(() => {
     props.handleFetchData({ name: '', parent: 'all' });
@@ -179,6 +179,10 @@ function CameraGroup(props) {
   };
 
   const handleSearch = async (value) => {
+    // setValueSearch(value.trim())
+    // const value = data.trim()
+    // setValueSearch(value)
+
     if (isEmpty(value)) {
       setOption({
         ...option,
@@ -374,8 +378,22 @@ function CameraGroup(props) {
             >
               <div className="CameraGroupSearch">
                 <AutoComplete
+                  maxLength={255}
                   className=" full-width height-40 read search__camera-group"
                   onSearch={debounce(handleSearch, 1000)}
+                  value={valueSearch}
+                  onChange={(e) => {
+                    console.log('eeee', e)
+                    // const inputSearch = document.querySelector('.search__camera-group input')
+                    // const inputSearchTrimed = inputSearch.trim()
+                    // if (isEmpty(inputSearchTrimed)) {
+                    //   setValueSearch(inputSearchTrimed)
+                    // }
+                    setValueSearch(e)
+
+                  }}
+                  onBlur={(e) => setValueSearch(e.target.value.trim())}
+
                   placeholder={
                     <div className="placehoder height-40 justify-content-between d-flex align-items-center">
                       <span style={{ opacity: '0.5' }}>
@@ -383,7 +401,7 @@ function CameraGroup(props) {
                         &nbsp; {t('view.map.search')}{' '}
                       </span>{' '}
                       <SearchOutlined
-                        style={{ fontSize: 20, color: '#E3F0FF'}}
+                        style={{ fontSize: 20, color: '#E3F0FF' }}
                       />
                     </div>
                   }
@@ -403,7 +421,8 @@ function CameraGroup(props) {
                 </Tooltip>
               </div>
 
-              {!props?.isLoading ? (
+
+              {!isEmpty(treeNodeCamList) ? (
                 <Tree
                   className="treeData"
                   onExpand={onExpand}
@@ -417,7 +436,7 @@ function CameraGroup(props) {
                 >
                   {loop(treeNodeCamList)}
                 </Tree>
-              ) : (
+              ) : !props?.isLoading ? <div style={{ textAlign: 'center', color: '#ffffff' }}>Không tìm thấy kết quả hợp lệ</div> : (
                 <Spin />
               )}
             </TabPane>
