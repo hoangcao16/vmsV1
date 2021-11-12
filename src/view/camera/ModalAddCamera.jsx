@@ -31,6 +31,7 @@ import './UploadFile.scss';
 import 'antd/dist/antd.css';
 import { useTranslation } from 'react-i18next';
 import ModalAddEditTagBindCam from './ModalAddEditTagBindCam';
+import { compareName } from './ModalEditCamera';
 
 export const DATA_FAKE_CAMERA = {
   provinces: [{ name: '', provinceId: '' }],
@@ -276,7 +277,6 @@ const ModalAddCamera = (props) => {
         footer={null}
         className="modal--add-camera"
         maskStyle={{ background: 'rgba(51, 51, 51, 0.9)' }}
-
       >
         <Form
           className="bg-grey"
@@ -305,9 +305,8 @@ const ModalAddCamera = (props) => {
                   onBlur={(e) => {
                     form.setFieldsValue({
                       name: e.target.value.trim()
-                    })
+                    });
                   }}
-
                 />
               </Form.Item>
               <Form.Item
@@ -326,11 +325,10 @@ const ModalAddCamera = (props) => {
                     plsEnter: t('please_enter'),
                     cam: t('camera')
                   })}
-
                   onBlur={(e) => {
                     form.setFieldsValue({
                       code: e.target.value.trim()
-                    })
+                    });
                   }}
                 />
               </Form.Item>
@@ -450,7 +448,7 @@ const ModalAddCamera = (props) => {
               <Form.Item
                 name={['wardId']}
                 label={t('view.map.ward_id')}
-              // rules={[{ required: true, message: `${t('view.map.required_field')}` }]}
+                // rules={[{ required: true, message: `${t('view.map.required_field')}` }]}
               >
                 <Select
                   showSearch
@@ -470,13 +468,14 @@ const ModalAddCamera = (props) => {
                   { required: true, message: `${t('view.map.required_field')}` }
                 ]}
               >
-                <Input placeholder={t('view.map.please_enter_location', {
-                  plsEnter: t('please_enter')
-                })}
+                <Input
+                  placeholder={t('view.map.please_enter_location', {
+                    plsEnter: t('please_enter')
+                  })}
                   onBlur={(e) => {
                     form.setFieldsValue({
                       address: e.target.value.trim()
-                    })
+                    });
                   }}
                   maxLength={255}
                 />
@@ -488,6 +487,7 @@ const ModalAddCamera = (props) => {
                 name={['administrativeUnitUuid']}
               >
                 <Select
+                  allowClear
                   showSearch
                   dataSource={adDivisions}
                   filterOption={filterOption}
@@ -506,7 +506,7 @@ const ModalAddCamera = (props) => {
                   onBlur={(e) => {
                     form.setFieldsValue({
                       long_: e.target.value.trim()
-                    })
+                    });
                   }}
                   maxLength={255}
                 />
@@ -521,7 +521,7 @@ const ModalAddCamera = (props) => {
                   onBlur={(e) => {
                     form.setFieldsValue({
                       lat_: e.target.value.trim()
-                    })
+                    });
                   }}
                   maxLength={255}
                 />
@@ -543,7 +543,7 @@ const ModalAddCamera = (props) => {
                   onBlur={(e) => {
                     form.setFieldsValue({
                       port: e.target.value.trim()
-                    })
+                    });
                   }}
                   maxLength={255}
                 ></Input>
@@ -553,7 +553,12 @@ const ModalAddCamera = (props) => {
               <Form.Item
                 label={t('view.map.zone')}
                 name={['zoneUuid']}
-
+                rules={[
+                  {
+                    required: true,
+                    message: `${t('view.map.required_field')}`
+                  }
+                ]}
               >
                 <Select
                   showSearch
@@ -582,7 +587,7 @@ const ModalAddCamera = (props) => {
                   onBlur={(e) => {
                     form.setFieldsValue({
                       ip: e.target.value.trim()
-                    })
+                    });
                   }}
                   maxLength={255}
                 />
@@ -603,7 +608,7 @@ const ModalAddCamera = (props) => {
                   onBlur={(e) => {
                     form.setFieldsValue({
                       cameraUrl: e.target.value.trim()
-                    })
+                    });
                   }}
                   maxLength={2000}
                 />
@@ -624,9 +629,7 @@ const ModalAddCamera = (props) => {
             <Button type="primary" htmlType="submit">
               {t('view.user.detail_list.confirm')}
             </Button>
-            <Button onClick={handleShowModalAdd}>
-              Huỷ
-            </Button>
+            <Button onClick={handleShowModalAdd}>Huỷ</Button>
           </div>
         </Form>
       </Modal>
@@ -670,7 +673,10 @@ async function fetchSelectOptions() {
 
   if (isEmpty(cameraTypes)) {
     cameraTypes = DATA_FAKE_CAMERA.cameraTypes;
+  } else {
+    cameraTypes = cameraTypes.sort(compareName);
   }
+
   let vendors = await VendorApi.getAllVendor(data);
 
   if (isEmpty(vendors)) {

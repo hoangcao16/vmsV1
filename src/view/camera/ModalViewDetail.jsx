@@ -1,4 +1,4 @@
-import { Col, Modal, Row, Typography, Button, Tag } from 'antd';
+import { Col, Modal, Row, Typography, Button, Tag, Avatar, Upload } from 'antd';
 import { isEmpty } from 'lodash-es';
 import React, { useState } from 'react';
 import { useEffect } from 'react';
@@ -6,12 +6,15 @@ import CameraApi from '../../actions/api/camera/CameraApi';
 import './ModalViewDetail.scss';
 import { useTranslation } from 'react-i18next';
 import Loading from '../common/element/Loading';
+import ExportEventFileApi from './../../actions/api/exporteventfile/ExportEventFileApi';
 
 const { Paragraph } = Typography;
 
 const ModalViewDetail = (props) => {
   const { t } = useTranslation();
   const { handleShowModal, selectedCameraId } = props;
+
+  const [avatarUrl, setAvatarUrl] = useState('');
 
   const [isModalVisible, setIsModalVisible] = useState(
     !isEmpty(selectedCameraId)
@@ -20,7 +23,20 @@ const ModalViewDetail = (props) => {
   const [selectedCamera, setSelectedCamera] = useState(null);
 
   useEffect(() => {
-    CameraApi.getCameraByUuid(selectedCameraId).then(setSelectedCamera);
+    CameraApi.getCameraByUuid(selectedCameraId).then(async (result) => {
+      setSelectedCamera(result);
+      await ExportEventFileApi.getAvatar(result.avatarFileName).then(
+        (result) => {
+          if (result.data) {
+            let blob = new Blob([result.data], { type: 'octet/stream' });
+            let url = window.URL.createObjectURL(blob);
+            setAvatarUrl(url);
+          } else {
+            setAvatarUrl('');
+          }
+        }
+      );
+    });
   }, []);
 
   console.log('selectedCamera:', selectedCamera);
@@ -61,10 +77,20 @@ const ModalViewDetail = (props) => {
             </Row>
           </Col>
           <Col span={12}>
-            {/* <Paragraph >
-                <p style={{ fontWeight: 600, fontSize: 14 }}>Thời gian tạo</p>
-                <p>{selectedCamera?.createdTime}</p>
-              </Paragraph> */}
+            <div style={{ paddingBottom: 20 }}>
+              <Avatar
+                src={avatarUrl}
+                style={{ borderRadius: '50%' }}
+                size={{
+                  xs: 24,
+                  sm: 32,
+                  md: 40,
+                  lg: 64,
+                  xl: 80,
+                  xxl: 130
+                }}
+              />
+            </div>
           </Col>
         </Row>
         <Row gutter={24}>
