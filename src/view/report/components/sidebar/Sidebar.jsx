@@ -798,7 +798,7 @@ function Sidebar(props) {
 
           <Divider style={{ margin: 0, color: 'red' }} />
 
-          <label className="optionTitle">{t('view.map.zone')}</label>
+          <label className="optionTitle">{t('view.map.zone ')}</label>
           <Row gutter={24} style={{ margin: '5px' }}>
             <Col span={24}>
               <Form.Item name={['provinceId']}>
