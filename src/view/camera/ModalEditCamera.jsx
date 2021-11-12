@@ -227,9 +227,15 @@ const ModalEditCamera = (props) => {
     const clearPayload = clearData(payload);
 
     try {
-      await CameraApi.editCamera(props.selectedCameraIdEdit, clearPayload);
+      const isEdit = await CameraApi.editCamera(
+        props.selectedCameraIdEdit,
+        clearPayload
+      );
 
-      handleShowModalEdit();
+      if (isEdit) {
+        setIsModalVisible(false);
+        handleShowModalEdit();
+      }
     } catch (error) {
       Notification({
         type: 'error',
@@ -238,11 +244,6 @@ const ModalEditCamera = (props) => {
       });
       console.log(error);
     }
-
-    setTimeout(() => {
-      setIsModalVisible(false);
-      handleShowModalEdit();
-    }, 500);
   };
 
   const showModalEditTag = () => {
