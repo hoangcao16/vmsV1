@@ -50,7 +50,7 @@ function Chart(props) {
           <div className="Chart__title">
             <h3> BIỂU ĐỒ XU THẾ TÌNH HÌNH {props.title.toUpperCase()} </h3>
 
-            <ExportReport currentDataSource={data} />
+            <ExportReport type="rateReport"/>
           </div>
 
           <ResponsiveContainer

@@ -1,9 +1,11 @@
 import { put, takeLatest, call } from 'redux-saga/effects';
 import { setDataChart, setError } from '../actions';
 import { DATA_CHART} from '../constants';
-import CameraApi from '../../../../actions/api/camera/CameraApi';
+// import CameraApi from '../../../../actions/api/camera/CameraApi';
+import ReportApi from '../../../../actions/api/report/ReportApi';
 import moment from 'moment';
 import { isEmpty } from 'lodash';
+import clearData from '../../../../actions/function/MyUltil/CheckData';
 
 // const data = [
 //   {
@@ -83,15 +85,29 @@ import { isEmpty } from 'lodash';
 
 export function* handleDataChartLoad(action) {
   const {params} = action;
-  console.log("paramsparamsparamsparamsparamsparams", params)
-  console.log("timeStart", moment(params.timeStartDay._d).format("DD/MM/YYYY"))
-  console.log("timeEnd", moment(params.timeEndDay._d).format("DD/MM/YYYY"))
+  let timeStart = moment(params.timeStartDay._d).format("DD/MM/YYYY")
+  let timeEnd = moment(params.timeEndDay._d).format("DD/MM/YYYY")
+
+  switch (params.pickTime.toUpperCase()) {
+    case "DAY":
+      timeStart = moment(params.timeStartDay._d).format("DD/MM/YYYY");
+      timeEnd = moment(params.timeEndDay._d).format("DD/MM/YYYY");
+      break;
+    case "MONTH":
+      timeStart = moment(params.timeStartDay._d).format("MM/YYYY");
+      timeEnd = moment(params.timeEndDay._d).format("MM/YYYY");
+      break;
+    case "YEAR":
+      timeStart = moment(params.timeStartDay._d).format("YYYY");
+      timeEnd = moment(params.timeEndDay._d).format("YYYY");
+      break;
+    default:
+      timeStart = moment(params.timeStartDay._d).format("DD/MM/YYYY");
+      timeEnd = moment(params.timeEndDay._d).format("DD/MM/YYYY");
+  }
   
-  const timeStart = moment(params.timeStartDay._d).format("DD/MM/YYYY")
-  const timeEnd = moment(params.timeEndDay._d).format("DD/MM/YYYY")
-  //bien doi data giong thang gui tu params
   const payloadDataChart = {
-    dateType: params.pickTime,
+    dateType: params.pickTime.toUpperCase(),
     startDate: timeStart,
     endDate: timeEnd,
     provinceId: params.provinceId,
@@ -100,38 +116,45 @@ export function* handleDataChartLoad(action) {
     eventId: params.eventList
   }
 
-  console.log("payloadDataChart:",payloadDataChart)
-    // "time": "30/10/2021",
-    // "location": "Hà Nội",
-    // "event1": "Lấn làn ",
-    // "totalEvent1": 0,
-    // "nameNoAccent1": "lanlan",
-    // "event2": null,
-    // "totalEvent2": 0,
-    // "nameNoAccent2": null,
-    // "event3": null,
-    // "totalEvent3": 0,
-    // "nameNoAccent3": null
-
-
-    // a.time
-    // a[time]
-
-
+  
+  localStorage.setItem('payloadDataChart', JSON.stringify(payloadDataChart));
+  // "time": "30/10/2021",
+  // "location": "Hà Nội",
+  // "event1": "Lấn làn ",
+  // "totalEvent1": 0,
+  // "nameNoAccent1": "lanlan",
+  // "event2": null,
+  // "totalEvent2": 0,
+  // "nameNoAccent2": null,
+  // "event3": null,
+  // "totalEvent3": 0,
+  // "nameNoAccent3": null
+  
   try {
-
-    const data = yield call(() => CameraApi.getChartData(payloadDataChart));
-
+    const data = yield call(() => ReportApi.getChartData(payloadDataChart));
     const dataConvert = data.map((d) => {
+
+      let a = {}
+
+      if (!isEmpty(d.event1)) {
+        a[d.event1] =  d.totalEvent1 + 300
+      }
+
+      if (!isEmpty(d.event2)) {
+        a[d.event2] =  d.totalEvent2 + 200
+      }
+
+      if (!isEmpty(d.event3)) {
+        a[d.event3] =  d.totalEvent3 + 100
+      }
+
       return {
         name: d.time,
-        [d.event1]: d.totalEvent1,
-        [d.event2]: d.totalEvent2,
-        [d.event3]: d.totalEvent3,
+        [d.event1]: d.totalEvent1 + 300,
+        ...a
       }
     })
 
-    console.log('data:',data)
     yield put(setDataChart(dataConvert));
   } catch (error) {
     yield put(setError(error.toString()));
