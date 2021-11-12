@@ -905,6 +905,7 @@ const TableFile = (props) => {
               <Col span={8}>
                 <Form.Item name={["administrativeUnitUuid"]}>
                   <Select
+                  showSearch
                     allowClear
                     onChange={(id) => onChangeUnit(id)}
                     filterOption={filterOption}

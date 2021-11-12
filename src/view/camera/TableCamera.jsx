@@ -638,6 +638,7 @@ const TableCamera = () => {
               >
                 <Select
                   allowClear
+                  showSearch
                   dataSource={adDivisions}
                   filterOption={filterOption}
                   options={normalizeOptions('name', 'uuid', adDivisions)}
