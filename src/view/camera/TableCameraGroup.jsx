@@ -1,49 +1,53 @@
 import {
-  DeleteOutlined, DownOutlined, EditOutlined,
+  DeleteOutlined,
+  DownOutlined,
+  EditOutlined,
   ExclamationCircleOutlined,
   PlusOutlined,
-  SearchOutlined
-} from '@ant-design/icons';
+  SearchOutlined,
+} from "@ant-design/icons";
 import {
   AutoComplete,
-  Button, Form,
-  Popconfirm, Spin,
+  Button,
+  Form,
+  Popconfirm,
+  Spin,
   Tabs,
   Tooltip,
-  Tree
-} from 'antd';
-import 'antd/dist/antd.css';
-import { isEmpty } from 'lodash-es';
-import debounce from 'lodash/debounce';
-import React, { useEffect, useState } from 'react';
-import { useTranslation } from 'react-i18next';
-import { connect } from 'react-redux';
-import { reactLocalStorage } from 'reactjs-localstorage';
-import CameraApi from '../../actions/api/camera/CameraApi';
-import Notification from '../../components/vms/notification/Notification';
-import Breadcrumds from '../breadcrumds/Breadcrumds';
-import './../commonStyle/commonAuto.scss';
-import './../commonStyle/commonModal.scss';
-import './../commonStyle/commonSelect.scss';
-import ModalAddCameraGroup from './ModalAddCameraGroup';
-import ModalEditCameraGroup from './ModalEditCameraGroup';
-import { loadTreeCamGroup } from './redux/actions/index';
-import TableAddCamInCamGroup from './TableAddCamInCamGroup';
-import TableCamera from './TableCamera';
-import './TableCameraGroup.scss';
-import './TableGroup.scss';
-import TableListCamInCamGroup from './TableListCamInCamGroup';
+  Tree,
+} from "antd";
+import "antd/dist/antd.css";
+import { isEmpty } from "lodash-es";
+import debounce from "lodash/debounce";
+import React, { useEffect, useState } from "react";
+import { useTranslation } from "react-i18next";
+import { connect } from "react-redux";
+import { reactLocalStorage } from "reactjs-localstorage";
+import CameraApi from "../../actions/api/camera/CameraApi";
+import Notification from "../../components/vms/notification/Notification";
+import Breadcrumds from "../breadcrumds/Breadcrumds";
+import "./../commonStyle/commonAuto.scss";
+import "./../commonStyle/commonModal.scss";
+import "./../commonStyle/commonSelect.scss";
+import ModalAddCameraGroup from "./ModalAddCameraGroup";
+import ModalEditCameraGroup from "./ModalEditCameraGroup";
+import { loadTreeCamGroup } from "./redux/actions/index";
+import TableAddCamInCamGroup from "./TableAddCamInCamGroup";
+import TableCamera from "./TableCamera";
+import "./TableCameraGroup.scss";
+import "./TableGroup.scss";
+import TableListCamInCamGroup from "./TableListCamInCamGroup";
 
 const { TreeNode } = Tree;
 
 const TYPE = {
   CAMERA: 1,
-  CAMERA_GROUP: 2
+  CAMERA_GROUP: 2,
 };
 
 export const wrapper = {
   fontFamily:
-    "Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif"
+    "Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif",
 };
 
 const { TabPane } = Tabs;
@@ -57,25 +61,25 @@ function CameraGroup(props) {
   const [reload, setReload] = useState(false);
   const [isAdd, setIsAdd] = useState(false);
   const [isEdit, setIsEdit] = useState(null);
-  const [valueSearch, setValueSearch] = useState()
+  const [valueSearch, setValueSearch] = useState();
   const [dataAdd, setDataAdd] = useState(null);
   const [dataEdit, setDataEdit] = useState(null);
   const [treeNodeCamList, setTreeNodeCamList] = useState([]);
 
   const [option, setOption] = useState({
     expandedKeys: [],
-    searchValue: '',
-    autoExpandParent: true
+    searchValue: "",
+    autoExpandParent: true,
   });
 
   const [form] = Form.useForm();
 
   useEffect(() => {
-    (document.title = "CCTV | Camera")
+    document.title = "CCTV | Camera";
   }, []);
 
   useEffect(() => {
-    props.handleFetchData({ name: '', parent: 'all' });
+    props.handleFetchData({ name: "", parent: "all" });
   }, []);
 
   useEffect(() => {
@@ -107,7 +111,7 @@ function CameraGroup(props) {
     setOption({
       ...option,
       expandedKeys,
-      autoExpandParent: true
+      autoExpandParent: true,
     });
   };
 
@@ -179,7 +183,7 @@ function CameraGroup(props) {
       setOption({
         ...option,
         expandedKeys: [],
-        searchValue: value
+        searchValue: value,
       });
       setTreeNodeCamList(treeData);
       return;
@@ -201,7 +205,7 @@ function CameraGroup(props) {
     setOption({
       ...option,
       expandedKeys,
-      searchValue: value
+      searchValue: value,
     });
   };
 
@@ -219,7 +223,7 @@ function CameraGroup(props) {
   };
 
   function callback(key) {
-    reactLocalStorage.setObject('TYPE', key);
+    reactLocalStorage.setObject("TYPE", key);
     setCamGroupUuid(null);
   }
 
@@ -241,10 +245,10 @@ function CameraGroup(props) {
 
   function unsign(str) {
     return str
-      .normalize('NFD')
-      .replace(/[\u0300-\u036f]/g, '')
-      .replace(/đ/g, 'd')
-      .replace(/Đ/g, 'D')
+      .normalize("NFD")
+      .replace(/[\u0300-\u036f]/g, "")
+      .replace(/đ/g, "d")
+      .replace(/Đ/g, "D")
       .toLowerCase()
       .trim();
   }
@@ -256,11 +260,11 @@ function CameraGroup(props) {
 
   const handleShowModalEdit = () => {
     setIsEdit(false);
-    props.handleFetchData({ name: '', parent: 'all' });
+    props.handleFetchData({ name: "", parent: "all" });
   };
   const handleShowModalAdd = () => {
     setIsAdd(false);
-    props.handleFetchData({ name: '', parent: 'all' });
+    props.handleFetchData({ name: "", parent: "all" });
   };
 
   const showModalEdit = (id) => {
@@ -274,35 +278,29 @@ function CameraGroup(props) {
         <div className="titleGroup" title={name}>
           {name}
         </div>
-        <div className='tools--edit'>
-          <Tooltip
-            placement="top"
-            title={t('view.camera.add_camera_group')}
-          >
+        <div className="tools--edit">
+          <Tooltip placement="top" title={t("view.camera.add_camera_group")}>
             <PlusOutlined
               onClick={(e) => {
                 e.stopPropagation();
                 showModal(id);
               }}
-            // style={{ fontSize: '16px', color: '#6E6B7B' }}
+              // style={{ fontSize: '16px', color: '#6E6B7B' }}
             />
           </Tooltip>
-          <Tooltip
-            placement="top"
-            title={t('view.common_device.edit')}
-          >
+          <Tooltip placement="top" title={t("view.common_device.edit")}>
             <EditOutlined
               onClick={(e) => {
                 e.stopPropagation();
                 showModalEdit(id);
               }}
-            // style={{ fontSize: '16px', color: '#6E6B7B' }}
+              // style={{ fontSize: '16px', color: '#6E6B7B' }}
             />
           </Tooltip>
           <Popconfirm
-            title={t('noti.delete_camera', {
-              cam: t('camera'),
-              this: t('this')
+            title={t("noti.delete_camera", {
+              cam: t("camera"),
+              this: t("this"),
             })}
             onConfirm={(e) => {
               e.stopPropagation();
@@ -312,15 +310,12 @@ function CameraGroup(props) {
             icon={<ExclamationCircleOutlined />}
             okText="Xoá"
           >
-            <Tooltip
-              placement="top"
-              title={t('delete')}
-            >
+            <Tooltip placement="top" title={t("delete")}>
               <DeleteOutlined
                 onClick={(e) => {
                   e.stopPropagation();
                 }}
-              // style={{ fontSize: '16px', color: '#6E6B7B' }}
+                // style={{ fontSize: '16px', color: '#6E6B7B' }}
               />
             </Tooltip>
           </Popconfirm>
@@ -334,12 +329,12 @@ function CameraGroup(props) {
 
     if (isDeleted) {
       const notifyMess = {
-        type: 'success',
-        title: '',
-        description: 'Xóa thành công nhóm Camera'
+        type: "success",
+        title: "",
+        description: "Xóa thành công nhóm Camera",
       };
       Notification(notifyMess);
-      props.handleFetchData({ name: '', parent: 'all' });
+      props.handleFetchData({ name: "", parent: "all" });
     }
   };
 
@@ -347,7 +342,7 @@ function CameraGroup(props) {
     <div>
       <Breadcrumds
         url="/app/setting"
-        nameParent={t('breadcrumd.setting')}
+        nameParent={t("breadcrumd.setting")}
         nameChild="Camera"
       />
       <div className="tabs__container">
@@ -357,14 +352,14 @@ function CameraGroup(props) {
             type="card"
             onChange={callback}
             defaultActiveKey={
-              reactLocalStorage.getObject('TYPE') || TYPE.CAMERA
+              reactLocalStorage.getObject("TYPE") || TYPE.CAMERA
             }
           >
             <TabPane tab="Camera" key={TYPE.CAMERA} className="Camera">
               <TableCamera />
             </TabPane>
             <TabPane
-              tab={t('view.map.camera_group', { cam: t('camera'), G: t('G') })}
+              tab={t("view.map.camera_group", { cam: t("camera"), G: t("G") })}
               key={TYPE?.CAMERA_GROUP}
               className="CameraGroup"
             >
@@ -375,44 +370,41 @@ function CameraGroup(props) {
                   onSearch={debounce(handleSearch, 1000)}
                   value={valueSearch}
                   onChange={(e) => {
-                    console.log('eeee', e)
+                    console.log("eeee", e);
                     // const inputSearch = document.querySelector('.search__camera-group input')
                     // const inputSearchTrimed = inputSearch.trim()
                     // if (isEmpty(inputSearchTrimed)) {
                     //   setValueSearch(inputSearchTrimed)
                     // }
-                    setValueSearch(e)
-
+                    setValueSearch(e);
                   }}
                   onBlur={(e) => setValueSearch(e.target.value.trim())}
-
                   placeholder={
                     <div className="placehoder height-40 justify-content-between d-flex align-items-center">
-                      <span style={{ opacity: '0.5' }}>
-                        {' '}
-                        &nbsp; {t('view.map.search')}{' '}
-                      </span>{' '}
+                      <span style={{ opacity: "0.5" }}>
+                        {" "}
+                        &nbsp; {t("view.map.search")}{" "}
+                      </span>{" "}
                       <SearchOutlined
-                        style={{ fontSize: 20, color: '#E3F0FF' }}
+                        style={{ fontSize: 20, color: "#E3F0FF" }}
                       />
                     </div>
                   }
                 />
                 <Tooltip
                   placement="rightTop"
-                  title={t('view.camera.add_new_camera_group')}
+                  title={t("view.camera.add_new_camera_group")}
                 >
                   <Button
                     type="primary"
                     className="btnAddUser height-40"
-                    style={{ borderRadius: '6px' }}
+                    style={{ borderRadius: "6px" }}
                     onClick={() => showModal(null)}
                   >
                     <PlusOutlined className="d-flex justify-content-between align-center" />
                   </Button>
                 </Tooltip>
               </div>
-
 
               {!isEmpty(treeNodeCamList) ? (
                 <Tree
@@ -428,7 +420,11 @@ function CameraGroup(props) {
                 >
                   {loop(treeNodeCamList)}
                 </Tree>
-              ) : !props?.isLoading ? <div style={{ textAlign: 'center', color: '#ffffff' }}>Không tìm thấy kết quả hợp lệ</div> : (
+              ) : !props?.isLoading ? (
+                <div style={{ textAlign: "center", color: "#ffffff" }}>
+                  Không tìm thấy kết quả hợp lệ
+                </div>
+              ) : (
                 <Spin />
               )}
             </TabPane>
@@ -471,14 +467,14 @@ function CameraGroup(props) {
 const mapStateToProps = (state) => ({
   isLoading: state.cameraGroup.isLoading,
   treeData: state.cameraGroup.treeData,
-  error: state.cameraGroup.error
+  error: state.cameraGroup.error,
 });
 
 const mapDispatchToProps = (dispatch) => {
   return {
     handleFetchData: (params) => {
       dispatch(loadTreeCamGroup(params));
-    }
+    },
   };
 };
 
