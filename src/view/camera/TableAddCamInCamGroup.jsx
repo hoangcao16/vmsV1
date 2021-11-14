@@ -350,7 +350,7 @@ export default function TableAddCamInCamGroup(props) {
                 dataSource={adDivisions}
                 filterOption={filterOption}
                 options={normalizeOptions('name', 'uuid', adDivisions)}
-                placeholder={t('view.map.please_choose_location')}
+                placeholder={t('view.map.please_choose_administrative_unit')}
               />
             </Form.Item>
           </div>
