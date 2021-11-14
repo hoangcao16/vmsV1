@@ -124,7 +124,7 @@ const CameraApi = {
     try {
       result = await MyService.getRequestData(
         `/cctv-controller-svc/api/v1/camera_groups`,
-        dataInput
+        data
       );
     } catch (error) {
       console.log(error);
