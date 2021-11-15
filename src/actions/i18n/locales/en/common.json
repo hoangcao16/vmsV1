@@ -382,11 +382,19 @@
         "image": "Image",
         "enter_alternative_data": "{{plsEnter}} alternative data"
       }
+    },
+    "ai_humans": {
+      "face": "Face Management",
+      "name": "Name",
+      "code": "Code",
+      "position" : "Position",
+      "department" : "Department",
+      "adminUnit" : "AdminUnit",
+      "status" : "Status"
+  
     }
   },
-  "ai_humans": {
-    "face": "Face Management"
-  },
+  
 
   "noti": {
     "logged_out_successfully": "Logged out successfully",

@@ -53,7 +53,9 @@ const ModalEditHumans = (props) => {
       getHumansByUuid(selectedHumansId).then(async (data) => {
         setSelectedHumansEdit(data);
         if (data.confidence !== null && data.confidence > 0) {
-          setConfidence(Math.round(data.confidence * 10000) / 100 + "%") 
+          setConfidence(Math.round(data.confidence * 100) / 100 + " %") 
+        } else {
+          setConfidence('0 %')
         }
 
         if (data.imagesResp !== null && data.imagesResp !== undefined && data.imagesResp.length !== 0) {
@@ -376,7 +378,7 @@ const ModalEditHumans = (props) => {
 
 
           <Row style={{ marginTop: 30, color: "#d0e5ff", marginBottom: 30 }} gutter={24}>
-            <Col span={24} style={{ flex: 'none'}}>{'Ảnh nhận diện : Tỉ lệ chất lượng ảnh: ' + confidence + '. Cần thêm ảnh: ' }</Col>
+            <Col span={24} style={{ flex: 'none'}}>{'Ảnh nhận diện. Tỉ lệ chất lượng ảnh: ' + confidence + '. Cần thêm ảnh: ' }</Col>
           </Row>
 
           <Row gutter={24}>
