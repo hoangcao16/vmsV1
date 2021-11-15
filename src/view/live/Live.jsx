@@ -122,7 +122,7 @@ const Live = (props) => {
     }
 
     try {
-      const resData = await cameraApi.searchsWithUuids({
+      const resData = await cameraApi.searchCamerasWithUuids({
         uuids: defaultScreen.cameraUuids,
       });
       if (resData && resData.payload) {
