@@ -24,7 +24,6 @@ import './../commonStyle/commonForm.scss';
 import './../commonStyle/commonInput.scss';
 import './../commonStyle/commonModal.scss';
 import './../commonStyle/commonSelect.scss';
-// import { DATA_FAKE_UNIT } from './ModalAddAdministrativeUnit';
 import './ModalEditAdministrativeUnit.scss';
 import './UploadFile.scss';
 import { useTranslation } from 'react-i18next';
@@ -52,10 +51,11 @@ function beforeUpload(file) {
     const notifyMess = {
       type: 'error',
       title: '',
-      description: `${language == 'vn'
+      description: `${
+        language == 'vn'
           ? 'Chỉ được phép sử dụng định dạng loại JPG/PNG!'
           : 'Only file type JPG/PNG allowed!'
-        }`
+      }`
     };
     Notification(notifyMess);
   }
@@ -64,10 +64,11 @@ function beforeUpload(file) {
     const notifyMess = {
       type: 'error',
       title: '',
-      description: `${language == 'vn'
+      description: `${
+        language == 'vn'
           ? 'Kích thước tệp phải nhỏ hơn 2MB!'
           : 'File size must under 2MB!'
-        }`
+      }`
     };
     Notification(notifyMess);
   }
@@ -78,15 +79,7 @@ const ModalEditAdministrativeUnit = (props) => {
   const { t } = useTranslation();
   const { setShowModal, selectedCategoryId } = props;
 
-  // const [isModalVisible, setIsModalVisible] = useState(
-  // !isEmpty(selectedCategoryId)
-  // );
-
   const [adUnit, setAdUnit] = useState(null);
-
-  // const [loading, setLoading] = useState(false);
-
-  const [imageUrl, setImageUrl] = useState(null);
 
   const [filterOptions, setFilterOptions] = useState(DATA_FAKE_UNIT);
 
@@ -119,7 +112,6 @@ const ModalEditAdministrativeUnit = (props) => {
   }, []);
 
   useEffect(() => {
-    // if (selectedCategoryId !== null)
     fetchSelectOptions().then(setFilterOptions);
   }, []);
 
@@ -213,12 +205,7 @@ const ModalEditAdministrativeUnit = (props) => {
           setLoading(false);
           setAvatarUrl(imageUrl);
           let fileName = result.data.payload.fileUploadInfoList[0].name;
-          // console.log('fileName ==================:', fileName);
-
-          // handleSubmit({ avatar_file_name: fileName });
           setAvatarFileName(fileName);
-
-          //phần này set vào state để push lên
         });
       }
     });
@@ -306,7 +293,6 @@ const ModalEditAdministrativeUnit = (props) => {
         footer={null}
         className="modal--administrative__unit"
         maskStyle={{ background: 'rgba(51, 51, 51, 0.9)' }}
-
       >
         <Form
           form={form}
@@ -365,6 +351,12 @@ const ModalEditAdministrativeUnit = (props) => {
                         'view.category.plsEnter_administrative_unit_name',
                         { plsEnter: t('please_enter') }
                       )}
+                      maxLength={255}
+                      onBlur={(e) => {
+                        form.setFieldsValue({
+                          name: e.target.value.trim()
+                        });
+                      }}
                     />
                   </Form.Item>
                 </Col>
@@ -408,7 +400,15 @@ const ModalEditAdministrativeUnit = (props) => {
                   }
                 ]}
               >
-                <Input placeholder={t('view.map.please_choose_location')} />
+                <Input
+                  placeholder={t('view.map.please_choose_location')}
+                  maxLength={255}
+                  onBlur={(e) => {
+                    form.setFieldsValue({
+                      address: e.target.value.trim()
+                    });
+                  }}
+                />
               </Form.Item>
             </Col>
 
@@ -449,11 +449,7 @@ const ModalEditAdministrativeUnit = (props) => {
             </Col>
 
             <Col span={8}>
-              <Form.Item
-                name={['wardId']}
-                label={t('view.map.ward_id')}
-              // rules={[{ required: true, message: 'Trường này bắt buộc' }]}
-              >
+              <Form.Item name={['wardId']} label={t('view.map.ward_id')}>
                 <Select
                   dataSource={wards}
                   filterOption={filterOption}
@@ -469,6 +465,7 @@ const ModalEditAdministrativeUnit = (props) => {
                   placeholder={t('view.map.please_enter_longitude', {
                     plsEnter: t('please_enter')
                   })}
+                  type="number"
                 />
               </Form.Item>
             </Col>
@@ -478,6 +475,7 @@ const ModalEditAdministrativeUnit = (props) => {
                   placeholder={t('view.map.please_enter_latitude', {
                     plsEnter: t('please_enter')
                   })}
+                  type="number"
                 />
               </Form.Item>
             </Col>
@@ -486,7 +484,13 @@ const ModalEditAdministrativeUnit = (props) => {
             <Button type="primary" htmlType="submit ">
               {t('view.user.detail_list.confirm')}
             </Button>
-            <Button onClick={() => { setShowModal(false) }}>{t('view.camera.close')}</Button>
+            <Button
+              onClick={() => {
+                setShowModal(false);
+              }}
+            >
+              {t('view.camera.close')}
+            </Button>
           </div>
         </Form>
       </Modal>

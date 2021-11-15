@@ -16,28 +16,26 @@ import {
 } from 'antd';
 import 'antd/dist/antd.css';
 import { isEmpty } from 'lodash-es';
-import debounce from 'lodash/debounce';
 import React, { useEffect, useState } from 'react';
+import { useTranslation } from 'react-i18next';
 import { withRouter } from 'react-router-dom';
+import { reactLocalStorage } from 'reactjs-localstorage';
 import AdDivisionApi from '../../actions/api/advision/AdDivision';
 import CameraApi from '../../actions/api/camera/CameraApi';
-import VendorApi from '../../actions/api/vendor/VendorApi';
-import FieldApi from '../../actions/api/field/FieldApi';
 import EventApi from '../../actions/api/event/EventApi';
-
+import FieldApi from '../../actions/api/field/FieldApi';
+import TagApi from '../../actions/api/tag';
+import VendorApi from '../../actions/api/vendor/VendorApi';
 import Notification from '../../components/vms/notification/Notification';
+import Breadcrumds from '../breadcrumds/Breadcrumds';
 import './../commonStyle/commonInput.scss';
 import './../commonStyle/commonSelect.scss';
 import './../commonStyle/commonTable.scss';
-import ModalEditCategory from './ModalEditCategory';
 import ModalEditAdministrativeUnit from './ModalEditAdministrativeUnit';
+import ModalEditCategory from './ModalEditCategory';
+import ModalUpdateTag from './ModalUpdateTag';
 import './TableCategory.scss';
 import { bodyStyleCard, headStyleCard } from './variables';
-import { useTranslation } from 'react-i18next';
-import { reactLocalStorage } from 'reactjs-localstorage';
-import Breadcrumds from '../breadcrumds/Breadcrumds';
-import ModalUpdateTag from './ModalUpdateTag';
-import TagApi from '../../actions/api/tag';
 
 export const CATEGORY_NAME = {
   EVENT_TYPE: 'EVENT_TYPE',
@@ -57,7 +55,7 @@ const TableCategory = () => {
   const [selectedCategoryId, setSelectedCategoryId] = useState(null);
   const [selectedAdd, setSelectedAdd] = useState(false);
   const [showModal, setShowModal] = useState(false);
-  const [isEditDone, setIsEditDone] = useState(false);
+  const [search, setSearch] = useState('');
 
   useEffect(() => {
     if (
@@ -76,25 +74,8 @@ const TableCategory = () => {
     });
   }, [showModal]);
 
-
   const handleChange = (value) => {
     setDataType(value);
-  };
-
-  const handleShowModalEdit = () => {
-    setSelectedCategoryId(null);
-  };
-
-  const showModalAdd = () => {
-    setSelectedAdd(true);
-  };
-
-  const handleShowModalAdd = () => {
-    setSelectedAdd(false);
-  };
-
-  const handleImport = () => {
-    console.log('handle import');
   };
 
   const getDataByCategory = (dataType) => {
@@ -163,8 +144,11 @@ const TableCategory = () => {
         <div className="search__toolbar">
           <AutoComplete
             className="searchInputCamproxy"
+            value={search}
+            onSearch={handleSearch}
+            onBlur={handleBlur}
+            maxLength={255}
             style={{ width: 350, height: 40, marginRight: 18 }}
-            onSearch={debounce(handleSearch, 300)}
             placeholder={
               <div>
                 <span> &nbsp;{t('view.map.search')} </span>{' '}
@@ -197,29 +181,30 @@ const TableCategory = () => {
             </Option>
           </Select>
 
-          <Button
-            type="primary"
-            onClick={() => {
-              setSelectedCategoryId(null);
-              setShowModal(true);
-            }}
-          >
-            <PlusOutlined />
-          </Button>
-
-          {/* <Button
-              className="btnAdd"
-              style={{ borderColor: '#7367F0' }}
-              onClick={handleImport}
+          <Tooltip placement="top" title={t('add')}>
+            <Button
+              type="primary"
+              onClick={() => {
+                setSelectedCategoryId(null);
+                setShowModal(true);
+              }}
             >
-              + Import
-            </Button> */}
+              <PlusOutlined />
+            </Button>
+          </Tooltip>
+
         </div>
       </div>
     );
   };
 
+  const handleBlur = (event) => {
+    const value = event.target.value.trim();
+    setSearch(value);
+  };
+
   const handleSearch = async (value) => {
+    setSearch(value);
     const data = {
       name: value
     };
@@ -314,7 +299,8 @@ const TableCategory = () => {
     fetchOptionsData(data).then(setDataOptions);
   };
 
-  const { vendors, cameraTypes, adDivisions, field, eventTypes, tags } = dataOptions;
+  const { vendors, cameraTypes, adDivisions, field, eventTypes, tags } =
+    dataOptions;
 
   const categoryColumns = [
     {
@@ -356,7 +342,9 @@ const TableCategory = () => {
                 title={t('noti.delete_category', { this: t('this') })}
                 onConfirm={() => handleDelete(record.uuid, dataType)}
               >
-                <DeleteOutlined style={{ fontSize: '16px', color: '#6E6B7B' }} />
+                <DeleteOutlined
+                  style={{ fontSize: '16px', color: '#6E6B7B' }}
+                />
               </Popconfirm>
             </Tooltip>
           </Space>
@@ -380,7 +368,7 @@ const TableCategory = () => {
       key: 'key',
       className: 'headerColums'
     }
-  ]
+  ];
 
   if (dataType === CATEGORY_NAME.EVENT_TYPE) {
     categoryColumns.splice(2, 0, addFieldColumn);
@@ -399,14 +387,14 @@ const TableCategory = () => {
             selectedCategoryId={selectedCategoryId}
             setShowModal={setShowModal}
           />
-        )
+        );
       } else if (dataType === CATEGORY_NAME.TAGS) {
         modalHtml = (
           <ModalUpdateTag
             selectedCategoryId={selectedCategoryId}
             setShowModal={setShowModal}
           />
-        )
+        );
       } else {
         modalHtml = (
           <ModalEditCategory
@@ -414,11 +402,11 @@ const TableCategory = () => {
             selectedCategoryId={selectedCategoryId}
             setShowModal={setShowModal}
           />
-        )
+        );
       }
     }
     return modalHtml;
-  }
+  };
 
   return (
     <div className="tabs__container--category">
@@ -430,15 +418,9 @@ const TableCategory = () => {
 
       <Card
         title={getNameByCategory(dataType)}
-        // extra={
-        //   <Button>
-        //     <PlusOneOutlined />
-        //   </Button>
-        // }
         bodyStyle={bodyStyleCard}
         headStyle={headStyleCard}
         className="card--category"
-      // headStyle={{ padding: 30 }}
       >
         <Table
           pagination={false}
@@ -446,24 +428,11 @@ const TableCategory = () => {
           rowKey="id"
           columns={categoryColumns}
           dataSource={getDataByCategory(dataType)}
+          locale={{
+            emptyText: `${t('view.user.detail_list.no_valid_results_found')}`
+          }}
         />
       </Card>
-
-      {/* {selectedCategoryId && (
-        <ModalViewEditCategory
-          dataType={dataType}
-          selectedCategoryId={selectedCategoryId}
-          handleShowModalEdit={handleShowModalEdit}
-        />
-      )}
-      {selectedAdd && (
-        <ModalAddCategory
-          fields={field}
-          selectedAdd={selectedAdd}
-          handleShowModalAdd={handleShowModalAdd}
-          dataType={dataType}
-        />
-      )} */}
       {handleShowModalUpdateCategory()}
     </div>
   );

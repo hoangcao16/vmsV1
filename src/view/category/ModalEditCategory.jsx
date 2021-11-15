@@ -23,9 +23,7 @@ const formItemLayout = {
 
 const ModalViewEditCategory = (props) => {
   let { setShowModal, selectedCategoryId, dataType } = props;
-  console.log('selectedCategoryId', selectedCategoryId);
   const [fieldData, setFieldData] = useState();
-  // const [isModalVisible, setIsModalVisible] = useState(true);
   const [name, setName] = useState('');
   const [form] = Form.useForm();
   const [selectedCategoryEdit, setSelectedCategoryEdit] = useState(null);
@@ -34,12 +32,9 @@ const ModalViewEditCategory = (props) => {
     if (selectedCategoryId !== null) {
       getCategoryByUuid(dataType, selectedCategoryId).then(async (data) => {
         setSelectedCategoryEdit(data);
-        console.log('setSelectedCategoryEdit', data);
       });
     }
-    // if (CATEGORY_NAME.AD_DIVISIONS === dataType) {
-    //   setName("Đơn vị hành chính");
-    // }
+
     if (CATEGORY_NAME.CAMERA_TYPE === dataType) {
       setName('Loại camera');
     }
@@ -77,12 +72,6 @@ const ModalViewEditCategory = (props) => {
     try {
       if (selectedCategoryEdit !== null) {
         let isEdit = false;
-        // if (CATEGORY_NAME.AD_DIVISIONS === dataType) {
-        //   isEdit = await AdDivisionApi.editAdDivision(
-        //     selectedCategoryId,
-        //     payload
-        //   );
-        // }
 
         if (CATEGORY_NAME.CAMERA_TYPE === dataType) {
           isEdit = await CameraApi.editCameraTypesByUuid(
@@ -103,8 +92,6 @@ const ModalViewEditCategory = (props) => {
           isEdit = await EventApi.putEditEvent(selectedCategoryId, payload);
         }
 
-        // console.log("isedit", isEdit);
-
         if (isEdit) {
           const notifyMess = {
             type: 'success',
@@ -117,9 +104,6 @@ const ModalViewEditCategory = (props) => {
       } else {
         let isPost = false;
         switch (dataType) {
-          // case CATEGORY_NAME.AD_DIVISIONS:
-          //   isPost = await AdDivisionApi.addAdDivision(payload);
-          //   break;
           case CATEGORY_NAME.CAMERA_TYPE:
             isPost = await CameraApi.addCameraType(payload);
             break;
@@ -161,14 +145,12 @@ const ModalViewEditCategory = (props) => {
       <Modal
         title={selectedCategoryId ? 'Sửa' : 'Thêm mới'}
         visible={true}
-        // onOk={handleSubmit}
         onCancel={() => {
           setShowModal(false);
         }}
         className="modal__edit--category"
         footer={null}
         maskStyle={{ background: 'rgba(51, 51, 51, 0.9)' }}
-
       >
         <Form
           className="bg-grey"
@@ -189,7 +171,14 @@ const ModalViewEditCategory = (props) => {
                   }
                 ]}
               >
-                <Input />
+                <Input
+                  maxLength={255}
+                  onBlur={(e) => {
+                    form.setFieldsValue({
+                      name: e.target.value.trim()
+                    });
+                  }}
+                />
               </Form.Item>
               {dataType === CATEGORY_NAME.EVENT_TYPE ? (
                 <Form.Item
@@ -232,10 +221,6 @@ const ModalViewEditCategory = (props) => {
 
 async function getCategoryByUuid(dataType, selectedCategoryId) {
   let dataEdit;
-
-  // if (CATEGORY_NAME.AD_DIVISIONS === dataType) {
-  //   dataEdit = await AdDivisionApi.getAdDivisionByUuid(selectedCategoryId);
-  // }
 
   if (CATEGORY_NAME.CAMERA_TYPE === dataType) {
     dataEdit = await CameraApi.getCameraTypesByUuid(selectedCategoryId);
