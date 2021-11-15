@@ -65,6 +65,7 @@
       border-bottom: 1px solid rgba(234, 240, 247, 0.1);
       border-radius: 0 0 12px 12px;
 
+
       th.ant-table-cell {
         background-color: $vms-bg-3 !important;
         color: $vms-soft-statuts;
@@ -77,6 +78,9 @@
 
       .ant-table-body {
         border-radius: 0 0 12px 12px;
+        .ant-table-row:hover td {
+          background: #1380ff;
+      }
         tr {
           td.ant-table-cell {
             background-color: $vms-bg-primary;
