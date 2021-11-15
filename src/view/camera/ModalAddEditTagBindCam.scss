@@ -1,35 +1,36 @@
 @import "../../assets/scss/core/variables/vms-variable";
 
 .modal__update-tag {
-  max-width: 460px;
-    .ant-modal-body {
-        .btn-add-tag {
-            background: gainsboro !important;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            & span {
-                color: black !important
-            }
-            &:hover {
-                border: 1px solid $vms-main-blue-primary;
-            }
-            &:hover span {
-                color: $vms-main-blue-primary !important;
-            }
-        }
-        .tag-input-item {
-            text-align: left;
-            .ant-form-item-control-input {
-                background: #333333 !important;
-                .react-tagsinput {
-                background: #333333 !important;
-                .react-tagsinput-tag {
-                    color: white;
-                        background: black;
-                }
-                }
-            }
-        }
+  max-width: 1000px;
+  .ant-modal-body {
+    .btn-add-tag {
+      background: gainsboro !important;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      & span {
+        color: black !important
+      }
+      &:hover {
+        border: 1px solid $vms-main-blue-primary;
+      }
+      &:hover span {
+        color: $vms-main-blue-primary !important;
+      }
     }
+
+    .tag-input-item {
+      text-align: left;
+      .ant-form-item-control-input {
+        background: #333333 !important;
+        .react-tagsinput {
+          background: #333333 !important;
+          .react-tagsinput-tag {
+            color: white;
+            background: black;
+          }
+        }
+      }
+    }
+  }
 }

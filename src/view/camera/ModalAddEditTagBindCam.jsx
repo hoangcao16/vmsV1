@@ -1,23 +1,24 @@
-import { MinusCircleOutlined, PlusOutlined } from "@ant-design/icons";
-import { Button, Col, Form, Modal, Row } from "antd";
+import { MinusCircleOutlined, PlusOutlined } from '@ant-design/icons';
+import { Button, Col, Form, Modal, Row } from 'antd';
 import _ from 'lodash';
-import React, { useEffect, useState } from "react";
-import TagsInput from "react-tagsinput";
-import "react-tagsinput/react-tagsinput.css";
-import TagApi from "../../actions/api/tag";
-import { CustomSelect } from "../common/select/CustomSelect";
-import "./ModalAddEditTagBindCam.scss";
+import React, { useEffect, useState } from 'react';
+import { useTranslation } from 'react-i18next';
+import TagsInput from 'react-tagsinput';
+import 'react-tagsinput/react-tagsinput.css';
+import TagApi from '../../actions/api/tag';
+import { CustomSelect } from '../common/select/CustomSelect';
+import './ModalAddEditTagBindCam.scss';
 const formItemLayout = {
   wrapperCol: { span: 24 },
-  labelCol: { span: 24 },
+  labelCol: { span: 24 }
 };
 
 const ModalAddEditTagBindCam = (props) => {
+  const { t } = useTranslation();
   const { tags = [], setShowModal, showModal, handleSubmit, camId } = props;
   const [formValue, setFormValue] = useState({ tags });
   const [keyOptions, setKeyOptions] = useState([]);
   const [form] = Form.useForm();
-
 
   useEffect(() => {
     (async () => {
@@ -33,25 +34,29 @@ const ModalAddEditTagBindCam = (props) => {
   const handleChangeKey = (value, key) => {
     const { tags } = formValue;
     Object.assign(tags[key], { key: value });
-    setFormValue({tags});
+    setFormValue({ tags });
   };
 
   const handleDisable = () => {
     const { tags } = formValue;
     let disable = false;
-      for(let i = 0 ; i < tags.length; i++) {
-        if(!tags[i].key || !tags[i].value.length) {
-            disable = true;
-            break;
-        }
+    for (let i = 0; i < tags.length; i++) {
+      if (!tags[i].key || !tags[i].value.length) {
+        disable = true;
+        break;
       }
+    }
     return disable;
   };
 
   return (
     <>
       <Modal
-        title={camId ? "Sửa tag" : "Thêm mới tag"}
+        title={
+          camId
+            ? `${t('view.camera.edit_tag')}`
+            : `${t('view.camera.add_new_tag')}`
+        }
         visible={showModal}
         onCancel={() => {
           setShowModal(false);
@@ -76,13 +81,13 @@ const ModalAddEditTagBindCam = (props) => {
                       <Col span={8}>
                         <Form.Item
                           {...restField}
-                          name={[name, "key"]}
-                          fieldKey={[fieldKey, "key"]}
+                          name={[name, 'key']}
+                          fieldKey={[fieldKey, 'key']}
                           rules={[
                             {
                               required: true,
-                              message: "Trường này là bắt buộc.",
-                            },
+                              message: 'Trường này là bắt buộc.'
+                            }
                           ]}
                         >
                           <CustomSelect
@@ -98,21 +103,24 @@ const ModalAddEditTagBindCam = (props) => {
                       <Col span={14}>
                         <Form.Item
                           {...restField}
-                          name={[name, "value"]}
-                          fieldKey={[fieldKey, "value"]}
+                          name={[name, 'value']}
+                          fieldKey={[fieldKey, 'value']}
                           className="tag-input-item"
                           rules={[
                             {
                               required: true,
-                              message: "Trường này là bắt buộc.",
-                            },
+                              message: 'Trường này là bắt buộc.'
+                            }
                           ]}
                         >
-                          <TagsInput onlyUnique onChange={(value) => {
+                          <TagsInput
+                            onlyUnique
+                            onChange={(value) => {
                               const { tags } = _.cloneDeep(formValue);
-                                tags[key].value = value;
-                                setFormValue({tags});
-                          }}/>  
+                              tags[key].value = value;
+                              setFormValue({ tags });
+                            }}
+                          />
                         </Form.Item>
                       </Col>
                       <Col
@@ -124,7 +132,7 @@ const ModalAddEditTagBindCam = (props) => {
                             remove(name);
                             const { tags } = _.cloneDeep(formValue);
                             tags.splice(key, 1);
-                            setFormValue({tags});
+                            setFormValue({ tags });
                           }}
                         />
                       </Col>
@@ -137,24 +145,24 @@ const ModalAddEditTagBindCam = (props) => {
                       type="default"
                       onClick={() => {
                         add({
-                          key: "",
-                          value: [],
+                          key: '',
+                          value: []
                         });
                         setFormValue({
                           tags: [
                             ...formValue?.tags,
                             {
-                              key: "",
-                              value: [],
-                            },
-                          ],
+                              key: '',
+                              value: []
+                            }
+                          ]
                         });
                       }}
                       block
                       icon={<PlusOutlined />}
                       disabled={handleDisable()}
                     >
-                      Add new tag
+                      {t('view.camera.add_new_tag')}
                     </Button>
                   </Form.Item>
                 </Col>
@@ -167,9 +175,11 @@ const ModalAddEditTagBindCam = (props) => {
                 setShowModal(false);
               }}
             >
-              Đóng
+              {t('view.camera.close')}
             </Button>
-            <Button htmlType="submit">Lưu</Button>
+            <Button htmlType="submit">
+              {t('view.user.detail_list.confirm')}
+            </Button>
           </div>
         </Form>
       </Modal>

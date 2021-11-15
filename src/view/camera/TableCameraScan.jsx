@@ -11,14 +11,13 @@ import {
   Tooltip
 } from 'antd';
 import 'antd/dist/antd.css';
-import { isEmpty, set } from 'lodash';
+import { isEmpty } from 'lodash';
 import React, { useEffect, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { withRouter } from 'react-router-dom';
 import ZoneApi from '../../actions/api/zone/ZoneApi';
 import rest_api from '../../actions/rest_api';
 import Breadcrumds from '../breadcrumds/Breadcrumds';
-import Loading from '../common/element/Loading';
 import { normalizeOptions } from '../common/select/CustomSelect';
 import './../commonStyle/commonTable.scss';
 import ModalAddCamera, { DATA_FAKE_CAMERA } from './ModalAddCamera';
@@ -175,12 +174,18 @@ const TableCameraScan = (props) => {
                           const data = getFieldValue(['p1']);
                           var ipformat =
                             /^(25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\.(25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\.(25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\.(25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)$/;
-                          if (!data.match(ipformat)) {
-                            return Promise.reject(
-                              'Bạn nhập chưa đúng địa chỉ IP1'
-                            );
+                          if (data) {
+                            if (!data.match(ipformat)) {
+                              return Promise.reject(
+                                `${t('view.map.ip1_error')}`
+                              );
+                            } else {
+                              return Promise.resolve();
+                            }
                           } else {
-                            return Promise.resolve();
+                            return Promise.resolve(
+                              `${t('view.map.required_field')}`
+                            );
                           }
                         }
                       })
@@ -209,10 +214,16 @@ const TableCameraScan = (props) => {
                       const data = getFieldValue(['p2']);
                       var ipformat =
                         /^(25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\.(25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\.(25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\.(25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)$/;
-                      if (!data.match(ipformat)) {
-                        return Promise.reject('Bạn nhập chưa đúng địa chỉ IP2');
+                      if (data) {
+                        if (!data.match(ipformat)) {
+                          return Promise.reject(`${t('view.map.ip2_error')}`);
+                        } else {
+                          return Promise.resolve();
+                        }
                       } else {
-                        return Promise.resolve();
+                        return Promise.resolve(
+                          `${t('view.map.required_field')}`
+                        );
                       }
                     }
                   })
