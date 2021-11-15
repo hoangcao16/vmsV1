@@ -450,32 +450,40 @@ const TableCamera = () => {
         <div className="camera__header">
           <h4>{item?.name}</h4>
           <Space>
-            <InfoCircleOutlined
-              style={{ fontSize: '16px', color: '#6E6B7B' }}
-              onClick={() => {
-                setSelectedCameraId(item.uuid);
-              }}
-            />
+            <Tooltip placement="top" title={t('view.common_device.detail')}>
+              <InfoCircleOutlined
+                style={{ fontSize: '16px', color: '#6E6B7B' }}
+                onClick={() => {
+                  setSelectedCameraId(item.uuid);
+                }}
+              />
+            </Tooltip>
             {/* {permissionCheck('edit_camera') && ( */}
-            <EditOutlined
-              style={{ fontSize: '16px', color: '#6E6B7B' }}
-              onClick={() => {
-                setSelectedCameraIdEdit(item.uuid);
-                showModalEdit();
-                // handleSearch(search);
-              }}
-            />
+            <Tooltip placement="top" title={t('view.common_device.edit')}>
+              <EditOutlined
+                style={{ fontSize: '16px', color: '#6E6B7B' }}
+                onClick={() => {
+                  setSelectedCameraIdEdit(item.uuid);
+                  showModalEdit();
+                  // handleSearch(search);
+                }}
+              />
+            </Tooltip>
             {/* )} */}
             {/* {permissionCheck('delete_camera') && ( */}
-            <Popconfirm
-              title={t('noti.delete_camera', {
-                this: t('this'),
-                cam: t('camera')
-              })}
-              onConfirm={() => handleDelete(item.uuid)}
-            >
-              <DeleteOutlined style={{ fontSize: '16px', color: '#6E6B7B' }} />
-            </Popconfirm>
+            <Tooltip placement="top" title={t('delete')}>
+              <Popconfirm
+                title={t('noti.delete_camera', {
+                  this: t('this'),
+                  cam: t('camera')
+                })}
+                onConfirm={() => handleDelete(item.uuid)}
+              >
+                <DeleteOutlined
+                  style={{ fontSize: '16px', color: '#6E6B7B' }}
+                />
+              </Popconfirm>
+            </Tooltip>
             {/* )} */}
           </Space>
         </div>
@@ -741,7 +749,7 @@ const TableCamera = () => {
       </Modal>
 
       <List
-      className='listCamera'
+        className="listCamera"
         header={renderHeader()}
         bordered
         dataSource={listCamera}
