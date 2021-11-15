@@ -138,6 +138,8 @@
       "please_enter_unit_name": "{{plsEnter}} unit name",
       "please_enter_your_address": "{{plsEnter}} your andress",
       "required_field": "Required Field",
+      "ip1_error":"You have not entered the correct IP1 address",
+      "ip2_error":"You have not entered the correct IP2 address",
       "name": "Name",
       "camera_name": "{{cam}} Name",
       "please_enter_camera_name": "{{plsEnter}} {{cam}} name",
