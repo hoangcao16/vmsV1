@@ -380,7 +380,13 @@
       "department" : "Phòng ban",
       "adminUnit" : "Đơn vị",
       "status" : "Trạng thái"
-
+    },
+    "ai_config": {
+      "config": "Quản lý sự kiện thông minh",
+      "hurdles_events": "Sự kiện vượt rào ảo",
+      "intrusion_detection_events" : "Sự kiện phát hiện xâm nhập",
+      "attendance_events" : "Điểm danh",
+      "schedule_config": "Thiết lập lịch trình"
     }
   },
   "noti": {

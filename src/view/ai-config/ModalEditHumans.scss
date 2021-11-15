@@ -1,0 +1,106 @@
+@import "../../assets/scss/core/variables/vms-variable";
+
+.modal__edit--humans {
+  max-width: 960px;
+
+  .ant-modal-content {
+    border-radius: 12px !important;
+    background-color: $vms-bg-primary;
+
+    .ant-modal-header {
+      padding: 0;
+      background-color: $vms-bg-primary;
+      border-bottom: 0;
+
+      .ant-modal-title {
+        border-radius: 12px 12px 0 0;
+        background-color: $vms-bg-primary;
+        color: $vms-status;
+        text-align: center;
+        padding-left: 32px;
+        font-size: 2rem;
+      }
+    }
+
+    .ant-modal-body {
+      width: 100%;
+      // background-color: $vms-bg-sub;
+      background-color: $vms-bg-primary;
+      padding: 14px 32px 30px !important;
+      border-radius: 0 0 12px 12px;
+      text-align: right;
+
+      label {
+        color: $vms-soft-statuts;
+      }
+
+      .ant-form-item-control-input {
+        border-radius: 6px;
+
+        input {
+          background-color: $vms-bg-sub !important;
+
+          // background-color: $vms-bg-primary !important;
+          &::placeholder {
+            color: $vms-status-05 !important;
+          }
+        }
+      }
+
+      .ant-form-item-control-input-content {
+        height: 100%;
+        select {
+          height: 100%;
+          width: 100%;
+          background-color: $vms-bg-sub;
+          border-radius: 6px;
+          padding: 8px;
+          color: $vms-status;
+          outline: none;
+          border: $vms-border-gray;
+        }
+      }
+
+      button {
+        padding: 8px 46px;
+        height: 100%;
+        background-color: $vms-main-blue-primary;
+        border-radius: 6px;
+        border: none;
+
+        span {
+          color: $vms-status;
+        }
+      }
+    }
+
+    .footer__modal {
+      border: 0;
+      margin-top: 24px;
+      button {
+        border: 0;
+        border-radius: 6px;
+        padding: 8px 32px;
+        &:hover {
+          box-shadow: 0 0 8px $vms-main-blue-primary;
+        }
+      }
+      button:first-child {
+        background-color: transparent;
+        border: 1px solid $vms-main-blue-primary;
+        margin-right: 12px;
+        span {
+          color: $vms-main-blue-primary;
+        }
+      }
+
+      button:last-child {
+        background-color: $vms-main-blue-primary;
+        border: 1px solid $vms-main-blue-primary;
+        span {
+          color: $vms-status;
+        }
+      }
+    }
+  }
+}

@@ -1,0 +1,157 @@
+@import "../../assets/scss/core/variables/vms-variable";
+@import '../../assets/scss/core/mixins/vms-mixins';
+
+.ant-select.ant-select-auto-complete.searchInputCamproxy.ant-select-single.ant-select-show-search {
+  width: 350px;
+  height: 40px;
+  border-radius: 6px;
+  margin-right: 8px;
+}
+
+[dir] .ant-select-single .ant-select-selector .ant-select-selection-item,
+[dir]
+  .ant-select-single
+  .ant-select-selector
+  .ant-select-selection-placeholder {
+  padding: 0;
+  line-height: 40px;
+}
+
+.search .ant-select-selector {
+  background-color: $vms-bg-sub !important;
+}
+
+.tabs__container--category {
+  // margin-top: 32px;
+ 
+  
+
+  .card--category {
+    border: 0;
+    background-color: $vms-bg-primary;
+    .ant-card-head {
+      height: 72px;
+      padding: 16px;
+      .ant-card-head-wrapper {
+        height: 40px;
+        padding: 0;
+        .ant-card-head-title {
+          padding: 0;
+          // height: 40px;
+          overflow: visible;
+          .card--header {
+            height: 40px;
+            display: flex;
+            justify-content: space-between;
+            h4 {
+              line-height: 40px;
+              margin: 0;
+              font-size: 1.6rem;
+            }
+            .search__toolbar {
+              display: flex;
+              align-items: center;
+              width: 30vw;
+              .ant-select-selector {
+                background-color: $vms-bg-primary;
+              }
+              & > div:nth-child(2) {
+                margin-right:8px !important;
+                flex: 1;
+                .ant-select-selection-item {
+                  color: $vms-soft-statuts;
+                }
+                svg {
+                  color: $vms-soft-statuts;
+                }
+              }
+              & > div:first-child{
+                margin-right: 8px !important;
+                flex: 1;
+                .ant-select-selection-search input {
+                  height: 100%;
+                }
+                .ant-select-selection-placeholder > div {
+                  display: flex;
+                  justify-content: space-between;
+                  align-items: center;
+                }
+              }
+              & > button {
+                width: 40px;
+                height: 40px;
+                border-radius: 8px;
+                background-color: $vms-main-blue-primary;
+                border: none;
+                padding: 0;
+                display: flex;
+                justify-content: center;
+                align-items: center;
+                svg {
+                  font-size: 22px;
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+    .ant-table {
+      background-color: $vms-bg-primary;
+      border-bottom: 1px solid rgba(234, 240, 247, 0.1);
+      border-radius: 0 0 12px 12px;
+
+      th.ant-table-cell {
+        background-color: $vms-bg-3 !important;
+        color: $vms-soft-statuts;
+        border-bottom: 1px solid rgba(234, 240, 247, 0.1);
+        padding: 12px 0 12px 16px;
+      }
+      th:first-child{
+        text-align: center;
+      }
+      th:nth-last-child(2) {
+        text-align: center;
+        padding-left: 0;
+      }
+
+      .ant-table-body {
+        border-radius: 0 0 12px 12px;
+        @include scrollbar-styling(12px,0);
+        &::-webkit-scrollbar-track {
+          border-radius: 0 0 12px 0;
+        }
+        tr {
+          td.ant-table-cell {
+            background-color: $vms-bg-primary;
+            color: $vms-status-07;
+            border-bottom: 1px solid rgba(234, 240, 247, 0.1);
+            padding: 12px 0 12px 16px;
+          }
+          
+          td:first-child {
+            text-align: center;
+          }
+          td:last-child {
+            color: $vms-soft-statuts;
+            padding-left: 0;
+            .ant-space {
+              .ant-space-item {
+                display: flex;
+                justify-content: center;
+                align-items: center;
+                svg {
+                  font-size: 22px;
+                }
+              }
+            }
+          }
+
+          &:last-child {
+            border-bottom: none;
+          }
+        }
+      }
+    }
+  }
+}
