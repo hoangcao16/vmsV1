@@ -48,8 +48,8 @@
       "scannable_camera": "Danh sách Camera quét được",
       "camera_scan": "Quét Camera",
       "filter_camera_by": "Lọc Camera theo:",
-      "IP1_range": "Dải IP1:",
-      "IP2_range": "Dải IP2:",
+      "IP1_range": "IP bắt đầu:",
+      "IP2_range": "IP kết thúc:",
       "add_new": "Thêm mới",
       "add_new_camera_group": "Thêm mới nhóm Camera",
       "edit_tag": "Sửa nhãn",
@@ -63,7 +63,7 @@
       "field": "Lĩnh vực",
       "event_type": "Loại sự kiện",
       "tags": "Loại tag",
-      "no" : "STT",
+      "no": "STT",
       "category_name": "Tên danh mục",
       "edit_administrative_unit": "Chỉnh sửa đơn vị hành chính",
       "administrative_unit_name": "Tên đơn vị hành chính",
@@ -155,14 +155,14 @@
       "please_enter_port": "{{plsEnter}} cổng",
       "port": "Cổng",
       "please_enter_zone": "{{plsEnter}} khu vực",
-      "choose_zone":"Chọn khu vực",
+      "choose_zone": "Chọn khu vực",
       "zone": "Khu vực",
       "please_enter_ip": "{{plsEnter}} IP",
       "original_url": "URL gốc",
       "please_enter_original_url": "{{plsEnter}} URL gốc",
       "save_live_camera": "Lưu {{cam}} trực tuyến"
     },
-    "maps":{
+    "maps": {
       "add_camera": "{{add}} mới {{cam}}",
       "not_provide": "Không cung cấp",
       "loading": "Đang tải...",
@@ -174,7 +174,7 @@
       "select_date": "Chọn ngày",
       "select_time": "Chọn giờ"
     },
-    "report":{
+    "report": {
       "cameraIsWorking": "Camera đang hoạt động",
       "cameraIsNotWorking": "Camera không hoạt động",
       "cameraAI": "Camera AI",
@@ -187,7 +187,7 @@
       "export_data": "Xuất dữ liệu"
     },
 
-    "pages":{
+    "pages": {
       "login": "Đăng nhập",
       "wc_pls_login": "Chào mừng, vui lòng đăng nhập.",
       "account": "Tài khoản",
@@ -287,6 +287,7 @@
       "device": "Modules hệ thống",
       "category_management": "Quản lý danh mục",
       "change_password": "Đổi mật khẩu",
+      "scan": "Scan",
       "log_out": "Đăng xuất",
       "user_group": "{{G}} {{u}}",
       "new_password": "Mật khẩu mới",
@@ -359,7 +360,7 @@
         "member_name": "Tên thành viên",
         "view_online": "Xem trực tiếp",
         "view_offline": "Xem lại video",
-        "preset_setting":"Cấu hình Preset",
+        "preset_setting": "Cấu hình Preset",
         "control": "Điều khiển",
         "grant_permission_by_camera_group": "Phân quyền theo nhóm Camera",
         "add_camera_group_choose_permission": "Thêm nhóm Camera và chọn quyền",
@@ -369,18 +370,18 @@
         "grant_permission_by_camera": "Phân quyền theo Camera",
         "add_camera_choose_permission": "Thêm Camera và chọn quyền",
         "image": "Hình ảnh",
-        "enter_alternative_data": "{{plsEnter}} dữ liệu thay thế"
+        "enter_alternative_data": "{{plsEnter}} dữ liệu thay thế",
+        "scan": "Quét"
       }
     },
     "ai_humans": {
       "face": "Quản lý khuôn mặt",
       "name": "Tên",
       "code": "Mã",
-      "position" : "Chức vụ",
-      "department" : "Phòng ban",
-      "adminUnit" : "Đơn vị",
-      "status" : "Trạng thái"
-
+      "position": "Chức vụ",
+      "department": "Phòng ban",
+      "adminUnit": "Đơn vị",
+      "status": "Trạng thái"
     }
   },
   "noti": {
@@ -440,7 +441,7 @@
     "successfully_delete_human": "{{delete}} thành công người"
   },
 
-  "breadcrumd":{
+  "breadcrumd": {
     "report": "Quản lý báo cáo",
     "info": "Thông tin cá nhân",
     "setting": "Cài đặt"
