@@ -558,6 +558,7 @@ const TableCamera = () => {
         onCancel={handleCancel}
         footer={null}
         className="modal--add-camera modal__filter-advance"
+        maskStyle={{ background: 'rgba(51, 51, 51, 0.9)' }}
       >
         <Form form={form} {...formItemLayout} onFinish={handleSubmit}>
           <Row gutter={24}>
@@ -565,7 +566,7 @@ const TableCamera = () => {
               <Form.Item
                 name={['provinceId']}
                 label={t('view.map.province_id')}
-                // rules={[{ required: true, message: 'Trường này bắt buộc' }]}
+              // rules={[{ required: true, message: 'Trường này bắt buộc' }]}
               >
                 <Select
                   allowClear
@@ -617,7 +618,7 @@ const TableCamera = () => {
               <Form.Item
                 label={t('view.map.location')}
                 name={['address']}
-                // rules={[{ required: true, message: 'Trường này bắt buộc' }]}
+              // rules={[{ required: true, message: 'Trường này bắt buộc' }]}
               >
                 <Input
                   placeholder={t('view.map.please_choose_location')}
@@ -710,7 +711,7 @@ const TableCamera = () => {
           )
         }}
 
-        
+
       />
 
       {selectedCameraId && (
