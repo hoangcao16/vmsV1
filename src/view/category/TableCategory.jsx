@@ -65,17 +65,16 @@ const TableCategory = () => {
         ? (document.title = 'CCTV | Quản lý danh mục')
         : (document.title = 'CCTV | Category Management')
     );
-  },[t]);
+  }, [t]);
 
   useEffect(() => {
     const data = {
       name: ''
     };
     fetchOptionsData(data).then((data) => {
-      console.log('datadata', data);
       setDataOptions(data);
     });
-  }, []);
+  }, [showModal]);
 
 
   const handleChange = (value) => {
@@ -387,37 +386,38 @@ const TableCategory = () => {
     categoryColumns.splice(2, 0, addFieldColumn);
   }
 
-  if(dataType === CATEGORY_NAME.TAGS) {
+  if (dataType === CATEGORY_NAME.TAGS) {
     categoryColumns.splice(1, 1, ...addTagColumns);
   }
 
   const handleShowModalUpdateCategory = () => {
     let modalHtml = null;
     if (showModal) {
-      if(dataType === CATEGORY_NAME.AD_DIVISIONS) {
+      if (dataType === CATEGORY_NAME.AD_DIVISIONS) {
         modalHtml = (
           <ModalEditAdministrativeUnit
-          selectedCategoryId={selectedCategoryId}
-          setShowModal={setShowModal}
-        />
-        )} else if (dataType === CATEGORY_NAME.TAGS) {
-          modalHtml = (
-            <ModalUpdateTag
-              selectedCategoryId={selectedCategoryId}
-              setShowModal={setShowModal}
-            />
-          )
+            selectedCategoryId={selectedCategoryId}
+            setShowModal={setShowModal}
+          />
+        )
+      } else if (dataType === CATEGORY_NAME.TAGS) {
+        modalHtml = (
+          <ModalUpdateTag
+            selectedCategoryId={selectedCategoryId}
+            setShowModal={setShowModal}
+          />
+        )
       } else {
         modalHtml = (
           <ModalEditCategory
-          dataType={dataType}
-          selectedCategoryId={selectedCategoryId}
-          setShowModal={setShowModal}
-        />
+            dataType={dataType}
+            selectedCategoryId={selectedCategoryId}
+            setShowModal={setShowModal}
+          />
         )
       }
     }
-      return modalHtml;
+    return modalHtml;
   }
 
   return (
@@ -438,7 +438,7 @@ const TableCategory = () => {
         bodyStyle={bodyStyleCard}
         headStyle={headStyleCard}
         className="card--category"
-        // headStyle={{ padding: 30 }}
+      // headStyle={{ padding: 30 }}
       >
         <Table
           pagination={false}
@@ -478,7 +478,6 @@ async function fetchOptionsData(data) {
     EventApi.getAllEvent(data),
     TagApi.getAllTags(data)
   ]);
-  console.log('payloadpayload', payload);
 
   return {
     adDivisions: payload[0],
@@ -486,7 +485,7 @@ async function fetchOptionsData(data) {
     vendors: payload[2],
     field: payload[3],
     eventTypes: payload[4],
-    tags:payload[5]
+    tags: payload[5]
   };
 }
 

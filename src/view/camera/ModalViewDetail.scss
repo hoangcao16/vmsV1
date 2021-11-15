@@ -1,8 +1,10 @@
 @import '../../assets/scss/core/variables/vms-variable';
 
 .modal--detail-camera {
-
+  width: 40vw !important;
+  top: 56px !important;
   .ant-modal-content {
+    background-color: $vms-bg-primary;
     border-radius: 12px !important;
 
     button.ant-modal-close {
@@ -23,12 +25,11 @@
 
     .ant-modal-body {
       background-color: $vms-bg-primary;
-      padding: 0 40px 1px 40px;
+      padding: 24px 32px 32px 24px !important;
       border-radius: 0 0 12px 12px;
 
       .btn--submit {
         text-align: center;
-        margin: 24px;
         button {
           background-color: $vms-main-blue-primary;
           border: none;
@@ -49,9 +50,11 @@
       }
 
       .ant-typography {
+        margin-bottom: 2.5rem  !important;
         &>p:first-child {
           color: $vms-soft-statuts;
-          margin-bottom: 4px;
+          font-size: 1.6rem !important;
+          margin-bottom: 8px;
         }
 
         &>p:last-child {

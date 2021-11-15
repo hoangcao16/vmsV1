@@ -28,6 +28,8 @@ const Index = ({
     idCamera,
     setReloadLiveMenuTool,
     reloadLiveMenuTool,
+    isOpenModalControlPanel,
+    setIsOpenModalControlPanel
 }) => {
     const { t } = useTranslation();
     const CONTROL_TYPES = [
@@ -125,13 +127,13 @@ const Index = ({
     const handleSelectType = (type) => {
         setTypeActive(type);
         if (type === 4) {
-            setOpenModalControlPanel(true);
+            setIsOpenModalControlPanel(true);
             setOpenMenuControl(false);
             setCurrentMenuControl(slotId);
             setListType(LIST_TYPES.other)
         }
         if (type === 3) {
-            setOpenModalControlPanel(false);
+            setIsOpenModalControlPanel(false);
             setOpenModalPresetSetting(true);
             setOpenMenuControl(false);
             setListType(LIST_TYPES.other)
@@ -145,7 +147,7 @@ const Index = ({
     };
 
     const handleCloseModalControPanel = () => {
-        setOpenModalControlPanel(false);
+        setIsOpenModalControlPanel(false);
         setTypeActive(null);
     };
     const handleCloseModalPresetSetting = () => {
@@ -204,9 +206,9 @@ const Index = ({
                     </div>
                 </div>
             </div>
-            {openModalControlPanel && isOpenModal && (
+            {isOpenModal && (
                 <ModalControlPanel
-                    isOpen={openModalControlPanel}
+                    isOpen={isOpenModalControlPanel}
                     onCloseModal={handleCloseModalControPanel}
                     idCamera={idCamera}
                 />

@@ -54,6 +54,8 @@ const ModalViewDetail = (props) => {
         onCancel={handleShowModal}
         footer={null}
         className="modal--detail-camera"
+        maskStyle={{ background: 'rgba(51, 51, 51, 0.9)' }}
+
       >
         <Row gutter={24}>
           <Col span={12}>
@@ -77,7 +79,7 @@ const ModalViewDetail = (props) => {
             </Row>
           </Col>
           <Col span={12}>
-            <div style={{ paddingBottom: 20 }}>
+            <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
               <Avatar
                 src={avatarUrl}
                 style={{ borderRadius: '50%' }}
