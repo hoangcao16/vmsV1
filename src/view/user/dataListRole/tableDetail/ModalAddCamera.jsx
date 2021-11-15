@@ -269,7 +269,7 @@ const ModalAddCamera = (props) => {
     selectedRowKeys,
     onChange: onSelectChange
   };
-  const hasSelected = selectedRowKeys.length > 0;
+  // const hasSelected = selectedRowKeys.length > 0;
   const handleSearch = async (value) => {
     setSearch(value);
     setName(value);
@@ -483,7 +483,7 @@ const ModalAddCamera = (props) => {
           </Row>
         </Form>
 
-        <div
+        {/* <div
           style={{
             marginRight: 20,
             marginBottom: 20,
@@ -492,7 +492,7 @@ const ModalAddCamera = (props) => {
           }}
         >
           {hasSelected ? `Đã chọn ${selectedRowKeys.length} bản ghi` : ''}
-        </div>
+        </div> */}
       </>
     );
   };
