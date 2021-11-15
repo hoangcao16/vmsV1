@@ -1,9 +1,12 @@
 @import "../../../assets/scss/core/variables/vms-variable";
+@import '../../../assets/scss/core/variables/z-index';
 .preset--setting {
   overflow: hidden;
+  left: 80px;
+  z-index: $zindex-modal-preset;
   .ant-modal {
     width: calc(100vw - 80px) !important;
-    left: 80px;
+    // left: 80px;
     height: 100vh;
     top: 0;
     margin: 0;

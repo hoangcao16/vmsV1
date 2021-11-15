@@ -218,7 +218,6 @@ const Index = ({
                 title={t('view.live.preset_setting')}
                 footer={null}
                 closable={true}
-                zIndex={1111}
                 onCancel={handleCloseModalPresetSetting}
                 destroyOnClose={true}
                 maskStyle={{ background: 'rgba(51, 51, 51, 0.9)' }}
