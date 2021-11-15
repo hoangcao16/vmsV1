@@ -214,6 +214,7 @@ const ExportEventFile = () => {
                         userId: user.userUuid,
                         token: checkPerRes.token
                     }
+
                     const payload = await playbackApi.playSingleFile(checkPerRes.playbackUrl, playReq)
                     if (payload) {
                         let videoSrc = checkPerRes.playbackUrl + '/play/hls/' + payload.reqUuid + '/index.m3u8';
