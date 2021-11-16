@@ -64,7 +64,7 @@ const CameraApi = {
 
     try {
       result = await MyService.getRequestData(
-        '/owl/api/v1/camera/get-report-camera'
+        '/owl/api/v1/get-report-camera'
       );
     } catch (error) {
       console.log(JSON.stringify(error));

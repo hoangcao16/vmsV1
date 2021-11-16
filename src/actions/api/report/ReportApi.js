@@ -9,7 +9,7 @@ const ReportApi = {
 
         try {
             result = await MyService.postRequestData(
-            "/owl/api/v1/camera/get-chart", body
+            "/owl/api/v1/get-chart", body
             );
         } catch (error) {
             console.log(JSON.stringify(error));
@@ -27,7 +27,7 @@ const ReportApi = {
     
         try {
             result = await MyService.postRequestData(
-            "/owl/api/v1/camera/export-excel", body
+            "/owl/api/v1/export-excel", body
             );
         } catch (error) {
             console.log(JSON.stringify(error));
