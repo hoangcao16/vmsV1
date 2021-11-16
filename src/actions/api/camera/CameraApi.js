@@ -70,7 +70,9 @@ const CameraApi = {
       console.log(JSON.stringify(error));
     }
 
-    if (handleErrCodeReport(result) === null) {
+    console.log('result:', result);
+
+    if (result === undefined || handleErrCodeReport(result) === null) {
       return [];
     }
 
@@ -106,7 +108,7 @@ const CameraApi = {
     try {
       result = await MyService.getRequestData(
         `/cctv-controller-svc/api/v1/camera_groups`,
-        dataInput
+        data
       );
     } catch (error) {
       console.log(error);

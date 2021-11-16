@@ -59,8 +59,8 @@ const TableHumans = () => {
   useEffect(() => {
     if (
       language == 'vn'
-        ? (document.title = 'CCTV | Quản lý danh mục')
-        : (document.title = 'CCTV | Category Management')
+        ? (document.title = 'CCTV | Quản lý khuôn mặt')
+        : (document.title = 'CCTV | Face Management')
     );
   }, []);
 
@@ -82,7 +82,7 @@ const TableHumans = () => {
 
     return (
       <div className="card--header">
-        <h4>Quản lý khuôn mặt</h4>
+        <h4>{t('view.ai_humans.face')}</h4>
 
         <div className="search__toolbar">
           <AutoComplete
@@ -263,8 +263,8 @@ const TableHumans = () => {
     <div className="tabs__container--category">
       <Breadcrumds
         url="/app/setting"
-        nameParent="Cài đặt"
-        nameChild="Quản lí khuôn mặt"
+        nameParent={t('breadcrumd.setting')}
+        nameChild={t('view.ai_humans.face')}
       />
 
       <Card

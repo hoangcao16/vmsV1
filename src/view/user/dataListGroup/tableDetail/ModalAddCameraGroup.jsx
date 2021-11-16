@@ -36,7 +36,7 @@ const ModalAddCameraGroup = (props) => {
     selectedRowKeys,
     onChange: onSelectChange
   };
-  const hasSelected = selectedRowKeys.length > 0;
+  // const hasSelected = selectedRowKeys.length > 0;
 
   const handleSearch = async (value) => {
     setSearch(value);
@@ -105,17 +105,20 @@ const ModalAddCameraGroup = (props) => {
             }
           />
         </div>
-        <div className="choose__records" style={{
-          marginRight: 20,
-          marginBottom: 20,
-          // marginTop: 20,
-          color: '#ffffff',
-          height: '30px'
-        }}>
-          {hasSelected
+        <div
+          className="choose__records"
+          style={{
+            marginRight: 20,
+            // marginBottom: 20,
+            // marginTop: 20,
+            color: '#ffffff',
+            height: '30px'
+          }}
+        >
+          {/* {hasSelected
             ? `${t('view.storage.choose')} ${selectedRowKeys.length
             } ${t('view.storage.record')}`
-            : ''}
+            : ''} */}
         </div>
       </>
     );
@@ -145,7 +148,6 @@ const ModalAddCameraGroup = (props) => {
         cancelText={t('view.map.button_cancel')}
         okText={t('view.map.button_save')}
         maskStyle={{ background: 'rgba(51, 51, 51, 0.9)' }}
-
       >
         <Table
           className="tableAddCameraGroup"

@@ -152,7 +152,16 @@ const REPORT_OKE = 1300;
 const REPORT_BAD_REQUEST = 1301;
 
 export const handleErrCodeReport = (data) => {
-  const { code, message, payload, deny_permission_codes } = data || [];
+  if(!data){
+    const errCode = {
+      type: 'error',
+      title: 'Code:',
+      description: 'data is null'
+    };
+    Notification(errCode);
+    return null;
+  }
+  const { code, message, payload, deny_permission_codes } = data;
   const errCode = {
     type: 'error',
     title: 'Code:' + code,

@@ -84,7 +84,6 @@ const TableNVR = () => {
       dataIndex: 'name',
       key: 'name',
       width: '20%',
-      // fixed: 'left',
       className: 'headerColums'
     },
 
@@ -116,7 +115,6 @@ const TableNVR = () => {
     {
       title: `${t('view.common_device.action')}`,
       className: 'headerColums',
-      // fixed: 'right',
       width: '15%',
       render: (text, record) => {
         return (
@@ -162,11 +160,7 @@ const TableNVR = () => {
       </div>
       <Card
         title={t('view.common_device.nvr_list')}
-        // extra={
-        //   <Button>
-        //     <PlusOneOutlined />
-        //   </Button>
-        // }
+
         bodyStyle={bodyStyleCard}
         headStyle={headStyleCard}
         className="card--listDevice"

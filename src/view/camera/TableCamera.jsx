@@ -36,6 +36,7 @@ import UserApi from '../../actions/api/user/UserApi.js';
 import VendorApi from '../../actions/api/vendor/VendorApi';
 import clearData from '../../actions/function/MyUltil/CheckData';
 import Notification from '../../components/vms/notification/Notification';
+import { ShowTotal } from '../../styled/showTotal';
 import {
   filterOption,
   normalizeOptions
@@ -85,6 +86,8 @@ const TableCamera = () => {
   const [form] = Form.useForm();
   const [filterOptions, setFilterOptions] = useState(DATA_FAKE_CAMERA);
   const [total, setTotal] = useState(0);
+  const [page, setPage] = useState(1);
+  const [size, setSize] = useState(10);
 
   const [search, setSearch] = useState('');
   const [unit, setUnit] = useState(UNIT.ALL);
@@ -107,7 +110,9 @@ const TableCamera = () => {
       id: '',
       administrativeUnitUuid: '',
       vendorUuid: '',
-      status: ''
+      status: '',
+      page: page,
+      size: size
     };
 
     CameraApi.getAllCameraWidthTotal(data)
@@ -128,7 +133,32 @@ const TableCamera = () => {
       id: '',
       administrativeUnitUuid: '',
       vendorUuid: '',
-      status: ''
+      status: '',
+      page: page,
+      size: size
+    };
+
+    CameraApi.getAllCameraWidthTotal(data)
+      .then((result) => {
+        setListCamera(result.payload);
+        setTotal(result?.metadata?.total);
+      })
+      .finally(setLoading(false));
+    setLoading(false);
+  }, [page, size]);
+
+  useEffect(() => {
+    setLoading(true);
+    let data = {
+      name: '',
+      provinceId: '',
+      districtId: '',
+      id: '',
+      administrativeUnitUuid: '',
+      vendorUuid: '',
+      status: '',
+      page: page,
+      size: size
     };
 
     CameraApi.getAllCameraWidthTotal(data)
@@ -149,7 +179,9 @@ const TableCamera = () => {
       id: '',
       administrativeUnitUuid: '',
       vendorUuid: '',
-      status: ''
+      status: '',
+      page: page,
+      size: size
     };
 
     if (isDeleted) {
@@ -182,7 +214,9 @@ const TableCamera = () => {
     // setLoading(true);
     let data = {
       searchType: unit,
-      searchValue: value
+      searchValue: value,
+      page: page,
+      size: size
     };
     const result = await CameraApi.getAllCameraWidthTotal(data);
 
@@ -270,7 +304,9 @@ const TableCamera = () => {
     setLoading(true);
     let data = {
       searchType: unit,
-      searchValue: ''
+      searchValue: '',
+      page: page,
+      size: size
     };
     const result = await CameraApi.getAllCameraWidthTotal(data);
 
@@ -330,7 +366,9 @@ const TableCamera = () => {
 
   const handleSubmit = async (value) => {
     const payload = {
-      ...value
+      ...value,
+      page: page,
+      size: size
     };
 
     const cleanData = clearData(payload);
@@ -412,32 +450,40 @@ const TableCamera = () => {
         <div className="camera__header">
           <h4>{item?.name}</h4>
           <Space>
-            <InfoCircleOutlined
-              style={{ fontSize: '16px', color: '#6E6B7B' }}
-              onClick={() => {
-                setSelectedCameraId(item.uuid);
-              }}
-            />
+            <Tooltip placement="top" title={t('view.common_device.detail')}>
+              <InfoCircleOutlined
+                style={{ fontSize: '16px', color: '#6E6B7B' }}
+                onClick={() => {
+                  setSelectedCameraId(item.uuid);
+                }}
+              />
+            </Tooltip>
             {/* {permissionCheck('edit_camera') && ( */}
-            <EditOutlined
-              style={{ fontSize: '16px', color: '#6E6B7B' }}
-              onClick={() => {
-                setSelectedCameraIdEdit(item.uuid);
-                showModalEdit();
-                // handleSearch(search);
-              }}
-            />
+            <Tooltip placement="top" title={t('view.common_device.edit')}>
+              <EditOutlined
+                style={{ fontSize: '16px', color: '#6E6B7B' }}
+                onClick={() => {
+                  setSelectedCameraIdEdit(item.uuid);
+                  showModalEdit();
+                  // handleSearch(search);
+                }}
+              />
+            </Tooltip>
             {/* )} */}
             {/* {permissionCheck('delete_camera') && ( */}
-            <Popconfirm
-              title={t('noti.delete_camera', {
-                this: t('this'),
-                cam: t('camera')
-              })}
-              onConfirm={() => handleDelete(item.uuid)}
-            >
-              <DeleteOutlined style={{ fontSize: '16px', color: '#6E6B7B' }} />
-            </Popconfirm>
+            <Tooltip placement="top" title={t('delete')}>
+              <Popconfirm
+                title={t('noti.delete_camera', {
+                  this: t('this'),
+                  cam: t('camera')
+                })}
+                onConfirm={() => handleDelete(item.uuid)}
+              >
+                <DeleteOutlined
+                  style={{ fontSize: '16px', color: '#6E6B7B' }}
+                />
+              </Popconfirm>
+            </Tooltip>
             {/* )} */}
           </Space>
         </div>
@@ -484,6 +530,12 @@ const TableCamera = () => {
 
     setSearch(value);
   };
+
+  const onShowSizeChange = (current, pageSize) => {
+    setPage(current);
+    setSize(pageSize);
+  };
+
   return (
     <>
       <div className="search-filter table--camera__container">
@@ -558,6 +610,7 @@ const TableCamera = () => {
         onCancel={handleCancel}
         footer={null}
         className="modal--add-camera modal__filter-advance"
+        maskStyle={{ background: 'rgba(51, 51, 51, 0.9)' }}
       >
         <Form form={form} {...formItemLayout} onFinish={handleSubmit}>
           <Row gutter={24}>
@@ -696,6 +749,7 @@ const TableCamera = () => {
       </Modal>
 
       <List
+        className="listCamera"
         header={renderHeader()}
         bordered
         dataSource={listCamera}
@@ -709,8 +763,30 @@ const TableCamera = () => {
             </div>
           )
         }}
+        pagination={{
+          showSizeChanger: true,
+          onShowSizeChange: (current, size) => {
+            onShowSizeChange(current, size);
+          },
 
-        
+          hideOnSinglePage: false,
+          current: page,
+          total: total,
+          pageSize: size,
+          onChange: (value) => {
+            setPage(value);
+          },
+          showTotal: (total, range) => {
+            return (
+              <ShowTotal className="show--total">
+                {t('view.user.detail_list.viewing')} {range[0]}{' '}
+                {t('view.user.detail_list.to')} {range[1]}{' '}
+                {t('view.user.detail_list.out_of')} {total}{' '}
+                {t('view.user.detail_list.indexes')}
+              </ShowTotal>
+            );
+          }
+        }}
       />
 
       {selectedCameraId && (

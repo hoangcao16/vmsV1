@@ -616,7 +616,7 @@ const ModalAddCamera = (props) => {
             </Col>
             <Col span={24} className="mt-1">
               <span className="edit-tag-item" onClick={showModalEditTag}>
-                Add tag
+                {t('view.camera.add_new_tag')}
               </span>
             </Col>
             <Col span={24}>

@@ -11,13 +11,13 @@ import {
   Tooltip
 } from 'antd';
 import 'antd/dist/antd.css';
-import { isEmpty, set } from 'lodash';
+import { isEmpty } from 'lodash';
 import React, { useEffect, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { withRouter } from 'react-router-dom';
 import ZoneApi from '../../actions/api/zone/ZoneApi';
 import rest_api from '../../actions/rest_api';
-import Loading from '../common/element/Loading';
+import Breadcrumds from '../breadcrumds/Breadcrumds';
 import { normalizeOptions } from '../common/select/CustomSelect';
 import './../commonStyle/commonTable.scss';
 import ModalAddCamera, { DATA_FAKE_CAMERA } from './ModalAddCamera';
@@ -54,9 +54,9 @@ const TableCameraScan = (props) => {
       <div className={`camera__detail `}>
         <div className="camera__header ">
           <div style={{ display: 'flex', alignItems: 'center' }}>
-            <h4>{item?.ip}</h4>
+            <h5 style={{ width: 200 }}>{item?.ip}</h5>
 
-            <h5 style={{ marginLeft: '150px' }}>
+            <h5>
               {item.type == 'camera' ? 'Camera' : 'Thiết bị không xác định'}
             </h5>
           </div>
@@ -132,10 +132,15 @@ const TableCameraScan = (props) => {
 
   return (
     <>
+      <Breadcrumds
+        url="/app/setting"
+        nameParent={t('breadcrumd.setting')}
+        nameChild={t('view.user.scan')}
+      />
       <div
         className="CameraScan"
         style={{
-          marginTop: 40,
+          // marginTop: 40,
           background: '#333333',
           borderRadius: '10px',
           padding: '10px'
@@ -169,12 +174,18 @@ const TableCameraScan = (props) => {
                           const data = getFieldValue(['p1']);
                           var ipformat =
                             /^(25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\.(25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\.(25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\.(25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)$/;
-                          if (!data.match(ipformat)) {
-                            return Promise.reject(
-                              'Bạn nhập chưa đúng địa chỉ IP1'
-                            );
+                          if (data) {
+                            if (!data.match(ipformat)) {
+                              return Promise.reject(
+                                `${t('view.map.ip1_error')}`
+                              );
+                            } else {
+                              return Promise.resolve();
+                            }
                           } else {
-                            return Promise.resolve();
+                            return Promise.resolve(
+                              `${t('view.map.required_field')}`
+                            );
                           }
                         }
                       })
@@ -203,10 +214,16 @@ const TableCameraScan = (props) => {
                       const data = getFieldValue(['p2']);
                       var ipformat =
                         /^(25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\.(25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\.(25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\.(25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)$/;
-                      if (!data.match(ipformat)) {
-                        return Promise.reject('Bạn nhập chưa đúng địa chỉ IP2');
+                      if (data) {
+                        if (!data.match(ipformat)) {
+                          return Promise.reject(`${t('view.map.ip2_error')}`);
+                        } else {
+                          return Promise.resolve();
+                        }
                       } else {
-                        return Promise.resolve();
+                        return Promise.resolve(
+                          `${t('view.map.required_field')}`
+                        );
                       }
                     }
                   })
@@ -239,7 +256,7 @@ const TableCameraScan = (props) => {
             <Col span={3} style={{ display: 'flex', alignItems: 'flex-end' }}>
               <div className="btn--submit" style={{ height: 40 }}>
                 <Button type="primary" htmlType="submit ">
-                  {loading ? 'Loading...' : t('view.user.detail_list.confirm')}
+                  {loading ? 'Loading...' : t('view.user.detail_list.scan')}
                 </Button>
               </div>
             </Col>
@@ -263,7 +280,7 @@ const TableCameraScan = (props) => {
         />
       )}
 
-      {isEmpty(listCamera) && loaded && (
+      {isEmpty(listCamera) && loaded && !loading && (
         <div
           className="text-center"
           style={{ color: 'white', margin: '20px 0px' }}

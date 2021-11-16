@@ -122,7 +122,7 @@ const Live = (props) => {
     }
 
     try {
-      const resData = await cameraApi.searchsWithUuids({
+      const resData = await cameraApi.searchCamerasWithUuids({
         uuids: defaultScreen.cameraUuids,
       });
       if (resData && resData.payload) {
@@ -878,7 +878,7 @@ const Live = (props) => {
       const uuid = uuidV4();
       const createdDate = new Date();
       const createdTime = createdDate.getTime();
-      const violationTime = createdDate.setMilliseconds(0);
+      const violationTime = Math.floor(createdDate.setMilliseconds(0) / 1000);
       let eventFile = {
         id: "",
         uuid: uuid,

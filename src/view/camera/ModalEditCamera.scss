@@ -1,9 +1,12 @@
 @import '../../assets/scss/core/variables/vms-variable';
 
 .modal--edit-camera {
+    width: 40vw !important;
+    top: 56px !important;
     .ant-modal-content {
         border-radius: 12px !important;
         width: 100% !important;
+        background-color: $vms-bg-primary;
 
         
         button.ant-modal-close {
@@ -24,7 +27,7 @@
 
         .ant-modal-body {
             background-color: $vms-bg-primary;
-            padding: 0 40px 1px 40px;
+            padding: 0 32px 32px 32px !important;
             border-radius: 0 0 12px 12px;
             
             .edit-tag-item {
@@ -34,35 +37,49 @@
                     text-decoration: underline;
                 }
             }
-            .btn--submit{
+            .btn--confirm {
                 text-align: center;
-                margin: 24px;
+                margin-top: 24px;
+        
                 button {
-                    background-color: $vms-main-blue-primary;
-                    border: none;
-                    border-radius: 4px;
-                    padding: 8px 16px;
-                    height: 100%;
-                    span {
-                        color: $vms-soft-statuts;
-                        line-height: 24px;
-
+                  background-color: $vms-main-blue-primary;
+                  border: 1px solid $vms-main-blue-primary;
+        
+                  border-radius: 4px;
+                  padding: 8px 16px;
+                  height: 100%;
+        
+                  span {
+                    color: $vms-soft-statuts;
+                    line-height: 24px;
+        
+                  }
+        
+                  &:first-child {
+                    margin-right: 16px;
+                  }
+        
+                  &:last-child {
+                    background-color: $vms-bg-primary;
+                    span{
+                      color: $vms-main-blue-primary;
                     }
-                    &:hover{
-                        box-shadow: 0 0 8px 0 $vms-main-blue-primary;
-                    }
+                  }
                 }
-            }
+              }
         }
 
         .ant-select-selector{
             background-color:$vms-bg-3 ;
             border: 1px solid rgba(234, 240, 247, 0.1);
+            .ant-select-selection-item {
+                color: $vms-status-07;
+            }
         }
 
         .ant-form-item-control-input-content .ant-input {
             background-color:$vms-bg-3 !important;
-
+            color: $vms-status-07 !important;
         }
 
 
@@ -84,8 +101,9 @@
                 border-radius:50% ;
                 border: 1px solid rgba(234, 240, 247, 0.1);
                 span,div{
-                    color: $vms-status;
+                    color: $vms-status-07;
                 }
+
             }
     
         }

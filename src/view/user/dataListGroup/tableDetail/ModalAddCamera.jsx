@@ -265,7 +265,7 @@ const ModalAddCamera = (props) => {
     selectedRowKeys,
     onChange: onSelectChange
   };
-  const hasSelected = selectedRowKeys.length > 0;
+  // const hasSelected = selectedRowKeys.length > 0;
   const handleSearch = async (value) => {
     setSearch(value);
     setName(value);
@@ -473,7 +473,7 @@ const ModalAddCamera = (props) => {
           </Row>
         </Form>
 
-        <div style={{
+        {/* <div style={{
           marginRight: 20,
           marginBottom: 20,
           // marginTop: 20,
@@ -484,7 +484,7 @@ const ModalAddCamera = (props) => {
             ? `${t('view.storage.choose')} ${selectedRowKeys.length
             } ${t('view.storage.record')}`
             : ''}
-        </div>
+        </div> */}
       </>
     );
   };

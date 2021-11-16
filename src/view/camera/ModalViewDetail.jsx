@@ -1,12 +1,11 @@
-import { Col, Modal, Row, Typography, Button, Tag, Avatar, Upload } from 'antd';
+import { Avatar, Button, Col, Modal, Row, Tag, Typography } from 'antd';
 import { isEmpty } from 'lodash-es';
-import React, { useState } from 'react';
-import { useEffect } from 'react';
-import CameraApi from '../../actions/api/camera/CameraApi';
-import './ModalViewDetail.scss';
+import React, { useEffect, useState } from 'react';
 import { useTranslation } from 'react-i18next';
+import CameraApi from '../../actions/api/camera/CameraApi';
 import Loading from '../common/element/Loading';
 import ExportEventFileApi from './../../actions/api/exporteventfile/ExportEventFileApi';
+import './ModalViewDetail.scss';
 
 const { Paragraph } = Typography;
 
@@ -54,6 +53,7 @@ const ModalViewDetail = (props) => {
         onCancel={handleShowModal}
         footer={null}
         className="modal--detail-camera"
+        maskStyle={{ background: 'rgba(51, 51, 51, 0.9)' }}
       >
         <Row gutter={24}>
           <Col span={12}>
@@ -77,9 +77,13 @@ const ModalViewDetail = (props) => {
             </Row>
           </Col>
           <Col span={12}>
-            <div style={{ paddingBottom: 20 }}>
+            <div
+              style={{
+                paddingBottom: 20
+              }}
+            >
               <Avatar
-                src={avatarUrl}
+                src={avatarUrl ?? ''}
                 style={{ borderRadius: '50%' }}
                 size={{
                   xs: 24,
@@ -210,30 +214,27 @@ const ModalViewDetail = (props) => {
               <p>{selectedCamera?.cameraUrl}</p>
             </Paragraph>
           </Col>
-
-          <div style={{ display: 'flex' }}>
-            {!isEmpty(selectedCamera.tags) && (
-              <>
-                {selectedCamera.tags.map((t) => {
-                  return (
-                    <Col span={24}>
-                      <div className="renderTag">
-                        <p style={{ fontWeight: 600, fontSize: 14 }}>
-                          {t.key}:
-                        </p>
-                        <p>
-                          {' '}
-                          {t.value.map((v) => {
-                            return <Tag>{v}</Tag>;
-                          })}
-                        </p>
-                      </div>
-                    </Col>
-                  );
-                })}
-              </>
-            )}
-          </div>
+        </Row>
+        <Row>
+          {!isEmpty(selectedCamera.tags) && (
+            <>
+              {selectedCamera.tags.map((t) => {
+                return (
+                  <Col span={24}>
+                    <div className="renderTag">
+                      <p style={{ fontWeight: 600, fontSize: 14 }}>{t.key}:</p>
+                      <p>
+                        {' '}
+                        {t.value.map((v) => {
+                          return <Tag>{v}</Tag>;
+                        })}
+                      </p>
+                    </div>
+                  </Col>
+                );
+              })}
+            </>
+          )}
         </Row>
         <div className="btn--submit">
           <Button type="primary" onClick={handleShowModal}>

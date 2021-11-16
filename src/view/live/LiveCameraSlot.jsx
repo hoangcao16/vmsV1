@@ -34,6 +34,7 @@ const LiveCameraSlot = (props) => {
     const [startTime, setStartTime] = useState(0);
     const [stopTime, setStopTime] = useState(0);
     const [currLiveMode, setCurrLiveMode] = useState(liveMode);
+    const [isOpenModalControlPanel, setIsOpenModalControlPanel] = useState(false)
     const requestId = useRef(uuidV4());
     const countRef = useRef(countInMinis);
     countRef.current = countInMinis;
@@ -186,6 +187,8 @@ const LiveCameraSlot = (props) => {
                                     idCamera={idCamera}
                                     setReloadLiveMenuTool={setReloadLiveMenuTool}
                                     reloadLiveMenuTool={reloadLiveMenuTool}
+                                    isOpenModalControlPanel={isOpenModalControlPanel}
+                                    setIsOpenModalControlPanel={setIsOpenModalControlPanel}
                                 />
                             }
                             overlayClassName='control-panel-popover'
@@ -206,7 +209,8 @@ const LiveCameraSlot = (props) => {
                             size='small'
                             onClick={() => {
                                 setOpenMenuControl(false);
-                                closeCameraHandler(slotId)
+                                closeCameraHandler(slotId);
+                                setIsOpenModalControlPanel(false);
                             }}
                         >
                             <X className='video-toolbar__icon' size={12} />

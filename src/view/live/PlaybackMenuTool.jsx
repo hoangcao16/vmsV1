@@ -7,6 +7,7 @@ import '../commonStyle/commonDatePicker.scss'
 import '../commonStyle/commonTimePicker.scss';
 import PlaybackSpeed from "./playbackSpeed/PlaybackSpeed";
 import Clock from "react-digital-clock";
+import { isEmpty } from 'lodash-es'
 
 
 const PlaybackMenuTool = ({
@@ -21,14 +22,15 @@ const PlaybackMenuTool = ({
     const [seekToTime, setSeekToTime] = useState(null);
     const [needToPlayImmediately, setNeedToPlayImmediately] = useState(false)
     const onDateChange = (date, dateString) => {
-        console.log('onDateChange:', date, dateString);
-        let now = moment(dateString)
-        setSeekToDate(moment(now, 'YYYY-MM-DD'))
+        console.log('onDateChangedate:', date);
+        console.log('onDateChangedatedfdsf', dateString)
+        let now = isEmpty(dateString) ? null : moment(dateString)
+        setSeekToDate(isEmpty(now) ? null : moment(now, 'YYYY-MM-DD'))
         setSeekToTime(null)
     }
     const onTimeChange = (time, timeString) => {
         console.log('onTimeChange:', time, timeString);
-        setSeekToTime(moment(timeString, 'HH:mm:ss'))
+        setSeekToTime(isEmpty(timeString) ? null : moment(timeString, 'HH:mm:ss'))
         if (seekToDate) {
             setNeedToPlayImmediately(true)
             //play
@@ -42,11 +44,18 @@ const PlaybackMenuTool = ({
     return (
         <div className="playback-menu-tool">
             <div className="playback-menu-tool__datetime play-control__left">
-                <DatePicker dropdownClassName="playback-menu-tool__date" locale={locale} value={seekToDate}
+                <DatePicker
+                    dropdownClassName="playback-menu-tool__date" locale={locale}
+                    value={seekToDate}
                     defaultValue={moment('2021-09-20', 'YYYY-MM-DD')}
-                    onChange={onDateChange} />
-                <TimePicker popupClassName="playback-menu-tool__time" locale={locale} onChange={onTimeChange}
-                    value={seekToTime} />
+                    onChange={onDateChange}
+                />
+                <TimePicker
+                    popupClassName="playback-menu-tool__time"
+                    locale={locale}
+                    onChange={onTimeChange}
+                    value={seekToTime}
+                />
             </div>
             <PlayControl playbackCameraSeekTypeCallback={playbackCameraSeekTypeCallback}
                 pauseOrPlayCallback={pauseOrPlayCallback}

@@ -50,8 +50,8 @@
       "scannable_camera": "Scannable Camera",
       "camera_scan": "Camera Scan",
       "filter_camera_by": "Filter Camera by:",
-      "IP1_range": "IP1 range:",
-      "IP2_range": "IP2 range:",
+      "IP1_range": "IP start:",
+      "IP2_range": "IP end:",
       "add_new": "Add New",
       "add_new_camera_group": "Add new Camera Group",
       "edit_tag": "Edit Tag",
@@ -138,6 +138,8 @@
       "please_enter_unit_name": "{{plsEnter}} unit name",
       "please_enter_your_address": "{{plsEnter}} your andress",
       "required_field": "Required Field",
+      "ip1_error": "You have not entered the correct IP1 address",
+      "ip2_error": "You have not entered the correct IP2 address",
       "name": "Name",
       "camera_name": "{{cam}} Name",
       "please_enter_camera_name": "{{plsEnter}} {{cam}} name",
@@ -297,6 +299,7 @@
       "device": "Modules system",
       "category_management": "Category management",
       "change_password": "Change password",
+      "scan": "Scan Camera",
       "log_out": "Log out",
       "user_group": "{{U}} {{G}}",
       "new_password": "New password",
@@ -380,12 +383,19 @@
         "grant_permission_by_camera": "Grant permission by Camera",
         "add_camera_choose_permission": "Add Camera and choose permission",
         "image": "Image",
-        "enter_alternative_data": "{{plsEnter}} alternative data"
+        "enter_alternative_data": "{{plsEnter}} alternative data",
+        "scan": "Scan"
       }
+    },
+    "ai_humans": {
+      "face": "Face Management",
+      "name": "Name",
+      "code": "Code",
+      "position": "Position",
+      "department": "Department",
+      "adminUnit": "AdminUnit",
+      "status": "Status"
     }
-  },
-  "ai_humans": {
-    "face": "Face Management"
   },
 
   "noti": {

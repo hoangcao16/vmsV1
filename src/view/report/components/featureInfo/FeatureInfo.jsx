@@ -8,7 +8,6 @@ import { useTranslation } from 'react-i18next';
 
 export default function FeatureInfo(props) {
   const [camera, setCamera] = useState([]);
-  const language = reactLocalStorage.get('language')
   const {t} = useTranslation()
 
   useEffect(() => {
