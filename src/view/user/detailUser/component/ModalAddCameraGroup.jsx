@@ -35,7 +35,7 @@ const ModalAddCameraGroup = (props) => {
     selectedRowKeys,
     onChange: onSelectChange
   };
-  const hasSelected = selectedRowKeys.length - props.checkedGroups.length > 0;
+  const hasSelected = selectedRowKeys.length  > 0;
 
   const handleSearch = async (value) => {
     setSearch(value);
@@ -112,7 +112,7 @@ const ModalAddCameraGroup = (props) => {
           height: '20px'
         }}>
           {hasSelected
-            ? `${t('view.storage.choose')} ${selectedRowKeys.length - props.checkedGroups.length
+            ? `${t('view.storage.choose')} ${selectedRowKeys.length 
             } ${t('view.storage.record')}`
             : ''}
         </div>

@@ -12,7 +12,8 @@ import {
   Select,
   Space,
   Table,
-  Tag
+  Tag,
+  Tabs,
 } from 'antd';
 import 'antd/dist/antd.css';
 import { isEmpty } from 'lodash-es';
@@ -20,9 +21,6 @@ import debounce from 'lodash/debounce';
 import React, { useEffect, useState } from 'react';
 import { withRouter } from 'react-router-dom';
 import CameraApi from '../../actions/api/camera/CameraApi';
-import VendorApi from '../../actions/api/vendor/VendorApi';
-import FieldApi from '../../actions/api/field/FieldApi';
-import EventApi from '../../actions/api/event/EventApi';
 
 import Notification from '../../components/vms/notification/Notification';
 import './../commonStyle/commonInput.scss';
@@ -35,7 +33,17 @@ import { useTranslation } from 'react-i18next';
 import { reactLocalStorage } from 'reactjs-localstorage';
 import Breadcrumds from '../breadcrumds/Breadcrumds';
 import { ShowTotal } from '../../styled/showTotal';
-import AIHumansApi from '../../actions/api/ai-humans/AIHumansApi';
+import 'react-calendar-timeline/lib/Timeline.css'
+import Timeline, {
+  TimelineHeaders,
+  SidebarHeader,
+  DateHeader
+} from "react-calendar-timeline/lib";
+import moment from 'moment'
+const { TabPane } = Tabs;
+
+
+
 
 export const CATEGORY_NAME = {
   EVENT_TYPE: 'EVENT_TYPE',
@@ -53,14 +61,15 @@ const TableHumans = () => {
   const [showModal, setShowModal] = useState(false);
   const [total, setTotal] = useState(0);
   const [listHumans, setListHumans] = useState([]);
+  const [listCameras, setListCameras] = useState([]);
   const [page, setPage] = useState(1);
   const [pageSize, setPageSize] = useState(10);
 
   useEffect(() => {
     if (
       language == 'vn'
-        ? (document.title = 'CCTV | Quản lý khuôn mặt')
-        : (document.title = 'CCTV | Face Management')
+        ? (document.title = 'CCTV | Quản lý sự kiện thông minh')
+        : (document.title = 'CCTV | AI Config Management')
     );
   }, []);
 
@@ -69,23 +78,84 @@ const TableHumans = () => {
       page: page,
       pageSize: pageSize
     };
-    AIHumansApi.getAllHumans(data).then((result) => {
-      setListHumans(result.payload);
-      setTotal(result?.metadata.total);
+    CameraApi.getAllCamera(data).then((result) => {
+      setListCameras(result);
     });
-  }, [page, pageSize, showModal]);
+
+  }, []);
+
+  function onSearch(val) {
+    console.log('search:', val);
+  }
+
+  const groups = [{ id: 1, title: 'group 1', bgColor: 'white' }, { id: 2, title: 'group 2' }]
+
+  const items = [
+    {
+      id: 1,
+      group: 1,
+      title: 'item 1',
+      canMove: true,
+      canResize: false,
+      canChangeGroup: false,
+      start_time: moment(),
+      end_time: moment().add(1, 'hour')
+    },
+    {
+      id: 1,
+      group: 1,
+      title: 'Random title',
+      start_time: 1457902922261,
+      end_time: 1457902922261 + 86400000,
+      canMove: true,
+      canResize: false,
+      canChangeGroup: false,
+      className: 'weekend',
+      itemProps: {
+        'data-custom-attribute': 'Random content'
+      }
+    },
+    {
+      id: 2,
+      group: 2,
+      title: 'item 2',
+      canMove: true,
+      canResize: false,
+      canChangeGroup: false,
+      start_time: moment().add(-0.5, 'hour'),
+      end_time: moment().add(0.5, 'hour')
+    },
+    {
+      id: 3,
+      group: 1,
+      title: 'item 3',
+      canMove: true,
+      canResize: false,
+      canChangeGroup: false,
+      start_time: moment().add(2, 'hour'),
+      end_time: moment().add(3, 'hour')
+    }
+  ]
+  const defaultTimeStart = moment()
+    .startOf("day")
+    .toDate();
+  const defaultTimeEnd = moment()
+    .startOf("day")
+    .add(1, "day")
+    .toDate();
 
 
 
-  
   const getNameByCategory = () => {
 
     return (
       <div className="card--header">
-        <h4>{t('view.ai_humans.face')}</h4>
+        <h4>{t('view.ai_config.config')}</h4>
+
+
 
         <div className="search__toolbar">
-          <AutoComplete
+          {/* <AutoComplete
             className="searchInputCamproxy"
             style={{ width: 350, height: 40, marginRight: 18 }}
             onSearch={debounce(handleSearch, 300)}
@@ -95,8 +165,8 @@ const TableHumans = () => {
                 <SearchOutlined style={{ fontSize: 22 }} />
               </div>
             }
-          ></AutoComplete>
-        
+          ></AutoComplete> */}
+
           <Button
             type="primary"
             onClick={() => {
@@ -119,42 +189,6 @@ const TableHumans = () => {
     );
   };
 
-  const handleSearch = async (value) => {
-    const data = {
-      name: value
-    };
-    AIHumansApi.getAllHumans(data).then((result) => {
-      let dataResult = result[Object.keys(result)[0]];
-      setListHumans(result.payload);
-      setTotal(result?.metadata.total);
-    });
-  };
-
-  const handleDelete = async (id) => {
-
-    let isDelete = false;
-
-    isDelete = await AIHumansApi.deleteHumans(id);
-
-      const notifyMess = {
-        type: 'success',
-        title: '',
-        description: `${t('noti.successfully_delete_human', {
-          delete: t('delete')
-        })}`
-      };
-      isDelete && Notification(notifyMess);
-
-    const data = {
-      page: page,
-      pageSize: pageSize
-    };
-    AIHumansApi.getAllHumans(data).then((result) => {
-      let dataResult = result[Object.keys(result)[0]];
-      setListHumans(result.payload);
-      setTotal(result?.metadata.total);
-    });
-  };
 
   const onShowSizeChange = (current, pageSize) => {
     setPage(current);
@@ -163,9 +197,9 @@ const TableHumans = () => {
 
   const renderTag = (haveImg) => {
     let str = ""
-    haveImg ? str = "Đã có ảnh" : str = "Chưa có ảnh" 
+    haveImg ? str = "Đã có ảnh" : str = "Chưa có ảnh"
     return (
-      <Tag color={haveImg  ? '#1380FF' : '#FF4646'} style={{ color: '#ffffff' }}>{str}</Tag>
+      <Tag color={haveImg ? '#1380FF' : '#FF4646'} style={{ color: '#ffffff' }}>{str}</Tag>
     );
   };
 
@@ -224,31 +258,7 @@ const TableHumans = () => {
       render: renderTag,
       width: '10%'
     },
-    {
-      title: `${t('view.storage.action')}`,
-      className: 'headerColums',
-      fixed: 'right',
-      width: '12%',
-      render: (_text, record) => {
-        return (
-          <Space>
-            <EditOutlined
-              style={{ fontSize: '16px', color: '#6E6B7B' }}
-              onClick={() => {
-                setSelectedHumansId(record.uuid);
-                setShowModal(true);
-              }}
-            />
-            <Popconfirm
-              title={t('noti.delete_category', { this: t('this') })}
-              onConfirm={() => handleDelete(record.uuid)}
-            >
-              <DeleteOutlined style={{ fontSize: '16px', color: '#6E6B7B' }} />
-            </Popconfirm>
-          </Space>
-        );
-      }
-    }
+
   ];
 
   const addColumn = {
@@ -267,72 +277,65 @@ const TableHumans = () => {
         nameChild={t('view.ai_config.config')}
       />
 
-      <Card
-        title={getNameByCategory()}
-        // extra={
-        //   <Button>
-        //     <PlusOneOutlined />
-        //   </Button>
+      <div className="search mt-12 ">
+        <Select
+          showSearch
+          style={{ width: '50%', marginBottom: '40px' }}
+          placeholder="Select a person"
+          optionFilterProp="children"
+          onSearch={onSearch}
+        // filterOption={(input, option) =>
+        //   option.children.toLowerCase().indexOf(input.toLowerCase()) >= 0
         // }
+        >
+          {listCameras.map(x => (
+            <Option key={x.uuid} value={x.uuid}>
+              {x.name}
+            </Option>
+          ))}
+        </Select>
+
+
+      </div>
+      <div className="tabs__container--store">
+        <Tabs type="card">
+          <TabPane tab={t('view.ai_config.hurdles_events')} key="1">
+            {/* <TableNVR /> */}
+          </TabPane>
+          <TabPane tab={t('view.ai_config.intrusion_detection_events')} key="2">
+            {/* <TableNVR /> */}
+          </TabPane>
+          <TabPane tab={t('view.ai_config.attendance_events')} key="3">
+            {/* <TableNVR /> */}
+          </TabPane>
+        </Tabs>
+      </div>
+
+      <Card
         bodyStyle={bodyStyleCard}
         headStyle={headStyleCard}
         className="card--category"
-        // headStyle={{ padding: 30 }}
+      // headStyle={{ padding: 30 }}
       >
-        <Table
-          className="table__hard--drive--list"
-          pagination={{
-            showSizeChanger: true,
-            onShowSizeChange: (current, size) => {
-              onShowSizeChange(current, size);
-            },
-            hideOnSinglePage: false,
-            current: page,
-            total: total,
-            pageSize: pageSize,
-            onChange: (value) => {
-              setPage(value);
-            },
-            showTotal: (total, range) => {
-              return (
-                <ShowTotal className="show--total">
-                  {t('view.user.detail_list.viewing')} {range[0]}{' '}
-                  {t('view.user.detail_list.to')} {range[1]}{' '}
-                  {t('view.user.detail_list.out_of')} {total}{' '}
-                  {t('view.user.detail_list.indexes')}
-                </ShowTotal>
-              );
-            }
-          }}
-          scroll={{ x: 'max-content', y: 500 }}
-          rowKey="id"
-          columns={categoryColumns}
-          dataSource={listHumans}
-        />
+        <div className="tabs__container--store">
+          <Tabs type="card">
+            <TabPane tab={t('view.ai_config.area_config')} key="1">
+              {/* Content of Tab Pane 1 */}
+            </TabPane>
+            <TabPane tab={t('view.ai_config.schedule_config')} key="2">
+            <Timeline 
+              groups={groups}
+              items={items}
+              defaultTimeStart={moment().startOf('d')}
+              defaultTimeEnd={moment().endOf('d')}
+              
+              />
+            </TabPane>
+          </Tabs>
+        </div>
       </Card>
 
-      {/* {selectedCategoryId && (
-        <ModalViewEditCategory
-          dataType={dataType}
-          selectedCategoryId={selectedCategoryId}
-          handleShowModalEdit={handleShowModalEdit}
-        />
-      )}
-      {selectedAdd && (
-        <ModalAddCategory
-          fields={field}
-          selectedAdd={selectedAdd}
-          handleShowModalAdd={handleShowModalAdd}
-          dataType={dataType}
-        />
-      )} */}
-      {showModal &&
-        <ModalEditHumans
-        selectedHumansId={selectedHumansId}
-        setShowModal={setShowModal}
-      />
-      
-      }
+
     </div>
   );
 };

@@ -17,6 +17,7 @@ import { useTranslation } from 'react-i18next';
 import { withRouter } from 'react-router-dom';
 import ZoneApi from '../../actions/api/zone/ZoneApi';
 import rest_api from '../../actions/rest_api';
+import Breadcrumds from '../breadcrumds/Breadcrumds';
 import Loading from '../common/element/Loading';
 import { normalizeOptions } from '../common/select/CustomSelect';
 import './../commonStyle/commonTable.scss';
@@ -54,9 +55,9 @@ const TableCameraScan = (props) => {
       <div className={`camera__detail `}>
         <div className="camera__header ">
           <div style={{ display: 'flex', alignItems: 'center' }}>
-            <h4>{item?.ip}</h4>
+            <h5 style={{ width: 200 }}>{item?.ip}</h5>
 
-            <h5 style={{ marginLeft: '150px' }}>
+            <h5>
               {item.type == 'camera' ? 'Camera' : 'Thiết bị không xác định'}
             </h5>
           </div>
@@ -132,10 +133,15 @@ const TableCameraScan = (props) => {
 
   return (
     <>
+      <Breadcrumds
+        url="/app/setting"
+        nameParent={t('breadcrumd.setting')}
+        nameChild={t('view.user.scan')}
+      />
       <div
         className="CameraScan"
         style={{
-          marginTop: 40,
+          // marginTop: 40,
           background: '#333333',
           borderRadius: '10px',
           padding: '10px'
@@ -239,7 +245,7 @@ const TableCameraScan = (props) => {
             <Col span={3} style={{ display: 'flex', alignItems: 'flex-end' }}>
               <div className="btn--submit" style={{ height: 40 }}>
                 <Button type="primary" htmlType="submit ">
-                  {loading ? 'Loading...' : t('view.user.detail_list.confirm')}
+                  {loading ? 'Loading...' : t('view.user.detail_list.scan')}
                 </Button>
               </div>
             </Col>
@@ -263,7 +269,7 @@ const TableCameraScan = (props) => {
         />
       )}
 
-      {isEmpty(listCamera) && loaded && (
+      {isEmpty(listCamera) && loaded && !loading && (
         <div
           className="text-center"
           style={{ color: 'white', margin: '20px 0px' }}

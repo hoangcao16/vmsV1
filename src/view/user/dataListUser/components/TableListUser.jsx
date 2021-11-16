@@ -89,8 +89,8 @@ const TableListUser = (props) => {
       page: page,
       size: size,
 
-      searchName: '',
-      unit: ''
+      filter: '',
+      type: ''
     };
     UserApi.getAllUser(data).then((result) => {
       setListUsers(result.payload);
@@ -145,8 +145,8 @@ const TableListUser = (props) => {
       const data = {
         page: page,
         size: size,
-        searchName: value.trim(),
-        unit: unit
+        filter: value.trim(),
+        type: unit
       };
       UserApi.getAllUser(data).then((result) => {
         setListUsers(result.payload);
@@ -169,8 +169,8 @@ const TableListUser = (props) => {
     const data = {
       page: 1,
       size: size,
-      searchName: '',
-      unit: unit
+      filter: '',
+      type: unit
     };
     UserApi.getAllUser(data).then((result) => {
       setListUsers(result.payload);
@@ -195,8 +195,8 @@ const TableListUser = (props) => {
       const data = {
         page: 1,
         size: size,
-        searchName: '',
-        unit: unit
+        filter: '',
+        type: unit
       };
       UserApi.getAllUser(data).then((result) => {
         setListUsers(result.payload);

@@ -30,7 +30,8 @@
 
     .ant-modal-body {
       background-color: $vms-bg-primary;
-      padding: 0 40px 1px 40px;
+      padding: 0 32px 32px 32px !important;
+
       border-radius: 0 0 12px 12px;
 
       .edit-tag-item {
@@ -39,7 +40,7 @@
         &:hover {
             text-decoration: underline;
         }
-    }
+      }
       .btn--confirm {
         text-align: center;
         margin-top: 24px;

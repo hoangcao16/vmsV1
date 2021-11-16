@@ -878,7 +878,7 @@ const Live = (props) => {
       const uuid = uuidV4();
       const createdDate = new Date();
       const createdTime = createdDate.getTime();
-      const violationTime = createdDate.setMilliseconds(0);
+      const violationTime = Math.floor(createdDate.setMilliseconds(0) / 1000);
       let eventFile = {
         id: "",
         uuid: uuid,
