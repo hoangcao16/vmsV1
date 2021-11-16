@@ -391,10 +391,18 @@
       "face": "Face Management",
       "name": "Name",
       "code": "Code",
-      "position": "Position",
-      "department": "Department",
-      "adminUnit": "AdminUnit",
-      "status": "Status"
+      "position" : "Position",
+      "department" : "Department",
+      "adminUnit" : "AdminUnit",
+      "status" : "Status"
+    },
+    "ai_config": {
+      "config": "Event Config Management ",
+      "hurdles_events": "Hurdles Events",
+      "intrusion_detection_events" : "Intrusion Detection Events",
+      "attendance_events" : "Attendance Events",
+      "schedule_config": "Schedule Config",
+      "area_config": "Area onfig"
     }
   },
 
