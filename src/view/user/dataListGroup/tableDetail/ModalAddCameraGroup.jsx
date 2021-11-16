@@ -22,7 +22,6 @@ const ModalAddCameraGroup = (props) => {
     CameraApi.getAllGroupCamera(data).then((result) => {
       let selectedId = props?.checkedGroups;
       const data = result.filter((r) => !selectedId.includes(r.uuid));
-      // console.log('data camera', data)
 
       setCameraGroup(data);
     });
@@ -36,7 +35,6 @@ const ModalAddCameraGroup = (props) => {
     selectedRowKeys,
     onChange: onSelectChange
   };
-  // const hasSelected = selectedRowKeys.length > 0;
 
   const handleSearch = async (value) => {
     setSearch(value);

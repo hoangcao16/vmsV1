@@ -274,7 +274,6 @@ const TableCamera = () => {
   }, [districtId]);
 
   const { provinces, adDivisions, vendors } = filterOptions;
-  // console.log('filterOptions', filterOptions)
 
   const onChangeCity = async (cityId) => {
     setProvinceId(cityId);
@@ -618,7 +617,7 @@ const TableCamera = () => {
               <Form.Item
                 name={['provinceId']}
                 label={t('view.map.province_id')}
-                // rules={[{ required: true, message: 'Trường này bắt buộc' }]}
+              // rules={[{ required: true, message: 'Trường này bắt buộc' }]}
               >
                 <Select
                   allowClear
@@ -670,7 +669,7 @@ const TableCamera = () => {
               <Form.Item
                 label={t('view.map.location')}
                 name={['address']}
-                // rules={[{ required: true, message: 'Trường này bắt buộc' }]}
+              // rules={[{ required: true, message: 'Trường này bắt buộc' }]}
               >
                 <Input
                   placeholder={t('view.map.please_choose_location')}

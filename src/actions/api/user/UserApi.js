@@ -25,7 +25,7 @@ const UserApi = {
 
     try {
       result = await MyService.getRequestData(
-        `/authz/api/v0/permissions`,data
+        `/authz/api/v0/permissions`, data
       );
     } catch (error) {
       console.log(error);
@@ -144,8 +144,6 @@ const UserApi = {
     if (handleErrCodeAuthZ(result) === null) {
       return [];
     }
-    // console.log('payloadpayloadpayloadpayloadpayloadpayload', result.payload)
-    return result.payload;
   },
   getRoleByRoleCode: async (params) => {
     let result;
@@ -294,7 +292,6 @@ const UserApi = {
     } catch (error) {
       console.log(error);
     }
-    console.log('result result', result)
 
     if (!handleErrCodeAuthZ(result)) {
       return false;
@@ -326,8 +323,6 @@ const UserApi = {
     } catch (error) {
       console.log(error);
     }
-
-    console.log('result:', result);
 
     if (handleErrCodeAuthZ(result) === null) {
 
@@ -385,7 +380,6 @@ const UserApi = {
   },
 
   createdUser: async (payload) => {
-    console.log('dataCreate:', payload);
     let result;
 
     try {
@@ -400,7 +394,6 @@ const UserApi = {
     return result?.payload;
   },
   createdGroup: async (payload) => {
-    console.log('dataCreate:', payload);
     let result;
 
     try {
@@ -415,7 +408,6 @@ const UserApi = {
     return result?.payload;
   },
   createdRoles: async (payload) => {
-    console.log('dataCreate:', payload);
     let result;
 
     try {

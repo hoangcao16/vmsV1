@@ -103,7 +103,6 @@ function AddUser(props) {
   };
 
   const handleSubmit = async (value) => {
-    // console.log("value", value)
     const payload = {
       ...value,
       phone: value?.phone?.substring(1),

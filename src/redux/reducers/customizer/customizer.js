@@ -1,7 +1,6 @@
 import themeConfig from '../../../configs/themeConfig';
 
 const customizerReducer = (state = themeConfig, action) => {
-  console.log('action.type:', action.type, action);
   switch (action.type) {
     case 'CHANGE_MODE':
       return { ...state, theme: action.mode };
@@ -20,7 +19,7 @@ const customizerReducer = (state = themeConfig, action) => {
     case 'HIDE_SCROLL_TO_TOP':
       return { ...state, hideScrollToTop: action.value };
     case 'CHANGE_AVATAR':
-      return  { ...state, changeAvatar: action.changeAvatar };
+      return { ...state, changeAvatar: action.changeAvatar };
     default:
       return state;
   }

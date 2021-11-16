@@ -7,7 +7,6 @@ export function filterOption(input, option) {
 }
 
 export function normalizeOptions(labelField, valueField, dataSource) {
-  // console.log('normalizeOptions:',labelField, valueField, dataSource )
   if (dataSource != null) {
     return dataSource
       .sort((a, b) =>

@@ -97,7 +97,6 @@ const convertCleanSettingData = (data) => {
         },
       ],
     };
-    console.log("dataclean:", result);
     return result;
   }
 };
@@ -120,7 +119,6 @@ export default function CleanSetting(props) {
   //call data
   useEffect(() => {
     SettingApi.getDataCleanFile().then(async (data) => {
-      console.log(data);
       let convertedData = await convertCleanSettingData(data?.payload);
       setCleanSettingData(convertedData);
       return;
@@ -147,7 +145,6 @@ export default function CleanSetting(props) {
   const onChangeTimeTypeOne = (value) => {
     //create data
     let configCleanFileNew = cleanSettingData.configCleanFile;
-    console.log("configCleanFileNew1", configCleanFileNew);
     configCleanFileNew[0].timeType = value;
 
     //set clean setting data
@@ -223,7 +220,6 @@ export default function CleanSetting(props) {
   };
 
   const handleSubmit = async () => {
-    console.log(cleanSettingData);
     const payload = cleanSettingData;
     const payloadConverted = {
       autoRemoveFileImportant: payload?.autoRemoveFileImportant,
@@ -279,7 +275,7 @@ export default function CleanSetting(props) {
             onConfirm={handleSubmit}
             className='popconfirm--warning'
 
-            // onConfirm={handleSubmit}
+          // onConfirm={handleSubmit}
           >
             <Button
               className='btn--save'

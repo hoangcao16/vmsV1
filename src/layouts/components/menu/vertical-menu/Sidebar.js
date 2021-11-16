@@ -119,7 +119,6 @@ class Sidebar extends Component {
   };
 
   render() {
-    console.log("render sideber", this.state.activeItem);
     let {
       visibilityState,
       toggleSidebarMenu,

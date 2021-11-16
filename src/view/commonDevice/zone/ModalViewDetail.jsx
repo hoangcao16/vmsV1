@@ -20,7 +20,6 @@ const ModalViewDetail = (props) => {
     ZoneApi.getZoneByUuid(selectedZoneId).then(setSelectedZone);
   }, []);
 
-  console.log('selectedZone:', selectedZone);
   if (isEmpty(selectedZone)) {
     return <Spin />;
   }

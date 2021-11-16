@@ -29,8 +29,6 @@ const LiveMenuTool = (props) => {
                 return
             }
             if (payload) {
-                console.log('presetList', payload)
-
                 setPresetLists(payload.data)
             }
         }
@@ -42,8 +40,6 @@ const LiveMenuTool = (props) => {
                 return
             }
             if (payload) {
-                console.log('presetTourList', payload)
-
                 setPresetTourLists(payload.data)
             }
         }
@@ -283,7 +279,6 @@ const LiveMenuTool = (props) => {
         if (!isEmpty(permissionUser?.p_cameras)) {
             const p_cameras = permissionUser.p_cameras;
             for (const camera of p_cameras) {
-                console.log('camera.cam_uuid', camera)
                 if (idCamera == camera.cam_uuid) {
                     const permissions = camera.permissions;
                     for (const permission of permissions) {

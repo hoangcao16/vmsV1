@@ -126,8 +126,6 @@ const TablePlayback = () => {
     }
   ];
 
-  console.log('listPlayback:', listPlayback);
-
   return (
     <div className="tabs__container--device">
       <div className="search mt-2">

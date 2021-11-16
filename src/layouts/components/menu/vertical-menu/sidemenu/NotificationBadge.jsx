@@ -39,7 +39,6 @@ const NotificationBadge = (props) => {
     <>
       {permissionCheck('warning_message') ? (
         <div>
-          {console.log('bye')}
           <Badge count={props?.messageCount}>
             <Tooltip
               placement="right"

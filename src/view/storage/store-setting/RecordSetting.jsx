@@ -47,7 +47,6 @@ export default function RecordSetting(props) {
   useEffect(() => {
     SettingApi.getRecordingVideo().then(async (data) => {
       let convertData = await convertRecordSetitngData(data?.payload);
-      console.log("record data", data);
       setRecordingVideoData(convertData);
       return;
     });

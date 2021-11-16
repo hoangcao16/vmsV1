@@ -1,11 +1,9 @@
 import ReactHlsPlayer from "react-hls-player";
 import React from "react";
 
-const HlsPlayer = ({playerVideo, playerSrc, duration}) => {
-    // console.log(">>>>> HlsPlayer rendered");
+const HlsPlayer = ({ playerVideo, playerSrc, duration }) => {
     let maxBufferLength = 60;
     if (duration && duration > 0) maxBufferLength = duration;
-    console.log(">>>>> HlsPlayer -> maxBufferLength:", maxBufferLength);
     return (
         <ReactHlsPlayer
             src={playerSrc}
@@ -23,8 +21,6 @@ const HlsPlayer = ({playerVideo, playerSrc, duration}) => {
 }
 
 function hlsPlayerPropsAreEqual(prevHls, nextHls) {
-    // console.log(">>>>> prevHls.playerSrc:", prevHls.playerSrc);
-    // console.log(">>>>> nextHls.playerSrc:", nextHls.playerSrc);
     return prevHls.playerSrc === nextHls.playerSrc;
 }
 

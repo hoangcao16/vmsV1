@@ -336,7 +336,6 @@ function Sidebar(props) {
         fieldId: feildIds,
         eventList: selectedRowKeys
       };
-      console.log('picktimepicktime', data.picktime);
       props.callData(clearData(data));
 
       return;

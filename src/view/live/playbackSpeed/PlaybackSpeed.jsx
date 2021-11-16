@@ -11,25 +11,17 @@ const PlaybackSpeed = (props) => {
     // }, [resetSpeed])
     const handleSpeedUp = () => {
         if (curSpeed * 2 >= MAX_SPEED) {
-            console.log("speed up a", MAX_SPEED)
-            // setSpeed(MAX_SPEED);
             playbackChangeSpeedCallback(MAX_SPEED)
         } else {
-            console.log("speed up b", curSpeed * 2)
-            // setSpeed(speed * 2);
             playbackChangeSpeedCallback(curSpeed * 2)
         }
 
     }
     const handleSpeedDown = () => {
         if (curSpeed / 2 <= MIN_SPEED) {
-            console.log("speed down", MIN_SPEED)
-            // setSpeed(MIN_SPEED);
             playbackChangeSpeedCallback(MIN_SPEED)
 
         } else {
-            console.log("speed down", curSpeed / 2)
-            // setSpeed(curSpeed / 2);
             playbackChangeSpeedCallback(curSpeed / 2)
 
         }

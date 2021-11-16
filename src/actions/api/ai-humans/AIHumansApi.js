@@ -4,22 +4,21 @@ import AIService from '../ai-service';
 const AIHumansApi = {
   getAllHumans: async (params) => {
 
-    console.log('params:',params)
     let result;
 
     try {
       result = await AIService.getRequestData(
         `/api/v1/humans?page=${params?.page}&size=${params?.pageSize}`
       );
-      
+
     } catch (error) {
       console.log(JSON.stringify(error));
     }
-    
+
     if (handleErrCodeAI(result) === null) {
       return [];
     }
-    
+
     console.log(result)
     return result;
   },
@@ -33,8 +32,6 @@ const AIHumansApi = {
     } catch (error) {
       console.log(error);
     }
-    console.log("_________________data_______")
-    console.log(uuid)
     if (handleErrCodeAI(result) === null) {
       return [];
     }
@@ -52,7 +49,6 @@ const AIHumansApi = {
     } catch (error) {
       console.log(error);
     }
-    console.log("result result", result);
     if (handleErrCodeAI(result) === null) {
       return false;
     }
@@ -69,7 +65,6 @@ const AIHumansApi = {
     } catch (error) {
       console.log(error);
     }
-    console.log("result camera edit", result);
 
     if (handleErrCodeAI(result) === null) {
       return false;
@@ -124,9 +119,6 @@ const AIHumansApi = {
       return [];
     }
 
-    console.log(result.payload);
-    console.log(result);
-
     return result.payload;
   },
   getAllMail: async () => {
@@ -139,7 +131,6 @@ const AIHumansApi = {
     } catch (error) {
       console.log(JSON.stringify(error));
     }
-    // console.log('resule all email', result)
 
     if (handleErrCodeAI(result) === null) {
       return [];

@@ -30,7 +30,7 @@ const TableNVR = () => {
         ? (document.title = "CCTV | Modules hệ thống")
         : (document.title = "CCTV | Modules System")
     );
-  },[t]);
+  }, [t]);
 
   useEffect(() => {
     setLoading(true);
@@ -133,7 +133,6 @@ const TableNVR = () => {
     }
   ];
 
-  console.log('listNVR:', listNVR);
 
   return (
     <div className="tabs__container--device">
