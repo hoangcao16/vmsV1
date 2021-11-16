@@ -30,7 +30,7 @@ const TableNVR = () => {
         ? (document.title = "CCTV | Modules hệ thống")
         : (document.title = "CCTV | Modules System")
     );
-  },[t]);
+  }, [t]);
 
   useEffect(() => {
     setLoading(true);
@@ -84,7 +84,6 @@ const TableNVR = () => {
       dataIndex: 'name',
       key: 'name',
       width: '20%',
-      // fixed: 'left',
       className: 'headerColums'
     },
 
@@ -116,7 +115,6 @@ const TableNVR = () => {
     {
       title: `${t('view.common_device.action')}`,
       className: 'headerColums',
-      // fixed: 'right',
       width: '15%',
       render: (text, record) => {
         return (
@@ -135,7 +133,6 @@ const TableNVR = () => {
     }
   ];
 
-  console.log('listNVR:', listNVR);
 
   return (
     <div className="tabs__container--device">
@@ -162,11 +159,7 @@ const TableNVR = () => {
       </div>
       <Card
         title={t('view.common_device.nvr_list')}
-        // extra={
-        //   <Button>
-        //     <PlusOneOutlined />
-        //   </Button>
-        // }
+
         bodyStyle={bodyStyleCard}
         headStyle={headStyleCard}
         className="card--listDevice"

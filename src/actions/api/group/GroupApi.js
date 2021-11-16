@@ -4,23 +4,6 @@ import {
 import MyService from '../service';
 
 const GroupApi = {
-  // getAllGroup: async (data) => {
-  //   let result;
-
-  //   try {
-  //     result = await MyService.getRequestData(
-  //       `/authz/api/v0/groups?filter=${data?.filter}`
-  //     );
-  //   } catch (error) {
-  //     console.log('group error: ' + JSON.stringify(error));
-  //   }
-
-  //   if (responseCheckerErrors(result)) {
-  //     return [];
-  //   }
-
-  //   return result;
-  // },
 
   getAllGroup: async (params) => {
     let result;

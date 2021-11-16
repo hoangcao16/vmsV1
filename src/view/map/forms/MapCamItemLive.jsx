@@ -1,7 +1,7 @@
-import React, {useState, useEffect, useRef} from "react";
-import {Maximize2, Minimize2, X} from "react-feather";
-import {useSelector, useDispatch} from "react-redux";
-import {Row, Spin} from "antd";
+import React, { useState, useEffect, useRef } from "react";
+import { Maximize2, Minimize2, X } from "react-feather";
+import { useSelector, useDispatch } from "react-redux";
+import { Row, Spin } from "antd";
 import _ from 'lodash';
 import "antd/dist/antd.css";
 import "../../../assets/scss/app-icons.scss";
@@ -13,11 +13,11 @@ import {
 import CameraService from "../../../lib/camera";
 import Notification from "../../../components/vms/notification/Notification";
 import CameraPlaybackService from "../../../lib/cameraPlayback";
-import {getListCamLiveSelector} from "../../../redux/selectors/map/camera";
+import { getListCamLiveSelector } from "../../../redux/selectors/map/camera";
 
 const MapCamItemLive = (props) => {
     const dispatch = useDispatch();
-    const {camera, slotId, liveMode, playbackSeekTime} = props;
+    const { camera, slotId, liveMode, playbackSeekTime } = props;
     const [isMaximize, setIsMaximize] = useState(false);
     const [loading, setLoading] = useState(false);
     const currentRef = useRef();
@@ -30,57 +30,43 @@ const MapCamItemLive = (props) => {
 
 
     useEffect(() => {
-            if (!camLive) {
+        if (!camLive) {
+            CameraService.closeCamera(slotId);
+            return;
+        }
+        if (liveMode) {
+            if (camLive && !camLive.isPlay && !camLive.messError) {
+                CameraService.playCameraOnline(camLive, slotId, dispatch)
+            } else if (!camLive) {
                 CameraService.closeCamera(slotId);
-                return;
             }
-            if (liveMode) {
-                if (camLive && !camLive.isPlay && !camLive.messError) {
-                    CameraService.playCameraOnline(camLive, slotId, dispatch).then((r) =>
-                        console.log("play cam:", camLive)
-                    );
-                } else if (!camLive) {
-                    CameraService.closeCamera(slotId);
-                    // if (selectedIds.includes(index)) {
-                    //     dispatch(selectOrDeSelectCamLiveOnMap(index));
-                    // }
+        } else {
+            if (camLive?.first) {
+                if (!playbackSeekTime) {
+                    Notification({
+                        type: 'error',
+                        title: '',
+                        description: 'Chưa chọn thời gian để play'
+                    });
+                    return
                 }
+                // Play from camera list
+                CameraPlaybackService.playbackCameraWithSeekTime(camLive, camLive.name, camLive.uuid, camLive.id, slotId, playbackSeekTime, dispatch)
+                    .then(r => console.log(r))
+                camLive.first = false;
             } else {
-                if (camLive?.first) {
-                    if (!playbackSeekTime) {
-                        Notification({
-                            type: 'error',
-                            title: '',
-                            description: 'Chưa chọn thời gian để play'
-                        });
-                        // dispatch(viewCamIsNotOperation(camLive))
-                        // dispatch(removeCamLiveOnMap(index))
-                        return
-                    }
-                    // Play from camera list
+                if (playbackSeekTime && selectedIds.includes(slotId)) {
                     CameraPlaybackService.playbackCameraWithSeekTime(camLive, camLive.name, camLive.uuid, camLive.id, slotId, playbackSeekTime, dispatch)
                         .then(r => console.log(r))
-                    camLive.first = false;
-                } else {
-                    if (playbackSeekTime && selectedIds.includes(slotId)) {
-                        CameraPlaybackService.playbackCameraWithSeekTime(camLive, camLive.name, camLive.uuid, camLive.id, slotId, playbackSeekTime, dispatch)
-                            .then(r => console.log(r))
-                        return
-                    }
-                    // if (selectedId == -1 && playbackSeekTime) {
-                    //     if (!camLive.isPlay) {
-                    //         CameraPlaybackService.playbackCameraWithSeekTime(camLive.name, camLive.uuid, camLive.id, index, playbackSeekTime, dispatch)
-                    //             .then(r => console.log(r))
-                    //     }
-                    //     return
-                    // }
-                }
-
-                if (!camLive) {
-                    CameraService.closeCamera(slotId);
+                    return
                 }
             }
-        }, [camLive?.first, camLive?.name, liveMode, playbackSeekTime]
+
+            if (!camLive) {
+                CameraService.closeCamera(slotId);
+            }
+        }
+    }, [camLive?.first, camLive?.name, liveMode, playbackSeekTime]
     );
 
     useEffect(() => {
@@ -89,10 +75,8 @@ const MapCamItemLive = (props) => {
             setLoading(true)
         } else {
             if (selectedIds.includes(slotId) && camLive?.isPlay) {
-                console.log('camera.slotid', slotId)
                 currentRef.current.style.border = '1px solid yellow'
             } else {
-                console.log('camera.slotid', slotId)
                 currentRef.current.style.border = ''
 
             }
@@ -109,7 +93,7 @@ const MapCamItemLive = (props) => {
     }
     const closeCamera = (e) => {
         e.stopPropagation();
-        if(camLive.hls){
+        if (camLive.hls) {
             camLive.hls.destroy();
         }
         dispatch(deSelectCamLiveOnMap(slotId))
@@ -132,7 +116,7 @@ const MapCamItemLive = (props) => {
                                 size="small"
                                 onClick={(e) => closeCamera(e)}
                             >
-                                <X className="cam-toolbar__control__item__icon"/>
+                                <X className="cam-toolbar__control__item__icon" />
                             </div>
 
                             <div
@@ -141,10 +125,10 @@ const MapCamItemLive = (props) => {
                                 onClick={() => maxMinCamera()}
                             >
                                 {isMaximize && (
-                                    <Minimize2 className="cam-toolbar__control__item__icon"/>
+                                    <Minimize2 className="cam-toolbar__control__item__icon" />
                                 )}
                                 {!isMaximize && (
-                                    <Maximize2 className="cam-toolbar__control__item__icon"/>
+                                    <Maximize2 className="cam-toolbar__control__item__icon" />
                                 )}
                             </div>
                         </div>
@@ -159,12 +143,12 @@ const MapCamItemLive = (props) => {
                         data-setup="{}"
                     />
                     {camLive && <span className={`map__live-slot-cam map__live-slot-cam-name`}>
-              {camLive?.name}
-          </span>}
+                        {camLive?.name}
+                    </span>}
                     {camLive && camLive.messError &&
-                    <span className="map__live-slot-not-permission map__live-slot-cam">
-              {camLive.messError}
-            </span>
+                        <span className="map__live-slot-not-permission map__live-slot-cam">
+                            {camLive.messError}
+                        </span>
                     }
                 </Spin>
             </div>

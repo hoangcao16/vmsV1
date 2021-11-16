@@ -82,8 +82,6 @@ const ZoneApi = {
   },
 
   editZone: async (zoneId, zonePayload) => {
-    console.log('zoneId:', zoneId);
-    console.log('zonePayload:', zonePayload);
     let result;
 
     try {

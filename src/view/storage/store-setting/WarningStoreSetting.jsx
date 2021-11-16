@@ -64,8 +64,6 @@ const convertWarningDiskData = (data) => {
     autoRemoveFreeSpaceFile:
       data?.autoRemoveFreeSpaceFile || DEFAULT_DATA.autoRemoveFreeSpaceFile
   };
-  console.log('data warning', result);
-
   return result;
 };
 
@@ -89,14 +87,12 @@ const WarningStoreSetting = (props) => {
   //call data
   useEffect(() => {
     SettingApi.getDataWarningDisk().then(async (data) => {
-      console.log('getDataWarningDisk', data)
       let convertedData = await convertWarningDiskData(data?.payload);
       setPercentUsedTwo(convertedData?.percentUsedTwo);
       setPercentUsedOne(convertedData?.percentUsedOne);
       setIsSwitchOneTurnOn(convertedData?.isActiveOne);
       setIsSwitchTwoTurnOn(convertedData?.isActiveTwo);
       setWarningDiskData(convertedData);
-      console.log(convertedData);
       return;
     });
   }, []);
@@ -231,7 +227,6 @@ const WarningStoreSetting = (props) => {
       payload.autoRemoveFreeSpaceFile = false;
       payload.autoRemovePerFile = true
     }
-    console.log('warningDiskData', payload);
     const payloadConverted = {
 
       autoRemoveFreeSpaceFile: payload?.autoRemoveFreeSpaceFile,
@@ -245,8 +240,6 @@ const WarningStoreSetting = (props) => {
         isActiveTwo: payload?.isActiveTwo || false,
       }
     };
-    console.log('payloadConverted', payloadConverted);
-
     //post data
     try {
       const isPost = await SettingApi.postDataWarningDisk(payloadConverted);

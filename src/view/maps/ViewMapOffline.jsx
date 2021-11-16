@@ -51,7 +51,7 @@ const ViewMapOffline = (props) => {
         ? (document.title = "CCTV | Bản đồ")
         : (document.title = "CCTV | Map")
     );
-  },[t]);
+  }, [t]);
   const { addTrackingPoint, onContextMenuCallback, updateTrackingPoint } =
     props;
 
@@ -275,9 +275,7 @@ const ViewMapOffline = (props) => {
   };
 
   const handleAddTrackingPoint = () => {
-    console.log(mapBoxDrawRef.current.getAll())
     mapBoxDrawRef.current.changeMode('draw_circle', { initialRadiusInKm: 1 });
-    // addTrackingPoint(currentLatLngSelector);
     handleRemoveContextMenu();
   };
 
@@ -388,40 +386,40 @@ const ViewMapOffline = (props) => {
   const createMarkerCam = (listCam, markerRef) => {
     if (listCam.length > 0) {
       listCam.forEach((camera, index) => {
-        if(_.inRange(camera.lat_, -90, 90)) {
+        if (_.inRange(camera.lat_, -90, 90)) {
           const el = document.createElement("div");
-        el.className = "map-camera-marker-node";
-        const img = document.createElement("img");
-        img.setAttribute("data-imgCamId", camera.id);
-        img.src = renderCameraIcon(camera);
-        el.appendChild(img);
-        const mapCardNode = document.createElement("div");
-        mapCardNode.className = "map-popup-node  map-camera-popup-node";
-        ReactDOM.render(
-          <CamInfoPopup
-            trans={t}
-            type={TYPE_FORM_ACTION_ON_MAP.cam}
-            editMode={editMode}
-            dataDetailInfo={camera}
-            onClosePopup={handleClosePopup}
-            handleEditInfo={handleEditCam}
-            handlePinCam={handlePinCam}
-          />,
-          mapCardNode
-        );
-        const popup = new mapboxgl.Popup({
-          offset: 15,
-          closeOnClick: false,
-          className: "mapboxql-control-popup",
-        }).setDOMContent(mapCardNode);
-        const marker = new mapboxgl.Marker({element: el, draggable: true})
-          .setLngLat([camera.long_, camera.lat_])
-          .setPopup(popup)
-          .addTo(mapboxRef.current);
-        marker.on('dragend', () => handleDragEndMarker(marker,camera, TYPE_FORM_ACTION_ON_MAP.cam));
-        mapCamMarkersRef.current && mapCamMarkersRef.current.push(marker);
-        markerRef.current && markerRef.current.push(marker);
-        hanldeExposePopup(el, popup, camera);
+          el.className = "map-camera-marker-node";
+          const img = document.createElement("img");
+          img.setAttribute("data-imgCamId", camera.id);
+          img.src = renderCameraIcon(camera);
+          el.appendChild(img);
+          const mapCardNode = document.createElement("div");
+          mapCardNode.className = "map-popup-node  map-camera-popup-node";
+          ReactDOM.render(
+            <CamInfoPopup
+              trans={t}
+              type={TYPE_FORM_ACTION_ON_MAP.cam}
+              editMode={editMode}
+              dataDetailInfo={camera}
+              onClosePopup={handleClosePopup}
+              handleEditInfo={handleEditCam}
+              handlePinCam={handlePinCam}
+            />,
+            mapCardNode
+          );
+          const popup = new mapboxgl.Popup({
+            offset: 15,
+            closeOnClick: false,
+            className: "mapboxql-control-popup",
+          }).setDOMContent(mapCardNode);
+          const marker = new mapboxgl.Marker({ element: el, draggable: true })
+            .setLngLat([camera.long_, camera.lat_])
+            .setPopup(popup)
+            .addTo(mapboxRef.current);
+          marker.on('dragend', () => handleDragEndMarker(marker, camera, TYPE_FORM_ACTION_ON_MAP.cam));
+          mapCamMarkersRef.current && mapCamMarkersRef.current.push(marker);
+          markerRef.current && markerRef.current.push(marker);
+          hanldeExposePopup(el, popup, camera);
         }
       });
     }
@@ -439,58 +437,58 @@ const ViewMapOffline = (props) => {
   };
 
   const handleDragEndMarker = (marker, data, type) => {
-    const lngLat = marker.getLngLat(); 
+    const lngLat = marker.getLngLat();
     const payload = {
       ...data,
       long_: lngLat.lng,
-      lat_ : lngLat.lat
-    }  
-    if(type === TYPE_FORM_ACTION_ON_MAP.ad_unit) {
+      lat_: lngLat.lat
+    }
+    if (type === TYPE_FORM_ACTION_ON_MAP.ad_unit) {
       dispatch(updateAdminisUnitOnMap(payload));
     } else {
       dispatch(updateCameraOnMapByFilter(payload));
-    }      
+    }
   }
 
   const displayMarkerUnitsOnMap = () => {
     if (adminisUnitList.length) {
       adminisUnitList.forEach((unit, index) => {
-        if(_.inRange(unit.lat_, -90, 90)) {
-        const el = document.createElement("div");
-        el.className = "map-unit-marker-node";
-        const img = document.createElement("img");
-        img.setAttribute("data-imgUnitId", unit.id);
-        img.src = rendeAdminisUnitsIcon(unit.src);
-        el.appendChild(img);
-        const mapCardNode = document.createElement("div");
-        mapCardNode.className = "map-popup-node map-unit-popup-node";
-        ReactDOM.render(
-          <CamInfoPopup
-            trans={t}
-            type={TYPE_FORM_ACTION_ON_MAP.ad_unit}
-            editMode={editMode}
-            dataDetailInfo={unit}
-            onClosePopup={handleClosePopup}
-            handleEditInfo={handleEditAdmisUnit}
-          />,
-          mapCardNode
-        );
-        let popup = new mapboxgl.Popup({
-          offset: 10,
-          closeOnClick: false,
-          className: "mapboxql-control-popup",
-        }).setDOMContent(mapCardNode);
-        const marker = new mapboxgl.Marker({element: el, draggable: true})
-          .setLngLat([unit.long_, unit.lat_])
-          .setPopup(popup)
-          .addTo(mapboxRef.current);
-        marker.on('dragend', () => handleDragEndMarker(marker,unit , TYPE_FORM_ACTION_ON_MAP.ad_unit));
-        popup.on("open", (e) => {
-          popupAttachMarkerRef.current = e.target;
-        });
-        mapAdUnitMarkersRef.current && mapAdUnitMarkersRef.current.push(marker);
-        hanldeExposePopup(el, popup);
-      }
+        if (_.inRange(unit.lat_, -90, 90)) {
+          const el = document.createElement("div");
+          el.className = "map-unit-marker-node";
+          const img = document.createElement("img");
+          img.setAttribute("data-imgUnitId", unit.id);
+          img.src = rendeAdminisUnitsIcon(unit.src);
+          el.appendChild(img);
+          const mapCardNode = document.createElement("div");
+          mapCardNode.className = "map-popup-node map-unit-popup-node";
+          ReactDOM.render(
+            <CamInfoPopup
+              trans={t}
+              type={TYPE_FORM_ACTION_ON_MAP.ad_unit}
+              editMode={editMode}
+              dataDetailInfo={unit}
+              onClosePopup={handleClosePopup}
+              handleEditInfo={handleEditAdmisUnit}
+            />,
+            mapCardNode
+          );
+          let popup = new mapboxgl.Popup({
+            offset: 10,
+            closeOnClick: false,
+            className: "mapboxql-control-popup",
+          }).setDOMContent(mapCardNode);
+          const marker = new mapboxgl.Marker({ element: el, draggable: true })
+            .setLngLat([unit.long_, unit.lat_])
+            .setPopup(popup)
+            .addTo(mapboxRef.current);
+          marker.on('dragend', () => handleDragEndMarker(marker, unit, TYPE_FORM_ACTION_ON_MAP.ad_unit));
+          popup.on("open", (e) => {
+            popupAttachMarkerRef.current = e.target;
+          });
+          mapAdUnitMarkersRef.current && mapAdUnitMarkersRef.current.push(marker);
+          hanldeExposePopup(el, popup);
+        }
       });
     }
   };

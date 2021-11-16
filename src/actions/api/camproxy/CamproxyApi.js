@@ -4,7 +4,6 @@ import MyService from '../service';
 
 const CamproxyApi = {
   getAllCamproxy: async (data) => {
-    console.log(data);
     let result;
 
     try {

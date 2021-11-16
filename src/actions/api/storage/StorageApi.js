@@ -131,8 +131,6 @@ const StorageApi = {
       console.log(error);
     }
 
-    console.log('result');
-
     if (responseCheckerErrors(result)) {
       return false;
     }

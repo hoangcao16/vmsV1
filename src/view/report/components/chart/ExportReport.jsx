@@ -55,34 +55,14 @@ export default function ExportReport(props) {
   // const currentDataSource = data;
 
   const exportCsv = async (fields) => {
-    // const eventDataFields = ['name', 'uv', 'pv', 'amt'];
 
     const events = currentDataSource.map((r) => {
-      // Object.keys(r).forEach((key) => {
-      //   // if (eventDataFields.includes(key)) {
-      //   //   r[key] = dayjs(r[key]).utcOffset(7).format('YYYY-MM-DD HH:mm:ss');
-      //   // }
-
-      //   return {
-
-      //   }
-
-      // });
-
-      // // return {
-      // //   ...r
-      // // };
-
       return {
         [r.name]: r.name
       };
     });
 
-    console.log('events:', events);
 
-    console.log('fields:', fields);
-
-    // const parser = new Parser({ fields });
     const parser = new Parser();
     const csvData = parser.parse([
       {
@@ -106,10 +86,6 @@ export default function ExportReport(props) {
         'Tháng 2': 201
       }
     ]);
-
-    console.log('currentDataSource:', currentDataSource);
-
-    console.log('csvData:', csvData);
 
     return;
 

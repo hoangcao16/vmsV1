@@ -36,7 +36,6 @@ import { useTranslation } from 'react-i18next';
 
 const TableFile = (props) => {
   const { t } = useTranslation();
-  console.log(">>>>> TableFile rendered");
   const typeList = [
     {
       id: 0,
@@ -95,13 +94,13 @@ const TableFile = (props) => {
   const renderName = (value) => {
     if (value && value.length > 30) {
       return (
-          <Tooltip title={value}>
+        <Tooltip title={value}>
           <span>
             {value.substr(0, 15) +
-            "..." +
-            value.substr(value.length - 15, value.length - 1)}
+              "..." +
+              value.substr(value.length - 15, value.length - 1)}
           </span>
-          </Tooltip>
+        </Tooltip>
       );
     } else {
       return value;
@@ -364,13 +363,13 @@ const TableFile = (props) => {
 
   const getAllCamera = (cameraGroupUuid) => {
     if (cameraGroupUuid === '') {
-      cameraApi.getAll({'page': 0, 'size': 1000000, 'sort_by': 'name', 'order_by': 'asc'}).then((data) => {
+      cameraApi.getAll({ 'page': 0, 'size': 1000000, 'sort_by': 'name', 'order_by': 'asc' }).then((data) => {
         if (data && data.payload) {
           setCameraList(data.payload);
         }
       });
-    }else{
-      cameraApi.getAll({'page': 0, 'size': 1000000, 'sort_by': 'name', 'order_by': 'asc', 'cameraGroupUuid': cameraGroupUuid}).then((data) => {
+    } else {
+      cameraApi.getAll({ 'page': 0, 'size': 1000000, 'sort_by': 'name', 'order_by': 'asc', 'cameraGroupUuid': cameraGroupUuid }).then((data) => {
         if (data && data.payload) {
           setCameraList(data.payload);
         }
@@ -380,13 +379,13 @@ const TableFile = (props) => {
 
   useEffect(() => {
     AddressApi.getAllProvinces().then(setProvinceList);
-    adDivisionApi.getAll({'page': 0, 'size': 1000000, 'sort_by': 'name', 'order_by': 'asc'}).then((data) => {
+    adDivisionApi.getAll({ 'page': 0, 'size': 1000000, 'sort_by': 'name', 'order_by': 'asc' }).then((data) => {
       if (data && data.payload) {
         setAdminUnitList(data.payload);
       }
     });
     getAllCamera('');
-    cameraGroupApi.getAll({'parent': 'all', 'page': 0, 'size': 1000000, 'sort_by': 'name', 'order_by': 'asc'}).then((data) => {
+    cameraGroupApi.getAll({ 'parent': 'all', 'page': 0, 'size': 1000000, 'sort_by': 'name', 'order_by': 'asc' }).then((data) => {
       if (data && data.payload) {
         setCameraGroupList(data.payload);
       }
@@ -558,8 +557,6 @@ const TableFile = (props) => {
       moment.set("minute", 0);
       moment.set("second", 0);
       moment.set("millisecond", 1);
-      //console.log("onChangeStartDate", moment.format('x'));
-      //console.log("onChangeStartDate", moment.unix());
       const dataParam = Object.assign({
         ...searchParam,
         startRecordTime: +moment.unix(),
@@ -608,8 +605,8 @@ const TableFile = (props) => {
                     onClick={() => props.onClickRow(value)}
                   >
                     <img className='imageFile'
-                         src={"data:image/jpeg;base64," + (value.thumbnailData && value.thumbnailData.length > 0 ? value.thumbnailData[0] : "")}
-                         alt={(value.thumbnailData && value.thumbnailData.length > 0 ? value.name : "")}
+                      src={"data:image/jpeg;base64," + (value.thumbnailData && value.thumbnailData.length > 0 ? value.thumbnailData[0] : "")}
+                      alt={(value.thumbnailData && value.thumbnailData.length > 0 ? value.name : "")}
                     />
                     {value && value.name && value.name.length > 30 ? (
                       <Tooltip title={value.name}>
@@ -715,8 +712,8 @@ const TableFile = (props) => {
                       <ul>
                         <li className='cameraName'>
                           {value &&
-                          value.cameraName &&
-                          value.cameraName.length > 24 ? (
+                            value.cameraName &&
+                            value.cameraName.length > 24 ? (
                             <Tooltip title={value.cameraName}>
                               <span>
                                 {value.cameraName.substr(0, 10) +
@@ -830,13 +827,13 @@ const TableFile = (props) => {
                 <div >
                   <Form.Item name={["quickSearch"]} className='search__bar'>
                     <AutoComplete
-                        onSearch={debounce(onQuickSearchHandler, 1500)}
-                        placeholder={
-                          <>
-                            <SearchOutlined />
-                            <span className='placeholder__text'>{t('view.map.search')}</span>
-                          </>
-                        }
+                      onSearch={debounce(onQuickSearchHandler, 1500)}
+                      placeholder={
+                        <>
+                          <SearchOutlined />
+                          <span className='placeholder__text'>{t('view.map.search')}</span>
+                        </>
+                      }
                     />
                   </Form.Item>
                 </div>
@@ -905,7 +902,7 @@ const TableFile = (props) => {
               <Col span={8}>
                 <Form.Item name={["administrativeUnitUuid"]}>
                   <Select
-                  showSearch
+                    showSearch
                     allowClear
                     onChange={(id) => onChangeUnit(id)}
                     filterOption={filterOption}
@@ -916,31 +913,31 @@ const TableFile = (props) => {
               </Col>
             </Row>
             <Row
-                gutter={24}
-                className='itemRow'
-                style={!useAdvanceSearch ? { display: "none" } : {}}
+              gutter={24}
+              className='itemRow'
+              style={!useAdvanceSearch ? { display: "none" } : {}}
             >
               <Col span={12}>
                 <Form.Item name={["cameraGroupUuid"]}>
                   <Select
-                      allowClear
-                      showSearch
-                      onChange={(uuid) => onChangeCameraGroup(uuid)}
-                      filterOption={filterOption}
-                      options={normalizeOptions("name", "uuid", cameraGroupList)}
-                      placeholder='Nhóm Camera'
+                    allowClear
+                    showSearch
+                    onChange={(uuid) => onChangeCameraGroup(uuid)}
+                    filterOption={filterOption}
+                    options={normalizeOptions("name", "uuid", cameraGroupList)}
+                    placeholder='Nhóm Camera'
                   />
                 </Form.Item>
               </Col>
               <Col span={12}>
                 <Form.Item name={["cameraUuid"]}>
                   <Select
-                      allowClear
-                      showSearch
-                      onChange={(uuid) => onChangeCamera(uuid)}
-                      filterOption={filterOption}
-                      options={normalizeOptions("name", "uuid", cameraList)}
-                      placeholder='Camera'
+                    allowClear
+                    showSearch
+                    onChange={(uuid) => onChangeCamera(uuid)}
+                    filterOption={filterOption}
+                    options={normalizeOptions("name", "uuid", cameraList)}
+                    placeholder='Camera'
                   />
                 </Form.Item>
               </Col>
@@ -953,18 +950,18 @@ const TableFile = (props) => {
               <Col span={8}>
                 <Form.Item name={["startDate"]}>
                   <DatePicker
-                      onChange={onChangeStartDate}
-                      placeholder={t('view.storage.from_date')}
-                      style={{ width: "100%" }}
+                    onChange={onChangeStartDate}
+                    placeholder={t('view.storage.from_date')}
+                    style={{ width: "100%" }}
                   />
                 </Form.Item>
               </Col>
               <Col span={8}>
                 <Form.Item name={["endDate"]}>
                   <DatePicker
-                      onChange={onChangeEndDate}
-                      placeholder={t('view.storage.to_date')}
-                      style={{ width: "100%" }}
+                    onChange={onChangeEndDate}
+                    placeholder={t('view.storage.to_date')}
+                    style={{ width: "100%" }}
                   />
                 </Form.Item>
               </Col>
@@ -1014,7 +1011,7 @@ const TableFile = (props) => {
                       }}
                     />
                   </div>
-                </Tooltip> 
+                </Tooltip>
                 <Tooltip placement="bottom" title={t('view.map.btn_apply')}>
                   <div className='search'>
                     <FiSearch
@@ -1056,9 +1053,9 @@ const TableFile = (props) => {
 
 function tableFilePropsAreEqual(prevTableFile, nextTableFile) {
   return _.isEqual(prevTableFile.isTableView, nextTableFile.isTableView)
-      && _.isEqual(prevTableFile.viewFileType, nextTableFile.viewFileType)
-      && _.isEqual(prevTableFile.listFiles, nextTableFile.listFiles)
-      && _.isEqual(prevTableFile.total, nextTableFile.total);
+    && _.isEqual(prevTableFile.viewFileType, nextTableFile.viewFileType)
+    && _.isEqual(prevTableFile.listFiles, nextTableFile.listFiles)
+    && _.isEqual(prevTableFile.total, nextTableFile.total);
 }
 
 export const MemoizedTableFile = React.memo(TableFile, tableFilePropsAreEqual);

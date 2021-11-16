@@ -22,21 +22,15 @@ const PlaybackMenuTool = ({
     const [seekToTime, setSeekToTime] = useState(null);
     const [needToPlayImmediately, setNeedToPlayImmediately] = useState(false)
     const onDateChange = (date, dateString) => {
-        console.log('onDateChangedate:', date);
-        console.log('onDateChangedatedfdsf', dateString)
         let now = isEmpty(dateString) ? null : moment(dateString)
         setSeekToDate(isEmpty(now) ? null : moment(now, 'YYYY-MM-DD'))
         setSeekToTime(null)
     }
     const onTimeChange = (time, timeString) => {
-        console.log('onTimeChange:', time, timeString);
         setSeekToTime(isEmpty(timeString) ? null : moment(timeString, 'HH:mm:ss'))
         if (seekToDate) {
             setNeedToPlayImmediately(true)
-            //play
-            console.log('onTimeChange:seekToDate', seekToDate.format('YYYY-MM-DD'));
             const seekDateTime = moment(seekToDate.format('YYYY-MM-DD').toString() + "T" + timeString).unix()
-            console.log('onTimeChange:seekDateTime', seekDateTime)
             playbackCameraSeekTimeCallback(seekDateTime)
         }
     }

@@ -128,7 +128,6 @@ const Preset = (props) => {
     }
     //call api get all preset
     useEffect(() => {
-        console.log('useEffect:callPresetAgain:', callPresetTourAgain)
         let params = {
             cameraUuid: idCamera,
         };
@@ -137,7 +136,6 @@ const Preset = (props) => {
 
     //call api get call preset tour
     useEffect(() => {
-        console.log('useEffect:callPresetTourAgain:', callPresetTourAgain)
         let params = {
             cameraUuid: idCamera,
         };
@@ -146,7 +144,6 @@ const Preset = (props) => {
 
     //cho viec them preset tour
     useEffect(() => {
-        console.log('useEffect:presetTourDatas:', presetTourDatas.length)
         if (isAddNewPresetTour) {
             setIndexPresetTourChoosed(presetTourDatas.length - 1);
             setIsAddNewPresetTour(false);
@@ -161,9 +158,6 @@ const Preset = (props) => {
         console.log('useEffect:rowsPreset:', rowsPreset.length)
         if (isDeletePreset) {
             const valueSelect = document.getElementById("choose__preset-tour").value;
-            console.log('after check')
-            console.log('after isPresetLastDeleted', isPresetLastDeleted)
-            console.log('after preset tour data', presetTourDatas)
 
             if (valueSelect === "" || valueSelect === "none") {
                 setIsDeletePreset(false);
@@ -171,8 +165,6 @@ const Preset = (props) => {
             }
 
             if (isPresetLastDeleted) {
-                console.log('after preset tour data', presetTourDatas)
-                // if(indexPresetTourChoosed === presetTourDatas.length)
                 document.getElementById('choose__preset-tour').value = ''
                 document.getElementById('name__preset-tour').value = ''
                 setVisiblePresetInPresetTour(false)
@@ -201,7 +193,6 @@ const Preset = (props) => {
     //begin: selection
     const rowSelection = {
         onChange: (selectedRowKeys, selectedRows) => {
-            console.log("selecttion row", selectedRows);
             setSelectedPreset(selectedRows);
         },
         getCheckboxProps: (record) => ({
@@ -241,7 +232,6 @@ const Preset = (props) => {
                     return
                 }
                 setPresetTourDatas(datas);
-                console.log("thay doi thu tu preset thanh cong");
                 const warnNotyfi = {
                     type: NOTYFY_TYPE.success,
                     title: "Thành công",
@@ -271,16 +261,11 @@ const Preset = (props) => {
         />
     );
     const DraggableBodyRow = ({ className, style, ...restProps }) => {
-        // function findIndex base on Table rowKey props and should always be a right array index
-        // console.log(
-        //   "presetTourDatas[indexPresetTourChoosed].listPoint",
-        //   presetTourDatas[indexPresetTourChoosed].listPoint
-        // );
+
         const index = presetTourDatas[indexPresetTourChoosed]?.listPoint.findIndex(
             (x) => x.index === restProps["data-row-key"]
         );
         return <SortableItem index={index} {...restProps} />;
-        // return <SortableItem {...restProps} />;
     };
     //end: for sort
 
@@ -317,7 +302,6 @@ const Preset = (props) => {
                 cell.autoplay = true;
                 cell.controls = false;
                 cell.style = "width:100%;height:100%;display:block;object-fit:cover;";
-                console.log("binding cell", cell, event.streams);
                 spin.style.display = "none";
             }
 
@@ -341,13 +325,10 @@ const Preset = (props) => {
                         offer: offer,
                     })
                     .then((res) => {
-                        console.log("res:", res);
                         if (res) {
                             pc.setRemoteDescription(res).then((r) => {
-                                console.log("set remote description", r);
                             });
                         } else {
-                            console.log("get response failed", res);
                             spin.style.display = "none";
                             Notification({
                                 type: NOTYFY_TYPE.warning,
@@ -391,9 +372,6 @@ const Preset = (props) => {
     };
 
     const onPanLeftEnd = async () => {
-        // setIsActionStart(false)
-
-        console.log('isActionIsStart', isActionIsStart)
         const payload = {
             cameraUuid: idCamera,
             direction: "left",
@@ -404,8 +382,6 @@ const Preset = (props) => {
             if (isActionIsStart) {
                 const isPost = await ptzControllerApi.postPan(payload);
                 setIsActionStart(false)
-
-
             }
         } catch (error) {
             console.log(error);
@@ -572,60 +548,11 @@ const Preset = (props) => {
     };
 
 
-    // var lastPress = 0;
-    // console.log('document', document)
-    // document.onkeydown = (e) => {
-    //     var now = Date.now();
-    //     if (now - lastPress < 700) {
-    //         lastPress = now
-    //         return;
-    //     }
-    //     lastPress = now
-    //     switch (e.keyCode) {
-    //         case 37:
-    //             onPanLeftStart()
-    //             break
-    //         case 38:
-    //             onTiltUpStart()
-    //             break
-    //         case 39:
-    //             onPanRightStart()
-    //             break
-    //         case 40:
-    //             onTiltDownStart()
-    //             break
-    //     }
-
-    // }
-
-
-    // document.onkeyup = (e) => {
-    //     switch (e.keyCode) {
-    //         case 37:
-    //             onPanLeftEnd()
-    //             break
-    //         case 38:
-    //             onTiltUpEnd()
-    //             break
-    //         case 39:
-    //             onPanRightEnd()
-    //             break
-    //         case 40:
-    //             onTiltDownEnd()
-    //             break
-    //     }
-
-    // }
-
-
     const handleDeletePreset = async (record) => {
-        console.log("call api delete preset thanh cong");
         const currRowsPreset = JSON.parse(JSON.stringify(rowsPreset));
         const newRowsPreset = currRowsPreset.filter(
             (item) => item.key !== record.key
         );
-        console.log("delete preset data", newRowsPreset);
-        console.log('curr preset', rowsPreset)
 
         //begin: check preset tour hien tai co phan tu bi xoa hay ko, va phan tu do co la phan tu duy nhat cua preset tour khong
         const curPresetTourDatas = JSON.parse(JSON.stringify(presetTourDatas));
@@ -635,7 +562,6 @@ const Preset = (props) => {
         // false: nguoc lai
         let check = true;
         let idPresetFirstElement = listPoint[0].idPreset;
-        console.log('idPresetFirstElement', idPresetFirstElement)
         for (let item of listPoint) {
             if (
                 item.idPreset !== idPresetFirstElement ||
@@ -746,7 +672,6 @@ const Preset = (props) => {
                 document.getElementById("name__preset-tour").value =
                     "new preset tour";
 
-                console.log("add preset vao preset tour thanh cong");
                 const warnNotyfi = {
                     type: NOTYFY_TYPE.success,
                     title: "Thành công",
@@ -784,7 +709,6 @@ const Preset = (props) => {
                 };
             });
             newPresetTourDatas[indexPresetTourChoosed].listPoint = convertListPoint;
-            console.log("new Preset Tour Datas", newPresetTourDatas);
 
             const body = {
                 cameraUuid: idCamera,
@@ -798,7 +722,6 @@ const Preset = (props) => {
                     return
                 }
                 setPresetTourDatas(newPresetTourDatas);
-                console.log("add preset vao preset tour thanh cong");
                 const warnNotyfi = {
                     type: NOTYFY_TYPE.success,
                     title: "Thành công",
@@ -824,7 +747,6 @@ const Preset = (props) => {
         const value = document.getElementById(
             `input-name-preset-${record.idPreset}`
         ).value;
-        console.log("value name", value);
         if (value.length >= 100) {
             //validate
             const warnNotyfi = {
@@ -834,7 +756,6 @@ const Preset = (props) => {
                 duration: 2,
             };
             Notification(warnNotyfi);
-            console.log("lỗi đổi tên");
         } else {
             const body = {
                 cameraUuid: idCamera,
@@ -846,7 +767,6 @@ const Preset = (props) => {
                 if (pload == null) {
                     return
                 }
-                console.log("call api rename thanh cong");
                 document.getElementById(
                     `rename__preset-${record.idPreset}`
                 ).style.display = "none";
@@ -1003,7 +923,6 @@ const Preset = (props) => {
         );
 
         const newDatas = convertPresetTourDatas(newPresetTourDatas);
-        console.log("new preset tour datas", newDatas);
 
         const body = {
             cameraUuid: idCamera,
@@ -1017,7 +936,6 @@ const Preset = (props) => {
                 return
             }
             setPresetTourDatas(newDatas);
-            console.log("Thay doi thoi gian delay thanh cong");
             const warnNotyfi = {
                 type: NOTYFY_TYPE.success,
                 title: "Thành công",
@@ -1038,7 +956,6 @@ const Preset = (props) => {
                 item.idPresetTour !==
                 presetTourDatas[indexPresetTourChoosed].idPresetTour
         );
-        console.log("newdeletedata", newPresetTourDatas);
 
         const body = {
             cameraUuid: idCamera,
@@ -1071,7 +988,6 @@ const Preset = (props) => {
     };
 
     const handleFocusInputNamePreset = (record) => {
-        console.log("hello");
         document.getElementById(`rename__preset-${record.idPreset}`).style.display =
             "flex";
     };
@@ -1107,7 +1023,6 @@ const Preset = (props) => {
                             <CheckOutlined
                                 id={`confirm-done-icon-rename-${record.idPreset}`}
                                 onClick={(e) => {
-                                    // console.log("click check");
                                     e.stopPropagation();
                                     handleDoneRenamePreset(e, record);
                                 }}
@@ -1205,7 +1120,6 @@ const Preset = (props) => {
 
     const presetTourSelect = [];
     for (let item of presetTourDatas) {
-        console.log("select", item);
         presetTourSelect.push(<option value={item.index}>{item.name}</option>);
     }
     return (

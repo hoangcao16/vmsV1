@@ -40,11 +40,9 @@ export default class PlaybackService {
       error => {
         const { config, response } = error
         const originalRequest = config
-        console.log('tuanpa:response:', response, error)
         // if (status === 401) {
         if (response && response.status === 403) {
           if (!this.isAlreadyFetchingAccessToken) {
-            console.log('here')
             this.isAlreadyFetchingAccessToken = true
             this.refreshToken().then(r => {
               this.isAlreadyFetchingAccessToken = false

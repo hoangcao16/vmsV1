@@ -12,15 +12,15 @@ const notifyMess = {
   description: "Bạn đã thêm thành công Camera",
 };
 class CameraService {
-  constructor() {}
+  constructor() { }
 
   closeCamera = (itemId) => {
     const cell = document.getElementById("video-slot-" + itemId);
-    if(document.querySelector(`#cam-loading-${itemId}`)) {
-        document.querySelector(`#cam-loading-${itemId}`).style.display = 'block';
+    if (document.querySelector(`#cam-loading-${itemId}`)) {
+      document.querySelector(`#cam-loading-${itemId}`).style.display = 'block';
     }
     if (document.querySelector(`#icon-pin-cam-${itemId}`)) {
-        document.querySelector(`#icon-pin-cam-${itemId}`).style.display = 'none';
+      document.querySelector(`#icon-pin-cam-${itemId}`).style.display = 'none';
     }
     if (cell) {
       cell.srcObject = null;
@@ -46,7 +46,6 @@ class CameraService {
       const pc = new RTCPeerConnection();
       pc.addTransceiver("video");
       pc.oniceconnectionstatechange = () => {
-        console.log("oniceconnectionstatechange:");
       };
       // const spin = document.getElementById('spin-slot-' + slotIdx)
       pc.ontrack = (event) => {
@@ -61,15 +60,15 @@ class CameraService {
           cell.style = "width:100%;height:100%;display:block;object-fit:fill;";
         }
         const camLoadingElm = document.querySelector(`#cam-loading-${cam.uuid}`);
-        if(camLoadingElm) {
-            camLoadingElm.style.display = 'none';
-        } 
+        if (camLoadingElm) {
+          camLoadingElm.style.display = 'none';
+        }
         const iconPinCamElm = document.querySelector(`#icon-pin-cam-${cam.uuid}`);
-        if(iconPinCamElm) {
-            iconPinCamElm.style.display = 'inline-block';
-        } 
+        if (iconPinCamElm) {
+          iconPinCamElm.style.display = 'inline-block';
+        }
         // spin.style.display = 'none'
-        return {status: 'success'}
+        return { status: 'success' }
       };
       const token = "123";
 
@@ -79,7 +78,6 @@ class CameraService {
       }).then((offer) => {
         // spin.style.display = 'block'
         pc.setLocalDescription(offer).then((r) => {
-          console.log("set local description", r);
         });
         //call api
         playCamApi
@@ -89,14 +87,10 @@ class CameraService {
             offer: offer,
           })
           .then((res) => {
-            console.log("res:", res);
             if (res) {
               pc.setRemoteDescription(res).then((r) => {
-                console.log("set remote description", r);
               });
             } else {
-              console.log("get response failed", res);
-              // spin.style.display = 'none'
               notifyMess.description = "Nhận offer từ server bị lỗi";
               Notification(notifyMess);
               dispatch && dispatch(viewCamIsNotPermission(cam));
@@ -108,16 +102,16 @@ class CameraService {
       console.log("error:", error);
       dispatch && dispatch(viewCamIsNotPermission(cam));
       const camLoadingElm = document.querySelector(`#cam-loading-${cam.uuid}`);
-        if(camLoadingElm) {
-            setTimeout(() => {
-            camLoadingElm.style.display = 'none';
+      if (camLoadingElm) {
+        setTimeout(() => {
+          camLoadingElm.style.display = 'none';
         }, 1000)
-        } 
-        const iconPinCamElm = document.querySelector(`#icon-pin-cam-${cam.uuid}`);
-        if(iconPinCamElm) {
-            iconPinCamElm.style.display = 'none';
-        } 
-      return {error};
+      }
+      const iconPinCamElm = document.querySelector(`#icon-pin-cam-${cam.uuid}`);
+      if (iconPinCamElm) {
+        iconPinCamElm.style.display = 'none';
+      }
+      return { error };
     }
   }
 }

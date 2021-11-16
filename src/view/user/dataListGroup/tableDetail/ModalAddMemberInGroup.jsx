@@ -52,7 +52,7 @@ const ModalAddMemberInGroup = (props) => {
     selectedRowKeys,
     onChange: onSelectChange
   };
-  const hasSelected = selectedRowKeys.length - props.checkedGroup.length > 0;
+  // const hasSelected = selectedRowKeys.length - props.checkedGroup.length > 0;
 
   const handleSearch = async (value) => {
     setSearch(value);
@@ -119,7 +119,7 @@ const ModalAddMemberInGroup = (props) => {
             }
           />
         </div>
-        <div
+        {/* <div
           style={{
             marginRight: 20,
             marginBottom: 20,
@@ -133,7 +133,7 @@ const ModalAddMemberInGroup = (props) => {
                 selectedRowKeys.length - props.checkedGroup.length
               } ${t('view.storage.record')}`
             : ''}
-        </div>
+        </div> */}
       </>
     );
   };

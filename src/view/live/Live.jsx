@@ -84,7 +84,6 @@ const Live = (props) => {
     // get default screen and apply it to grid
     fetchDefaultScreen();
     const refreshTokenTimer = setInterval(() => {
-      console.log("refresh token ===>");
       tokenApi.refreshToken();
     }, 1 * 60 * 60 * 1000); // 1 hour
 
@@ -122,7 +121,7 @@ const Live = (props) => {
     }
 
     try {
-      const resData = await cameraApi.searchsWithUuids({
+      const resData = await cameraApi.searchCamerasWithUuids({
         uuids: defaultScreen.cameraUuids,
       });
       if (resData && resData.payload) {
@@ -168,7 +167,6 @@ const Live = (props) => {
   const fetchDefaultScreen = async () => {
     try {
       const data = await bookmarkApi.getDefault();
-      console.log("fetchDefaultScreen:", data);
       if (data && data.payload && data.payload.length >= 1) {
         const defaultScreen = data.payload[0];
         // Get all cam info of each slot from a screen
@@ -240,7 +238,6 @@ const Live = (props) => {
     const pc = new RTCPeerConnection();
     pc.addTransceiver("video");
     pc.oniceconnectionstatechange = () => {
-      console.log("oniceconnectionstatechange:");
     };
     const spin = document.getElementById("spin-slot-" + slotIdx);
     pc.ontrack = (event) => {
@@ -251,8 +248,6 @@ const Live = (props) => {
         cell.autoplay = true;
         cell.controls = false;
         cell.style = "width:100%;height:100%;display:block;object-fit:fill;";
-        console.log("binding cell", cell, event.streams);
-        console.log("addedCams:", addedCameras);
         spin.style.display = "none";
       }
     };
@@ -265,7 +260,6 @@ const Live = (props) => {
       .then((offer) => {
         spin.style.display = "block";
         pc.setLocalDescription(offer).then((r) => {
-          console.log("set local description", r);
         });
         //call camproxy
         playCamApi
@@ -275,13 +269,10 @@ const Live = (props) => {
             offer: offer,
           })
           .then((res) => {
-            console.log("res:", res);
             if (res) {
               pc.setRemoteDescription(res).then((r) => {
-                console.log("set remote description", r);
               });
             } else {
-              console.log("get response failed", res);
               spin.style.display = "none";
               Notification({
                 type: "warning",
@@ -307,7 +298,6 @@ const Live = (props) => {
       originSlotId,
       SEEK_CURRENT_TIME
     );
-    console.log("addedCams:", addedCameras);
   };
 
   /**
@@ -397,7 +387,6 @@ const Live = (props) => {
         } else if (Hls.isSupported()) {
           let tmp = [...addedCameras];
           if (tmp[slotIdx] && tmp[slotIdx].hls) {
-            console.log("destroy");
             tmp[slotIdx].hls.destroy();
           } else {
             tmp[slotIdx] = {
@@ -418,47 +407,25 @@ const Live = (props) => {
           tmp[slotIdx].hls.loadSource(videoSrc);
           tmp[slotIdx].hls.attachMedia(video);
           tmp[slotIdx].hls.on(
-            Hls.Events.MANIFEST_PARSED,
-            function (event, data) {
-              console.log(
-                "manifest loaded, found " +
-                data.levels.length +
-                " quality level"
-              );
-            }
+            Hls.Events.MANIFEST_PARSED
+
           );
           tmp[slotIdx].hls.on(
-            Hls.Events.MEDIA_ATTACHED,
-            function (event, data) {
-              console.log(
-                "media attched loaded, found " +
-                data.levels.length +
-                " quality level"
-              );
-            }
+            Hls.Events.MEDIA_ATTACHED
           );
           tmp[slotIdx].hls.on(Hls.Events.ERROR, function (event, data) {
             if (data.fatal) {
               switch (data.type) {
                 case Hls.ErrorTypes.NETWORK_ERROR:
                   // try to recover network error
-                  console.log(
-                    "===> fatal network error encountered, try to recover",
-                    event,
-                    data
-                  );
+
                   tmp[slotIdx].hls.startLoad();
                   break;
                 case Hls.ErrorTypes.MEDIA_ERROR:
-                  console.log(
-                    "==> fatal media error encountered, try to recover",
-                    event,
-                    data
-                  );
+
                   tmp[slotIdx].hls.recoverMediaError();
                   break;
                 default:
-                  console.log("faltal error ==>", event, data);
                   tmp[slotIdx].hls.destroy();
                   break;
               }
@@ -470,7 +437,6 @@ const Live = (props) => {
           video.style = "width:100%;height:100%;display:block;object-fit:fill;";
           video.style.display = "block";
           video.play();
-          console.log("binding cell:", videoCellName, video);
           setResetSpeed(!resetSpeed);
           setCurrentPlaybackTime(seekTime);
           setAddedCameras(tmp);
@@ -506,7 +472,6 @@ const Live = (props) => {
         };
       }
       const data = await cameraApi.getAll(filter);
-      console.log("fetchCameras:", data);
       if (data && data.payload) {
         setCameras(data.payload);
         setTotalCameras(data.metadata.total);
@@ -550,7 +515,6 @@ const Live = (props) => {
    * 2 thuộc tính sourceIndex và destinationIndex
    */
   const move = (source, destination, draggableId) => {
-    console.log("source1:", source, destination, draggableId, addedCameras);
     const result = [...addedCameras];
     const sourceIndex = draggableId.replace("draggable-video-", "");
     const destinationIndex = destination.droppableId.replace("droppable-", "");
@@ -612,7 +576,6 @@ const Live = (props) => {
       };
       setIdCurrCameraSelected(result[des?.id]?.camUuid);
 
-      console.log("result:", result);
       switch (liveMode) {
         case true:
           liveCamera(camInfoArr[0], camInfoArr[2], des.id).then();
@@ -628,13 +591,9 @@ const Live = (props) => {
           break;
       }
     } else if (source.droppableId !== destination.droppableId) {
-      console.log("move:", source, destination, draggableId, addedCameras);
       const result = move(source, destination, draggableId);
-      console.log("result:", result);
       setAddedCameras(result);
     }
-    console.log("addedCams:", addedCameras);
-    console.log("drag end", draggableId);
   };
 
   // CONTROL CAMERA
@@ -646,7 +605,6 @@ const Live = (props) => {
     const tmp = initialDataGrid;
     let rowHeightClass;
     let videoColumnClass;
-    console.log("currentGridSize:", currentGridSize);
     switch (currentGridSize) {
       case 1:
         rowHeightClass = "h-100";
@@ -738,7 +696,7 @@ const Live = (props) => {
         setAddedCameras([...cameras]);
       }
     } catch (e) {
-      console.log(">>>> error");
+      console.log(e)
     }
   };
   const stopCaptureCamera = async (
@@ -793,9 +751,6 @@ const Live = (props) => {
       const video = document.getElementById(videoCellName);
       const playbackTimeInSecond = Math.floor(video.currentTime);
       const recordTimeInSecond = Math.ceil((stopTime - startTime) / 1000);
-
-      console.log(">>>>> playbackTimeInSecond: ", playbackTimeInSecond);
-      console.log(">>>>> recordTimeInSecond: ", recordTimeInSecond);
 
       const startT = currentPlaybackTime + playbackTimeInSecond;
       const stopT = startT + recordTimeInSecond;
@@ -1104,7 +1059,6 @@ const Live = (props) => {
       gridType: gridType,
       name: bookMarkName,
     };
-    console.log("record:", record);
     try {
       const response = await bookmarkApi.createNew(record);
       if (response && response.payload) {
@@ -1130,7 +1084,6 @@ const Live = (props) => {
 
   const handleBookmarkOk = (selectedItem) => {
     try {
-      console.log("handleBookmarkOk:", selectedItem);
       setIsModalBookmarkVisible(false);
       let cams = [];
       if (selectedItem && selectedItem.cameraUuids) {
@@ -1204,16 +1157,7 @@ const Live = (props) => {
     const cell = document.getElementById("video-slot-" + cam.id);
     cell.style.border = "1px solid yellow";
     currentSelectSlotRef.current = cam.id;
-    console.log("test cammmmm", addedCameras[slotIdx].camUuid);
     setIdCurrCameraSelected(addedCameras[slotIdx].camUuid);
-    console.log(
-      "onSelectVideoSlot:originSlotId:",
-      originSlotId,
-      slotIdx,
-      currentSelectSlotRef.current,
-      prevSelectedSlotRef.current,
-      addedCameras
-    );
   };
 
   const playbackCameraSeekTypeCallback = (seekType) => {
@@ -1300,10 +1244,8 @@ const Live = (props) => {
       const slotIdx = findCameraIndexInGrid(currentSelectSlotRef.current);
       const selectedCam = addedCameras[slotIdx];
       const cell = document.getElementById("video-slot-" + selectedCam.id);
-      console.log('cell fasf', cell)
       cell.playbackRate = speed;
       setCurSpeed(speed)
-      console.log('cell', cell.playbackRate)
 
     } else {
       Notification({
@@ -1318,7 +1260,6 @@ const Live = (props) => {
     return (
       <div
         className="video-toolbar"
-        onClick={(e) => console.log(e)}
         id={"draggable-video-" + originSlotId}
       >
         <div

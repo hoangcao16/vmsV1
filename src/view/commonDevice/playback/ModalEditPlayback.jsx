@@ -66,8 +66,6 @@ const ModalEditPlayback = (props) => {
     }, 500);
   };
 
-  console.log('selectedPlaybackEdit:', selectedPlaybackEdit);
-
   if (isEmpty(selectedPlaybackEdit)) {
     return <Spin />;
   }
@@ -109,12 +107,12 @@ const ModalEditPlayback = (props) => {
                 ]}
               >
                 <Input
-                    onBlur={(e) => {
-                      form.setFieldsValue({
-                        name: e.target.value.trim()
-                      });
-                    }}
-                  ></Input>
+                  onBlur={(e) => {
+                    form.setFieldsValue({
+                      name: e.target.value.trim()
+                    });
+                  }}
+                ></Input>
               </Form.Item>
             </Col>
             <Col span={24}>
@@ -132,7 +130,7 @@ const ModalEditPlayback = (props) => {
                   }
                 ]}
               >
-                <TextArea 
+                <TextArea
                   onBlur={(e) => {
                     form.setFieldsValue({
                       note: e.target.value.trim()
@@ -156,7 +154,7 @@ const ModalEditPlayback = (props) => {
                   }
                 ]}
               >
-                <TextArea 
+                <TextArea
                   onBlur={(e) => {
                     form.setFieldsValue({
                       description: e.target.value.trim()

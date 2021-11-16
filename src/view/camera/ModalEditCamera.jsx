@@ -265,7 +265,6 @@ const ModalEditCamera = (props) => {
         footer={null}
         className="modal--edit-camera"
         maskStyle={{ background: 'rgba(51, 51, 51, 0.9)' }}
-
       >
         <Form
           className="bg-grey"
@@ -294,7 +293,9 @@ const ModalEditCamera = (props) => {
                         cam: t('camera')
                       })}
                       maxLength={255}
-                      onBlur={(e) => form.setFieldsValue({ name: e.target.value.trim() })}
+                      onBlur={(e) =>
+                        form.setFieldsValue({ name: e.target.value.trim() })
+                      }
                     />
                   </Form.Item>
                 </Col>
@@ -316,14 +317,23 @@ const ModalEditCamera = (props) => {
                         cam: t('camera')
                       })}
                       maxLength={255}
-                      onBlur={(e) => form.setFieldsValue({ code: e.target.value.trim() })}
+                      onBlur={(e) =>
+                        form.setFieldsValue({ code: e.target.value.trim() })
+                      }
                     />
                   </Form.Item>
                 </Col>
               </Row>
             </Col>
-            <Col span={12} style={{ display: 'flex', alignItem: 'center', justifyContent: 'center' }}>
-              <Col span={12} >
+            <Col
+              span={12}
+              style={{
+                display: 'flex',
+                alignItem: 'center',
+                justifyContent: 'center'
+              }}
+            >
+              <Col span={12}>
                 <Upload
                   accept=".png,.jpeg,.jpg"
                   name="avatar"
@@ -375,7 +385,7 @@ const ModalEditCamera = (props) => {
                   options={normalizeOptions('name', 'uuid', cameraTypes)}
                   placeholder={
                     (t('view.map.please_choose_camera_type'),
-                      { cam: t('camera') })
+                    { cam: t('camera') })
                   }
                 />
               </Form.Item>
@@ -449,7 +459,7 @@ const ModalEditCamera = (props) => {
               <Form.Item
                 name={['wardId']}
                 label={t('view.map.ward_id')}
-              // rules={[{ required: true, message: "Trường này bắt buộc" }]}
+                // rules={[{ required: true, message: "Trường này bắt buộc" }]}
               >
                 <Select
                   dataSource={wards}
@@ -474,7 +484,9 @@ const ModalEditCamera = (props) => {
                 <Input
                   placeholder={t('view.map.please_choose_location')}
                   maxLength={255}
-                  onBlur={(e) => form.setFieldsValue({ address: e.target.value.trim() })}
+                  onBlur={(e) =>
+                    form.setFieldsValue({ address: e.target.value.trim() })
+                  }
                 />
               </Form.Item>
             </Col>
@@ -502,7 +514,9 @@ const ModalEditCamera = (props) => {
                     plsEnter: t('please_enter')
                   })}
                   maxLength={255}
-                  onBlur={(e) => form.setFieldsValue({ long_: e.target.value.trim() })}
+                  onBlur={(e) =>
+                    form.setFieldsValue({ long_: e.target.value.trim() })
+                  }
                 />
               </Form.Item>
             </Col>
@@ -513,7 +527,9 @@ const ModalEditCamera = (props) => {
                     plsEnter: t('please_enter')
                   })}
                   maxLength={255}
-                  onBlur={(e) => form.setFieldsValue({ lat_: e.target.value.trim() })}
+                  onBlur={(e) =>
+                    form.setFieldsValue({ lat_: e.target.value.trim() })
+                  }
                 />
               </Form.Item>
             </Col>
@@ -534,7 +550,9 @@ const ModalEditCamera = (props) => {
                     plsEnter: t('please_enter')
                   })}
                   maxLength={255}
-                  onBlur={(e) => form.setFieldsValue({ port: e.target.value.trim() })}
+                  onBlur={(e) =>
+                    form.setFieldsValue({ port: e.target.value.trim() })
+                  }
                 ></Input>
               </Form.Item>
             </Col>
@@ -573,7 +591,9 @@ const ModalEditCamera = (props) => {
                     plsEnter: t('please_enter')
                   })}
                   maxLength={255}
-                  onBlur={(e) => form.setFieldsValue({ ip: e.target.value.trim() })}
+                  onBlur={(e) =>
+                    form.setFieldsValue({ ip: e.target.value.trim() })
+                  }
                 />
               </Form.Item>
             </Col>
@@ -593,7 +613,9 @@ const ModalEditCamera = (props) => {
                     plsEnter: t('please_enter')
                   })}
                   maxLength={2000}
-                  onBlur={(e) => form.setFieldsValue({ cameraUrl: e.target.value.trim() })}
+                  onBlur={(e) =>
+                    form.setFieldsValue({ cameraUrl: e.target.value.trim() })
+                  }
                 />
               </Form.Item>
               <Col span={24}>
@@ -604,7 +626,7 @@ const ModalEditCamera = (props) => {
             </Col>
             <Col span={24} className="mt-1">
               <span className="edit-tag-item" onClick={showModalEditTag}>
-                Edit tag
+                {t('view.camera.edit_tag')}
               </span>
             </Col>
           </Row>
@@ -612,8 +634,9 @@ const ModalEditCamera = (props) => {
             <Button type="primary" htmlType="submit ">
               {t('view.user.detail_list.confirm')}
             </Button>
-            <Button onClick={handleShowModalEdit}>Huỷ</Button>
-
+            <Button onClick={handleShowModalEdit}>
+              {t('view.camera.close')}
+            </Button>
           </div>
         </Form>
       </Modal>

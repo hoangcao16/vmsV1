@@ -138,6 +138,8 @@
       "please_enter_unit_name": "{{plsEnter}} unit name",
       "please_enter_your_address": "{{plsEnter}} your andress",
       "required_field": "Required Field",
+      "ip1_error": "You have not entered the correct IP1 address",
+      "ip2_error": "You have not entered the correct IP2 address",
       "name": "Name",
       "camera_name": "{{cam}} Name",
       "please_enter_camera_name": "{{plsEnter}} {{cam}} name",
@@ -297,7 +299,7 @@
       "device": "Modules system",
       "category_management": "Category management",
       "change_password": "Change password",
-      "scan":"Scan",
+      "scan": "Scan Camera",
       "log_out": "Log out",
       "user_group": "{{U}} {{G}}",
       "new_password": "New password",
@@ -382,7 +384,7 @@
         "add_camera_choose_permission": "Add Camera and choose permission",
         "image": "Image",
         "enter_alternative_data": "{{plsEnter}} alternative data",
-        "scan":"Scan"
+        "scan": "Scan"
       }
     },
     "ai_humans": {
@@ -403,7 +405,6 @@
       "area_config": "Area onfig"
     }
   },
-  
 
   "noti": {
     "logged_out_successfully": "Logged out successfully",

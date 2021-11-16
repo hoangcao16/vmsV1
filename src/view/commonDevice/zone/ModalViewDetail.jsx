@@ -1,4 +1,4 @@
-import { Button, Col, Modal, Row, Typography } from 'antd';
+import { Button, Col, Modal, Row, Spin, Typography } from 'antd';
 import { isEmpty } from 'lodash-es';
 import React, { useEffect, useState } from 'react';
 import ZoneApi from '../../../actions/api/zone/ZoneApi';
@@ -20,7 +20,9 @@ const ModalViewDetail = (props) => {
     ZoneApi.getZoneByUuid(selectedZoneId).then(setSelectedZone);
   }, []);
 
-  console.log(selectedZone);
+  if (isEmpty(selectedZone)) {
+    return <Spin />;
+  }
 
   return (
     <>
@@ -33,38 +35,90 @@ const ModalViewDetail = (props) => {
         footer={null}
         className="modal--detail-zone"
         maskStyle={{ background: 'rgba(51, 51, 51, 0.9)' }}
-
       >
         <Row gutter={24}>
           <Col span={12}>
             <Paragraph className="mt-1">
-              <p style={{ fontWeight: 600, fontSize: 14 }}>{t('view.common_device.zone_name')}</p>
+              <p style={{ fontWeight: 600, fontSize: 14 }}>
+                {t('view.common_device.zone_name')}
+              </p>
               <p>{selectedZone?.name}</p>
             </Paragraph>
           </Col>
 
           <Col span={12}>
             <Paragraph className="mt-1">
-              <p style={{ fontWeight: 600, fontSize: 14 }}>{t('view.map.province_id')}</p>
+              <p style={{ fontWeight: 600, fontSize: 14 }}>
+                {t('view.map.province_id')}
+              </p>
               <p>{selectedZone?.provinceName}</p>
             </Paragraph>
           </Col>
           <Col span={12}>
             <Paragraph className="mt-1">
-              <p style={{ fontWeight: 600, fontSize: 14 }}>{t('view.map.district_id')}</p>
+              <p style={{ fontWeight: 600, fontSize: 14 }}>
+                {t('view.map.district_id')}
+              </p>
               <p>{selectedZone?.districtName}</p>
             </Paragraph>
           </Col>
           <Col span={12}>
             <Paragraph className="mt-1">
-              <p style={{ fontWeight: 600, fontSize: 14 }}>{t('view.map.ward_id')}</p>
+              <p style={{ fontWeight: 600, fontSize: 14 }}>
+                {t('view.map.ward_id')}
+              </p>
               <p>{selectedZone?.wardName}</p>
             </Paragraph>
           </Col>
           <Col span={12}>
             <Paragraph className="mt-1">
-              <p style={{ fontWeight: 600, fontSize: 14 }}>{t('view.map.location')}</p>
+              <p style={{ fontWeight: 600, fontSize: 14 }}>
+                {t('view.map.location')}
+              </p>
               <p>{selectedZone?.address}</p>
+            </Paragraph>
+          </Col>
+          <Col span={12}></Col>
+
+          <Col span={24}>
+            <Paragraph className="mt-1">
+              <p style={{ fontWeight: 600, fontSize: 14 }}>
+                {t('view.common_device.desc')}
+              </p>
+              <p>{selectedZone?.address}</p>
+            </Paragraph>
+          </Col>
+          <Col span={24}>
+            <Paragraph className="mt-1">
+              <p style={{ fontWeight: 600, fontSize: 14 }}>NVR</p>
+
+              <p>
+                {selectedZone?.nvrList.map((p) => {
+                  return `${p.name}/`;
+                })}
+              </p>
+            </Paragraph>
+          </Col>
+          <Col span={24}>
+            <Paragraph className="mt-1">
+              <p style={{ fontWeight: 600, fontSize: 14 }}>Playback</p>
+              <p>
+                {selectedZone?.playbackList.map((p) => {
+                  return `${p.name}/`;
+                })}
+              </p>
+            </Paragraph>
+          </Col>
+          <Col span={24}>
+            <Paragraph className="mt-1">
+              <p style={{ fontWeight: 600, fontSize: 14 }}>Camproxy</p>
+              {/* <p>{selectedZone?.campList}</p> */}
+
+              <p>
+                {selectedZone?.campList.map((p) => {
+                  return `${p.name}/`;
+                })}
+              </p>
             </Paragraph>
           </Col>
         </Row>
