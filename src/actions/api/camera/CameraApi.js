@@ -70,8 +70,6 @@ const CameraApi = {
       console.log(JSON.stringify(error));
     }
 
-    console.log('result:', result);
-
     if (result === undefined || handleErrCodeReport(result) === null) {
       return [];
     }
@@ -151,8 +149,6 @@ const CameraApi = {
     if (responseCheckerErrorsController(result) === null) {
       return [];
     }
-
-    console.log('result.payload:', result.payload);
 
     return result.payload;
   },
@@ -238,7 +234,6 @@ const CameraApi = {
     } catch (error) {
       console.log(error);
     }
-    console.log('result camera edit', result);
 
     if (responseCheckerErrorsController(result) === null) {
       return false;
@@ -353,7 +348,7 @@ const CameraApi = {
     } catch (error) {
       console.log(error);
     }
-    console.log('result result', result);
+
     if (responseCheckerErrorsController(result) === null) {
       return false;
     }

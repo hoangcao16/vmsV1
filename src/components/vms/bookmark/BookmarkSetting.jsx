@@ -84,7 +84,6 @@ const BookmarkSetting = ({
     );
 
     const handleChangeGridStyle = (gridSize) => {
-        console.log("handleChangeGridStyle:", gridSize);
         let tmp = initialGridPreview;
         switch (gridSize) {
             case GRID1X1:
@@ -108,7 +107,6 @@ const BookmarkSetting = ({
                 tmp = initialGridPreview.slice(0, 16);
                 break;
         }
-        console.log("handleChangeGridStyle:", tmp);
         setDataGridPreview(tmp);
         return tmp;
     };
@@ -148,7 +146,6 @@ const BookmarkSetting = ({
                 });
             });
             setBookmarks(tmp);
-            console.log("fetchData========>:", currentPage, data, tmp);
             const total = data.metadata.total;
             const pageSize = data.metadata.size;
             const totalPage = Math.floor(total / pageSize) + 1;
@@ -340,13 +337,11 @@ const BookmarkSetting = ({
     };
 
     const handleEditMode = (e, item, idx) => {
-        console.log("handleEditMode:", item, idx, bookmarks);
         e.stopPropagation();
         changeEditModeState(true, idx, item);
     };
 
     const onRenameCompleted = async (e, item, idx) => {
-        console.log("onRenameCompleted:", item, idx, newName);
         e.stopPropagation();
         changeEditModeState(false, idx, item);
 
@@ -490,7 +485,7 @@ const BookmarkSetting = ({
                                                     e.stopPropagation();
 
                                                 }}
-                                                onBlur={(e)=>{
+                                                onBlur={(e) => {
                                                     setNewName(e.target.value.trim());
                                                 }}
                                             />

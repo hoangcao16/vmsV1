@@ -1,4 +1,4 @@
-import React, { useEffect,useState } from "react";
+import React, { useEffect, useState } from "react";
 import { Settings } from "react-feather";
 import "./Bookmark.scss";
 import { useTranslation } from 'react-i18next';
@@ -15,11 +15,11 @@ const Bookmark = ({
 
     useEffect(() => {
         if (
-        language == "vn"
-            ? (document.title = "CCTV | Giám sát")
-            : (document.title = "CCTV | View")
+            language == "vn"
+                ? (document.title = "CCTV | Giám sát")
+                : (document.title = "CCTV | View")
         );
-    },[t]);
+    }, [t]);
 
     const [name, setName] = useState('');
     const errStyle = {
@@ -27,7 +27,6 @@ const Bookmark = ({
     };
     const [errMsg, setErrMsg] = useState("");
     const handleBookmarkSave = () => {
-        console.log("handleBoookmarkSave:", name);
         handleBookmarkSaveCallback(name);
         setName("");
     };
@@ -44,7 +43,7 @@ const Bookmark = ({
                     onChange={(e) => {
                         setName(e.target.value);
                     }}
-                    onBlur={(e)=>{
+                    onBlur={(e) => {
                         setName(e.target.value.trim());
                     }}
                 />

@@ -1,4 +1,4 @@
-import React, {useState, useEffect} from "react";
+import React, { useState, useEffect } from "react";
 import { AimOutlined, EnvironmentOutlined } from "@ant-design/icons";
 import { Tooltip, Spin } from "antd";
 import { ReactComponent as CloseButtonIcon } from "../../assets/icons/btn-close.svg";
@@ -19,56 +19,56 @@ const CamInfoPopup = (props) => {
     const loadImageFileHanleler = (avatarFileName) => {
       if (avatarFileName) {
         ExportEventFileApi.getAvatar(avatarFileName)
-         .then((result) => {
-          if (result.data) {
-            let blob = new Blob([result.data], { type: 'octet/stream' });
-            let url = window.URL.createObjectURL(blob);
-            setImageUrl(url);
-          } else {
-           setImageUrl('');
-          }
-        });
+          .then((result) => {
+            if (result.data) {
+              let blob = new Blob([result.data], { type: 'octet/stream' });
+              let url = window.URL.createObjectURL(blob);
+              setImageUrl(url);
+            } else {
+              setImageUrl('');
+            }
+          });
       }
     };
     loadImageFileHanleler(dataDetailInfo?.avatarFileName)
   }, [dataDetailInfo?.avatarFileName])
 
-  const renderCamInfo = () => 
-(
-      <>
-        <li>
-          <EnvironmentOutlined className="camera-info__icon camera-info__icon--black" />
-          <span className="camera-info__detail-desc camera-info__detail-address">
-            {dataDetailInfo ? dataDetailInfo.address : ""}
-          </span>
-        </li>
+  const renderCamInfo = () =>
+  (
+    <>
+      <li>
+        <EnvironmentOutlined className="camera-info__icon camera-info__icon--black" />
+        <span className="camera-info__detail-desc camera-info__detail-address">
+          {dataDetailInfo ? dataDetailInfo.address : ""}
+        </span>
+      </li>
 
-        <li>
-          <span className="camera-info__detail-desc camera-info__detail-address camera-info__detail--adminis">
-            {dataDetailInfo?.administrativeUnitName
-              ? dataDetailInfo.administrativeUnitName
-              : ""}
-          </span>
-        </li>
+      <li>
+        <span className="camera-info__detail-desc camera-info__detail-address camera-info__detail--adminis">
+          {dataDetailInfo?.administrativeUnitName
+            ? dataDetailInfo.administrativeUnitName
+            : ""}
+        </span>
+      </li>
 
-        <li>
+      <li>
         <span className="camera-info__detail-desc camera-info__detail-address camera-info__detail--venderName">
-            {dataDetailInfo?.vendorName
-              ? dataDetailInfo.vendorName
-              : ""}
-          </span>
-        </li>
+          {dataDetailInfo?.vendorName
+            ? dataDetailInfo.vendorName
+            : ""}
+        </span>
+      </li>
 
-        <li>
-          <AimOutlined className="camera-info__icon camera-info__icon--black" />
-          <span className="camera-info__detail-desc camera-info__phone">
-            {dataDetailInfo && dataDetailInfo.zoneName
-              ? dataDetailInfo.zoneName
-              : `${t('view.maps.not_provide')}`}
-          </span>
-        </li>
-      </>
-    );
+      <li>
+        <AimOutlined className="camera-info__icon camera-info__icon--black" />
+        <span className="camera-info__detail-desc camera-info__phone">
+          {dataDetailInfo && dataDetailInfo.zoneName
+            ? dataDetailInfo.zoneName
+            : `${t('view.maps.not_provide')}`}
+        </span>
+      </li>
+    </>
+  );
 
   const renderAdminisUnitInfo = () => (
     <>
@@ -79,12 +79,12 @@ const CamInfoPopup = (props) => {
         </span>
       </li>
 
-        <li>
-          <span className="camera-info__detail-desc camera-info__detail--phone">
-            {dataDetailInfo?.tel ? `+${dataDetailInfo.tel}` : "+XXXXXXXXXX"}
-          </span>
-        </li>
-    
+      <li>
+        <span className="camera-info__detail-desc camera-info__detail--phone">
+          {dataDetailInfo?.tel ? `+${dataDetailInfo.tel}` : "+XXXXXXXXXX"}
+        </span>
+      </li>
+
 
       <li>
         <AimOutlined className="camera-info__icon camera-info__icon--black" />
@@ -92,7 +92,7 @@ const CamInfoPopup = (props) => {
           {dataDetailInfo && dataDetailInfo.zoneName
             ? dataDetailInfo.zoneName
             : `${t('view.maps.not_provide')}`}
-            </span>
+        </span>
       </li>
     </>
   );
@@ -127,8 +127,6 @@ const CamInfoPopup = (props) => {
           >
             <CameraButtonSvg
               onClick={() => {
-                console.log(t('clicked_camera'));
-                // playCameraOnline(camInfo)
                 handlePinCam(type, dataDetailInfo);
               }}
             />

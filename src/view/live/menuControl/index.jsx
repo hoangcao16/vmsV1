@@ -49,7 +49,6 @@ const Index = ({
         },
         { name: `${t('view.live.open_control_panel')}`, type: 4 },
     ];
-    console.log('index----------->', idCamera)
     const [typeActive, setTypeActive] = useState(1);
     const [openModalControlPanel, setOpenModalControlPanel] = useState(false);
     const [openModalPresetSetting, setOpenModalPresetSetting] = useState(false);

@@ -128,7 +128,6 @@ const ModalAddCamera = (props) => {
   }, [districtId]);
 
   const { provinces, zones, vendors, cameraTypes, adDivisions } = filterOptions;
-  // console.log('filterOptions', filterOptions)
 
   function getBase64(img, callback) {
     const reader = new FileReader();
@@ -448,7 +447,7 @@ const ModalAddCamera = (props) => {
               <Form.Item
                 name={['wardId']}
                 label={t('view.map.ward_id')}
-                // rules={[{ required: true, message: `${t('view.map.required_field')}` }]}
+              // rules={[{ required: true, message: `${t('view.map.required_field')}` }]}
               >
                 <Select
                   showSearch

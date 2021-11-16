@@ -1,6 +1,6 @@
 import { put, takeLatest, call } from 'redux-saga/effects';
 import { setDataChart, setError } from '../actions';
-import { DATA_CHART} from '../constants';
+import { DATA_CHART } from '../constants';
 import CameraApi from '../../../../actions/api/camera/CameraApi';
 import moment from 'moment';
 import { isEmpty } from 'lodash';
@@ -82,11 +82,7 @@ import { isEmpty } from 'lodash';
 // ];
 
 export function* handleDataChartLoad(action) {
-  const {params} = action;
-  console.log("paramsparamsparamsparamsparamsparams", params)
-  console.log("timeStart", moment(params.timeStartDay._d).format("DD/MM/YYYY"))
-  console.log("timeEnd", moment(params.timeEndDay._d).format("DD/MM/YYYY"))
-  
+  const { params } = action;
   const timeStart = moment(params.timeStartDay._d).format("DD/MM/YYYY")
   const timeEnd = moment(params.timeEndDay._d).format("DD/MM/YYYY")
   //bien doi data giong thang gui tu params
@@ -100,22 +96,22 @@ export function* handleDataChartLoad(action) {
     eventId: params.eventList
   }
 
-  console.log("payloadDataChart:",payloadDataChart)
-    // "time": "30/10/2021",
-    // "location": "Hà Nội",
-    // "event1": "Lấn làn ",
-    // "totalEvent1": 0,
-    // "nameNoAccent1": "lanlan",
-    // "event2": null,
-    // "totalEvent2": 0,
-    // "nameNoAccent2": null,
-    // "event3": null,
-    // "totalEvent3": 0,
-    // "nameNoAccent3": null
+  console.log("payloadDataChart:", payloadDataChart)
+  // "time": "30/10/2021",
+  // "location": "Hà Nội",
+  // "event1": "Lấn làn ",
+  // "totalEvent1": 0,
+  // "nameNoAccent1": "lanlan",
+  // "event2": null,
+  // "totalEvent2": 0,
+  // "nameNoAccent2": null,
+  // "event3": null,
+  // "totalEvent3": 0,
+  // "nameNoAccent3": null
 
 
-    // a.time
-    // a[time]
+  // a.time
+  // a[time]
 
 
   try {
@@ -130,8 +126,6 @@ export function* handleDataChartLoad(action) {
         [d.event3]: d.totalEvent3,
       }
     })
-
-    console.log('data:',data)
     yield put(setDataChart(dataConvert));
   } catch (error) {
     yield put(setError(error.toString()));

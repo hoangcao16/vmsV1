@@ -191,9 +191,7 @@ function CameraGroup(props) {
     const valueSearch = unsign(value);
     const expandedKeys = dataList
       .map((item) => {
-        console.log(item.titleUnsign);
         if (item.titleUnsign.indexOf(valueSearch) > -1) {
-          console.log(item);
           return getParentKey(item.key, treeData);
         }
         return null;
@@ -285,7 +283,7 @@ function CameraGroup(props) {
                 e.stopPropagation();
                 showModal(id);
               }}
-              // style={{ fontSize: '16px', color: '#6E6B7B' }}
+            // style={{ fontSize: '16px', color: '#6E6B7B' }}
             />
           </Tooltip>
           <Tooltip placement="top" title={t("view.common_device.edit")}>
@@ -294,7 +292,7 @@ function CameraGroup(props) {
                 e.stopPropagation();
                 showModalEdit(id);
               }}
-              // style={{ fontSize: '16px', color: '#6E6B7B' }}
+            // style={{ fontSize: '16px', color: '#6E6B7B' }}
             />
           </Tooltip>
           <Popconfirm
@@ -315,7 +313,7 @@ function CameraGroup(props) {
                 onClick={(e) => {
                   e.stopPropagation();
                 }}
-                // style={{ fontSize: '16px', color: '#6E6B7B' }}
+              // style={{ fontSize: '16px', color: '#6E6B7B' }}
               />
             </Tooltip>
           </Popconfirm>
@@ -370,12 +368,6 @@ function CameraGroup(props) {
                   onSearch={debounce(handleSearch, 1000)}
                   value={valueSearch}
                   onChange={(e) => {
-                    console.log("eeee", e);
-                    // const inputSearch = document.querySelector('.search__camera-group input')
-                    // const inputSearchTrimed = inputSearch.trim()
-                    // if (isEmpty(inputSearchTrimed)) {
-                    //   setValueSearch(inputSearchTrimed)
-                    // }
                     setValueSearch(e);
                   }}
                   onBlur={(e) => setValueSearch(e.target.value.trim())}

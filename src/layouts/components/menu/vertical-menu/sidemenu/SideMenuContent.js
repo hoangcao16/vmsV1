@@ -41,7 +41,6 @@ const SideMenuContent = (props) => {
   const [avatarUrl, setAvatarUrl] = useState("");
 
   const language = reactLocalStorage.get("language");
-  console.log("language: ", language);
 
   useEffect(() => {
     const user = reactLocalStorage.getObject("user");

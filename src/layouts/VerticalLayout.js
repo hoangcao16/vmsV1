@@ -34,7 +34,7 @@ class VerticalLayout extends PureComponent {
     appOverlay: false,
     customizer: false,
     currRoute: this.props.location.pathname,
-    language:  reactLocalStorage.get('language'),
+    language: reactLocalStorage.get('language'),
   };
   collapsedPaths = [];
   mounted = false;
@@ -77,18 +77,18 @@ class VerticalLayout extends PureComponent {
       return layout === "dark"
         ? document.body.classList.add("dark-layout")
         : layout === "semi-dark"
-        ? document.body.classList.add("semi-dark-layout")
-        : null;
+          ? document.body.classList.add("semi-dark-layout")
+          : null;
     }
   }
 
   setLanguage(value) {
-    this.setState({language: value})
+    this.setState({ language: value })
   }
 
   componentDidUpdate(prevProps, prevState) {
     const language = reactLocalStorage.get('language');
-    if(prevState.language !== language) {
+    if (prevState.language !== language) {
       this.setState({
         language: language
       })
@@ -125,7 +125,7 @@ class VerticalLayout extends PureComponent {
       }
       if (
         prevProps.app.customizer.sidebarCollapsed ===
-          this.props.app.customizer.sidebarCollapsed &&
+        this.props.app.customizer.sidebarCollapsed &&
         pathname !== prevProps.location.pathname &&
         this.collapsedPaths.includes(pathname)
       ) {
@@ -133,7 +133,7 @@ class VerticalLayout extends PureComponent {
       }
       if (
         prevProps.app.customizer.sidebarCollapsed ===
-          this.props.app.customizer.sidebarCollapsed &&
+        this.props.app.customizer.sidebarCollapsed &&
         pathname !== prevProps.location.pathname &&
         !this.collapsedPaths.includes(pathname)
       ) {
@@ -209,11 +209,10 @@ class VerticalLayout extends PureComponent {
   };
 
   render() {
-    const {language} = this.state
+    const { language } = this.state
     let appProps = this.props.app.customizer;
     let zoom = this.props.app.customizer.zoom;
 
-    console.log("zoom:", zoom);
     let menuThemeArr = [
       "primary",
       "success",

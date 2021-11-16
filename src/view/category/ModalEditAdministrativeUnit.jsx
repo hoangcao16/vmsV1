@@ -51,11 +51,10 @@ function beforeUpload(file) {
     const notifyMess = {
       type: 'error',
       title: '',
-      description: `${
-        language == 'vn'
+      description: `${language == 'vn'
           ? 'Chỉ được phép sử dụng định dạng loại JPG/PNG!'
           : 'Only file type JPG/PNG allowed!'
-      }`
+        }`
     };
     Notification(notifyMess);
   }
@@ -64,11 +63,10 @@ function beforeUpload(file) {
     const notifyMess = {
       type: 'error',
       title: '',
-      description: `${
-        language == 'vn'
+      description: `${language == 'vn'
           ? 'Kích thước tệp phải nhỏ hơn 2MB!'
           : 'File size must under 2MB!'
-      }`
+        }`
     };
     Notification(notifyMess);
   }
@@ -155,8 +153,6 @@ const ModalEditAdministrativeUnit = (props) => {
     }
   };
 
-  console.log('avatarUrl:', avatarUrl);
-
   const uploadButton = (
     <div>
       {isLoading ? <LoadingOutlined /> : <PlusOutlined />}
@@ -193,7 +189,6 @@ const ModalEditAdministrativeUnit = (props) => {
   };
 
   const uploadImage = async (options) => {
-    console.log('thuong dev test');
     const { onSuccess, onError, file, onProgress } = options;
     await ExportEventFileApi.uploadAvatar(uuidV4(), file).then((result) => {
       if (
@@ -239,8 +234,6 @@ const ModalEditAdministrativeUnit = (props) => {
       ...value,
       avatarFileName: avatarFileName
     };
-
-    console.log('payload:', payload);
 
     try {
       if (selectedCategoryId !== null) {
