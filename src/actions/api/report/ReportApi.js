@@ -18,11 +18,11 @@ const ReportApi = {
         if (handleErrCodeReport(result) === null) {
             return [];
         }
-
         return result.payload;
     },
 
     getExportData: async (body) => {
+        console.log('result:')
         let result;
     
         try {
@@ -32,12 +32,9 @@ const ReportApi = {
         } catch (error) {
             console.log(JSON.stringify(error));
         }
+
     
-        if (handleErrCodeReport(result) === null) {
-            return [];
-        }
-    
-        return result.payload;
+        return result;
     },
 }
 

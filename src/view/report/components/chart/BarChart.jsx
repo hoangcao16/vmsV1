@@ -104,6 +104,7 @@ function BarChartComponent(props) {
           <YAxis />
           <Tooltip />
           <Legend />
+          <Bar dataKey={data.location}/>
 
           {dataConvert(data)}
         </BarChart>

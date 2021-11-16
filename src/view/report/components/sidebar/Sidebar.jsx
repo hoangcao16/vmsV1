@@ -237,12 +237,9 @@ function Sidebar(props) {
         fieldId: feildIds,
         eventList: selectedRowKeys
       };
-
       props.callData(clearData(data));
-
       return;
     }
-
     form.setFieldsValue({ districtId: undefined, wardId: undefined });
   };
 

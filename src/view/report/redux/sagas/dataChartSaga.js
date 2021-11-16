@@ -1,87 +1,10 @@
-import { put, takeLatest, call } from 'redux-saga/effects';
-import { setDataChart, setError } from '../actions';
-import { DATA_CHART} from '../constants';
+import { isEmpty } from 'lodash';
+import moment from 'moment';
+import { call, put, takeLatest } from 'redux-saga/effects';
 // import CameraApi from '../../../../actions/api/camera/CameraApi';
 import ReportApi from '../../../../actions/api/report/ReportApi';
-import moment from 'moment';
-import { isEmpty } from 'lodash';
-import clearData from '../../../../actions/function/MyUltil/CheckData';
-
-// const data = [
-//   {
-//     name: 'Jan',
-//     no_helmet: 4000,
-//     go_to_the_sidewalk: 2400,
-//     run_red_light: 2400
-//   },
-//   {
-//     name: 'Feb',
-//     no_helmet: 3000,
-//     go_to_the_sidewalk: 1398,
-//     run_red_light: 2210
-//   },
-//   {
-//     name: 'Mar',
-//     no_helmet: 2000,
-//     go_to_the_sidewalk: 9800,
-//     run_red_light: 2290
-//   },
-//   {
-//     name: 'Apr',
-//     no_helmet: 2780,
-//     go_to_the_sidewalk: 3908,
-//     run_red_light: 2000
-//   },
-//   {
-//     name: 'May',
-//     no_helmet: 1890,
-//     go_to_the_sidewalk: 4800,
-//     run_red_light: 2181
-//   },
-//   {
-//     name: 'Jun',
-//     no_helmet: 2390,
-//     go_to_the_sidewalk: 3800,
-//     run_red_light: 2500
-//   },
-//   {
-//     name: 'Jul',
-//     no_helmet: 3490,
-//     go_to_the_sidewalk: 4300,
-//     run_red_light: 2100
-//   },
-
-//   {
-//     name: 'Aug',
-//     no_helmet: 3490,
-//     go_to_the_sidewalk: 4300,
-//     run_red_light: 2100
-//   },
-//   {
-//     name: 'Sep',
-//     no_helmet: 2390,
-//     go_to_the_sidewalk: 3800,
-//     run_red_light: 2500
-//   },
-//   {
-//     name: 'Oct',
-//     no_helmet: 3490,
-//     go_to_the_sidewalk: 4300,
-//     run_red_light: 2100
-//   },
-//   {
-//     name: 'Nov',
-//     no_helmet: 3490,
-//     go_to_the_sidewalk: 4300,
-//     run_red_light: 2100
-//   },
-//   {
-//     name: 'Dec',
-//     no_helmet: 3490,
-//     go_to_the_sidewalk: 4300,
-//     run_red_light: 2100
-//   }
-// ];
+import { setDataChart, setError } from '../actions';
+import { DATA_CHART } from '../constants';
 
 export function* handleDataChartLoad(action) {
   const {params} = action;
@@ -105,6 +28,7 @@ export function* handleDataChartLoad(action) {
       timeStart = moment(params.timeStartDay._d).format("DD/MM/YYYY");
       timeEnd = moment(params.timeEndDay._d).format("DD/MM/YYYY");
   }
+  console.log("actionaction", action)
   
   const payloadDataChart = {
     dateType: params.pickTime.toUpperCase(),
@@ -116,7 +40,6 @@ export function* handleDataChartLoad(action) {
     eventId: params.eventList
   }
 
-  
   localStorage.setItem('payloadDataChart', JSON.stringify(payloadDataChart));
   // "time": "30/10/2021",
   // "location": "Hà Nội",
@@ -131,31 +54,38 @@ export function* handleDataChartLoad(action) {
   // "nameNoAccent3": null
   
   try {
-    const data = yield call(() => ReportApi.getChartData(payloadDataChart));
-    const dataConvert = data.map((d) => {
+    const data = yield call(() => ReportApi.getChartData(payloadDataChart).then((data)=>{
+      console.log('data:',data)
+      return data.map((d) => {
+        let a = {}
+        if (!isEmpty(d.event1)) {
+          a[d.event1] = d.totalEvent1;
+        }
+  
+        if (!isEmpty(d.event2)) {
+          a[d.event2] = d.totalEvent2
+        }
+  
+        if (!isEmpty(d.event3)) {
+          a[d.event3] = d.totalEvent3
+        }
 
-      let a = {}
+        console.log('d',d)
 
-      if (!isEmpty(d.event1)) {
-        a[d.event1] =  d.totalEvent1 + 300
-      }
+        const test =  {
+          name: d.time,
+         
+          ...a
+        }
+        return test
+      })
+    }));
 
-      if (!isEmpty(d.event2)) {
-        a[d.event2] =  d.totalEvent2 + 200
-      }
+    console.log('data:',data)
 
-      if (!isEmpty(d.event3)) {
-        a[d.event3] =  d.totalEvent3 + 100
-      }
+    
 
-      return {
-        name: d.time,
-        [d.event1]: d.totalEvent1 + 300,
-        ...a
-      }
-    })
-
-    yield put(setDataChart(dataConvert));
+    yield put(setDataChart(data));
   } catch (error) {
     yield put(setError(error.toString()));
   }
