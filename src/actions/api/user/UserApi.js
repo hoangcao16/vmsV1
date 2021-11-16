@@ -144,6 +144,7 @@ const UserApi = {
     if (handleErrCodeAuthZ(result) === null) {
       return [];
     }
+    return result.payload;
   },
   getRoleByRoleCode: async (params) => {
     let result;
