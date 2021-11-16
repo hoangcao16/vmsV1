@@ -55,7 +55,6 @@ export function* handleDataChartLoad(action) {
   
   try {
     const data = yield call(() => ReportApi.getChartData(payloadDataChart).then((data)=>{
-      console.log('data:',data)
       return data.map((d) => {
         let a = {}
         if (!isEmpty(d.event1)) {
@@ -70,21 +69,13 @@ export function* handleDataChartLoad(action) {
           a[d.event3] = d.totalEvent3
         }
 
-        console.log('d',d)
-
         const test =  {
           name: d.time,
-         
           ...a
         }
         return test
       })
     }));
-
-    console.log('data:',data)
-
-    
-
     yield put(setDataChart(data));
   } catch (error) {
     yield put(setError(error.toString()));

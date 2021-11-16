@@ -4,6 +4,7 @@ import exportIcon from '../../../../assets/img/icons/report/file-export 2.png';
 import './ExportReport.scss';
 import { useTranslation } from 'react-i18next';
 import ReportApi from '../../../../actions/api/report/ReportApi';
+import { saveAs } from 'file-saver';
 
 export default function ExportReport(props) {
 
@@ -25,16 +26,13 @@ export default function ExportReport(props) {
       typeChart:type
     }
      await ReportApi.getExportData(data).then((value) => {
-       console.log(value)
       var data = new Blob([value], {type: 'application/force-download'});
-
-      console.log('data:',data)
       var xlsxURL = window.URL.createObjectURL(data);
-      console.log("value",xlsxURL)
-      const tempLink = document.createElement('a');
-      tempLink.href = xlsxURL;
-      tempLink.setAttribute('download', 'file.xlsx');
-      tempLink.click();
+      saveAs(xlsxURL, 'Report.xlsx')
+      // const tempLink = document.createElement('a');
+      // tempLink.href = xlsxURL;
+      // tempLink.setAttribute('download', 'Report.xlsx');
+      // tempLink.click();
     })
     
   }

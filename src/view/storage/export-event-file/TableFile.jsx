@@ -36,15 +36,14 @@ import { useTranslation } from 'react-i18next';
 
 const TableFile = (props) => {
   const { t } = useTranslation();
-  console.log(">>>>> TableFile rendered");
   const typeList = [
     {
       id: 0,
-      name: "video",
+      name: "Video",
     },
     {
       id: 1,
-      name: "image",
+      name: `${t('view.user.detail_list.image')}`,
     },
   ];
 
@@ -928,7 +927,7 @@ const TableFile = (props) => {
                       onChange={(uuid) => onChangeCameraGroup(uuid)}
                       filterOption={filterOption}
                       options={normalizeOptions("name", "uuid", cameraGroupList)}
-                      placeholder='Nhóm Camera'
+                      placeholder={t('view.map.camera_group', { cam: t('camera') })}
                   />
                 </Form.Item>
               </Col>

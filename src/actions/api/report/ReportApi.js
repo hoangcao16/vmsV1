@@ -22,7 +22,6 @@ const ReportApi = {
     },
 
     getExportData: async (body) => {
-        console.log('result:')
         let result;
     
         try {
