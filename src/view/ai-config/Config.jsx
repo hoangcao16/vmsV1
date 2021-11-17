@@ -33,7 +33,7 @@ import { useTranslation } from 'react-i18next';
 import { reactLocalStorage } from 'reactjs-localstorage';
 import Breadcrumds from '../breadcrumds/Breadcrumds';
 import { ShowTotal } from '../../styled/showTotal';
-// import 'react-calendar-timeline/lib/Timeline.css'
+import 'react-calendar-timeline/lib/Timeline.css'
 import Timeline, {
   TimelineHeaders,
   SidebarHeader,

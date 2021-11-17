@@ -75,7 +75,7 @@ export default function TableListGroup() {
           <Button
             type="primary"
             className="btnAddGroup height-40 mr-1"
-            style={{ borderRadius: '6px' }}
+            style={{ borderRadius: '6px', border: '0' }}
             onClick={() => {
               history.push(`${path}/add-group`);
             }}

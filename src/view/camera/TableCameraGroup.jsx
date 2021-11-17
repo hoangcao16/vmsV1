@@ -388,7 +388,7 @@ function CameraGroup(props) {
                   <Button
                     type="primary"
                     className="btnAddUser height-40"
-                    style={{ borderRadius: "6px" }}
+                    style={{ borderRadius: "6px", border: '0' }}
                     onClick={() => showModal(null)}
                   >
                     <PlusOutlined className="d-flex justify-content-between align-center" />
