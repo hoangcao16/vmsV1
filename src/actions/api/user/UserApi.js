@@ -144,11 +144,7 @@ const UserApi = {
     if (handleErrCodeAuthZ(result) === null) {
       return [];
     }
-<<<<<<< HEAD
-    return result.payload
-=======
     return result.payload;
->>>>>>> 1b117bf86492ba1fc2aede0921ac884f690211cc
   },
   getRoleByRoleCode: async (params) => {
     let result;

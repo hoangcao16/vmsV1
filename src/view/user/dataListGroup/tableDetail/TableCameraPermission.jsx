@@ -55,10 +55,6 @@ export default function TableCameraPermission(props) {
     CameraApi.getAllCamera(data).then(setCamera);
     GroupApi.getGroupByUuid(props?.groupUuid).then(async (result) => {
       const data = await UserApi.getUserByGroupUuid(result?.code);
-<<<<<<< HEAD
-=======
-
->>>>>>> 1b117bf86492ba1fc2aede0921ac884f690211cc
       setCameraPermission(data?.p_cameras);
     });
   }, [props?.reloadCameraPage, reload]);

@@ -19,11 +19,7 @@ import TableCameraScan from '../camera/TableCameraScan';
 import TableCategory from '../category/TableCategory';
 import DeviceManage from '../commonDevice/DeviceManage';
 import TableHardDriveList from '../storage/hard-drive-list/TableHardDriveList';
-<<<<<<< HEAD
-=======
-import TableHumans from '../ai-humans/TableHumans';
 import Config from '../ai-config/Config';
->>>>>>> 1b117bf86492ba1fc2aede0921ac884f690211cc
 import StoreSetting from '../storage/store-setting/StoreSetting';
 import './../../assets/scss/pages/account-settings.scss';
 import ChangePassword from './ChangePassword';
@@ -134,7 +130,7 @@ function AccountSettings() {
             </NavLink>
           </li>
 
-          
+
 
           <li onClick={handleLogout}>
             <span

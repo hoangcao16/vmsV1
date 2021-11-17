@@ -18,11 +18,7 @@ import {
   Select,
   Upload
 } from 'antd';
-<<<<<<< HEAD
-import MuiPhoneNumber from "material-ui-phone-number";
-=======
 import MuiPhoneNumber from 'material-ui-phone-number';
->>>>>>> 1b117bf86492ba1fc2aede0921ac884f690211cc
 import moment from 'moment';
 import React, { useState } from 'react';
 import { useTranslation } from 'react-i18next';
@@ -349,7 +345,7 @@ function AddUser(props) {
                           data-cy="user-phone"
                           defaultCountry={'vn'}
                           autoComplete="off"
-                          // placeholder={t('view.user.detail_list.phone_number')}
+                        // placeholder={t('view.user.detail_list.phone_number')}
                         />
                       </Form.Item>
                     </Col>

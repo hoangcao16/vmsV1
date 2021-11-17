@@ -33,7 +33,7 @@ import { useTranslation } from 'react-i18next';
 import { reactLocalStorage } from 'reactjs-localstorage';
 import Breadcrumds from '../breadcrumds/Breadcrumds';
 import { ShowTotal } from '../../styled/showTotal';
-import 'react-calendar-timeline/lib/Timeline.css'
+// import 'react-calendar-timeline/lib/Timeline.css'
 import Timeline, {
   TimelineHeaders,
   SidebarHeader,
@@ -323,12 +323,12 @@ const TableHumans = () => {
               {/* Content of Tab Pane 1 */}
             </TabPane>
             <TabPane tab={t('view.ai_config.schedule_config')} key="2">
-            <Timeline 
-              groups={groups}
-              items={items}
-              defaultTimeStart={moment().startOf('d')}
-              defaultTimeEnd={moment().endOf('d')}
-              
+              <Timeline
+                groups={groups}
+                items={items}
+                defaultTimeStart={moment().startOf('d')}
+                defaultTimeEnd={moment().endOf('d')}
+
               />
             </TabPane>
           </Tabs>
