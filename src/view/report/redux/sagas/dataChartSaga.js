@@ -96,7 +96,6 @@ export function* handleDataChartLoad(action) {
     eventId: params.eventList
   }
 
-  console.log("payloadDataChart:", payloadDataChart)
   // "time": "30/10/2021",
   // "location": "Hà Nội",
   // "event1": "Lấn làn ",

@@ -72,9 +72,6 @@ const TablePtzManager = () => {
     let clientId = e.clientId;
   };
 
-  const deletePtz = (e) => {
-    console.log('deletePtz: ' + JSON.stringify(e));
-  };
 
   const addNewPtzProfile = () => {
     setShowCreate(true);
@@ -147,9 +144,7 @@ const TablePtzManager = () => {
             />
             <Button
               icon={<DeleteOutlined />}
-              onClick={() => {
-                deletePtz(record);
-              }}
+
             />
           </Space>
         );

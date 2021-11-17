@@ -1,7 +1,6 @@
 import { SearchOutlined } from '@ant-design/icons';
 import { AutoComplete, Col, Form, Modal, Row, Select, Table, Tag } from 'antd';
 import { isEmpty } from 'lodash';
-import debounce from 'lodash/debounce';
 import React, { useEffect, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import AddressApi from '../../../../actions/api/address/AddressApi';
@@ -28,9 +27,7 @@ const ModalAddCamera = (props) => {
   const [isModalVisible, setIsModalVisible] = useState(selectedAdd);
   const [selectedRowKeys, setSelectedRowKeys] = useState([]);
   const [listCamera, setListCamera] = useState([]);
-  const [selectedCameraId, setSelectedCameraId] = useState(null);
-  const [selectedCameraIdEdit, setSelectedCameraIdEdit] = useState(null);
-  const [loading, setLoading] = useState(false);
+  const selectedCameraIdEdit = null
   const [provinceId, setProvinceId] = useState('');
   const [search, setSearch] = useState('');
   const [districts, setDistrict] = useState([]);
@@ -52,7 +49,6 @@ const ModalAddCamera = (props) => {
   };
 
   useEffect(() => {
-    setLoading(true);
     let data = {
       name: '',
       provinceId: '',
@@ -71,9 +67,7 @@ const ModalAddCamera = (props) => {
 
         setListCamera(data);
       })
-      .finally(setLoading(false));
 
-    setLoading(false);
   }, [selectedCameraIdEdit]);
 
   useEffect(() => {
@@ -94,7 +88,6 @@ const ModalAddCamera = (props) => {
 
         setListCamera(data);
       })
-      .finally(setLoading(false));
   }, []);
 
   useEffect(() => {
@@ -263,7 +256,6 @@ const ModalAddCamera = (props) => {
   const handleSearch = async (value) => {
     setSearch(value);
     setName(value);
-    setLoading(true);
     let data = {
       name: value,
       provinceId: provinceId,
@@ -280,7 +272,6 @@ const ModalAddCamera = (props) => {
 
       setListCamera(data);
     });
-    setLoading(false);
   };
 
   const statusTag = (cellValue, row) => {

@@ -16,7 +16,7 @@ import { useTranslation } from "react-i18next";
 
 export default function TableCameraGroupPermission(props) {
   const { handleRefreshCameraPage } = props;
-  const { t } = useTranslation(); 
+  const { t } = useTranslation();
   const [reload, setReload] = useState(false);
   const [cameraGroup, setCameraGroup] = useState([]);
   const [cameraGroupPermision, setCameraGroupPermision] = useState([]);
@@ -389,7 +389,7 @@ export default function TableCameraGroupPermission(props) {
           <Button
             type="primary"
             className="btnAddGroupPermission height-40 mr-1"
-            style={{ borderRadius: '6px' }}
+            style={{ borderRadius: '6px', border: '0' }}
             onClick={showModalAdd}
           >
             <PlusOutlined className="d-flex justify-content-between align-center" />
@@ -477,7 +477,7 @@ export default function TableCameraGroupPermission(props) {
           onShowSizeChange: (current, size) => {
             onShowSizeChange(current, size);
           },
-          pageSizeOptions: [5,10,20,50,100],
+          pageSizeOptions: [5, 10, 20, 50, 100],
           hideOnSinglePage: false,
           current: page,
           total: group.length,

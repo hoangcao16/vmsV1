@@ -3,8 +3,9 @@
         .ant-table-tbody {
             .ant-table-row {
                 &:hover td {
-                    background: #1380ff;
+                    background: $vms-bg-sub;
                     color: #fcfeff;
+                    cursor: pointer;
                   }
             }
             .ant-table-placeholder {

@@ -120,7 +120,6 @@ const EmailConfig = (props) => {
             <Form.Item name={["uuid"]}>
               <Select
                 mode="tags"
-                // mode="multiple"
                 style={{ width: "100%" }}
                 options={props?.allEmails.map((g) => ({
                   value: g.uuid,

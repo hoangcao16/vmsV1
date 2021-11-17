@@ -58,9 +58,6 @@ export default function PermisionOther(props) {
     }
   };
 
-
-  console.log('pemissionOthers:',pemissionOthers)
-
   const renderHeader = () => {
     return (
       <>
@@ -143,7 +140,7 @@ export default function PermisionOther(props) {
             onShowSizeChange: (current, size) => {
               onShowSizeChange(current, size);
             },
-            pageSizeOptions: [5,10,20,50,100],
+            pageSizeOptions: [5, 10, 20, 50, 100],
             hideOnSinglePage: false,
             current: page,
             total: pemissionOthers.length,

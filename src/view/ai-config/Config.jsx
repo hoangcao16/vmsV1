@@ -323,12 +323,12 @@ const TableHumans = () => {
               {/* Content of Tab Pane 1 */}
             </TabPane>
             <TabPane tab={t('view.ai_config.schedule_config')} key="2">
-            <Timeline 
-              groups={groups}
-              items={items}
-              defaultTimeStart={moment().startOf('d')}
-              defaultTimeEnd={moment().endOf('d')}
-              
+              <Timeline
+                groups={groups}
+                items={items}
+                defaultTimeStart={moment().startOf('d')}
+                defaultTimeEnd={moment().endOf('d')}
+
               />
             </TabPane>
           </Tabs>

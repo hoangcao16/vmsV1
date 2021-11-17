@@ -1,31 +1,27 @@
-import React, { useEffect, useState, useCallback } from "react";
-import { Select, Spin, Modal, Image } from "antd";
+import { CheckOutlined, CloseOutlined, EditOutlined, StarFilled } from "@ant-design/icons";
+import { Image, Modal, Select, Spin } from "antd";
+import { debounce } from "lodash";
+import React, { useCallback, useEffect, useState } from "react";
+import { useTranslation } from 'react-i18next';
+import InfiniteScroll from "react-infinite-scroller";
+import bookmarkApi from "../../../api/controller-api/bookmarkApi";
+import cameraApi from "../../../api/controller-api/cameraApi";
+import { KControllerOk } from "../../../api/controller-api/code";
+import nextIcon from "../../../assets/img/icons/next.png";
 import {
     filterOption,
-    normalizeOptions,
+    normalizeOptions
 } from "../../../view/common/select/CustomSelect";
-import { debounce, isEmpty } from "lodash";
-import "./BookmarkSetting.scss";
-
-import InfiniteScroll from "react-infinite-scroller";
-import nextIcon from "../../../assets/img/icons/next.png";
-import bookmarkApi from "../../../api/controller-api/bookmarkApi";
-import { CheckOutlined, CloseOutlined, EditOutlined, StarFilled } from "@ant-design/icons";
-
-import cameraApi from "../../../api/controller-api/cameraApi";
-import Notification from "../notification/Notification";
-import { NOTYFY_TYPE } from "../../../view/common/vms/Constant";
 import {
     GRID1X1,
     GRID2X2,
     GRID3X3,
     GRID4X4,
-    GRIDALL,
+    GRIDALL
 } from "../../../view/common/vms/constans/grid";
-import { useTranslation } from 'react-i18next';
-import { KControllerOk } from "../../../api/controller-api/code";
-
-
+import { NOTYFY_TYPE } from "../../../view/common/vms/Constant";
+import Notification from "../notification/Notification";
+import "./BookmarkSetting.scss";
 
 const gridTypes = [
     {
@@ -74,7 +70,6 @@ const BookmarkSetting = ({
     const [newName, setNewName] = useState(null);
     const [searchName, setSearchName] = useState(null);
     const [initialGridPreview, setInitialGridPreview] = useState([]);
-    const [isModalBookmarkVisible, setIsModalBookmarkVisible] = useState(false);
 
 
     // Debounce the original search async function
@@ -105,6 +100,8 @@ const BookmarkSetting = ({
                 setRowClass("h-25");
                 setColClass("col-3");
                 tmp = initialGridPreview.slice(0, 16);
+                break;
+            default:
                 break;
         }
         setDataGridPreview(tmp);
@@ -258,7 +255,6 @@ const BookmarkSetting = ({
     };
 
     const handleDeleteScreen = async (screen, idx) => {
-        debugger
         const nameScreen = screen.name;
         try {
             const resData = await bookmarkApi.delete(screen.id);
@@ -396,7 +392,6 @@ const BookmarkSetting = ({
         changeEditModeState(false, idx, item);
     };
     const handleBookmarkOk = () => {
-        setIsModalBookmarkVisible(false);
         handleClickOkCB(currentRecord);
     };
 
@@ -457,6 +452,7 @@ const BookmarkSetting = ({
                             >
                                 {bookmarks.map((item, idx) => (
                                     <div
+                                        key={idx}
                                         className={"bookmarks__list-item"}
                                         onClick={(e) => handleSelectScreen(item)}
                                     >
@@ -543,7 +539,7 @@ const BookmarkSetting = ({
                         <div className='bookmarks__container w-100 col-12'>
                             {dataGridPreview &&
                                 dataGridPreview.map((item, index) => (
-                                    <div
+                                    <div key={index}
                                         className={`game-cell flex-grow-1 ${rowClass} ${colClass}`}
                                     >
                                         {item.cameraName}

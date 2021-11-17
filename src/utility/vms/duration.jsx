@@ -1,4 +1,3 @@
-import React from 'react'
 
 export function format(seconds) {
     if (!seconds || 0 || isNaN(seconds)) {

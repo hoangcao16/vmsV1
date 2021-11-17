@@ -1,50 +1,49 @@
 import React, { useEffect, useRef, useState } from "react";
-import { useSelector, useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import styled from "styled-components";
+import { CamType } from "../../@core/common/common";
 import "../../assets/scss/pages/map.scss";
-import { svg } from "../map/camera.icon";
-import { buildingIcon } from "../map/adminisUnit.icon";
-import { cameraRedIconSvg } from "../map/camera-red.icon";
-import MapCameraAdd from "../map/forms/MapCameraAdd";
-import { PAGE_SIZE } from "../common/vms/Constant";
+import mapActions from "../../redux/actions/map";
+import {
+    addAdminisUnitOnMap,
+    updateAdminisUnitOnMap
+} from "../../redux/actions/map/adminisUnitsAction";
+import {
+    addCameraOnMap,
+    updateCameraOnMapByFilter
+} from "../../redux/actions/map/cameraActions";
+import {
+    seekPlaybackOnMap
+} from "../../redux/actions/map/camLiveAction";
+import {
+    setMapStyle, updateMapObject
+} from "../../redux/actions/map/formMapActions";
+import {
+    addNewTrackingPoint,
+    updateCurrentLang,
+    updateTrackingPointAction
+} from "../../redux/actions/map/trackingPointActions";
 import {
     FORM_MAP_ITEM,
     STYLE_MODE,
     TRACKING_POINTS,
-    TYPE_FORM_ACTION_ON_MAP,
+    TYPE_FORM_ACTION_ON_MAP
 } from "../common/vms/constans/map";
-import { CamType } from "../../@core/common/common";
+import { PAGE_SIZE } from "../common/vms/Constant";
+import { buildingIcon } from "../map/adminisUnit.icon";
+import { cameraRedIconSvg } from "../map/camera-red.icon";
+import { svg } from "../map/camera.icon";
 import MapAdministrativeUnitAdd from "../map/forms/MapAdministrativeUnitAdd";
-import mapActions from "../../redux/actions/map";
-import ControlMapStyles from "./ControlMapStyles";
-import ToggleMapMode from "./ToggleMapMode";
-import ViewMapOffline from "./ViewMapOffline";
-import LiveAndPlaybackCam from "./LiveAndPlaybackCam";
-import {
-    addNewTrackingPoint,
-    updateCurrentLang,
-    updateTrackingPointAction,
-} from "../../redux/actions/map/trackingPointActions";
-import {
-    updateMapObject,
-    setMapStyle
-} from "../../redux/actions/map/formMapActions";
-import {
-    addCameraOnMap,
-    updateCameraOnMapByFilter,
-} from "../../redux/actions/map/cameraActions";
-
-import {
-    seekPlaybackOnMap,
-} from "../../redux/actions/map/camLiveAction";
-import {
-    addAdminisUnitOnMap,
-    updateAdminisUnitOnMap,
-} from "../../redux/actions/map/adminisUnitsAction";
-import RightSideBarMap from "../map/forms/RightSideBarMap";
+import MapCameraAdd from "../map/forms/MapCameraAdd";
 import MapListCamLive from "../map/forms/MapListCamLive";
+import RightSideBarMap from "../map/forms/RightSideBarMap";
+import ControlMapStyles from "./ControlMapStyles";
+import LiveAndPlaybackCam from "./LiveAndPlaybackCam";
 import PlaybackDateTimeSelection from "./PlaybackDateTimeSelection";
 import SearchCamItem from "./SearchCamItem";
+import ToggleMapMode from "./ToggleMapMode";
+import ViewMapOffline from "./ViewMapOffline";
+
 
 const RelativeWrapper = styled.div`
   position: relative;
@@ -62,8 +61,8 @@ const Maps = (props) => {
         "data:image/svg+xml;charset=utf-8;base64," + btoa(cameraRedIconSvg);
 
     // selector data from store
-    const camerasOnMap = useSelector((state) => state.map.camera);
-    const adminisUnitsOnMap = useSelector((state) => state.map.adminisUnit);
+    // const camerasOnMap = useSelector((state) => state.map.camera);
+    // const adminisUnitsOnMap = useSelector((state) => state.map.adminisUnit);
     const trackingPointSelector = useSelector(
         (state) => state.map.trackingPoint.trackingPoints
     );
@@ -93,10 +92,10 @@ const Maps = (props) => {
 
     // declare state component
     const [liveMode, setLiveMode] = useState(true);
-    const [radiusTrackingPoint, setRadiusTrackingPoint] = useState(1);
     const [search, setSearch] = useState("");
     const [filter, setFilter] = useState({});
     const [filterType, setFilterType] = useState(CamType);
+    const radiusTrackingPoint = 1
     const metadata = {
         page: 1,
         pageSize: PAGE_SIZE
@@ -158,7 +157,7 @@ const Maps = (props) => {
 
     const handleSearch = async (searchQuery) => {
         setSearch(searchQuery);
-        if (filterType == CamType) {
+        if (filterType === CamType) {
             setCamMetadata(metadata)
         } else {
             setAdMetadata(metadata)
@@ -244,7 +243,7 @@ const Maps = (props) => {
     };
 
     const handleSubmitCallback = (payload) => {
-        if (actionType == TYPE_FORM_ACTION_ON_MAP.cam) {
+        if (actionType === TYPE_FORM_ACTION_ON_MAP.cam) {
             handleSumitCameraCallback(payload).then((r) => console.log(r));
         } else {
             handleSumitAdminisUnitCallback(payload).then((r) => console.log(r));
@@ -252,7 +251,7 @@ const Maps = (props) => {
     };
 
     const handleNextPageCallback = async (currentPage) => {
-        if (filterType == CamType) {
+        if (filterType === CamType) {
             setCamMetadata({
                 ...camMetadata,
                 page: currentPage
@@ -280,7 +279,7 @@ const Maps = (props) => {
             minDistance: 0,
             maxDistance: radiusTrackingPoint * 1000,
         };
-        dispatch(updateCameraOnMapByTrackingPoint({ body: filterTrackingPoint, id,  type}));
+        dispatch(updateCameraOnMapByTrackingPoint({ body: filterTrackingPoint, id, type }));
     };
 
     const addTrackingPoint = (feature, id) => {
@@ -346,7 +345,7 @@ const Maps = (props) => {
     };
 
     useEffect(() => {
-        if(filterType === CamType) {
+        if (filterType === CamType) {
             fetchCameras(filter, search, PAGE_SIZE, camMetadata.page);
         } else {
             fetchAdministrativeUnits(filter, search, PAGE_SIZE, adMetadata.page)

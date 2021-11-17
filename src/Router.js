@@ -240,7 +240,7 @@ const Maps = lazy(() => import('./view/maps/Maps'));
 const Preset = lazy(() => import('./view/preset/Preset'));
 const Report = lazy(() => import('./view/report/Report'));
 const Infor = lazy(() => import('./view/infor/InforUserDetails'));
-const Notification = lazy(() => import('./view/notification/Notification'));
+// const Notification = lazy(() => import('./view/notification/Notification'));
 
 // Set Layout and Component Using App Route
 const RouteConfig = ({ component: Component, fullLayout, ...rest }) => (
@@ -254,8 +254,8 @@ const RouteConfig = ({ component: Component, fullLayout, ...rest }) => (
               fullLayout === true
                 ? context.fullLayout
                 : context.state.activeLayout === 'horizontal'
-                ? context.horizontalLayout
-                : context.VerticalLayout;
+                  ? context.horizontalLayout
+                  : context.VerticalLayout;
             return (
               <LayoutTag {...props} permission={props.user}>
                 <Suspense fallback={<Spinner />}>

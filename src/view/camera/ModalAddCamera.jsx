@@ -10,8 +10,10 @@ import {
   Select,
   Upload
 } from 'antd';
+import 'antd/dist/antd.css';
 import { isEmpty } from 'lodash';
 import React, { useEffect, useState } from 'react';
+import { useTranslation } from 'react-i18next';
 import { v4 as uuidV4 } from 'uuid';
 import AddressApi from '../../actions/api/address/AddressApi';
 import AdDivisionApi from '../../actions/api/advision/AdDivision';
@@ -27,11 +29,9 @@ import './../commonStyle/commonInput.scss';
 import './../commonStyle/commonModal.scss';
 import './../commonStyle/commonSelect.scss';
 import './ModalAddCamera.scss';
-import './UploadFile.scss';
-import 'antd/dist/antd.css';
-import { useTranslation } from 'react-i18next';
 import ModalAddEditTagBindCam from './ModalAddEditTagBindCam';
 import { compareName } from './ModalEditCamera';
+import './UploadFile.scss';
 
 export const DATA_FAKE_CAMERA = {
   provinces: [{ name: '', provinceId: '' }],
@@ -47,54 +47,20 @@ const formItemLayout = {
   labelCol: { span: 24 }
 };
 
-// function getBase64(img, callback) {
-//   const reader = new FileReader();
-//   reader.addEventListener('load', () => callback(reader.result));
-//   reader.readAsDataURL(img);
-// }
-
-// function beforeUpload(file) {
-//   const isJpgOrPng = file.type === 'image/jpeg' || file.type === 'image/png';
-//   if (!isJpgOrPng) {
-//     message.error('You can only upload JPG/PNG file!');
-//   }
-//   const isLt2M = file.size / 1024 / 1024 < 2;
-//   if (!isLt2M) {
-//     message.error('Image must smaller than 2MB!');
-//   }
-//   return isJpgOrPng && isLt2M;
-// }
-
 const ModalAddCamera = (props) => {
   const { t } = useTranslation();
   const { handleShowModalAdd, selectedAdd, data } = props;
   const [showModalTag, setShowModalTag] = useState(false);
 
   const [isModalVisible, setIsModalVisible] = useState(selectedAdd);
-  // const [loading, setLoading] = useState(false);
-
-  const [imageUrl, setImageUrl] = useState(null);
-
   const [filterOptions, setFilterOptions] = useState(DATA_FAKE_CAMERA);
-
   const [provinceId, setProvinceId] = useState(null);
-
   const [districts, setDistrict] = useState([]);
-
   const [districtId, setDistrictId] = useState(null);
-
   const [wards, setWard] = useState([]);
-
-  const [unit, setUnit] = useState('');
-
-  const [vendor, setVendor] = useState('');
-
-  const [status, setStatus] = useState(0);
   const [avatarUrl, setAvatarUrl] = useState('');
   const [isLoading, setLoading] = useState(false);
-
   const [avatarFileName, setAvatarFileName] = useState('');
-
   const [form] = Form.useForm();
 
   useEffect(() => {

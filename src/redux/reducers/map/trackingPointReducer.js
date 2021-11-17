@@ -34,9 +34,9 @@ const initialState = {
 const trackinhPointMapReducer = (state = initialState, action) => {
   switch (action.type) {
     case SET_TRACKING_POINTS_ON_MAP: {
-        return { ...state, trackingPoints: action.payload };
-      }
-    
+      return { ...state, trackingPoints: action.payload };
+    }
+
     case FETCH_ALL_TRACKING_POINT_ON_MAP: {
       return { ...state, listCamByTrackingPoint: [], metadata: {}, isLoading: true };
     }
@@ -62,8 +62,8 @@ const trackinhPointMapReducer = (state = initialState, action) => {
     case UPDATE_TRACKING_POINT: {
       const cloneTrackingPoints = cloneDeep(state.trackingPoints);
       cloneTrackingPoints.forEach((trackPoint, index) => {
-        if(trackPoint.id === action.payload.id) {
-          cloneTrackingPoints[index] = {...action.payload};
+        if (trackPoint.id === action.payload.id) {
+          cloneTrackingPoints[index] = { ...action.payload };
         }
       })
       localStorage.setItem(TRACKING_POINTS, JSON.stringify(cloneTrackingPoints));
@@ -92,30 +92,30 @@ const trackinhPointMapReducer = (state = initialState, action) => {
     }
 
     case DELETE_ONE_TRACKING_POINT_ON_MAP: {
-        const selectedPoint = action.payload;
-        const camFilterByTrackPoint = state.listCamByTrackingPoint.filter(cam => !(cam.trackingPointId == selectedPoint.id));
-        const trackingPointFilter = state.trackingPoints.filter(point => !(point.id == selectedPoint.id));
-        localStorage.setItem(TRACKING_POINTS, JSON.stringify(trackingPointFilter))
-        return {
-          ...state,
-          listCamByTrackingPoint: [...camFilterByTrackPoint],
-          trackingPoints: [...trackingPointFilter],
-          selectedTrackPoint: null,
-        };
-      }
+      const selectedPoint = action.payload;
+      const camFilterByTrackPoint = state.listCamByTrackingPoint.filter(cam => !(cam.trackingPointId === selectedPoint.id));
+      const trackingPointFilter = state.trackingPoints.filter(point => !(point.id === selectedPoint.id));
+      localStorage.setItem(TRACKING_POINTS, JSON.stringify(trackingPointFilter))
+      return {
+        ...state,
+        listCamByTrackingPoint: [...camFilterByTrackPoint],
+        trackingPoints: [...trackingPointFilter],
+        selectedTrackPoint: null,
+      };
+    }
 
-      case DELETE_ALL_TRACKING_POINT_ON_MAP: {
-        localStorage.removeItem(TRACKING_POINTS)
-        return {
-          ...state,
-          listCamByTrackingPoint: [],
-          trackingPoints: [],
-          selectedTrackPoint: null,
-        };
-      }
+    case DELETE_ALL_TRACKING_POINT_ON_MAP: {
+      localStorage.removeItem(TRACKING_POINTS)
+      return {
+        ...state,
+        listCamByTrackingPoint: [],
+        trackingPoints: [],
+        selectedTrackPoint: null,
+      };
+    }
 
-    case SET_SELECTED_TRACKING_POINT : {
-        return {...state, selectedTrackPoint: action.payload}
+    case SET_SELECTED_TRACKING_POINT: {
+      return { ...state, selectedTrackPoint: action.payload }
     }
 
     default: {

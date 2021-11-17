@@ -1,22 +1,12 @@
-import React, { useEffect, useState } from "react";
 import {
-    PlusOutlined,
-    MinusOutlined,
-    Video,
-    Youtube,
-    DownOutlined,
-    UpOutlined,
-    LeftOutlined,
-    RightOutlined,
+    DownOutlined, LeftOutlined, MinusOutlined, PlusOutlined, RightOutlined, UpOutlined
 } from "@ant-design/icons";
-import { Select, Button } from "antd";
-import { filterOption, normalizeOptions } from "../common/select/CustomSelect";
-import "./LiveMenuTool.scss";
-import ptzControllerApi from '../../api/ptz/ptzController';
-import { NOTYFY_TYPE } from '../common/vms/Constant'
-import Notification from '../../components/vms/notification/Notification'
-import { reactLocalStorage } from "reactjs-localstorage";
+import { Button } from "antd";
 import { isEmpty } from "lodash-es";
+import React, { useEffect, useState } from "react";
+import { reactLocalStorage } from "reactjs-localstorage";
+import ptzControllerApi from '../../api/ptz/ptzController';
+import "./LiveMenuTool.scss";
 
 const LiveMenuTool = (props) => {
     const { idCamera, reloadLiveMenuTool } = props;
@@ -75,7 +65,7 @@ const LiveMenuTool = (props) => {
             speed: 1,
         };
         try {
-            const isPost = ptzControllerApi.postPan(payload);
+            ptzControllerApi.postPan(payload);
         } catch (error) {
             console.log(error);
         }
@@ -89,7 +79,7 @@ const LiveMenuTool = (props) => {
             speed: 1,
         };
         try {
-            const isPost = await ptzControllerApi.postPan(payload);
+            ptzControllerApi.postPan(payload);
         } catch (error) {
             console.log(error);
         }
@@ -103,7 +93,7 @@ const LiveMenuTool = (props) => {
             speed: 1,
         };
         try {
-            const isPost = await ptzControllerApi.postPan(payload);
+            ptzControllerApi.postPan(payload);
         } catch (error) {
             console.log(error);
         }
@@ -117,7 +107,7 @@ const LiveMenuTool = (props) => {
             speed: 1,
         };
         try {
-            const isPost = await ptzControllerApi.postPan(payload);
+            ptzControllerApi.postPan(payload);
         } catch (error) {
             console.log(error);
         }
@@ -131,7 +121,7 @@ const LiveMenuTool = (props) => {
             speed: 1,
         };
         try {
-            const isPost = await ptzControllerApi.postTilt(payload);
+            ptzControllerApi.postTilt(payload);
         } catch (error) {
             console.log(error);
         }
@@ -145,7 +135,7 @@ const LiveMenuTool = (props) => {
             speed: 1,
         };
         try {
-            const isPost = await ptzControllerApi.postTilt(payload);
+            ptzControllerApi.postTilt(payload);
         } catch (error) {
             console.log(error);
         }
@@ -159,7 +149,7 @@ const LiveMenuTool = (props) => {
             speed: 1,
         };
         try {
-            const isPost = await ptzControllerApi.postTilt(payload);
+            ptzControllerApi.postTilt(payload);
         } catch (error) {
             console.log(error);
         }
@@ -173,7 +163,7 @@ const LiveMenuTool = (props) => {
             speed: 1,
         };
         try {
-            const isPost = await ptzControllerApi.postTilt(payload);
+            ptzControllerApi.postTilt(payload);
         } catch (error) {
             console.log(error);
         }
@@ -187,7 +177,7 @@ const LiveMenuTool = (props) => {
             speed: 1,
         };
         try {
-            const isPost = await ptzControllerApi.postZoom(payload);
+            ptzControllerApi.postZoom(payload);
         } catch (error) {
             console.log(error);
         }
@@ -201,7 +191,7 @@ const LiveMenuTool = (props) => {
             speed: 1,
         };
         try {
-            const isPost = await ptzControllerApi.postZoom(payload);
+            ptzControllerApi.postZoom(payload);
         } catch (error) {
             console.log(error);
         }
@@ -215,7 +205,7 @@ const LiveMenuTool = (props) => {
             speed: 1,
         };
         try {
-            const isPost = await ptzControllerApi.postZoom(payload);
+            ptzControllerApi.postZoom(payload);
         } catch (error) {
             console.log(error);
         }
@@ -229,7 +219,7 @@ const LiveMenuTool = (props) => {
             speed: 1,
         };
         try {
-            const isPost = await ptzControllerApi.postZoom(payload);
+            ptzControllerApi.postZoom(payload);
         } catch (error) {
             console.log(error);
         }
@@ -242,7 +232,7 @@ const LiveMenuTool = (props) => {
             idPreset: value,
         };
         try {
-            const isPost = await ptzControllerApi.postCallPreset(body);
+            ptzControllerApi.postCallPreset(body);
         } catch (error) {
             console.log(error);
         }
@@ -255,7 +245,7 @@ const LiveMenuTool = (props) => {
             idPresetTour: value,
         };
         try {
-            const isPost = await ptzControllerApi.postCallPresetTour(body);
+            ptzControllerApi.postCallPresetTour(body);
         } catch (error) {
             console.log(error);
         }
@@ -264,18 +254,25 @@ const LiveMenuTool = (props) => {
 
     const renderOptionPreset = () => {
         return presetLists?.map((item, index) =>
-            <option value={item?.idPreset}>{item?.name}</option>
+            <option key={index} value={item?.idPreset}>{item?.name}</option>
         )
     }
 
     const renderOptionPresetTour = () => {
         return presetTourLists?.map((item, index) =>
-            <option value={item?.idPresetTour}>{item?.name}</option>
+            <option key={index} value={item?.idPresetTour}>{item?.name}</option>
         )
     }
 
     const checkPermissionViewCamera = (idCamera) => {
         const permissionUser = reactLocalStorage.getObject('permissionUser');
+        if (!isEmpty(permissionUser?.roles)) {
+            const roles = permissionUser?.roles;
+            for (const role of roles) {
+                if (role.role_code === 'superadmin')
+                    return true
+            }
+        }
         if (!isEmpty(permissionUser?.p_cameras)) {
             const p_cameras = permissionUser.p_cameras;
             for (const camera of p_cameras) {
@@ -359,8 +356,9 @@ const LiveMenuTool = (props) => {
                             e.stopPropagation()
                             onChangeSelectPreset()
                         }}
+                        defaultValue=''
                     >
-                        <option value='' disabled hidden selected>Preset</option>
+                        <option value='' disabled hidden >Preset</option>
                         {renderOptionPreset()}
                     </select>
 
@@ -373,13 +371,14 @@ const LiveMenuTool = (props) => {
                             e.stopPropagation()
                             onChangeSelectPresetTour()
                         }}
+                        defaultValue=''
                     >
-                        <option value='' disabled hidden selected>Preset Tour</option>
+                        <option value='' disabled hidden >Preset Tour</option>
                         {renderOptionPresetTour()}
                     </select>
                 </div>
             </div>
-        </div>
+        </div >
     );
 };
 

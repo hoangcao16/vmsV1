@@ -41,7 +41,6 @@ function AddGroup(props) {
   };
 
   const goBack = () => {
-    console.log('test');
     props.history.goBack();
   };
 

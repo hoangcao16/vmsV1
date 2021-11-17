@@ -18,7 +18,7 @@ export default function TableCameraGroupPermission(props) {
   const [cameraGroup, setCameraGroup] = useState([]);
   const [cameraGroupPermision, setCameraGroupPermision] = useState([]);
   const [selectedAdd, setSelectedAdd] = useState(false);
-  const { t } = useTranslation(); 
+  const { t } = useTranslation();
   const [page, setPage] = useState(1);
   const [size, setSize] = useState(5);
 
@@ -318,6 +318,7 @@ export default function TableCameraGroupPermission(props) {
           <Button
             type="primary"
             className="btnAddGroupPermission"
+            style={{ borderRadius: '6px', border: '0' }}
             onClick={showModalAdd}
           >
             <PlusOutlined />
@@ -414,7 +415,7 @@ export default function TableCameraGroupPermission(props) {
           onShowSizeChange: (current, size) => {
             onShowSizeChange(current, size);
           },
-          pageSizeOptions: [5,10,20,50,100],
+          pageSizeOptions: [5, 10, 20, 50, 100],
           hideOnSinglePage: false,
           current: page,
           total: group.length,

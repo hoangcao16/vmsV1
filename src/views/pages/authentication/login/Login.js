@@ -1,23 +1,16 @@
-import classnames from 'classnames';
-import React, { useEffect, useState } from 'react';
+import React, { useEffect } from 'react';
+import { useTranslation } from 'react-i18next';
+import { reactLocalStorage } from "reactjs-localstorage";
 import {
   Card,
   CardHeader,
   CardTitle,
-  Col,
-  Nav,
-  NavItem,
-  NavLink,
-  Row,
-  TabContent,
-  TabPane
+  Col, Row
 } from 'reactstrap';
 import loginImg from '../../../../assets/img/pages/login.png';
 import '../../../../assets/scss/pages/authentication.scss';
+import './Login.scss';
 import LoginDefault from './LoginDefault.jsx';
-import './Login.scss'
-import { useTranslation } from 'react-i18next';
-import { reactLocalStorage } from "reactjs-localstorage";
 
 const Login = () => {
   const { t } = useTranslation();
@@ -25,11 +18,11 @@ const Login = () => {
 
   useEffect(() => {
     if (
-      language == "vn"
+      language === "vn"
         ? (document.title = "CCTV | Đăng nhập")
         : (document.title = "CCTV | Login")
     );
-  },[t]);
+  }, [t]);
 
   return (
     <Row className="m-0 justify-content-center login">

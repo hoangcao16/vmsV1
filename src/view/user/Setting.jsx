@@ -13,13 +13,12 @@ import { Card, CardBody, TabContent } from 'reactstrap';
 import UserApi from '../../actions/api/user/UserApi';
 import Notification from '../../components/vms/notification/Notification';
 import { history } from '../../history';
+import TableHumans from '../ai-humans/TableHumans';
 import TableCameraGroup from '../camera/TableCameraGroup';
 import TableCameraScan from '../camera/TableCameraScan';
 import TableCategory from '../category/TableCategory';
 import DeviceManage from '../commonDevice/DeviceManage';
-import TableStorage from '../storage/files/TableStorage';
 import TableHardDriveList from '../storage/hard-drive-list/TableHardDriveList';
-import TableHumans from '../ai-humans/TableHumans';
 import Config from '../ai-config/Config';
 import StoreSetting from '../storage/store-setting/StoreSetting';
 import './../../assets/scss/pages/account-settings.scss';
@@ -131,7 +130,7 @@ function AccountSettings() {
             </NavLink>
           </li>
 
-          
+
 
           <li onClick={handleLogout}>
             <span

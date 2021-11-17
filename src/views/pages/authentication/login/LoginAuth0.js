@@ -11,14 +11,11 @@ const LoginAuth0 = props => {
         <Button.Ripple
           color="primary"
           className="mt-1"
-          onClick={ e => {
+          onClick={e => {
             e.preventDefault()
 
-            if (!isAuthenticated){
+            if (!isAuthenticated) {
               loginWithRedirect()
-            }
-            else{
-              console.log('Already Logged In')
             }
           }}
         >

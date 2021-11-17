@@ -6,8 +6,7 @@ import CameraApi from '../../../../actions/api/camera/CameraApi';
 import './ModalAddCameraGroup.scss';
 
 const ModalAddCameraGroup = (props) => {
-  const { handleShowModalAdd, selectedAdd, groupCode } = props;
-
+  const { handleShowModalAdd, selectedAdd } = props;
   const [isModalVisible, setIsModalVisible] = useState(selectedAdd);
   const [selectedRowKeys, setSelectedRowKeys] = useState([]);
   const [search, setSearch] = useState('');

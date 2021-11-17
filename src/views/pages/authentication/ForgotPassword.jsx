@@ -121,14 +121,6 @@ const ForgotPassword = () => {
                         value={email}
                         maxLength={255}
                         onChange={(e) => {
-                          console.log("email", e.target.value.trim());
-                          // if (
-                          //   document
-                          //     .getElementsByClassName(
-                          //       "email__receive-new-password"
-                          //     )[0]
-                          //     .value.trim() === ""
-                          // )
                           const value = e.target.value.trim();
                           setEmail(value);
                         }}

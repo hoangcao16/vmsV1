@@ -1,20 +1,19 @@
 import {
   CloseOutlined,
-  PlusOutlined,
-  QuestionCircleOutlined
+  PlusOutlined
 } from '@ant-design/icons';
 import { Button, Checkbox, Popconfirm, Space, Table, Tag, Tooltip } from 'antd';
 import { isEmpty } from 'lodash-es';
-import React, { useEffect, useMemo, useState } from 'react';
+import React, { useEffect, useState } from 'react';
+import { useTranslation } from 'react-i18next';
 import CameraApi from '../../../../actions/api/camera/CameraApi';
 import UserApi from '../../../../actions/api/user/UserApi';
+import { ShowTotal } from '../../../../styled/showTotal';
 import '../../../commonStyle/commonAuto.scss';
 import '../../../commonStyle/commonSelect.scss';
 import Notification from './../../../../components/vms/notification/Notification';
 import './Camera.scss';
 import ModalAddCamera from './ModalAddCamera';
-import { ShowTotal } from '../../../../styled/showTotal';
-import { useTranslation } from 'react-i18next';
 
 export default function Camera(props) {
   const [data, setData] = useState([]);

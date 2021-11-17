@@ -345,7 +345,7 @@ function AddUser(props) {
                           data-cy="user-phone"
                           defaultCountry={'vn'}
                           autoComplete="off"
-                          // placeholder={t('view.user.detail_list.phone_number')}
+                        // placeholder={t('view.user.detail_list.phone_number')}
                         />
                       </Form.Item>
                     </Col>

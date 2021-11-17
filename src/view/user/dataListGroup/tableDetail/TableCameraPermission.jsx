@@ -55,7 +55,6 @@ export default function TableCameraPermission(props) {
     CameraApi.getAllCamera(data).then(setCamera);
     GroupApi.getGroupByUuid(props?.groupUuid).then(async (result) => {
       const data = await UserApi.getUserByGroupUuid(result?.code);
-
       setCameraPermission(data?.p_cameras);
     });
   }, [props?.reloadCameraPage, reload]);
@@ -442,7 +441,7 @@ export default function TableCameraPermission(props) {
           onShowSizeChange: (current, size) => {
             onShowSizeChange(current, size);
           },
-          pageSizeOptions: [5,10,20,50,100],
+          pageSizeOptions: [5, 10, 20, 50, 100],
           hideOnSinglePage: false,
           current: page,
           total: cameras.length,

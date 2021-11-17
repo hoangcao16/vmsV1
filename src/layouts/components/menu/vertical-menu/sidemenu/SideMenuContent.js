@@ -227,7 +227,6 @@ const SideMenuContent = (props) => {
             <select
               defaultValue={reactLocalStorage.get("language") || LANGUAGES.vn}
               onChange={onChangLanguage}
-              bordered={false}
             // dropdownClassName='dropdown__select--language'
             >
               <option value={LANGUAGES.vn}>{LANGUAGES.vn}</option>
