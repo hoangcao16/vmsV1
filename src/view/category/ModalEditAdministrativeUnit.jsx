@@ -52,8 +52,8 @@ function beforeUpload(file) {
       type: 'error',
       title: '',
       description: `${language == 'vn'
-          ? 'Chỉ được phép sử dụng định dạng loại JPG/PNG!'
-          : 'Only file type JPG/PNG allowed!'
+        ? 'Chỉ được phép sử dụng định dạng loại JPG/PNG!'
+        : 'Only file type JPG/PNG allowed!'
         }`
     };
     Notification(notifyMess);
@@ -64,8 +64,8 @@ function beforeUpload(file) {
       type: 'error',
       title: '',
       description: `${language == 'vn'
-          ? 'Kích thước tệp phải nhỏ hơn 2MB!'
-          : 'File size must under 2MB!'
+        ? 'Kích thước tệp phải nhỏ hơn 2MB!'
+        : 'File size must under 2MB!'
         }`
     };
     Notification(notifyMess);
@@ -278,7 +278,7 @@ const ModalEditAdministrativeUnit = (props) => {
   return (
     <>
       <Modal
-        title={selectedCategoryId ? 'Sửa' : `${t('view.camera.add_new')}`}
+        title={selectedCategoryId ? 'Sửa Đơn Vị Hành Chính' : `${t('view.camera.add_new')}`}
         visible={true}
         onCancel={() => {
           setShowModal(false);
@@ -306,21 +306,19 @@ const ModalEditAdministrativeUnit = (props) => {
                 onChange={handleChange}
               >
                 {avatarUrl && avatarUrl !== '' ? (
-                  <div className="">
-                    <Avatar
-                      icon={<UserOutlined />}
-                      src={avatarUrl}
-                      className="avatarUser"
-                      size={{
-                        xs: 24,
-                        sm: 32,
-                        md: 40,
-                        lg: 64,
-                        xl: 80,
-                        xxl: 130
-                      }}
-                    />
-                  </div>
+                  <Avatar
+                    icon={<UserOutlined />}
+                    src={avatarUrl}
+                    className="avatarUser"
+                  // size={{
+                  //   xs: 24,
+                  //   sm: 32,
+                  //   md: 40,
+                  //   lg: 64,
+                  //   xl: 80,
+                  //   xxl: 130
+                  // }}
+                  />
                 ) : (
                   uploadButton
                 )}
@@ -419,6 +417,7 @@ const ModalEditAdministrativeUnit = (props) => {
                   filterOption={filterOption}
                   options={normalizeOptions('name', 'provinceId', provinces)}
                   placeholder={t('view.map.province_id')}
+                  allowClear
                 />
               </Form.Item>
             </Col>
@@ -436,6 +435,7 @@ const ModalEditAdministrativeUnit = (props) => {
                   onChange={(districtId) => onChangeDistrict(districtId)}
                   filterOption={filterOption}
                   options={normalizeOptions('name', 'districtId', districts)}
+                  allowClear
                   placeholder={t('view.map.district_id')}
                 />
               </Form.Item>
@@ -447,6 +447,7 @@ const ModalEditAdministrativeUnit = (props) => {
                   dataSource={wards}
                   filterOption={filterOption}
                   options={normalizeOptions('name', 'id', wards)}
+                  allowClear
                   placeholder={t('view.map.ward_id')}
                 />
               </Form.Item>

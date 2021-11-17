@@ -10,7 +10,14 @@
             }
             .ant-table-placeholder {
                 background: $vms-black;
-                color: rgba(208, 229, 255, 0.7)
+                color: rgba(208, 229, 255, 0.7);
+                &:hover {
+                    .ant-table-cell {
+                        background-color: $vms-bg-sub;
+                        cursor: default;
+                        border: 0;
+                    }
+                } 
               }
         }
     }

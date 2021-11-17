@@ -305,7 +305,6 @@ const TableCategory = () => {
   const categoryColumns = [
     {
       title: `${t('view.storage.NO')}`,
-      fixed: 'left',
       key: 'index',
       className: 'headerColums',
       width: '10%',
@@ -316,14 +315,14 @@ const TableCategory = () => {
       title: `${t('view.category.category_name')}`,
       dataIndex: 'name',
       key: 'name',
-      fixed: 'left',
+      width: '50%',
+
       className: 'headerColums'
     },
 
     {
       title: `${t('view.storage.action')}`,
       className: 'headerColums',
-      fixed: 'right',
       width: '12%',
       render: (_text, record) => {
         return (
@@ -357,7 +356,8 @@ const TableCategory = () => {
     title: 'Lĩnh vực',
     dataIndex: 'fieldName',
     key: 'fieldName',
-    fixed: 'left',
+    width: '40%',
+
     className: 'headerColums'
   };
 

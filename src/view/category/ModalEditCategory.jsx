@@ -123,7 +123,7 @@ const ModalViewEditCategory = (props) => {
           const notifyMess = {
             type: 'success',
             title: 'Thành công',
-            description: `Bạn đã add thành công ${name}`
+            description: `Bạn đã thêm thành công ${name}`
           };
           Notification(notifyMess);
           setShowModal(false);
@@ -143,7 +143,7 @@ const ModalViewEditCategory = (props) => {
   return (
     <>
       <Modal
-        title={selectedCategoryId ? 'Sửa' : 'Thêm mới'}
+        title={selectedCategoryId ? `Sửa ${name}` : 'Thêm mới'}
         visible={true}
         onCancel={() => {
           setShowModal(false);
