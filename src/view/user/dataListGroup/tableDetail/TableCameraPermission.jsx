@@ -2,6 +2,7 @@ import { CloseOutlined, PlusOutlined } from '@ant-design/icons';
 import { Button, Checkbox, Popconfirm, Space, Table, Tooltip } from 'antd';
 import { isEmpty } from 'lodash-es';
 import React, { useEffect, useState } from 'react';
+import { useTranslation } from 'react-i18next';
 import CameraApi from '../../../../actions/api/camera/CameraApi';
 import GroupApi from '../../../../actions/api/group/GroupApi';
 import UserApi from '../../../../actions/api/user/UserApi';
@@ -11,7 +12,6 @@ import '../../../commonStyle/commonSelect.scss';
 import Notification from './../../../../components/vms/notification/Notification';
 import ModalAddCamera from './ModalAddCamera';
 import './TableCameraPermission.scss';
-import { useTranslation } from 'react-i18next';
 
 export default function TableCameraPermission(props) {
   const { t } = useTranslation();
@@ -45,7 +45,9 @@ export default function TableCameraPermission(props) {
       id: '',
       administrativeUnitUuid: '',
       vendorUuid: '',
-      status: ''
+      status: '',
+      page: 0,
+      size: 1000000
     };
 
     setReloadCameraPage(props?.reloadCameraPage);
@@ -53,6 +55,10 @@ export default function TableCameraPermission(props) {
     CameraApi.getAllCamera(data).then(setCamera);
     GroupApi.getGroupByUuid(props?.groupUuid).then(async (result) => {
       const data = await UserApi.getUserByGroupUuid(result?.code);
+<<<<<<< HEAD
+=======
+
+>>>>>>> 1b117bf86492ba1fc2aede0921ac884f690211cc
       setCameraPermission(data?.p_cameras);
     });
   }, [props?.reloadCameraPage, reload]);

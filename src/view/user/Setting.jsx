@@ -19,6 +19,11 @@ import TableCameraScan from '../camera/TableCameraScan';
 import TableCategory from '../category/TableCategory';
 import DeviceManage from '../commonDevice/DeviceManage';
 import TableHardDriveList from '../storage/hard-drive-list/TableHardDriveList';
+<<<<<<< HEAD
+=======
+import TableHumans from '../ai-humans/TableHumans';
+import Config from '../ai-config/Config';
+>>>>>>> 1b117bf86492ba1fc2aede0921ac884f690211cc
 import StoreSetting from '../storage/store-setting/StoreSetting';
 import './../../assets/scss/pages/account-settings.scss';
 import ChangePassword from './ChangePassword';
@@ -115,12 +120,21 @@ function AccountSettings() {
             </NavLink>
           </li>
           <li>
+            <NavLink to={`${path}/ai-config`}>
+              <span className="d-md-inline-block d-none align-middle ml-1">
+                {t('view.ai_config.config')}
+              </span>
+            </NavLink>
+          </li>
+          <li>
             <NavLink to={`${path}/humans`}>
               <span className="d-md-inline-block d-none align-middle ml-1">
                 {t('view.ai_humans.face')}
               </span>
             </NavLink>
           </li>
+
+          
 
           <li onClick={handleLogout}>
             <span
@@ -241,6 +255,20 @@ function AccountSettings() {
                   <CardBody>
                     <TabContent>
                       <TableCategory />
+                    </TabContent>
+                  </CardBody>
+                </Card>
+              );
+            }}
+          />
+          <Route
+            path={`${path}/ai-config`}
+            render={() => {
+              return (
+                <Card className="content">
+                  <CardBody>
+                    <TabContent>
+                      <Config />
                     </TabContent>
                   </CardBody>
                 </Card>

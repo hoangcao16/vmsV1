@@ -216,6 +216,7 @@ const DeviceManage = lazy(() => import('./view/commonDevice/DeviceManage'));
 const Category = lazy(() => import('./view/category/TableCategory'));
 const SettingAccount = lazy(() => import('./view/user/Setting'));
 const TableHumans = lazy(() => import('./view/ai-humans/TableHumans'));
+const Config = lazy(() => import('./view/ai-config/Config'));
 
 const Login = lazy(() => import('./views/pages/authentication/login/Login'));
 const forgotPassword = lazy(() =>
@@ -509,6 +510,7 @@ class AppRouter extends React.Component {
           <AppRoute path="/app/setting/scan" component={Scan} />
           <AppRoute component={error404} fullLayout />
           <AppRoute path="/humans/list" component={TableHumans} />
+          <AppRoute path="/ai-config" component={Config} />
         </Switch>
       </Router>
     );

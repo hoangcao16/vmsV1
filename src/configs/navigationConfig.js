@@ -45,9 +45,15 @@ const navigationConfig = [
   },
   {
     id: 'humans',
-    title: 'Quản lý khuân mặt',
+    title: 'Quản lý khuôn mặt',
     type: 'item',
     navLink: '/humans/list'
+  },
+  {
+    id: 'ai-config',
+    title: 'Quản lý sự kiện thông minh',
+    type: 'item',
+    navLink: '/ai_config'
   }
 ];
 

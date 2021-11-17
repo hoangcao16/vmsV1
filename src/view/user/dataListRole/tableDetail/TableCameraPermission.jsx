@@ -44,7 +44,9 @@ export default function TableCameraPermission(props) {
       id: '',
       administrativeUnitUuid: '',
       vendorUuid: '',
-      status: ''
+      status: '',
+      page: 0,
+      size: 1000000
     };
 
     setReloadCameraPage(props?.reloadCameraPage);
@@ -438,6 +440,7 @@ export default function TableCameraPermission(props) {
     setPage(current);
     setSize(pageSize);
   };
+
 
   return (
     <div>

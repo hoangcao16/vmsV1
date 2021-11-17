@@ -1,19 +1,18 @@
 import { ArrowLeftOutlined, DeleteOutlined } from '@ant-design/icons';
-import { Button, Card, Divider, Modal, Tooltip } from 'antd';
+import { Button, Card, Modal, Tooltip } from 'antd';
 import React from 'react';
-import { useHistory, useRouteMatch } from 'react-router-dom';
+import { useTranslation } from "react-i18next";
+import { useHistory } from 'react-router-dom';
 import { reactLocalStorage } from 'reactjs-localstorage';
 import UserApi from '../../../../actions/api/user/UserApi';
 import permissionCheck from '../../../../actions/function/MyUltil/PermissionCheck';
 import Notification from '../../../../components/vms/notification/Notification';
 import './ModalWarning.scss';
 import './RolesDetailHearder.scss';
-import { useTranslation } from "react-i18next";
 
 
 export default function RolesDetailHearder(props) {
   const { t } = useTranslation();
-  let { path } = useRouteMatch();
   const his = useHistory();
   function warning() {
     Modal.warning({
