@@ -2,6 +2,7 @@ import { CloseOutlined, PlusOutlined } from '@ant-design/icons';
 import { Button, Checkbox, Popconfirm, Space, Table, Tooltip } from 'antd';
 import { isEmpty } from 'lodash-es';
 import React, { useEffect, useState } from 'react';
+import { useTranslation } from 'react-i18next';
 import CameraApi from '../../../../actions/api/camera/CameraApi';
 import GroupApi from '../../../../actions/api/group/GroupApi';
 import UserApi from '../../../../actions/api/user/UserApi';
@@ -11,7 +12,6 @@ import '../../../commonStyle/commonSelect.scss';
 import Notification from './../../../../components/vms/notification/Notification';
 import ModalAddCamera from './ModalAddCamera';
 import './TableCameraPermission.scss';
-import { useTranslation } from 'react-i18next';
 
 export default function TableCameraPermission(props) {
   const { t } = useTranslation();
@@ -19,7 +19,6 @@ export default function TableCameraPermission(props) {
   const [camera, setCamera] = useState([]);
   const [selectedAdd, setSelectedAdd] = useState(false);
   const [cameraPermission, setCameraPermission] = useState([]);
-  const [groups, setGroup] = useState([]);
   const [page, setPage] = useState(1);
   const [size, setSize] = useState(5);
 
@@ -33,13 +32,8 @@ export default function TableCameraPermission(props) {
 
   useEffect(() => {
     GroupApi.getGroupByUuid(props?.groupUuid).then(async (result) => {
-      // setGroup(result);
       const data = await UserApi.getUserByGroupUuid(result?.code);
-      // setMember(data?.users);
-      // setPemissionOthers(data?.p_others);
-      setGroup(data?.p_camera_groups);
       setCameraPermission(data?.p_cameras);
-      // setcameraGroupPermision(data?.p_camera_groups);
     });
   }, [reload]);
 
@@ -51,7 +45,9 @@ export default function TableCameraPermission(props) {
       id: '',
       administrativeUnitUuid: '',
       vendorUuid: '',
-      status: ''
+      status: '',
+      page: 0,
+      size: 1000000
     };
 
     setReloadCameraPage(props?.reloadCameraPage);
@@ -60,7 +56,6 @@ export default function TableCameraPermission(props) {
     GroupApi.getGroupByUuid(props?.groupUuid).then(async (result) => {
       const data = await UserApi.getUserByGroupUuid(result?.code);
 
-      setGroup(data?.p_camera_groups);
       setCameraPermission(data?.p_cameras);
     });
   }, [props?.reloadCameraPage, reload]);
