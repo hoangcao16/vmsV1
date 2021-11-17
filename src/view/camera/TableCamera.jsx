@@ -88,13 +88,11 @@ const TableCamera = () => {
   const [total, setTotal] = useState(0);
   const [page, setPage] = useState(1);
   const [size, setSize] = useState(10);
-
   const [search, setSearch] = useState('');
   const [unit, setUnit] = useState(UNIT.ALL);
-
   const [isModalVisible, setIsModalVisible] = useState(false);
   const history = useHistory();
-  let { path, url } = useRouteMatch();
+  let { path } = useRouteMatch();
 
   const formItemLayout = {
     wrapperCol: { span: 24 },

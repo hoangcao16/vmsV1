@@ -1,15 +1,13 @@
-import React, {Suspense, lazy} from "react"
+import React, { lazy, Suspense } from "react"
 import ReactDOM from "react-dom"
-import {Provider} from "react-redux"
-import {Auth0Provider} from "./authServices/auth0/auth0Service"
-import config from "./authServices/auth0/auth0Config.json"
-import {IntlProviderWrapper} from "./utility/context/Internationalization"
-import {Layout} from "./utility/context/Layout"
-import * as serviceWorker from "./serviceWorker"
-import {store} from "./redux/storeConfig/store"
+import { Provider } from "react-redux"
+import "./@fake-db"
 import Spinner from "./components/@vuexy/spinner/Fallback-spinner"
 import "./index.scss"
-import "./@fake-db"
+import { store } from "./redux/storeConfig/store"
+import * as serviceWorker from "./serviceWorker"
+import { IntlProviderWrapper } from "./utility/context/Internationalization"
+import { Layout } from "./utility/context/Layout"
 
 
 const LazyApp = lazy(() => import("./App"))
@@ -18,10 +16,10 @@ const LazyApp = lazy(() => import("./App"))
 
 ReactDOM.render(
     <Provider store={store}>
-        <Suspense fallback={<Spinner/>}>
+        <Suspense fallback={<Spinner />}>
             <Layout>
                 <IntlProviderWrapper>
-                    <LazyApp/>
+                    <LazyApp />
                 </IntlProviderWrapper>
             </Layout>
         </Suspense>

@@ -1,8 +1,8 @@
-import Notification from "../components/vms/notification/Notification";
+import Hls from "hls.js";
 import lionSvcApi from "../api/lion/cameraApi";
 import playbackApi from "../api/playback/cameraApi";
-import Hls from "hls.js";
-import { updatePlayCamLive, setPlaybackHls, viewCamIsNotOperation } from "../redux/actions/map/camLiveAction";
+import Notification from "../components/vms/notification/Notification";
+import { setPlaybackHls, viewCamIsNotOperation } from "../redux/actions/map/camLiveAction";
 
 class CameraPlaybackService {
     constructor() {
@@ -17,7 +17,7 @@ class CameraPlaybackService {
         seekTime,
         dispatch
     ) {
-        if (camId == "" || camId == null) {
+        if (camId === "" || camId === null) {
             Notification({
                 type: "warning",
                 title: "Playback",

@@ -6,7 +6,7 @@ import CameraApi from '../../../../actions/api/camera/CameraApi';
 import './ModalAddCameraGroup.scss';
 
 const ModalAddCameraGroup = (props) => {
-  const { handleShowModalAdd, selectedAdd, rolesCode } = props;
+  const { handleShowModalAdd, selectedAdd } = props;
   const { t } = useTranslation();
 
   const [isModalVisible, setIsModalVisible] = useState(selectedAdd);
@@ -145,7 +145,7 @@ const ModalAddCameraGroup = (props) => {
         okText={t('view.map.button_save')}
         maskStyle={{ background: 'rgba(51, 51, 51, 0.9)' }}
 
-        // width={500}
+      // width={500}
       >
         <Table
           className="tableAddCameraGroup"

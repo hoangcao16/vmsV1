@@ -163,7 +163,7 @@ const Index = ({
     // };
     const renderListPreset = () => {
         return presetLists?.map((item, index) =>
-            <button className='menu-control-container__right__result__item' title={item.name}
+            <button key={index} className='menu-control-container__right__result__item' title={item.name}
                 onClick={() => onClickCallPreset(item.idPreset)}>
                 {item?.name}
             </button>
@@ -172,7 +172,7 @@ const Index = ({
 
     const renderListPresetTour = () => {
         return presetTourLists?.map((item, index) =>
-            <button className='menu-control-container__right__result__item ' title={item.name}
+            <button key={index} className='menu-control-container__right__result__item ' title={item.name}
                 onClick={() => onClickCallPresetTour(item.idPresetTour)}>
                 {item?.name}
             </button>

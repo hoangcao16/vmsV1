@@ -71,13 +71,13 @@ const TableHumans = () => {
     };
     AIHumansApi.getAllHumans(data).then((result) => {
       setListHumans(result.payload);
-      setTotal(result?.metadata.total);
+      setTotal(result?.metadata?.total);
     });
   }, [page, pageSize, showModal]);
 
 
 
-  
+
   const getNameByCategory = () => {
 
     return (
@@ -96,7 +96,7 @@ const TableHumans = () => {
               </div>
             }
           ></AutoComplete>
-        
+
           <Button
             type="primary"
             onClick={() => {
@@ -136,14 +136,14 @@ const TableHumans = () => {
 
     isDelete = await AIHumansApi.deleteHumans(id);
 
-      const notifyMess = {
-        type: 'success',
-        title: '',
-        description: `${t('noti.successfully_delete_human', {
-          delete: t('delete')
-        })}`
-      };
-      isDelete && Notification(notifyMess);
+    const notifyMess = {
+      type: 'success',
+      title: '',
+      description: `${t('noti.successfully_delete_human', {
+        delete: t('delete')
+      })}`
+    };
+    isDelete && Notification(notifyMess);
 
     const data = {
       page: page,
@@ -163,9 +163,9 @@ const TableHumans = () => {
 
   const renderTag = (haveImg) => {
     let str = ""
-    haveImg ? str = "Đã có ảnh" : str = "Chưa có ảnh" 
+    haveImg ? str = "Đã có ảnh" : str = "Chưa có ảnh"
     return (
-      <Tag color={haveImg  ? '#1380FF' : '#FF4646'} style={{ color: '#ffffff' }}>{str}</Tag>
+      <Tag color={haveImg ? '#1380FF' : '#FF4646'} style={{ color: '#ffffff' }}>{str}</Tag>
     );
   };
 
@@ -277,7 +277,7 @@ const TableHumans = () => {
         bodyStyle={bodyStyleCard}
         headStyle={headStyleCard}
         className="card--category"
-        // headStyle={{ padding: 30 }}
+      // headStyle={{ padding: 30 }}
       >
         <Table
           className="table__hard--drive--list"
@@ -328,10 +328,10 @@ const TableHumans = () => {
       )} */}
       {showModal &&
         <ModalEditHumans
-        selectedHumansId={selectedHumansId}
-        setShowModal={setShowModal}
-      />
-      
+          selectedHumansId={selectedHumansId}
+          setShowModal={setShowModal}
+        />
+
       }
     </div>
   );

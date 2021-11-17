@@ -1,9 +1,8 @@
-import MyService from '../service';
-import FileService from './fileservice';
 import controllerApi from "../../../api/controller-api/api";
+import { handleErrCode } from "../../../api/controller-api/code";
 import Notification from "../../../components/vms/notification/Notification";
-import {NOTYFY_TYPE} from "../../../view/common/vms/Constant";
-import {handleErrCode} from "../../../api/controller-api/code";
+import { NOTYFY_TYPE } from "../../../view/common/vms/Constant";
+import FileService from './fileservice';
 
 const FILE_ENDPOINT = "/cctv-controller-svc/api/v1/files";
 const EVENT_FILE_ENDPOINT = "/cctv-controller-svc/api/v1/event-files";
@@ -46,7 +45,7 @@ const ExportEventFileApi = {
     uploadAvatar: async (avatarFileName, file) => {
         let result;
         const fmData = new FormData();
-        fmData.append('fileInfo', new Blob(['{"fileName": "'+avatarFileName+'"}'], { type: 'application/json' }), 'fileInfo.json')
+        fmData.append('fileInfo', new Blob(['{"fileName": "' + avatarFileName + '"}'], { type: 'application/json' }), 'fileInfo.json')
         fmData.append("files", file);
         try {
             result = await FileService.postRequestData("/api/v1/uploadAvatar", fmData);
@@ -64,7 +63,7 @@ const ExportEventFileApi = {
     uploadFile: async (fileName, file) => {
         let result;
         const fmData = new FormData();
-        fmData.append('fileInfo', new Blob(['{"fileName": "'+fileName+'"}'], { type: 'application/json' }), 'fileInfo.json')
+        fmData.append('fileInfo', new Blob(['{"fileName": "' + fileName + '"}'], { type: 'application/json' }), 'fileInfo.json')
         fmData.append("files", file);
         try {
             result = await FileService.postRequestData("/api/v1/uploadFile", fmData);
@@ -196,7 +195,7 @@ const ExportEventFileApi = {
             if (response && response.data) {
                 return handleErrCode(response.data);
             }
-        }catch (e) {
+        } catch (e) {
             Notification({
                 type: NOTYFY_TYPE.warning,
                 title: 'File lưu trữ',
@@ -208,7 +207,7 @@ const ExportEventFileApi = {
     },
 
     deleteFile: async (uuid) => {
-        try{
+        try {
             const response = await new Promise((resolve, reject) => {
                 controllerApi.axiosIns.delete(`${FILE_ENDPOINT}/${uuid}`)
                     .then(response => resolve(response))
@@ -217,7 +216,7 @@ const ExportEventFileApi = {
             if (response && response.data) {
                 return handleErrCode(response.data);
             }
-        }catch (e) {
+        } catch (e) {
             Notification({
                 type: NOTYFY_TYPE.warning,
                 title: 'File lưu trữ',
@@ -229,8 +228,8 @@ const ExportEventFileApi = {
     },
 
     deletePhysicalFile: async (uuid) => {
-        try{
-            const request = {"listUuid": [uuid]};
+        try {
+            const request = { "listUuid": [uuid] };
             const response = await new Promise((resolve, reject) => {
                 controllerApi.axiosIns.post(MONITOR_CONTROLLER_ENDPOINT + "/file/delete-file", request)
                     .then(response => resolve(response))
@@ -239,7 +238,7 @@ const ExportEventFileApi = {
             if (response && response.data) {
                 return handleErrCode(response.data);
             }
-        }catch (e) {
+        } catch (e) {
             Notification({
                 type: NOTYFY_TYPE.warning,
                 title: 'File lưu trữ',

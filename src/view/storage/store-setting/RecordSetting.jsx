@@ -105,7 +105,7 @@ export default function RecordSetting(props) {
   };
   const secondOptions = [];
   for (let i = 30; i <= 120; i += 30) {
-    secondOptions.push(<Option value={i}>{i}</Option>);
+    secondOptions.push(<Option key={i} value={i}>{i}</Option>);
   }
   // if (isEmpty(recordingVideoData)) return <Spin />
   return (

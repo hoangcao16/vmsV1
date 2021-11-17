@@ -57,7 +57,7 @@ const TableCameraScan = (props) => {
             <h5 style={{ width: 200 }}>{item?.ip}</h5>
 
             <h5>
-              {item.type == 'camera' ? 'Camera' : 'Thiết bị không xác định'}
+              {item.type === 'camera' ? 'Camera' : 'Thiết bị không xác định'}
             </h5>
           </div>
 
@@ -272,7 +272,7 @@ const TableCameraScan = (props) => {
           dataSource={listCamera}
           renderItem={(item) => {
             return (
-              <List.Item className={`${item?.type == 'other' ? 'other' : ''} `}>
+              <List.Item className={`${item?.type === 'other' ? 'other' : ''} `}>
                 {renderItem(item)}
               </List.Item>
             );

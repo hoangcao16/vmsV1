@@ -1,7 +1,6 @@
 import { SearchOutlined } from '@ant-design/icons';
 import { AutoComplete, Col, Form, Modal, Row, Select, Table, Tag } from 'antd';
 import { isEmpty } from 'lodash';
-import debounce from 'lodash/debounce';
 import React, { useEffect, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import AddressApi from '../../../../actions/api/address/AddressApi';

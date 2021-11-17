@@ -19,7 +19,6 @@ export default function TableCameraPermission(props) {
   const [camera, setCamera] = useState([]);
   const [selectedAdd, setSelectedAdd] = useState(false);
   const [cameraPermission, setCameraPermission] = useState([]);
-  const [groups, setGroup] = useState([]);
   const [page, setPage] = useState(1);
   const [size, setSize] = useState(5);
 
@@ -33,13 +32,8 @@ export default function TableCameraPermission(props) {
 
   useEffect(() => {
     GroupApi.getGroupByUuid(props?.groupUuid).then(async (result) => {
-      // setGroup(result);
       const data = await UserApi.getUserByGroupUuid(result?.code);
-      // setMember(data?.users);
-      // setPemissionOthers(data?.p_others);
-      setGroup(data?.p_camera_groups);
       setCameraPermission(data?.p_cameras);
-      // setcameraGroupPermision(data?.p_camera_groups);
     });
   }, [reload]);
 
@@ -59,8 +53,6 @@ export default function TableCameraPermission(props) {
     CameraApi.getAllCamera(data).then(setCamera);
     GroupApi.getGroupByUuid(props?.groupUuid).then(async (result) => {
       const data = await UserApi.getUserByGroupUuid(result?.code);
-
-      setGroup(data?.p_camera_groups);
       setCameraPermission(data?.p_cameras);
     });
   }, [props?.reloadCameraPage, reload]);
@@ -447,7 +439,7 @@ export default function TableCameraPermission(props) {
           onShowSizeChange: (current, size) => {
             onShowSizeChange(current, size);
           },
-          pageSizeOptions: [5,10,20,50,100],
+          pageSizeOptions: [5, 10, 20, 50, 100],
           hideOnSinglePage: false,
           current: page,
           total: cameras.length,

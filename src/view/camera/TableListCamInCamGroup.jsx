@@ -1,14 +1,13 @@
 import { DeleteOutlined, EyeOutlined, SearchOutlined } from '@ant-design/icons';
 import { AutoComplete, Button, Popconfirm, Table, Tooltip } from 'antd';
 import { isEmpty } from 'lodash-es';
-import debounce from 'lodash/debounce';
 import React, { useEffect, useState } from 'react';
+import { useTranslation } from 'react-i18next';
 import CameraApi from '../../actions/api/camera/CameraApi';
 import Notification from '../../components/vms/notification/Notification';
 import { renderText } from '../user/dataListUser/components/TableListUser';
 import ModalViewDetail from './ModalViewDetail';
 import './TableListCamInCamGroup.scss';
-import { useTranslation } from 'react-i18next';
 
 export default function TableListCamInCamGroup(props) {
   const { t } = useTranslation();

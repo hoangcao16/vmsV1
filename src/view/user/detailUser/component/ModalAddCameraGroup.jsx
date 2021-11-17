@@ -6,7 +6,7 @@ import CameraApi from '../../../../actions/api/camera/CameraApi';
 import './ModalAddCameraGroup.scss';
 
 const ModalAddCameraGroup = (props) => {
-  const { handleShowModalAdd, selectedAdd, selectedId } = props;
+  const { handleShowModalAdd, selectedAdd } = props;
 
   const { t } = useTranslation();
 

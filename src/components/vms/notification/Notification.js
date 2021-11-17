@@ -8,8 +8,8 @@ import React from 'react';
 import './Notification.scss';
 
 const renderIconNotify = (type) => {
-  if (type == 'success') return <CheckOutlined />;
-  else if (type == 'warning') return <ExclamationOutlined />;
+  if (type === 'success') return <CheckOutlined />;
+  else if (type === 'warning') return <ExclamationOutlined />;
   else return <PicRightOutlined />;
 };
 

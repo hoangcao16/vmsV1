@@ -73,7 +73,7 @@ const Live = (props) => {
   const [idCurrCameraSelected, setIdCurrCameraSelected] = useState(null);
   const [resetSpeed, setResetSpeed] = useState(false);
   const [reloadLiveMenuTool, setReloadLiveMenuTool] = useState(false);
-  const [curSpeed, setCurSpeed] = useState();
+  const [curSpeed, setCurSpeed] = useState(1);
   let currentItemIdx = 0;
   useEffect(() => {
     initialDataGrid.forEach((it) =>
@@ -445,11 +445,11 @@ const Live = (props) => {
       }
     } catch (e) {
       console.log("e:", e.toString());
-      Notification({
-        type: "warning",
-        title: "Playback",
-        description: e.toString(),
-      });
+      // Notification({
+      //   type: "warning",
+      //   title: "Playback",
+      //   description: e.toString(),
+      // });
     }
   };
   const handleSelectCameraCallback = (cam, idx) => { };
@@ -556,7 +556,6 @@ const Live = (props) => {
       const camInfoArr = draggableId.split("_");
 
       if (camInfoArr.length < 3) {
-        console.log("onDragEnd: check camInfo");
         Notification({
           type: "error",
           title: "Xem trực tiếp",

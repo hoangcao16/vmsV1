@@ -4,17 +4,15 @@ import {
   EditOutlined,
   ExclamationCircleOutlined,
   PlusOutlined,
-  SearchOutlined,
+  SearchOutlined
 } from "@ant-design/icons";
 import {
   AutoComplete,
-  Button,
-  Form,
-  Popconfirm,
+  Button, Popconfirm,
   Spin,
   Tabs,
   Tooltip,
-  Tree,
+  Tree
 } from "antd";
 import "antd/dist/antd.css";
 import { isEmpty } from "lodash-es";
@@ -72,7 +70,7 @@ function CameraGroup(props) {
     autoExpandParent: true,
   });
 
-  const [form] = Form.useForm();
+  // const [form] = Form.useForm();
 
   useEffect(() => {
     document.title = "CCTV | Camera";

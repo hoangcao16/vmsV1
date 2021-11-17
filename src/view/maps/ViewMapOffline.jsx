@@ -1,23 +1,22 @@
-import React, { useEffect, useRef, useState } from "react";
-import _ from 'lodash';
-import mapboxgl from "vietmaps-gl";
-import ReactDOM from "react-dom";
-import CamInfoPopup from "./CamInfoPopup";
-import ContextMenuPopup from "./ContextMenuPopup";
-import { svg } from "../map/camera.icon";
-import { useSelector, useDispatch } from "react-redux";
-import CameraService from "../../lib/camera"
-import { useTranslation } from "react-i18next";
-import { reactLocalStorage } from "reactjs-localstorage";
-
-import {
-  CircleMode,
-  DragCircleMode,
-  DirectMode,
-  SimpleSelectMode
-} from 'mapbox-gl-draw-circle';
 import MapboxDraw from "@mapbox/mapbox-gl-draw";
 import "@mapbox/mapbox-gl-draw/dist/mapbox-gl-draw.css";
+import * as turf from "@turf/turf";
+import _ from 'lodash';
+import {
+  CircleMode, DirectMode, DragCircleMode, SimpleSelectMode
+} from 'mapbox-gl-draw-circle';
+import React, { useEffect, useRef, useState } from "react";
+import ReactDOM from "react-dom";
+import { useTranslation } from "react-i18next";
+import { useDispatch, useSelector } from "react-redux";
+import { reactLocalStorage } from "reactjs-localstorage";
+import mapboxgl from "vietmaps-gl";
+import CameraService from "../../lib/camera";
+import { updateAdminisUnitOnMap } from "../../redux/actions/map/adminisUnitsAction";
+import { updateCameraOnMapByFilter } from "../../redux/actions/map/cameraActions";
+import { setCamsLiveOnMap } from "../../redux/actions/map/camLiveAction";
+import { updateMapObject } from "../../redux/actions/map/formMapActions";
+import { deleteAllTrackingPoint, deleteOneTrackingPoint, setSelectedTrackingPoint } from "../../redux/actions/map/trackingPointActions";
 import {
   CAM_LIVE_ITEMS,
   FORM_MAP_ITEM,
@@ -27,17 +26,15 @@ import {
   STYLE_MODE,
   TRACKING_POINTS,
   TYPE_CONTEXT_MENU,
-  TYPE_FORM_ACTION_ON_MAP,
+  TYPE_FORM_ACTION_ON_MAP
 } from "../common/vms/constans/map";
-import { cameraRedIconSvg } from "../map/camera-red.icon";
 import { cameraGreenIconSvg } from "../map/camera-green.icon";
+import { cameraRedIconSvg } from "../map/camera-red.icon";
+import { svg } from "../map/camera.icon";
+import CamInfoPopup from "./CamInfoPopup";
+import ContextMenuPopup from "./ContextMenuPopup";
 import { AdminisUnitIconSvg } from "./icons/adminisUnit.icon";
-import * as turf from "@turf/turf";
-import { updateMapObject } from "../../redux/actions/map/formMapActions";
-import { deleteAllTrackingPoint, deleteOneTrackingPoint, setSelectedTrackingPoint } from "../../redux/actions/map/trackingPointActions";
-import { setCamsLiveOnMap } from "../../redux/actions/map/camLiveAction";
-import { updateCameraOnMapByFilter } from "../../redux/actions/map/cameraActions";
-import { updateAdminisUnitOnMap } from "../../redux/actions/map/adminisUnitsAction";
+
 
 
 
@@ -47,7 +44,7 @@ const ViewMapOffline = (props) => {
 
   useEffect(() => {
     if (
-      language == "vn"
+      language === "vn"
         ? (document.title = "CCTV | Bản đồ")
         : (document.title = "CCTV | Map")
     );
@@ -68,10 +65,6 @@ const ViewMapOffline = (props) => {
   const { listCamByTrackingPoint: camsByTrackPointSelector, trackingPoints: trackingPointSelector, selectedTrackPoint } = useSelector(
     (state) => state.map.trackingPoint
   );
-
-  // console.log("liveCamerasliveCameras",liveCameras);
-  // console.log("camsByTrackPointSelectorcamsByTrackPointSelector",camsByTrackPointSelector);
-
 
   const image = new Image();
   const adminisUinitIcon = new Image();
@@ -96,8 +89,7 @@ const ViewMapOffline = (props) => {
   const mapMarkerTrackPointsRef = useRef([]);
   const markerTargetRef = useRef(null);
   const mapBoxDrawRef = useRef(null);
-  const [zoom, setZoom] = useState(14);
-  const [radiusTrackingPoint, setRadiusTrackingPoint] = useState(1);
+  const zoom = 14
   const dispatch = useDispatch();
   const { editMode, selectedMapStyle, selectedPos } = formMapSelector;
   const [rmTrackingPoint, setRmTrackingPoint] = useState(false);
@@ -108,10 +100,10 @@ const ViewMapOffline = (props) => {
       : TYPE_CONTEXT_MENU[2];
 
   const renderCameraIcon = (cam) => {
-    if (cam.source == 1) {
+    if (cam.source === 1) {
       return cameraGreenIcon.src;
     }
-    if (cam.recordingStatus == 0) {
+    if (cam.recordingStatus === 0) {
       return cameraRedIcon.src;
     }
     return image.src;

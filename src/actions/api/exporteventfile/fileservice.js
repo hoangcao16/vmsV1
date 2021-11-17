@@ -1,10 +1,8 @@
 import axios from 'axios/index';
 import _uniqueId from 'lodash/uniqueId';
-import {reactLocalStorage} from 'reactjs-localstorage';
-import {history} from '../../../history';
+import { reactLocalStorage } from 'reactjs-localstorage';
 import Notification from "../../../components/vms/notification/Notification";
-import {NOTYFY_TYPE} from "../../../view/common/vms/Constant";
-import {handleErrCode} from "../../../api/controller-api/code";
+import { NOTYFY_TYPE } from "../../../view/common/vms/Constant";
 
 const getHeaders = () => {
     let headers = {
@@ -66,8 +64,8 @@ const KFileReserveProxyOk = 1600;
 const FileService = {
     _checkResponse(response) {
         if (response && response.status) {
-            if (response.status === 200){
-                if (response.data && response.data.code && response.data.code !== (KFileReserveProxyOk+'')){
+            if (response.status === 200) {
+                if (response.data && response.data.code && response.data.code !== (KFileReserveProxyOk + '')) {
                     Notification({
                         type: NOTYFY_TYPE.warning,
                         title: response.data.code.toString(),

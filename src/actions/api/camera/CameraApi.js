@@ -7,25 +7,25 @@ import MyService from '../service';
 import Notification from './../../../components/vms/notification/Notification';
 const CameraApi = {
   getAllCamera: async (dataSearch) => {
-    const data = {
-      ...dataSearch,
-      provinceId:
-        dataSearch?.provinceId === undefined ? '' : dataSearch?.provinceId,
-      districtId:
-        dataSearch?.districtId === undefined ? '' : dataSearch?.districtId,
-      id: dataSearch?.id === undefined ? '' : dataSearch?.id,
-      administrativeUnitUuid:
-        dataSearch?.administrativeUnitUuid === undefined
-          ? ''
-          : dataSearch?.administrativeUnitUuid,
-      vendorUuid:
-        dataSearch?.vendorUuid === undefined ? '' : dataSearch?.vendorUuid,
-      status: dataSearch?.status === undefined ? '' : dataSearch?.status,
-      cameraGroupUuid:
-        dataSearch?.cameraGroupUuid === undefined
-          ? ''
-          : dataSearch?.cameraGroupUuid
-    };
+    // const data = {
+    //   ...dataSearch,
+    //   provinceId:
+    //     dataSearch?.provinceId === undefined ? '' : dataSearch?.provinceId,
+    //   districtId:
+    //     dataSearch?.districtId === undefined ? '' : dataSearch?.districtId,
+    //   id: dataSearch?.id === undefined ? '' : dataSearch?.id,
+    //   administrativeUnitUuid:
+    //     dataSearch?.administrativeUnitUuid === undefined
+    //       ? ''
+    //       : dataSearch?.administrativeUnitUuid,
+    //   vendorUuid:
+    //     dataSearch?.vendorUuid === undefined ? '' : dataSearch?.vendorUuid,
+    //   status: dataSearch?.status === undefined ? '' : dataSearch?.status,
+    //   cameraGroupUuid:
+    //     dataSearch?.cameraGroupUuid === undefined
+    //       ? ''
+    //       : dataSearch?.cameraGroupUuid
+    // };
 
     let result;
 
