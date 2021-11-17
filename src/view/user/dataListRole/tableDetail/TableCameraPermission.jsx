@@ -50,7 +50,9 @@ export default function TableCameraPermission(props) {
       id: '',
       administrativeUnitUuid: '',
       vendorUuid: '',
-      status: ''
+      status: '',
+      page: 0,
+      size: 1000000
     };
 
     setReloadCameraPage(props?.reloadCameraPage);
@@ -445,6 +447,7 @@ export default function TableCameraPermission(props) {
     setSize(pageSize);
   };
 
+
   return (
     <div>
       <Table
@@ -459,7 +462,7 @@ export default function TableCameraPermission(props) {
           onShowSizeChange: (current, size) => {
             onShowSizeChange(current, size);
           },
-          pageSizeOptions: [5,10,20,50,100],
+          pageSizeOptions: [5, 10, 20, 50, 100],
           hideOnSinglePage: false,
           current: page,
           total: test.length,
