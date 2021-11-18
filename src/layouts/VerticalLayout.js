@@ -3,7 +3,7 @@ import { Tooltip } from "antd";
 import classnames from "classnames";
 import React, { PureComponent } from "react";
 import { connect } from "react-redux";
-import { bindActionCreators } from "redux";
+import { reactLocalStorage } from 'reactjs-localstorage';
 import Customizer from "../components/@vuexy/customizer/Customizer";
 import {
   changeFooterType,
@@ -13,12 +13,10 @@ import {
   changeNavbarType,
   changeZoom,
   collapseSidebar,
-  hideScrollToTop,
+  hideScrollToTop
 } from "../redux/actions/customizer/index";
 import Footer from "./components/footer/Footer";
 import Sidebar from "./components/menu/vertical-menu/Sidebar";
-import { reactLocalStorage } from 'reactjs-localstorage';
-import { loopHooks } from "react-table";
 class VerticalLayout extends PureComponent {
   constructor(props) {
     super(props);
@@ -34,7 +32,7 @@ class VerticalLayout extends PureComponent {
     appOverlay: false,
     customizer: false,
     currRoute: this.props.location.pathname,
-    language:  reactLocalStorage.get('language'),
+    language: reactLocalStorage.get('language'),
   };
   collapsedPaths = [];
   mounted = false;
@@ -77,18 +75,18 @@ class VerticalLayout extends PureComponent {
       return layout === "dark"
         ? document.body.classList.add("dark-layout")
         : layout === "semi-dark"
-        ? document.body.classList.add("semi-dark-layout")
-        : null;
+          ? document.body.classList.add("semi-dark-layout")
+          : null;
     }
   }
 
   setLanguage(value) {
-    this.setState({language: value})
+    this.setState({ language: value })
   }
 
   componentDidUpdate(prevProps, prevState) {
     const language = reactLocalStorage.get('language');
-    if(prevState.language !== language) {
+    if (prevState.language !== language) {
       this.setState({
         language: language
       })
@@ -125,7 +123,7 @@ class VerticalLayout extends PureComponent {
       }
       if (
         prevProps.app.customizer.sidebarCollapsed ===
-          this.props.app.customizer.sidebarCollapsed &&
+        this.props.app.customizer.sidebarCollapsed &&
         pathname !== prevProps.location.pathname &&
         this.collapsedPaths.includes(pathname)
       ) {
@@ -133,7 +131,7 @@ class VerticalLayout extends PureComponent {
       }
       if (
         prevProps.app.customizer.sidebarCollapsed ===
-          this.props.app.customizer.sidebarCollapsed &&
+        this.props.app.customizer.sidebarCollapsed &&
         pathname !== prevProps.location.pathname &&
         !this.collapsedPaths.includes(pathname)
       ) {
@@ -209,11 +207,10 @@ class VerticalLayout extends PureComponent {
   };
 
   render() {
-    const {language} = this.state
+    const { language } = this.state
     let appProps = this.props.app.customizer;
     let zoom = this.props.app.customizer.zoom;
 
-    console.log("zoom:", zoom);
     let menuThemeArr = [
       "primary",
       "success",

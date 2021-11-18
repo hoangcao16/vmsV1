@@ -27,13 +27,12 @@ const TablePtzManager = () => {
   const [showCreate, setShowCreate] = useState(false);
 
   useEffect(() => {
-    console.log('jjjj-999');
     if (
       language == "vn"
         ? (document.title = "CCTV | Quản lý PTZ")
         : (document.title = "CCTV | PTZ Management")
     );
-  },[t]);
+  }, [t]);
 
   useEffect(() => {
     let unmounted = false;
@@ -70,21 +69,12 @@ const TablePtzManager = () => {
   }, [page, size]);
 
   const editPtz = (e) => {
-    console.log('editPtz: ' + JSON.stringify(e));
     let clientId = e.clientId;
-    console.log('clientId: ' + clientId);
   };
 
-  const deletePtz = (e) => {
-    console.log('deletePtz: ' + JSON.stringify(e));
-  };
 
   const addNewPtzProfile = () => {
     setShowCreate(true);
-  };
-
-  const checkConnectPtzProfile = (e) => {
-    console.log('checkConnectPtzProfile: ' + JSON.stringify(e));
   };
 
   const columns = [
@@ -154,9 +144,7 @@ const TablePtzManager = () => {
             />
             <Button
               icon={<DeleteOutlined />}
-              onClick={() => {
-                deletePtz(record);
-              }}
+
             />
           </Space>
         );

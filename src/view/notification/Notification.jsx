@@ -40,8 +40,8 @@ const Notification = (props) => {
       </Text>
     );
   };
-  const listItems = props?.notif.map((n) => (
-    <li className={`notif_list ${n?.isSeen ? 'seen' : ''}`}>
+  const listItems = props?.notif.map((n, index) => (
+    <li key={index} className={`notif_list ${n?.isSeen ? 'seen' : ''}`}>
       <div className="notif_list__content--header">
         <div className='notif__description'>
           <div className="notif__title">

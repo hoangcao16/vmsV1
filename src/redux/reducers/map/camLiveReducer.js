@@ -30,7 +30,7 @@ const initialState = {
     loading: false,
     errors: null,
     camLiveObject: {},
-    listCamLive:[],
+    listCamLive: [],
     selectedIds: [],
     playbackSeekTime: null,
 };
@@ -38,7 +38,7 @@ const initialState = {
 
 const camLiveReducer = (state = initialState, action) => {
     switch (action.type) {
-        
+
         case SET_CAMS_LIVE: {
             const newListCamLive = [...state.listCamLive];
             const camLeakIndex = newListCamLive.findIndex(
@@ -54,7 +54,7 @@ const camLiveReducer = (state = initialState, action) => {
                 }
             }
             setCamLiveStorage(cloneDeep(newListCamLive));
-            return {...state, listCamLive: [...newListCamLive]};
+            return { ...state, listCamLive: [...newListCamLive] };
         }
 
         case UPDATE_CAM_LIVE: {
@@ -66,7 +66,7 @@ const camLiveReducer = (state = initialState, action) => {
                 newListCamLive[camUpdateIndex].isPlay = true;
             }
             setCamLiveStorage(cloneDeep(newListCamLive));
-            return {...state, listCamLive: [...newListCamLive]};
+            return { ...state, listCamLive: [...newListCamLive] };
         }
 
         case REMOVE_CAM_LIVE: {
@@ -79,14 +79,14 @@ const camLiveReducer = (state = initialState, action) => {
             let newSelectedIds = state.selectedIds
             if (camRemoveIndex > -1) {
                 newListCamLive[camRemoveIndex] = "";
-                const fIdx = newSelectedIds.findIndex((it, idx) => it == camRemoveIndex)
+                const fIdx = newSelectedIds.findIndex((it, idx) => it === camRemoveIndex)
                 if (fIdx > -1) {
                     newSelectedIds.splice(fIdx, 1);
                 }
 
             }
             setCamLiveStorage(cloneDeep(newListCamLive));
-            return {...state, listCamLive: [...newListCamLive], selectedIds: [...newSelectedIds]};
+            return { ...state, listCamLive: [...newListCamLive], selectedIds: [...newSelectedIds] };
         }
 
         case REMOVE_ALL_CAM_LIVE: {
@@ -96,9 +96,9 @@ const camLiveReducer = (state = initialState, action) => {
             //         cam.isPlay = false;
             //     }
             // });
-           
+
             setCamLiveStorage(cloneDeep([]));
-            return {...state, listCamLive: []};
+            return { ...state, listCamLive: [] };
         }
 
         case NOT_PERMISSION_VIEW_CAM: {
@@ -119,10 +119,10 @@ const camLiveReducer = (state = initialState, action) => {
                     return cam;
                 });
                 setCamLiveStorage(cloneDeep(listCamMessErrUnique));
-                return {...state, listCamLive: [...listCamMessErrUnique]};
+                return { ...state, listCamLive: [...listCamMessErrUnique] };
             }
             setCamLiveStorage(cloneDeep(newListCamLive));
-            return {...state, listCamLive: [...newListCamLive]};
+            return { ...state, listCamLive: [...newListCamLive] };
         }
         case NOT_OPERATION_VIEW_CAM: {
             const camNoPermis = action.payload;
@@ -142,30 +142,30 @@ const camLiveReducer = (state = initialState, action) => {
                     return cam;
                 });
                 setCamLiveStorage(cloneDeep(listCamMessErrUnique));
-                return {...state, listCamLive: [...listCamMessErrUnique]};
+                return { ...state, listCamLive: [...listCamMessErrUnique] };
             }
             setCamLiveStorage(cloneDeep(newListCamLive));
-            return {...state, listCamLive: [...newListCamLive]};
+            return { ...state, listCamLive: [...newListCamLive] };
         }
 
         case SELECT_OR_DESELECT_CAMERA_LIVE: {
             let newSelectedIds = state.selectedIds
             if (newSelectedIds.includes(action.payload)) {
-                const fIdx = newSelectedIds.findIndex((it, idx) => it == action.payload)
+                const fIdx = newSelectedIds.findIndex((it, idx) => it === action.payload)
                 newSelectedIds.splice(fIdx, 1);
             } else {
                 newSelectedIds.push(action.payload)
             }
 
-            return {...state, selectedIds: [...newSelectedIds]}
+            return { ...state, selectedIds: [...newSelectedIds] }
         }
 
         case DESELECT_CAMERA_LIVE: {
             let newSelectedIds = state.selectedIds
-            const fIdx = newSelectedIds.findIndex((it, idx) => it == action.payload)
+            const fIdx = newSelectedIds.findIndex((it, idx) => it === action.payload)
             newSelectedIds.splice(fIdx, 1);
 
-            return {...state, selectedIds: [...newSelectedIds]}
+            return { ...state, selectedIds: [...newSelectedIds] }
         }
 
         case SET_PLAYBACK_HLS: {
@@ -176,39 +176,39 @@ const camLiveReducer = (state = initialState, action) => {
             if (camUpdateIndex > -1) {
                 newListCamLive[camUpdateIndex] = action.payload;
             }
-            return {...state, listCamLive: [...newListCamLive]};
+            return { ...state, listCamLive: [...newListCamLive] };
         }
 
         case PLAYBACK_SEEK_TIME: {
-            return {...state, playbackSeekTime: action.payload}
+            return { ...state, playbackSeekTime: action.payload }
         }
         case GET_LIST_CAM_LIVE: {
-            return {...state, loading: true}
+            return { ...state, loading: true }
         }
         case GET_LIST_CAM_LIVE_SUCCESS: {
-            return {...state, loading: false, ...action.payload}
+            return { ...state, loading: false, ...action.payload }
         }
         case GET_LIST_CAM_LIVE_ERROR: {
-            return {...state, loading: false, ...action.payload }
+            return { ...state, loading: false, ...action.payload }
         }
-        case SAVE_LIST_CAM_LIVE: 
+        case SAVE_LIST_CAM_LIVE:
         case UPDATE_LIST_CAM_LIVE:
         case DELETE_LIST_CAM_LIVE:
-        {
-            return {...state, loading: true}
-        }
-        case SAVE_LIST_CAM_LIVE_SUCCESS: 
+            {
+                return { ...state, loading: true }
+            }
+        case SAVE_LIST_CAM_LIVE_SUCCESS:
         case UPDATE_LIST_CAM_LIVE_SUCCESS:
         case DELETE_LIST_CAM_LIVE_SUCCESS:
-        {
-            return {...state, loading: false}
-        }
+            {
+                return { ...state, loading: false }
+            }
         case SAVE_LIST_CAM_LIVE_ERROR:
         case UPDATE_LIST_CAM_LIVE_ERROR:
         case DELETE_LIST_CAM_LIVE_ERROR:
-         {
-            return {...state, loading: false, ...action.payload }
-        }
+            {
+                return { ...state, loading: false, ...action.payload }
+            }
         default: {
             return state;
         }

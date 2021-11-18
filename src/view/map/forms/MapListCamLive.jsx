@@ -1,22 +1,23 @@
-import React, {useEffect, useState} from "react";
-import {useSelector, useDispatch} from "react-redux";
-import {Button} from "antd";
-import _ from "lodash";
-
+import { SaveOutlined } from '@ant-design/icons';
+import { Button, Tooltip } from "antd";
 import "antd/dist/antd.css";
-import "../../../assets/scss/app-icons.scss";
-import {getListCamLiveSelector} from "../../../redux/selectors/map/camera";
-import {MapCamItemLiveMemo} from "./MapCamItemLive";
-import { deleteListCamLive, getListCamLive, saveListCamLive, updateListCamLive } from "../../../redux/actions/map/camLiveAction";
-import { CAM_LIVE_ITEMS } from "../../common/vms/constans/map";
+import React, { useEffect, useState } from "react";
 import { useTranslation } from 'react-i18next';
+import { useDispatch, useSelector } from "react-redux";
+import "../../../assets/scss/app-icons.scss";
+import { deleteListCamLive, getListCamLive, saveListCamLive, updateListCamLive } from "../../../redux/actions/map/camLiveAction";
+import { getListCamLiveSelector } from "../../../redux/selectors/map/camera";
+import { CAM_LIVE_ITEMS } from "../../common/vms/constans/map";
+import { MapCamItemLiveMemo } from "./MapCamItemLive";
+
+
 
 const MapListCamLive = (props) => {
     const { t } = useTranslation();
-    const {liveMode} = props;
+    const { liveMode } = props;
     const [isCollapsedCameraLive, setIsCollapsedCameraForm] = useState(false);
     const camsLiveSelector = useSelector(getListCamLiveSelector);
-    const {playbackSeekTime, loading, camLiveObject} = useSelector(state => state.map.camsLive);
+    const { playbackSeekTime, loading, camLiveObject } = useSelector(state => state.map.camsLive);
     const dispatch = useDispatch();
     const [cameraSlots, setCameraSlots] = useState([
         {
@@ -65,12 +66,12 @@ const MapListCamLive = (props) => {
             cameraUuids
         }
         sessionStorage.setItem(CAM_LIVE_ITEMS, JSON.stringify(listCamLiveFilter));
-        if(listCamLiveFilter.length > 0) {
-            if(camLiveObject?.uuid) {
-            dispatch(updateListCamLive(payload, camLiveObject?.uuid))
-           } else {
-            dispatch(saveListCamLive(payload))
-           }
+        if (listCamLiveFilter.length > 0) {
+            if (camLiveObject?.uuid) {
+                dispatch(updateListCamLive(payload, camLiveObject?.uuid))
+            } else {
+                dispatch(saveListCamLive(payload))
+            }
         } else {
             camLiveObject?.uuid && dispatch(deleteListCamLive(camLiveObject?.uuid))
         }
@@ -92,7 +93,7 @@ const MapListCamLive = (props) => {
                 (isCollapsedCameraLive ? " collapsed" : "")
             }
         >
-            <div className="camera-live__save">
+            {/* <div className="camera-live__save">
                 <Button
                     loading={loading}
                     onClick={handleSaveListLiveCam}
@@ -102,19 +103,37 @@ const MapListCamLive = (props) => {
                 >
                     {t('view.map.save_live_camera', { cam: t('camera') })}
                 </Button>
+            </div> */}
+
+            <Tooltip title={t('view.map.save_live_camera', { cam: t('camera') })}>
+                <Button
+                    loading={loading}
+                    onClick={handleSaveListLiveCam}
+                    type="primary"
+                    shape="round"
+                    size="middle"
+                    className="camera-live__save"
+                    style={{ position: 'absolute', right: '8px', top: '2px', height: '40px', width: '40px', padding: '0', background: '#1380FF', zIndex: '999', border: '0' }}
+                    icon={<SaveOutlined style={{ color: "#FCFEFF", fontSize: '20px' }} />}
+                >
+                </Button>
+            </Tooltip>
+
+
+            <a className="toggle-collapse" onClick={toggleCollapsedCameraLive} />
+            <div style={{ display: 'flex', flexDirection: 'column', justifyContent: 'space-between', flex: 1 }}>
+                {cameraSlots?.map((cam, index) => (
+                    <MapCamItemLiveMemo
+                        key={index}
+                        camera={cam}
+                        liveMode={liveMode}
+                        slotId={index}
+                        playbackSeekTime={playbackSeekTime}
+                    // camLive={camsLiveSelector[index]}
+                    />
+                ))}
             </div>
 
-            <a className="toggle-collapse" onClick={toggleCollapsedCameraLive}/>
-            {cameraSlots?.map((cam, index) => (
-                <MapCamItemLiveMemo
-                    key={index}
-                    camera={cam}
-                    liveMode={liveMode}
-                    slotId={index}
-                    playbackSeekTime={playbackSeekTime}
-                    // camLive={camsLiveSelector[index]}
-                />
-            ))}
         </div>
     );
 };

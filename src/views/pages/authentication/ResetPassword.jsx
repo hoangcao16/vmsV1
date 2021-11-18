@@ -28,7 +28,7 @@ class ResetPassword extends React.Component {
     new_password: ''
     // isTokenExpire: false
   };
-  
+
   async componentDidMount() {
     const authResult = new URLSearchParams(window.location.search);
     const token = authResult.get('token');
@@ -100,7 +100,7 @@ class ResetPassword extends React.Component {
       const notifi = {
         type: 'warning',
         title: 'Thất bại',
-        description: `${(language == 'vn' ? 'Mật khẩu của bạn phải có ít nhất 8 ký tự': 'Your password must have at least 8 characters')}`
+        description: `${(language === 'vn' ? 'Mật khẩu của bạn phải có ít nhất 8 ký tự' : 'Your password must have at least 8 characters')}`
       };
       Notification(notifi);
       return;
@@ -139,7 +139,7 @@ class ResetPassword extends React.Component {
                     </CardTitle>
                   </CardHeader>
                   <p className="px-2 col2_auth-titleColor">
-                  {t('view.pages.enter_new_password', { plsEnter: t('please_enter') })}
+                    {t('view.pages.enter_new_password', { plsEnter: t('please_enter') })}
                   </p>
                   <CardBody className="pt-1">
                     <Form>

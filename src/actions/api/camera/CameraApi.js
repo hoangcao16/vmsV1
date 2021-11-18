@@ -7,25 +7,25 @@ import MyService from '../service';
 import Notification from './../../../components/vms/notification/Notification';
 const CameraApi = {
   getAllCamera: async (dataSearch) => {
-    const data = {
-      ...dataSearch,
-      provinceId:
-        dataSearch?.provinceId === undefined ? '' : dataSearch?.provinceId,
-      districtId:
-        dataSearch?.districtId === undefined ? '' : dataSearch?.districtId,
-      id: dataSearch?.id === undefined ? '' : dataSearch?.id,
-      administrativeUnitUuid:
-        dataSearch?.administrativeUnitUuid === undefined
-          ? ''
-          : dataSearch?.administrativeUnitUuid,
-      vendorUuid:
-        dataSearch?.vendorUuid === undefined ? '' : dataSearch?.vendorUuid,
-      status: dataSearch?.status === undefined ? '' : dataSearch?.status,
-      cameraGroupUuid:
-        dataSearch?.cameraGroupUuid === undefined
-          ? ''
-          : dataSearch?.cameraGroupUuid
-    };
+    // const data = {
+    //   ...dataSearch,
+    //   provinceId:
+    //     dataSearch?.provinceId === undefined ? '' : dataSearch?.provinceId,
+    //   districtId:
+    //     dataSearch?.districtId === undefined ? '' : dataSearch?.districtId,
+    //   id: dataSearch?.id === undefined ? '' : dataSearch?.id,
+    //   administrativeUnitUuid:
+    //     dataSearch?.administrativeUnitUuid === undefined
+    //       ? ''
+    //       : dataSearch?.administrativeUnitUuid,
+    //   vendorUuid:
+    //     dataSearch?.vendorUuid === undefined ? '' : dataSearch?.vendorUuid,
+    //   status: dataSearch?.status === undefined ? '' : dataSearch?.status,
+    //   cameraGroupUuid:
+    //     dataSearch?.cameraGroupUuid === undefined
+    //       ? ''
+    //       : dataSearch?.cameraGroupUuid
+    // };
 
     let result;
 
@@ -69,8 +69,6 @@ const CameraApi = {
     } catch (error) {
       console.log(JSON.stringify(error));
     }
-
-    console.log('result:', result);
 
     if (result === undefined || handleErrCodeReport(result) === null) {
       return [];
@@ -133,8 +131,6 @@ const CameraApi = {
     if (responseCheckerErrorsController(result) === null) {
       return [];
     }
-
-    console.log('result.payload:', result.payload);
 
     return result.payload;
   },
@@ -220,7 +216,6 @@ const CameraApi = {
     } catch (error) {
       console.log(error);
     }
-    console.log('result camera edit', result);
 
     if (responseCheckerErrorsController(result) === null) {
       return false;
@@ -335,7 +330,7 @@ const CameraApi = {
     } catch (error) {
       console.log(error);
     }
-    console.log('result result', result);
+
     if (responseCheckerErrorsController(result) === null) {
       return false;
     }

@@ -1,26 +1,22 @@
-import { Col, Form, Input, Modal, Row, Spin, Button, Select, Upload, Popconfirm, Tooltip } from "antd";
+import { CloseOutlined } from '@ant-design/icons';
+import { Button, Col, Form, Input, Modal, Popconfirm, Row, Spin, Upload } from "antd";
 import { isEmpty } from "lodash-es";
 import React, { useEffect, useState } from "react";
-import CameraApi from "../../actions/api/camera/CameraApi";
-import VendorApi from "../../actions/api/vendor/VendorApi";
-import FieldApi from "../../actions/api/field/FieldApi";
-import Event from "../../actions/api/event/EventApi";
+import { useTranslation } from 'react-i18next';
+import AIHumansApi from '../../actions/api/ai-humans/AIHumansApi';
 import Notification from "../../components/vms/notification/Notification";
 import "./../commonStyle/commonAuto.scss";
 import "./../commonStyle/commonForm.scss";
 import "./../commonStyle/commonInput.scss";
 import "./../commonStyle/commonModal.scss";
 import "./../commonStyle/commonSelect.scss";
-import "./ModalEditHumans.scss";
-import { useTranslation } from 'react-i18next';
-import AIHumansApi from '../../actions/api/ai-humans/AIHumansApi';
 import Default1Img from './imagesGuide/1.jpg';
 import Default2Img from './imagesGuide/2.jpg';
 import Default3Img from './imagesGuide/3.jpg';
 import Default4Img from './imagesGuide/4.jpg';
 import Default5Img from './imagesGuide/5.jpg';
 import Default from './imagesGuide/default.png';
-import { PlusOutlined, DeleteOutlined, CloseOutlined } from '@ant-design/icons';
+import "./ModalEditHumans.scss";
 const AI_URL = process.env.REACT_APP_AI_BASE_URL;
 
 
@@ -53,7 +49,7 @@ const ModalEditHumans = (props) => {
       getHumansByUuid(selectedHumansId).then(async (data) => {
         setSelectedHumansEdit(data);
         if (data.confidence !== null && data.confidence > 0) {
-          setConfidence(Math.round(data.confidence * 100) / 100 + " %") 
+          setConfidence(Math.round(data.confidence * 100) / 100 + " %")
         } else {
           setConfidence('0 %')
         }
@@ -361,7 +357,7 @@ const ModalEditHumans = (props) => {
 
           </Row>
           <Row style={{ marginTop: 30, color: "#d0e5ff", marginBottom: 30 }} gutter={24}>
-            <Col span={20} style={{ flex: 'none'}}>{'Ảnh mẫu hướng dẫn'}</Col>
+            <Col span={20} style={{ flex: 'none' }}>{'Ảnh mẫu hướng dẫn'}</Col>
           </Row>
 
           <Row gutter={24}>
@@ -378,7 +374,7 @@ const ModalEditHumans = (props) => {
 
 
           <Row style={{ marginTop: 30, color: "#d0e5ff", marginBottom: 30 }} gutter={24}>
-            <Col span={24} style={{ flex: 'none'}}>{'Ảnh nhận diện. Tỉ lệ chất lượng ảnh: ' + confidence + '. Cần thêm ảnh: ' }</Col>
+            <Col span={24} style={{ flex: 'none' }}>{'Ảnh nhận diện. Tỉ lệ chất lượng ảnh: ' + confidence + '. Cần thêm ảnh: '}</Col>
           </Row>
 
           <Row gutter={24}>
@@ -449,10 +445,10 @@ const ModalEditHumans = (props) => {
                               background: 'red',
                               borderRadius: '4px'
                             }}
-  
+
                             >{item.errorStatus}</div> : null
                           }
-                          
+
 
                           <img style={{ width: '100%', height: "220px" }} className="cursor-pointer" onClick={(e) => { onPreview(e, item.payload) }} src={item.payload ? item.payload : Default} alt="Avatar" />
 

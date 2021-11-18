@@ -48,17 +48,17 @@ const colourStyles = {
       backgroundColor: isDisabled
         ? null
         : isSelected
-        ? data.color
-        : isFocused
-        ? color.alpha(0.1).css()
-        : null,
+          ? data.color
+          : isFocused
+            ? color.alpha(0.1).css()
+            : null,
       color: isDisabled
         ? "#ccc"
         : isSelected
-        ? chroma.contrast(color, "white") > 2
-          ? "white"
-          : "black"
-        : data.color,
+          ? chroma.contrast(color, "white") > 2
+            ? "white"
+            : "black"
+          : data.color,
       cursor: isDisabled ? "not-allowed" : "default",
 
       ":active": {
@@ -127,8 +127,6 @@ class SelectOptions extends React.Component {
     colourOptions.concat(newValue)
   }
   handleInputChange = () => {
-    console.group("Input Changed")
-    console.groupEnd()
   }
 
   fixedOnChange = (value, { action, removedValue }) => {

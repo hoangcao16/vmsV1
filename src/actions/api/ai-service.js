@@ -3,7 +3,7 @@ import controllerApi from '../../api/controller-api/api';
 import Notification from '../../components/vms/notification/Notification';
 import { history } from '../../history';
 
-const BASE_URL = process.env.REACT_APP_BASE_URL;
+// const BASE_URL = process.env.REACT_APP_BASE_URL;
 const AI_URL = process.env.REACT_APP_AI_BASE_URL;
 
 

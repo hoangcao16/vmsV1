@@ -66,21 +66,16 @@ const LiveCameraSlot = (props) => {
             setStopTime(0);
             setCurrLiveMode(liveMode);
 
-            //const videoCellName = "video-slot-" + slotId;
-            //const video = document.getElementById(videoCellName);
-
             timer.current = setInterval(() => {
                 if (startRef.current > 0) {
                     const currTime = new Date().getTime();
                     setCountInMinis(currTime - startRef.current);
-                    // console.log('>>>>> countRef.current: ', countRef.current);
                     if (countRef.current > maxCount) {
                         stopCaptureCamera(slotId, startRef.current, currTime, requestId.current, currLiveMode, addedCamerasRef.current);
                         setStartTime(0);
                         setStopTime(currTime);
                     }
                 }
-                //console.log('>>>>> video.currentTime: ', video.currentTime);
             }, 1000);
 
             startCaptureCamera(slotId, currTime, requestId.current, liveMode);
@@ -105,7 +100,6 @@ const LiveCameraSlot = (props) => {
         clearTimeout(timer.current);
     };
     const clearWhenError = () => {
-        console.log('>>>>> clearWhenError ');
         setStartTime(0);
         setStopTime(0);
         setCountInMinis(0);
@@ -122,7 +116,6 @@ const LiveCameraSlot = (props) => {
 
     useEffect(() => {
         if (oldRecState && !recMode) { //Change from recording state to stop
-            console.log(`>>>>> recMode is changed, oldRecState: ${oldRecState} recMode: ${recMode}`);
             stopCaptureHandler();
         }
     }, [recMode])

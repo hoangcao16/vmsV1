@@ -1,4 +1,4 @@
-import {axiosAuthzInstance} from '../@core/api/boot/axios'
+import { axiosAuthzInstance } from '../@core/api/boot/axios'
 
 let config = {
     userKeyName: 'user',
@@ -33,11 +33,10 @@ export function refreshToken() {
         'Content-Type': 'application/json',
         'Authorization': getToken()
     }
-    console.log('refreshToken:')
     return axiosAuthzInstance.post(config.refreshEndpoint, {
-            token: getRefreshToken()
-        }, {
-            headers: headers
-        }
+        token: getRefreshToken()
+    }, {
+        headers: headers
+    }
     );
 }

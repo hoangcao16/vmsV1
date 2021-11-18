@@ -26,7 +26,6 @@ export default {
     if (tm === undefined || tm === null) {
       tm = this.DEFAULT_TIME_OUT;
     }
-    console.log('GET ' + url);
     return await axios({
       method: 'get',
       url: BASE_URI + url,

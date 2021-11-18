@@ -5,14 +5,13 @@ import {
   Image,
   Popconfirm,
   Radio,
-  Select,
-  Spin,
-  Switch,
+  Select, Switch,
   Tooltip
 } from 'antd';
 import 'antd/dist/antd.css';
 import { isEmpty } from 'lodash-es';
 import React, { useEffect, useState } from 'react';
+import { useTranslation } from 'react-i18next';
 import { withRouter } from 'react-router-dom';
 import SettingApi from '../../../actions/api/setting/SettingApi';
 import warnLogo from '../../../assets/img/pages/store-setting/warn-logo.png';
@@ -29,7 +28,6 @@ import {
   errorColor,
   headStyleCard
 } from './variables';
-import { useTranslation } from 'react-i18next';
 
 //for select
 const { Option } = Select;
@@ -64,8 +62,6 @@ const convertWarningDiskData = (data) => {
     autoRemoveFreeSpaceFile:
       data?.autoRemoveFreeSpaceFile || DEFAULT_DATA.autoRemoveFreeSpaceFile
   };
-  console.log('data warning', result);
-
   return result;
 };
 
@@ -89,14 +85,12 @@ const WarningStoreSetting = (props) => {
   //call data
   useEffect(() => {
     SettingApi.getDataWarningDisk().then(async (data) => {
-      console.log('getDataWarningDisk', data)
       let convertedData = await convertWarningDiskData(data?.payload);
       setPercentUsedTwo(convertedData?.percentUsedTwo);
       setPercentUsedOne(convertedData?.percentUsedOne);
       setIsSwitchOneTurnOn(convertedData?.isActiveOne);
       setIsSwitchTwoTurnOn(convertedData?.isActiveTwo);
       setWarningDiskData(convertedData);
-      console.log(convertedData);
       return;
     });
   }, []);
@@ -231,7 +225,6 @@ const WarningStoreSetting = (props) => {
       payload.autoRemoveFreeSpaceFile = false;
       payload.autoRemovePerFile = true
     }
-    console.log('warningDiskData', payload);
     const payloadConverted = {
 
       autoRemoveFreeSpaceFile: payload?.autoRemoveFreeSpaceFile,
@@ -245,8 +238,6 @@ const WarningStoreSetting = (props) => {
         isActiveTwo: payload?.isActiveTwo || false,
       }
     };
-    console.log('payloadConverted', payloadConverted);
-
     //post data
     try {
       const isPost = await SettingApi.postDataWarningDisk(payloadConverted);
@@ -279,13 +270,13 @@ const WarningStoreSetting = (props) => {
   //create option: hour
   const hourOption = [];
   for (let i = 1; i <= 24; i++) {
-    hourOption.push(<Option value={i}>{i}</Option>);
+    hourOption.push(<Option key={i} value={i}>{i}</Option>);
   }
 
   //create option: percent
   const percentOption = [];
   for (let i = 1; i <= 100; i++) {
-    percentOption.push(<Option value={i}>{i}</Option>);
+    percentOption.push(<Option key={i} value={i}>{i}</Option>);
   }
 
   return (

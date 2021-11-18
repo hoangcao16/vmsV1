@@ -7,7 +7,7 @@ import { setDataChart, setError } from '../actions';
 import { DATA_CHART } from '../constants';
 
 export function* handleDataChartLoad(action) {
-  const {params} = action;
+  const { params } = action;
   let timeStart = moment(params.timeStartDay._d).format("DD/MM/YYYY")
   let timeEnd = moment(params.timeEndDay._d).format("DD/MM/YYYY")
 

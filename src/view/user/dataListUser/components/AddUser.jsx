@@ -18,8 +18,8 @@ import {
   Select,
   Upload
 } from 'antd';
+import MuiPhoneNumber from 'material-ui-phone-number';
 import moment from 'moment';
-import { number } from 'prop-types';
 import React, { useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { useHistory, withRouter } from 'react-router-dom';
@@ -32,7 +32,6 @@ import './../../../commonStyle/commonDatePicker.scss';
 import './../../../commonStyle/commonForm.scss';
 import './../../../commonStyle/commonInput.scss';
 import './AddUser.scss';
-import MuiPhoneNumber from "material-ui-phone-number";
 
 const { Option } = Select;
 
@@ -73,7 +72,6 @@ function AddUser(props) {
   const { t } = useTranslation();
   const [loading, setLoading] = useState(false);
   const [imageUrl, setImageUrl] = useState('');
-  const [passwordValue, setPasswordValue] = useState('');
   const [form] = Form.useForm();
   const history = useHistory();
 
@@ -84,7 +82,7 @@ function AddUser(props) {
   };
 
   const uploadImage = async (options) => {
-    const { onSuccess, onError, file, onProgress } = options;
+    const { file } = options;
     await ExportEventFileApi.uploadAvatar(uuidV4(), file).then((result) => {
       if (
         result.data.payload &&
@@ -103,7 +101,6 @@ function AddUser(props) {
   };
 
   const handleSubmit = async (value) => {
-    // console.log("value", value)
     const payload = {
       ...value,
       phone: value?.phone?.substring(1),
@@ -163,8 +160,6 @@ function AddUser(props) {
   const test = () => {
     props.history.goBack();
   };
-
-
 
   return (
     <div>
@@ -230,7 +225,10 @@ function AddUser(props) {
                     <Col span={7}>
                       <p>
                         {t('view.user.detail_list.name')}
-                        <span style={{ color: 'red', fontSize: '18px' }}> *</span>
+                        <span style={{ color: 'red', fontSize: '18px' }}>
+                          {' '}
+                          *
+                        </span>
                       </p>
                     </Col>
 
@@ -241,7 +239,7 @@ function AddUser(props) {
                           {
                             required: true,
                             message: `${t('view.map.required_field')}`
-                          },
+                          }
                         ]}
                       >
                         <Input
@@ -273,7 +271,10 @@ function AddUser(props) {
                     <Col span={7}>
                       <p>
                         {t('view.user.detail_list.gender')}
-                        <span style={{ color: 'red', fontSize: '18px' }}> *</span>
+                        <span style={{ color: 'red', fontSize: '18px' }}>
+                          {' '}
+                          *
+                        </span>
                       </p>
                     </Col>
 
@@ -318,13 +319,15 @@ function AddUser(props) {
                   </Row>
                   <Row gutter={24} style={{ width: '100%' }} className="mt-1">
                     <Col span={7}>
-                      <p style={{ display: 'inline-block' }}>{t('view.user.detail_list.phone_number')}</p>
+                      <p style={{ display: 'inline-block' }}>
+                        {t('view.user.detail_list.phone_number')}
+                      </p>
                       <span style={{ color: 'red', fontSize: '18px' }}> *</span>
                     </Col>
 
                     <Col span={17}>
                       <Form.Item
-                        className='phone__input'
+                        className="phone__input"
                         name={['phone']}
                         rules={[
                           {
@@ -333,20 +336,18 @@ function AddUser(props) {
                           },
                           {
                             min: 11,
-                            message: 'Tối thiểu 10 ký tự',
-                          },
+                            message: 'Tối thiểu 10 ký tự'
+                          }
                         ]}
                       >
-
                         <MuiPhoneNumber
                           name="phone"
                           data-cy="user-phone"
-                          defaultCountry={"vn"}
-                          autoComplete='off'
+                          defaultCountry={'vn'}
+                          autoComplete="off"
                         // placeholder={t('view.user.detail_list.phone_number')}
                         />
                       </Form.Item>
-
                     </Col>
                   </Row>
 
@@ -354,7 +355,10 @@ function AddUser(props) {
                     <Col span={7}>
                       <p>
                         {t('view.user.detail_list.email')}
-                        <span style={{ color: 'red', fontSize: '18px' }}> *</span>
+                        <span style={{ color: 'red', fontSize: '18px' }}>
+                          {' '}
+                          *
+                        </span>
                       </p>
                     </Col>
 
@@ -371,9 +375,7 @@ function AddUser(props) {
                           },
                           {
                             max: 255,
-                            message: `${t(
-                              'noti.255_characters_limit'
-                            )}`
+                            message: `${t('noti.255_characters_limit')}`
                           }
                         ]}
                       >
@@ -386,7 +388,10 @@ function AddUser(props) {
                     <Col span={7}>
                       <p>
                         {t('view.user.detail_list.password')}
-                        <span style={{ color: 'red', fontSize: '18px' }}> *</span>
+                        <span style={{ color: 'red', fontSize: '18px' }}>
+                          {' '}
+                          *
+                        </span>
                       </p>
                     </Col>
 
@@ -406,9 +411,7 @@ function AddUser(props) {
                           },
                           {
                             max: 255,
-                            message: `${t(
-                              'noti.255_characters_limit'
-                            )}`
+                            message: `${t('noti.255_characters_limit')}`
                           }
                         ]}
                       >

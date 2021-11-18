@@ -1,7 +1,7 @@
 import { isEmpty } from 'lodash';
 import { handleErrCode } from '../../../api/controller-api/code';
 import Notification from '../../../components/vms/notification/Notification';
-import {handleForbiddenCode} from "../../../api/authz/forbidden";
+import { handleForbiddenCode } from "../../../api/authz/forbidden";
 
 export function responseCheckerErrorsController(result) {
   return handleErrCode(result);
@@ -80,7 +80,7 @@ const DISK_AGENT_CLIENT_NOT_EXIST = 807;
 const TIME_OUT = 810;
 
 export const handleErrCodeMonitorCtrl = (data) => {
-  
+
   if (isEmpty(data)) {
     const errCode = {
       type: 'error',
@@ -152,7 +152,7 @@ const REPORT_OKE = 1300;
 const REPORT_BAD_REQUEST = 1301;
 
 export const handleErrCodeReport = (data) => {
-  if(!data){
+  if (!data) {
     const errCode = {
       type: 'error',
       title: 'Code:',
@@ -194,6 +194,15 @@ const AI_INTERNAL_SERVER_ERROR = 1706;
 
 
 export const handleErrCodeAI = (data) => {
+  if (isEmpty(data)) {
+    const errCode = {
+      type: 'error',
+      title: 'Code: Unknown',
+      description: 'Unknown'
+    };
+    Notification(errCode);
+    return null;
+  }
   const { code, message, payload } = data;
   const errCode = {
     type: 'error',

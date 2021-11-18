@@ -1,17 +1,17 @@
-import React, {useEffect, useRef, useState} from 'react';
-import './PlaybackSliderTime.scss'
-import {WithoutTimeSecond2} from "../../../utility/vms/timer";
 import moment from "moment";
-import {Minus, Plus} from 'react-feather';
+import React, { useEffect, useRef, useState } from 'react';
+import { Minus, Plus } from 'react-feather';
+import { WithoutTimeSecond2 } from "../../../utility/vms/timer";
+import './PlaybackSliderTime.scss';
 
-const initialMarkers = [...Array.from({length: 20}, (_, i) => i - 10)]
+// const initialMarkers = [...Array.from({ length: 20 }, (_, i) => i - 10)]
 const STEP = 10;
-const PlaybackSliderTime = ({playbackByDragSlideTime, dateTimeSeek}) => {
-    const [value, setValue] = React.useState([0, 100]);
+const PlaybackSliderTime = ({ playbackByDragSlideTime, dateTimeSeek }) => {
+    // const [value, setValue] = React.useState([0, 100]);
     const [marks, setMarks] = React.useState([]);
     let [stepSize, setStepSize] = React.useState(10);
     const itemsRef = useRef([]);
-    const [seekTime, setSeekTime] = useState(moment('2021-09-24 08:15:31'));
+    // const [seekTime, setSeekTime] = useState(moment('2021-09-24 08:15:31'));
     const [currentDateTime, setcurrentDateTime] = useState(moment());
     const [realtimeCurrentDateTime, setRealTimeCurrentDateTime] = useState(moment());
     const [zoomLevel, setZoomLevel] = useState(60);
@@ -32,13 +32,12 @@ const PlaybackSliderTime = ({playbackByDragSlideTime, dateTimeSeek}) => {
         return (
             marks.map((item, idx) => (
                 <div data-transform={item.style.transform} style={{
-                    // left: `${item.style.left}`,
                     height: `${item.style.height}`,
                     transform: `translateX(${item.style.transform}px)`,
                 }}
-                     key={idx}
-                     className={`slider__marker ${item.className}`}
-                     ref={el => itemsRef.current[idx] = el}
+                    key={idx}
+                    className={`slider__marker ${item.className}`}
+                    ref={el => itemsRef.current[idx] = el}
                 >
                     <span className="slider__marker-hour">{item.hourLabel}</span>
                     <span className="slider__marker-date">{item.dateLabel}</span>
@@ -58,7 +57,6 @@ const PlaybackSliderTime = ({playbackByDragSlideTime, dateTimeSeek}) => {
         var stepTimeSeconds = zoomLevel * 60 * 1000; //1 hour
         const slidersWidth = getWidthBoxTimeline();
         setcurrentDateTime(currentDateTime)
-        console.log('generateMarkers:', currentDateTime.toISOString())
         // calculate startTime and lastTime
         const startTime = currentDateTime - STEP * stepTimeSeconds
         const lastTime = currentDateTime + STEP * stepTimeSeconds
@@ -132,7 +130,6 @@ const PlaybackSliderTime = ({playbackByDragSlideTime, dateTimeSeek}) => {
             // get the mouse cursor position at startup:
             pos3 = e.clientX;
             pos4 = e.clientY;
-            console.log("get the mouse cursor position at startup:e=", e.clientX, pos3);
             document.onmouseup = closeDragElement;
             // call a function whenever the cursor moves:
             document.onmousemove = elementDrag;
@@ -145,7 +142,6 @@ const PlaybackSliderTime = ({playbackByDragSlideTime, dateTimeSeek}) => {
             pos1 = pos3 - e.clientX;
             pos2 = pos4 - e.clientY;
 
-            console.log("calculate the new cursor position:", pos3, e.clientX);
             if (pos1 != 0) {
                 const listMarkerElm = document.querySelectorAll(".slider__marker");
                 listMarkerElm.forEach(item => {
@@ -188,7 +184,6 @@ const PlaybackSliderTime = ({playbackByDragSlideTime, dateTimeSeek}) => {
             e = e || window.event;
             e.preventDefault();
             // calculate the new cursor position:
-            console.log("closeDragElement:calculate the new cursor position:", pos1, pos3, e.clientX);
             pos1 = pos3 - e.clientX;
             pos2 = pos4 - e.clientY;
             pos3 = e.clientX;
@@ -205,7 +200,6 @@ const PlaybackSliderTime = ({playbackByDragSlideTime, dateTimeSeek}) => {
     }
 
     const handleZoomIn = () => {
-        console.log('handleZoomIn:', zoomLevel)
         setZoomLevel(zoomLevel / 2);
     }
     const handleZoomOut = () => {
@@ -214,7 +208,7 @@ const PlaybackSliderTime = ({playbackByDragSlideTime, dateTimeSeek}) => {
 
     return (
         <div className="row slider-container">
-            
+
             <div className="slider" id="slider">
                 <div id="sliderheader">Zoom</div>
                 <div className="slider__markers-seekTime">
@@ -229,8 +223,8 @@ const PlaybackSliderTime = ({playbackByDragSlideTime, dateTimeSeek}) => {
                     </div>
                 </div>
                 <div className="slider__zoom">
-                    <span>   <Minus style={{cursor: 'pointer'}} onClick={handleZoomIn}/></span>
-                    <span>   <Plus style={{cursor: 'pointer'}} onClick={handleZoomOut}/></span>
+                    <span>   <Minus style={{ cursor: 'pointer' }} onClick={handleZoomIn} /></span>
+                    <span>   <Plus style={{ cursor: 'pointer' }} onClick={handleZoomOut} /></span>
                 </div>
             </div>
         </div>

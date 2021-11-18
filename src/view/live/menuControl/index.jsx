@@ -49,7 +49,6 @@ const Index = ({
         },
         { name: `${t('view.live.open_control_panel')}`, type: 4 },
     ];
-    console.log('index----------->', idCamera)
     const [typeActive, setTypeActive] = useState(1);
     const [openModalControlPanel, setOpenModalControlPanel] = useState(false);
     const [openModalPresetSetting, setOpenModalPresetSetting] = useState(false);
@@ -164,7 +163,7 @@ const Index = ({
     // };
     const renderListPreset = () => {
         return presetLists?.map((item, index) =>
-            <button className='menu-control-container__right__result__item' title={item.name}
+            <button key={index} className='menu-control-container__right__result__item' title={item.name}
                 onClick={() => onClickCallPreset(item.idPreset)}>
                 {item?.name}
             </button>
@@ -173,7 +172,7 @@ const Index = ({
 
     const renderListPresetTour = () => {
         return presetTourLists?.map((item, index) =>
-            <button className='menu-control-container__right__result__item ' title={item.name}
+            <button key={index} className='menu-control-container__right__result__item ' title={item.name}
                 onClick={() => onClickCallPresetTour(item.idPresetTour)}>
                 {item?.name}
             </button>

@@ -1,33 +1,29 @@
-import React, {useEffect, useState} from "react";
-
+import { LoadingOutlined, PlusOutlined } from "@ant-design/icons";
 import {
     Button,
     Col,
     Form,
     Input,
     Row,
-    Select,
-    Upload,
-    message,
-    Space,
+    Select, Space, Upload
 } from "antd";
+import React, { useEffect, useState } from "react";
+import { useTranslation } from 'react-i18next';
+import validator from 'validator';
+import { AdministrativeUnitType } from "../../../@core/common/common";
 import AddressApi from "../../../actions/api/address/AddressApi";
 import AdDivisionApi from "../../../actions/api/advision/AdDivision";
-import {LoadingOutlined, PlusOutlined} from "@ant-design/icons";
 import cameraTypeApi from "../../../api/controller-api/cameraTypeApi";
 import vendorApi from "../../../api/controller-api/vendorApi";
-import {AdministrativeUnitType} from "../../../@core/common/common";
+import zoneApi from "../../../api/controller-api/zoneApi";
+import useHandleUploadFile from "../../../hooks/useHandleUploadFile";
 import {
     filterOption,
-    normalizeOptions,
+    normalizeOptions
 } from "../../common/select/CustomSelect";
-import zoneApi from "../../../api/controller-api/zoneApi";
-import validator from 'validator';
-import Notification from "../../../components/vms/notification/Notification";
-import useHandleUploadFile from "../../../hooks/useHandleUploadFile";
-import { useTranslation } from 'react-i18next';
 
-const {Dragger} = Upload;
+
+const { Dragger } = Upload;
 async function fetchSelectOptions() {
     const provinces = await AddressApi.getAllProvinces();
     const zones = await zoneApi.getAll();
@@ -48,12 +44,11 @@ const MapAdministrativeUnitAdd = (props) => {
     const [form] = Form.useForm();
     const [imgFile, setImgFile] = useState('');
     const [isCollapsedCameraForm, setIsCollapsedCameraForm] = useState(false);
-    const [imageUrl,imgFileName, loading, handleChange, uploadImage, beforeUpload] = useHandleUploadFile(imgFile);
-    const {initialLatLgn, editAdminisUnit, handleSubmitCallback, selectNewPosition} = props;
-    
+    const [imageUrl, imgFileName, loading, handleChange, uploadImage, beforeUpload] = useHandleUploadFile(imgFile);
+    const { initialLatLgn, editAdminisUnit, handleSubmitCallback, selectNewPosition } = props;
+
     useEffect(() => {
         if (editAdminisUnit != null) {
-            console.log('set editAdminisUnit:long_, lat_', editAdminisUnit.lng, editAdminisUnit.lat)
             setProvinceId(editAdminisUnit.provinceId)
             form.setFieldsValue({
                 uuid: editAdminisUnit.uuid,
@@ -75,7 +70,6 @@ const MapAdministrativeUnitAdd = (props) => {
 
         } else {
             if (selectNewPosition) {
-                console.log('set initialLatLgn:')
                 form.setFieldsValue({
                     long_: initialLatLgn[0],
                     lat_: initialLatLgn[1],
@@ -106,12 +100,8 @@ const MapAdministrativeUnitAdd = (props) => {
         fetchSelectOptions().then(setFilterOptions);
     }, []);
 
-    useEffect(() => {
-        console.log("form", form)
-    }, [form])
 
     useEffect(() => {
-        console.log('useEffect:provinceId changed', provinceId)
         setDistrict([]);
         if (provinceId) {
             AddressApi.getDistrictByProvinceId(provinceId).then(setDistrict);
@@ -122,19 +112,18 @@ const MapAdministrativeUnitAdd = (props) => {
     }, [editAdminisUnit, provinceId]);
 
     useEffect(() => {
-        console.log('useEffect:districtId changed', provinceId)
         setWard([]);
         if (districtId) {
             AddressApi.getWardByDistrictId(districtId).then(setWard);
         }
     }, [districtId, provinceId]);
 
-    const {provinces} = filterOptions;
+    const { provinces } = filterOptions;
 
     const uploadButton = (
         <div>
-            {loading ? <LoadingOutlined/> : <PlusOutlined/>}
-            <div style={{marginTop: 8}}>{t('view.map.add_image')}</div>
+            {loading ? <LoadingOutlined /> : <PlusOutlined />}
+            <div style={{ marginTop: 8 }}>{t('view.map.add_image')}</div>
         </div>
     );
 
@@ -145,7 +134,7 @@ const MapAdministrativeUnitAdd = (props) => {
     };
 
     function resetDistrictAndWardData() {
-        form.setFieldsValue({districtId: null, wardId: null});
+        form.setFieldsValue({ districtId: null, wardId: null });
     }
 
     const onChangeDistrict = async (districtId) => {
@@ -154,7 +143,7 @@ const MapAdministrativeUnitAdd = (props) => {
     };
 
     function resetWardData() {
-        form.setFieldsValue({wardId: null});
+        form.setFieldsValue({ wardId: null });
     }
 
     const handleSubmit = async (value) => {
@@ -173,7 +162,6 @@ const MapAdministrativeUnitAdd = (props) => {
 
     const onTelChange = (rule, value, callback) => {
         const tel = form.getFieldValue('tel')
-        console.log('onTelChange:', tel)
         const isValidPhoneNumber = validator.isMobilePhone(tel)
         if (!isValidPhoneNumber) {
             callback(t('view.map.invalid_phone_number'))
@@ -189,7 +177,7 @@ const MapAdministrativeUnitAdd = (props) => {
                 (isCollapsedCameraForm ? " collapsed" : "")
             }
         >
-            <a className="toggle-collapse" onClick={toggleCollapsedCameraForm}/>
+            <a className="toggle-collapse" onClick={toggleCollapsedCameraForm} />
             <Form
                 className="camera-form-inner"
                 layout="vertical"
@@ -210,7 +198,7 @@ const MapAdministrativeUnitAdd = (props) => {
                             customRequest={uploadImage}
                         >
                             {imageUrl ? (
-                                <img src={imageUrl} alt="avatar" style={{width: "100%"}}/>
+                                <img src={imageUrl} alt="avatar" style={{ width: "100%" }} />
                             ) : (
                                 uploadButton
                             )}
@@ -220,16 +208,16 @@ const MapAdministrativeUnitAdd = (props) => {
                         <Form.Item
                             name={["uuid"]}
                         >
-                            <Input placeholder="uuid"/>
+                            <Input placeholder="uuid" />
                         </Form.Item>
                     </Col>
                     <Col span={24}>
                         <Form.Item
                             name={["name"]}
                             label={t('view.map.unit_name')}
-                            rules={[{required: true, message: t('view.map.required_field')}]}
+                            rules={[{ required: true, message: t('view.map.required_field') }]}
                         >
-                            <Input placeholder={t('view.map.please_enter_unit_name', { plsEnter: t('please_enter')})}/>
+                            <Input placeholder={t('view.map.please_enter_unit_name', { plsEnter: t('please_enter') })} />
                         </Form.Item>
                     </Col>
                 </Row>
@@ -239,7 +227,7 @@ const MapAdministrativeUnitAdd = (props) => {
                             name={["address"]}
                             label={t('view.map.address')}
                         >
-                            <Input placeholder={t('view.map.please_enter_your_address', { plsEnter: t('please_enter')})}/>
+                            <Input placeholder={t('view.map.please_enter_your_address', { plsEnter: t('please_enter') })} />
                         </Form.Item>
                     </Col>
                 </Row>
@@ -248,9 +236,9 @@ const MapAdministrativeUnitAdd = (props) => {
                         <Form.Item
                             label={t('view.map.phone_number')}
                             name={["tel"]}
-                            rules={[{validator: onTelChange}]}
+                            rules={[{ validator: onTelChange }]}
                         >
-                            <Input placeholder={t('view.map.please_enter_your_phone_number',{ plsEnter: t('please_enter') })}></Input>
+                            <Input placeholder={t('view.map.please_enter_your_phone_number', { plsEnter: t('please_enter') })}></Input>
                         </Form.Item>
                     </Col>
                 </Row>
@@ -259,7 +247,7 @@ const MapAdministrativeUnitAdd = (props) => {
                         <Form.Item
                             name={["provinceId"]}
                             label={t('view.map.province_id')}
-                            rules={[{required: true, message: t('view.map.required_field')}]}
+                            rules={[{ required: true, message: t('view.map.required_field') }]}
                         >
                             <Select
                                 dataSource={provinces || []}
@@ -275,7 +263,7 @@ const MapAdministrativeUnitAdd = (props) => {
                         <Form.Item
                             name={["districtId"]}
                             label={t('view.map.district_id')}
-                            rules={[{required: true, message: t('view.map.required_field')}]}
+                            rules={[{ required: true, message: t('view.map.required_field') }]}
                         >
                             <Select
                                 dataSource={districts}
@@ -292,7 +280,7 @@ const MapAdministrativeUnitAdd = (props) => {
                         <Form.Item
                             name={["wardId"]}
                             label={t('view.map.ward_id')}
-                            rules={[{required: true, message: t('view.map.required_field')}]}
+                            rules={[{ required: true, message: t('view.map.required_field') }]}
                         >
                             <Select
                                 dataSource={wards}
@@ -314,7 +302,7 @@ const MapAdministrativeUnitAdd = (props) => {
                     <Col span={12}>
                         <Form.Item label={t('view.map.latitude')} name={["lat_"]}>
                             <Input
-                                placeholder={t('view.map.latitude')} 
+                                placeholder={t('view.map.latitude')}
                             />
                         </Form.Item>
                     </Col>
@@ -328,9 +316,9 @@ const MapAdministrativeUnitAdd = (props) => {
                 >
                     <Space>
                         <Button className="submit__button submit__button--cancel" htmlType="button" ghost
-                                onClick={onReset}>{t('view.map.button_cancel')}</Button>
+                            onClick={onReset}>{t('view.map.button_cancel')}</Button>
                         <Button className="submit__button" type="primary" htmlType="submit ">
-                        {t('view.map.button_save')}
+                            {t('view.map.button_save')}
                         </Button>
                     </Space>
                 </div>

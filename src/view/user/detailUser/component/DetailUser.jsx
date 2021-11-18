@@ -63,7 +63,7 @@ const DetailUser = (props) => {
   const language = reactLocalStorage.get('language');
   useEffect(() => {
     if (
-      language == 'vn'
+      language === 'vn'
         ? (document.title = 'CCTV | Thông tin cá nhân')
         : (document.title = 'CCTV | Infomation')
     );
@@ -187,7 +187,7 @@ const DetailUser = (props) => {
   const dataRules = (name_data) => {
     let rules = [];
 
-    if (name_data == 'email') {
+    if (name_data === 'email') {
       rules.push(
         {
           message: 'Chưa đúng định dạng Email',
@@ -204,7 +204,7 @@ const DetailUser = (props) => {
       );
     }
 
-    if (name_data == 'password') {
+    if (name_data === 'password') {
       rules.push(
         {
           max: 255,
@@ -220,7 +220,7 @@ const DetailUser = (props) => {
         }
       );
     }
-    if (name_data == 'phone') {
+    if (name_data === 'phone') {
       rules.push(
 
         {
@@ -229,13 +229,13 @@ const DetailUser = (props) => {
         }
       );
     }
-    if (name_data == 'unit' || name_data == 'position') {
+    if (name_data === 'unit' || name_data === 'position') {
       rules.push({
         max: 255,
         message: `${t('noti.255_characters_limit')}`
       });
     }
-    if (name_data == 'name') {
+    if (name_data === 'name') {
       rules.push(
         {
           max: 255,

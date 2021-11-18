@@ -1,38 +1,27 @@
 import {
   Button,
   Card,
-  Checkbox,
-  Input,
-  Select,
-  Spin,
-  Image,
-  message,
-  Tooltip,
-  Popconfirm,
+  Checkbox, Image, Input, Popconfirm, Select, Tooltip
 } from "antd";
 import "antd/dist/antd.css";
 import { isEmpty } from "lodash-es";
 import React, { useEffect, useState } from "react";
-import { withRouter } from "react-router-dom";
+import { useTranslation } from 'react-i18next';
 import SettingApi from "../../../actions/api/setting/SettingApi";
+import cautionLogo from "../../../assets/img/pages/store-setting/caution-logo.png";
+import cleanImportantLogo from "../../../assets/img/pages/store-setting/clean-important-logo.png";
+import cleanLogo from "../../../assets/img/pages/store-setting/clean-logo.png";
+import "../../../assets/scss/pages/store-setting.scss";
+import Notification from "../../../components/vms/notification/Notification";
+import { NOTYFY_TYPE } from "../../common/vms/Constant";
 import "./../../commonStyle/commonCard.scss";
 import "./../../commonStyle/commonForm.scss";
 import "./../../commonStyle/commonInput.scss";
 import "./../../commonStyle/commonModal.scss";
 import "./../../commonStyle/commonSelect.scss";
-import "../../../assets/scss/pages/store-setting.scss";
 import {
-  headStyleCard,
-  bodyStyleCard,
-  cautionColor,
-  errorColor,
+  bodyStyleCard, errorColor, headStyleCard
 } from "./variables";
-import cleanLogo from "../../../assets/img/pages/store-setting/clean-logo.png";
-import cleanImportantLogo from "../../../assets/img/pages/store-setting/clean-important-logo.png";
-import cautionLogo from "../../../assets/img/pages/store-setting/caution-logo.png";
-import Notification from "../../../components/vms/notification/Notification";
-import { NOTYFY_TYPE } from "../../common/vms/Constant";
-import { useTranslation } from 'react-i18next';
 
 const DEFAULT_VALUE = {
   autoRemoveFileImportant: false,
@@ -97,7 +86,6 @@ const convertCleanSettingData = (data) => {
         },
       ],
     };
-    console.log("dataclean:", result);
     return result;
   }
 };
@@ -120,7 +108,6 @@ export default function CleanSetting(props) {
   //call data
   useEffect(() => {
     SettingApi.getDataCleanFile().then(async (data) => {
-      console.log(data);
       let convertedData = await convertCleanSettingData(data?.payload);
       setCleanSettingData(convertedData);
       return;
@@ -135,7 +122,7 @@ export default function CleanSetting(props) {
       ...cleanSettingData,
       configCleanFile: configCleanFileNew,
     });
-    if (!isNaN(value) && value == parseInt(value) && parseInt(value) != 0) {
+    if (!isEmpty(value)) {
       setIsCorrectFormatValueOne(true);
       setHandleSubmit(true);
     } else {
@@ -147,7 +134,6 @@ export default function CleanSetting(props) {
   const onChangeTimeTypeOne = (value) => {
     //create data
     let configCleanFileNew = cleanSettingData.configCleanFile;
-    console.log("configCleanFileNew1", configCleanFileNew);
     configCleanFileNew[0].timeType = value;
 
     //set clean setting data
@@ -165,7 +151,7 @@ export default function CleanSetting(props) {
       ...cleanSettingData,
       configCleanFile: configCleanFileNew,
     });
-    if (!isNaN(value) && value == parseInt(value) && parseInt(value) != 0) {
+    if (!isEmpty(value)) {
       setIsCorrectFormatValueTwo(true);
       setHandleSubmit(true);
     } else {
@@ -194,7 +180,7 @@ export default function CleanSetting(props) {
       ...cleanSettingData,
       configCleanFile: configCleanFileNew,
     });
-    if (!isNaN(value) && value == parseInt(value) && parseInt(value) != 0) {
+    if (!isEmpty(value)) {
       setIsCorrectFormatValueThree(true);
       setHandleSubmit(true);
     } else {
@@ -223,7 +209,6 @@ export default function CleanSetting(props) {
   };
 
   const handleSubmit = async () => {
-    console.log(cleanSettingData);
     const payload = cleanSettingData;
     const payloadConverted = {
       autoRemoveFileImportant: payload?.autoRemoveFileImportant,
@@ -279,7 +264,7 @@ export default function CleanSetting(props) {
             onConfirm={handleSubmit}
             className='popconfirm--warning'
 
-            // onConfirm={handleSubmit}
+          // onConfirm={handleSubmit}
           >
             <Button
               className='btn--save'
@@ -326,6 +311,8 @@ export default function CleanSetting(props) {
                   >
                     <Input
                       onChange={onChangeTimeOne}
+                      type='number'
+                      onKeyDown={(evt) => ["e", "E", "+", "-"].includes(evt.key) && evt.preventDefault()}
                       value={
                         cleanSettingData?.configCleanFile
                           ? cleanSettingData?.configCleanFile[0]?.time
@@ -358,6 +345,8 @@ export default function CleanSetting(props) {
                   >
                     <Input
                       onChange={onChangeTimeTwo}
+                      type='number'
+                      onKeyDown={(evt) => ["e", "E", "+", "-"].includes(evt.key) && evt.preventDefault()}
                       value={
                         cleanSettingData?.configCleanFile
                           ? cleanSettingData?.configCleanFile[2]?.time
@@ -390,6 +379,8 @@ export default function CleanSetting(props) {
                   >
                     <Input
                       onChange={onChangeTimeThree}
+                      type='number'
+                      onKeyDown={(evt) => ["e", "E", "+", "-"].includes(evt.key) && evt.preventDefault()}
                       value={
                         cleanSettingData?.configCleanFile
                           ? cleanSettingData?.configCleanFile[1]?.time

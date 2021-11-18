@@ -79,7 +79,7 @@ export default function TableAddCamInCamGroup(props) {
     }
   }, [districtId]);
 
-  const { provinces, adDivisions, vendors } = filterOptions;
+  const { provinces, adDivisions } = filterOptions;
 
   const onChangeCity = async (cityId) => {
     setProvinceId(cityId);
@@ -367,7 +367,7 @@ export default function TableAddCamInCamGroup(props) {
             className="table__list--camera-add"
             rowKey="uuid"
             columns={columns}
-            scroll={{ y: 1000 }}
+            // scroll={{ y: 1000 }}
             dataSource={listCamera}
             title={renderHeader}
             rowSelection={rowSelection}

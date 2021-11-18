@@ -1,19 +1,16 @@
-import React, { useEffect, useState } from 'react';
-import Search from '../../components/vms/search'
-import { Input, Space, Button } from 'antd';
-import { SearchOutlined } from '@ant-design/icons';
-import MapFilter from '../map/forms/MapFilter';
-import { Filter } from "react-feather"
-
 import 'antd/dist/antd.css';
-import '../../assets/scss/app-icons.scss';
-import provinceApi from '../../api/controller-api/provinceApi';
-import { svg } from '../map/camera.icon';
-import { Droppable, Draggable } from 'react-beautiful-dnd';
-import { PAGE_SIZE } from "../common/vms/Constant";
-import MapCamItem from '../map/forms/MapCamItem';
+import React, { useEffect, useState } from 'react';
+import { Draggable, Droppable } from 'react-beautiful-dnd';
 import { useTranslation } from 'react-i18next';
+import provinceApi from '../../api/controller-api/provinceApi';
+import '../../assets/scss/app-icons.scss';
+import Search from '../../components/vms/search';
+import { PAGE_SIZE } from "../common/vms/Constant";
+import { svg } from '../map/camera.icon';
+import MapCamItem from '../map/forms/MapCamItem';
+import MapFilter from '../map/forms/MapFilter';
 import MapPagination from '../map/forms/MapPagination';
+
 
 
 // Create an image for the Layer`
@@ -127,7 +124,7 @@ const DraggableCameraList = (props) => {
                                     key={camera.uuid}
                                     draggableId={buildDraggableId(camera)}
                                     index={index}
-                                    style={{with: '100%'}}
+                                    style={{ with: '100%' }}
                                 >
                                     {(provided, snapshot) => (
                                         <div

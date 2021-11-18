@@ -88,13 +88,11 @@ const TableCamera = () => {
   const [total, setTotal] = useState(0);
   const [page, setPage] = useState(1);
   const [size, setSize] = useState(10);
-
   const [search, setSearch] = useState('');
   const [unit, setUnit] = useState(UNIT.ALL);
-
   const [isModalVisible, setIsModalVisible] = useState(false);
   const history = useHistory();
-  let { path, url } = useRouteMatch();
+  let { path } = useRouteMatch();
 
   const formItemLayout = {
     wrapperCol: { span: 24 },
@@ -274,7 +272,6 @@ const TableCamera = () => {
   }, [districtId]);
 
   const { provinces, adDivisions, vendors } = filterOptions;
-  // console.log('filterOptions', filterOptions)
 
   const onChangeCity = async (cityId) => {
     setProvinceId(cityId);
@@ -618,7 +615,7 @@ const TableCamera = () => {
               <Form.Item
                 name={['provinceId']}
                 label={t('view.map.province_id')}
-                // rules={[{ required: true, message: 'Trường này bắt buộc' }]}
+              // rules={[{ required: true, message: 'Trường này bắt buộc' }]}
               >
                 <Select
                   allowClear
@@ -670,7 +667,7 @@ const TableCamera = () => {
               <Form.Item
                 label={t('view.map.location')}
                 name={['address']}
-                // rules={[{ required: true, message: 'Trường này bắt buộc' }]}
+              // rules={[{ required: true, message: 'Trường này bắt buộc' }]}
               >
                 <Input
                   placeholder={t('view.map.please_choose_location')}

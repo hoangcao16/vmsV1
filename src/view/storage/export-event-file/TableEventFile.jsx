@@ -1,21 +1,20 @@
-import {Input, Popconfirm, Select, Table, Tooltip} from "antd";
-import React, {useState} from "react";
-import {FiBookmark, FiFilm, FiImage} from "react-icons/fi";
+import { Input, Popconfirm, Select, Table, Tooltip } from "antd";
+import React, { useState } from "react";
+import { FiBookmark, FiFilm, FiImage } from "react-icons/fi";
 import moment from "moment";
 import {
     filterOption,
     normalizeOptions,
 } from "../../common/select/CustomSelect";
-import {findIndex} from "lodash-es";
-import {RiDeleteBinLine} from "react-icons/ri";
-import {AiOutlineCheck, AiOutlineClose, AiOutlineEdit} from "react-icons/all";
+import { findIndex } from "lodash-es";
+import { RiDeleteBinLine } from "react-icons/ri";
+import { AiOutlineCheck, AiOutlineClose, AiOutlineEdit } from "react-icons/all";
 import _ from "lodash";
 import { useTranslation } from 'react-i18next';
 
 
 const TableEventFile = (props) => {
     const { t } = useTranslation();
-    console.log(">>>>> TableEventFile rendered");
     let eventList = props.eventList || [];
     let dataList = props.dataList || [];
     const [selectedRowUuid, setSelectedRowUuid] = useState('');
@@ -82,7 +81,7 @@ const TableEventFile = (props) => {
                             deleteEventFileHandler(row?.uuid);
                         }}
                     >
-                        <RiDeleteBinLine className='icon'/>
+                        <RiDeleteBinLine className='icon' />
                     </Popconfirm>
                 </div>
             );
@@ -134,9 +133,9 @@ const TableEventFile = (props) => {
 
     const renderType = (value) => {
         return !value || value === 0 ? (
-            <FiFilm className='iconType'/>
+            <FiFilm className='iconType' />
         ) : (
-            <FiImage className='iconType'/>
+            <FiImage className='iconType' />
         );
     };
 
@@ -231,7 +230,7 @@ const TableEventFile = (props) => {
             render: renderNote,
         },
         {
-            title:`${t('view.storage.camera_name', { cam: t('camera') })}`,
+            title: `${t('view.storage.camera_name', { cam: t('camera') })}`,
             dataIndex: "cameraName",
             key: "cameraName",
             width: 200,
@@ -303,8 +302,6 @@ const TableEventFile = (props) => {
 };
 
 function tableEventFilePropsAreEqual(prevTblEventFile, nextTblEventFile) {
-    // console.log(">>>>> prevTblEventFile.dataList:", prevTblEventFile.dataList);
-    // console.log(">>>>> nextTblEventFile.dataList:", nextTblEventFile.dataList);
     return _.isEqual(prevTblEventFile.dataList, nextTblEventFile.dataList);
 }
 

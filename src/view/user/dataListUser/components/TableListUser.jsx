@@ -51,9 +51,9 @@ export const renderText = (cellValue, row, t) => {
       <Text>
         {cellValue.length > 40
           ? `${cellValue.slice(0, 19)}...${cellValue.slice(
-              cellValue.length - 20,
-              cellValue.length
-            )}`
+            cellValue.length - 20,
+            cellValue.length
+          )}`
           : `${cellValue}`}
       </Text>
     </Tooltip>
@@ -115,7 +115,7 @@ const TableListUser = (props) => {
           <Button
             type="primary"
             className="btnAddUser height-40 mr-1"
-            style={{ borderRadius: '6px' }}
+            style={{ borderRadius: '6px', border: '0' }}
             disabled={!permissionCheck('add_user')}
             onClick={() => {
               history.push(`${path}/add`);

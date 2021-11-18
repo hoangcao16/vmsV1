@@ -580,7 +580,6 @@
                 }
                 &:nth-child(3) {
                   color: $vms-status-07;
-
                   padding-left: 24px;
                 }
                 &:nth-child(4) {
@@ -588,6 +587,7 @@
                   height: 60px;
                   text-align: center;
                   padding: 0;
+                  white-space: nowrap;
                   select {
                     background-color: $vms-bg-sub;
                     border: none;

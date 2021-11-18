@@ -35,7 +35,7 @@ const ForgotPassword = () => {
         ? (document.title = "CCTV | Khôi phục mật khẩu")
         : (document.title = "CCTV | Recover Password")
     );
-  },[t]);
+  }, [t]);
 
   const onSendMailReset = async () => {
     if (isEmpty(email)) {
@@ -63,7 +63,6 @@ const ForgotPassword = () => {
 
     const isReset = await UserApi.resetPassword({ email });
 
-    console.log("isReset:", isReset);
     if (isReset) {
       setEmail("");
 
@@ -122,14 +121,6 @@ const ForgotPassword = () => {
                         value={email}
                         maxLength={255}
                         onChange={(e) => {
-                          console.log("email", e.target.value.trim());
-                          // if (
-                          //   document
-                          //     .getElementsByClassName(
-                          //       "email__receive-new-password"
-                          //     )[0]
-                          //     .value.trim() === ""
-                          // )
                           const value = e.target.value.trim();
                           setEmail(value);
                         }}

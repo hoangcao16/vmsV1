@@ -1,5 +1,5 @@
 import controllerApi from "./api";
-import {handleDeleteErrCode, handleErrCode} from "./code"
+import { handleDeleteErrCode, handleErrCode } from "./code";
 
 const PTZCONTROLLER_ENDPOINT = "ptz-ctrl/api/v1";
 const ptzControllerApi = {
@@ -47,11 +47,10 @@ const ptzControllerApi = {
     async postZoom(body) {
         const response = await new Promise((resolve, reject) => {
             try {
-                const response =
-                    controllerApi.axiosIns
-                        .post(`${PTZCONTROLLER_ENDPOINT}/zoom`, body)
-                        .then((response) => resolve(response))
-                        .catch((error) => reject(error));
+                controllerApi.axiosIns
+                    .post(`${PTZCONTROLLER_ENDPOINT}/zoom`, body)
+                    .then((response) => resolve(response))
+                    .catch((error) => reject(error));
             } catch (e) {
                 return null
             }

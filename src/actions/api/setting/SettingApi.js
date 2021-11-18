@@ -33,11 +33,6 @@ const SettingApi = {
       console.log('wrong log error: ' + JSON.stringify(error));
     }
 
-    // if (handleErrCodeMonitorCtrl(result)) {
-    //   return [];
-    // }
-    // console.log('result warning disk', result)
-
     return handleErrCodeMonitorCtrl(result);
   },
   getRecordingVideo: async () => {
@@ -50,11 +45,6 @@ const SettingApi = {
     } catch (error) {
       console.log('wrong log error: ' + JSON.stringify(error));
     }
-    console.log('result payload', result)
-
-    // if (handleErrCodeMonitorCtrl(result)) {
-    //   return [];
-    // }
 
     return handleErrCodeMonitorCtrl(result);
   },

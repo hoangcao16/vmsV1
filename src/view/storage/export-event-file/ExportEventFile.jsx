@@ -1,56 +1,44 @@
+import {
+    Col, Popconfirm, Popover,
+    Row, Tooltip
+} from 'antd';
 import "antd/dist/antd.css";
+import { saveAs } from 'file-saver';
+import { findIndex } from "lodash-es";
+import moment from "moment";
+import React, { useEffect, useRef, useState } from 'react';
+import { useTranslation } from 'react-i18next';
+import { AiOutlineInfoCircle, MdCenterFocusWeak } from "react-icons/all";
+import {
+    FiBookmark, FiCamera, FiDatabase, FiDownload, FiFastForward, FiFilm, FiGrid, FiImage, FiList, FiPause, FiPlay,
+    FiRewind, FiScissors
+} from "react-icons/fi";
+import { RiCalendarTodoLine, RiDeleteBinLine } from "react-icons/ri";
+import { reactLocalStorage } from 'reactjs-localstorage';
+import { v4 as uuidV4 } from 'uuid';
+import { default as deleteExportEventFileApi, default as ExportEventFileApi } from '../../../actions/api/exporteventfile/ExportEventFileApi';
+import permissionCheck from "../../../actions/function/MyUltil/PermissionCheck";
+import cheetahSvcApi from "../../../api/cheetah/fileApi";
+import eventApi from "../../../api/controller-api/eventApi";
+import lionSvcApi from "../../../api/lion/cameraApi";
+import playbackApi from "../../../api/playback/cameraApi";
+import imagePoster from "../../../assets/event/videoposter.png";
+import Notification from "../../../components/vms/notification/Notification";
+import { captureVideoFrame } from "../../../utility/vms/captureVideoFrame";
+import { getBase64Text } from "../../../utility/vms/getBase64Text";
+import { NOTYFY_TYPE } from "../../common/vms/Constant";
+import Loading from "../../Loading";
 import './../../commonStyle/commonDatePicker.scss';
 import './../../commonStyle/commonForm.scss';
 import './../../commonStyle/commonInput.scss';
 import './../../commonStyle/commonSelect.scss';
-import './../../commonStyle/commonDatePicker.scss';
 import './../../commonStyle/commonTable.scss';
-import './export-event-file.scss'
-import React, {useEffect, useState, useRef} from 'react';
-import {MemoizedTableFile} from "./TableFile";
-import {MemoizedTableEventFile} from "./TableEventFile";
-import {MemoizedThumbnailVideo} from "./ThumbnailVideo";
-import {RiCalendarTodoLine, RiDeleteBinLine} from "react-icons/ri";
-import {v4 as uuidV4} from 'uuid';
-import {
-    FiPlay,
-    FiRewind,
-    FiFastForward,
-    FiCamera,
-    FiScissors,
-    FiPause,
-    FiDatabase,
-    FiGrid,
-    FiList,
-    FiDownload, FiFilm, FiImage, FiBookmark
-} from "react-icons/fi";
-import {
-    Col, Popconfirm, Popover,
-    Row,
-} from 'antd';
-import ExportEventFileApi from '../../../actions/api/exporteventfile/ExportEventFileApi';
-import imagePoster from "../../../assets/event/videoposter.png";
-import './export-event-file.scss'
-import {reactLocalStorage} from 'reactjs-localstorage';
-import {saveAs} from 'file-saver';
-import {findIndex} from "lodash-es";
-import {AiOutlineEdit, AiOutlineInfoCircle, MdCenterFocusWeak} from "react-icons/all";
-import moment from "moment";
-import Loading from "../../Loading";
-import eventApi from "../../../api/controller-api/eventApi";
-import {MemoizedInfoPopoverContent} from "./InfoPopoverContent";
-import Notification from "../../../components/vms/notification/Notification";
-import {NOTYFY_TYPE} from "../../common/vms/Constant";
-import lionSvcApi from "../../../api/lion/cameraApi";
-import playbackApi from "../../../api/playback/cameraApi";
-import cheetahSvcApi from "../../../api/cheetah/fileApi";
-import {MemoizedHlsPlayer} from "./PlayerHls";
-import {captureVideoFrame} from "../../../utility/vms/captureVideoFrame";
-import {getBase64Text} from "../../../utility/vms/getBase64Text";
-import permissionCheck from "../../../actions/function/MyUltil/PermissionCheck";
-import deleteExportEventFileApi from "../../../actions/api/exporteventfile/ExportEventFileApi";
-import {useTranslation} from 'react-i18next';
-import {Tooltip} from "antd";
+import './export-event-file.scss';
+import { MemoizedInfoPopoverContent } from "./InfoPopoverContent";
+import { MemoizedHlsPlayer } from "./PlayerHls";
+import { MemoizedTableEventFile } from "./TableEventFile";
+import { MemoizedTableFile } from "./TableFile";
+import { MemoizedThumbnailVideo } from "./ThumbnailVideo";
 
 const ExportEventFile = () => {
     let defaultEventFile = {
@@ -76,13 +64,12 @@ const ExportEventFile = () => {
         isSaved: false,
     }
 
-    const {t} = useTranslation();
+    const { t } = useTranslation();
     const language = reactLocalStorage.get("language");
     const [playerSrc, setPlayerSrc] = useState("");
     //const [volumeVideo, setVolumeVideo] = useState(0.45);
     const [duration, setDuration] = useState(0);
     let playbackRate = 1;
-    const [urlVideo, setUrlVideo] = useState("");
     const [urlSnapshot, setUrlSnapshot] = useState("");
     const playerVideo = useRef(null);
     const refCanvas = useRef(null);
@@ -133,7 +120,6 @@ const ExportEventFile = () => {
     const refresh = () => {
         setCaptureMode(false);
         setUrlSnapshot("");
-        setUrlVideo("");
         setUrlVideoTimeline(null);
         setPlayerReady(false);
         setListEventFiles([]);
@@ -167,7 +153,7 @@ const ExportEventFile = () => {
             });
             if (response && response.payload) {
                 setListEventFiles(response.payload.map(ef => {
-                    const {important, ...eventFile} = ef;
+                    const { important, ...eventFile } = ef;
                     return {
                         ...eventFile,
                         isImportant: ef.important,
@@ -176,7 +162,7 @@ const ExportEventFile = () => {
                     }
                 }));
 
-                setOriginalFile({...file, tableName: 'file'});
+                setOriginalFile({ ...file, tableName: 'file' });
                 // Play file
                 await playFile(file);
 
@@ -220,7 +206,7 @@ const ExportEventFile = () => {
                         let videoSrc = checkPerRes.playbackUrl + '/play/hls/' + payload.reqUuid + '/index.m3u8';
                         setDownloadFileName(file.name);
                         setDuration(file.length);
-                        setFileCurrent({...file, tableName: 'file'});
+                        setFileCurrent({ ...file, tableName: 'file' });
                         setPlayerReady(true);
                         setPlayerSrc(videoSrc);
                         playHandler("default");
@@ -252,9 +238,9 @@ const ExportEventFile = () => {
 
     const openEventFile = async (file) => {
         if (viewFileType === 1 || viewFileType === 2) {
-            setFileCurrent({...file, tableName: 'event_file'});
+            setFileCurrent({ ...file, tableName: 'event_file' });
         } else if (viewFileType === 3) {
-            setFileCurrent({...file});
+            setFileCurrent({ ...file });
         }
         if (file.type === 1) {
             setUrlSnapshot("data:image/jpeg;base64," + file.thumbnailData[0]);
@@ -297,7 +283,7 @@ const ExportEventFile = () => {
                         let videoSrc = checkPerRes.playbackUrl + '/play/hls/' + payload.reqUuid + '/index.m3u8';
                         setDownloadFileName(row.name);
                         setDuration(row.length);
-                        setFileCurrent({...row, tableName: 'event_file'});
+                        setFileCurrent({ ...row, tableName: 'event_file' });
                         setPlayerReady(true);
                         setPlayerSrc(videoSrc);
                         playHandler("default");
@@ -328,7 +314,6 @@ const ExportEventFile = () => {
     };
 
     const onSearchHandler = async (dataParam) => {
-        debugger;
         refresh();
         setLoading(true);
         try {
@@ -351,7 +336,7 @@ const ExportEventFile = () => {
                     await ExportEventFileApi.getFileList(dataParam).then(data => {
                         if (data && data.payload) {
                             setListFiles(data.payload.map(f => {
-                                const {important, ...file} = f;
+                                const { important, ...file } = f;
                                 return {
                                     ...file,
                                     isImportant: f.important
@@ -364,7 +349,7 @@ const ExportEventFile = () => {
                     await ExportEventFileApi.getEventFileList(dataParam).then(data => {
                         if (data && data.payload) {
                             setListFiles(data.payload.map(f => {
-                                const {important, ...file} = f;
+                                const { important, ...file } = f;
                                 return {
                                     ...file,
                                     isImportant: f.important
@@ -377,7 +362,7 @@ const ExportEventFile = () => {
                     await ExportEventFileApi.getImportantFileList(dataParam).then(data => {
                         if (data && data.payload) {
                             setListFiles(data.payload.map(f => {
-                                const {important, ...file} = f;
+                                const { important, ...file } = f;
                                 return {
                                     ...file,
                                     isImportant: f.important
@@ -433,7 +418,7 @@ const ExportEventFile = () => {
             }
             if (value) setEventFileCurrent(value);
         } else {
-            setEventFileCurrent({...row, blob: null, isSaved: false});
+            setEventFileCurrent({ ...row, blob: null, isSaved: false });
         }
     }
 
@@ -444,7 +429,7 @@ const ExportEventFile = () => {
             const lstEf = [...listEventFiles];
             const fileName = setFileName(1);
             const uuid = uuidV4();
-            const newEventFile = {...eventFileCurrent, uuid: uuid, type: 1, name: fileName, blob: blob}
+            const newEventFile = { ...eventFileCurrent, uuid: uuid, type: 1, name: fileName, blob: blob }
             lstEf.push(newEventFile);
             setFileCurrent(newEventFile);
             setListEventFiles([...lstEf]);
@@ -485,7 +470,7 @@ const ExportEventFile = () => {
                         isSaved: true,
                         diskId: fileCurrent.diskId
                     }
-                    let {blob, isSaved, ...requestObject} = eventFile;
+                    let { blob, isSaved, ...requestObject } = eventFile;
                     const response = await ExportEventFileApi.createNewEventFile(requestObject);
                     if (response && response.payload) {
                         Notification({
@@ -493,7 +478,7 @@ const ExportEventFile = () => {
                             title: `${t('noti.archived_file')}`,
                             description: `${t('noti.successfully_add_file')}`
                         });
-                        eventFile = {...eventFile, id: response.payload.id};
+                        eventFile = { ...eventFile, id: response.payload.id };
                         const lstEf = [...listEventFiles];
                         lstEf.push(eventFile);
                         setListEventFiles([...lstEf]);
@@ -587,14 +572,14 @@ const ExportEventFile = () => {
                         if (fileCurrent.tableName === 'file') {
                             // Call Nginx to get blob data of file
                             await ExportEventFileApi.getFileData(fileCurrent.id, fileCurrent.fileType, fileCurrent.nginx_host).then(async (result) => {
-                                const blob = new Blob([result.data], {type: "octet/stream"});
+                                const blob = new Blob([result.data], { type: "octet/stream" });
                                 const url = window.URL.createObjectURL(blob);
                                 saveAs(url, downloadFileName);
                             });
                         } else {
                             // Call Nginx to get blob data of file
                             await ExportEventFileApi.getFileData(fileCurrent.id, fileCurrent.type, fileCurrent.nginx_host).then(async (result) => {
-                                const blob = new Blob([result.data], {type: "octet/stream"});
+                                const blob = new Blob([result.data], { type: "octet/stream" });
                                 const url = window.URL.createObjectURL(blob);
                                 saveAs(url, downloadFileName);
                             });
@@ -627,7 +612,7 @@ const ExportEventFile = () => {
                 setIsOpenRootFile(true);
                 setViewFileType(0);
                 if (data && data.payload) {
-                    let {important, ...file} = data.payload;
+                    let { important, ...file } = data.payload;
                     file = {
                         ...file,
                         isImportant: data.payload.important
@@ -703,7 +688,7 @@ const ExportEventFile = () => {
         }
         if (per) {
             let response = null;
-            let {...requestObject} = file;
+            let { ...requestObject } = file;
             if (requestObject.tableName === 'file') {
                 response = await ExportEventFileApi.updateFile(requestObject, requestObject.uuid);
             } else {
@@ -723,9 +708,9 @@ const ExportEventFile = () => {
                     const index = findIndex(dataList, item => item.uuid === requestObject.uuid);
                     dataList[index] = requestObject;
                     setListFiles([...dataList]);
-                    setFileCurrent({...requestObject});
+                    setFileCurrent({ ...requestObject });
                     setEventFileCurrent(preSate => {
-                        return {...preSate, isImportant: requestObject.isImportant, eventName: requestObject.eventName};
+                        return { ...preSate, isImportant: requestObject.isImportant, eventName: requestObject.eventName };
                     });
                 }
             }
@@ -745,12 +730,12 @@ const ExportEventFile = () => {
             if (note !== null) perStr = 'edit_file_note';
             const per = permissionCheck(perStr);
             if (per) {
-                let requestObject = Object.assign({...fileCurrent});
+                let requestObject = Object.assign({ ...fileCurrent });
                 if (isImportant !== null) {
-                    requestObject = Object.assign({...requestObject, isImportant: isImportant});
+                    requestObject = Object.assign({ ...requestObject, isImportant: isImportant });
                 }
                 if (note !== null) {
-                    requestObject = Object.assign({...requestObject, note: note});
+                    requestObject = Object.assign({ ...requestObject, note: note });
                 }
                 let response = null;
                 if (requestObject.tableName === 'file') {
@@ -774,9 +759,9 @@ const ExportEventFile = () => {
                         const index = findIndex(dataList, item => item.uuid === requestObject.uuid);
                         dataList[index] = requestObject;
                         setListFiles([...dataList]);
-                        setFileCurrent({...requestObject});
+                        setFileCurrent({ ...requestObject });
                         setEventFileCurrent(preSate => {
-                            return {...preSate, isImportant: requestObject.isImportant, note: requestObject.note};
+                            return { ...preSate, isImportant: requestObject.isImportant, note: requestObject.note };
                         });
                     }
                 }
@@ -862,8 +847,8 @@ const ExportEventFile = () => {
     };
 
     const editEventFileHandler = async (eventFile, dataList) => {
-        let {blob, isSaved, ...requestObject} = eventFile; //Create requestObject without blob, isSaved fields
-        requestObject = Object.assign({...requestObject, isSaved: true});
+        let { blob, isSaved, ...requestObject } = eventFile; //Create requestObject without blob, isSaved fields
+        requestObject = Object.assign({ ...requestObject, isSaved: true });
         const response = await ExportEventFileApi.updateEventFile(requestObject, requestObject.uuid);
         if (response) {
             Notification({
@@ -885,7 +870,7 @@ const ExportEventFile = () => {
         ExportEventFileApi.uploadFile(eventFile.uuid + ".jpeg", eventFile.blob).then(async (result) => {
             if (result.data && result.data.payload && result.data.payload.fileUploadInfoList.length > 0) {
                 let path = result.data.payload.fileUploadInfoList[0].path;
-                let {blob, isSaved, ...requestObject} = eventFile; //Create requestObject without blob, isSaved fields
+                let { blob, isSaved, ...requestObject } = eventFile; //Create requestObject without blob, isSaved fields
                 getBase64Text(eventFile.blob, async (thumbnailData) => {
                     requestObject = Object.assign({
                         ...requestObject,
@@ -984,14 +969,14 @@ const ExportEventFile = () => {
                         <div>{eventFileCurrent.createdTime === -1 ? '' : moment(eventFileCurrent.createdTime).format("HH:mm DD/MM/YYYY")}</div>
                     </Col>
                     <Col span={12}>
-                        <div className="title">{t('view.storage.camera_name', {cam: t('camera')})}</div>
+                        <div className="title">{t('view.storage.camera_name', { cam: t('camera') })}</div>
                         <div>{eventFileCurrent.cameraName}</div>
                     </Col>
                     <Col span={6}>
                         <div className="title">{t('view.storage.type')}</div>
                         <div>
-                            {eventFileCurrent.type === 0 && <FiFilm className="iconType"/>}
-                            {eventFileCurrent.type === 1 && <FiImage className="iconType"/>}
+                            {eventFileCurrent.type === 0 && <FiFilm className="iconType" />}
+                            {eventFileCurrent.type === 1 && <FiImage className="iconType" />}
                         </div>
                     </Col>
                     <Col span={6}>
@@ -1014,10 +999,10 @@ const ExportEventFile = () => {
     const renderInfoPopoverContent = () => {
         return (
             <MemoizedInfoPopoverContent viewFileType={viewFileType}
-                                        fileCurrent={fileCurrent}
-                                        onEditFile={editFileOnPopoverHandler}
-                                        onDownloadFile={downloadFileHandler}
-                                        onDeleteFile={deleteFileHandler}
+                fileCurrent={fileCurrent}
+                onEditFile={editFileOnPopoverHandler}
+                onDownloadFile={downloadFileHandler}
+                onDeleteFile={deleteFileHandler}
             />
         )
     };
@@ -1031,25 +1016,25 @@ const ExportEventFile = () => {
                             <Tooltip placement="bottomLeft" title={t('view.storage.daily_archive_files_list')}>
                                 <div className="iconContainer">
                                     <FiDatabase className={`icon ${viewFileType === 0 ? "iconActive" : ""}`}
-                                                onClick={() => setViewFileType(0)}/>
+                                        onClick={() => setViewFileType(0)} />
                                 </div>
                             </Tooltip>
                             <Tooltip placement="bottomLeft" title={t('view.storage.captured_files_list')}>
                                 <div className="iconContainer">
                                     <MdCenterFocusWeak className={`icon ${viewFileType === 1 ? "iconActive" : ""}`}
-                                                       onClick={() => setViewFileType(1)}/>
+                                        onClick={() => setViewFileType(1)} />
                                 </div>
                             </Tooltip>
                             <Tooltip placement="bottomLeft" title={t('view.storage.event_files_list')}>
                                 <div className="iconContainer">
                                     <RiCalendarTodoLine className={`icon ${viewFileType === 2 ? "iconActive" : ""}`}
-                                                        onClick={() => setViewFileType(2)}/>
+                                        onClick={() => setViewFileType(2)} />
                                 </div>
                             </Tooltip>
                             <Tooltip placement="bottomLeft" title={t('view.storage.important_files_list')}>
                                 <div className="iconContainer">
                                     <FiBookmark className={`icon ${viewFileType === 3 ? "iconActive" : ""}`}
-                                                onClick={() => setViewFileType(3)}/>
+                                        onClick={() => setViewFileType(3)} />
                                 </div>
                             </Tooltip>
                         </Col>
@@ -1057,26 +1042,26 @@ const ExportEventFile = () => {
                             <Tooltip placement="bottom" title={t('view.storage.list_view')}>
                                 <div className="iconContainer">
                                     <FiList className={`icon ${isTableView ? "iconActive" : ""}`}
-                                            onClick={() => setIsGridView(!isTableView)}/>
+                                        onClick={() => setIsGridView(!isTableView)} />
                                 </div>
                             </Tooltip>
                             <Tooltip placement="bottom" title={t('view.storage.grid_view')}>
                                 <div className="iconContainer">
                                     <FiGrid className={`icon ${!isTableView ? "iconActive" : ""}`}
-                                            onClick={() => setIsGridView(!isTableView)}/>
+                                        onClick={() => setIsGridView(!isTableView)} />
                                 </div>
                             </Tooltip>
                         </Col>
                     </Row>
                     <MemoizedTableFile listFiles={listFiles || []}
-                                       eventList={eventList || []}
-                                       total={total}
-                                       viewFileType={viewFileType}
-                                       isTableView={isTableView}
-                                       isOpenRootFile={isOpenRootFile}
-                                       onClickRow={onClickTableFileHandler}
-                                       onSearch={onSearchHandler}
-                                       onEditFile={editFileHandler}
+                        eventList={eventList || []}
+                        total={total}
+                        viewFileType={viewFileType}
+                        isTableView={isTableView}
+                        isOpenRootFile={isOpenRootFile}
+                        onClickRow={onClickTableFileHandler}
+                        onSearch={onSearchHandler}
+                        onEditFile={editFileHandler}
                     />
                 </Col>
                 <Col span={16} className="viewFileContainer">
@@ -1093,9 +1078,9 @@ const ExportEventFile = () => {
                                     />
                                 </div>
                                 <img className={`iconPoster ${(!playerReady && !urlSnapshot) ? '' : 'hidden'}`}
-                                     src={imagePoster} alt=""/>
+                                    src={imagePoster} alt="" />
                                 <img className={`iconPoster ${urlSnapshot ? '' : 'hidden'}`}
-                                     src={`${urlSnapshot ? urlSnapshot : imagePoster}`} alt=""/>
+                                    src={`${urlSnapshot ? urlSnapshot : imagePoster}`} alt="" />
                             </div>
                         </Col>
                     </Row>
@@ -1107,22 +1092,22 @@ const ExportEventFile = () => {
                                 <FiRewind className="playIcon" onClick={() => {
                                     if (checkDisabled()) return;
                                     playHandler("decrease_rate");
-                                }}/>
+                                }} />
                             </div>
                             {/*<div className={`${checkDisabled()?'playIconContainer__disabled':'playIconContainer'}`}>*/}
                             {/*    <FiSkipBack className="playIcon"/>*/}
                             {/*</div>*/}
                             <div
                                 className={`${checkDisabled() ? 'playIcon2Container__disabled' : 'playIcon2Container'}`}>
-                                <FiPause id="video-control-pause" className="playIcon2" style={{display: "none"}}
-                                         onClick={() => {
-                                             if (checkDisabled()) return;
-                                             playHandler("pause");
-                                         }}/>
+                                <FiPause id="video-control-pause" className="playIcon2" style={{ display: "none" }}
+                                    onClick={() => {
+                                        if (checkDisabled()) return;
+                                        playHandler("pause");
+                                    }} />
                                 <FiPlay id="video-control-play" className="playIcon2" onClick={() => {
                                     if (checkDisabled()) return;
                                     playHandler("play");
-                                }}/>
+                                }} />
                             </div>
                             {/*<div className={`${checkDisabled()?'playIconContainer__disabled':'playIconContainer'}`}>*/}
                             {/*    <FiSkipForward className="playIcon"/>*/}
@@ -1131,22 +1116,22 @@ const ExportEventFile = () => {
                                 <FiFastForward className="playIcon" onClick={() => {
                                     if (checkDisabled()) return;
                                     playHandler("increase_rate");
-                                }}/>
+                                }} />
                             </div>
                         </Col>
                         <Col span={7} className="captureContainer">
                             {(checkDisabled() && viewFileType === 0 && eventFileCurrent.type !== -1) &&
-                            <span className="ogLabel" onClick={originalHandler}>ORG</span>
+                                <span className="ogLabel" onClick={originalHandler}>ORG</span>
                             }
                             {checkBtnEditRootFileDisabled() &&
-                            <span className="ogLabel" onClick={() => {
-                                if (fileCurrent.tableName === 'file') {
-                                    editRootFileHandler(fileCurrent.uuid).then();
-                                } else {
-                                    editRootFileHandler(fileCurrent.rootFileUuid).then();
-                                }
-                            }}
-                            >ORG</span>
+                                <span className="ogLabel" onClick={() => {
+                                    if (fileCurrent.tableName === 'file') {
+                                        editRootFileHandler(fileCurrent.uuid).then();
+                                    } else {
+                                        editRootFileHandler(fileCurrent.rootFileUuid).then();
+                                    }
+                                }}
+                                >ORG</span>
                             }
                             <Popover
                                 overlayClassName={`${checkBtnInfoDisabled() ? 'fileInfoPopoverHidden' : 'fileInfoPopover'}`}
@@ -1158,25 +1143,25 @@ const ExportEventFile = () => {
                                     onClick={(e) => {
                                         if (checkBtnInfoDisabled()) return;
                                         e.stopPropagation();
-                                    }}/>
+                                    }} />
                             </Popover>
                             <FiDownload className={`${checkBtnDownloadDisabled() ? 'action__disabled' : 'action'}`}
-                                        onClick={() => {
-                                            if (checkBtnDownloadDisabled()) return;
-                                            downloadFileHandler();
-                                        }}/>
+                                onClick={() => {
+                                    if (checkBtnDownloadDisabled()) return;
+                                    downloadFileHandler();
+                                }} />
                             {checkBtnCaptureDisabled() && <FiScissors className='action'
-                                                                      onClick={() => {
-                                                                          captureVideoHandler().then();
-                                                                      }}
+                                onClick={() => {
+                                    captureVideoHandler().then();
+                                }}
                             />}
                             {checkBtnCaptureDisabled() && <FiCamera className='action'
-                                                                    onClick={() => {
-                                                                        captureSnapshotHandler();
-                                                                    }}
+                                onClick={() => {
+                                    captureSnapshotHandler();
+                                }}
                             />}
                             <Popconfirm
-                                title={t('noti.delete_file', {this: t('this')})}
+                                title={t('noti.delete_file', { this: t('this') })}
                                 onConfirm={() => {
                                     if (checkBtnDeleteDisabled()) return;
                                     deleteFileHandler().then(r => {
@@ -1184,7 +1169,7 @@ const ExportEventFile = () => {
                                 }}
                             >
                                 <RiDeleteBinLine
-                                    className={`${checkBtnDeleteDisabled() ? 'action__disabled' : 'action'}`}/>
+                                    className={`${checkBtnDeleteDisabled() ? 'action__disabled' : 'action'}`} />
                             </Popconfirm>
                         </Col>
                     </Row>
@@ -1193,8 +1178,8 @@ const ExportEventFile = () => {
                     {/*        {format(duration)}*/}
                     {/*    </div>*/}
                     {/*</Row>*/}
-                    <Row style={{margin: '25px 0px', display: `${checkDisabled() ? 'none' : 'inherit'}`}}>
-                        <Col span={23} style={{margin: 'auto'}}>{
+                    <Row style={{ margin: '25px 0px', display: `${checkDisabled() ? 'none' : 'inherit'}` }}>
+                        <Col span={23} style={{ margin: 'auto' }}>{
                             fileCurrent && <MemoizedThumbnailVideo
                                 duration={duration}
                                 videoFile={urlVideoTimeline} playerVideo={playerVideo}
@@ -1202,7 +1187,7 @@ const ExportEventFile = () => {
                             />
                         }
                         </Col>
-                        <canvas ref={refCanvas} className="snapshotCanvas"/>
+                        <canvas ref={refCanvas} className="snapshotCanvas" />
                     </Row>
                     <Row>
                         {(viewFileType === 0) && <MemoizedTableEventFile
@@ -1219,7 +1204,7 @@ const ExportEventFile = () => {
                     </Row>
                 </Col>
             </Row>
-            {loading ? <Loading/> : null}
+            {loading ? <Loading /> : null}
         </>
     );
 }

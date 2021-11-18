@@ -144,7 +144,7 @@ const TableRecordSetting = () => {
 
       if (isPost) {
         message.success('Cài đặt thành công');
-      } 
+      }
     } catch (error) {
       Notification({
         type: 'error',
@@ -161,18 +161,12 @@ const TableRecordSetting = () => {
     }, 500);
   };
 
-  // if (isEmpty(recordingVideo)) {
-  //   return <Spin />;
-  // }
-
-  console.log('recordingVideo:', recordingVideo);
-
   return (
     <>
       <Breadcrumbs
-          breadCrumbTitle="Cấu hình hệ thống"
-          breadCrumbParent="Ghi hình"
-          breadCrumbActive="Cấu hình"
+        breadCrumbTitle="Cấu hình hệ thống"
+        breadCrumbParent="Ghi hình"
+        breadCrumbActive="Cấu hình"
       />
       <Card type="inner" title="Cấu hình Recording" bordered={false}>
         <Form

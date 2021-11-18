@@ -1,6 +1,7 @@
 import { CloseOutlined, PlusOutlined } from '@ant-design/icons';
 import { Button, Popconfirm, Space, Table, Tooltip } from 'antd';
 import React, { useEffect, useState } from 'react';
+import { useTranslation } from 'react-i18next';
 import CameraApi from '../../../../actions/api/camera/CameraApi';
 import UserApi from '../../../../actions/api/user/UserApi';
 import { ShowTotal } from '../../../../styled/showTotal';
@@ -9,7 +10,6 @@ import '../../../commonStyle/commonSelect.scss';
 import Notification from './../../../../components/vms/notification/Notification';
 import ModalAddPermissionOthers from './ModalAddPermissionOthers';
 import './PermisionOther.scss';
-import { Translation, useTranslation } from 'react-i18next';
 
 export default function PermisionOther(props) {
   const { t } = useTranslation();

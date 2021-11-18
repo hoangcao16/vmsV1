@@ -41,7 +41,6 @@ const SideMenuContent = (props) => {
   const [avatarUrl, setAvatarUrl] = useState("");
 
   const language = reactLocalStorage.get("language");
-  console.log("language: ", language);
 
   useEffect(() => {
     const user = reactLocalStorage.getObject("user");
@@ -228,7 +227,6 @@ const SideMenuContent = (props) => {
             <select
               defaultValue={reactLocalStorage.get("language") || LANGUAGES.vn}
               onChange={onChangLanguage}
-              bordered={false}
             // dropdownClassName='dropdown__select--language'
             >
               <option value={LANGUAGES.vn}>{LANGUAGES.vn}</option>

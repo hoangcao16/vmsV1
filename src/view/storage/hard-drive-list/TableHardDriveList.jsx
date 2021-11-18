@@ -19,11 +19,11 @@ const TableHardDriveList = () => {
 
   useEffect(() => {
     if (
-      language == "vn"
+      language === "vn"
         ? (document.title = "CCTV | Danh sách ổ cứng")
         : (document.title = "CCTV | Hard Drive List")
     );
-  },[t]);
+  }, [t]);
 
   const [page, setPage] = useState(1);
   const [pageSize, setPageSize] = useState(10);

@@ -1,16 +1,16 @@
-import React, { Component } from 'react';
 import classnames from 'classnames';
-import { ContextLayout } from '../../../../utility/context/Layout';
-import { connect } from 'react-redux';
-import SidebarHeader from './SidebarHeader';
+import React, { Component } from 'react';
 import Hammer from 'react-hammerjs';
-import SideMenuContent from './sidemenu/SideMenuContent';
 import PerfectScrollbar from 'react-perfect-scrollbar';
+import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
+import { removeAllPlayBackHlsLive } from '../../../../redux/actions/live';
 import { removeAllCamLiveOnMap } from '../../../../redux/actions/map/camLiveAction';
 import { resetMapObject } from '../../../../redux/actions/map/formMapActions';
-import { removeAllPlayBackHlsLive } from '../../../../redux/actions/live';
+import { ContextLayout } from '../../../../utility/context/Layout';
 import { CAM_LIVE_ITEMS, FORM_MAP_ITEM } from '../../../../view/common/vms/constans/map';
+import SidebarHeader from './SidebarHeader';
+import SideMenuContent from './sidemenu/SideMenuContent';
 class Sidebar extends Component {
   static getDerivedStateFromProps(props, state) {
     if (props.activePath !== state.activeItem) {
@@ -119,22 +119,14 @@ class Sidebar extends Component {
   };
 
   render() {
-    console.log("render sideber", this.state.activeItem);
     let {
-      visibilityState,
-      toggleSidebarMenu,
-      sidebarHover,
-      toggle,
-      color,
       sidebarVisibility,
       activeTheme,
-      collapsed,
       activePath,
       sidebarState,
       currentLang,
       permission,
       currentUser,
-      collapsedMenuPaths,
       isZoom,
       setLanguage
     } = this.props;
@@ -168,19 +160,7 @@ class Sidebar extends Component {
               >
                 <SidebarHeader />
                 <div
-                  className={classnames('main-menu-content', {
-                    // 'overflow-hidden': ScrollbarTag != 'div',
-                    // 'overflow-scroll': ScrollbarTag == 'div'
-                  })}
-                  {...(ScrollbarTag != 'div' && {
-                    options: { wheelPropagation: false },
-                    onScrollDown: (container) =>
-                      scrollShadow(container, 'down'),
-                    onScrollUp: (container) => scrollShadow(container, 'up'),
-                    onYReachStart: () =>
-                      menuShadow === true &&
-                      this.setState({ menuShadow: false })
-                  })}
+                  className='main-menu-content'
                 >
                   <Hammer
                     onSwipe={() => {

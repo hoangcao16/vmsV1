@@ -57,9 +57,6 @@ const ModalEditCamproxy = (props) => {
         Notification(notifyMess);
       }
     } catch (error) {
-      // message.warning(
-      //   'Đã xảy ra lỗi trong quá trình chỉnh sửa, hãy kiểm tra lại'
-      // );
       console.log(error);
     }
 
@@ -71,8 +68,6 @@ const ModalEditCamproxy = (props) => {
   if (isEmpty(selectedCamproxyEdit)) {
     return <Spin />;
   }
-
-  console.log('selectedCamproxyEdit:', selectedCamproxyEdit);
 
   return (
     <>

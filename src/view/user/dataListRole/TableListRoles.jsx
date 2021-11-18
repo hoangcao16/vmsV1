@@ -60,7 +60,7 @@ export default function TableListRoles() {
         <h4 className="font-weight-700">
           {t(
             'view.user.detail_list.role_list',
-            { R: t('R'), r: t('r')}
+            { R: t('R'), r: t('r') }
           )}
         </h4>
         <Tooltip
@@ -73,7 +73,7 @@ export default function TableListRoles() {
           <Button
             type="primary"
             className="btnAddRole height-40 mr-1"
-            style={{ borderRadius: '6px' }}
+            style={{ borderRadius: '6px', border: '0' }}
             onClick={() => {
               history.push(`${path}/add-roles`);
             }}

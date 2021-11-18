@@ -1,4 +1,4 @@
-import React, {useEffect, useState} from "react";
+import React, { useEffect, useState } from "react";
 import { v4 as uuidV4 } from 'uuid';
 import {
     Button,
@@ -12,7 +12,7 @@ import {
 } from "antd";
 import AddressApi from "../../../actions/api/address/AddressApi";
 import AdDivisionApi from "../../../actions/api/advision/AdDivision";
-import {LoadingOutlined, PlusOutlined} from "@ant-design/icons";
+import { LoadingOutlined, PlusOutlined } from "@ant-design/icons";
 import cameraTypeApi from "../../../api/controller-api/cameraTypeApi";
 import vendorApi from "../../../api/controller-api/vendorApi";
 import {
@@ -25,7 +25,7 @@ import ExportEventFileApi from "../../../actions/api/exporteventfile/ExportEvent
 import useHandleUploadFile from "../../../hooks/useHandleUploadFile";
 import { useTranslation } from 'react-i18next';
 
-const {Dragger} = Upload;
+const { Dragger } = Upload;
 
 async function fetchSelectOptions() {
     const provinces = await AddressApi.getAllProvinces();
@@ -33,7 +33,6 @@ async function fetchSelectOptions() {
     const adDivisions = await AdDivisionApi.getAllAdDivision();
     const cameraTypes = await cameraTypeApi.getAll()
     const vendors = await vendorApi.getAll()
-    console.log('fetchSelectOptions:zones:', zones)
     return {
         provinces,
         zones,
@@ -47,7 +46,7 @@ const MapCameraAdd = (props) => {
     const { t } = useTranslation();
     const [form] = Form.useForm();
     const [isCollapsedCameraForm, setIsCollapsedCameraForm] = useState(false);
-    const {initialLatLgn, editCam, handleSubmitCallback, selectNewPosition, isEditForm} = props;
+    const { initialLatLgn, editCam, handleSubmitCallback, selectNewPosition, isEditForm } = props;
     const [imgFile, setImgFile] = useState('');
 
     const [filterOptions, setFilterOptions] = useState({});
@@ -59,11 +58,9 @@ const MapCameraAdd = (props) => {
     const [districtId, setDistrictId] = useState(null);
 
     const [wards, setWard] = useState([]);
-    const [imageUrl,imgFileName, loading, handleChange, uploadImage, beforeUpload] = useHandleUploadFile(imgFile);
+    const [imageUrl, imgFileName, loading, handleChange, uploadImage, beforeUpload] = useHandleUploadFile(imgFile);
     useEffect((e) => {
-        console.log('editCam:', editCam, selectNewPosition)
         if (editCam) {
-            console.log('set editCam:long_, lat_', editCam.long_, editCam.lat_)
             setProvinceId(editCam.provinceId)
             form.setFieldsValue({
                 uuid: editCam.uuid,
@@ -108,12 +105,11 @@ const MapCameraAdd = (props) => {
                 ip: '',
                 zoneUuid: null,
                 long_: null,
-                lat_:null,
+                lat_: null,
                 cameraUrl: '',
                 administrativeUnitUuid: null,
             })
             if (selectNewPosition) {
-                console.log('set initialLatLgn:')
                 form.setFieldsValue({
                     long_: initialLatLgn[0],
                     lat_: initialLatLgn[1],
@@ -135,7 +131,6 @@ const MapCameraAdd = (props) => {
     }, []);
 
     useEffect(() => {
-        console.log('useEffect:provinceId changed', provinceId)
         setDistrict([]);
         if (provinceId) {
             AddressApi.getDistrictByProvinceId(provinceId).then(setDistrict);
@@ -146,19 +141,18 @@ const MapCameraAdd = (props) => {
     }, [editCam, provinceId]);
 
     useEffect(() => {
-        console.log('useEffect:districtId changed', provinceId)
         setWard([]);
         if (districtId) {
             AddressApi.getWardByDistrictId(districtId).then(setWard);
         }
     }, [districtId, provinceId]);
 
-    const {provinces, zones, vendors, cameraTypes, adDivisions} = filterOptions;
+    const { provinces, zones, vendors, cameraTypes, adDivisions } = filterOptions;
 
     const uploadButton = (
         <div>
-            {loading ? <LoadingOutlined/> : <PlusOutlined/>}
-            <div style={{marginTop: 8}}>{t('view.map.add_image')}</div>
+            {loading ? <LoadingOutlined /> : <PlusOutlined />}
+            <div style={{ marginTop: 8 }}>{t('view.map.add_image')}</div>
         </div>
     );
 
@@ -169,7 +163,7 @@ const MapCameraAdd = (props) => {
     };
 
     function resetDistrictAndWardData() {
-        form.setFieldsValue({districtId: null, wardId: null});
+        form.setFieldsValue({ districtId: null, wardId: null });
     }
 
     const onChangeDistrict = async (districtId) => {
@@ -178,7 +172,7 @@ const MapCameraAdd = (props) => {
     };
 
     function resetWardData() {
-        form.setFieldsValue({wardId: null});
+        form.setFieldsValue({ wardId: null });
     }
 
     const handleSubmit = async (value) => {
@@ -200,7 +194,7 @@ const MapCameraAdd = (props) => {
                 (isCollapsedCameraForm ? " collapsed" : "")
             }
         >
-            <a className="toggle-collapse" onClick={toggleCollapsedCameraForm}/>
+            <a className="toggle-collapse" onClick={toggleCollapsedCameraForm} />
             <Form
                 className="camera-form-inner"
                 layout="vertical"
@@ -222,7 +216,7 @@ const MapCameraAdd = (props) => {
                             customRequest={uploadImage}
                         >
                             {imageUrl ? (
-                                <img src={imageUrl} alt="avatar" style={{width: "100%"}}/>
+                                <img src={imageUrl} alt="avatar" style={{ width: "100%" }} />
                             ) : (
                                 uploadButton
                             )}
@@ -232,33 +226,33 @@ const MapCameraAdd = (props) => {
                         <Form.Item
                             name={["uuid"]}
                         >
-                            <Input placeholder="uuid"/>
+                            <Input placeholder="uuid" />
                         </Form.Item>
                     </Col>
                     <Col span={24}>
                         <Form.Item
                             name={["name"]}
-                            label={t('view.map.camera_name', { cam : t('camera') })}
-                            rules={[{required: true, message: t('view.map.required_field')}]}
+                            label={t('view.map.camera_name', { cam: t('camera') })}
+                            rules={[{ required: true, message: t('view.map.required_field') }]}
                         >
-                            <Input placeholder={t('view.map.please_enter_camera_name', { plsEnter: t('please_enter'), cam: t('camera') })}/>
+                            <Input placeholder={t('view.map.please_enter_camera_name', { plsEnter: t('please_enter'), cam: t('camera') })} />
                         </Form.Item>
                     </Col>
 
                     <Col span={12}>
                         <Form.Item
                             name={["code"]}
-                            label={t('view.map.camera_id', { cam : t('camera') })}
-                            rules={[{required: true, message: t('view.map.required_field')}]}
+                            label={t('view.map.camera_id', { cam: t('camera') })}
+                            rules={[{ required: true, message: t('view.map.required_field') }]}
                         >
-                            <Input placeholder={t('view.map.please_enter_camera_id', { plsEnter: t('please_enter'), cam: t('camera') })} value={editCam?.name}/>
+                            <Input placeholder={t('view.map.please_enter_camera_id', { plsEnter: t('please_enter'), cam: t('camera') })} value={editCam?.name} />
                         </Form.Item>
                     </Col>
                     <Col span={12}>
                         <Form.Item
                             name="cameraTypeUuid"
                             label={t('view.map.camera_type', { cam: t('camera') })}
-                            rules={[{required: true, message: t('view.map.required_field')}]}
+                            rules={[{ required: true, message: t('view.map.required_field') }]}
                         >
                             <Select
                                 dataSource={cameraTypes || []}
@@ -298,9 +292,9 @@ const MapCameraAdd = (props) => {
                         <Form.Item
                             label={t('view.map.location')}
                             name={["address"]}
-                            rules={[{required: true, message: t('view.map.required_field')}]}
+                            rules={[{ required: true, message: t('view.map.required_field') }]}
                         >
-                            <Input placeholder={t('view.map.please_choose_location')}/>
+                            <Input placeholder={t('view.map.please_choose_location')} />
                         </Form.Item>
                     </Col>
 
@@ -308,7 +302,7 @@ const MapCameraAdd = (props) => {
                         <Form.Item
                             name={["provinceId"]}
                             label={t('view.map.province_id')}
-                            rules={[{required: true, message: t('view.map.required_field')}]}
+                            rules={[{ required: true, message: t('view.map.required_field') }]}
                         >
                             <Select
                                 dataSource={provinces || []}
@@ -324,7 +318,7 @@ const MapCameraAdd = (props) => {
                         <Form.Item
                             name={["districtId"]}
                             label={t('view.map.district_id')}
-                            rules={[{required: true, message: t('view.map.required_field')}]}
+                            rules={[{ required: true, message: t('view.map.required_field') }]}
                         >
                             <Select
                                 dataSource={districts}
@@ -341,7 +335,7 @@ const MapCameraAdd = (props) => {
                         <Form.Item
                             name={["wardId"]}
                             label={t('view.map.ward_id')}
-                            rules={[{required: true, message: t('view.map.required_field')}]}
+                            rules={[{ required: true, message: t('view.map.required_field') }]}
                         >
                             <Select
                                 dataSource={wards}
@@ -357,7 +351,7 @@ const MapCameraAdd = (props) => {
                         <Form.Item label={t('view.map.longitude')} name={["long_"]}>
                             <Input
                                 placeholder={t('view.map.please_enter_latitude', { pleEnter: t('please_enter') })}
-                                // defaultValue={initialLatLgn.lng}
+                            // defaultValue={initialLatLgn.lng}
                             />
                         </Form.Item>
                     </Col>
@@ -365,7 +359,7 @@ const MapCameraAdd = (props) => {
                         <Form.Item label={t('view.map.latitude')} name={["lat_"]}>
                             <Input
                                 placeholder={t('view.map.please_enter_latitude', { pleEnter: t('please_enter') })}
-                                // defaultValue={initialLatLgn.lat}
+                            // defaultValue={initialLatLgn.lat}
                             />
                         </Form.Item>
                     </Col>
@@ -374,7 +368,7 @@ const MapCameraAdd = (props) => {
                         <Form.Item
                             label={(t('view.map.port'))}
                             name={["port"]}
-                            rules={[{required: true, message: t('view.map.required_field')}]}
+                            rules={[{ required: true, message: t('view.map.required_field') }]}
                         >
                             <Input placeholder={t('view.map.please_enter_port', { plsEnter: t('please_enter') })}></Input>
                         </Form.Item>
@@ -383,7 +377,7 @@ const MapCameraAdd = (props) => {
                         <Form.Item
                             label={(t('view.map.zone'))}
                             name={["zoneUuid"]}
-                            rules={[{required: true, message: t('view.map.required_field')}]}
+                            rules={[{ required: true, message: t('view.map.required_field') }]}
                         >
                             <Select
                                 dataSource={zones}
@@ -399,18 +393,18 @@ const MapCameraAdd = (props) => {
                         <Form.Item
                             label="IP"
                             name={["ip"]}
-                            rules={[{required: true, message: t('view.map.required_field')}]}
+                            rules={[{ required: true, message: t('view.map.required_field') }]}
                         >
-                            <Input placeholder={t('view.map.please_enter_ip', { plsEnter: t('please_enter') })}/>
+                            <Input placeholder={t('view.map.please_enter_ip', { plsEnter: t('please_enter') })} />
                         </Form.Item>
                     </Col>
                     <Col span={24}>
                         <Form.Item
                             label={t('view.map.original_url')}
                             name={["cameraUrl"]}
-                            rules={[{required: true, message: t('view.map.required_field')}]}
+                            rules={[{ required: true, message: t('view.map.required_field') }]}
                         >
-                            <Input disabled={isEditForm} placeholder={t('view.map.please_enter_original_url', { plsEnter: t('please_enter') })}/>
+                            <Input disabled={isEditForm} placeholder={t('view.map.please_enter_original_url', { plsEnter: t('please_enter') })} />
                         </Form.Item>
                     </Col>
                 </Row>

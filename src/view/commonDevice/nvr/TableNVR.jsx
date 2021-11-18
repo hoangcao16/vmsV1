@@ -2,7 +2,9 @@ import { EditOutlined, SearchOutlined } from '@ant-design/icons';
 import { AutoComplete, Card, Space, Table, Tag, Tooltip } from 'antd';
 import 'antd/dist/antd.css';
 import React, { useEffect, useState } from 'react';
+import { useTranslation } from 'react-i18next';
 import { withRouter } from 'react-router-dom';
+import { reactLocalStorage } from "reactjs-localstorage";
 import NVRApi from '../../../actions/api/nvr/NVRApi';
 import Loading from '../../Loading';
 import './../../commonStyle/commonTable.scss';
@@ -10,17 +12,15 @@ import './../../commonStyle/commontextArea.scss';
 import ModalEditNVR from './ModalEditNVR';
 import './styleNVR.scss';
 import { bodyStyleCard, headStyleCard } from './variables';
-import { useTranslation } from 'react-i18next';
-import { reactLocalStorage } from "reactjs-localstorage";
 
 const TableNVR = () => {
   const { t } = useTranslation();
   const [selectedNVRIdEdit, setSelectedNVRIdEdit] = useState(null);
   const [listNVR, setListNVR] = useState([]);
   const [loading, setLoading] = useState(false);
-  const [page, setPage] = useState(0);
   const [size] = useState(50);
   const [val, setVal] = useState('');
+  const page = 0
 
   const language = reactLocalStorage.get("language");
 
@@ -30,7 +30,7 @@ const TableNVR = () => {
         ? (document.title = "CCTV | Modules hệ thống")
         : (document.title = "CCTV | Modules System")
     );
-  },[t]);
+  }, [t]);
 
   useEffect(() => {
     setLoading(true);
@@ -133,7 +133,6 @@ const TableNVR = () => {
     }
   ];
 
-  console.log('listNVR:', listNVR);
 
   return (
     <div className="tabs__container--device">

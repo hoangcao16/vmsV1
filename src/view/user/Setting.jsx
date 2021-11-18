@@ -13,13 +13,13 @@ import { Card, CardBody, TabContent } from 'reactstrap';
 import UserApi from '../../actions/api/user/UserApi';
 import Notification from '../../components/vms/notification/Notification';
 import { history } from '../../history';
+import TableHumans from '../ai-humans/TableHumans';
 import TableCameraGroup from '../camera/TableCameraGroup';
 import TableCameraScan from '../camera/TableCameraScan';
 import TableCategory from '../category/TableCategory';
 import DeviceManage from '../commonDevice/DeviceManage';
-import TableStorage from '../storage/files/TableStorage';
 import TableHardDriveList from '../storage/hard-drive-list/TableHardDriveList';
-import TableHumans from '../ai-humans/TableHumans';
+import Config from '../ai-config/Config';
 import StoreSetting from '../storage/store-setting/StoreSetting';
 import './../../assets/scss/pages/account-settings.scss';
 import ChangePassword from './ChangePassword';
@@ -116,12 +116,21 @@ function AccountSettings() {
             </NavLink>
           </li>
           <li>
+            <NavLink to={`${path}/ai-config`}>
+              <span className="d-md-inline-block d-none align-middle ml-1">
+                {t('view.ai_config.config')}
+              </span>
+            </NavLink>
+          </li>
+          <li>
             <NavLink to={`${path}/humans`}>
               <span className="d-md-inline-block d-none align-middle ml-1">
                 {t('view.ai_humans.face')}
               </span>
             </NavLink>
           </li>
+
+
 
           <li onClick={handleLogout}>
             <span
@@ -242,6 +251,20 @@ function AccountSettings() {
                   <CardBody>
                     <TabContent>
                       <TableCategory />
+                    </TabContent>
+                  </CardBody>
+                </Card>
+              );
+            }}
+          />
+          <Route
+            path={`${path}/ai-config`}
+            render={() => {
+              return (
+                <Card className="content">
+                  <CardBody>
+                    <TabContent>
+                      <Config />
                     </TabContent>
                   </CardBody>
                 </Card>

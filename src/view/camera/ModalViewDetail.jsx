@@ -38,8 +38,6 @@ const ModalViewDetail = (props) => {
     });
   }, []);
 
-  console.log('selectedCamera:', selectedCamera);
-
   if (isEmpty(selectedCamera)) {
     return <Loading />;
   }

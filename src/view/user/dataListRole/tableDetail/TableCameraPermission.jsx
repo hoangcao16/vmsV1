@@ -2,6 +2,7 @@ import { CloseOutlined, PlusOutlined } from '@ant-design/icons';
 import { Button, Checkbox, Popconfirm, Space, Table, Tooltip } from 'antd';
 import { isEmpty } from 'lodash-es';
 import React, { useEffect, useState } from 'react';
+import { useTranslation } from 'react-i18next';
 import CameraApi from '../../../../actions/api/camera/CameraApi';
 import UserApi from '../../../../actions/api/user/UserApi';
 import { ShowTotal } from '../../../../styled/showTotal';
@@ -10,14 +11,12 @@ import '../../../commonStyle/commonSelect.scss';
 import Notification from './../../../../components/vms/notification/Notification';
 import ModalAddCamera from './ModalAddCamera';
 import './TableCameraPermission.scss';
-import { useTranslation } from 'react-i18next';
 
 export default function TableCameraPermission(props) {
   const [reload, setReload] = useState(false);
   const [camera, setCamera] = useState([]);
   const [selectedAdd, setSelectedAdd] = useState(false);
   const [cameraPermission, setCameraPermission] = useState([]);
-  const [groups, setGroup] = useState([]);
   const { t } = useTranslation();
 
   useEffect(() => {
@@ -32,13 +31,8 @@ export default function TableCameraPermission(props) {
 
   useEffect(() => {
     UserApi.getRoleByUuid(props?.rolesUuid).then(async (result) => {
-      // setRoles(result);
       const data = await UserApi.getRoleByRoleCode({ code: result?.code });
-
-      // setOthersPermission(data?.p_others);
       setCameraPermission(data?.p_cameras);
-      setGroup(data?.p_camera_groups);
-      // setcameraGroupPermision(data?.p_camera_groups);
     });
   }, [reload]);
 
@@ -50,20 +44,17 @@ export default function TableCameraPermission(props) {
       id: '',
       administrativeUnitUuid: '',
       vendorUuid: '',
-      status: ''
+      status: '',
+      page: 0,
+      size: 1000000
     };
 
     setReloadCameraPage(props?.reloadCameraPage);
 
     CameraApi.getAllCamera(data).then(setCamera);
     UserApi.getRoleByUuid(props?.rolesUuid).then(async (result) => {
-      // setRoles(result);
       const data = await UserApi.getRoleByRoleCode({ code: result?.code });
-
-      // setOthersPermission(data?.p_others);
       setCameraPermission(data?.p_cameras);
-      setGroup(data?.p_camera_groups);
-      // setcameraGroupPermision(data?.p_camera_groups);
     });
   }, [props?.reloadCameraPage, reload]);
 
@@ -375,6 +366,7 @@ export default function TableCameraPermission(props) {
     {
       title: 'Camera',
       dataIndex: 'cam_name',
+      key: 'cam_name',
       className: 'headerUserColums',
       width: '25%'
     },
@@ -382,6 +374,7 @@ export default function TableCameraPermission(props) {
       title: `${t('view.user.detail_list.view_online')}`,
       className: 'headerUserColums',
       dataIndex: 'view_online',
+      key: 'view_online',
       width: '15%',
       render: (text, record) => {
         return <Space>{viewOnline(record)}</Space>;
@@ -390,6 +383,7 @@ export default function TableCameraPermission(props) {
     {
       title: `${t('view.user.detail_list.view_offline')}`,
       dataIndex: 'view_offline',
+      key: 'view_offline',
       className: 'headerUserColums',
       width: '15%',
 
@@ -400,6 +394,7 @@ export default function TableCameraPermission(props) {
     {
       title: `${t('view.user.detail_list.preset_setting')}`,
       dataIndex: 'setup_preset',
+      key: 'setup_preset',
       className: 'headerUserColums',
       width: '15%',
 
@@ -410,6 +405,7 @@ export default function TableCameraPermission(props) {
     {
       title: `${t('view.user.detail_list.control')}`,
       dataIndex: 'ptz_control',
+      key: 'ptz_control',
       className: 'headerUserColums',
       width: '15%',
 
@@ -445,11 +441,13 @@ export default function TableCameraPermission(props) {
     setSize(pageSize);
   };
 
+
   return (
     <div>
       <Table
         className="detail-role__permission-by-camera mt-3"
         rowKey="uuid"
+
         columns={columns}
         dataSource={test}
         title={renderHeader}
@@ -459,7 +457,7 @@ export default function TableCameraPermission(props) {
           onShowSizeChange: (current, size) => {
             onShowSizeChange(current, size);
           },
-          pageSizeOptions: [5,10,20,50,100],
+          pageSizeOptions: [5, 10, 20, 50, 100],
           hideOnSinglePage: false,
           current: page,
           total: test.length,

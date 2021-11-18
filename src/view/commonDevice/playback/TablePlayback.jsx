@@ -2,6 +2,7 @@ import { EditOutlined, SearchOutlined } from '@ant-design/icons';
 import { AutoComplete, Card, Space, Table, Tag, Tooltip } from 'antd';
 import 'antd/dist/antd.css';
 import React, { useEffect, useState } from 'react';
+import { useTranslation } from 'react-i18next';
 import { withRouter } from 'react-router-dom';
 import PlaybackApi from '../../../actions/api/playback/PlaybackApi';
 import Loading from '../../Loading';
@@ -10,16 +11,15 @@ import './../../commonStyle/commontextArea.scss';
 import ModalEditPlayback from './ModalEditPlayback';
 import './stylePlayback.scss';
 import { bodyStyleCard, headStyleCard } from './variables';
-import { useTranslation } from 'react-i18next';
 
 const TablePlayback = () => {
   const { t } = useTranslation();
   const [selectedPlaybackIdEdit, setSelectedPlaybackIdEdit] = useState(null);
   const [listPlayback, setListPlayback] = useState([]);
   const [loading, setLoading] = useState(false);
-  const [page, setPage] = useState(0);
   const [size] = useState(50);
   const [val, setVal] = useState('');
+  const page = 0
 
   useEffect(() => {
     setLoading(true);
@@ -125,8 +125,6 @@ const TablePlayback = () => {
       }
     }
   ];
-
-  console.log('listPlayback:', listPlayback);
 
   return (
     <div className="tabs__container--device">

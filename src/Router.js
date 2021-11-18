@@ -216,6 +216,7 @@ const DeviceManage = lazy(() => import('./view/commonDevice/DeviceManage'));
 const Category = lazy(() => import('./view/category/TableCategory'));
 const SettingAccount = lazy(() => import('./view/user/Setting'));
 const TableHumans = lazy(() => import('./view/ai-humans/TableHumans'));
+const Config = lazy(() => import('./view/ai-config/Config'));
 
 const Login = lazy(() => import('./views/pages/authentication/login/Login'));
 const forgotPassword = lazy(() =>
@@ -239,7 +240,7 @@ const Maps = lazy(() => import('./view/maps/Maps'));
 const Preset = lazy(() => import('./view/preset/Preset'));
 const Report = lazy(() => import('./view/report/Report'));
 const Infor = lazy(() => import('./view/infor/InforUserDetails'));
-const Notification = lazy(() => import('./view/notification/Notification'));
+// const Notification = lazy(() => import('./view/notification/Notification'));
 
 // Set Layout and Component Using App Route
 const RouteConfig = ({ component: Component, fullLayout, ...rest }) => (
@@ -253,8 +254,8 @@ const RouteConfig = ({ component: Component, fullLayout, ...rest }) => (
               fullLayout === true
                 ? context.fullLayout
                 : context.state.activeLayout === 'horizontal'
-                ? context.horizontalLayout
-                : context.VerticalLayout;
+                  ? context.horizontalLayout
+                  : context.VerticalLayout;
             return (
               <LayoutTag {...props} permission={props.user}>
                 <Suspense fallback={<Spinner />}>
@@ -509,6 +510,7 @@ class AppRouter extends React.Component {
           <AppRoute path="/app/setting/scan" component={Scan} />
           <AppRoute component={error404} fullLayout />
           <AppRoute path="/humans/list" component={TableHumans} />
+          <AppRoute path="/ai-config" component={Config} />
         </Switch>
       </Router>
     );

@@ -1,5 +1,5 @@
 import axios from 'axios'
-import {handleErrCode} from "./code";
+import { handleErrCode } from "./code";
 
 const PLAYBACK_ENDPOINT = '/play/hls';
 const PLAYBACK_START_ENDPOINT = '/v1/playback/startPlayback';
@@ -21,7 +21,6 @@ const playbackApi = {
                     return Promise.reject(error)
                 },
             )
-            console.log('startPlayback:', baseUrl, jsonBody)
             axiosInstance.post(PLAYBACK_START_ENDPOINT, jsonBody)
                 .then(response => resolve(response))
                 .catch(error => reject(error))
@@ -45,7 +44,6 @@ const playbackApi = {
                     return Promise.reject(error)
                 },
             )
-            console.log('playCamera:', baseUrl, camUuid, queryParams)
             const endpoint = PLAYBACK_ENDPOINT + "/" + camUuid + "/index.m3u8"
             axiosInstance.post(endpoint, queryParams)
                 .then(response => resolve(response))
@@ -70,7 +68,6 @@ const playbackApi = {
                     return Promise.reject(error)
                 },
             )
-            console.log('playCamera:', baseUrl, camUuid)
             const endpoint = PLAYBACK_ENDPOINT + "/" + camUuid + "/index.m3u8?startTime=" + startTime.toString()
             axiosInstance.get(endpoint)
                 .then(response => resolve(response))
@@ -95,7 +92,6 @@ const playbackApi = {
                     return Promise.reject(error)
                 },
             )
-            console.log('playSingleFile:', baseUrl, jsonBody)
             axiosInstance.post(PLAYBACK_PLAY_SINGLE_FILE_ENDPOINT, jsonBody)
                 .then(response => resolve(response))
                 .catch(error => reject(error))

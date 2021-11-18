@@ -1,12 +1,10 @@
-import React from 'react'
-import { Radio, Image } from "antd";
+import { Image, Radio } from "antd";
+import React from 'react';
 import styled from "styled-components";
+import dark from '../../assets/img/icons/map/dark.svg';
+import light from '../../assets/img/icons/map/light.svg';
 import { STYLE_MODE } from '../common/vms/constans/map';
-import dark from '../../assets/img/icons/map/dark.svg'
-import light from '../../assets/img/icons/map/light.svg'
-import snow from '../../assets/img/icons/map/snow.svg'
-import Icon from '@ant-design/icons'
-import './ControlMapStyles.scss'
+import './ControlMapStyles.scss';
 
 
 

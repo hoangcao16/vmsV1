@@ -91,7 +91,6 @@ export function* addNewCamAction(action) {
     const bodyCamInfo = action.payload;
     const resp = yield call(cameraApi.createNew, bodyCamInfo);
     const formMapSelector = yield select(state => state.map.form);
-    console.log("resprespresprespresp", resp)
     if (resp && resp.payload) {
       yield put(addCameraOnMapSuccess(resp.payload));
       yield put(updateMapObject({

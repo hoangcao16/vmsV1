@@ -2,7 +2,6 @@
 
 export function swapNodes(n1, n2) {
     if (!n1) {
-        console.log('swapNodes:n11 is null')
         return;
     }
     var p1 = n1.parentNode;

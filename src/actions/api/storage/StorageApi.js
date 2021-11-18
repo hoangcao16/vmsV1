@@ -5,7 +5,7 @@ const StorageApi = {
   getFileStorageByTabActive: async (tabsActive, params) => {
     let result;
 
-    if (tabsActive == 1) {
+    if (tabsActive === 1) {
       try {
         result = await MyService.getRequestData(
           '/cctv-controller-svc/api/v1/event-files',
@@ -23,7 +23,7 @@ const StorageApi = {
       }
 
       return result;
-    } else if (tabsActive == 2) {
+    } else if (tabsActive === 2) {
       try {
         result = await MyService.getRequestData(
           '/cctv-controller-svc/api/v1/event-files',
@@ -130,8 +130,6 @@ const StorageApi = {
     } catch (error) {
       console.log(error);
     }
-
-    console.log('result');
 
     if (responseCheckerErrors(result)) {
       return false;

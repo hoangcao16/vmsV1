@@ -1,13 +1,13 @@
 import { Button, Card, Col, Form, Input, Row } from 'antd';
 import React, { useEffect } from 'react';
+import { useTranslation } from 'react-i18next';
 import { withRouter } from 'react-router-dom';
 import { reactLocalStorage } from 'reactjs-localstorage';
 import UserApi from '../../actions/api/user/UserApi';
 import Notification from '../../components/vms/notification/Notification';
-import './ChangePassword.scss';
 import { history } from '../../history';
-import { useTranslation } from 'react-i18next';
 import Breadcrumds from '../breadcrumds/Breadcrumds';
+import './ChangePassword.scss';
 
 const formItemLayout = {
   wrapperCol: { span: 24 },
@@ -21,11 +21,11 @@ function ChangePassword(props) {
 
   useEffect(() => {
     if (
-      language == "vn"
+      language === "vn"
         ? (document.title = "CCTV | Đổi mật khẩu")
         : (document.title = "CCTV | Change Password")
     );
-  },[t]);
+  }, [t]);
 
   const handleSubmit = async (value) => {
     let user = reactLocalStorage.getObject('user', null);

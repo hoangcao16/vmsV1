@@ -3,7 +3,6 @@ import MyService from '../service';
 
 const HardDriveListApi = {
   getAllHardDrive: async (params) => {
-    console.log('params:', params);
     let result;
 
     try {
@@ -52,9 +51,6 @@ const HardDriveListApi = {
       return [];
     }
 
-    console.log(result.payload);
-    console.log(result);
-
     return result.payload;
   },
   getAllMail: async () => {
@@ -67,7 +63,6 @@ const HardDriveListApi = {
     } catch (error) {
       console.log(JSON.stringify(error));
     }
-    // console.log('resule all email', result)
 
     if (
       handleErrCodeMonitorCtrl(result) === null ||
