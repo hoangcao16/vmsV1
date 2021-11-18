@@ -186,7 +186,10 @@
       "month": "Tháng",
       "year": "Năm",
       "date_range": "Khoảng thời gian",
-      "export_data": "Xuất dữ liệu"
+      "export_data": "Xuất dữ liệu",
+      "compare_chart": "BIỂU ĐỒ SO SÁNH TÌNH HÌNH:",
+      "trend_chart": "BIỂU ĐỒ XU THẾ TÌNH HÌNH:",
+      "proportion_chart": "BIỂU ĐỒ TỶ LỆ TÌNH HÌNH:"
     },
 
     "pages": {

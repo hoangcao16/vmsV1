@@ -28,8 +28,7 @@ export function* handleDataChartLoad(action) {
       timeStart = moment(params.timeStartDay._d).format("DD/MM/YYYY");
       timeEnd = moment(params.timeEndDay._d).format("DD/MM/YYYY");
   }
-  console.log("actionaction", action)
-  
+
   const payloadDataChart = {
     dateType: params.pickTime.toUpperCase(),
     startDate: timeStart,
@@ -55,26 +54,7 @@ export function* handleDataChartLoad(action) {
   
   try {
     const data = yield call(() => ReportApi.getChartData(payloadDataChart).then((data)=>{
-      return data.map((d) => {
-        let a = {}
-        if (!isEmpty(d.event1)) {
-          a[d.event1] = d.totalEvent1;
-        }
-  
-        if (!isEmpty(d.event2)) {
-          a[d.event2] = d.totalEvent2
-        }
-  
-        if (!isEmpty(d.event3)) {
-          a[d.event3] = d.totalEvent3
-        }
-
-        const test =  {
-          name: d.time,
-          ...a
-        }
-        return test
-      })
+      return data
     }));
     yield put(setDataChart(data));
   } catch (error) {

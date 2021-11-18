@@ -76,6 +76,7 @@ function Sidebar(props) {
   const [selectedRowKeys, setSelectedRowKeys] = useState([]);
 
   const [feildIds, setFeildIds] = useState([]);
+  const [isShowLineAndPieChart, setisShowLineAndPieChart] = useState(true);
 
   useEffect(() => {
     fetchSelectOptions().then((data) => {
@@ -120,6 +121,7 @@ function Sidebar(props) {
       }
     });
     const isShowLineAndPieChart = hiddenDistrictAndWard && hiddenWard;
+
     props.changeChart(isShowLineAndPieChart);
   }, []);
 
@@ -195,6 +197,7 @@ function Sidebar(props) {
     if (cityIdArr.length == 1) {
       setHiddenDistrictAndWard(true);
       setHiddenWard(true);
+      setisShowLineAndPieChart(true)
       setProvinceId(cityIdArr);
       form.setFieldsValue({ districtId: undefined, wardId: undefined });
 
@@ -220,6 +223,7 @@ function Sidebar(props) {
     } else if (cityIdArr.length > 1) {
       setHiddenDistrictAndWard(false);
       setHiddenWard(false);
+      setisShowLineAndPieChart(false)
       form.setFieldsValue({ districtId: undefined, wardId: undefined });
       setProvinceId(cityIdArr);
       //Call API
@@ -246,6 +250,7 @@ function Sidebar(props) {
   const onChangeDistrict = async (districtIdArr) => {
     if (districtIdArr.length === 1) {
       setHiddenWard(true);
+      setisShowLineAndPieChart(true)
       setDistrictId(districtIdArr);
       form.setFieldsValue({ wardId: undefined });
       //Call API
@@ -269,6 +274,7 @@ function Sidebar(props) {
       return;
     } else if (districtIdArr.length > 1) {
       setHiddenWard(false);
+      setisShowLineAndPieChart(false)
       setDistrictId(districtIdArr);
       form.setFieldsValue({ wardId: undefined });
       //Call API
@@ -297,6 +303,7 @@ function Sidebar(props) {
   const onChangeWard = (wardIdArr) => {
     if (wardIdArr.length === 1) {
       setWardId(wardIdArr);
+      setisShowLineAndPieChart(true)
       props.changeChart(true);
       //Call API
       const data = {
@@ -318,6 +325,7 @@ function Sidebar(props) {
 
       return;
     } else if (wardIdArr.length > 1) {
+      setisShowLineAndPieChart(false)
       setWardId(wardIdArr);
       props.changeChart(false);
       //Call API
@@ -352,44 +360,77 @@ function Sidebar(props) {
   ];
 
   const onSelectChange = (selectedRowKeys) => {
-    if (selectedRowKeys.length < 1 || selectedRowKeys.length > 3) {
-      const notifyMess = {
-        type: 'error',
-        title: '',
-        description: 'Số lượng sự kiện phải lớn hơn 1 và nhỏ hơn 3'
+    if (isShowLineAndPieChart === true) {
+      if (selectedRowKeys.length < 1 || selectedRowKeys.length > 3) {
+        const notifyMess = {
+          type: 'error',
+          title: '',
+          description: 'Số lượng sự kiện phải lớn hơn 1 và nhỏ hơn 3'
+        };
+        Notification(notifyMess);
+        
+        return;
+      }
+      setSelectedRowKeys(selectedRowKeys);
+      props.changeCount(selectedRowKeys);
+      console.log("selectedRowKeysselectedRowKeys", selectedRowKeys)
+      
+      //Call API
+      const data = {
+        pickTime: dataTime,
+        timeStartDay: timeStartDay,
+        timeEndDay: timeEndDay,
+        timeStartMonth: timeStartMonth,
+        timeEndMonth: timeEndMonth,
+        timeStartYear: timeStartYear,
+        timeEndYear: timeEndYear,
+        provinceId: provinceId,
+        districtId: districtId,
+        wardId: wardId,
+        fieldId: feildIds,
+        eventList: selectedRowKeys
       };
-      Notification(notifyMess);
-
-      return;
+      props.callData(clearData(data));
+    } else {
+      if (selectedRowKeys.length > 3) {
+        const notifyMess = {
+          type: 'error',
+          title: '',
+          description: 'Số lượng sự kiện phải nhỏ hơn 3'
+        };
+        Notification(notifyMess);
+        
+        return;
+      }
+      setSelectedRowKeys(selectedRowKeys);
+      props.changeCount(selectedRowKeys);
+      console.log("selectedRowKeysselectedRowKeys", selectedRowKeys)
+      
+      //Call API
+      const data = {
+        pickTime: dataTime,
+        timeStartDay: timeStartDay,
+        timeEndDay: timeEndDay,
+        timeStartMonth: timeStartMonth,
+        timeEndMonth: timeEndMonth,
+        timeStartYear: timeStartYear,
+        timeEndYear: timeEndYear,
+        provinceId: provinceId,
+        districtId: districtId,
+        wardId: wardId,
+        fieldId: feildIds,
+        eventList: selectedRowKeys
+      };
+      
+      props.callData(clearData(data));
     }
-    setSelectedRowKeys(selectedRowKeys);
-    props.changeCount(selectedRowKeys);
-    console.log("selectedRowKeysselectedRowKeys", selectedRowKeys)
-
-    //Call API
-    const data = {
-      pickTime: dataTime,
-      timeStartDay: timeStartDay,
-      timeEndDay: timeEndDay,
-      timeStartMonth: timeStartMonth,
-      timeEndMonth: timeEndMonth,
-      timeStartYear: timeStartYear,
-      timeEndYear: timeEndYear,
-      provinceId: provinceId,
-      districtId: districtId,
-      wardId: wardId,
-      fieldId: feildIds,
-      eventList: selectedRowKeys
+  };
+    
+    const rowSelection = {
+      selectedRowKeys,
+      onChange: onSelectChange
     };
-
-    props.callData(clearData(data));
-  };
-
-  const rowSelection = {
-    selectedRowKeys,
-    onChange: onSelectChange
-  };
-
+    
   function onChange(value) {
     setDatatime(value);
 

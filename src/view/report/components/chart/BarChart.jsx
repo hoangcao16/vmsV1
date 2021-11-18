@@ -1,5 +1,6 @@
 import { isEmpty } from 'lodash';
 import React from 'react';
+import { useTranslation } from 'react-i18next';
 import { connect } from 'react-redux';
 import {
   Bar,
@@ -11,6 +12,7 @@ import {
   XAxis,
   YAxis
 } from 'recharts';
+import convertDataBarChart from '../../../../actions/function/MyUltil/ConvertDataBarChart';
 import { loadDataChart } from '../../redux/actions';
 import './barChart.scss';
 import ExportReport from './ExportReport';
@@ -46,10 +48,9 @@ const renderQuarterTick = (tickProps) => {
 
 function BarChartComponent(props) {
   const data = props.chartData;
-
+  const { t } = useTranslation();
   const dataConvert = (data) => {
     const dataNoName = data[0];
-
     delete dataNoName.name;
 
     const keyArr = Object.keys(dataNoName);
@@ -68,54 +69,58 @@ function BarChartComponent(props) {
   }
 
   return (
-    <div className="BarChart">
-      <div className="BarChart__title">
-        <h3> BIỂU ĐỒ SO SÁNH TÌNH HÌNH {props.title.toUpperCase()} </h3>
-        <ExportReport currentDataSource={data} />
-      </div>
-      <ResponsiveContainer
-        width="95%"
-        aspect={3 / 1}
-        className="ResponsiveContainer"
-      >
-        <BarChart
-          width={500}
-          height={300}
-          data={data}
-        // margin={{
-        //   top: 5,
-        //   right: 30,
-        //   left: 20,
-        //   bottom: 5
-        // }}
-        >
-          <CartesianGrid strokeDasharray="3 3" />
-          <XAxis dataKey="name" />
-          <XAxis
-            dataKey="name"
-            axisLine={false}
-            tickLine={false}
-            interval={0}
-            tick={renderQuarterTick}
-            height={1}
-            scale="band"
-            xAxisId="quarter"
-          />
-          <YAxis />
-          <Tooltip />
-          <Legend />
-          <Bar dataKey={data.location}/>
+    <>
+      {!props.isShowLineAndPieChart && (
+        <div className="BarChart">
+          <div className="BarChart__title">
+            <h3> {t('view.report.compare_chart')} {props.title.toUpperCase()} </h3>
+            <ExportReport currentDataSource={data} />
+          </div>
+          <ResponsiveContainer
+            width="95%"
+            aspect={3 / 1}
+            className="ResponsiveContainer"
+          >
+            <BarChart
+              width={500}
+              height={300}
+              data={data}
+            // margin={{
+            //   top: 5,
+            //   right: 30,
+            //   left: 20,
+            //   bottom: 5
+            // }}
+            >
+              <CartesianGrid strokeDasharray="3 3" />
+              <XAxis dataKey="name" />
+              <XAxis
+                dataKey="name"
+                axisLine={false}
+                tickLine={false}
+                interval={0}
+                tick={renderQuarterTick}
+                height={1}
+                scale="band"
+                xAxisId="quarter"
+              />
+              <YAxis />
+              <Tooltip />
+              <Legend />
+              <Bar dataKey={data.location}/>
 
-          {dataConvert(data)}
-        </BarChart>
-      </ResponsiveContainer>
-    </div>
+              {dataConvert(data)}
+            </BarChart>
+          </ResponsiveContainer>
+        </div>
+      )}
+    </>
   );
 }
 
 const mapStateToProps = (state) => ({
   isLoading: state.chart.isLoading,
-  chartData: state.chart.chartData,
+  chartData: convertDataBarChart(state.chart.chartData),
   error: state.chart.error,
   title: state.chart.title,
   isShowLineAndPieChart: state.chart.isShowLineAndPieChart
