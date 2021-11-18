@@ -89,6 +89,7 @@ const ExportEventFile = () => {
     const [total, setTotal] = useState(0);
     const [eventList, setEventList] = useState([]);
 
+    const zoom = ((window.outerWidth - 10) / window.innerWidth) * 100;
 
     useEffect(() => {
         language === "vn" ? (document.title = "CCTV | Xuất sự kiện") : (document.title = "CCTV | Export Event")
@@ -1190,7 +1191,7 @@ const ExportEventFile = () => {
                             fileCurrent && <MemoizedThumbnailVideo
                                 duration={duration}
                                 videoFile={urlVideoTimeline} playerVideo={playerVideo}
-                                fileCurrent={fileCurrent}
+                                fileCurrent={fileCurrent} zoom={zoom}
                             />
                         }
                         </Col>
