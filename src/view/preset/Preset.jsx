@@ -355,7 +355,7 @@ const Preset = (props) => {
         };
         try {
             setIsActionStart(true)
-            ptzControllerApi.postPan(payload);
+            await ptzControllerApi.postPan(payload);
         } catch (error) {
             console.log(error);
         }
@@ -370,7 +370,7 @@ const Preset = (props) => {
         };
         try {
             if (isActionIsStart) {
-                ptzControllerApi.postPan(payload);
+                await ptzControllerApi.postPan(payload);
                 setIsActionStart(false)
             }
         } catch (error) {
@@ -387,7 +387,7 @@ const Preset = (props) => {
         };
         try {
             setIsActionStart(true)
-            ptzControllerApi.postPan(payload);
+            await ptzControllerApi.postPan(payload);
         } catch (error) {
             console.log(error);
         }
@@ -402,7 +402,7 @@ const Preset = (props) => {
         };
         try {
             if (isActionIsStart) {
-                ptzControllerApi.postPan(payload);
+                await ptzControllerApi.postPan(payload);
                 setIsActionStart(false)
             }
         } catch (error) {
@@ -419,7 +419,7 @@ const Preset = (props) => {
         };
         try {
             setIsActionStart(true)
-            ptzControllerApi.postTilt(payload);
+            await ptzControllerApi.postTilt(payload);
         } catch (error) {
             console.log(error);
         }
@@ -434,7 +434,7 @@ const Preset = (props) => {
         };
         try {
             if (isActionIsStart) {
-                ptzControllerApi.postTilt(payload);
+                await ptzControllerApi.postTilt(payload);
                 setIsActionStart(false)
             }
         } catch (error) {
@@ -451,7 +451,7 @@ const Preset = (props) => {
         };
         try {
             setIsActionStart(true)
-            ptzControllerApi.postTilt(payload);
+            await ptzControllerApi.postTilt(payload);
         } catch (error) {
             console.log(error);
         }
@@ -466,7 +466,7 @@ const Preset = (props) => {
         };
         try {
             if (isActionIsStart) {
-                ptzControllerApi.postTilt(payload);
+                await ptzControllerApi.postTilt(payload);
                 setIsActionStart(false)
             }
         } catch (error) {
@@ -483,7 +483,7 @@ const Preset = (props) => {
         };
         try {
             setIsActionStart(true)
-            ptzControllerApi.postZoom(payload);
+            await ptzControllerApi.postZoom(payload);
         } catch (error) {
             console.log(error);
         }
@@ -498,7 +498,7 @@ const Preset = (props) => {
         };
         try {
             if (isActionIsStart) {
-                ptzControllerApi.postZoom(payload);
+                await ptzControllerApi.postZoom(payload);
                 setIsActionStart(false)
             }
         } catch (error) {
@@ -515,7 +515,7 @@ const Preset = (props) => {
         };
         try {
             setIsActionStart(true)
-            ptzControllerApi.postZoom(payload);
+            await ptzControllerApi.postZoom(payload);
         } catch (error) {
             console.log(error);
         }
@@ -529,7 +529,7 @@ const Preset = (props) => {
         };
         try {
             if (isActionIsStart) {
-                ptzControllerApi.postZoom(payload);
+                await ptzControllerApi.postZoom(payload);
                 setIsActionStart(false)
             }
         } catch (error) {
