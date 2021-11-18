@@ -115,6 +115,10 @@
         padding-left: 0;
       }
 
+      th:last-child {
+        width: 12px;
+      }
+
       .ant-table-body {
         border-radius: 0 0 12px 12px;
         @include scrollbar-styling(12px,0);
@@ -123,7 +127,7 @@
         }
         tr {
           td.ant-table-cell {
-            background-color: $vms-bg-primary;
+            // background-color: $vms-bg-primary;
             color: $vms-status-07;
             border-bottom: 1px solid rgba(234, 240, 247, 0.1);
             padding: 12px 0 12px 16px;

@@ -171,6 +171,10 @@ const ViewMapOffline = (props) => {
         mapboxRef.current.on("draw.create", e => notifyParent(e));
         mapboxRef.current.on("draw.update", e => notifyParent(e));
         mapboxRef.current.on("draw.delete", e => notifyParent(e));
+
+        mapboxRef.current.on('load', () => {
+
+        })
       }
     } catch (error) {
       console.log(error);
