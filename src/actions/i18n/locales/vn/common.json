@@ -391,7 +391,8 @@
       "intrusion_detection_events" : "Sự kiện phát hiện xâm nhập",
       "attendance_events" : "Điểm danh",
       "schedule_config": "Thiết lập lịch trình",
-      "area_config": "Thiết lập Khu vực"
+      "area_config": "Thiết lập Khu vực",
+      "time_config": "Cài đặt thời gian"
     }
   },
   "noti": {

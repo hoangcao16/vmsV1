@@ -1,6 +1,6 @@
 @import "../../assets/scss/core/variables/vms-variable";
 
-.modal__edit--humans {
+.modal__edit--schedule_config {
   max-width: 960px;
 
   .ant-modal-content {
@@ -60,7 +60,6 @@
           border: $vms-border-gray;
         }
       }
-
       button {
         padding: 8px 46px;
         height: 100%;
