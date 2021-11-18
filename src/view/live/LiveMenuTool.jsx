@@ -57,7 +57,7 @@ const LiveMenuTool = (props) => {
     }, [idCamera, reloadLiveMenuTool]
     )
 
-    const onPanLeftStart = () => {
+    const onPanLeftStart = async () => {
         const payload = {
             cameraUuid: idCamera,
             direction: "left",
@@ -65,7 +65,7 @@ const LiveMenuTool = (props) => {
             speed: 1,
         };
         try {
-            ptzControllerApi.postPan(payload);
+            await ptzControllerApi.postPan(payload);
         } catch (error) {
             console.log(error);
         }
@@ -79,7 +79,7 @@ const LiveMenuTool = (props) => {
             speed: 1,
         };
         try {
-            ptzControllerApi.postPan(payload);
+            await ptzControllerApi.postPan(payload);
         } catch (error) {
             console.log(error);
         }
@@ -93,7 +93,7 @@ const LiveMenuTool = (props) => {
             speed: 1,
         };
         try {
-            ptzControllerApi.postPan(payload);
+            await ptzControllerApi.postPan(payload);
         } catch (error) {
             console.log(error);
         }
@@ -107,7 +107,7 @@ const LiveMenuTool = (props) => {
             speed: 1,
         };
         try {
-            ptzControllerApi.postPan(payload);
+            await ptzControllerApi.postPan(payload);
         } catch (error) {
             console.log(error);
         }
@@ -121,7 +121,7 @@ const LiveMenuTool = (props) => {
             speed: 1,
         };
         try {
-            ptzControllerApi.postTilt(payload);
+            await ptzControllerApi.postTilt(payload);
         } catch (error) {
             console.log(error);
         }
@@ -135,7 +135,7 @@ const LiveMenuTool = (props) => {
             speed: 1,
         };
         try {
-            ptzControllerApi.postTilt(payload);
+            await ptzControllerApi.postTilt(payload);
         } catch (error) {
             console.log(error);
         }
@@ -149,7 +149,7 @@ const LiveMenuTool = (props) => {
             speed: 1,
         };
         try {
-            ptzControllerApi.postTilt(payload);
+            await ptzControllerApi.postTilt(payload);
         } catch (error) {
             console.log(error);
         }
@@ -163,7 +163,7 @@ const LiveMenuTool = (props) => {
             speed: 1,
         };
         try {
-            ptzControllerApi.postTilt(payload);
+            await ptzControllerApi.postTilt(payload);
         } catch (error) {
             console.log(error);
         }
@@ -177,7 +177,7 @@ const LiveMenuTool = (props) => {
             speed: 1,
         };
         try {
-            ptzControllerApi.postZoom(payload);
+            await ptzControllerApi.postZoom(payload);
         } catch (error) {
             console.log(error);
         }
@@ -191,7 +191,7 @@ const LiveMenuTool = (props) => {
             speed: 1,
         };
         try {
-            ptzControllerApi.postZoom(payload);
+            await ptzControllerApi.postZoom(payload);
         } catch (error) {
             console.log(error);
         }
@@ -205,7 +205,7 @@ const LiveMenuTool = (props) => {
             speed: 1,
         };
         try {
-            ptzControllerApi.postZoom(payload);
+            await ptzControllerApi.postZoom(payload);
         } catch (error) {
             console.log(error);
         }
@@ -219,7 +219,7 @@ const LiveMenuTool = (props) => {
             speed: 1,
         };
         try {
-            ptzControllerApi.postZoom(payload);
+            await ptzControllerApi.postZoom(payload);
         } catch (error) {
             console.log(error);
         }
@@ -232,7 +232,7 @@ const LiveMenuTool = (props) => {
             idPreset: value,
         };
         try {
-            ptzControllerApi.postCallPreset(body);
+            await ptzControllerApi.postCallPreset(body);
         } catch (error) {
             console.log(error);
         }
@@ -245,7 +245,7 @@ const LiveMenuTool = (props) => {
             idPresetTour: value,
         };
         try {
-            ptzControllerApi.postCallPresetTour(body);
+            await ptzControllerApi.postCallPresetTour(body);
         } catch (error) {
             console.log(error);
         }
