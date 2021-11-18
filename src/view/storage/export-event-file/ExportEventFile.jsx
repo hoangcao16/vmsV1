@@ -315,7 +315,7 @@ const ExportEventFile = () => {
     };
 
     const onSearchHandler = async (dataParam) => {
-        refresh();
+        // refresh();
         setLoading(true);
         try {
             let perToCheck = [];
