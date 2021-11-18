@@ -89,6 +89,7 @@ const ExportEventFile = () => {
     const [total, setTotal] = useState(0);
     const [eventList, setEventList] = useState([]);
 
+    const zoom = ((window.outerWidth - 10) / window.innerWidth) * 100;
 
     useEffect(() => {
         language === "vn" ? (document.title = "CCTV | Xuất sự kiện") : (document.title = "CCTV | Export Event")
@@ -314,7 +315,7 @@ const ExportEventFile = () => {
     };
 
     const onSearchHandler = async (dataParam) => {
-        refresh();
+        // refresh();
         setLoading(true);
         try {
             let perToCheck = [];
@@ -524,13 +525,13 @@ const ExportEventFile = () => {
             playEle.style.display = "block";
             playerVideo.current.pause();
         } else if (cmd === "decrease_rate") {
-            if (playbackRate === 1) return;
-            playbackRate = playbackRate - 1;
+            if (playbackRate === 0.125) return;
+            playbackRate = playbackRate / 2;
             playerVideo.current.defaultPlaybackRate = playbackRate;
             playerVideo.current.playbackRate = playbackRate;
         } else if (cmd === "increase_rate") {
-            if (playbackRate === 10) return;
-            playbackRate = playbackRate + 1;
+            if (playbackRate === 16) return;
+            playbackRate = playbackRate * 2;
             playerVideo.current.defaultPlaybackRate = playbackRate;
             playerVideo.current.playbackRate = playbackRate;
         }
@@ -1190,7 +1191,7 @@ const ExportEventFile = () => {
                             fileCurrent && <MemoizedThumbnailVideo
                                 duration={duration}
                                 videoFile={urlVideoTimeline} playerVideo={playerVideo}
-                                fileCurrent={fileCurrent}
+                                fileCurrent={fileCurrent} zoom={zoom}
                             />
                         }
                         </Col>

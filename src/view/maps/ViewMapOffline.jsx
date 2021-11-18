@@ -125,10 +125,13 @@ const ViewMapOffline = (props) => {
     }
   };
 
+
+  //khởi tạo map
   const showViewMap = () => {
     try {
       mapboxgl.accessToken = process.env.REACT_APP_VIETMAP_TOKEN;
       if (!mapboxRef.current) {
+        //khởi tạo map
         mapboxRef.current = new mapboxgl.Map({
           container: "map",
           style: MAP_STYLES[selectedMapStyle],
@@ -137,6 +140,8 @@ const ViewMapOffline = (props) => {
           zoom: zoom,
           attributionControl: false,
         });
+
+        //thêm phần thanh công cụ zoom
         mapboxRef.current.addControl(
           new mapboxgl.NavigationControl({
             showCompass: false,
@@ -157,28 +162,11 @@ const ViewMapOffline = (props) => {
             simple_select: SimpleSelectMode,
             direct_select: DirectMode,
             drag_circle: DragCircleMode
-          },
-          // styles: [
-          //   {
-          //     'id': 'highlight-active-points',
-          //     'type': 'fill',
-          //     'paint': {
-          //       'fill-color': '#EA5455',
-          //       'fill-opacity': 0.2
-          //     }
-          //   },
-          //   {
-          //     'id': 'points-are-blue',
-          //     'type': 'line',
-          //     'paint': {
-          //       'line-color': '#EA5455',
-          //       'line-opacity': 1
-          //     }
-          //   }
-          // ]
+          }
         });
 
         // Add this draw object to the map when map loads
+        // thêm phần control cho map: kéo, xoay map
         mapboxRef.current.addControl(mapBoxDrawRef.current);
         mapboxRef.current.on("draw.create", e => notifyParent(e));
         mapboxRef.current.on("draw.update", e => notifyParent(e));

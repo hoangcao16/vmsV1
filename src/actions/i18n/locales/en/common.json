@@ -293,7 +293,8 @@
       "download_file": "Download file",
       "cut_file": "Cut file",
       "capture_snapshot": "Capture snapshot",
-      "delete": "Delete file"
+      "delete": "Delete file",
+      "set_event": "Set event"
     },
 
     "user": {
