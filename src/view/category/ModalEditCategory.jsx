@@ -1,10 +1,10 @@
-import { Col, Form, Input, Modal, Row, Spin, Button } from 'antd';
+import { Button, Col, Form, Input, Modal, Row } from 'antd';
 import { isEmpty } from 'lodash-es';
 import React, { useEffect, useState } from 'react';
 import CameraApi from '../../actions/api/camera/CameraApi';
-import VendorApi from '../../actions/api/vendor/VendorApi';
+import { default as Event, default as EventApi } from '../../actions/api/event/EventApi';
 import FieldApi from '../../actions/api/field/FieldApi';
-import Event from '../../actions/api/event/EventApi';
+import VendorApi from '../../actions/api/vendor/VendorApi';
 import Notification from '../../components/vms/notification/Notification';
 import './../commonStyle/commonAuto.scss';
 import './../commonStyle/commonForm.scss';
@@ -12,9 +12,8 @@ import './../commonStyle/commonInput.scss';
 import './../commonStyle/commonModal.scss';
 import './../commonStyle/commonSelect.scss';
 import './ModalEditCategory.scss';
-
 import { CATEGORY_NAME } from './TableCategory';
-import EventApi from '../../actions/api/event/EventApi';
+
 
 const formItemLayout = {
   wrapperCol: { span: 24 },
@@ -135,12 +134,8 @@ const ModalViewEditCategory = (props) => {
   };
 
   if (selectedCategoryId !== null) {
-    // console.log('selectedCategoryIdspin', selectedCategoryId)
-    // console.log('selectedCategoryEditspin', selectedCategoryEdit)
-
     if (isEmpty(selectedCategoryEdit)) {
-
-      return <Spin />;
+      return null;
     }
   }
 

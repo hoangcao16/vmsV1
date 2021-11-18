@@ -7,12 +7,11 @@ import {
   Input,
   Modal,
   Row,
-  Select,
-  Spin,
-  Upload
+  Select, Upload
 } from 'antd';
 import { isEmpty } from 'lodash-es';
 import React, { useEffect, useState } from 'react';
+import { useTranslation } from 'react-i18next';
 import { v4 as uuidV4 } from 'uuid';
 import AddressApi from '../../actions/api/address/AddressApi';
 import AdDivisionApi from '../../actions/api/advision/AdDivision';
@@ -26,8 +25,6 @@ import './../commonStyle/commonModal.scss';
 import './../commonStyle/commonSelect.scss';
 import './ModalEditAdministrativeUnit.scss';
 import './UploadFile.scss';
-import { useTranslation } from 'react-i18next';
-import { reactLocalStorage } from 'reactjs-localstorage';
 
 const formItemLayout = {
   wrapperCol: { span: 24 },
@@ -44,34 +41,6 @@ function getBase64(img, callback) {
   reader.readAsDataURL(img);
 }
 
-function beforeUpload(file) {
-  const language = reactLocalStorage.get('language');
-  const isJpgOrPng = file.type === 'image/jpeg' || file.type === 'image/png';
-  if (!isJpgOrPng) {
-    const notifyMess = {
-      type: 'error',
-      title: '',
-      description: `${language == 'vn'
-        ? 'Chỉ được phép sử dụng định dạng loại JPG/PNG!'
-        : 'Only file type JPG/PNG allowed!'
-        }`
-    };
-    Notification(notifyMess);
-  }
-  const isLt2M = file.size / 1024 / 1024 < 2;
-  if (!isLt2M) {
-    const notifyMess = {
-      type: 'error',
-      title: '',
-      description: `${language == 'vn'
-        ? 'Kích thước tệp phải nhỏ hơn 2MB!'
-        : 'File size must under 2MB!'
-        }`
-    };
-    Notification(notifyMess);
-  }
-  return isJpgOrPng && isLt2M;
-}
 
 const ModalEditAdministrativeUnit = (props) => {
   const { t } = useTranslation();
@@ -189,7 +158,7 @@ const ModalEditAdministrativeUnit = (props) => {
   };
 
   const uploadImage = async (options) => {
-    const { onSuccess, onError, file, onProgress } = options;
+    const { file } = options;
     await ExportEventFileApi.uploadAvatar(uuidV4(), file).then((result) => {
       if (
         result.data &&
@@ -271,7 +240,7 @@ const ModalEditAdministrativeUnit = (props) => {
 
   if (selectedCategoryId !== null) {
     if (isEmpty(adUnit)) {
-      return <Spin />;
+      return null;
     }
   }
 

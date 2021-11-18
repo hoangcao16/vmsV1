@@ -239,9 +239,6 @@ const TableCamera = () => {
   const showModalAdd = () => {
     setSelectedAdd(true);
   };
-  const showModalScan = () => {
-    setSelectedScan(true);
-  };
 
   const handleShowModalAdd = () => {
     setSelectedAdd(false);
@@ -792,6 +789,8 @@ const TableCamera = () => {
           handleShowModal={handleShowModalInfo}
         />
       )}
+
+      
       {selectedCameraIdEdit && (
         <ModalEditCamera
           selectedCameraIdEdit={selectedCameraIdEdit}

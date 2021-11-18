@@ -1,9 +1,9 @@
 import {
   DeleteOutlined,
   EditOutlined,
+  InfoCircleOutlined,
   PlusOutlined,
-  SearchOutlined,
-  InfoCircleOutlined
+  SearchOutlined
 } from '@ant-design/icons';
 import {
   AutoComplete,
@@ -35,9 +35,9 @@ import './../commonStyle/commonTable.scss';
 import ModalEditAdministrativeUnit from './ModalEditAdministrativeUnit';
 import ModalEditCategory from './ModalEditCategory';
 import ModalUpdateTag from './ModalUpdateTag';
+import ModalViewDetail from './ModalViewDetail';
 import './TableCategory.scss';
 import { bodyStyleCard, headStyleCard } from './variables';
-import ModalDetailAdministrativeUnit from './ModalDetailAdministrativeUnit';
 
 export const CATEGORY_NAME = {
   EVENT_TYPE: 'EVENT_TYPE',
@@ -55,9 +55,8 @@ const TableCategory = () => {
   const [dataOptions, setDataOptions] = useState({});
   const [dataType, setDataType] = useState(CATEGORY_NAME.AD_DIVISIONS);
   const [selectedCategoryId, setSelectedCategoryId] = useState(null);
-  const [selectedAdd, setSelectedAdd] = useState(false);
+  const [selectedUnitId, setSelectedUnitId] = useState(null);
   const [showModal, setShowModal] = useState(false);
-  const [showModalDetail, setShowModalDetail] = useState(false);
   const [search, setSearch] = useState('');
 
   useEffect(() => {
@@ -302,6 +301,10 @@ const TableCategory = () => {
     fetchOptionsData(data).then(setDataOptions);
   };
 
+  const handleShowModalInfo = () => {
+    setSelectedUnitId(null);
+  };
+
   const { vendors, cameraTypes, adDivisions, field, eventTypes, tags } =
     dataOptions;
 
@@ -349,16 +352,17 @@ const TableCategory = () => {
                 />
               </Popconfirm>
             </Tooltip>
-            <Tooltip placement="top" title={t('delete')}>
-              <InfoCircleOutlined
-                style={{ fontSize: '16px', color: '#6E6B7B' }}
-                onClick={() => {
-                  console.log("setSelectedCategoryId", record.uuid)
-                  setSelectedCategoryId(record.uuid);
-                  setShowModalDetail(true)
-                }}
-              />
-            </Tooltip>
+
+            {dataType === CATEGORY_NAME.AD_DIVISIONS && (
+            <Tooltip placement="top" title={t('view.common_device.detail')}>
+            <InfoCircleOutlined
+              style={{ fontSize: '16px', color: '#6E6B7B' }}
+              onClick={() => {
+                setSelectedUnitId(record.uuid);
+              }}
+            />
+          </Tooltip>
+            )}
           </Space>
         );
       }
@@ -447,12 +451,15 @@ const TableCategory = () => {
         />
       </Card>
       {handleShowModalUpdateCategory()}
-      <ModalDetailAdministrativeUnit
-        setShowModalDetail={setShowModalDetail}
-        showModalDetail={showModalDetail}
-        selectedCategoryId={selectedCategoryId}
-      />
+      {selectedUnitId && (
+        <ModalViewDetail
+          selectedUnitId={selectedUnitId}
+          handleShowModal={handleShowModalInfo}
+        />
+      )}
     </div>
+
+    
   );
 };
 
