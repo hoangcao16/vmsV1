@@ -39,11 +39,11 @@ const TableFile = (props) => {
   const typeList = [
     {
       id: 0,
-      name: "video",
+      name: "Video",
     },
     {
       id: 1,
-      name: "image",
+      name: `${t('view.user.detail_list.image')}`,
     },
   ];
 
@@ -920,12 +920,12 @@ const TableFile = (props) => {
               <Col span={12}>
                 <Form.Item name={["cameraGroupUuid"]}>
                   <Select
-                    allowClear
-                    showSearch
-                    onChange={(uuid) => onChangeCameraGroup(uuid)}
-                    filterOption={filterOption}
-                    options={normalizeOptions("name", "uuid", cameraGroupList)}
-                    placeholder='Nhóm Camera'
+                      allowClear
+                      showSearch
+                      onChange={(uuid) => onChangeCameraGroup(uuid)}
+                      filterOption={filterOption}
+                      options={normalizeOptions("name", "uuid", cameraGroupList)}
+                      placeholder={t('view.map.camera_group', { cam: t('camera') })}
                   />
                 </Form.Item>
               </Col>

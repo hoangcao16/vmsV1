@@ -64,7 +64,7 @@ const CameraApi = {
 
     try {
       result = await MyService.getRequestData(
-        '/owl/api/v1/camera/get-report-camera'
+        '/owl/api/v1/get-report-camera'
       );
     } catch (error) {
       console.log(JSON.stringify(error));
@@ -75,24 +75,6 @@ const CameraApi = {
     }
 
     return result.responseList;
-  },
-  getChartData: async (body) => {
-    let result;
-
-    try {
-      result = await MyService.postRequestData(
-        '/owl/api/v1/camera/get-chart',
-        body
-      );
-    } catch (error) {
-      console.log(JSON.stringify(error));
-    }
-
-    if (handleErrCodeReport(result) === null) {
-      return [];
-    }
-
-    return result.payload;
   },
 
   getAllCameraWidthTotal: async (dataSearch) => {

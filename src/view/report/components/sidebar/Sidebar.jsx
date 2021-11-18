@@ -17,6 +17,7 @@ import {
 import { loadDataChart } from '../../redux/actions';
 import { changeChart } from '../../redux/actions/changeChart';
 import { changeTitle } from '../../redux/actions/changeTitle';
+import { changeCount } from '../../redux/actions/changeCount';
 import './../../../../view/commonStyle/commonInput.scss';
 import './../../../../view/commonStyle/commonSelect.scss';
 import './sidebar.scss';
@@ -28,9 +29,9 @@ const formItemLayout = {
   labelCol: { span: 24 }
 };
 const SELECTED_TIME = {
-  DAY: 'DAY',
-  MONTH: 'MONTH',
-  YEAR: 'YEAR'
+  DAY: 'day',
+  MONTH: 'month',
+  YEAR: 'year'
 };
 
 function Sidebar(props) {
@@ -52,17 +53,17 @@ function Sidebar(props) {
   const [dataTime, setDatatime] = useState(SELECTED_TIME.DAY);
 
   const [timeStartDay, setTimeStartDay] = useState(
-    moment().subtract(12, 'DAY')
+    moment().subtract(12, 'day')
   );
   const [timeEndDay, setTimeEndDay] = useState(moment());
 
   const [timeStartMonth, setTimeStartMonth] = useState(
-    moment().subtract(12, 'MONTH')
+    moment().subtract(12, 'month')
   );
   const [timeEndMonth, setTimeEndMonth] = useState(moment());
 
   const [timeStartYear, setTimeStartYear] = useState(
-    moment().subtract(5, 'YEAR')
+    moment().subtract(5, 'year')
   );
   const [timeEndYear, setTimeEndYear] = useState(moment());
 
@@ -115,6 +116,7 @@ function Sidebar(props) {
         };
 
         props.callData(clearData(dataDefault));
+        props.changeCount(1);
       }
     });
     const isShowLineAndPieChart = hiddenDistrictAndWard && hiddenWard;
@@ -235,12 +237,9 @@ function Sidebar(props) {
         fieldId: feildIds,
         eventList: selectedRowKeys
       };
-
       props.callData(clearData(data));
-
       return;
     }
-
     form.setFieldsValue({ districtId: undefined, wardId: undefined });
   };
 
@@ -364,6 +363,9 @@ function Sidebar(props) {
       return;
     }
     setSelectedRowKeys(selectedRowKeys);
+    props.changeCount(selectedRowKeys);
+    console.log("selectedRowKeysselectedRowKeys", selectedRowKeys)
+
     //Call API
     const data = {
       pickTime: dataTime,
@@ -934,6 +936,9 @@ const mapDispatchToProps = (dispatch) => {
     },
     changeChart: (data) => {
       dispatch(changeChart(data));
+    },
+    changeCount: (count) => {
+      dispatch(changeCount(count));
     },
     callData: (params) => {
       dispatch(loadDataChart(params));
