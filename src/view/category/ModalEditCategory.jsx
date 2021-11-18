@@ -135,7 +135,11 @@ const ModalViewEditCategory = (props) => {
   };
 
   if (selectedCategoryId !== null) {
+    // console.log('selectedCategoryIdspin', selectedCategoryId)
+    // console.log('selectedCategoryEditspin', selectedCategoryEdit)
+
     if (isEmpty(selectedCategoryEdit)) {
+
       return <Spin />;
     }
   }

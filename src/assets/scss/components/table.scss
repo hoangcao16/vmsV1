@@ -3,7 +3,7 @@
         .ant-table-tbody {
             .ant-table-row {
                 &:hover td {
-                    background: $vms-bg-sub;
+                    background: $vms-bg-sub !important;
                     color: #fcfeff;
                     cursor: pointer;
                   }
@@ -13,7 +13,7 @@
                 color: rgba(208, 229, 255, 0.7);
                 &:hover {
                     .ant-table-cell {
-                        background-color: $vms-bg-sub;
+                        background-color: $vms-bg-sub !important;
                         cursor: default;
                         border: 0;
                     }

@@ -2,7 +2,8 @@ import {
   DeleteOutlined,
   EditOutlined,
   PlusOutlined,
-  SearchOutlined
+  SearchOutlined,
+  InfoCircleOutlined
 } from '@ant-design/icons';
 import {
   AutoComplete,
@@ -36,6 +37,7 @@ import ModalEditCategory from './ModalEditCategory';
 import ModalUpdateTag from './ModalUpdateTag';
 import './TableCategory.scss';
 import { bodyStyleCard, headStyleCard } from './variables';
+import ModalDetailAdministrativeUnit from './ModalDetailAdministrativeUnit';
 
 export const CATEGORY_NAME = {
   EVENT_TYPE: 'EVENT_TYPE',
@@ -55,6 +57,7 @@ const TableCategory = () => {
   const [selectedCategoryId, setSelectedCategoryId] = useState(null);
   const [selectedAdd, setSelectedAdd] = useState(false);
   const [showModal, setShowModal] = useState(false);
+  const [showModalDetail, setShowModalDetail] = useState(false);
   const [search, setSearch] = useState('');
 
   useEffect(() => {
@@ -346,6 +349,16 @@ const TableCategory = () => {
                 />
               </Popconfirm>
             </Tooltip>
+            <Tooltip placement="top" title={t('delete')}>
+              <InfoCircleOutlined
+                style={{ fontSize: '16px', color: '#6E6B7B' }}
+                onClick={() => {
+                  console.log("setSelectedCategoryId", record.uuid)
+                  setSelectedCategoryId(record.uuid);
+                  setShowModalDetail(true)
+                }}
+              />
+            </Tooltip>
           </Space>
         );
       }
@@ -434,6 +447,11 @@ const TableCategory = () => {
         />
       </Card>
       {handleShowModalUpdateCategory()}
+      <ModalDetailAdministrativeUnit
+        setShowModalDetail={setShowModalDetail}
+        showModalDetail={showModalDetail}
+        selectedCategoryId={selectedCategoryId}
+      />
     </div>
   );
 };
