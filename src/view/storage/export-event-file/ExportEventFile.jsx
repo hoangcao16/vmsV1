@@ -524,13 +524,13 @@ const ExportEventFile = () => {
             playEle.style.display = "block";
             playerVideo.current.pause();
         } else if (cmd === "decrease_rate") {
-            if (playbackRate === 1) return;
-            playbackRate = playbackRate - 1;
+            if (playbackRate === 0.125) return;
+            playbackRate = playbackRate / 2;
             playerVideo.current.defaultPlaybackRate = playbackRate;
             playerVideo.current.playbackRate = playbackRate;
         } else if (cmd === "increase_rate") {
-            if (playbackRate === 10) return;
-            playbackRate = playbackRate + 1;
+            if (playbackRate === 16) return;
+            playbackRate = playbackRate * 2;
             playerVideo.current.defaultPlaybackRate = playbackRate;
             playerVideo.current.playbackRate = playbackRate;
         }

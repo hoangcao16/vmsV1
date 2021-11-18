@@ -284,7 +284,8 @@
       "download_file": "Tải tệp",
       "cut_file": "Cắt tệp",
       "capture_snapshot": "Chụp ảnh",
-      "delete": "Xóa tệp"
+      "delete": "Xóa tệp",
+      "set_event": "Gán sự kiện"
     },
     "user": {
       "record": "Ghi hình",
