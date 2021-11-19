@@ -331,7 +331,7 @@
         "to": "to",
         "out_of": "out of",
         "indexes": "indexes",
-        "no_valid_results_found": "No valid results  found",
+        "no_valid_results_found": "No valid results found",
         "group_user_list": "{{G}} {{U}} List",
         "add_group": "{{add}} {{G}}",
         "group_user_name": "{{G}} {{u}} name",
@@ -478,7 +478,8 @@
     "enter_this_field": "Please enter this field!",
     "input_number": "Please enter number only",
     "at_least_10_characters": "At least 10 characters",
-    "at_least_8_characters": "At least 8 characters"
+    "at_least_8_characters": "At least 8 characters",
+    "no_valid_results_found": "No valid results  found"
   },
 
   "breadcrumd": {

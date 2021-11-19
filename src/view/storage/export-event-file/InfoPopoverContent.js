@@ -54,7 +54,7 @@ const InfoPopoverContent = (props) => {
                 </Col>
                 <Col span={1} />
                 <Col span={11}>
-                    <div className="title">{t('view.storage.file_name', { cam: t('camera') })}</div>
+                    <div className="title">{t('view.storage.camera_name', { cam: t('camera') })}</div>
                     <div>{props.fileCurrent.cameraName}</div>
                 </Col>
                 <Col span={12}>
