@@ -24,7 +24,7 @@ import lionSvcApi from "../../../api/lion/cameraApi";
 import playbackApi from "../../../api/playback/cameraApi";
 import imagePoster from "../../../assets/event/videoposter.png";
 import Notification from "../../../components/vms/notification/Notification";
-import { captureVideoFrame } from "../../../utility/vms/captureVideoFrame";
+import {captureVideoFrame} from "../../../utility/vms/captureVideoFrame";
 import { getBase64Text } from "../../../utility/vms/getBase64Text";
 import { NOTYFY_TYPE } from "../../common/vms/Constant";
 import Loading from "../../Loading";
@@ -63,6 +63,7 @@ const ExportEventFile = () => {
         nginx_host: '',
         blob: null,
         isSaved: false,
+        tBlob: null,
     }
 
     const { t } = useTranslation();
@@ -245,7 +246,14 @@ const ExportEventFile = () => {
             setFileCurrent({ ...file });
         }
         if (file.type === 1) {
-            setUrlSnapshot("data:image/jpeg;base64," + file.thumbnailData[0]);
+            //setUrlSnapshot("data:image/jpeg;base64," + file.thumbnailData[0]);
+            // Call Nginx to get blob data of file
+            await ExportEventFileApi.downloadFile(file.uuid+'.jpeg', file.type).then(async (result) => {
+                const blob = new Blob([result.data], { type: "octet/stream" });
+                getBase64Text(blob, async (image) => {
+                    setUrlSnapshot(image);
+                });
+            });
         } else {
             if (file.tableName === 'file') {
                 // Play file
@@ -457,11 +465,11 @@ const ExportEventFile = () => {
     const captureSnapshotHandler = () => {
         const isExistEl = listEventFiles.some(el => el.uuid === eventFileCurrent.uuid);
         if (!isExistEl && eventFileCurrent) {
-            const blob = captureVideoFrame(playerVideo.current, refCanvas.current, "jpeg").blob;
+            const {blob, tBlob}  = captureVideoFrame(playerVideo.current, refCanvas.current, "jpeg");
             const lstEf = [...listEventFiles];
             const fileName = setFileName(1);
             const uuid = uuidV4();
-            const newEventFile = { ...eventFileCurrent, uuid: uuid, type: 1, name: fileName, blob: blob }
+            const newEventFile = { ...eventFileCurrent, uuid: uuid, type: 1, name: fileName, blob: blob, tBlob: tBlob }
             lstEf.push(newEventFile);
             setFileCurrent(newEventFile);
             setListEventFiles([...lstEf]);
@@ -603,14 +611,14 @@ const ExportEventFile = () => {
                     try {
                         if (fileCurrent.tableName === 'file') {
                             // Call Nginx to get blob data of file
-                            await ExportEventFileApi.getFileData(fileCurrent.id, fileCurrent.fileType, fileCurrent.nginx_host).then(async (result) => {
+                            await ExportEventFileApi.downloadFileNginx(fileCurrent.id, fileCurrent.fileType, fileCurrent.nginx_host).then(async (result) => {
                                 const blob = new Blob([result.data], { type: "octet/stream" });
                                 const url = window.URL.createObjectURL(blob);
                                 saveAs(url, downloadFileName);
                             });
                         } else {
                             // Call Nginx to get blob data of file
-                            await ExportEventFileApi.getFileData(fileCurrent.id, fileCurrent.type, fileCurrent.nginx_host).then(async (result) => {
+                            await ExportEventFileApi.downloadFileNginx(fileCurrent.id, fileCurrent.type, fileCurrent.nginx_host).then(async (result) => {
                                 const blob = new Blob([result.data], { type: "octet/stream" });
                                 const url = window.URL.createObjectURL(blob);
                                 saveAs(url, downloadFileName);
@@ -714,7 +722,6 @@ const ExportEventFile = () => {
     };
 
     const editFileHandler = async (file, dataList, perStr) => {
-        debugger;
         let per = true;
         if (perStr !== '') {
             per = permissionCheck(perStr);
@@ -880,7 +887,7 @@ const ExportEventFile = () => {
     };
 
     const editEventFileHandler = async (eventFile, dataList) => {
-        let { blob, isSaved, ...requestObject } = eventFile; //Create requestObject without blob, isSaved fields
+        let { blob, tBlob, isSaved, ...requestObject } = eventFile; //Create requestObject without blob, isSaved fields
         requestObject = Object.assign({ ...requestObject, isSaved: true });
         const response = await ExportEventFileApi.updateEventFile(requestObject, requestObject.uuid);
         if (response) {
@@ -903,8 +910,8 @@ const ExportEventFile = () => {
         ExportEventFileApi.uploadFile(eventFile.uuid + ".jpeg", eventFile.blob).then(async (result) => {
             if (result.data && result.data.payload && result.data.payload.fileUploadInfoList.length > 0) {
                 let path = result.data.payload.fileUploadInfoList[0].path;
-                let { blob, isSaved, ...requestObject } = eventFile; //Create requestObject without blob, isSaved fields
-                getBase64Text(eventFile.blob, async (thumbnailData) => {
+                let { blob, tBlob, isSaved, ...requestObject } = eventFile; //Create requestObject without blob, isSaved fields
+                getBase64Text(eventFile.tBlob, async (thumbnailData) => {
                     requestObject = Object.assign({
                         ...requestObject,
                         pathFile: path,

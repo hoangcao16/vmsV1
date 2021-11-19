@@ -468,10 +468,17 @@ const TableFile = (props) => {
         props.onSearch(dataParam);
     };
 
-    const handleBlur = (event) => {
+    const handleQuickSearchBlur = (event) => {
         const value = event.target.value.trim();
         form.setFieldsValue({
             quickSearch: value
+        });
+    };
+
+    const handleAddressBlur = (event) => {
+        const value = event.target.value.trim();
+        form.setFieldsValue({
+            address: value
         });
     };
 
@@ -877,7 +884,7 @@ const TableFile = (props) => {
                                     <Form.Item name={["quickSearch"]} className='search__bar'>
                                         <AutoComplete
                                             maxLength={255}
-                                            onBlur={handleBlur}
+                                            onBlur={handleQuickSearchBlur}
                                             onSearch={debounce(onQuickSearchHandler, 1500)}
                                             placeholder={
                                                 <>
@@ -947,7 +954,10 @@ const TableFile = (props) => {
                         >
                             <Col span={16}>
                                 <Form.Item name={["address"]} rules={[{required: false}]}>
-                                    <Input placeholder={t('view.storage.street')} onChange={onChangeAddress}/>
+                                    <Input placeholder={t('view.storage.street')} onChange={onChangeAddress}
+                                           maxLength={255}
+                                           onBlur={handleAddressBlur}
+                                    />
                                 </Form.Item>
                             </Col>
                             <Col span={8}>
