@@ -3,7 +3,7 @@ import { Tooltip } from "antd";
 import classnames from "classnames";
 import React, { PureComponent } from "react";
 import { connect } from "react-redux";
-import { bindActionCreators } from "redux";
+import { reactLocalStorage } from 'reactjs-localstorage';
 import Customizer from "../components/@vuexy/customizer/Customizer";
 import {
   changeFooterType,
@@ -13,12 +13,10 @@ import {
   changeNavbarType,
   changeZoom,
   collapseSidebar,
-  hideScrollToTop,
+  hideScrollToTop
 } from "../redux/actions/customizer/index";
 import Footer from "./components/footer/Footer";
 import Sidebar from "./components/menu/vertical-menu/Sidebar";
-import { reactLocalStorage } from 'reactjs-localstorage';
-import { loopHooks } from "react-table";
 class VerticalLayout extends PureComponent {
   constructor(props) {
     super(props);

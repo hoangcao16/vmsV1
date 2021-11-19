@@ -19,23 +19,6 @@ const AIConfigScheduleApi = {
       return [];
     }
 
-    console.log(result)
-    return result.payload;
-  },
-  getConfigScheduleByUuid: async (uuid) => {
-    let result;
-
-    try {
-      result = await AIService.getRequestData(
-        `/api/v1/config_schedule/${uuid}`
-      );
-    } catch (error) {
-      console.log(error);
-    }
-    if (handleErrCodeAI(result) === null) {
-      return [];
-    }
-
     return result.payload;
   },
   addConfigSchedule: async (payload) => {
@@ -71,6 +54,7 @@ const AIConfigScheduleApi = {
     }
     return true;
   },
+  
   deleteConfigSchedule: async (uuid) => {
     let result;
     try {

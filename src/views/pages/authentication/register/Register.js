@@ -1,17 +1,10 @@
-import classnames from 'classnames';
 import React from 'react';
 import {
   Card,
   CardBody,
   CardHeader,
   CardTitle,
-  Col,
-  Nav,
-  NavItem,
-  NavLink,
-  Row,
-  TabContent,
-  TabPane
+  Col, Row
 } from 'reactstrap';
 import registerImg from '../../../../assets/img/pages/register.jpg';
 import '../../../../assets/scss/pages/authentication.scss';

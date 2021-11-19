@@ -55,11 +55,11 @@ const TableStorage = () => {
 
   useEffect(() => {
     if (
-      language == "vn"
+      language === "vn"
         ? (document.title = "CCTV | Lưu trữ")
         : (document.title = "CCTV | Archive")
     );
-  },[t]);
+  }, [t]);
 
   useEffect(() => {
     const params = {
@@ -248,8 +248,8 @@ const TableStorage = () => {
             >
               {hasSelected
                 ? `${t('view.storage.choose')} ${selectedRowKeys.length} ${t(
-                    'view.storage.record'
-                  )}`
+                  'view.storage.record'
+                )}`
                 : ''}
               <div className="setting--selected">
                 {hasSelected && (
@@ -317,8 +317,8 @@ const TableStorage = () => {
             >
               {hasSelected
                 ? `${t('view.storage.choose')} ${selectedRowKeys.length} ${t(
-                    'view.storage.record'
-                  )}`
+                  'view.storage.record'
+                )}`
                 : ''}
               <div className="setting--selected">
                 {hasSelected && (
@@ -383,8 +383,8 @@ const TableStorage = () => {
             >
               {hasSelected
                 ? `${t('view.storage.choose')} ${selectedRowKeys.length} ${t(
-                    'view.storage.record'
-                  )}`
+                  'view.storage.record'
+                )}`
                 : ''}
               <div className="setting--selected">
                 {hasSelected && (
@@ -452,8 +452,8 @@ const TableStorage = () => {
             >
               {hasSelected
                 ? `${t('view.storage.choose')} ${selectedRowKeys.length} ${t(
-                    'view.storage.record'
-                  )}`
+                  'view.storage.record'
+                )}`
                 : ''}
               <div className="setting--selected">
                 {hasSelected && (

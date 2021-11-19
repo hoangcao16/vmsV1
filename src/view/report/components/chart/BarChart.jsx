@@ -17,11 +17,11 @@ import ExportReport from './ExportReport';
 
 var randomColor = require('randomcolor');
 
-const monthTickFormatter = (tick) => {
-  const date = new Date(tick);
+// const monthTickFormatter = (tick) => {
+//   const date = new Date(tick);
 
-  return date.getMonth() + 1;
-};
+//   return date.getMonth() + 1;
+// };
 
 const renderQuarterTick = (tickProps) => {
   const { x, y, payload } = tickProps;
@@ -82,12 +82,12 @@ function BarChartComponent(props) {
           width={500}
           height={300}
           data={data}
-          // margin={{
-          //   top: 5,
-          //   right: 30,
-          //   left: 20,
-          //   bottom: 5
-          // }}
+        // margin={{
+        //   top: 5,
+        //   right: 30,
+        //   left: 20,
+        //   bottom: 5
+        // }}
         >
           <CartesianGrid strokeDasharray="3 3" />
           <XAxis dataKey="name" />
@@ -104,6 +104,7 @@ function BarChartComponent(props) {
           <YAxis />
           <Tooltip />
           <Legend />
+          <Bar dataKey={data.location}/>
 
           {dataConvert(data)}
         </BarChart>

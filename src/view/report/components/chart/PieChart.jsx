@@ -83,7 +83,7 @@ function PieChartComponents(props) {
 
   return (
     <>
-      {props.isShowLineAndPieChart && (
+      {props.isShowLineAndPieChart && props.changeCount.length > 1 && (
         <div className="PieChart">
           <div className="PieChart__title">
             <h3> BIỂU ĐỒ TỶ LỆ TÌNH HÌNH {props.title.toUpperCase()} </h3>
@@ -127,7 +127,8 @@ const mapStateToProps = (state) => ({
   chartData: state.chart.chartData,
   error: state.chart.error,
   title: state.chart.title,
-  isShowLineAndPieChart: state.chart.isShowLineAndPieChart
+  isShowLineAndPieChart: state.chart.isShowLineAndPieChart,
+  changeCount: state.chart.changeCount
 });
 
 const mapDispatchToProps = (dispatch) => {

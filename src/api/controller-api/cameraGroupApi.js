@@ -1,5 +1,5 @@
 import controllerApi from './api'
-import {handleErrCode} from "./code";
+import { handleErrCode } from "./code";
 
 const CAMERA_GROUP_ENDPOINT = '/cctv-controller-svc/api/v1/camera_groups'
 const cameraGroupApi = {
@@ -11,7 +11,6 @@ const cameraGroupApi = {
                 order_by: 'asc'
             }
             const allFilter = Object.assign({}, queryExtraParams, queryParams);
-            debugger
             controllerApi.axiosIns.get(CAMERA_GROUP_ENDPOINT, {
                 params: allFilter
             })
@@ -36,7 +35,7 @@ const cameraGroupApi = {
     },
     async createNew(cam) {
         const response = await new Promise((resolve, reject) => {
-            controllerApi.axiosIns.post(CAMERA_GROUP_ENDPOINT, {cam})
+            controllerApi.axiosIns.post(CAMERA_GROUP_ENDPOINT, { cam })
                 .then(response => resolve(response))
                 .catch(error => reject(error))
         })

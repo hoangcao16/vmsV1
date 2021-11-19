@@ -122,19 +122,19 @@ const TableCategory = () => {
     }
 
     if (dataType === CATEGORY_NAME.CAMERA_TYPE) {
-      name = 'Loại camera';
+      name = `${t('view.map.camera_type', { cam: t('camera') })}`;
     }
 
     if (dataType === CATEGORY_NAME.VENDOR) {
-      name = 'Hãng camera';
+      name = `${t('view.category.camera_vendor', { cam: t('camera') })}`;
     }
 
     if (dataType === CATEGORY_NAME.FIELD) {
-      name = 'Lĩnh vực';
+      name = `${t('view.category.field')}`;
     }
 
     if (dataType === CATEGORY_NAME.EVENT_TYPE) {
-      name = 'Loại sự kiện';
+      name = `${t('view.category.event_type')}`;
     }
 
     return (

@@ -27,10 +27,10 @@ const formItemLayout = {
   labelCol: { span: 24 },
 };
 
-const ModalEditScheduleConfig = (props) => {
+const ModalScheduleConfigCopy = (props) => {
 
   const { t } = useTranslation();
-  let { setShowModal, selectedHumansId, listTimes, handleCreateTimeConfig } = props;
+  let { setShowModalCopy, handleSubmit } = props;
   const [fieldData, setFieldData] = useState();
   const [name, setName] = useState("");
   const [form] = Form.useForm();
@@ -39,44 +39,7 @@ const ModalEditScheduleConfig = (props) => {
   const [checkAll, setCheckAll] = useState(false);
 
 
-  useEffect(() => {
-    const detail = {}
-    let i = 1;
 
-    listTimes && listTimes.map(item => {
-      const start = item.startTime * 1000
-      const end = item.endTime * 1000
-      const startTime = item.startTime ? moment().set('hour', moment(start).get('hour')).startOf('hour')
-        .set('minute', moment(start).get('minute')).startOf('minute').set('second', moment(start).get('second'))
-        .startOf('second') : "";
-      detail['start_' + i] = startTime
-      const endTime = item.endTime ? moment().set('hour', moment(end).get('hour')).startOf('hour')
-        .set('minute', moment(end).get('minute')).startOf('minute')
-        .set('second', moment(end).get('second')).startOf('second') : "";
-      detail['end_' + i] = endTime
-      i++
-    })
-    
-    setTimeDetails(detail)
-  }, [listTimes]);
-
-
-  const handleSubmit = async (value) => {
-    value.checkAll = checkAll
-    handleCreateTimeConfig(value)
-
-  };
-
-  function onChangeCheckBox(val) {
-    setCheckAll(val.target.checked)
-  }
-
-
-  if (isEmpty(timeDetails)) {
-
-    console.log('=================>timeDetails')
-    return <Spin />
-  }
 
   return (
     <>
@@ -85,7 +48,7 @@ const ModalEditScheduleConfig = (props) => {
         visible={true}
         // onOk={handleSubmit}
         onCancel={() => {
-          setShowModal(false)
+          setShowModalCopy(false)
         }}
         className='modal__edit--schedule_config'
         footer={null}
@@ -100,7 +63,7 @@ const ModalEditScheduleConfig = (props) => {
         >
 
           
-          <Row gutter={24}>
+          {/* <Row gutter={24}>
             <Col span={8}>
               <label className="optionTitle">{t('view.report.date_range')} </label>
             </Col>
@@ -168,10 +131,10 @@ const ModalEditScheduleConfig = (props) => {
                   onChange={onChangeCheckBox}
                 >{t('view.ai_config.all_day')}</Checkbox>
               </Form.Item>
-          </Row>
+          </Row> */}
 
           <div className="footer__modal">
-            <Button onClick={() => { setShowModal(false) }}>Đóng</Button>
+            <Button onClick={() => { setShowModalCopy(false) }}>Đóng</Button>
             <Button htmlType="submit">Lưu</Button>
 
           </div>
@@ -186,4 +149,4 @@ async function getHumansByUuid(selectedHumansId) {
   return dataEdit;
 }
 
-export default ModalEditScheduleConfig;
+export default ModalScheduleConfigCopy;

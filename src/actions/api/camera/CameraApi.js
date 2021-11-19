@@ -7,25 +7,25 @@ import MyService from '../service';
 import Notification from './../../../components/vms/notification/Notification';
 const CameraApi = {
   getAllCamera: async (dataSearch) => {
-    const data = {
-      ...dataSearch,
-      provinceId:
-        dataSearch?.provinceId === undefined ? '' : dataSearch?.provinceId,
-      districtId:
-        dataSearch?.districtId === undefined ? '' : dataSearch?.districtId,
-      id: dataSearch?.id === undefined ? '' : dataSearch?.id,
-      administrativeUnitUuid:
-        dataSearch?.administrativeUnitUuid === undefined
-          ? ''
-          : dataSearch?.administrativeUnitUuid,
-      vendorUuid:
-        dataSearch?.vendorUuid === undefined ? '' : dataSearch?.vendorUuid,
-      status: dataSearch?.status === undefined ? '' : dataSearch?.status,
-      cameraGroupUuid:
-        dataSearch?.cameraGroupUuid === undefined
-          ? ''
-          : dataSearch?.cameraGroupUuid
-    };
+    // const data = {
+    //   ...dataSearch,
+    //   provinceId:
+    //     dataSearch?.provinceId === undefined ? '' : dataSearch?.provinceId,
+    //   districtId:
+    //     dataSearch?.districtId === undefined ? '' : dataSearch?.districtId,
+    //   id: dataSearch?.id === undefined ? '' : dataSearch?.id,
+    //   administrativeUnitUuid:
+    //     dataSearch?.administrativeUnitUuid === undefined
+    //       ? ''
+    //       : dataSearch?.administrativeUnitUuid,
+    //   vendorUuid:
+    //     dataSearch?.vendorUuid === undefined ? '' : dataSearch?.vendorUuid,
+    //   status: dataSearch?.status === undefined ? '' : dataSearch?.status,
+    //   cameraGroupUuid:
+    //     dataSearch?.cameraGroupUuid === undefined
+    //       ? ''
+    //       : dataSearch?.cameraGroupUuid
+    // };
 
     let result;
 
@@ -64,7 +64,7 @@ const CameraApi = {
 
     try {
       result = await MyService.getRequestData(
-        '/owl/api/v1/camera/get-report-camera'
+        '/owl/api/v1/get-report-camera'
       );
     } catch (error) {
       console.log(JSON.stringify(error));
@@ -75,24 +75,6 @@ const CameraApi = {
     }
 
     return result.responseList;
-  },
-  getChartData: async (body) => {
-    let result;
-
-    try {
-      result = await MyService.postRequestData(
-        '/owl/api/v1/camera/get-chart',
-        body
-      );
-    } catch (error) {
-      console.log(JSON.stringify(error));
-    }
-
-    if (handleErrCodeReport(result) === null) {
-      return [];
-    }
-
-    return result.payload;
   },
 
   getAllCameraWidthTotal: async (dataSearch) => {

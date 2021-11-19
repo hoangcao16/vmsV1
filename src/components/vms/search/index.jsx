@@ -1,4 +1,4 @@
-import React, {useState} from 'react'
+import React, { useState } from 'react'
 import { Input, Space, Button } from "antd";
 import { SearchOutlined, FilterOutlined } from "@ant-design/icons";
 
@@ -10,20 +10,20 @@ const Search = ({ onPressEnter, toggleOpenFilter, searchValue }) => {
   const [search, setSearch] = useState(searchValue);
   const handleChange = (e) => {
     const value = e.target.value;
-    if(value === '') {
+    if (value === '') {
       onPressEnter(value);
     }
     setSearch(value)
   }
   return (
-    <Space className="search-input">
+    <Space className="search-input" style={{ justifyContent: 'space-between' }}>
       <Input
         value={search}
         className="search-input__item"
         placeholder={t('view.map.search')}
         onPressEnter={(e) => onPressEnter(e.target.value)}
         onChange={handleChange}
-        suffix={<SearchOutlined onClick={() => onPressEnter(search)}/>}
+        suffix={<SearchOutlined onClick={() => onPressEnter(search)} />}
       />
       {toggleOpenFilter && <Button
         onClick={toggleOpenFilter}

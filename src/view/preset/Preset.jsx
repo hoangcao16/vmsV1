@@ -6,30 +6,26 @@ import {
     EyeOutlined,
     LeftOutlined,
     MenuOutlined,
-    MinusOutlined,
-    PlusOutlined,
+    MinusOutlined, PlayCircleOutlined, PlusOutlined,
     RightOutlined,
-    UpOutlined,
-    PlayCircleOutlined
+    UpOutlined
 } from "@ant-design/icons";
 import { AutoComplete, Button, Image, Space, Spin, Table } from "antd";
 import { arrayMoveImmutable } from "array-move";
 import React, { useEffect, useLayoutEffect, useState } from "react";
-import { AiOutlinePlaySquare } from "react-icons/all";
+import { useTranslation } from 'react-i18next';
 import {
     sortableContainer,
     sortableElement,
-    sortableHandle,
+    sortableHandle
 } from "react-sortable-hoc";
 import playCamApi from "../../api/camproxy/cameraApi";
 import ptzControllerApi from "../../api/ptz/ptzController";
 import arrow from "../../assets/img/icons/preset/arrow.png";
-import controlIcon from "../../assets/img/icons/preset/control.png";
 import Notification from "../../components/vms/notification/Notification";
 import getServerCamproxyForPlay from "../../utility/vms/camera";
 import { NOTYFY_TYPE } from "../common/vms/Constant";
 import "./Preset.scss";
-import { useTranslation } from 'react-i18next';
 
 const Preset = (props) => {
     const { idCamera } = props;
@@ -155,7 +151,6 @@ const Preset = (props) => {
 
     //cho viec xoa preset set lam anh huong den preset tour
     useEffect(() => {
-        console.log('useEffect:rowsPreset:', rowsPreset.length)
         if (isDeletePreset) {
             const valueSelect = document.getElementById("choose__preset-tour").value;
 
@@ -182,8 +177,6 @@ const Preset = (props) => {
 
     }, [rowsPreset.length]);
     useEffect(() => {
-        console.log('bye')
-
         if (isPlayCamera) {
             playCameraOnline(idCamera)
         } else {
@@ -265,12 +258,12 @@ const Preset = (props) => {
         const index = presetTourDatas[indexPresetTourChoosed]?.listPoint.findIndex(
             (x) => x.index === restProps["data-row-key"]
         );
+        console.log('object', index)
         return <SortableItem index={index} {...restProps} />;
     };
     //end: for sort
 
     const playCameraOnline = async (camUuid) => {
-        console.log('playCameraOnline:', camUuid)
         if (camUuid === "" || camUuid == null) {
             Notification({
                 type: NOTYFY_TYPE.warning,
@@ -314,9 +307,7 @@ const Preset = (props) => {
         })
             .then((offer) => {
                 spin.style.display = "block";
-                pc.setLocalDescription(offer).then((r) => {
-                    console.log("set local description", r);
-                });
+                pc.setLocalDescription(offer)
                 //call api
                 playCamApi
                     .playCamera(API, {
@@ -364,8 +355,7 @@ const Preset = (props) => {
         };
         try {
             setIsActionStart(true)
-
-            const isPost = await ptzControllerApi.postPan(payload);
+            ptzControllerApi.postPan(payload);
         } catch (error) {
             console.log(error);
         }
@@ -380,7 +370,7 @@ const Preset = (props) => {
         };
         try {
             if (isActionIsStart) {
-                const isPost = await ptzControllerApi.postPan(payload);
+                ptzControllerApi.postPan(payload);
                 setIsActionStart(false)
             }
         } catch (error) {
@@ -397,7 +387,7 @@ const Preset = (props) => {
         };
         try {
             setIsActionStart(true)
-            const isPost = await ptzControllerApi.postPan(payload);
+            ptzControllerApi.postPan(payload);
         } catch (error) {
             console.log(error);
         }
@@ -412,7 +402,7 @@ const Preset = (props) => {
         };
         try {
             if (isActionIsStart) {
-                const isPost = await ptzControllerApi.postPan(payload);
+                ptzControllerApi.postPan(payload);
                 setIsActionStart(false)
             }
         } catch (error) {
@@ -429,7 +419,7 @@ const Preset = (props) => {
         };
         try {
             setIsActionStart(true)
-            const isPost = await ptzControllerApi.postTilt(payload);
+            ptzControllerApi.postTilt(payload);
         } catch (error) {
             console.log(error);
         }
@@ -444,7 +434,7 @@ const Preset = (props) => {
         };
         try {
             if (isActionIsStart) {
-                const isPost = await ptzControllerApi.postTilt(payload);
+                ptzControllerApi.postTilt(payload);
                 setIsActionStart(false)
             }
         } catch (error) {
@@ -461,7 +451,7 @@ const Preset = (props) => {
         };
         try {
             setIsActionStart(true)
-            const isPost = await ptzControllerApi.postTilt(payload);
+            ptzControllerApi.postTilt(payload);
         } catch (error) {
             console.log(error);
         }
@@ -476,7 +466,7 @@ const Preset = (props) => {
         };
         try {
             if (isActionIsStart) {
-                const isPost = await ptzControllerApi.postTilt(payload);
+                ptzControllerApi.postTilt(payload);
                 setIsActionStart(false)
             }
         } catch (error) {
@@ -493,7 +483,7 @@ const Preset = (props) => {
         };
         try {
             setIsActionStart(true)
-            const isPost = await ptzControllerApi.postZoom(payload);
+            ptzControllerApi.postZoom(payload);
         } catch (error) {
             console.log(error);
         }
@@ -508,7 +498,7 @@ const Preset = (props) => {
         };
         try {
             if (isActionIsStart) {
-                const isPost = await ptzControllerApi.postZoom(payload);
+                ptzControllerApi.postZoom(payload);
                 setIsActionStart(false)
             }
         } catch (error) {
@@ -525,7 +515,7 @@ const Preset = (props) => {
         };
         try {
             setIsActionStart(true)
-            const isPost = await ptzControllerApi.postZoom(payload);
+            ptzControllerApi.postZoom(payload);
         } catch (error) {
             console.log(error);
         }
@@ -539,7 +529,7 @@ const Preset = (props) => {
         };
         try {
             if (isActionIsStart) {
-                const isPost = await ptzControllerApi.postZoom(payload);
+                ptzControllerApi.postZoom(payload);
                 setIsActionStart(false)
             }
         } catch (error) {
@@ -697,7 +687,6 @@ const Preset = (props) => {
             for (let item of datas) {
                 newListPoint.push(item);
             }
-            console.log("newlistpoint", newListPoint);
             const convertListPoint = newListPoint.map((point, index) => {
                 return {
                     index: index,
@@ -1120,7 +1109,7 @@ const Preset = (props) => {
 
     const presetTourSelect = [];
     for (let item of presetTourDatas) {
-        presetTourSelect.push(<option value={item.index}>{item.name}</option>);
+        presetTourSelect.push(<option key={item.index} value={item.index}>{item.name}</option>);
     }
     return (
         <div className='preset__container'>
@@ -1227,8 +1216,9 @@ const Preset = (props) => {
                         onChange={(e) => {
                             onChangeOptionSetPresetInPresetTour(e);
                         }}
+                        defaultValue=''
                     >
-                        <option value='' selected hidden disabled>
+                        <option value='' hidden disabled>
                             {t('view.live.add_new_or_edit_preset_tour')}
                         </option>
                         <optgroup label={t('view.live.add_new_preset_tour')}>

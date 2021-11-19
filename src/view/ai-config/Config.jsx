@@ -43,6 +43,7 @@ import Timeline, {
   DateHeader
 } from "react-calendar-timeline/lib";
 import moment from 'moment'
+import TabSchedule from './TabSchedule';
 const { TabPane } = Tabs;
 
 
@@ -65,7 +66,7 @@ const Config = () => {
   const [total, setTotal] = useState(0);
   const [checkStatus, setCheckStatus] = useState(false);
   const [listCameras, setListCameras] = useState([]);
-  const [cameraUuid, setCameraUuid] = useState("2c57a9a9-97a8-4048-af62-98068757f5cd");
+  const [cameraUuid, setCameraUuid] = useState("");
   const [page, setPage] = useState(1);
   const [pageSize, setPageSize] = useState(10);
   const [listDetail, setListDetail] = useState(10);
@@ -77,6 +78,9 @@ const Config = () => {
   const [listTimes5, setListTimes5] = useState([]);
   const [listTimes6, setListTimes6] = useState([]);
   const [listTimes7, setListTimes7] = useState([]);
+  const [data, setData] = useState(false);
+  const [selectDay, setSelectDay] = useState("");
+
 
   useEffect(() => {
     if (
@@ -84,9 +88,7 @@ const Config = () => {
         ? (document.title = 'CCTV | Quản lý sự kiện thông minh')
         : (document.title = 'CCTV | AI Config Management')
     );
-  }, []);
-
-  useEffect(() => {
+    
     const data = {
       page: page,
       pageSize: pageSize
@@ -99,15 +101,22 @@ const Config = () => {
   useEffect(() => {
     const data = {
       type: '',
-      cameraUuid: "2c57a9a9-97a8-4048-af62-98068757f5cd"
+      cameraUuid: cameraUuid
     };
     AIConfigScheduleApi.getAllConfigSchedule(data).then((result) => {
-      const itemList = [];
-      let i = 1;
-      setListTimesCN(result?.sunday)
-      result?.sunday && result.sunday.map(item => {
-        const start = item.startTime*1000
-        const end = item.endTime*1000
+      setData(result)
+      setDefaultData(result)
+    });
+  }, [cameraUuid]);
+
+
+  function setDefaultData(data) {
+    const itemList = [];
+    let i = 1;
+    setListTimesCN(data?.sunday)
+    data?.sunday && data.sunday.map(item => {
+        const start = item.startTime * 1000
+        const end = item.endTime * 1000
         itemList.push({
           id: i,
           group: 1,
@@ -120,10 +129,10 @@ const Config = () => {
         })
         i++
       })
-      setListTimes2(result?.monday)
-      result?.monday && result.monday.map(item => {
-        const start = item.startTime*1000
-        const end = item.endTime*1000
+      setListTimes2(data?.monday)
+      data?.monday && data.monday.map(item => {
+        const start = item.startTime * 1000
+        const end = item.endTime * 1000
         itemList.push({
           id: i,
           group: 2,
@@ -136,10 +145,10 @@ const Config = () => {
         })
         i++
       })
-      setListTimes3(result?.tuesday)
-      result?.tuesday && result.tuesday.map(item => {
-        const start = item.startTime*1000
-        const end = item.endTime*1000
+      setListTimes3(data?.tuesday)
+      data?.tuesday && data.tuesday.map(item => {
+        const start = item.startTime * 1000
+        const end = item.endTime * 1000
         itemList.push({
           id: i,
           group: 3,
@@ -152,10 +161,10 @@ const Config = () => {
         })
         i++
       })
-      setListTimes4(result?.wednesday)
-      result?.wednesday && result.wednesday.map(item => {
-        const start = item.startTime*1000
-        const end = item.endTime*1000
+      setListTimes4(data?.wednesday)
+      data?.wednesday && data.wednesday.map(item => {
+        const start = item.startTime * 1000
+        const end = item.endTime * 1000
         itemList.push({
           id: i,
           group: 4,
@@ -168,10 +177,10 @@ const Config = () => {
         })
         i++
       })
-      setListTimes5(result?.thursday)
-      result?.thursday && result.thursday.map(item => {
-        const start = item.startTime*1000
-        const end = item.endTime*1000
+      setListTimes5(data?.thursday)
+      data?.thursday && data.thursday.map(item => {
+        const start = item.startTime * 1000
+        const end = item.endTime * 1000
         itemList.push({
           id: i,
           group: 5,
@@ -184,10 +193,10 @@ const Config = () => {
         })
         i++
       })
-      setListTimes6(result?.friday)
-      result?.friday && result.friday.map(item => {
-        const start = item.startTime*1000
-        const end = item.endTime*1000
+      setListTimes6(data?.friday)
+      data?.friday && data.friday.map(item => {
+        const start = item.startTime * 1000
+        const end = item.endTime * 1000
         itemList.push({
           id: i,
           group: 6,
@@ -200,10 +209,10 @@ const Config = () => {
         })
         i++
       })
-      setListTimes7(result?.saturday)
-      result?.saturday && result.saturday.map(item => {
-        const start = item.startTime*1000
-        const end = item.endTime*1000
+      setListTimes7(data?.saturday)
+      data?.saturday && data.saturday.map(item => {
+        const start = item.startTime * 1000
+        const end = item.endTime * 1000
         itemList.push({
           id: i,
           group: 7,
@@ -217,8 +226,7 @@ const Config = () => {
         i++
       })
       setListDetail(itemList)
-    });
-  }, [cameraUuid]);
+  }
 
   function onSearch(val) {
     console.log('search:', val);
@@ -227,74 +235,40 @@ const Config = () => {
     setCheckStatus(val.target.checked)
   }
 
+  const getTimeLong = (start_m, end_m) => {
+    if (start_m && end_m) {
+      const start = moment([2021, 1, 1, start_m.get('hour'), start_m.get('minute'), start_m.get('second'), start_m.get('millisecond')])
+      const end = moment([2021, 1, 1, end_m.get('hour'), end_m.get('minute'), end_m.get('second'), end_m.get('millisecond')])
+      return {
+        startTime: start.unix(),
+        endTime: end.unix()
+      }
+    }
 
+  }
 
+  const handleSubmit = async () => {
+    const payload = {
+      ...data
+    };
 
-  const groups = [
-    {
-      id: 1, title: 'Chủ nhật', bgColor: 'white', rightTitle: <EditOutlined
-        style={{ fontSize: '16px', color: '#6E6B7B' }}
-        onClick={() => {
-          setListTimes(listTimesCN)
-          setShowModal(true);
-        }}
-      />,
-    },
-    {
-      id: 2, title: 'Thứ hai', bgColor: 'white', rightTitle: <EditOutlined
-        style={{ fontSize: '16px', color: '#6E6B7B' }}
-        onClick={() => {
-          setListTimes(listTimes2)
-          setShowModal(true);
-        }}
-      />,
-    },
-    {
-      id: 3, title: 'Thứ ba', bgColor: 'white', rightTitle: <EditOutlined
-        style={{ fontSize: '16px', color: '#6E6B7B' }}
-        onClick={() => {
-          setListTimes(listTimes3)
-          setShowModal(true);
-        }}
-      />,
-    },
-    {
-      id: 4, title: 'Thứ tư', bgColor: 'white', rightTitle: <EditOutlined
-        style={{ fontSize: '16px', color: '#6E6B7B' }}
-        onClick={() => {
-          setListTimes(listTimes4)
-          setShowModal(true);
-        }}
-      />,
-    },
-    {
-      id: 5, title: 'Thứ năm', bgColor: 'white', rightTitle: <EditOutlined
-        style={{ fontSize: '16px', color: '#6E6B7B' }}
-        onClick={() => {
-          setListTimes(listTimes5)
-          setShowModal(true);
-        }}
-      />,
-    },
-    {
-      id: 6, title: 'Thứ sáu', bgColor: 'white', rightTitle: <EditOutlined
-        style={{ fontSize: '16px', color: '#6E6B7B' }}
-        onClick={() => {
-          setListTimes(listTimes6)
-          setShowModal(true);
-        }}
-      />,
-    },
-    {
-      id: 7, title: 'Thứ bảy', bgColor: 'white', rightTitle: <EditOutlined
-        style={{ fontSize: '16px', color: '#6E6B7B' }}
-        onClick={() => {
-          setListTimes(listTimes7)
-          setShowModal(true);
-        }}
-      />,
-    },
-  ]
+    try {
+      let isPost = await AIConfigScheduleApi.addConfigSchedule(payload);
+
+        if (isPost) {
+          const notifyMess = {
+            type: "success",
+            title: "Thành công",
+            description: `Bạn đã add thành công`,
+          };
+          Notification(notifyMess);
+          setShowModal(false)
+        }
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
 
   function onChangeSelect(selected) {
     setCameraUuid(selected)
@@ -348,7 +322,7 @@ const Config = () => {
 
 
   return (
-    <div className="tabs__container--category">
+    <div className="tabs__container--ai_config">
       <Breadcrumds
         url="/app/setting"
         nameParent={t('breadcrumd.setting')}
@@ -377,69 +351,18 @@ const Config = () => {
       <div className="tabs__container--store">
         <Tabs type="card">
           <TabPane tab={t('view.ai_config.hurdles_events')} key="1">
+          <TabSchedule cameraUuid={cameraUuid} type="hurdles_events"></TabSchedule>
           </TabPane>
-          <TabPane tab={t('view.ai_config.intrusion_detection_events')} key="2">
+          <TabPane tab={t('view.ai_config.intrusion_detection_events')} key="2" width='480px'>
+          <TabSchedule cameraUuid={cameraUuid} type="intrusion_detection_events"></TabSchedule>
           </TabPane>
           <TabPane tab={t('view.ai_config.attendance_events')} key="3">
+            <TabSchedule cameraUuid={cameraUuid} type="attendance_events"></TabSchedule>
           </TabPane>
         </Tabs>
       </div>
 
-      <div className="tabs__container--store">
-        <Checkbox onChange={onChangeCheckBox} checked={checkStatus}>Checkbox</Checkbox>
-      </div>
-
-
-
-      <Card
-        bodyStyle={bodyStyleCard}
-        headStyle={headStyleCard}
-        className="card--category"
-      // headStyle={{ padding: 30 }}
-      >
-        <div className="tabs__container--store" >
-          <Tabs type="card" >
-            <TabPane tab={t('view.ai_config.area_config')} key="1">
-              {/* Content of Tab Pane 1 */}
-            </TabPane>
-            <TabPane tab={t('view.ai_config.schedule_config')} key="2">
-              <Timeline
-                style={{ color: 'white', marginTop: '20px', marginBottom: '20px' }}
-                groups={groups}
-                items={listDetail}
-                defaultTimeStart={moment([2021, 1, 1, 0, 0, 0, 0])}
-                defaultTimeEnd={moment([2021, 1, 1, 23, 59, 59, 999])}
-                visibleTimeStart={moment([2021, 1, 1, 0, 0, 0, 0])}
-                visibleTimeEnd={moment([2021, 1, 1, 23, 59, 59, 999])}
-                rightSidebarWidth={30}
-                rightSidebarContent={<div>Above The Right</div>}
-                canResize={false}
-                useResizeHandle={false}
-              />
-            </TabPane>
-          </Tabs>
-        </div>
-        <div className="footer__modal">
-          <Button type="primary" htmlType="submit ">
-            {t('view.user.detail_list.confirm')}
-          </Button>
-          <Button
-            onClick={() => {
-              setShowModal(true);
-            }}
-          >
-            {t('view.camera.close')}
-          </Button>
-        </div>
-      </Card>
-      {showModal &&
-        <ModalEditScheduleConfig
-          listTimes={listTimes}
-          selectedHumansId={selectedHumansId}
-          setShowModal={setShowModal}
-        />
-
-      }
+      
 
 
     </div>

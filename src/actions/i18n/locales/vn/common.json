@@ -278,7 +278,14 @@
       "len": "Độ dài",
       "time_start_record": "Thời gian bắt đầu ghi hình",
       "time_end_record": "Thời gian kết thúc ghi hình",
-      "tick": "Đánh dấu tệp quan trọng"
+      "tick": "Đánh dấu tệp quan trọng",
+      "org": "Xem tệp gốc",
+      "view_information": "Xem thông tin tệp",
+      "download_file": "Tải tệp",
+      "cut_file": "Cắt tệp",
+      "capture_snapshot": "Chụp ảnh",
+      "delete": "Xóa tệp",
+      "set_event": "Gán sự kiện"
     },
     "user": {
       "record": "Ghi hình",
@@ -392,7 +399,12 @@
       "attendance_events" : "Điểm danh",
       "schedule_config": "Thiết lập lịch trình",
       "area_config": "Thiết lập Khu vực",
-      "time_config": "Cài đặt thời gian"
+      "time_config": "Cài đặt thời gian",
+      "activate_attendance_events": "Kích hoạt tính năng điểm danh",
+      "activate_hurdles": "Kích hoạt tính năng phát hiện vượt rào ảo",
+      "activate_intrusion_detection_events": "Kích hoạt tính năng phát hiện xâm nhập",
+      "all_day": "Áp dụng cho tất cả các ngày trong tuần",
+      "apply": "Áp dụng"
     }
   },
   "noti": {

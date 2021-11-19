@@ -38,7 +38,7 @@
         border-radius: 6px;
 
         input {
-          background-color: $vms-bg-sub !important;
+          // background-color: $vms-bg-sub !important;
 
           // background-color: $vms-bg-primary !important;
           &::placeholder {
@@ -52,7 +52,7 @@
         select {
           height: 100%;
           width: 100%;
-          background-color: $vms-bg-sub;
+          // background-color: $vms-bg-sub;
           border-radius: 6px;
           padding: 8px;
           color: $vms-status;
@@ -100,6 +100,9 @@
           color: $vms-status;
         }
       }
+    }
+    .ant-picker{
+      width: 100%;
     }
   }
 }

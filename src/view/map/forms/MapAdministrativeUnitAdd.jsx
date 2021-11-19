@@ -1,31 +1,27 @@
-import React, { useEffect, useState } from "react";
-
+import { LoadingOutlined, PlusOutlined } from "@ant-design/icons";
 import {
     Button,
     Col,
     Form,
     Input,
     Row,
-    Select,
-    Upload,
-    message,
-    Space,
+    Select, Space, Upload
 } from "antd";
+import React, { useEffect, useState } from "react";
+import { useTranslation } from 'react-i18next';
+import validator from 'validator';
+import { AdministrativeUnitType } from "../../../@core/common/common";
 import AddressApi from "../../../actions/api/address/AddressApi";
 import AdDivisionApi from "../../../actions/api/advision/AdDivision";
-import { LoadingOutlined, PlusOutlined } from "@ant-design/icons";
 import cameraTypeApi from "../../../api/controller-api/cameraTypeApi";
 import vendorApi from "../../../api/controller-api/vendorApi";
-import { AdministrativeUnitType } from "../../../@core/common/common";
+import zoneApi from "../../../api/controller-api/zoneApi";
+import useHandleUploadFile from "../../../hooks/useHandleUploadFile";
 import {
     filterOption,
-    normalizeOptions,
+    normalizeOptions
 } from "../../common/select/CustomSelect";
-import zoneApi from "../../../api/controller-api/zoneApi";
-import validator from 'validator';
-import Notification from "../../../components/vms/notification/Notification";
-import useHandleUploadFile from "../../../hooks/useHandleUploadFile";
-import { useTranslation } from 'react-i18next';
+
 
 const { Dragger } = Upload;
 async function fetchSelectOptions() {

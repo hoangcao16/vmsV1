@@ -65,9 +65,6 @@
 
       .ant-table-tbody {
         border-radius: 0 0 12px 12px;
-        .ant-table-row:hover td {
-          background: #1380ff;
-      }
         tr {
           td.ant-table-cell {
             background-color: $vms-bg-primary;

@@ -1,13 +1,12 @@
-import React, { useRef, useState, useEffect } from "react";
 import { Modal } from "antd";
-import ControlPanel from "./ControlPanel";
 import DragM from "dragm";
+import React, { useEffect, useRef, useState } from "react";
 import ptzControllerApi from "../../../api/ptz/ptzController";
-import Notification from "../../../components/vms/notification/Notification";
-import { NOTYFY_TYPE } from "../../common/vms/Constant";
+import ControlPanel from "./ControlPanel";
 import "./ModalControlPanel.scss";
 const ModalPanel = ({ isOpen, onCloseModal, idCamera }) => {
   const [zoomPercent, setZoomPercent] = useState(30);
+  const [isActionStart, setIsActionStart] = useState(false)
 
   const onPanLeftStart = async () => {
     const payload = {
@@ -17,7 +16,9 @@ const ModalPanel = ({ isOpen, onCloseModal, idCamera }) => {
       speed: 1,
     };
     try {
-      const isPost = await ptzControllerApi.postPan(payload);
+      setIsActionStart(true)
+
+      ptzControllerApi.postPan(payload);
     } catch (error) {
       console.log(error);
     }
@@ -31,7 +32,10 @@ const ModalPanel = ({ isOpen, onCloseModal, idCamera }) => {
       speed: 1,
     };
     try {
-      const isPost = await ptzControllerApi.postPan(payload);
+      if (isActionStart) {
+        ptzControllerApi.postPan(payload);
+        setIsActionStart(false)
+      }
     } catch (error) {
       console.log(error);
     }
@@ -45,7 +49,9 @@ const ModalPanel = ({ isOpen, onCloseModal, idCamera }) => {
       speed: 1,
     };
     try {
-      const isPost = await ptzControllerApi.postPan(payload);
+      setIsActionStart(true)
+
+      ptzControllerApi.postPan(payload);
     } catch (error) {
       console.log(error);
     }
@@ -59,7 +65,10 @@ const ModalPanel = ({ isOpen, onCloseModal, idCamera }) => {
       speed: 1,
     };
     try {
-      const isPost = await ptzControllerApi.postPan(payload);
+      if (isActionStart) {
+        ptzControllerApi.postPan(payload);
+        setIsActionStart(false)
+      }
     } catch (error) {
       console.log(error);
     }
@@ -73,7 +82,9 @@ const ModalPanel = ({ isOpen, onCloseModal, idCamera }) => {
       speed: 1,
     };
     try {
-      const isPost = await ptzControllerApi.postTilt(payload);
+      setIsActionStart(true)
+
+      ptzControllerApi.postTilt(payload);
     } catch (error) {
       console.log(error);
     }
@@ -87,7 +98,10 @@ const ModalPanel = ({ isOpen, onCloseModal, idCamera }) => {
       speed: 1,
     };
     try {
-      const isPost = await ptzControllerApi.postTilt(payload);
+      if (isActionStart) {
+        ptzControllerApi.postTilt(payload);
+        setIsActionStart(false)
+      }
     } catch (error) {
       console.log(error);
     }
@@ -101,7 +115,9 @@ const ModalPanel = ({ isOpen, onCloseModal, idCamera }) => {
       speed: 1,
     };
     try {
-      const isPost = await ptzControllerApi.postTilt(payload);
+      setIsActionStart(true)
+
+      ptzControllerApi.postTilt(payload);
     } catch (error) {
       console.log(error);
     }
@@ -115,7 +131,10 @@ const ModalPanel = ({ isOpen, onCloseModal, idCamera }) => {
       speed: 1,
     };
     try {
-      const isPost = await ptzControllerApi.postTilt(payload);
+      if (isActionStart) {
+        ptzControllerApi.postTilt(payload);
+        setIsActionStart(false)
+      }
     } catch (error) {
       console.log(error);
     }
@@ -129,7 +148,9 @@ const ModalPanel = ({ isOpen, onCloseModal, idCamera }) => {
       speed: 1,
     };
     try {
-      const isPost = await ptzControllerApi.postZoom(payload);
+      setIsActionStart(true)
+
+      ptzControllerApi.postZoom(payload);
     } catch (error) {
       console.log(error);
     }
@@ -143,7 +164,10 @@ const ModalPanel = ({ isOpen, onCloseModal, idCamera }) => {
       speed: 1,
     };
     try {
-      const isPost = await ptzControllerApi.postZoom(payload);
+      if (isActionStart) {
+        ptzControllerApi.postZoom(payload);
+        setIsActionStart(false)
+      }
     } catch (error) {
       console.log(error);
     }
@@ -157,7 +181,9 @@ const ModalPanel = ({ isOpen, onCloseModal, idCamera }) => {
       speed: 1,
     };
     try {
-      const isPost = await ptzControllerApi.postZoom(payload);
+      setIsActionStart(true)
+
+      ptzControllerApi.postZoom(payload);
     } catch (error) {
       console.log(error);
     }
@@ -171,7 +197,10 @@ const ModalPanel = ({ isOpen, onCloseModal, idCamera }) => {
       speed: 1,
     };
     try {
-      const isPost = await ptzControllerApi.postZoom(payload);
+      if (isActionStart) {
+        ptzControllerApi.postZoom(payload);
+        setIsActionStart(false)
+      }
     } catch (error) {
       console.log(error);
     }

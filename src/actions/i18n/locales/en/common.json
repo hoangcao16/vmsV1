@@ -287,7 +287,14 @@
       "len": "Length",
       "time_start_record": "Time starting record",
       "time_end_record": "Time ending record",
-      "tick": "Tick important file"
+      "tick": "Tick important file",
+      "org": "View original file",
+      "view_information": "View file information",
+      "download_file": "Download file",
+      "cut_file": "Cut file",
+      "capture_snapshot": "Capture snapshot",
+      "delete": "Delete file",
+      "set_event": "Set event"
     },
 
     "user": {
@@ -403,7 +410,12 @@
       "attendance_events" : "Attendance Events",
       "schedule_config": "Schedule Config",
       "area_config": "Area onfig",
-      "time_config": "Time onfig"
+      "time_config": "Time onfig",
+      "activate_attendance_events": "Activate Attendance Events",
+      "activate_hurdles": "Activate Hurdles",
+      "activate_intrusion_detection_events": "Activate Intrusion Detection Events ",
+      "all_day": "All day",
+      "apply": "Apply"
     }
   },
 

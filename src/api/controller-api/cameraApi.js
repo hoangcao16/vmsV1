@@ -1,13 +1,12 @@
 import controllerApi from './api'
 import axios from 'axios'
-import {handleErrCode} from "./code";
+import { handleErrCode } from "./code";
 const CAMERA_ENDPOINT = '/cctv-controller-svc/api/v1/cameras';
-const CAMERA_SEARCH_ENDPOINT ='/cctv-controller-svc/api/v1/cameras/search';
-const CAMERA_BY_TRACKING_POINT ='/cctv-controller-svc/api/v1/cameras/find_by_points';
+const CAMERA_SEARCH_ENDPOINT = '/cctv-controller-svc/api/v1/cameras/search';
+const CAMERA_BY_TRACKING_POINT = '/cctv-controller-svc/api/v1/cameras/find_by_points';
 const cameraApi = {
     async getAll(queryParams) {
         const response = await new Promise((resolve, reject) => {
-            console.log('getAll:', queryParams)
             controllerApi.axiosIns.get(CAMERA_ENDPOINT, {
                 params: queryParams,
             })
@@ -23,7 +22,6 @@ const cameraApi = {
     },
     async searchCamerasWithUuids(bodyJson) {
         const response = await new Promise((resolve, reject) => {
-            console.log('searchCamerasWithUuids:', bodyJson)
             controllerApi.axiosIns.post(CAMERA_SEARCH_ENDPOINT, bodyJson)
                 .then(response => resolve(
                     response
@@ -48,7 +46,7 @@ const cameraApi = {
     },
     async update(cam, uuid) {
         const response = await new Promise((resolve, reject) => {
-            controllerApi.axiosIns.put(`${CAMERA_ENDPOINT}/${uuid}`,  cam)
+            controllerApi.axiosIns.put(`${CAMERA_ENDPOINT}/${uuid}`, cam)
                 .then(response => resolve(response))
                 .catch(error => reject(error))
         })

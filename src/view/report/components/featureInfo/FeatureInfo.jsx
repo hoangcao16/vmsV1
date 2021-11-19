@@ -1,15 +1,14 @@
 import React, { useEffect, useState } from 'react';
-import './featureInfo.scss';
-import CardCameraInfo from './CardCameraInfo';
-import CameraApi from '../../../../actions/api/camera/CameraApi';
-import { reactLocalStorage } from "reactjs-localstorage";
 import { useTranslation } from 'react-i18next';
+import { reactLocalStorage } from "reactjs-localstorage";
+import CameraApi from '../../../../actions/api/camera/CameraApi';
+import CardCameraInfo from './CardCameraInfo';
+import './featureInfo.scss';
 
 
 export default function FeatureInfo(props) {
   const [camera, setCamera] = useState([]);
-  const language = reactLocalStorage.get('language')
-  const {t} = useTranslation()
+  const { t } = useTranslation()
 
   useEffect(() => {
     CameraApi.getReportCamera().then((result) => {

@@ -100,7 +100,6 @@ const LiveCameraSlot = (props) => {
         clearTimeout(timer.current);
     };
     const clearWhenError = () => {
-        console.log('>>>>> clearWhenError ');
         setStartTime(0);
         setStopTime(0);
         setCountInMinis(0);

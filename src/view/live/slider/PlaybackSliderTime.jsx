@@ -1,17 +1,17 @@
-import React, { useEffect, useRef, useState } from 'react';
-import './PlaybackSliderTime.scss'
-import { WithoutTimeSecond2 } from "../../../utility/vms/timer";
 import moment from "moment";
+import React, { useEffect, useRef, useState } from 'react';
 import { Minus, Plus } from 'react-feather';
+import { WithoutTimeSecond2 } from "../../../utility/vms/timer";
+import './PlaybackSliderTime.scss';
 
-const initialMarkers = [...Array.from({ length: 20 }, (_, i) => i - 10)]
+// const initialMarkers = [...Array.from({ length: 20 }, (_, i) => i - 10)]
 const STEP = 10;
 const PlaybackSliderTime = ({ playbackByDragSlideTime, dateTimeSeek }) => {
-    const [value, setValue] = React.useState([0, 100]);
+    // const [value, setValue] = React.useState([0, 100]);
     const [marks, setMarks] = React.useState([]);
     let [stepSize, setStepSize] = React.useState(10);
     const itemsRef = useRef([]);
-    const [seekTime, setSeekTime] = useState(moment('2021-09-24 08:15:31'));
+    // const [seekTime, setSeekTime] = useState(moment('2021-09-24 08:15:31'));
     const [currentDateTime, setcurrentDateTime] = useState(moment());
     const [realtimeCurrentDateTime, setRealTimeCurrentDateTime] = useState(moment());
     const [zoomLevel, setZoomLevel] = useState(60);
@@ -32,7 +32,6 @@ const PlaybackSliderTime = ({ playbackByDragSlideTime, dateTimeSeek }) => {
         return (
             marks.map((item, idx) => (
                 <div data-transform={item.style.transform} style={{
-                    // left: `${item.style.left}`,
                     height: `${item.style.height}`,
                     transform: `translateX(${item.style.transform}px)`,
                 }}

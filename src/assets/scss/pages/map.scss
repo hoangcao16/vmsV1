@@ -314,6 +314,9 @@
     }
 
     .search-input {
+      &>.ant-space-item:first-child {
+        flex: 1;
+      }
       .search-input__item {
         background-color: $vms-bg-sub;
         input::placeholder {

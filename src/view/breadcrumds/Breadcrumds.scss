@@ -1,6 +1,23 @@
+
+@import '../../assets/scss/core/variables/vms-variable';
 .Breadcrumds {
 
-  padding: 35px 0px;
+  padding: 40px 0px;
+  .ant-breadcrumb{
+    &>span{
+      display: flex;
+      align-items: center;
+    }
+    span {
+      font-size: 1.6rem;
+      font-weight: 600;
+    }
+    
+  }
+  .ant-breadcrumb-separator{
+    margin: 0 12px;
+    color: $vms-main-blue-primary;
+  }
 
   &-links {
     color: #1380FF !important;

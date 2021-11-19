@@ -1,5 +1,5 @@
 import controllerApi from './api';
-import {handleErrCode} from "./code";
+import { handleErrCode } from "./code";
 
 const BOOKMARK_ENDPOINT = '/cctv-controller-svc/api/v1/bookmark';
 const bookmarkApi = {
@@ -91,7 +91,6 @@ const bookmarkApi = {
                 .then((response) => resolve(response))
                 .catch((error) => reject(error));
         });
-        console.log('RES:', response);
         if (response && response.data) {
             return handleErrCode(response.data);
         }
