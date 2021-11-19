@@ -138,11 +138,13 @@ const TableCategory = () => {
     if (dataType === CATEGORY_NAME.EVENT_TYPE) {
       name = `${t('view.category.event_type')}`;
     }
+    if (dataType === CATEGORY_NAME.TAGS) {
+      name = `${t('view.category.tags')}`;
+    }
 
     return (
       <div className="card--header">
         <h4> {name}</h4>
-
         <div className="search__toolbar">
           <AutoComplete
             className="searchInputCamproxy"
