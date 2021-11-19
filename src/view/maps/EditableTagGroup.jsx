@@ -1,15 +1,16 @@
 import { Button, Input, Tag, Tooltip } from "antd";
 import React from "react";
+import SelectWithHiddenSelectedOptions from "./SelectTag";
 class EditableTagGroup extends React.Component {
   state = {
-    tags: ["Unremovable", "Tag 2", "Tag 3"],
+    tags: [],
     inputVisible: false,
     inputValue: "",
+    isShowSuggestions: false,
   };
 
   handleClose = (removedTag) => {
     const tags = this.state.tags.filter((tag) => tag !== removedTag);
-    console.log(tags);
     this.setState({ tags });
   };
 
@@ -18,7 +19,17 @@ class EditableTagGroup extends React.Component {
   };
 
   handleInputChange = (e) => {
-    this.setState({ inputValue: e.target.value });
+    const value = e.target.value;
+    if (value.slice(0, 1) === "#") {
+      e.stopPropagation()
+      this.setState({
+        isShowSuggestions: true,
+        inputValue: value,
+      });
+      return;
+    }
+
+    this.setState({ inputValue: value, isShowSuggestions: false });
   };
 
   handleInputConfirm = () => {
@@ -28,57 +39,74 @@ class EditableTagGroup extends React.Component {
     if (inputValue && tags.indexOf(inputValue) === -1) {
       tags = [...tags, inputValue];
     }
-    console.log(tags);
     this.setState({
       tags,
       inputVisible: false,
       inputValue: "",
+      isShowSuggestions: false,
     });
   };
 
   saveInputRef = (input) => (this.input = input);
+  handlePickData = (value) => {
+    this.setState({
+      inputValue: value,
+      isShowSuggestions: false,
+    });
+  };
 
   render() {
-    const { tags, inputVisible, inputValue } = this.state;
+    const { tags, inputVisible, inputValue, isShowSuggestions } = this.state;
     return (
-      <div>
-        {tags.map((tag, index) => {
-          const isLongTag = tag.length > 20;
-          const tagElem = (
-            <Tag
-              key={tag}
-              closable={index !== 0}
-              afterClose={() => this.handleClose(tag)}
-            >
-              {isLongTag ? `${tag.slice(0, 20)}...` : tag}
-            </Tag>
-          );
-          return isLongTag ? (
-            <Tooltip title={tag} key={tag}>
-              {tagElem}
-            </Tooltip>
-          ) : (
-            tagElem
-          );
-        })}
-        {inputVisible && (
-          <Input
-            ref={this.saveInputRef}
-            type="text"
-            size="small"
-            style={{ width: 78 }}
-            value={inputValue}
-            onChange={this.handleInputChange}
-            onBlur={this.handleInputConfirm}
-            onPressEnter={this.handleInputConfirm}
-          />
+      <>
+        <div style={{ height: "100%",  position: "relative" ,overflow: "auto"  }}>
+          {tags.map((tag, index) => {
+            const isLongTag = tag.length > 20;
+            const tagElem = (
+              <Tag
+                key={tag}
+                closable
+                afterClose={() => this.handleClose(tag)}
+              >
+                {isLongTag ? `${tag.slice(0, 20)}...` : tag}
+              </Tag>
+            );
+            return isLongTag ? (
+              <Tooltip title={tag} key={tag}>
+                {tagElem}
+              </Tooltip>
+            ) : (
+              tagElem
+            );
+          })}
+          {inputVisible && (
+            <Input
+              ref={this.saveInputRef}
+              type="text"
+              size="small"
+              style={{ width: "70%",height:'100%'}}
+              value={inputValue}
+              onChange={this.handleInputChange}
+              // onBlur={this.handleInputConfirm}
+              onPressEnter={this.handleInputConfirm}
+            />
+          )}
+
+          {!inputVisible && (
+            <Button size="small" type="dashed" onClick={this.showInput}>
+              + New Tag
+            </Button>
+          )}
+        </div>
+        {isShowSuggestions && (
+          <div style={{ position: "absolute", width: "100%",top:50 }}>
+            <SelectWithHiddenSelectedOptions
+              handlePickData={this.handlePickData}
+              allTags={tags}
+            />
+          </div>
         )}
-        {!inputVisible && (
-          <Button size="small" type="dashed" onClick={this.showInput}>
-            + New Tag
-          </Button>
-        )}
-      </div>
+      </>
     );
   }
 }

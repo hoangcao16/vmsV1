@@ -43,7 +43,12 @@
       }
       & .search-box  {
         display: flex;
+        height: 100%;
+
         .search-icon {
+          position: absolute;
+          right: 0;
+          top: 10px;
           width: 40px;
           display: flex;
           align-items: center;
