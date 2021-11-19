@@ -33,6 +33,7 @@ import './../../commonStyle/commonForm.scss';
 import './../../commonStyle/commonInput.scss';
 import './../../commonStyle/commonSelect.scss';
 import './../../commonStyle/commonTable.scss';
+import './../../commonStyle/commonPopconfirm.scss';
 import './export-event-file.scss';
 import { MemoizedInfoPopoverContent } from "./InfoPopoverContent";
 import { MemoizedHlsPlayer } from "./PlayerHls";
@@ -336,6 +337,16 @@ const ExportEventFile = () => {
                 if (viewFileType === 0) {
                     await ExportEventFileApi.getFileList(dataParam).then(data => {
                         if (data && data.payload) {
+                            if (data.payload.length === 0) {
+                                Notification({
+                                    type: NOTYFY_TYPE.warning,
+                                    title: `${t('noti.archived_file')}`,
+                                    description: `${t('noti.no_valid_results_found')}`
+                                });
+                                setListFiles([]);
+                                setTotal(0);
+                                return;
+                            }
                             setListFiles(data.payload.map(f => {
                                 const { important, ...file } = f;
                                 return {
@@ -349,6 +360,16 @@ const ExportEventFile = () => {
                 } else if (viewFileType === 1 || viewFileType === 2) {
                     await ExportEventFileApi.getEventFileList(dataParam).then(data => {
                         if (data && data.payload) {
+                            if (data.payload.length === 0) {
+                                Notification({
+                                    type: NOTYFY_TYPE.warning,
+                                    title: `${t('noti.archived_file')}`,
+                                    description: `${t('noti.no_valid_results_found')}`
+                                });
+                                setListFiles([]);
+                                setTotal(0);
+                                return;
+                            }
                             setListFiles(data.payload.map(f => {
                                 const { important, ...file } = f;
                                 return {
@@ -362,6 +383,16 @@ const ExportEventFile = () => {
                 } else if (viewFileType === 3) {
                     await ExportEventFileApi.getImportantFileList(dataParam).then(data => {
                         if (data && data.payload) {
+                            if (data.payload.length === 0) {
+                                Notification({
+                                    type: NOTYFY_TYPE.warning,
+                                    title: `${t('noti.archived_file')}`,
+                                    description: `${t('noti.no_valid_results_found')}`
+                                });
+                                setListFiles([]);
+                                setTotal(0);
+                                return;
+                            }
                             setListFiles(data.payload.map(f => {
                                 const { important, ...file } = f;
                                 return {
