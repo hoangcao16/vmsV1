@@ -89,6 +89,7 @@ const ExportEventFile = () => {
     const [total, setTotal] = useState(0);
     const [eventList, setEventList] = useState([]);
 
+    const zoom = ((window.outerWidth - 10) / window.innerWidth) * 100;
 
     useEffect(() => {
         language === "vn" ? (document.title = "CCTV | Xuất sự kiện") : (document.title = "CCTV | Export Event")
@@ -314,7 +315,7 @@ const ExportEventFile = () => {
     };
 
     const onSearchHandler = async (dataParam) => {
-        refresh();
+        // refresh();
         setLoading(true);
         try {
             let perToCheck = [];
@@ -524,13 +525,13 @@ const ExportEventFile = () => {
             playEle.style.display = "block";
             playerVideo.current.pause();
         } else if (cmd === "decrease_rate") {
-            if (playbackRate === 1) return;
-            playbackRate = playbackRate - 1;
+            if (playbackRate === 0.125) return;
+            playbackRate = playbackRate / 2;
             playerVideo.current.defaultPlaybackRate = playbackRate;
             playerVideo.current.playbackRate = playbackRate;
         } else if (cmd === "increase_rate") {
-            if (playbackRate === 10) return;
-            playbackRate = playbackRate + 1;
+            if (playbackRate === 16) return;
+            playbackRate = playbackRate * 2;
             playerVideo.current.defaultPlaybackRate = playbackRate;
             playerVideo.current.playbackRate = playbackRate;
         }
@@ -1121,47 +1122,54 @@ const ExportEventFile = () => {
                         </Col>
                         <Col span={7} className="captureContainer">
                             {(checkDisabled() && viewFileType === 0 && eventFileCurrent.type !== -1) &&
+                            <Tooltip placement="bottomLeft" title={t('view.storage.org')}>
                                 <span className="ogLabel" onClick={originalHandler}>ORG</span>
+                            </Tooltip>
                             }
                             {checkBtnEditRootFileDisabled() &&
-                                <span className="ogLabel" onClick={() => {
-                                    if (fileCurrent.tableName === 'file') {
-                                        editRootFileHandler(fileCurrent.uuid).then();
-                                    } else {
-                                        editRootFileHandler(fileCurrent.rootFileUuid).then();
-                                    }
-                                }}
-                                >ORG</span>
+                            <Tooltip placement="bottomLeft" title={t('view.storage.org')}>
+                            <span className="ogLabel" onClick={() => {
+                                if (fileCurrent.tableName === 'file') {
+                                    editRootFileHandler(fileCurrent.uuid).then();
+                                } else {
+                                    editRootFileHandler(fileCurrent.rootFileUuid).then();
+                                }
+                            }}
+                            >ORG</span></Tooltip>
                             }
-                            <Popover
-                                overlayClassName={`${checkBtnInfoDisabled() ? 'fileInfoPopoverHidden' : 'fileInfoPopover'}`}
-                                placement="topRight" title=""
-                                content={checkBtnInfoDisabled() ? '' : renderInfoPopoverContent}
-                                trigger={`${checkBtnInfoDisabled() ? '' : 'click'}`}>
-                                <AiOutlineInfoCircle
-                                    className={`${checkBtnInfoDisabled() ? 'action__disabled' : 'action'}`}
-                                    onClick={(e) => {
-                                        if (checkBtnInfoDisabled()) return;
-                                        e.stopPropagation();
-                                    }} />
-                            </Popover>
-                            <FiDownload className={`${checkBtnDownloadDisabled() ? 'action__disabled' : 'action'}`}
-                                onClick={() => {
-                                    if (checkBtnDownloadDisabled()) return;
-                                    downloadFileHandler();
-                                }} />
-                            {checkBtnCaptureDisabled() && <FiScissors className='action'
-                                onClick={() => {
-                                    captureVideoHandler().then();
-                                }}
-                            />}
-                            {checkBtnCaptureDisabled() && <FiCamera className='action'
-                                onClick={() => {
-                                    captureSnapshotHandler();
-                                }}
-                            />}
-                            <Popconfirm
-                                title={t('noti.delete_file', { this: t('this') })}
+                            <Tooltip placement="bottomLeft" title={t('view.storage.view_information')}>
+                                <Popover
+                                    overlayClassName={`${checkBtnInfoDisabled() ? 'fileInfoPopoverHidden' : 'fileInfoPopover'}`}
+                                    placement="topRight" title=""
+                                    content={checkBtnInfoDisabled() ? '' : renderInfoPopoverContent}
+                                    trigger={`${checkBtnInfoDisabled() ? '' : 'click'}`}>
+                                    <AiOutlineInfoCircle
+                                        className={`${checkBtnInfoDisabled() ? 'action__disabled' : 'action'}`}
+                                        onClick={(e) => {
+                                            if (checkBtnInfoDisabled()) return;
+                                            e.stopPropagation();
+                                        }}/>
+                                </Popover>
+                            </Tooltip>
+                            <Tooltip placement="bottomLeft" title={t('view.storage.download_file')}>
+                                <FiDownload className={`${checkBtnDownloadDisabled() ? 'action__disabled' : 'action'}`}
+                                            onClick={() => {
+                                                if (checkBtnDownloadDisabled()) return;
+                                                downloadFileHandler();
+                                            }}/>
+                            </Tooltip>
+                            {checkBtnCaptureDisabled() && <Tooltip placement="bottomLeft" title={t('view.storage.cut_file')}><FiScissors className='action'
+                                                                      onClick={() => {
+                                                                          captureVideoHandler().then();
+                                                                      }}
+                            /></Tooltip>}
+                            {checkBtnCaptureDisabled() && <Tooltip placement="bottomLeft" title={t('view.storage.capture_snapshot')}><FiCamera className='action'
+                                                                    onClick={() => {
+                                                                        captureSnapshotHandler();
+                                                                    }}
+                            /></Tooltip>}
+                            <Tooltip placement="bottomLeft" title={t('view.storage.delete')}><Popconfirm
+                                title={t('noti.delete_file', {this: t('this')})}
                                 onConfirm={() => {
                                     if (checkBtnDeleteDisabled()) return;
                                     deleteFileHandler().then(r => {
@@ -1169,8 +1177,8 @@ const ExportEventFile = () => {
                                 }}
                             >
                                 <RiDeleteBinLine
-                                    className={`${checkBtnDeleteDisabled() ? 'action__disabled' : 'action'}`} />
-                            </Popconfirm>
+                                    className={`${checkBtnDeleteDisabled() ? 'action__disabled' : 'action'}`}/>
+                            </Popconfirm></Tooltip>
                         </Col>
                     </Row>
                     {/*<Row className="timeDuration" style={{display: `${checkDisabled() ? 'none' : 'flex'}`}}>*/}
@@ -1183,7 +1191,7 @@ const ExportEventFile = () => {
                             fileCurrent && <MemoizedThumbnailVideo
                                 duration={duration}
                                 videoFile={urlVideoTimeline} playerVideo={playerVideo}
-                                fileCurrent={fileCurrent}
+                                fileCurrent={fileCurrent} zoom={zoom}
                             />
                         }
                         </Col>

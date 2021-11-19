@@ -287,7 +287,14 @@
       "len": "Length",
       "time_start_record": "Time starting record",
       "time_end_record": "Time ending record",
-      "tick": "Tick important file"
+      "tick": "Tick important file",
+      "org": "View original file",
+      "view_information": "View file information",
+      "download_file": "Download file",
+      "cut_file": "Cut file",
+      "capture_snapshot": "Capture snapshot",
+      "delete": "Delete file",
+      "set_event": "Set event"
     },
 
     "user": {

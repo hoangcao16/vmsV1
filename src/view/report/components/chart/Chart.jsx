@@ -14,12 +14,15 @@ import {
 import { loadDataChart } from '../../redux/actions';
 import './chart.scss';
 import ExportReport from './ExportReport';
+import { useTranslation } from 'react-i18next';
 
 var randomColor = require('randomcolor');
 
 function Chart(props) {
-  const data = props.chartData;
+  let data = props.chartData
+//  const data = JSON.parse(JSON.stringify(data1))
 
+  const { t } = useTranslation();
   const dataConvert = (data) => {
     const dataNoName = data[0];
 
@@ -39,7 +42,7 @@ function Chart(props) {
     });
   };
 
-  if (isEmpty(data)) {
+  if (isEmpty(JSON.parse(JSON.stringify(data)))) {
     return null;
   }
 
@@ -50,7 +53,7 @@ function Chart(props) {
           <div className="Chart__title">
             <h3> BIỂU ĐỒ XU THẾ TÌNH HÌNH {props.title.toUpperCase()} </h3>
 
-            <ExportReport currentDataSource={data} />
+            <ExportReport type="rateReport"/>
           </div>
 
           <ResponsiveContainer
@@ -61,7 +64,7 @@ function Chart(props) {
             <LineChart
               width={500}
               height={300}
-              data={data}
+              data={JSON.parse(JSON.stringify(data))}
               margin={{
                 top: 5,
                 right: 30,
@@ -75,7 +78,7 @@ function Chart(props) {
               <Tooltip />
               <Legend />
 
-              {dataConvert(data)}
+              {dataConvert(JSON.parse(JSON.stringify(data)))}
             </LineChart>
           </ResponsiveContainer>
         </div>
