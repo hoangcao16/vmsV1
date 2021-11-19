@@ -22,7 +22,6 @@ var randomColor = require('randomcolor');
 function Chart(props) {
   const data = props.chartData
   const { t } = useTranslation();
-
   const dataConvert = (dataMap) => {
     const dataNoName = dataMap[0];
     delete dataNoName.name;

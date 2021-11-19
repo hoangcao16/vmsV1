@@ -1,7 +1,7 @@
-import { isEmpty } from 'lodash';
-import React from 'react';
-import { useTranslation } from 'react-i18next';
-import { connect } from 'react-redux';
+import { isEmpty } from "lodash";
+import React from "react";
+import { useTranslation } from "react-i18next";
+import { connect } from "react-redux";
 import {
   Bar,
   BarChart,
@@ -10,14 +10,14 @@ import {
   ResponsiveContainer,
   Tooltip,
   XAxis,
-  YAxis
-} from 'recharts';
-import convertDataBarChart from '../../../../actions/function/MyUltil/ConvertDataBarChart';
-import { loadDataChart } from '../../redux/actions';
-import './barChart.scss';
-import ExportReport from './ExportReport';
+  YAxis,
+} from "recharts";
+import convertDataBarChart from "../../../../actions/function/MyUltil/ConvertDataBarChart";
+import { loadDataChart } from "../../redux/actions";
+import "./barChart.scss";
+import ExportReport from "./ExportReport";
 
-var randomColor = require('randomcolor');
+var randomColor = require("randomcolor");
 
 // const monthTickFormatter = (tick) => {
 //   const date = new Date(tick);
@@ -49,9 +49,10 @@ const renderQuarterTick = (tickProps) => {
 function BarChartComponent(props) {
   const data = props.chartData;
   const { t } = useTranslation();
+  
   const dataConvert = (data) => {
     const dataNoName = data[0];
-    delete dataNoName.name;
+    delete dataNoName.time;
 
     const keyArr = Object.keys(dataNoName);
 
@@ -73,7 +74,10 @@ function BarChartComponent(props) {
       {!props.isShowLineAndPieChart && (
         <div className="BarChart">
           <div className="BarChart__title">
-            <h3> {t('view.report.compare_chart')} {props.title.toUpperCase()} </h3>
+            <h3>
+              {" "}
+              {t("view.report.compare_chart")} {props.title.toUpperCase()}{" "}
+            </h3>
             <ExportReport currentDataSource={data} />
           </div>
           <ResponsiveContainer
@@ -85,32 +89,21 @@ function BarChartComponent(props) {
               width={500}
               height={300}
               data={data}
-            // margin={{
-            //   top: 5,
-            //   right: 30,
-            //   left: 20,
-            //   bottom: 5
-            // }}
+              margin={{
+                top: 5,
+                right: 30,
+                left: 20,
+                bottom: 5,
+              }}
             >
               <CartesianGrid strokeDasharray="3 3" />
-              <XAxis dataKey="name" />
-              <XAxis
-                dataKey="name"
-                axisLine={false}
-                tickLine={false}
-                interval={0}
-                tick={renderQuarterTick}
-                height={1}
-                scale="band"
-                xAxisId="quarter"
-              />
+              <XAxis dataKey="time" />
               <YAxis />
               <Tooltip />
               <Legend />
-              <Bar dataKey={data.location}/>
-
               {dataConvert(data)}
             </BarChart>
+           
           </ResponsiveContainer>
         </div>
       )}
@@ -123,14 +116,14 @@ const mapStateToProps = (state) => ({
   chartData: convertDataBarChart(state.chart.chartData),
   error: state.chart.error,
   title: state.chart.title,
-  isShowLineAndPieChart: state.chart.isShowLineAndPieChart
+  isShowLineAndPieChart: state.chart.isShowLineAndPieChart,
 });
 
 const mapDispatchToProps = (dispatch) => {
   return {
     callData: (params) => {
       dispatch(loadDataChart(params));
-    }
+    },
   };
 };
 

@@ -136,6 +136,16 @@ function Sidebar(props) {
     if (provinceId.length === 1) {
       AddressApi.getDistrictByProvinceId(provinceId).then(setDistrict);
     }
+    if (provinceId.length > 5) {
+      const notifyMess = {
+        type: 'error',
+        title: '',
+        description: 'Số lượng khu vực không được vượt quá 5'
+      };
+      Notification(notifyMess);
+      
+      return;
+    }
   }, [provinceId]);
 
   useEffect(() => {
@@ -165,6 +175,7 @@ function Sidebar(props) {
       setSelectedRowKeys(null);
       return;
     }
+
 
     setSelectedRowKeys([dataFilter.eventList[0].uuid]);
 
@@ -199,8 +210,9 @@ function Sidebar(props) {
       setHiddenWard(true);
       setisShowLineAndPieChart(true)
       setProvinceId(cityIdArr);
+      setSelectedRowKeys([filterOptions?.fields[0]?.eventList[0].uuid]);
       form.setFieldsValue({ districtId: undefined, wardId: undefined });
-
+      
       //Call API
       const data = {
         pickTime: dataTime,
@@ -216,6 +228,7 @@ function Sidebar(props) {
         fieldId: feildIds,
         eventList: selectedRowKeys
       };
+      
 
       props.callData(clearData(data));
 
@@ -226,6 +239,7 @@ function Sidebar(props) {
       setisShowLineAndPieChart(false)
       form.setFieldsValue({ districtId: undefined, wardId: undefined });
       setProvinceId(cityIdArr);
+      setSelectedRowKeys([filterOptions?.fields[0]?.eventList[0].uuid]);
       //Call API
       const data = {
         pickTime: dataTime,
@@ -252,6 +266,7 @@ function Sidebar(props) {
       setHiddenWard(true);
       setisShowLineAndPieChart(true)
       setDistrictId(districtIdArr);
+      setSelectedRowKeys([filterOptions?.fields[0]?.eventList[0].uuid]);
       form.setFieldsValue({ wardId: undefined });
       //Call API
       const data = {
@@ -276,6 +291,7 @@ function Sidebar(props) {
       setHiddenWard(false);
       setisShowLineAndPieChart(false)
       setDistrictId(districtIdArr);
+      setSelectedRowKeys([filterOptions?.fields[0]?.eventList[0].uuid]);
       form.setFieldsValue({ wardId: undefined });
       //Call API
       const data = {
@@ -305,6 +321,7 @@ function Sidebar(props) {
       setWardId(wardIdArr);
       setisShowLineAndPieChart(true)
       props.changeChart(true);
+      setSelectedRowKeys([filterOptions?.fields[0]?.eventList[0].uuid]);
       //Call API
       const data = {
         pickTime: dataTime,
@@ -327,6 +344,7 @@ function Sidebar(props) {
     } else if (wardIdArr.length > 1) {
       setisShowLineAndPieChart(false)
       setWardId(wardIdArr);
+      setSelectedRowKeys([filterOptions?.fields[0]?.eventList[0].uuid]);
       props.changeChart(false);
       //Call API
       const data = {
@@ -365,15 +383,15 @@ function Sidebar(props) {
         const notifyMess = {
           type: 'error',
           title: '',
-          description: 'Số lượng sự kiện phải lớn hơn 1 và nhỏ hơn 3'
+          description: 'Số lượng sự kiện phải trong khoảng từ 1 đến 3'
         };
         Notification(notifyMess);
         
         return;
       }
       setSelectedRowKeys(selectedRowKeys);
+      console.log("selectedRowKeys", selectedRowKeys)
       props.changeCount(selectedRowKeys);
-      console.log("selectedRowKeysselectedRowKeys", selectedRowKeys)
       
       //Call API
       const data = {
@@ -392,11 +410,11 @@ function Sidebar(props) {
       };
       props.callData(clearData(data));
     } else {
-      if (selectedRowKeys.length > 3) {
+      if (selectedRowKeys.length > 1) {
         const notifyMess = {
           type: 'error',
           title: '',
-          description: 'Số lượng sự kiện phải nhỏ hơn 3'
+          description: 'Số lượng sự kiện phải bằng 1'
         };
         Notification(notifyMess);
         
@@ -404,7 +422,6 @@ function Sidebar(props) {
       }
       setSelectedRowKeys(selectedRowKeys);
       props.changeCount(selectedRowKeys);
-      console.log("selectedRowKeysselectedRowKeys", selectedRowKeys)
       
       //Call API
       const data = {
