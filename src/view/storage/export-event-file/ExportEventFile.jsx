@@ -714,6 +714,7 @@ const ExportEventFile = () => {
     };
 
     const editFileHandler = async (file, dataList, perStr) => {
+        debugger;
         let per = true;
         if (perStr !== '') {
             per = permissionCheck(perStr);
@@ -740,10 +741,10 @@ const ExportEventFile = () => {
                     const index = findIndex(dataList, item => item.uuid === requestObject.uuid);
                     dataList[index] = requestObject;
                     setListFiles([...dataList]);
-                    setFileCurrent({ ...requestObject });
-                    setEventFileCurrent(preSate => {
-                        return { ...preSate, isImportant: requestObject.isImportant, eventName: requestObject.eventName };
-                    });
+                    // setFileCurrent({ ...requestObject });
+                    // setEventFileCurrent(preSate => {
+                    //     return { ...preSate, isImportant: requestObject.isImportant, eventName: requestObject.eventName };
+                    // });
                 }
             }
         } else {
