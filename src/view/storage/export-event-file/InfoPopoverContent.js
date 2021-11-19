@@ -1,4 +1,4 @@
-import { Col, Input, Popconfirm, Row } from "antd";
+import {Col, Input, Popconfirm, Row, Tooltip} from "antd";
 import { FiBookmark, FiDownload, FiFilm, FiImage } from "react-icons/fi";
 import moment from "moment";
 import { RiDeleteBinLine } from "react-icons/ri";
@@ -54,7 +54,7 @@ const InfoPopoverContent = (props) => {
                 </Col>
                 <Col span={1} />
                 <Col span={11}>
-                    <div className="title">{t('view.storage.file_name', { cam: t('camera') })}</div>
+                    <div className="title">{t('view.storage.camera_name', { cam: t('camera') })}</div>
                     <div>{props.fileCurrent.cameraName}</div>
                 </Col>
                 <Col span={12}>
@@ -104,25 +104,27 @@ const InfoPopoverContent = (props) => {
                     <div className="title">{t('view.common_device.action')}</div>
                     <div>
                         <div className="actionFile">
-                            {!props.fileCurrent.isImportant && <FiBookmark className="icon" onClick={(e) => {
+                            {!props.fileCurrent.isImportant && <Tooltip placement="bottomLeft" title={t('view.storage.tick')}>
+                                <FiBookmark className="icon" onClick={(e) => {
                                 e.stopPropagation();
                                 props.onEditFile(true, null);
-                            }} />}
-                            {props.fileCurrent.isImportant && <FiBookmark className="icon-active" onClick={(e) => {
+                                }} /></Tooltip>}
+                            {props.fileCurrent.isImportant && <Tooltip placement="bottomLeft" title={t('view.storage.tick')}>
+                                <FiBookmark className="icon-active" onClick={(e) => {
                                 e.stopPropagation();
                                 props.onEditFile(false, null);
-                            }} />}
-                            <FiDownload className="icon" onClick={() => {
+                                }} /></Tooltip>}
+                            <Tooltip placement="bottomLeft" title={t('view.storage.download_file')}><FiDownload className="icon" onClick={() => {
                                 props.onDownloadFile();
-                            }} />
-                            <Popconfirm
+                            }} /></Tooltip>
+                            <Tooltip placement="bottomLeft" title={t('view.storage.delete')}><Popconfirm
                                 title={t('noti.delete_file', { this: t('this') })}
                                 onConfirm={() => {
                                     props.onDeleteFile();
                                 }}
                             >
                                 <RiDeleteBinLine className="icon" />
-                            </Popconfirm>
+                            </Popconfirm></Tooltip>
                         </div>
                     </div>
                 </Col>

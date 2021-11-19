@@ -1,6 +1,7 @@
 import {
   DeleteOutlined,
   EditOutlined,
+  InfoCircleOutlined,
   PlusOutlined,
   SearchOutlined
 } from '@ant-design/icons';
@@ -34,6 +35,7 @@ import './../commonStyle/commonTable.scss';
 import ModalEditAdministrativeUnit from './ModalEditAdministrativeUnit';
 import ModalEditCategory from './ModalEditCategory';
 import ModalUpdateTag from './ModalUpdateTag';
+import ModalViewDetail from './ModalViewDetail';
 import './TableCategory.scss';
 import { bodyStyleCard, headStyleCard } from './variables';
 
@@ -53,7 +55,7 @@ const TableCategory = () => {
   const [dataOptions, setDataOptions] = useState({});
   const [dataType, setDataType] = useState(CATEGORY_NAME.AD_DIVISIONS);
   const [selectedCategoryId, setSelectedCategoryId] = useState(null);
-  const [selectedAdd, setSelectedAdd] = useState(false);
+  const [selectedUnitId, setSelectedUnitId] = useState(null);
   const [showModal, setShowModal] = useState(false);
   const [search, setSearch] = useState('');
 
@@ -136,11 +138,13 @@ const TableCategory = () => {
     if (dataType === CATEGORY_NAME.EVENT_TYPE) {
       name = `${t('view.category.event_type')}`;
     }
+    if (dataType === CATEGORY_NAME.TAGS) {
+      name = `${t('view.category.tags')}`;
+    }
 
     return (
       <div className="card--header">
         <h4> {name}</h4>
-
         <div className="search__toolbar">
           <AutoComplete
             className="searchInputCamproxy"
@@ -299,13 +303,16 @@ const TableCategory = () => {
     fetchOptionsData(data).then(setDataOptions);
   };
 
+  const handleShowModalInfo = () => {
+    setSelectedUnitId(null);
+  };
+
   const { vendors, cameraTypes, adDivisions, field, eventTypes, tags } =
     dataOptions;
 
   const categoryColumns = [
     {
       title: `${t('view.storage.NO')}`,
-      fixed: 'left',
       key: 'index',
       className: 'headerColums',
       width: '10%',
@@ -316,14 +323,14 @@ const TableCategory = () => {
       title: `${t('view.category.category_name')}`,
       dataIndex: 'name',
       key: 'name',
-      fixed: 'left',
+      width: '50%',
+
       className: 'headerColums'
     },
 
     {
       title: `${t('view.storage.action')}`,
       className: 'headerColums',
-      fixed: 'right',
       width: '12%',
       render: (_text, record) => {
         return (
@@ -347,6 +354,17 @@ const TableCategory = () => {
                 />
               </Popconfirm>
             </Tooltip>
+
+            {dataType === CATEGORY_NAME.AD_DIVISIONS && (
+            <Tooltip placement="top" title={t('view.common_device.detail')}>
+            <InfoCircleOutlined
+              style={{ fontSize: '16px', color: '#6E6B7B' }}
+              onClick={() => {
+                setSelectedUnitId(record.uuid);
+              }}
+            />
+          </Tooltip>
+            )}
           </Space>
         );
       }
@@ -357,7 +375,8 @@ const TableCategory = () => {
     title: 'Lĩnh vực',
     dataIndex: 'fieldName',
     key: 'fieldName',
-    fixed: 'left',
+    width: '40%',
+
     className: 'headerColums'
   };
 
@@ -434,7 +453,15 @@ const TableCategory = () => {
         />
       </Card>
       {handleShowModalUpdateCategory()}
+      {selectedUnitId && (
+        <ModalViewDetail
+          selectedUnitId={selectedUnitId}
+          handleShowModal={handleShowModalInfo}
+        />
+      )}
     </div>
+
+    
   );
 };
 

@@ -826,7 +826,7 @@ const Live = (props) => {
     const slotIdx = findCameraIndexInGrid(slotId);
     const camera = addedCameras[slotIdx];
     const cell = document.getElementById("video-slot-" + slotId);
-    const blob = captureVideoFrame(cell, null, "jpeg").blob;
+    const {blob, tBlob} = captureVideoFrame(cell, null, "jpeg");
     if (blob) {
       const fileName = setFileName(1);
       const uuid = uuidV4();
@@ -853,6 +853,7 @@ const Live = (props) => {
         thumbnailData: [""],
         nginx_host: "",
         blob: blob,
+        tBlob: tBlob
       };
       ExportEventFileApi.uploadFile(
         eventFile.uuid + ".jpeg",
@@ -864,8 +865,8 @@ const Live = (props) => {
           result.data.payload.fileUploadInfoList.length > 0
         ) {
           let path = result.data.payload.fileUploadInfoList[0].path;
-          let { blob, ...requestObject } = eventFile;
-          getBase64Text(eventFile.blob, async (thumbnailData) => {
+          let { blob, tBlob, ...requestObject } = eventFile;
+          getBase64Text(eventFile.tBlob, async (thumbnailData) => {
             requestObject = Object.assign({
               ...requestObject,
               pathFile: path,

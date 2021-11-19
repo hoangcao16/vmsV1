@@ -11,13 +11,31 @@ const MONITOR_CONTROLLER_ENDPOINT = "/cctv-monitor-ctrl-svc/api/v1";
 
 const ExportEventFileApi = {
 
-    getFileData: async (fileId, fileType, nginx_host) => {
+    downloadFileNginx: async (fileId, fileType, nginx_host) => {
         let result;
         try {
-            result = await FileService.getRequestData("/api/v1/viewFile", {
+            result = await FileService.getRequestData("/api/v1/downloadFileNginx", {
                 fileId: fileId,
                 fileType: fileType,
                 nginxHost: nginx_host
+            });
+        } catch (e) {
+            Notification({
+                type: NOTYFY_TYPE.warning,
+                title: 'File lưu trữ',
+                description: e.toString()
+            });
+            return null;
+        }
+        return result;
+    },
+
+    downloadFile: async (fileId, fileType) => {
+        let result;
+        try {
+            result = await FileService.getRequestData("/api/v1/downloadFile", {
+                fileId: fileId,
+                fileType: fileType,
             });
         } catch (e) {
             Notification({

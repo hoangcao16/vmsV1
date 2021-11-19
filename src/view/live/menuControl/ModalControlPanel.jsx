@@ -17,8 +17,7 @@ const ModalPanel = ({ isOpen, onCloseModal, idCamera }) => {
     };
     try {
       setIsActionStart(true)
-
-      ptzControllerApi.postPan(payload);
+      await ptzControllerApi.postPan(payload);
     } catch (error) {
       console.log(error);
     }
@@ -33,7 +32,7 @@ const ModalPanel = ({ isOpen, onCloseModal, idCamera }) => {
     };
     try {
       if (isActionStart) {
-        ptzControllerApi.postPan(payload);
+        await ptzControllerApi.postPan(payload);
         setIsActionStart(false)
       }
     } catch (error) {
@@ -50,8 +49,7 @@ const ModalPanel = ({ isOpen, onCloseModal, idCamera }) => {
     };
     try {
       setIsActionStart(true)
-
-      ptzControllerApi.postPan(payload);
+      await ptzControllerApi.postPan(payload);
     } catch (error) {
       console.log(error);
     }
@@ -66,7 +64,7 @@ const ModalPanel = ({ isOpen, onCloseModal, idCamera }) => {
     };
     try {
       if (isActionStart) {
-        ptzControllerApi.postPan(payload);
+        await ptzControllerApi.postPan(payload);
         setIsActionStart(false)
       }
     } catch (error) {
@@ -83,8 +81,7 @@ const ModalPanel = ({ isOpen, onCloseModal, idCamera }) => {
     };
     try {
       setIsActionStart(true)
-
-      ptzControllerApi.postTilt(payload);
+      await ptzControllerApi.postTilt(payload);
     } catch (error) {
       console.log(error);
     }
@@ -99,7 +96,7 @@ const ModalPanel = ({ isOpen, onCloseModal, idCamera }) => {
     };
     try {
       if (isActionStart) {
-        ptzControllerApi.postTilt(payload);
+        await ptzControllerApi.postTilt(payload);
         setIsActionStart(false)
       }
     } catch (error) {
@@ -116,8 +113,7 @@ const ModalPanel = ({ isOpen, onCloseModal, idCamera }) => {
     };
     try {
       setIsActionStart(true)
-
-      ptzControllerApi.postTilt(payload);
+      await ptzControllerApi.postTilt(payload);
     } catch (error) {
       console.log(error);
     }
@@ -132,7 +128,7 @@ const ModalPanel = ({ isOpen, onCloseModal, idCamera }) => {
     };
     try {
       if (isActionStart) {
-        ptzControllerApi.postTilt(payload);
+        await ptzControllerApi.postTilt(payload);
         setIsActionStart(false)
       }
     } catch (error) {
@@ -149,8 +145,7 @@ const ModalPanel = ({ isOpen, onCloseModal, idCamera }) => {
     };
     try {
       setIsActionStart(true)
-
-      ptzControllerApi.postZoom(payload);
+      await ptzControllerApi.postZoom(payload);
     } catch (error) {
       console.log(error);
     }
@@ -165,7 +160,7 @@ const ModalPanel = ({ isOpen, onCloseModal, idCamera }) => {
     };
     try {
       if (isActionStart) {
-        ptzControllerApi.postZoom(payload);
+        await ptzControllerApi.postZoom(payload);
         setIsActionStart(false)
       }
     } catch (error) {
@@ -182,8 +177,7 @@ const ModalPanel = ({ isOpen, onCloseModal, idCamera }) => {
     };
     try {
       setIsActionStart(true)
-
-      ptzControllerApi.postZoom(payload);
+      await ptzControllerApi.postZoom(payload);
     } catch (error) {
       console.log(error);
     }
@@ -198,7 +192,7 @@ const ModalPanel = ({ isOpen, onCloseModal, idCamera }) => {
     };
     try {
       if (isActionStart) {
-        ptzControllerApi.postZoom(payload);
+        await ptzControllerApi.postZoom(payload);
         setIsActionStart(false)
       }
     } catch (error) {

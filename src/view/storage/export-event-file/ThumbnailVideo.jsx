@@ -1,11 +1,10 @@
 import React, { useEffect, useRef } from 'react';
 import './thumnail-video.scss'
-import ThumbnailCreator from "./ThumbnailCreator";
 import _ from "lodash";
 import { format } from "../../../utility/vms/duration";
 
 const ThumbnailVideo = (props) => {
-    const { duration, videoFile, playerVideo, fileCurrent } = props;
+    const { duration, videoFile, playerVideo, fileCurrent, zoom } = props;
     const controlBarRef = useRef(null);
     const cbLeftRef = useRef(null);
     const cbRightRef = useRef(null);
@@ -26,10 +25,12 @@ const ThumbnailVideo = (props) => {
     let endTime = duration;
 
     const renderImage = () => {
+        const thumbWidth = window.innerWidth * 0.6666;
+        const numOfImg = Math.ceil(thumbWidth / (80*3));
         let fakeImages = [];
         if (fileCurrent.thumbnailData) {
             for (let i = 0; i < fileCurrent.thumbnailData.length; i++) {
-                for (let j = 0; j < 5; j++) {
+                for (let j = 0; j < numOfImg; j++) {
                     fakeImages.push(fileCurrent.thumbnailData[i]);
                 }
             }
@@ -202,6 +203,15 @@ const ThumbnailVideo = (props) => {
         }
     }, []);
 
+    useEffect(() => {
+        startVideoRef.current.style.width = '0%';
+        currentRef.current.style.left = '0%';
+        controlBarRef.current.style.left = '0%';
+        controlBarRef.current.style.right = '0%';
+        cbLeftRef.current.setAttribute("data-start_time", Math.floor(startTime));
+        cbRightRef.current.setAttribute("data-end_time", Math.floor(endTime));
+    }, [fileCurrent]);
+
     return (<>
         <div data-prevent-html2-canvas="" style={{ width: '100%' }}>
             <div className="component_storyboard storyboard">
@@ -209,7 +219,7 @@ const ThumbnailVideo = (props) => {
             </div>
 
             <div ref={controllerRef} onMouseUp={controlBarMouseUp} onMouseMove={controlBarMouseMove}
-                className="shared-components_control-bars control-bars">
+                className="shared-components_control-bars control-bars" id="control-bars">
                 <div ref={startVideoRef} className="mask left" style={{ width: '0%' }} />
                 <div ref={endVideoRef} className="mask right" style={{ width: '0%' }} />
                 <div ref={currentRef} className="progress-output" style={{ left: '0%' }}>
@@ -237,7 +247,7 @@ const ThumbnailVideo = (props) => {
 }
 
 function thumbnailVideoPropsAreEqual(prevThumbVideo, nextThumbVideo) {
-    return _.isEqual(prevThumbVideo.fileCurrent, nextThumbVideo.fileCurrent);
+    return _.isEqual(prevThumbVideo.fileCurrent, nextThumbVideo.fileCurrent) && _.isEqual(prevThumbVideo.zoom, nextThumbVideo.zoom);
 }
 
 export const MemoizedThumbnailVideo = React.memo(ThumbnailVideo, thumbnailVideoPropsAreEqual);

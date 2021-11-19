@@ -1,0 +1,63 @@
+@import '../../assets/scss/core/variables/vms-variable';
+
+.ant-popconfirm {
+
+  .ant-popover-arrow-content {
+    background-color: $vms-bg-sub;
+  }
+
+  .ant-popover-inner {
+    background-color: $vms-bg-sub;
+    border-radius: 12px;
+
+    .ant-popover-message {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+
+      span {
+        position: relative;
+        color: $vms-red-drak-mode;
+        font-size: 40px;
+        margin-bottom: 20px;
+      }
+
+      div {
+        color: $vms-soft-statuts;
+        max-width: 180px;
+        text-align: center;
+        margin-bottom: 5px;
+        padding: 0;
+        font-size: 13px;
+      }
+    }
+
+    .ant-popover-buttons {
+      text-align: center;
+
+      button:first-child {
+        background-color: transparent;
+        height: 100%;
+        border-radius: 4px;
+        border: 1px solid $vms-main-blue-primary;
+
+        span {
+          color: $vms-main-blue-primary;
+          font-size: 13px;
+        }
+      }
+
+      button:last-child {
+        background-color: $vms-main-blue-primary;
+        height: 100%;
+        border-radius: 4px;
+        border: 1px solid $vms-main-blue-primary;
+
+        span {
+          color: $vms-soft-statuts;
+          font-size: 13px;
+        }
+      }
+    }
+  }
+}

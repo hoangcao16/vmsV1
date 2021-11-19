@@ -24,7 +24,7 @@ import lionSvcApi from "../../../api/lion/cameraApi";
 import playbackApi from "../../../api/playback/cameraApi";
 import imagePoster from "../../../assets/event/videoposter.png";
 import Notification from "../../../components/vms/notification/Notification";
-import { captureVideoFrame } from "../../../utility/vms/captureVideoFrame";
+import {captureVideoFrame} from "../../../utility/vms/captureVideoFrame";
 import { getBase64Text } from "../../../utility/vms/getBase64Text";
 import { NOTYFY_TYPE } from "../../common/vms/Constant";
 import Loading from "../../Loading";
@@ -33,6 +33,7 @@ import './../../commonStyle/commonForm.scss';
 import './../../commonStyle/commonInput.scss';
 import './../../commonStyle/commonSelect.scss';
 import './../../commonStyle/commonTable.scss';
+import './../../commonStyle/commonPopconfirm.scss';
 import './export-event-file.scss';
 import { MemoizedInfoPopoverContent } from "./InfoPopoverContent";
 import { MemoizedHlsPlayer } from "./PlayerHls";
@@ -62,6 +63,7 @@ const ExportEventFile = () => {
         nginx_host: '',
         blob: null,
         isSaved: false,
+        tBlob: null,
     }
 
     const { t } = useTranslation();
@@ -89,6 +91,7 @@ const ExportEventFile = () => {
     const [total, setTotal] = useState(0);
     const [eventList, setEventList] = useState([]);
 
+    const zoom = ((window.outerWidth - 10) / window.innerWidth) * 100;
 
     useEffect(() => {
         language === "vn" ? (document.title = "CCTV | Xuất sự kiện") : (document.title = "CCTV | Export Event")
@@ -243,7 +246,14 @@ const ExportEventFile = () => {
             setFileCurrent({ ...file });
         }
         if (file.type === 1) {
-            setUrlSnapshot("data:image/jpeg;base64," + file.thumbnailData[0]);
+            //setUrlSnapshot("data:image/jpeg;base64," + file.thumbnailData[0]);
+            // Call Nginx to get blob data of file
+            await ExportEventFileApi.downloadFile(file.uuid+'.jpeg', file.type).then(async (result) => {
+                const blob = new Blob([result.data], { type: "octet/stream" });
+                getBase64Text(blob, async (image) => {
+                    setUrlSnapshot(image);
+                });
+            });
         } else {
             if (file.tableName === 'file') {
                 // Play file
@@ -314,7 +324,7 @@ const ExportEventFile = () => {
     };
 
     const onSearchHandler = async (dataParam) => {
-        refresh();
+        // refresh();
         setLoading(true);
         try {
             let perToCheck = [];
@@ -335,6 +345,16 @@ const ExportEventFile = () => {
                 if (viewFileType === 0) {
                     await ExportEventFileApi.getFileList(dataParam).then(data => {
                         if (data && data.payload) {
+                            if (data.payload.length === 0) {
+                                Notification({
+                                    type: NOTYFY_TYPE.warning,
+                                    title: `${t('noti.archived_file')}`,
+                                    description: `${t('noti.no_valid_results_found')}`
+                                });
+                                setListFiles([]);
+                                setTotal(0);
+                                return;
+                            }
                             setListFiles(data.payload.map(f => {
                                 const { important, ...file } = f;
                                 return {
@@ -348,6 +368,16 @@ const ExportEventFile = () => {
                 } else if (viewFileType === 1 || viewFileType === 2) {
                     await ExportEventFileApi.getEventFileList(dataParam).then(data => {
                         if (data && data.payload) {
+                            if (data.payload.length === 0) {
+                                Notification({
+                                    type: NOTYFY_TYPE.warning,
+                                    title: `${t('noti.archived_file')}`,
+                                    description: `${t('noti.no_valid_results_found')}`
+                                });
+                                setListFiles([]);
+                                setTotal(0);
+                                return;
+                            }
                             setListFiles(data.payload.map(f => {
                                 const { important, ...file } = f;
                                 return {
@@ -361,6 +391,16 @@ const ExportEventFile = () => {
                 } else if (viewFileType === 3) {
                     await ExportEventFileApi.getImportantFileList(dataParam).then(data => {
                         if (data && data.payload) {
+                            if (data.payload.length === 0) {
+                                Notification({
+                                    type: NOTYFY_TYPE.warning,
+                                    title: `${t('noti.archived_file')}`,
+                                    description: `${t('noti.no_valid_results_found')}`
+                                });
+                                setListFiles([]);
+                                setTotal(0);
+                                return;
+                            }
                             setListFiles(data.payload.map(f => {
                                 const { important, ...file } = f;
                                 return {
@@ -425,11 +465,11 @@ const ExportEventFile = () => {
     const captureSnapshotHandler = () => {
         const isExistEl = listEventFiles.some(el => el.uuid === eventFileCurrent.uuid);
         if (!isExistEl && eventFileCurrent) {
-            const blob = captureVideoFrame(playerVideo.current, refCanvas.current, "jpeg").blob;
+            const {blob, tBlob}  = captureVideoFrame(playerVideo.current, refCanvas.current, "jpeg");
             const lstEf = [...listEventFiles];
             const fileName = setFileName(1);
             const uuid = uuidV4();
-            const newEventFile = { ...eventFileCurrent, uuid: uuid, type: 1, name: fileName, blob: blob }
+            const newEventFile = { ...eventFileCurrent, uuid: uuid, type: 1, name: fileName, blob: blob, tBlob: tBlob }
             lstEf.push(newEventFile);
             setFileCurrent(newEventFile);
             setListEventFiles([...lstEf]);
@@ -524,13 +564,13 @@ const ExportEventFile = () => {
             playEle.style.display = "block";
             playerVideo.current.pause();
         } else if (cmd === "decrease_rate") {
-            if (playbackRate === 1) return;
-            playbackRate = playbackRate - 1;
+            if (playbackRate === 0.125) return;
+            playbackRate = playbackRate / 2;
             playerVideo.current.defaultPlaybackRate = playbackRate;
             playerVideo.current.playbackRate = playbackRate;
         } else if (cmd === "increase_rate") {
-            if (playbackRate === 10) return;
-            playbackRate = playbackRate + 1;
+            if (playbackRate === 16) return;
+            playbackRate = playbackRate * 2;
             playerVideo.current.defaultPlaybackRate = playbackRate;
             playerVideo.current.playbackRate = playbackRate;
         }
@@ -571,14 +611,14 @@ const ExportEventFile = () => {
                     try {
                         if (fileCurrent.tableName === 'file') {
                             // Call Nginx to get blob data of file
-                            await ExportEventFileApi.getFileData(fileCurrent.id, fileCurrent.fileType, fileCurrent.nginx_host).then(async (result) => {
+                            await ExportEventFileApi.downloadFileNginx(fileCurrent.id, fileCurrent.fileType, fileCurrent.nginx_host).then(async (result) => {
                                 const blob = new Blob([result.data], { type: "octet/stream" });
                                 const url = window.URL.createObjectURL(blob);
                                 saveAs(url, downloadFileName);
                             });
                         } else {
                             // Call Nginx to get blob data of file
-                            await ExportEventFileApi.getFileData(fileCurrent.id, fileCurrent.type, fileCurrent.nginx_host).then(async (result) => {
+                            await ExportEventFileApi.downloadFileNginx(fileCurrent.id, fileCurrent.type, fileCurrent.nginx_host).then(async (result) => {
                                 const blob = new Blob([result.data], { type: "octet/stream" });
                                 const url = window.URL.createObjectURL(blob);
                                 saveAs(url, downloadFileName);
@@ -708,10 +748,10 @@ const ExportEventFile = () => {
                     const index = findIndex(dataList, item => item.uuid === requestObject.uuid);
                     dataList[index] = requestObject;
                     setListFiles([...dataList]);
-                    setFileCurrent({ ...requestObject });
-                    setEventFileCurrent(preSate => {
-                        return { ...preSate, isImportant: requestObject.isImportant, eventName: requestObject.eventName };
-                    });
+                    // setFileCurrent({ ...requestObject });
+                    // setEventFileCurrent(preSate => {
+                    //     return { ...preSate, isImportant: requestObject.isImportant, eventName: requestObject.eventName };
+                    // });
                 }
             }
         } else {
@@ -847,7 +887,7 @@ const ExportEventFile = () => {
     };
 
     const editEventFileHandler = async (eventFile, dataList) => {
-        let { blob, isSaved, ...requestObject } = eventFile; //Create requestObject without blob, isSaved fields
+        let { blob, tBlob, isSaved, ...requestObject } = eventFile; //Create requestObject without blob, isSaved fields
         requestObject = Object.assign({ ...requestObject, isSaved: true });
         const response = await ExportEventFileApi.updateEventFile(requestObject, requestObject.uuid);
         if (response) {
@@ -870,8 +910,8 @@ const ExportEventFile = () => {
         ExportEventFileApi.uploadFile(eventFile.uuid + ".jpeg", eventFile.blob).then(async (result) => {
             if (result.data && result.data.payload && result.data.payload.fileUploadInfoList.length > 0) {
                 let path = result.data.payload.fileUploadInfoList[0].path;
-                let { blob, isSaved, ...requestObject } = eventFile; //Create requestObject without blob, isSaved fields
-                getBase64Text(eventFile.blob, async (thumbnailData) => {
+                let { blob, tBlob, isSaved, ...requestObject } = eventFile; //Create requestObject without blob, isSaved fields
+                getBase64Text(eventFile.tBlob, async (thumbnailData) => {
                     requestObject = Object.assign({
                         ...requestObject,
                         pathFile: path,
@@ -1121,47 +1161,54 @@ const ExportEventFile = () => {
                         </Col>
                         <Col span={7} className="captureContainer">
                             {(checkDisabled() && viewFileType === 0 && eventFileCurrent.type !== -1) &&
+                            <Tooltip placement="bottomLeft" title={t('view.storage.org')}>
                                 <span className="ogLabel" onClick={originalHandler}>ORG</span>
+                            </Tooltip>
                             }
                             {checkBtnEditRootFileDisabled() &&
-                                <span className="ogLabel" onClick={() => {
-                                    if (fileCurrent.tableName === 'file') {
-                                        editRootFileHandler(fileCurrent.uuid).then();
-                                    } else {
-                                        editRootFileHandler(fileCurrent.rootFileUuid).then();
-                                    }
-                                }}
-                                >ORG</span>
+                            <Tooltip placement="bottomLeft" title={t('view.storage.org')}>
+                            <span className="ogLabel" onClick={() => {
+                                if (fileCurrent.tableName === 'file') {
+                                    editRootFileHandler(fileCurrent.uuid).then();
+                                } else {
+                                    editRootFileHandler(fileCurrent.rootFileUuid).then();
+                                }
+                            }}
+                            >ORG</span></Tooltip>
                             }
-                            <Popover
-                                overlayClassName={`${checkBtnInfoDisabled() ? 'fileInfoPopoverHidden' : 'fileInfoPopover'}`}
-                                placement="topRight" title=""
-                                content={checkBtnInfoDisabled() ? '' : renderInfoPopoverContent}
-                                trigger={`${checkBtnInfoDisabled() ? '' : 'click'}`}>
-                                <AiOutlineInfoCircle
-                                    className={`${checkBtnInfoDisabled() ? 'action__disabled' : 'action'}`}
-                                    onClick={(e) => {
-                                        if (checkBtnInfoDisabled()) return;
-                                        e.stopPropagation();
-                                    }} />
-                            </Popover>
-                            <FiDownload className={`${checkBtnDownloadDisabled() ? 'action__disabled' : 'action'}`}
-                                onClick={() => {
-                                    if (checkBtnDownloadDisabled()) return;
-                                    downloadFileHandler();
-                                }} />
-                            {checkBtnCaptureDisabled() && <FiScissors className='action'
-                                onClick={() => {
-                                    captureVideoHandler().then();
-                                }}
-                            />}
-                            {checkBtnCaptureDisabled() && <FiCamera className='action'
-                                onClick={() => {
-                                    captureSnapshotHandler();
-                                }}
-                            />}
-                            <Popconfirm
-                                title={t('noti.delete_file', { this: t('this') })}
+                            <Tooltip placement="bottomLeft" title={t('view.storage.view_information')}>
+                                <Popover
+                                    overlayClassName={`${checkBtnInfoDisabled() ? 'fileInfoPopoverHidden' : 'fileInfoPopover'}`}
+                                    placement="topRight" title=""
+                                    content={checkBtnInfoDisabled() ? '' : renderInfoPopoverContent}
+                                    trigger={`${checkBtnInfoDisabled() ? '' : 'click'}`}>
+                                    <AiOutlineInfoCircle
+                                        className={`${checkBtnInfoDisabled() ? 'action__disabled' : 'action'}`}
+                                        onClick={(e) => {
+                                            if (checkBtnInfoDisabled()) return;
+                                            e.stopPropagation();
+                                        }}/>
+                                </Popover>
+                            </Tooltip>
+                            <Tooltip placement="bottomLeft" title={t('view.storage.download_file')}>
+                                <FiDownload className={`${checkBtnDownloadDisabled() ? 'action__disabled' : 'action'}`}
+                                            onClick={() => {
+                                                if (checkBtnDownloadDisabled()) return;
+                                                downloadFileHandler();
+                                            }}/>
+                            </Tooltip>
+                            {checkBtnCaptureDisabled() && <Tooltip placement="bottomLeft" title={t('view.storage.cut_file')}><FiScissors className='action'
+                                                                      onClick={() => {
+                                                                          captureVideoHandler().then();
+                                                                      }}
+                            /></Tooltip>}
+                            {checkBtnCaptureDisabled() && <Tooltip placement="bottomLeft" title={t('view.storage.capture_snapshot')}><FiCamera className='action'
+                                                                    onClick={() => {
+                                                                        captureSnapshotHandler();
+                                                                    }}
+                            /></Tooltip>}
+                            <Tooltip placement="bottomLeft" title={t('view.storage.delete')}><Popconfirm
+                                title={t('noti.delete_file', {this: t('this')})}
                                 onConfirm={() => {
                                     if (checkBtnDeleteDisabled()) return;
                                     deleteFileHandler().then(r => {
@@ -1169,8 +1216,8 @@ const ExportEventFile = () => {
                                 }}
                             >
                                 <RiDeleteBinLine
-                                    className={`${checkBtnDeleteDisabled() ? 'action__disabled' : 'action'}`} />
-                            </Popconfirm>
+                                    className={`${checkBtnDeleteDisabled() ? 'action__disabled' : 'action'}`}/>
+                            </Popconfirm></Tooltip>
                         </Col>
                     </Row>
                     {/*<Row className="timeDuration" style={{display: `${checkDisabled() ? 'none' : 'flex'}`}}>*/}
@@ -1183,7 +1230,7 @@ const ExportEventFile = () => {
                             fileCurrent && <MemoizedThumbnailVideo
                                 duration={duration}
                                 videoFile={urlVideoTimeline} playerVideo={playerVideo}
-                                fileCurrent={fileCurrent}
+                                fileCurrent={fileCurrent} zoom={zoom}
                             />
                         }
                         </Col>
