@@ -1,5 +1,5 @@
-import { isEmpty } from 'lodash';
-import React from 'react';
+import { constant, isEmpty } from 'lodash';
+import React, { useEffect } from 'react';
 import { connect } from 'react-redux';
 import {
   CartesianGrid,
@@ -15,21 +15,17 @@ import { loadDataChart } from '../../redux/actions';
 import './chart.scss';
 import ExportReport from './ExportReport';
 import { useTranslation } from 'react-i18next';
+import convertDataChartAndPieChart from '../../../../actions/function/MyUltil/ConvertDataChartAndPieChart';
 
 var randomColor = require('randomcolor');
 
 function Chart(props) {
-  let data = props.chartData
-//  const data = JSON.parse(JSON.stringify(data1))
-
+  const data = props.chartData
   const { t } = useTranslation();
-  const dataConvert = (data) => {
-    const dataNoName = data[0];
-
+  const dataConvert = (dataMap) => {
+    const dataNoName = dataMap[0];
     delete dataNoName.name;
-
     const keyArr = Object.keys(dataNoName);
-
     return keyArr.map((k) => {
       return (
         <Line
@@ -51,7 +47,7 @@ function Chart(props) {
       {props.isShowLineAndPieChart && (
         <div className="Chart">
           <div className="Chart__title">
-            <h3> BIỂU ĐỒ XU THẾ TÌNH HÌNH {props.title.toUpperCase()} </h3>
+            <h3> {t('view.report.trend_chart')} {props.title.toUpperCase()} </h3>
 
             <ExportReport type="rateReport"/>
           </div>
@@ -89,7 +85,7 @@ function Chart(props) {
 
 const mapStateToProps = (state) => ({
   isLoading: state.chart.isLoading,
-  chartData: state.chart.chartData,
+  chartData: convertDataChartAndPieChart(state.chart.chartData),
   error: state.chart.error,
   title: state.chart.title,
   isShowLineAndPieChart: state.chart.isShowLineAndPieChart
