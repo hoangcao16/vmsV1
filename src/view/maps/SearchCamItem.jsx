@@ -1,16 +1,16 @@
 import { SearchOutlined } from "@ant-design/icons";
+import { isEmpty } from "lodash";
 import React, { useRef, useState } from "react";
+import { connect } from "react-redux";
 import EditableTagGroup from "./EditableTagGroup";
 
-const SearchCamItem = () => {
+const SearchCamItem = (props) => {
   const searchCamRef = useRef(null);
   const [expandSearch, setExpandSearch] = useState(false);
   const handleExpandSearchBar = () => {
     searchCamRef.current && searchCamRef.current.classList.toggle("active");
     setExpandSearch(!expandSearch);
   };
-
-
 
   return (
     <div ref={searchCamRef} className="search-cam-item">
@@ -20,20 +20,23 @@ const SearchCamItem = () => {
           <SearchOutlined />
         </div>
       </div>
-
-      {/* {
+      {!isEmpty(props.cameraTags) && (
         <div className="list-data-search">
           <ul>
-            <li>hungng</li>
-            <li>hungng</li>
-            <li>hungng</li>
-            <li>hungng</li>
-            <li>hungng</li>
+            {props.cameraTags.map((t, index) => {
+              return <li key={index}>{t.name}</li>;
+            })}
           </ul>
         </div>
-      } */}
+      )}
     </div>
   );
 };
 
-export default SearchCamItem;
+const mapStateToProps = (state) => ({
+  cameraTags: state.quickSearch.cameraTags,
+});
+
+const mapDispatchToProps = (dispatch) => {};
+
+export default connect(mapStateToProps, mapDispatchToProps)(SearchCamItem);

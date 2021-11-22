@@ -5,8 +5,7 @@ import cameraSaga from './map/index';
 import notificationSaga from '../../view/notification/redux/sagas/index';
 import allEmailSaga from '../../view/storage/store-setting/redux/sagas/index'
 import dataChartSaga from "../../../src/view/report/redux/sagas/index"
-
-
+import tagSaga from "../../../src/view/maps/redux/sagas/index"
 
 export default function* RootSaga() {
   yield all([
@@ -15,6 +14,7 @@ export default function* RootSaga() {
     cameraSaga(),
     notificationSaga(),
     allEmailSaga(),
-    dataChartSaga()
+    dataChartSaga(),
+    tagSaga()
   ]);
 }
