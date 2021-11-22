@@ -18,14 +18,14 @@ import { useTranslation } from 'react-i18next';
 
 const formItemLayout = {
   wrapperCol: { span: 24 },
-  labelCol: { span: 24 }
+  labelCol: { span: 24 },
 };
 
 const ModalViewEditCategory = (props) => {
   const { t } = useTranslation();
   let { setShowModal, selectedCategoryId, dataType } = props;
   const [fieldData, setFieldData] = useState();
-  const [name, setName] = useState('');
+  const [name, setName] = useState("");
   const [form] = Form.useForm();
   const [selectedCategoryEdit, setSelectedCategoryEdit] = useState(null);
 
@@ -51,7 +51,16 @@ const ModalViewEditCategory = (props) => {
   }, [selectedCategoryId]);
 
   const renderOptionSelectField = () =>
-    fieldData?.map((item) => <option value={item.uuid}>{item.name}</option>);
+    fieldData?.map((item) => (
+      <option value={item.uuid}>
+        {item.name.length > 40
+          ? `${item.name.slice(0, 19)}...${item.name.slice(
+              item.name.length - 20,
+              item.name.length
+            )}`
+          : `${item.name}`}
+      </option>
+    ));
 
   const getAllField = async (params) => {
     const data = await FieldApi.getAllFeild(params);
@@ -60,14 +69,14 @@ const ModalViewEditCategory = (props) => {
 
   useEffect(() => {
     const params = {
-      name: ''
+      name: "",
     };
     getAllField(params);
   }, []);
 
   const handleSubmit = async (value) => {
     const payload = {
-      ...value
+      ...value,
     };
 
     try {
@@ -95,9 +104,9 @@ const ModalViewEditCategory = (props) => {
 
         if (isEdit) {
           const notifyMess = {
-            type: 'success',
-            title: 'Thành công',
-            description: `Bạn đã sửa thành công tên ${name}`
+            type: "success",
+            title: "Thành công",
+            description: `Bạn đã sửa thành công tên ${name}`,
           };
           Notification(notifyMess);
         }
@@ -122,9 +131,9 @@ const ModalViewEditCategory = (props) => {
         }
         if (isPost) {
           const notifyMess = {
-            type: 'success',
-            title: 'Thành công',
-            description: `Bạn đã thêm thành công ${name}`
+            type: "success",
+            title: "Thành công",
+            description: `Bạn đã thêm thành công ${name}`,
           };
           Notification(notifyMess);
           setShowModal(false);
@@ -151,7 +160,7 @@ const ModalViewEditCategory = (props) => {
         }}
         className="modal__edit--category"
         footer={null}
-        maskStyle={{ background: 'rgba(51, 51, 51, 0.9)' }}
+        maskStyle={{ background: "rgba(51, 51, 51, 0.9)" }}
       >
         <Form
           className="bg-grey"
@@ -164,7 +173,7 @@ const ModalViewEditCategory = (props) => {
             <Col span={24}>
               <Form.Item
                 label={`${name}`}
-                name={['name']}
+                name={["name"]}
                 rules={[
                   {
                     required: true,
@@ -176,7 +185,7 @@ const ModalViewEditCategory = (props) => {
                   maxLength={255}
                   onBlur={(e) => {
                     form.setFieldsValue({
-                      name: e.target.value.trim()
+                      name: e.target.value.trim(),
                     });
                   }}
                 />

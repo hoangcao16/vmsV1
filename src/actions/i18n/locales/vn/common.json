@@ -71,7 +71,6 @@
       "enter_key": "Nhập khóa",
       "choose_field_for_event": "Chọn lĩnh vực cho sự kiện",
       "administrative_unit_detail": "Chi tiết đơn vị hành chính"
-
     },
     "common_device": {
       "camproxy_name": "Tên Camproxy",
@@ -239,7 +238,7 @@
       "to_date": "Đến ngày",
       "file_type": "Loại tệp",
       "event_type": "Loại sự kiện",
-      "recording_setting": "Cấu hình ghi",
+      "recording_setting": "Cấu hình ghi hình",
       "cleanup_setting": "Cấu hình dọn dẹp",
       "storage_threshold_setting": "Cấu hình ngưỡng lưu trữ",
       "set_max_archive_file_length": "Thiết lập độ dài tối đa tệp lưu trữ",
@@ -247,7 +246,7 @@
       "maximum_length_video_archive": "Chiều dài tối đa video lưu trữ",
       "seconds": "Giây",
       "what_is_cs": "Thiết lập cấu hình dọn dẹp là gì?",
-      "cs_desc": "Không phải lúc nào bạn cũng sử dụng tất cả mọi video thu về. Việc lưu trữ chúng dần trở thành gánh nặng cho đơn vị, tạo ra nhiều chi phí và cũng đồng thời lãng phí nguồn lực, tài nguyên. Trong khi đó, việc xử lý dọn dẹp tay trở nên quá sức với bất cứ các nhân nào vì lượng tệp lưu trữ lớn. Việc thiết lập chế độ tự động dọn dẹp nhằm giúp đơn vị tối ưu lại bộ nhớ và tiết kiệm chi phí hơn.",
+      "cs_desc": "Không phải lúc nào bạn cũng sử dụng tất cả mọi video thu về. Việc lưu trữ chúng dần trở thành gánh nặng cho đơn vị, tạo ra nhiều chi phí và cũng đồng thời lãng phí nguồn lực, tài nguyên. Trong khi đó, việc xử lý dọn dẹp tay trở nên quá sức với bất cứ cá nhân nào vì lượng tệp lưu trữ lớn. Việc thiết lập chế độ tự động dọn dẹp nhằm giúp đơn vị tối ưu lại bộ nhớ và tiết kiệm chi phí hơn.",
       "what_is_sts": "Thiết lập cấu hình ngưỡng lưu trữ là gì?",
       "sts_desc": "Thiết lập cấu hình ngưỡng lưu trữ là thiết lập việc nhận cảnh báo khi dung lượng lưu trữ đã sử dụng đến mức cài đặt. Bạn sẽ nhận được cảnh báo về tình trạng dung lượng lưu trữ còn lại và thời gian sử dụng còn lại dự kiến.",
       "maximum_storage_time": "Thời gian tối đa lưu trữ",
@@ -258,7 +257,7 @@
       "month": "Tháng",
       "year": "Năm",
       "autosave_file": "Tệp tự động lưu hàng ngày",
-      "event_file": "File sự kiện",
+      "event_file": "Tệp sự kiện",
       "clean_important_file": "Dọn dẹp tệp quan trọng",
       "level_1": "Ngưỡng cảnh báo lưu trữ cấp 1:",
       "level_2": "Ngưỡng cảnh báo lưu trữ cấp 2:",
@@ -394,21 +393,26 @@
       "face": "Quản lý khuôn mặt",
       "name": "Tên",
       "code": "Mã",
-      "position" : "Chức vụ",
-      "department" : "Phòng ban",
-      "adminUnit" : "Đơn vị",
-      "status" : "Trạng thái"
+      "position": "Chức vụ",
+      "department": "Phòng ban",
+      "adminUnit": "Đơn vị",
+      "status": "Trạng thái"
     },
     "ai_config": {
       "config": "Quản lý sự kiện thông minh",
       "hurdles_events": "Sự kiện vượt rào ảo",
-      "intrusion_detection_events" : "Sự kiện phát hiện xâm nhập",
-      "attendance_events" : "Điểm danh",
+      "intrusion_detection_events": "Sự kiện phát hiện xâm nhập",
+      "attendance_events": "Điểm danh",
       "schedule_config": "Thiết lập lịch trình",
       "area_config": "Thiết lập Khu vực"
     }
   },
   "noti": {
+    "successfully_update_tag_category": "Cập nhập nhãn thành công",
+    "fail_update_tag_category": "Cập nhập nhãn thất bại",
+    "successfully_add_tag_category": "Thêm mới nhãn thành công",
+    "fail_add_tag_category": "Thêm mới nhãn thất bại",
+
     "logged_out_successfully": "Đăng xuất thành công",
     "logged_out_failed": "Đăng xuất thất bại",
     "delete_camera": "Bạn chắc chắn muốn xóa {{cam}} {{this}}?",
@@ -417,7 +421,7 @@
     "successfully_delete_camera_vendor": "{{delete}} thành công hãng {{cam}}",
     "successfully_delete_field": "{{delete}} thành công lĩnh vực",
     "successfully_delete_event_type": "{{delete}} thành công loại sự kiện",
-    "successfully_delete_tag_type": "{{delete}} thành công loại tag",
+    "successfully_delete_tag_type": "{{delete}} thành công loại nhãn",
     "delete_category": "Bạn chắc chắn muốn xóa danh mục {{this}}?",
     "successfully_edit_administrative_unit": "Bạn đã sửa thành công đơn vị hành chính",
     "successfully_edit_camproxy": "Bạn đã sửa thành công Camproxy",

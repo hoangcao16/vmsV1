@@ -40,10 +40,12 @@ export function* handleDataChartLoad(action) {
   }
   localStorage.setItem('payloadDataChart', JSON.stringify(payloadDataChart));
   try {
-    const data = yield call(() => ReportApi.getChartData(payloadDataChart).then((data)=>{
-      return data
-    }));
-    yield put(setDataChart(data));
+    if (!isEmpty(payloadDataChart.eventId)) {
+      const data = yield call(() => ReportApi.getChartData(payloadDataChart).then((data)=>{
+        return data
+      }));
+      yield put(setDataChart(data));
+    }
   } catch (error) {
     yield put(setError(error.toString()));
   }
