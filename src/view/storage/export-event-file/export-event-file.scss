@@ -864,7 +864,7 @@
 
 .actionEventFilePopover {
   .ant-select {
-    width: 200px;
+    width: 300px;
   }
 
   .ant-popover-title {
@@ -878,5 +878,26 @@
 
   .ant-popover-arrow-content {
     background-color: $vms-bg-sub;
+  }
+}
+
+.ant-select-item-option-content {
+  .field-name {
+    color: $vms-main-blue-primary !important;
+    font-size: x-small;
+  }
+}
+
+.ant-select-item-option-selected {
+  .field-name {
+    color: $vms-status-07 !important;
+    font-size: x-small;
+  }
+}
+
+.ant-select-selection-item {
+  .field-name {
+    color: $vms-main-blue-primary !important;
+    font-size: x-small;
   }
 }
