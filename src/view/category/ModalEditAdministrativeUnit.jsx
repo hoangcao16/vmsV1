@@ -25,6 +25,8 @@ import './../commonStyle/commonModal.scss';
 import './../commonStyle/commonSelect.scss';
 import './ModalEditAdministrativeUnit.scss';
 import './UploadFile.scss';
+import MuiPhoneNumber from 'material-ui-phone-number';
+
 
 const formItemLayout = {
   wrapperCol: { span: 24 },
@@ -201,6 +203,7 @@ const ModalEditAdministrativeUnit = (props) => {
   const handleSubmit = async (value) => {
     const payload = {
       ...value,
+      tel: value?.phone?.substring(1),
       avatarFileName: avatarFileName
     };
 
@@ -325,15 +328,27 @@ const ModalEditAdministrativeUnit = (props) => {
                   <Form.Item
                     name={['tel']}
                     label={t('view.map.phone_number')}
+                    className="phone__input"
+                    // rules={[
+                    //   {
+                    //     required: true,
+                    //     message: `${t('view.map.required_field')}`,
+                    //     max: 12
+                    //   }
+
+                    // ]}
                     rules={[
                       {
                         required: true,
-                        message: `${t('view.map.required_field')}`,
-                        max: 12
+                        message: `${t('view.map.required_field')}`
+                      },
+                      {
+                        min: 11,
+                        message: 'Tối thiểu 10 ký tự'
                       }
                     ]}
                   >
-                    <Input
+                    {/* <Input
                       placeholder={t(
                         'view.map.please_enter_your_phone_number',
                         { plsEnter: t('please_enter') }
@@ -342,13 +357,21 @@ const ModalEditAdministrativeUnit = (props) => {
                         evt.key === 'e' && evt.preventDefault()
                       }
                       type="number"
+                    /> */}
+
+                    <MuiPhoneNumber
+                      name="phone"
+                      data-cy="user-phone"
+                      defaultCountry={'vn'}
+                      autoComplete="off"
+                    // placeholder={t('view.user.detail_list.phone_number')}
                     />
                   </Form.Item>
                 </Col>
               </Row>
             </Col>
           </Row>
-          <Row gutter={24} style={{ marginTop: '32px' }}>
+          <Row gutter={24}>
             <Col span={24}>
               <Form.Item
                 label={t('view.map.location')}
