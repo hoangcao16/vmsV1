@@ -11,7 +11,7 @@ const initialValues = {
   key: ""
 };
 const ModalUpdateTag = (props) => {
-    const { t } = useTranslation();
+  const { t } = useTranslation();
   let { setShowModal, selectedCategoryId } = props;
   const [form] = Form.useForm();
   const [loading, setLoading] = useState(false);
@@ -20,8 +20,8 @@ const ModalUpdateTag = (props) => {
     const getTagById = async () => {
       if (selectedCategoryId !== null) {
         const response = await TagApi.getTagById(selectedCategoryId);
-        if(response) {
-            form.setFieldsValue({key: response.key})
+        if (response) {
+          form.setFieldsValue({ key: response.key })
         }
       }
     };
@@ -29,49 +29,49 @@ const ModalUpdateTag = (props) => {
   }, [selectedCategoryId]);
   const showMessage = (selectedCategoryId, response) => {
     const notifyMess = {
-        type: 'success',
-        title: '',
-        description: `${t('noti.successfully_add_tag_category', {
-          add: t('add')
-        })}`
-      };
-      if (selectedCategoryId) {
-        notifyMess.description = response ? `${t('noti.successfully_update_tag_category', {
-            add: t('update')
-          })}` : `${t('noti.fail_update_tag_category', {
-            add: t('update')
-          })}`
-      } else {
-        notifyMess.description = response ? `${t('noti.successfully_add_tag_category', {
-            add: t('add')
-          })}` : `${t('noti.fail_add_tag_category', {
-            add: t('add')
-          })}`
-      }
-      Notification(notifyMess);
+      type: 'success',
+      title: '',
+      description: `${t('noti.successfully_add_tag_category', {
+        add: t('add')
+      })}`
+    };
+    if (selectedCategoryId) {
+      notifyMess.description = response ? `${t('noti.successfully_update_tag_category', {
+        add: t('update')
+      })}` : `${t('noti.fail_update_tag_category', {
+        add: t('update')
+      })}`
+    } else {
+      notifyMess.description = response ? `${t('noti.successfully_add_tag_category', {
+        add: t('add')
+      })}` : `${t('noti.fail_add_tag_category', {
+        add: t('add')
+      })}`
+    }
+    Notification(notifyMess);
   }
   const handleSubmit = async (values) => {
     try {
       setLoading(true);
       let response;
-      if(selectedCategoryId) {
-         response = await TagApi.updateTagById(selectedCategoryId, values);
+      if (selectedCategoryId) {
+        response = await TagApi.updateTagById(selectedCategoryId, values);
       } else {
-         response = await TagApi.addTag(values);
+        response = await TagApi.addTag(values);
       }
-      if(response) {
+      if (response) {
         setShowModal(false);
-      } 
+      }
       showMessage(selectedCategoryId, response);
     } catch (error) {
     } finally {
-        setLoading(false);
+      setLoading(false);
     }
   };
   return (
     <>
       <Modal
-        title={selectedCategoryId ? "Sửa tag" : "Thêm mới tag"}
+        title={selectedCategoryId ? "Sửa nhãn" : "Thêm mới nhãn"}
         visible={true}
         // onOk={handleSubmit}
         onCancel={() => {
@@ -91,7 +91,7 @@ const ModalUpdateTag = (props) => {
             <Row gutter={24}>
               <Col span={24}>
                 <Form.Item
-                  label="Nhập key"
+                  label="Nhập từ khóa"
                   name={["key"]}
                   rules={[
                     {
@@ -100,7 +100,7 @@ const ModalUpdateTag = (props) => {
                     },
                   ]}
                 >
-                  <Input />
+                  <Input maxLength={255} />
                 </Form.Item>
               </Col>
             </Row>
