@@ -113,7 +113,7 @@ const MapListCamLive = (props) => {
                     shape="round"
                     size="middle"
                     className="camera-live__save"
-                    style={{ position: 'absolute', right: '8px', top: '2px', height: '40px', width: '40px', padding: '0', background: '#1380FF', zIndex: '999', border: '0' }}
+                    style={{ position: 'absolute', left: '8px', top: '2px', height: '40px', width: '40px', padding: '0', background: '#1380FF', zIndex: '999', border: '0' }}
                     icon={<SaveOutlined style={{ color: "#FCFEFF", fontSize: '20px' }} />}
                 >
                 </Button>
