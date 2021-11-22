@@ -69,7 +69,6 @@
       "administrative_unit_name": "Tên đơn vị hành chính",
       "plsEnter_administrative_unit_name": "{{plsEnter}} tên đơn vị hành chính",
       "administrative_unit_detail": "Chi tiết đơn vị hành chính"
-
     },
     "common_device": {
       "camproxy_name": "Tên Camproxy",
@@ -392,21 +391,26 @@
       "face": "Quản lý khuôn mặt",
       "name": "Tên",
       "code": "Mã",
-      "position" : "Chức vụ",
-      "department" : "Phòng ban",
-      "adminUnit" : "Đơn vị",
-      "status" : "Trạng thái"
+      "position": "Chức vụ",
+      "department": "Phòng ban",
+      "adminUnit": "Đơn vị",
+      "status": "Trạng thái"
     },
     "ai_config": {
       "config": "Quản lý sự kiện thông minh",
       "hurdles_events": "Sự kiện vượt rào ảo",
-      "intrusion_detection_events" : "Sự kiện phát hiện xâm nhập",
-      "attendance_events" : "Điểm danh",
+      "intrusion_detection_events": "Sự kiện phát hiện xâm nhập",
+      "attendance_events": "Điểm danh",
       "schedule_config": "Thiết lập lịch trình",
       "area_config": "Thiết lập Khu vực"
     }
   },
   "noti": {
+    "successfully_update_tag_category": "Cập nhập nhãn thành công",
+    "fail_update_tag_category": "Cập nhập nhãn thất bại",
+    "successfully_add_tag_category": "Thêm mới nhãn thành công",
+    "fail_add_tag_category": "Thêm mới nhãn thất bại",
+
     "logged_out_successfully": "Đăng xuất thành công",
     "logged_out_failed": "Đăng xuất thất bại",
     "delete_camera": "Bạn chắc chắn muốn xóa {{cam}} {{this}}?",
@@ -415,7 +419,7 @@
     "successfully_delete_camera_vendor": "{{delete}} thành công hãng {{cam}}",
     "successfully_delete_field": "{{delete}} thành công lĩnh vực",
     "successfully_delete_event_type": "{{delete}} thành công loại sự kiện",
-    "successfully_delete_tag_type": "{{delete}} thành công loại tag",
+    "successfully_delete_tag_type": "{{delete}} thành công loại nhãn",
     "delete_category": "Bạn chắc chắn muốn xóa danh mục {{this}}?",
     "successfully_edit_administrative_unit": "Bạn đã sửa thành công đơn vị hành chính",
     "successfully_edit_camproxy": "Bạn đã sửa thành công Camproxy",

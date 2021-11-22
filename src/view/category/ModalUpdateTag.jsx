@@ -1,6 +1,6 @@
 import { Button, Col, Form, Input, Modal, Row, Spin } from "antd";
 import React, { useEffect, useState } from "react";
-import { useTranslation } from 'react-i18next';
+import { useTranslation } from "react-i18next";
 import TagApi from "../../actions/api/tag";
 import Notification from "../../components/vms/notification/Notification";
 const formItemLayout = {
@@ -8,7 +8,7 @@ const formItemLayout = {
   labelCol: { span: 24 },
 };
 const initialValues = {
-  key: ""
+  key: "",
 };
 const ModalUpdateTag = (props) => {
   const { t } = useTranslation();
@@ -21,7 +21,7 @@ const ModalUpdateTag = (props) => {
       if (selectedCategoryId !== null) {
         const response = await TagApi.getTagById(selectedCategoryId);
         if (response) {
-          form.setFieldsValue({ key: response.key })
+          form.setFieldsValue({ key: response.key });
         }
       }
     };
@@ -29,27 +29,23 @@ const ModalUpdateTag = (props) => {
   }, [selectedCategoryId]);
   const showMessage = (selectedCategoryId, response) => {
     const notifyMess = {
-      type: 'success',
-      title: '',
-      description: `${t('noti.successfully_add_tag_category', {
-        add: t('add')
-      })}`
+      type: "success",
+      title: "",
+      description: `${t("noti.successfully_add_tag_category", {
+        add: t("add"),
+      })}`,
     };
     if (selectedCategoryId) {
-      notifyMess.description = response ? `${t('noti.successfully_update_tag_category', {
-        add: t('update')
-      })}` : `${t('noti.fail_update_tag_category', {
-        add: t('update')
-      })}`
+      notifyMess.description = response
+        ? `${t("noti.successfully_update_tag_category")}`
+        : `${t("noti.fail_update_tag_category")}`;
     } else {
-      notifyMess.description = response ? `${t('noti.successfully_add_tag_category', {
-        add: t('add')
-      })}` : `${t('noti.fail_add_tag_category', {
-        add: t('add')
-      })}`
+      notifyMess.description = response
+        ? `${t("noti.successfully_add_tag_category")}`
+        : `${t("noti.fail_add_tag_category")}`;
     }
     Notification(notifyMess);
-  }
+  };
   const handleSubmit = async (values) => {
     try {
       setLoading(true);
@@ -100,7 +96,14 @@ const ModalUpdateTag = (props) => {
                     },
                   ]}
                 >
-                  <Input maxLength={255} />
+                  <Input
+                    maxLength={255}
+                    onBlur={(e) =>
+                      form.setFieldsValue({
+                        key: e.target.value.trim(),
+                      })
+                    }
+                  />
                 </Form.Item>
               </Col>
             </Row>
