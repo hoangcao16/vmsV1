@@ -1,5 +1,5 @@
 import Notification from '../../components/vms/notification/Notification';
-import {handleForbiddenCode} from "./forbidden";
+import { handleForbiddenCode } from "./forbidden";
 
 const StatusOK = 600;
 const StatusCreated = 600;
@@ -22,7 +22,7 @@ export const handleErrCode = ({ code, message, payload, deny_permission_codes })
     case StatusCreated:
       return payload != null ? payload : [];
     case StatusBadRequest:
-      errCode.description = 'Bad request';
+      errCode.description = 'Đăng nhập không thành công. Vui lòng kiểm tra lại Tài khoản hoặc Mật khẩu';
       Notification(errCode);
       return null;
     case StatusInternalServerError:

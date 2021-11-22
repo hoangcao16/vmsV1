@@ -37,7 +37,7 @@ export const handleErrCodeAuthZ = (data) => {
       return data;
 
     case AuthZStatusBadRequest:
-      errCode.description = message;
+      errCode.description = "Đăng nhập không thành công. Vui lòng kiểm tra lại Tài khoản hoặc Mật khẩu";
       Notification(errCode);
       return null;
 
