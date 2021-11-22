@@ -12,6 +12,8 @@
       border-bottom: 0;
       padding: 0;
       background-color: $vms-bg-primary;
+      padding-bottom: 0;
+
 
       .ant-modal-title {
         border-radius: 12px 12px 0 0;
@@ -19,6 +21,8 @@
         color: $vms-soft-statuts;
         text-align: center;
         padding: 24px;
+        padding-bottom: 0;
+
       }
     }
 
@@ -30,6 +34,38 @@
 
       label {
         color: $vms-soft-statuts;
+      }
+
+      .phone__input {
+        .ant-form-item-control-input {
+          border: $vms-border-gray;
+          .MuiFormControl-root{
+            height: 40px;
+            width: 100%;
+            .MuiInput-root{
+              // border: $vms-border-gray;
+              height: 40px;
+  
+              .MuiInput-input{
+                border:0 !important;
+                height: 40px;
+                font-size: 1.4rem;
+                padding: 0;
+              }
+              .MuiButtonBase-root{
+                svg {
+                  width: 20px;
+                }
+              }
+            }
+            .css-1480iag-MuiInputBase-root-MuiInput-root{
+              &::after,&::before {
+                border: 0;
+              }
+            }
+          }
+        }
+        
       }
 
       .row--submit {

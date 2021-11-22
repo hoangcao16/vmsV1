@@ -72,7 +72,8 @@
       "administrative_unit_name": "Administrative unit name",
       "plsEnter_administrative_unit_name": "{{plsEnter}} administrative unit name",
       "enter_key": "Please enter key",
-      "choose_field_for_event": "Please choose field for event"
+      "choose_field_for_event": "Please choose field for event",
+      "administrative_unit_detail": "Administrative unit detail"
     },
 
     "common_device": {

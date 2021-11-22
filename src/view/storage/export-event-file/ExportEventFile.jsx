@@ -101,7 +101,7 @@ const ExportEventFile = () => {
         let perStr = 'view_event_list';
         const per = permissionCheck(perStr);
         if (per) {
-            eventApi.getAll({}).then(data => {
+            eventApi.getAll({page: 0, size: 1000000, sort_by: 'name', order_by: 'asc'}).then(data => {
                 if (data && data.payload) {
                     setEventList(data.payload);
                 }

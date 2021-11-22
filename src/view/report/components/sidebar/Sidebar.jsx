@@ -207,13 +207,14 @@ function Sidebar(props) {
       timeStartYear: timeStartYear,
       timeEndYear: timeEndYear,
       provinceId: provinceId,
-      districtId: districtId,
-      wardId: wardId,
+      districtId: districtId || [],
+      wardId: wardId || [],
       fieldId: feildIds,
       eventList: selectedRowKeys
     };
+
     props.callData(clearData(data));
-  },[selectedRowKeys, dataTime, timeStartDay, timeEndDay, timeStartMonth, timeEndMonth, timeStartYear, timeEndYear, provinceId, districtId, wardId, feildIds])
+  }, [selectedRowKeys])
 
   const onChangeCity = async (cityIdArr) => {
     if (cityIdArr.length < 1) {
@@ -227,7 +228,7 @@ function Sidebar(props) {
       setHiddenWard(true);
       setisShowLineAndPieChart(true);
       setProvinceId(cityIdArr);
-      setSelectedRowKeys([filterOptions?.fields[0]?.eventList[0].uuid]);
+      setSelectedRowKeys([filterOptions?.fields[0]?.eventList[0].uuid]);  
       form.setFieldsValue({ districtId: undefined, wardId: undefined });
       
       //Call API
@@ -246,7 +247,6 @@ function Sidebar(props) {
       //   eventList: selectedRowKeys
       // };
       
-
       // props.callData(clearData(data));
 
       return;
@@ -257,6 +257,7 @@ function Sidebar(props) {
       form.setFieldsValue({ districtId: undefined, wardId: undefined });
       setProvinceId(cityIdArr);
       setSelectedRowKeys([filterOptions?.fields[0]?.eventList[0].uuid]);
+
       //Call API
       // const data = {
       //   pickTime: dataTime,
@@ -272,7 +273,9 @@ function Sidebar(props) {
       //   fieldId: feildIds,
       //   eventList: selectedRowKeys
       // };
+
       // props.callData(clearData(data));
+
       return;
     }
     form.setFieldsValue({ districtId: undefined, wardId: undefined });
@@ -285,23 +288,24 @@ function Sidebar(props) {
       setDistrictId(districtIdArr);
       setSelectedRowKeys([filterOptions?.fields[0]?.eventList[0].uuid]);
       form.setFieldsValue({ wardId: undefined });
-      //Call API
-      // const data = {
-      //   pickTime: dataTime,
-      //   timeStartDay: timeStartDay,
-      //   timeEndDay: timeEndDay,
-      //   timeStartMonth: timeStartMonth,
-      //   timeEndMonth: timeEndMonth,
-      //   timeStartYear: timeStartYear,
-      //   timeEndYear: timeEndYear,
-      //   provinceId: provinceId,
-      //   districtId: districtIdArr,
-      //   wardId: wardId,
-      //   fieldId: feildIds,
-      //   eventList: selectedRowKeys
-      // };
 
-      // props.callData(clearData(data));
+      //Call API
+      const data = {
+        pickTime: dataTime,
+        timeStartDay: timeStartDay,
+        timeEndDay: timeEndDay,
+        timeStartMonth: timeStartMonth,
+        timeEndMonth: timeEndMonth,
+        timeStartYear: timeStartYear,
+        timeEndYear: timeEndYear,
+        provinceId: provinceId,
+        districtId: districtIdArr,
+        wardId: wardId,
+        fieldId: feildIds,
+        eventList: selectedRowKeys
+      };
+
+      props.callData(clearData(data));
 
       return;
     } else if (districtIdArr.length > 1) {
@@ -310,23 +314,24 @@ function Sidebar(props) {
       setDistrictId(districtIdArr);
       setSelectedRowKeys([filterOptions?.fields[0]?.eventList[0].uuid]);
       form.setFieldsValue({ wardId: undefined });
-      //Call API
-      // const data = {
-      //   pickTime: dataTime,
-      //   timeStartDay: timeStartDay,
-      //   timeEndDay: timeEndDay,
-      //   timeStartMonth: timeStartMonth,
-      //   timeEndMonth: timeEndMonth,
-      //   timeStartYear: timeStartYear,
-      //   timeEndYear: timeEndYear,
-      //   provinceId: provinceId,
-      //   districtId: districtIdArr,
-      //   wardId: wardId,
-      //   fieldId: feildIds,
-      //   eventList: selectedRowKeys
-      // };
 
-      // props.callData(clearData(data));
+      //Call API
+      const data = {
+        pickTime: dataTime,
+        timeStartDay: timeStartDay,
+        timeEndDay: timeEndDay,
+        timeStartMonth: timeStartMonth,
+        timeEndMonth: timeEndMonth,
+        timeStartYear: timeStartYear,
+        timeEndYear: timeEndYear,
+        provinceId: provinceId,
+        districtId: districtIdArr,
+        wardId: wardId,
+        fieldId: feildIds,
+        eventList: selectedRowKeys
+      };
+
+      props.callData(clearData(data));
 
       return;
     }
@@ -339,23 +344,24 @@ function Sidebar(props) {
       setisShowLineAndPieChart(true)
       props.changeChart(true);
       setSelectedRowKeys([filterOptions?.fields[0]?.eventList[0].uuid]);
+      
       //Call API
-      // const data = {
-      //   pickTime: dataTime,
-      //   timeStartDay: timeStartDay,
-      //   timeEndDay: timeEndDay,
-      //   timeStartMonth: timeStartMonth,
-      //   timeEndMonth: timeEndMonth,
-      //   timeStartYear: timeStartYear,
-      //   timeEndYear: timeEndYear,
-      //   provinceId: provinceId,
-      //   districtId: districtId,
-      //   wardId: wardIdArr,
-      //   fieldId: feildIds,
-      //   eventList: selectedRowKeys
-      // };
+      const data = {
+        pickTime: dataTime,
+        timeStartDay: timeStartDay,
+        timeEndDay: timeEndDay,
+        timeStartMonth: timeStartMonth,
+        timeEndMonth: timeEndMonth,
+        timeStartYear: timeStartYear,
+        timeEndYear: timeEndYear,
+        provinceId: provinceId,
+        districtId: districtId,
+        wardId: wardIdArr,
+        fieldId: feildIds,
+        eventList: selectedRowKeys
+      };
 
-      // props.callData(clearData(data));
+      props.callData(clearData(data));
 
       return;
     } else if (wardIdArr.length > 1) {
@@ -363,22 +369,23 @@ function Sidebar(props) {
       setWardId(wardIdArr);
       setSelectedRowKeys([filterOptions?.fields[0]?.eventList[0].uuid]);
       props.changeChart(false);
+
       //Call API
-      // const data = {
-      //   pickTime: dataTime,
-      //   timeStartDay: timeStartDay,
-      //   timeEndDay: timeEndDay,
-      //   timeStartMonth: timeStartMonth,
-      //   timeEndMonth: timeEndMonth,
-      //   timeStartYear: timeStartYear,
-      //   timeEndYear: timeEndYear,
-      //   provinceId: provinceId,
-      //   districtId: districtId,
-      //   wardId: wardIdArr,
-      //   fieldId: feildIds,
-      //   eventList: selectedRowKeys
-      // };
-      // props.callData(clearData(data));
+      const data = {
+        pickTime: dataTime,
+        timeStartDay: timeStartDay,
+        timeEndDay: timeEndDay,
+        timeStartMonth: timeStartMonth,
+        timeEndMonth: timeEndMonth,
+        timeStartYear: timeStartYear,
+        timeEndYear: timeEndYear,
+        provinceId: provinceId,
+        districtId: districtId,
+        wardId: wardIdArr,
+        fieldId: feildIds,
+        eventList: selectedRowKeys
+      };
+      props.callData(clearData(data));
 
       return;
     }
