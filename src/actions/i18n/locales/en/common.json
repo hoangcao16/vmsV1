@@ -70,7 +70,9 @@
       "category_name": "Category Name",
       "edit_administrative_unit": "Edit administrative unit",
       "administrative_unit_name": "Administrative unit name",
-      "plsEnter_administrative_unit_name": "{{plsEnter}} administrative unit name"
+      "plsEnter_administrative_unit_name": "{{plsEnter}} administrative unit name",
+      "enter_key": "Please enter key",
+      "choose_field_for_event": "Please choose field for event"
     },
 
     "common_device": {

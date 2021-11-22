@@ -13,6 +13,7 @@ import './../commonStyle/commonModal.scss';
 import './../commonStyle/commonSelect.scss';
 import './ModalEditCategory.scss';
 import { CATEGORY_NAME } from './TableCategory';
+import { useTranslation } from 'react-i18next';
 
 
 const formItemLayout = {
@@ -21,6 +22,7 @@ const formItemLayout = {
 };
 
 const ModalViewEditCategory = (props) => {
+  const { t } = useTranslation();
   let { setShowModal, selectedCategoryId, dataType } = props;
   const [fieldData, setFieldData] = useState();
   const [name, setName] = useState('');
@@ -35,16 +37,16 @@ const ModalViewEditCategory = (props) => {
     }
 
     if (CATEGORY_NAME.CAMERA_TYPE === dataType) {
-      setName('Loại camera');
+      setName(`${t('view.map.camera_type', { cam: t('camera') })}`);
     }
     if (CATEGORY_NAME.VENDOR === dataType) {
-      setName('Hãng camera');
+      setName(`${t('view.category.camera_vendor', { cam: t('camera') })}`);
     }
     if (CATEGORY_NAME.FIELD === dataType) {
-      setName('Lĩnh vực');
+      setName(`${t('view.category.field')}`);
     }
     if (CATEGORY_NAME.EVENT_TYPE === dataType) {
-      setName('Loại sự kiện');
+      setName(`${t('view.category.event_type')}`);
     }
   }, [selectedCategoryId]);
 
@@ -142,7 +144,7 @@ const ModalViewEditCategory = (props) => {
   return (
     <>
       <Modal
-        title={selectedCategoryId ? `Sửa ${name}` : 'Thêm mới'}
+        title={selectedCategoryId ? `${t('view.common_device.edit')} ${name}` : `${t('view.camera.add_new')}`}
         visible={true}
         onCancel={() => {
           setShowModal(false);
@@ -166,7 +168,7 @@ const ModalViewEditCategory = (props) => {
                 rules={[
                   {
                     required: true,
-                    message: 'Trường này bắt buộc'
+                    message: `${t('view.map.required_field')}`
                   }
                 ]}
               >
@@ -181,18 +183,18 @@ const ModalViewEditCategory = (props) => {
               </Form.Item>
               {dataType === CATEGORY_NAME.EVENT_TYPE ? (
                 <Form.Item
-                  label={`Lĩnh vực`}
+                  label={t('view.category.field')}
                   name={['fieldUuid']}
                   rules={[
                     {
                       required: true,
-                      message: 'Trường này bắt buộc'
+                      message: `${t('view.map.required_field')}`
                     }
                   ]}
                 >
                   <select>
                     <option value="" selected hidden disabled>
-                      Chọn lĩnh vực cho sự kiện
+                      {t('view.category.choose_field_for_event')}
                     </option>
                     {renderOptionSelectField()}
                   </select>
@@ -208,9 +210,9 @@ const ModalViewEditCategory = (props) => {
                 setShowModal(false);
               }}
             >
-              Đóng
+              {t('view.camera.close')}
             </Button>
-            <Button htmlType="submit">Lưu</Button>
+            <Button htmlType="submit">{t('view.map.button_save')}</Button>
           </div>
         </Form>
       </Modal>

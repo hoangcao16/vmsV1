@@ -372,7 +372,7 @@ const TableCategory = () => {
   ];
 
   const addFieldColumn = {
-    title: 'Lĩnh vực',
+    title: `${t('view.category.field')}`,
     dataIndex: 'fieldName',
     key: 'fieldName',
     width: '40%',
@@ -382,7 +382,7 @@ const TableCategory = () => {
 
   const addTagColumns = [
     {
-      title: 'Tên danh mục',
+      title: `${t('view.category.category_name')}`,
       dataIndex: 'key',
       key: 'key',
       className: 'headerColums'

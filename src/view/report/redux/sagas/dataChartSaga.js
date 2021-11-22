@@ -38,20 +38,7 @@ export function* handleDataChartLoad(action) {
     wardId: !isEmpty(params.wardId) ? params?.wardId : [],
     eventId: params.eventList
   }
-
   localStorage.setItem('payloadDataChart', JSON.stringify(payloadDataChart));
-  // "time": "30/10/2021",
-  // "location": "Hà Nội",
-  // "event1": "Lấn làn ",
-  // "totalEvent1": 0,
-  // "nameNoAccent1": "lanlan",
-  // "event2": null,
-  // "totalEvent2": 0,
-  // "nameNoAccent2": null,
-  // "event3": null,
-  // "totalEvent3": 0,
-  // "nameNoAccent3": null
-  
   try {
     const data = yield call(() => ReportApi.getChartData(payloadDataChart).then((data)=>{
       return data

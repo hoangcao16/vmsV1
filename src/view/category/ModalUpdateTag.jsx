@@ -71,7 +71,7 @@ const ModalUpdateTag = (props) => {
   return (
     <>
       <Modal
-        title={selectedCategoryId ? "Sửa tag" : "Thêm mới tag"}
+        title={selectedCategoryId ? `${t('view.camera.edit_tag')}` : `${t('view.camera.add_new')}`}
         visible={true}
         // onOk={handleSubmit}
         onCancel={() => {
@@ -91,12 +91,12 @@ const ModalUpdateTag = (props) => {
             <Row gutter={24}>
               <Col span={24}>
                 <Form.Item
-                  label="Nhập key"
+                  label={t('view.category.enter_key')}
                   name={["key"]}
                   rules={[
                     {
                       required: true,
-                      message: "Trường này bắt buộc",
+                      message: `${t('view.map.required_field')}`,
                     },
                   ]}
                 >
@@ -110,9 +110,9 @@ const ModalUpdateTag = (props) => {
                   setShowModal(false);
                 }}
               >
-                Đóng
+                {t('view.camera.close')}
               </Button>
-              <Button htmlType="submit">Lưu</Button>
+              <Button htmlType="submit">{t('view.map.button_save')}</Button>
             </div>
           </Form>
         </Spin>

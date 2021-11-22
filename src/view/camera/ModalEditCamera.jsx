@@ -459,7 +459,7 @@ const ModalEditCamera = (props) => {
               <Form.Item
                 name={['wardId']}
                 label={t('view.map.ward_id')}
-                // rules={[{ required: true, message: "Trường này bắt buộc" }]}
+                // rules={[{ required: true, message: `${t('view.map.required_field')}` }]}
               >
                 <Select
                   dataSource={wards}
