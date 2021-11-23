@@ -58,7 +58,7 @@ export const handleErrCode = (data) => {
       Notification(errCode);
       return null;
     case KControllerCannotDelete:
-      errCode.description = message;
+      errCode.description = 'Lĩnh vực đã được gán sự kiện. Xóa không thành công';
       Notification(errCode);
       return null;
     case KControllerInternalServerError:
