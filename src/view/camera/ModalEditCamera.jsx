@@ -385,7 +385,7 @@ const ModalEditCamera = (props) => {
                   options={normalizeOptions('name', 'uuid', cameraTypes)}
                   placeholder={
                     (t('view.map.please_choose_camera_type'),
-                    { cam: t('camera') })
+                      { cam: t('camera') })
                   }
                 />
               </Form.Item>
@@ -459,7 +459,7 @@ const ModalEditCamera = (props) => {
               <Form.Item
                 name={['wardId']}
                 label={t('view.map.ward_id')}
-                // rules={[{ required: true, message: `${t('view.map.required_field')}` }]}
+              // rules={[{ required: true, message: `${t('view.map.required_field')}` }]}
               >
                 <Select
                   dataSource={wards}
@@ -510,6 +510,8 @@ const ModalEditCamera = (props) => {
             <Col span={12}>
               <Form.Item label={t('view.map.longitude')} name={['long_']}>
                 <Input
+                  type='number'
+                  onKeyDown={(evt) => ["e", "E", "+", "-"].includes(evt.key) && evt.preventDefault()}
                   placeholder={t('view.map.please_enter_longitude', {
                     plsEnter: t('please_enter')
                   })}
@@ -523,6 +525,8 @@ const ModalEditCamera = (props) => {
             <Col span={12}>
               <Form.Item label={t('view.map.latitude')} name={['lat_']}>
                 <Input
+                  type='number'
+                  onKeyDown={(evt) => ["e", "E", "+", "-"].includes(evt.key) && evt.preventDefault()}
                   placeholder={t('view.map.please_enter_latitude', {
                     plsEnter: t('please_enter')
                   })}

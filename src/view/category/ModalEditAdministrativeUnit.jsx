@@ -203,7 +203,7 @@ const ModalEditAdministrativeUnit = (props) => {
   const handleSubmit = async (value) => {
     const payload = {
       ...value,
-      tel: value?.phone?.substring(1),
+      tel: value?.tel?.substring(1),
       avatarFileName: avatarFileName
     };
 
@@ -448,20 +448,22 @@ const ModalEditAdministrativeUnit = (props) => {
             <Col span={12}>
               <Form.Item label={t('view.map.longitude')} name={['long_']}>
                 <Input
+                  type='number'
+                  onKeyDown={(evt) => ["e", "E", "+", "-"].includes(evt.key) && evt.preventDefault()}
                   placeholder={t('view.map.please_enter_longitude', {
                     plsEnter: t('please_enter')
                   })}
-                  type="number"
                 />
               </Form.Item>
             </Col>
             <Col span={12}>
               <Form.Item label={t('view.map.latitude')} name={['lat_']}>
                 <Input
+                  type='number'
+                  onKeyDown={(evt) => ["e", "E", "+", "-"].includes(evt.key) && evt.preventDefault()}
                   placeholder={t('view.map.please_enter_latitude', {
                     plsEnter: t('please_enter')
                   })}
-                  type="number"
                 />
               </Form.Item>
             </Col>
