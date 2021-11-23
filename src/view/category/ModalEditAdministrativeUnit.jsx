@@ -203,7 +203,7 @@ const ModalEditAdministrativeUnit = (props) => {
   const handleSubmit = async (value) => {
     const payload = {
       ...value,
-      tel: value?.phone?.substring(1),
+      tel: value?.tel?.substring(1),
       avatarFileName: avatarFileName
     };
 
@@ -360,7 +360,7 @@ const ModalEditAdministrativeUnit = (props) => {
                     /> */}
 
                     <MuiPhoneNumber
-                      name="phone"
+                      name="tel"
                       data-cy="user-phone"
                       defaultCountry={'vn'}
                       autoComplete="off"

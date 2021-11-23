@@ -158,7 +158,7 @@ const Live = (props) => {
       Notification({
         type: "warning",
         title: "Xem danh sách màn hình",
-        description: "Lỗi:" + err.toString(),
+        description: err.toString(),
       });
       return null;
     }
@@ -826,7 +826,7 @@ const Live = (props) => {
     const slotIdx = findCameraIndexInGrid(slotId);
     const camera = addedCameras[slotIdx];
     const cell = document.getElementById("video-slot-" + slotId);
-    const {blob, tBlob} = captureVideoFrame(cell, null, "jpeg");
+    const { blob, tBlob } = captureVideoFrame(cell, null, "jpeg");
     if (blob) {
       const fileName = setFileName(1);
       const uuid = uuidV4();
