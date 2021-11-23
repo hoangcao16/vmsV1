@@ -9,7 +9,7 @@ import { saveAs } from 'file-saver';
 export default function ExportReport(props) {
 
   const {type} = props;
-  const {t} = useTranslation()
+  const { t } = useTranslation()
 
   const [params, setParams] = useState(() => {
     // getting stored value

@@ -76,6 +76,7 @@ function Sidebar(props) {
   const [selectedRowKeys, setSelectedRowKeys] = useState([]);
 
   const [feildIds, setFeildIds] = useState([]);
+  const [isShowLineAndPieChart, setisShowLineAndPieChart] = useState(true);
 
   useEffect(() => {
     fetchSelectOptions().then((data) => {
@@ -119,7 +120,8 @@ function Sidebar(props) {
         props.changeCount(1);
       }
     });
-    const isShowLineAndPieChart = hiddenDistrictAndWard && hiddenWard;
+    const isShowLineAndPieChart = hiddenDistrictAndWard && hiddenWard; 
+
     props.changeChart(isShowLineAndPieChart);
   }, []);
 
@@ -134,6 +136,16 @@ function Sidebar(props) {
     if (provinceId.length === 1) {
       AddressApi.getDistrictByProvinceId(provinceId).then(setDistrict);
     }
+    if (provinceId.length > 5) {
+      const notifyMess = {
+        type: 'error',
+        title: '',
+        description: 'Số lượng khu vực không được vượt quá 5'
+      };
+      Notification(notifyMess);
+      
+      return;
+    }
   }, [provinceId]);
 
   useEffect(() => {
@@ -146,227 +158,7 @@ function Sidebar(props) {
 
   const { provinces, fields } = filterOptions;
 
-  const onChangeField = (feildId) => {
-    const dataFilter = fields.find((f) => f.uuid === feildId);
-
-    props.changeTitle(dataFilter.name);
-
-    setEventList(dataFilter.eventList);
-
-    if (isEmpty(dataFilter.eventList)) {
-      const notifyMess = {
-        type: 'warning',
-        title: '',
-        description: 'Lĩnh vực này chưa có sự kiện, vui lòng chọn lĩnh vực khác'
-      };
-      Notification(notifyMess);
-      setSelectedRowKeys(null);
-      return;
-    }
-
-    setSelectedRowKeys([dataFilter.eventList[0].uuid]);
-
-    //Call API
-    const data = {
-      pickTime: dataTime,
-      timeStartDay: timeStartDay,
-      timeEndDay: timeEndDay,
-      timeStartMonth: timeStartMonth,
-      timeEndMonth: timeEndMonth,
-      timeStartYear: timeStartYear,
-      timeEndYear: timeEndYear,
-      provinceId: provinceId,
-      districtId: districtId,
-      wardId: wardId,
-      fieldId: feildId,
-      eventList: [dataFilter.eventList[0].uuid]
-    };
-
-    props.callData(clearData(data));
-  };
-
-  const onChangeCity = async (cityIdArr) => {
-    if (cityIdArr.length < 1) {
-      form.setFieldsValue({
-        provinceId: provinceId
-      });
-    }
-
-    if (cityIdArr.length == 1) {
-      setHiddenDistrictAndWard(true);
-      setHiddenWard(true);
-      setProvinceId(cityIdArr);
-      form.setFieldsValue({ districtId: undefined, wardId: undefined });
-
-      //Call API
-      const data = {
-        pickTime: dataTime,
-        timeStartDay: timeStartDay,
-        timeEndDay: timeEndDay,
-        timeStartMonth: timeStartMonth,
-        timeEndMonth: timeEndMonth,
-        timeStartYear: timeStartYear,
-        timeEndYear: timeEndYear,
-        provinceId: cityIdArr,
-        districtId: districtId,
-        wardId: wardId,
-        fieldId: feildIds,
-        eventList: selectedRowKeys
-      };
-
-      props.callData(clearData(data));
-
-      return;
-    } else if (cityIdArr.length > 1) {
-      setHiddenDistrictAndWard(false);
-      setHiddenWard(false);
-      form.setFieldsValue({ districtId: undefined, wardId: undefined });
-      setProvinceId(cityIdArr);
-      //Call API
-      const data = {
-        pickTime: dataTime,
-        timeStartDay: timeStartDay,
-        timeEndDay: timeEndDay,
-        timeStartMonth: timeStartMonth,
-        timeEndMonth: timeEndMonth,
-        timeStartYear: timeStartYear,
-        timeEndYear: timeEndYear,
-        provinceId: cityIdArr,
-        districtId: districtId,
-        wardId: wardId,
-        fieldId: feildIds,
-        eventList: selectedRowKeys
-      };
-      props.callData(clearData(data));
-      return;
-    }
-    form.setFieldsValue({ districtId: undefined, wardId: undefined });
-  };
-
-  const onChangeDistrict = async (districtIdArr) => {
-    if (districtIdArr.length === 1) {
-      setHiddenWard(true);
-      setDistrictId(districtIdArr);
-      form.setFieldsValue({ wardId: undefined });
-      //Call API
-      const data = {
-        pickTime: dataTime,
-        timeStartDay: timeStartDay,
-        timeEndDay: timeEndDay,
-        timeStartMonth: timeStartMonth,
-        timeEndMonth: timeEndMonth,
-        timeStartYear: timeStartYear,
-        timeEndYear: timeEndYear,
-        provinceId: provinceId,
-        districtId: districtIdArr,
-        wardId: wardId,
-        fieldId: feildIds,
-        eventList: selectedRowKeys
-      };
-
-      props.callData(clearData(data));
-
-      return;
-    } else if (districtIdArr.length > 1) {
-      setHiddenWard(false);
-      setDistrictId(districtIdArr);
-      form.setFieldsValue({ wardId: undefined });
-      //Call API
-      const data = {
-        pickTime: dataTime,
-        timeStartDay: timeStartDay,
-        timeEndDay: timeEndDay,
-        timeStartMonth: timeStartMonth,
-        timeEndMonth: timeEndMonth,
-        timeStartYear: timeStartYear,
-        timeEndYear: timeEndYear,
-        provinceId: provinceId,
-        districtId: districtIdArr,
-        wardId: wardId,
-        fieldId: feildIds,
-        eventList: selectedRowKeys
-      };
-
-      props.callData(clearData(data));
-
-      return;
-    }
-    form.setFieldsValue({ wardId: undefined });
-  };
-
-  const onChangeWard = (wardIdArr) => {
-    if (wardIdArr.length === 1) {
-      setWardId(wardIdArr);
-      props.changeChart(true);
-      //Call API
-      const data = {
-        pickTime: dataTime,
-        timeStartDay: timeStartDay,
-        timeEndDay: timeEndDay,
-        timeStartMonth: timeStartMonth,
-        timeEndMonth: timeEndMonth,
-        timeStartYear: timeStartYear,
-        timeEndYear: timeEndYear,
-        provinceId: provinceId,
-        districtId: districtId,
-        wardId: wardIdArr,
-        fieldId: feildIds,
-        eventList: selectedRowKeys
-      };
-
-      props.callData(clearData(data));
-
-      return;
-    } else if (wardIdArr.length > 1) {
-      setWardId(wardIdArr);
-      props.changeChart(false);
-      //Call API
-      const data = {
-        pickTime: dataTime,
-        timeStartDay: timeStartDay,
-        timeEndDay: timeEndDay,
-        timeStartMonth: timeStartMonth,
-        timeEndMonth: timeEndMonth,
-        timeStartYear: timeStartYear,
-        timeEndYear: timeEndYear,
-        provinceId: provinceId,
-        districtId: districtId,
-        wardId: wardIdArr,
-        fieldId: feildIds,
-        eventList: selectedRowKeys
-      };
-      props.callData(clearData(data));
-
-      return;
-    }
-    props.changeChart(true);
-  };
-
-  const eventColumns = [
-    {
-      dataIndex: 'name',
-      key: 'name',
-      fixed: 'left',
-      className: 'headerColums'
-    }
-  ];
-
-  const onSelectChange = (selectedRowKeys) => {
-    if (selectedRowKeys.length < 1 || selectedRowKeys.length > 3) {
-      const notifyMess = {
-        type: 'error',
-        title: '',
-        description: 'Số lượng sự kiện phải lớn hơn 1 và nhỏ hơn 3'
-      };
-      Notification(notifyMess);
-
-      return;
-    }
-    setSelectedRowKeys(selectedRowKeys);
-    props.changeCount(selectedRowKeys);
-    console.log("selectedRowKeysselectedRowKeys", selectedRowKeys)
-
-    //Call API
+  useEffect(() => {
     const data = {
       pickTime: dataTime,
       timeStartDay: timeStartDay,
@@ -383,13 +175,324 @@ function Sidebar(props) {
     };
 
     props.callData(clearData(data));
+    return;
+  }, [selectedRowKeys, provinceId, districtId])
+
+  const onChangeField = (feildId) => {
+    const dataFilter = fields.find((f) => f.uuid === feildId);
+    props.changeTitle(dataFilter.name);
+
+    setEventList(dataFilter.eventList);
+      console.log("eventList", eventList)
+
+    if (isEmpty(dataFilter.eventList)) {
+      const notifyMess = {
+        type: 'warning',
+        title: '',
+        description: 'Lĩnh vực này chưa có sự kiện, vui lòng chọn lĩnh vực khác'
+      };
+      Notification(notifyMess);
+      setSelectedRowKeys(null);
+      return;
+    }
+
+   
+    setSelectedRowKeys([dataFilter.eventList[0].uuid])
+    
+    //Call API
+    // const data = {
+    //   pickTime: dataTime,
+    //   timeStartDay: timeStartDay,
+    //   timeEndDay: timeEndDay,
+    //   timeStartMonth: timeStartMonth,
+    //   timeEndMonth: timeEndMonth,
+    //   timeStartYear: timeStartYear,
+    //   timeEndYear: timeEndYear,
+    //   provinceId: provinceId,
+    //   districtId: districtId,
+    //   wardId: wardId,
+    //   fieldId: feildId,
+    //   eventList: [dataFilter.eventList[0].uuid]
+    // };
+
+    // props.callData(clearData(data));
   };
 
-  const rowSelection = {
-    selectedRowKeys,
-    onChange: onSelectChange
+  
+
+  const onChangeCity = async (cityIdArr) => {
+    if (cityIdArr.length < 1) {
+      form.setFieldsValue({
+        provinceId: provinceId
+      });
+    }
+
+    if (cityIdArr.length == 1) {
+      setHiddenDistrictAndWard(true);
+      setHiddenWard(true);
+      setisShowLineAndPieChart(true);
+      setProvinceId(cityIdArr);
+      setSelectedRowKeys([filterOptions?.fields[0]?.eventList[0].uuid]);
+      form.setFieldsValue({ districtId: undefined, wardId: undefined });
+      
+      //Call API
+      // const data = {
+      //   pickTime: dataTime,
+      //   timeStartDay: timeStartDay,
+      //   timeEndDay: timeEndDay,
+      //   timeStartMonth: timeStartMonth,
+      //   timeEndMonth: timeEndMonth,
+      //   timeStartYear: timeStartYear,
+      //   timeEndYear: timeEndYear,
+      //   provinceId: cityIdArr,
+      //   districtId: districtId,
+      //   wardId: wardId,
+      //   fieldId: feildIds,
+      //   eventList: selectedRowKeys
+      // };
+
+      // props.callData(clearData(data));
+
+      return;
+    } else if (cityIdArr.length > 1) {
+      setHiddenDistrictAndWard(false);
+      setHiddenWard(false);
+      setisShowLineAndPieChart(false);
+      setDistrictId([]);
+      setWardId([]);
+      form.setFieldsValue({ districtId: undefined, wardId: undefined });
+      setProvinceId(cityIdArr);
+      setSelectedRowKeys([filterOptions?.fields[0]?.eventList[0].uuid]);
+
+      //Call API
+      // const data = {
+      //   pickTime: dataTime,
+      //   timeStartDay: timeStartDay,
+      //   timeEndDay: timeEndDay,
+      //   timeStartMonth: timeStartMonth,
+      //   timeEndMonth: timeEndMonth,
+      //   timeStartYear: timeStartYear,
+      //   timeEndYear: timeEndYear,
+      //   provinceId: cityIdArr,
+      //   districtId: districtId,
+      //   wardId: wardId,
+      //   fieldId: feildIds,
+      //   eventList: selectedRowKeys
+      // };
+
+      // props.callData(clearData(data));
+      return;
+    }
+    form.setFieldsValue({ districtId: undefined, wardId: undefined });
   };
 
+  const onChangeDistrict = async (districtIdArr) => {
+    if (districtIdArr.length === 1) {
+      setHiddenWard(true);
+      setisShowLineAndPieChart(true)
+      setDistrictId(districtIdArr);
+      setSelectedRowKeys([filterOptions?.fields[0]?.eventList[0].uuid]);
+      form.setFieldsValue({ wardId: undefined });
+
+      //Call API
+      // const data = {
+      //   pickTime: dataTime,
+      //   timeStartDay: timeStartDay,
+      //   timeEndDay: timeEndDay,
+      //   timeStartMonth: timeStartMonth,
+      //   timeEndMonth: timeEndMonth,
+      //   timeStartYear: timeStartYear,
+      //   timeEndYear: timeEndYear,
+      //   provinceId: provinceId,
+      //   districtId: districtIdArr,
+      //   wardId: wardId,
+      //   fieldId: feildIds,
+      //   eventList: selectedRowKeys
+      // };
+
+      // props.callData(clearData(data));
+
+      return;
+    } else if (districtIdArr.length > 1) {
+      setHiddenWard(false);
+      setisShowLineAndPieChart(false)
+      setDistrictId(districtIdArr);
+      setWardId([]);
+      setSelectedRowKeys([filterOptions?.fields[0]?.eventList[0].uuid]);
+      form.setFieldsValue({ wardId: undefined });
+
+      //Call API
+      // const data = {
+      //   pickTime: dataTime,
+      //   timeStartDay: timeStartDay,
+      //   timeEndDay: timeEndDay,
+      //   timeStartMonth: timeStartMonth,
+      //   timeEndMonth: timeEndMonth,
+      //   timeStartYear: timeStartYear,
+      //   timeEndYear: timeEndYear,
+      //   provinceId: provinceId,
+      //   districtId: districtIdArr,
+      //   wardId: wardId,
+      //   fieldId: feildIds,
+      //   eventList: selectedRowKeys
+      // };
+
+      // props.callData(clearData(data));
+
+      return;
+    } else {
+      setHiddenDistrictAndWard(true);
+      setHiddenWard(true);
+      setDistrictId([]);
+      localStorage.setItem(`payloadDataChart.districtId`, [])
+      setisShowLineAndPieChart(true);
+      setSelectedRowKeys([filterOptions?.fields[0]?.eventList[0].uuid]);
+      form.setFieldsValue({ districtId: undefined, wardId: undefined });
+      props.callData(clearData(filterOptions));
+
+    }
+    form.setFieldsValue({ wardId: undefined });
+  };
+
+  const onChangeWard = (wardIdArr) => {
+    if (wardIdArr.length === 1) {
+      setWardId(wardIdArr);
+      setisShowLineAndPieChart(true)
+      props.changeChart(true);
+      setSelectedRowKeys([filterOptions?.fields[0]?.eventList[0].uuid]);
+
+      //Call API
+      // const data = {
+      //   pickTime: dataTime,
+      //   timeStartDay: timeStartDay,
+      //   timeEndDay: timeEndDay,
+      //   timeStartMonth: timeStartMonth,
+      //   timeEndMonth: timeEndMonth,
+      //   timeStartYear: timeStartYear,
+      //   timeEndYear: timeEndYear,
+      //   provinceId: provinceId,
+      //   districtId: districtId,
+      //   wardId: wardIdArr,
+      //   fieldId: feildIds,
+      //   eventList: selectedRowKeys
+      // };
+
+      // props.callData(clearData(data));
+
+      return;
+    } else if (wardIdArr.length > 1) {
+      setisShowLineAndPieChart(false)
+      setWardId(wardIdArr);
+      setSelectedRowKeys([filterOptions?.fields[0]?.eventList[0].uuid]);
+      props.changeChart(false);
+
+      //Call API
+      // const data = {
+      //   pickTime: dataTime,
+      //   timeStartDay: timeStartDay,
+      //   timeEndDay: timeEndDay,
+      //   timeStartMonth: timeStartMonth,
+      //   timeEndMonth: timeEndMonth,
+      //   timeStartYear: timeStartYear,
+      //   timeEndYear: timeEndYear,
+      //   provinceId: provinceId,
+      //   districtId: districtId,
+      //   wardId: wardIdArr,
+      //   fieldId: feildIds,
+      //   eventList: selectedRowKeys
+      // };
+
+      // props.callData(clearData(data));
+
+      return;
+    } else {
+      setHiddenWard(true);
+      setisShowLineAndPieChart(true)
+      setWardId([]);
+      setSelectedRowKeys([filterOptions?.fields[0]?.eventList[0].uuid]);
+      form.setFieldsValue({ wardId: undefined });
+    }
+    props.changeChart(true);
+  };
+
+  const eventColumns = [
+    {
+      dataIndex: 'name',
+      key: 'name',
+      fixed: 'left',
+      className: 'headerColums'
+    }
+  ];
+
+  const onSelectChange = (selectedRowKeys) => {
+    if (isShowLineAndPieChart === true) {
+      if (selectedRowKeys.length < 1 || selectedRowKeys.length > 3) {
+        const notifyMess = {
+          type: 'error',
+          title: '',
+          description: 'Số lượng sự kiện phải trong khoảng từ 1 đến 3'
+        };
+        Notification(notifyMess);
+        return;
+      }
+      setSelectedRowKeys(selectedRowKeys);
+      props.changeCount(selectedRowKeys);
+      
+      //Call API
+      const data = {
+        pickTime: dataTime,
+        timeStartDay: timeStartDay,
+        timeEndDay: timeEndDay,
+        timeStartMonth: timeStartMonth,
+        timeEndMonth: timeEndMonth,
+        timeStartYear: timeStartYear,
+        timeEndYear: timeEndYear,
+        provinceId: provinceId,
+        districtId: districtId,
+        wardId: wardId,
+        fieldId: feildIds,
+        eventList: selectedRowKeys
+      };
+      props.callData(clearData(data));
+    } else {
+      if (selectedRowKeys.length > 1) {
+        const notifyMess = {
+          type: 'error',
+          title: '',
+          description: 'Số lượng sự kiện phải bằng 1'
+        };
+        Notification(notifyMess);
+        
+        return;
+      }
+      setSelectedRowKeys(selectedRowKeys);
+      props.changeCount(selectedRowKeys);
+      
+      //Call API
+      const data = {
+        pickTime: dataTime,
+        timeStartDay: timeStartDay,
+        timeEndDay: timeEndDay,
+        timeStartMonth: timeStartMonth,
+        timeEndMonth: timeEndMonth,
+        timeStartYear: timeStartYear,
+        timeEndYear: timeEndYear,
+        provinceId: provinceId,
+        districtId: districtId,
+        wardId: wardId,
+        fieldId: feildIds,
+        eventList: selectedRowKeys
+      };
+      
+      props.callData(clearData(data));
+    }
+  };
+    
+    const rowSelection = {
+      selectedRowKeys,
+      onChange: onSelectChange
+    };
+    
   function onChange(value) {
     setDatatime(value);
 

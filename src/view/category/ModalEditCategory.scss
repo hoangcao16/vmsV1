@@ -12,6 +12,8 @@
       padding: 0;
       background-color: $vms-bg-primary;
       border-bottom: 0;
+      padding-bottom: 0;
+
 
       .ant-modal-title {
         border-radius: 12px 12px 0 0;
@@ -19,6 +21,8 @@
         color: $vms-status;
         text-align: center;
         font-size: 2rem;
+        padding-bottom: 0;
+
       }
     }
 

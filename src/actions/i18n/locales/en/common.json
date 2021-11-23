@@ -67,7 +67,10 @@
       "category_name": "Category Name",
       "edit_administrative_unit": "Edit administrative unit",
       "administrative_unit_name": "Administrative unit name",
-      "plsEnter_administrative_unit_name": "{{plsEnter}} administrative unit name"
+      "plsEnter_administrative_unit_name": "{{plsEnter}} administrative unit name",
+      "enter_key": "Please enter key",
+      "choose_field_for_event": "Please choose field for event",
+      "administrative_unit_detail": "Administrative unit detail"
     },
     "common_device": {
       "camproxy_name": "Camproxy name",
@@ -185,7 +188,10 @@
       "month": "Month",
       "year": "Year",
       "date_range": "Date range",
-      "export_data": "Export data"
+      "export_data": "Export data",
+      "compare_chart": "SITUATION COMPARISON CHART:",
+      "trend_chart": "SITUATION TREND CHART:",
+      "proportion_chart": "SITUATION PROPORTION CHART:"
     },
     "pages": {
       "login": "Login",
@@ -415,6 +421,11 @@
     }
   },
   "noti": {
+    "successfully_update_tag_category": "Successfully imported label type",
+    "fail_update_tag_category": "Label type update failed",
+    "successfully_add_tag_category": "Add new success label",
+    "fail_add_tag_category": "Add new failure label",
+
     "logged_out_successfully": "Logged out successfully",
     "logged_out_failed": "Logged out failed",
     "delete_camera": "Are you sure you want to delete {{this}} {{cam}}?",

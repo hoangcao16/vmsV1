@@ -323,8 +323,8 @@ const TableCategory = () => {
       title: `${t('view.category.category_name')}`,
       dataIndex: 'name',
       key: 'name',
-      width: '50%',
-
+      ellipsis: true,
+      // width: '50%',
       className: 'headerColums'
     },
 
@@ -356,14 +356,14 @@ const TableCategory = () => {
             </Tooltip>
 
             {dataType === CATEGORY_NAME.AD_DIVISIONS && (
-            <Tooltip placement="top" title={t('view.common_device.detail')}>
-            <InfoCircleOutlined
-              style={{ fontSize: '16px', color: '#6E6B7B' }}
-              onClick={() => {
-                setSelectedUnitId(record.uuid);
-              }}
-            />
-          </Tooltip>
+              <Tooltip placement="top" title={t('view.common_device.detail')}>
+                <InfoCircleOutlined
+                  style={{ fontSize: '16px', color: '#6E6B7B' }}
+                  onClick={() => {
+                    setSelectedUnitId(record.uuid);
+                  }}
+                />
+              </Tooltip>
             )}
           </Space>
         );
@@ -372,7 +372,7 @@ const TableCategory = () => {
   ];
 
   const addFieldColumn = {
-    title: 'Lĩnh vực',
+    title: `${t('view.category.field')}`,
     dataIndex: 'fieldName',
     key: 'fieldName',
     width: '40%',
@@ -382,7 +382,7 @@ const TableCategory = () => {
 
   const addTagColumns = [
     {
-      title: 'Tên danh mục',
+      title: `${t('view.category.category_name')}`,
       dataIndex: 'key',
       key: 'key',
       className: 'headerColums'
@@ -443,7 +443,7 @@ const TableCategory = () => {
       >
         <Table
           pagination={false}
-          scroll={{ x: 'max-content', y: 500 }}
+          scroll={{ y: 500 }}
           rowKey="id"
           columns={categoryColumns}
           dataSource={getDataByCategory(dataType)}
@@ -461,7 +461,7 @@ const TableCategory = () => {
       )}
     </div>
 
-    
+
   );
 };
 

@@ -23,7 +23,7 @@ import adDivisionApi from "../../../api/controller-api/adDivisionApi";
 import cameraApi from "../../../api/controller-api/cameraApi";
 import cameraGroupApi from "../../../api/controller-api/cameraGroupApi";
 import debounce from "lodash/debounce";
-import {SearchOutlined} from "@ant-design/icons";
+import {LinkOutlined, SearchOutlined} from "@ant-design/icons";
 import {
     BsThreeDotsVertical,
     IoChevronDownOutline,
@@ -33,6 +33,7 @@ import {
 import {findIndex} from "lodash-es";
 import _ from "lodash";
 import {useTranslation} from 'react-i18next';
+import {reactLocalStorage} from "reactjs-localstorage";
 
 const TableFile = (props) => {
     const {t} = useTranslation();
@@ -132,6 +133,15 @@ const TableFile = (props) => {
         );
     };
 
+    const renderSelectContent = (name, fieldName) => {
+        return (
+            <div className="event-select">
+                <span className="event-name">{name}</span>&nbsp;
+                <span className="field-name">{fieldName}</span>
+            </div>
+        );
+    };
+
     const renderPopoverContent = (row) => {
         return (
             <Select
@@ -142,9 +152,13 @@ const TableFile = (props) => {
                     e.stopPropagation();
                 }}
                 filterOption={filterOption}
-                options={normalizeOptions("name", "uuid", eventList)}
+                // options={normalizeOptions("name", "uuid", eventList)}
                 placeholder='Loại sự kiện'
                 defaultValue={row?.eventUuid ? row?.eventUuid : null}
+                options={eventList.map((e) => ({
+                    value: e.uuid,
+                    label: renderSelectContent(e.name, e.fieldName)
+                }))}
             />
         );
     };

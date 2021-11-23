@@ -5,6 +5,9 @@ import { Cell, Pie, PieChart } from 'recharts';
 import { loadDataChart } from '../../redux/actions';
 import ExportReport from './ExportReport';
 import './pieChart.scss';
+import { useTranslation } from 'react-i18next';
+import convertDataChartAndPieChart from '../../../../actions/function/MyUltil/ConvertDataChartAndPieChart';
+
 var randomColor = require('randomcolor');
 
 const RADIAN = Math.PI / 180;
@@ -68,7 +71,7 @@ const dataConvert = (dataPieChart) => {
 
 function PieChartComponents(props) {
   const [dataPieChart, setDataPieChart] = useState([]);
-
+  const { t } = useTranslation()
   useEffect(() => {
     const dataPieChart = props.chartData;
     if (!isEmpty(dataPieChart)) {
@@ -86,7 +89,7 @@ function PieChartComponents(props) {
       {props.isShowLineAndPieChart && props.changeCount.length > 1 && (
         <div className="PieChart">
           <div className="PieChart__title">
-            <h3> BIỂU ĐỒ TỶ LỆ TÌNH HÌNH {props.title.toUpperCase()} </h3>
+            <h3> {t('view.report.proportion_chart')} {props.title.toUpperCase()} </h3>
             <ExportReport currentDataSource={dataPieChart} />
           </div>
           <PieChart width={400} height={400}>
@@ -124,7 +127,7 @@ function PieChartComponents(props) {
 
 const mapStateToProps = (state) => ({
   isLoading: state.chart.isLoading,
-  chartData: state.chart.chartData,
+  chartData: convertDataChartAndPieChart(state.chart.chartData),
   error: state.chart.error,
   title: state.chart.title,
   isShowLineAndPieChart: state.chart.isShowLineAndPieChart,

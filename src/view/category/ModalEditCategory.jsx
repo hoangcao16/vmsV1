@@ -13,17 +13,19 @@ import './../commonStyle/commonModal.scss';
 import './../commonStyle/commonSelect.scss';
 import './ModalEditCategory.scss';
 import { CATEGORY_NAME } from './TableCategory';
+import { useTranslation } from 'react-i18next';
 
 
 const formItemLayout = {
   wrapperCol: { span: 24 },
-  labelCol: { span: 24 }
+  labelCol: { span: 24 },
 };
 
 const ModalViewEditCategory = (props) => {
+  const { t } = useTranslation();
   let { setShowModal, selectedCategoryId, dataType } = props;
   const [fieldData, setFieldData] = useState();
-  const [name, setName] = useState('');
+  const [name, setName] = useState("");
   const [form] = Form.useForm();
   const [selectedCategoryEdit, setSelectedCategoryEdit] = useState(null);
 
@@ -35,21 +37,30 @@ const ModalViewEditCategory = (props) => {
     }
 
     if (CATEGORY_NAME.CAMERA_TYPE === dataType) {
-      setName('Loại camera');
+      setName(`${t('view.map.camera_type', { cam: t('camera') })}`);
     }
     if (CATEGORY_NAME.VENDOR === dataType) {
-      setName('Hãng camera');
+      setName(`${t('view.category.camera_vendor', { cam: t('camera') })}`);
     }
     if (CATEGORY_NAME.FIELD === dataType) {
-      setName('Lĩnh vực');
+      setName(`${t('view.category.field')}`);
     }
     if (CATEGORY_NAME.EVENT_TYPE === dataType) {
-      setName('Loại sự kiện');
+      setName(`${t('view.category.event_type')}`);
     }
   }, [selectedCategoryId]);
 
   const renderOptionSelectField = () =>
-    fieldData?.map((item) => <option value={item.uuid}>{item.name}</option>);
+    fieldData?.map((item) => (
+      <option value={item.uuid}>
+        {item.name.length > 40
+          ? `${item.name.slice(0, 19)}...${item.name.slice(
+              item.name.length - 20,
+              item.name.length
+            )}`
+          : `${item.name}`}
+      </option>
+    ));
 
   const getAllField = async (params) => {
     const data = await FieldApi.getAllFeild(params);
@@ -58,14 +69,14 @@ const ModalViewEditCategory = (props) => {
 
   useEffect(() => {
     const params = {
-      name: ''
+      name: "",
     };
     getAllField(params);
   }, []);
 
   const handleSubmit = async (value) => {
     const payload = {
-      ...value
+      ...value,
     };
 
     try {
@@ -93,9 +104,9 @@ const ModalViewEditCategory = (props) => {
 
         if (isEdit) {
           const notifyMess = {
-            type: 'success',
-            title: 'Thành công',
-            description: `Bạn đã sửa thành công tên ${name}`
+            type: "success",
+            title: "Thành công",
+            description: `Bạn đã sửa thành công tên ${name}`,
           };
           Notification(notifyMess);
         }
@@ -120,9 +131,9 @@ const ModalViewEditCategory = (props) => {
         }
         if (isPost) {
           const notifyMess = {
-            type: 'success',
-            title: 'Thành công',
-            description: `Bạn đã thêm thành công ${name}`
+            type: "success",
+            title: "Thành công",
+            description: `Bạn đã thêm thành công ${name}`,
           };
           Notification(notifyMess);
           setShowModal(false);
@@ -142,14 +153,14 @@ const ModalViewEditCategory = (props) => {
   return (
     <>
       <Modal
-        title={selectedCategoryId ? `Sửa ${name}` : 'Thêm mới'}
+        title={selectedCategoryId ? `${t('view.common_device.edit')} ${name}` : `${t('view.camera.add_new')}`}
         visible={true}
         onCancel={() => {
           setShowModal(false);
         }}
         className="modal__edit--category"
         footer={null}
-        maskStyle={{ background: 'rgba(51, 51, 51, 0.9)' }}
+        maskStyle={{ background: "rgba(51, 51, 51, 0.9)" }}
       >
         <Form
           className="bg-grey"
@@ -162,11 +173,11 @@ const ModalViewEditCategory = (props) => {
             <Col span={24}>
               <Form.Item
                 label={`${name}`}
-                name={['name']}
+                name={["name"]}
                 rules={[
                   {
                     required: true,
-                    message: 'Trường này bắt buộc'
+                    message: `${t('view.map.required_field')}`
                   }
                 ]}
               >
@@ -174,25 +185,25 @@ const ModalViewEditCategory = (props) => {
                   maxLength={255}
                   onBlur={(e) => {
                     form.setFieldsValue({
-                      name: e.target.value.trim()
+                      name: e.target.value.trim(),
                     });
                   }}
                 />
               </Form.Item>
               {dataType === CATEGORY_NAME.EVENT_TYPE ? (
                 <Form.Item
-                  label={`Lĩnh vực`}
+                  label={t('view.category.field')}
                   name={['fieldUuid']}
                   rules={[
                     {
                       required: true,
-                      message: 'Trường này bắt buộc'
+                      message: `${t('view.map.required_field')}`
                     }
                   ]}
                 >
                   <select>
                     <option value="" selected hidden disabled>
-                      Chọn lĩnh vực cho sự kiện
+                      {t('view.category.choose_field_for_event')}
                     </option>
                     {renderOptionSelectField()}
                   </select>
@@ -208,9 +219,9 @@ const ModalViewEditCategory = (props) => {
                 setShowModal(false);
               }}
             >
-              Đóng
+              {t('view.camera.close')}
             </Button>
-            <Button htmlType="submit">Lưu</Button>
+            <Button htmlType="submit">{t('view.map.button_save')}</Button>
           </div>
         </Form>
       </Modal>

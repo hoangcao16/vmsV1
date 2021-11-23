@@ -28,8 +28,7 @@ export function* handleDataChartLoad(action) {
       timeStart = moment(params.timeStartDay._d).format("DD/MM/YYYY");
       timeEnd = moment(params.timeEndDay._d).format("DD/MM/YYYY");
   }
-  console.log("actionaction", action)
-  
+
   const payloadDataChart = {
     dateType: params.pickTime.toUpperCase(),
     startDate: timeStart,
@@ -39,44 +38,14 @@ export function* handleDataChartLoad(action) {
     wardId: !isEmpty(params.wardId) ? params?.wardId : [],
     eventId: params.eventList
   }
-
   localStorage.setItem('payloadDataChart', JSON.stringify(payloadDataChart));
-  // "time": "30/10/2021",
-  // "location": "Hà Nội",
-  // "event1": "Lấn làn ",
-  // "totalEvent1": 0,
-  // "nameNoAccent1": "lanlan",
-  // "event2": null,
-  // "totalEvent2": 0,
-  // "nameNoAccent2": null,
-  // "event3": null,
-  // "totalEvent3": 0,
-  // "nameNoAccent3": null
-  
   try {
-    const data = yield call(() => ReportApi.getChartData(payloadDataChart).then((data)=>{
-      return data.map((d) => {
-        let a = {}
-        if (!isEmpty(d.event1)) {
-          a[d.event1] = d.totalEvent1;
-        }
-  
-        if (!isEmpty(d.event2)) {
-          a[d.event2] = d.totalEvent2
-        }
-  
-        if (!isEmpty(d.event3)) {
-          a[d.event3] = d.totalEvent3
-        }
-
-        const test =  {
-          name: d.time,
-          ...a
-        }
-        return test
-      })
-    }));
-    yield put(setDataChart(data));
+    if (!isEmpty(payloadDataChart.eventId)) {
+      const data = yield call(() => ReportApi.getChartData(payloadDataChart).then((data)=>{
+        return data
+      }));
+      yield put(setDataChart(data));
+    }
   } catch (error) {
     yield put(setError(error.toString()));
   }

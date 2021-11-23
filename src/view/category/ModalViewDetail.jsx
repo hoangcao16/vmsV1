@@ -45,7 +45,7 @@ const ModalViewDetail = (props) => {
   return (
     <>
       <Modal
-        title={t("view.camera.camera_detail", { cam: t("unit") })}
+        title={t("view.category.administrative_unit_detail")}
         visible={isModalVisible}
         onOk={handleShowModal}
         onCancel={() => handleShowModal(null)}
@@ -54,26 +54,26 @@ const ModalViewDetail = (props) => {
         maskStyle={{ background: "rgba(51, 51, 51, 0.9)" }}
       >
         <Row gutter={24}>
-          <Col span={12}>
-            <div
+          <Col span={12} style={{ display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
+            {/* <div
               style={{
                 paddingBottom: 20,
               }}
-            >
-              <Avatar
-                src={avatarUrl}
-                className="avatarUser"
-                style={{borderRadius:0}}
-                size={{
-                  xs: 24,
-                  sm: 32,
-                  md: 40,
-                  lg: 64,
-                  xl: 80,
-                  xxl: 130,
-                }}
-              />
-            </div>
+            > */}
+            <Avatar
+              src={avatarUrl}
+              className="avatarUser"
+              style={{ borderRadius: 0 }}
+              size={{
+                xs: 24,
+                sm: 32,
+                md: 40,
+                lg: 64,
+                xl: 80,
+                xxl: 130,
+              }}
+            />
+            {/* </div> */}
           </Col>
 
           <Col span={12}>
@@ -97,7 +97,7 @@ const ModalViewDetail = (props) => {
             </Row>
           </Col>
         </Row>
-        <Row gutter={24}>
+        <Row gutter={24} style={{ marginTop: '16px' }}>
           <Col span={24}>
             <Paragraph>
               <p style={{ fontWeight: 600, fontSize: 14 }}>
