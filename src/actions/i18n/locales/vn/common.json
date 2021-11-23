@@ -390,7 +390,16 @@
       "position" : "Chức vụ",
       "department" : "Phòng ban",
       "adminUnit" : "Đơn vị",
-      "status" : "Trạng thái"
+      "status" : "Trạng thái",
+      "guide_photo" : "Ảnh hướng dẫn",
+      "image_error": {
+        "IMAGE_IS_VALID": "Thành công",
+        "IMAGE_HAS_ALREADY_IN_DB": "Hình ảnh đã tồn tại trong db",
+        "MANY_FACES_IN_IMAGE": "Có nhiều hơn 1 khuôn mặt",
+        "IMAGE_IS_BLUR": "Ảnh bị mờ",
+        "IMAGE_HAS_NOT_FACE": "Không có mặt ở trong ảnh",
+        "FACE_NOT_OF_PERSON": "Khuôn mặt trong ảnh khác với khuôn mặt đã có trong bộ sưu tập"
+      }
     },
     "ai_config": {
       "config": "Quản lý sự kiện thông minh",

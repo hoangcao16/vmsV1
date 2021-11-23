@@ -357,7 +357,7 @@ const ModalEditHumans = (props) => {
 
           </Row>
           <Row style={{ marginTop: 30, color: "#d0e5ff", marginBottom: 30 }} gutter={24}>
-            <Col span={20} style={{ flex: 'none' }}>{'Ảnh mẫu hướng dẫn'}</Col>
+            <Col span={20} style={{ flex: 'none' }}>{t('view.ai_humans.guide_photo')}</Col>
           </Row>
 
           <Row gutter={24}>
@@ -446,7 +446,7 @@ const ModalEditHumans = (props) => {
                               borderRadius: '4px'
                             }}
 
-                            >{item.errorStatus}</div> : null
+                            >{t('view.ai_humans.image_error.' + item.errorStatus)}</div> : null
                           }
 
 
