@@ -15,9 +15,12 @@
       padding-top: 32px;
       padding-bottom: 8px;
       background-color: $vms-bg-primary;
+      padding-bottom: 0;
+
 
       .ant-modal-title {
         padding-top: 0;
+        padding-bottom: 0;
         color: $vms-status;
         background-color: $vms-bg-primary;
       }
@@ -27,7 +30,13 @@
       background-color: $vms-bg-primary;
       padding: 24px 32px 32px 24px !important;
       border-radius: 0 0 12px 12px;
-
+      .avatarUser {
+        background-color: $vms-bg-sub;
+        width: 160px !important;
+        height: 160px !important;
+        border: $vms-border-gray;
+        border-radius: 6px !important;
+      }
       .btn--submit {
         text-align: center;
         button {

@@ -23,7 +23,7 @@ import adDivisionApi from "../../../api/controller-api/adDivisionApi";
 import cameraApi from "../../../api/controller-api/cameraApi";
 import cameraGroupApi from "../../../api/controller-api/cameraGroupApi";
 import debounce from "lodash/debounce";
-import {SearchOutlined} from "@ant-design/icons";
+import {LinkOutlined, SearchOutlined} from "@ant-design/icons";
 import {
     BsThreeDotsVertical,
     IoChevronDownOutline,
@@ -33,6 +33,7 @@ import {
 import {findIndex} from "lodash-es";
 import _ from "lodash";
 import {useTranslation} from 'react-i18next';
+import {reactLocalStorage} from "reactjs-localstorage";
 
 const TableFile = (props) => {
     const {t} = useTranslation();
@@ -132,6 +133,15 @@ const TableFile = (props) => {
         );
     };
 
+    const renderSelectContent = (name, fieldName) => {
+        return (
+            <div className="event-select">
+                <span className="event-name">{name}</span>&nbsp;
+                <span className="field-name">{fieldName}</span>
+            </div>
+        );
+    };
+
     const renderPopoverContent = (row) => {
         return (
             <Select
@@ -142,9 +152,13 @@ const TableFile = (props) => {
                     e.stopPropagation();
                 }}
                 filterOption={filterOption}
-                options={normalizeOptions("name", "uuid", eventList)}
+                // options={normalizeOptions("name", "uuid", eventList)}
                 placeholder='Loại sự kiện'
                 defaultValue={row?.eventUuid ? row?.eventUuid : null}
+                options={eventList.map((e) => ({
+                    value: e.uuid,
+                    label: renderSelectContent(e.name, e.fieldName)
+                }))}
             />
         );
     };
@@ -353,6 +367,8 @@ const TableFile = (props) => {
     const [useAdvanceSearch, setUseAdvanceSearch] = useState(false);
     let timerIdentifier = null;
     const [selectedRowUuid, setSelectedRowUuid] = useState('');
+    const [startDate, setStartDate] = useState(null);
+    const [endDate, setEndDate] = useState(null);
 
     const onClickRowSelect = (record) => {
         if (props) {
@@ -457,12 +473,27 @@ const TableFile = (props) => {
     };
 
     const onQuickSearchHandler = (value) => {
+        value = value.trim();
         const dataParam = Object.assign({
             ...searchParam,
             searchType: "all",
             searchValue: value,
         });
         props.onSearch(dataParam);
+    };
+
+    const handleQuickSearchBlur = (event) => {
+        const value = event.target.value.trim();
+        form.setFieldsValue({
+            quickSearch: value
+        });
+    };
+
+    const handleAddressBlur = (event) => {
+        const value = event.target.value.trim();
+        form.setFieldsValue({
+            address: value
+        });
     };
 
     useEffect(() => {
@@ -569,11 +600,25 @@ const TableFile = (props) => {
             moment.set("minute", 0);
             moment.set("second", 0);
             moment.set("millisecond", 1);
-            const dataParam = Object.assign({
-                ...searchParam,
-                startRecordTime: +moment.unix(),
-            });
-            setSearchParam(dataParam);
+            if (endDate && moment.isAfter(endDate)){
+                form.setFieldsValue({
+                    startDate: null,
+                });
+                const dataParam = Object.assign({
+                    ...searchParam,
+                    startRecordTime: -1,
+                });
+                setSearchParam(dataParam);
+                setStartDate(null);
+            }else{
+                const dataParam = Object.assign({
+                    ...searchParam,
+                    startRecordTime: +moment.unix(),
+                });
+                setSearchParam(dataParam);
+                setStartDate(moment);
+            }
+
         } else {
             const dataParam = Object.assign({...searchParam, startRecordTime: -1});
             setSearchParam(dataParam);
@@ -586,11 +631,24 @@ const TableFile = (props) => {
             moment.set("minute", 59);
             moment.set("second", 59);
             moment.set("millisecond", 999);
-            const dataParam = Object.assign({
-                ...searchParam,
-                endRecordTime: +moment.unix(),
-            });
-            setSearchParam(dataParam);
+            if (startDate && startDate.isAfter(moment)){
+                form.setFieldsValue({
+                    endDate: null,
+                });
+                const dataParam = Object.assign({
+                    ...searchParam,
+                    endRecordTime: -1,
+                });
+                setSearchParam(dataParam);
+                setEndDate(null);
+            }else{
+                const dataParam = Object.assign({
+                    ...searchParam,
+                    endRecordTime: +moment.unix(),
+                });
+                setSearchParam(dataParam);
+                setEndDate(moment);
+            }
         } else {
             const dataParam = Object.assign({...searchParam, endRecordTime: -1});
             setSearchParam(dataParam);
@@ -839,6 +897,8 @@ const TableFile = (props) => {
                                 <div>
                                     <Form.Item name={["quickSearch"]} className='search__bar'>
                                         <AutoComplete
+                                            maxLength={255}
+                                            onBlur={handleQuickSearchBlur}
                                             onSearch={debounce(onQuickSearchHandler, 1500)}
                                             placeholder={
                                                 <>
@@ -908,7 +968,10 @@ const TableFile = (props) => {
                         >
                             <Col span={16}>
                                 <Form.Item name={["address"]} rules={[{required: false}]}>
-                                    <Input placeholder={t('view.storage.street')} onChange={onChangeAddress}/>
+                                    <Input placeholder={t('view.storage.street')} onChange={onChangeAddress}
+                                           maxLength={255}
+                                           onBlur={handleAddressBlur}
+                                    />
                                 </Form.Item>
                             </Col>
                             <Col span={8}>

@@ -54,8 +54,6 @@
         -webkit-transform: rotate(90deg);
         -moz-transform: rotate(90deg);
         margin-right: 3px;
-        // font-family: Roboto, Oxygen, Ubuntu, Cantarell, "Open Sans",
-          // "Helvetica Neue", sans-serif;
         font-style: normal;
         font-weight: 600;
         font-size: 12px;
@@ -283,8 +281,6 @@
 
   .eventFileDetail {
     width: 100%;
-    // font-family: Roboto, Oxygen, Ubuntu, Cantarell, "Open Sans",
-      // "Helvetica Neue", sans-serif;
     font-style: normal;
     font-weight: 500;
     font-size: 12px;
@@ -414,15 +410,19 @@
     .search__bar {
       justify-content: space-between;
       display: flex;
+
       .ant-select-auto-complete {
         width: 100%;
         height: 40px;
       }
+
       .ant-select-selection-placeholder {
         position: relative;
+
         span:last-child {
           color: $vms-status-05;
         }
+
         .anticon {
           font-size: 20px;
           position: absolute;
@@ -430,6 +430,7 @@
           right: 0;
           transform: translateY(-50%);
         }
+
         .placeholder__text {
           position: absolute;
           margin-top: 5px;
@@ -446,11 +447,8 @@
 
   // view data
   .tableData {
-    // margin-right: 25px;
 
     .gridEventFileContainer {
-      // font-family: Roboto, Oxygen, Ubuntu, Cantarell, "Open Sans",
-        // "Helvetica Neue", sans-serif;
       font-style: normal;
       font-weight: 500;
       font-size: 12px;
@@ -467,8 +465,6 @@
           position: relative;
           margin: 2px;
           padding: 0.5em 0.5em 0.5em 2.5em;
-          // font-family: Roboto, Oxygen, Ubuntu, Cantarell, "Open Sans",
-          // "Helvetica Neue", sans-serif;
           line-break: anywhere;
         }
 
@@ -486,8 +482,7 @@
 
         li.name::before {
           content: "";
-          background: transparent url("../../../assets/img/icons/folder.png")
-          no-repeat center;
+          background: transparent url("../../../assets/img/icons/folder.png") no-repeat center;
           background-size: contain;
           position: absolute;
           height: 14px;
@@ -499,9 +494,7 @@
 
         li.pathFile::before {
           content: "";
-          background: transparent
-          url("../../../assets/img/icons/camera-list/cameraUrl.png") no-repeat
-          center;
+          background: transparent url("../../../assets/img/icons/camera-list/cameraUrl.png") no-repeat center;
           background-size: contain;
           position: absolute;
           height: 14px;
@@ -513,8 +506,7 @@
 
         li.cameraName::before {
           content: "";
-          background: transparent url("../../../assets/img/icons/camera.png")
-          no-repeat center;
+          background: transparent url("../../../assets/img/icons/camera.png") no-repeat center;
           background-size: contain;
           position: absolute;
           height: 14px;
@@ -526,8 +518,7 @@
 
         li.createdTime::before {
           content: "";
-          background: transparent url("../../../assets/img/icons/calendar.png")
-          no-repeat center;
+          background: transparent url("../../../assets/img/icons/calendar.png") no-repeat center;
           background-size: contain;
           position: absolute;
           height: 14px;
@@ -539,9 +530,7 @@
 
         li.address::before {
           content: "";
-          background: transparent
-          url("../../../assets/img/icons/camera-list/address.png") no-repeat
-          center;
+          background: transparent url("../../../assets/img/icons/camera-list/address.png") no-repeat center;
           background-size: contain;
           position: absolute;
           height: 14px;
@@ -564,8 +553,6 @@
         }
 
         .nameFile {
-          // font-family: Roboto, Oxygen, Ubuntu, Cantarell, "Open Sans",
-            // "Helvetica Neue", sans-serif;
           font-style: normal;
           font-weight: 500;
           font-size: 10px;
@@ -575,6 +562,7 @@
       }
 
       @include paginationDontShowTotalHaveChangeSize;
+
       .ant-pagination {
         padding-left: 0;
         padding-right: 0;
@@ -599,7 +587,6 @@
         @include scrollbar-styling(12px, 0);
       }
 
-      // padding-right: 25px;
       .box {
         padding: 5px;
         width: 33.33%;
@@ -618,8 +605,6 @@
           }
 
           .nameFile {
-            // font-family: Roboto, Oxygen, Ubuntu, Cantarell, "Open Sans",
-              // "Helvetica Neue", sans-serif;
             font-style: normal;
             font-weight: 500;
             font-size: 10px;
@@ -630,6 +615,7 @@
       }
 
       @include paginationDontShowTotalHaveChangeSize;
+
       .ant-pagination {
         padding-left: 0;
         padding-right: 0;
@@ -646,8 +632,6 @@
 
   .text {
     color: $vms-status-07;
-    // font-family: Roboto, Oxygen, Ubuntu, Cantarell, "Open Sans",
-      // "Helvetica Neue", sans-serif;
     font-style: normal;
     font-weight: 500;
     font-size: 14px;
@@ -705,8 +689,6 @@
     .ant-table-tbody > tr > td {
       border-bottom: 1px solid rgba(234, 240, 247, 0.1);
       box-sizing: border-box;
-      // font-family: Roboto, Oxygen, Ubuntu, Cantarell, "Open Sans",
-        // "Helvetica Neue", sans-serif;
       font-style: normal;
       font-weight: 500;
       font-size: 14px;
@@ -743,10 +725,10 @@
   }
 
   @include paginationDontShowTotalHaveChangeSize;
+
   .ant-pagination {
     padding-left: 0;
     padding-right: 0;
-    // text-align: center;
     justify-content: center;
   }
 }
@@ -754,8 +736,8 @@
 .height-table {
   .ant-table-body {
     height: 755px;
-    // @include scrollbar-styling(12px, 0);
   }
+
   .ant-table-empty {
     tbody {
       height: 649px;
@@ -821,8 +803,6 @@
 .fileInfoPopover {
   .rootRow {
     width: 100%;
-    // font-family: Roboto, Oxygen, Ubuntu, Cantarell, "Open Sans",
-      // "Helvetica Neue", sans-serif;
     font-style: normal;
     font-weight: 500;
     font-size: 12px;
@@ -883,6 +863,10 @@
 }
 
 .actionEventFilePopover {
+  .ant-select {
+    width: 300px;
+  }
+
   .ant-popover-title {
     color: $vms-soft-statuts;
     border-bottom: 1px solid rgba(234, 240, 247, 0.1);
@@ -894,5 +878,26 @@
 
   .ant-popover-arrow-content {
     background-color: $vms-bg-sub;
+  }
+}
+
+.ant-select-item-option-content {
+  .field-name {
+    color: $vms-main-blue-primary !important;
+    font-size: x-small;
+  }
+}
+
+.ant-select-item-option-selected {
+  .field-name {
+    color: $vms-status-07 !important;
+    font-size: x-small;
+  }
+}
+
+.ant-select-selection-item {
+  .field-name {
+    color: $vms-main-blue-primary !important;
+    font-size: x-small;
   }
 }

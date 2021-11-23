@@ -168,10 +168,10 @@ const ViewMapOffline = (props) => {
         // Add this draw object to the map when map loads
         // thêm phần control cho map: kéo, xoay map
         mapboxRef.current.addControl(mapBoxDrawRef.current);
+
         mapboxRef.current.on("draw.create", e => notifyParent(e));
         mapboxRef.current.on("draw.update", e => notifyParent(e));
         mapboxRef.current.on("draw.delete", e => notifyParent(e));
-
         mapboxRef.current.on('load', () => {
 
         })

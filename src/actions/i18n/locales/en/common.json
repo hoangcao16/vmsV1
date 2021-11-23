@@ -70,7 +70,8 @@
       "category_name": "Category Name",
       "edit_administrative_unit": "Edit administrative unit",
       "administrative_unit_name": "Administrative unit name",
-      "plsEnter_administrative_unit_name": "{{plsEnter}} administrative unit name"
+      "plsEnter_administrative_unit_name": "{{plsEnter}} administrative unit name",
+      "administrative_unit_detail": "Administrative unit detail"
     },
 
     "common_device": {
@@ -193,7 +194,10 @@
       "month": "Month",
       "year": "Year",
       "date_range": "Date range",
-      "export_data": "Export data"
+      "export_data": "Export data",
+      "compare_chart": "SITUATION COMPARISON CHART:",
+      "trend_chart": "SITUATION TREND CHART:",
+      "proportion_chart": "SITUATION PROPORTION CHART:"
     },
 
     "pages": {
@@ -331,7 +335,7 @@
         "to": "to",
         "out_of": "out of",
         "indexes": "indexes",
-        "no_valid_results_found": "No valid results  found",
+        "no_valid_results_found": "No valid results found",
         "group_user_list": "{{G}} {{U}} List",
         "add_group": "{{add}} {{G}}",
         "group_user_name": "{{G}} {{u}} name",
@@ -398,22 +402,27 @@
       "face": "Face Management",
       "name": "Name",
       "code": "Code",
-      "position" : "Position",
-      "department" : "Department",
-      "adminUnit" : "AdminUnit",
-      "status" : "Status"
+      "position": "Position",
+      "department": "Department",
+      "adminUnit": "AdminUnit",
+      "status": "Status"
     },
     "ai_config": {
       "config": "Event Config Management ",
       "hurdles_events": "Hurdles Events",
-      "intrusion_detection_events" : "Intrusion Detection Events",
-      "attendance_events" : "Attendance Events",
+      "intrusion_detection_events": "Intrusion Detection Events",
+      "attendance_events": "Attendance Events",
       "schedule_config": "Schedule Config",
       "area_config": "Area onfig"
     }
   },
 
   "noti": {
+    "successfully_update_tag_category": "Successfully imported label type",
+    "fail_update_tag_category": "Label type update failed",
+    "successfully_add_tag_category": "Add new success label",
+    "fail_add_tag_category": "Add new failure label",
+
     "logged_out_successfully": "Logged out successfully",
     "logged_out_failed": "Logged out failed",
 
@@ -472,7 +481,8 @@
     "enter_this_field": "Please enter this field!",
     "input_number": "Please enter number only",
     "at_least_10_characters": "At least 10 characters",
-    "at_least_8_characters": "At least 8 characters"
+    "at_least_8_characters": "At least 8 characters",
+    "no_valid_results_found": "No valid results  found"
   },
 
   "breadcrumd": {

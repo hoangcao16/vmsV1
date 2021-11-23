@@ -1,29 +1,31 @@
-import { Button, Col, Form, Input, Modal, Row } from 'antd';
-import { isEmpty } from 'lodash-es';
-import React, { useEffect, useState } from 'react';
-import CameraApi from '../../actions/api/camera/CameraApi';
-import { default as Event, default as EventApi } from '../../actions/api/event/EventApi';
-import FieldApi from '../../actions/api/field/FieldApi';
-import VendorApi from '../../actions/api/vendor/VendorApi';
-import Notification from '../../components/vms/notification/Notification';
-import './../commonStyle/commonAuto.scss';
-import './../commonStyle/commonForm.scss';
-import './../commonStyle/commonInput.scss';
-import './../commonStyle/commonModal.scss';
-import './../commonStyle/commonSelect.scss';
-import './ModalEditCategory.scss';
-import { CATEGORY_NAME } from './TableCategory';
-
+import { Button, Col, Form, Input, Modal, Row } from "antd";
+import { isEmpty } from "lodash-es";
+import React, { useEffect, useState } from "react";
+import CameraApi from "../../actions/api/camera/CameraApi";
+import {
+  default as Event,
+  default as EventApi
+} from "../../actions/api/event/EventApi";
+import FieldApi from "../../actions/api/field/FieldApi";
+import VendorApi from "../../actions/api/vendor/VendorApi";
+import Notification from "../../components/vms/notification/Notification";
+import "./../commonStyle/commonAuto.scss";
+import "./../commonStyle/commonForm.scss";
+import "./../commonStyle/commonInput.scss";
+import "./../commonStyle/commonModal.scss";
+import "./../commonStyle/commonSelect.scss";
+import "./ModalEditCategory.scss";
+import { CATEGORY_NAME } from "./TableCategory";
 
 const formItemLayout = {
   wrapperCol: { span: 24 },
-  labelCol: { span: 24 }
+  labelCol: { span: 24 },
 };
 
 const ModalViewEditCategory = (props) => {
   let { setShowModal, selectedCategoryId, dataType } = props;
   const [fieldData, setFieldData] = useState();
-  const [name, setName] = useState('');
+  const [name, setName] = useState("");
   const [form] = Form.useForm();
   const [selectedCategoryEdit, setSelectedCategoryEdit] = useState(null);
 
@@ -35,21 +37,30 @@ const ModalViewEditCategory = (props) => {
     }
 
     if (CATEGORY_NAME.CAMERA_TYPE === dataType) {
-      setName('Loại camera');
+      setName("Loại camera");
     }
     if (CATEGORY_NAME.VENDOR === dataType) {
-      setName('Hãng camera');
+      setName("Hãng camera");
     }
     if (CATEGORY_NAME.FIELD === dataType) {
-      setName('Lĩnh vực');
+      setName("Lĩnh vực");
     }
     if (CATEGORY_NAME.EVENT_TYPE === dataType) {
-      setName('Loại sự kiện');
+      setName("Loại sự kiện");
     }
   }, [selectedCategoryId]);
 
   const renderOptionSelectField = () =>
-    fieldData?.map((item) => <option value={item.uuid}>{item.name}</option>);
+    fieldData?.map((item) => (
+      <option value={item.uuid}>
+        {item.name.length > 40
+          ? `${item.name.slice(0, 19)}...${item.name.slice(
+              item.name.length - 20,
+              item.name.length
+            )}`
+          : `${item.name}`}
+      </option>
+    ));
 
   const getAllField = async (params) => {
     const data = await FieldApi.getAllFeild(params);
@@ -58,14 +69,14 @@ const ModalViewEditCategory = (props) => {
 
   useEffect(() => {
     const params = {
-      name: ''
+      name: "",
     };
     getAllField(params);
   }, []);
 
   const handleSubmit = async (value) => {
     const payload = {
-      ...value
+      ...value,
     };
 
     try {
@@ -93,9 +104,9 @@ const ModalViewEditCategory = (props) => {
 
         if (isEdit) {
           const notifyMess = {
-            type: 'success',
-            title: 'Thành công',
-            description: `Bạn đã sửa thành công tên ${name}`
+            type: "success",
+            title: "Thành công",
+            description: `Bạn đã sửa thành công tên ${name}`,
           };
           Notification(notifyMess);
         }
@@ -120,9 +131,9 @@ const ModalViewEditCategory = (props) => {
         }
         if (isPost) {
           const notifyMess = {
-            type: 'success',
-            title: 'Thành công',
-            description: `Bạn đã thêm thành công ${name}`
+            type: "success",
+            title: "Thành công",
+            description: `Bạn đã thêm thành công ${name}`,
           };
           Notification(notifyMess);
           setShowModal(false);
@@ -142,14 +153,14 @@ const ModalViewEditCategory = (props) => {
   return (
     <>
       <Modal
-        title={selectedCategoryId ? `Sửa ${name}` : 'Thêm mới'}
+        title={selectedCategoryId ? `Sửa ${name}` : "Thêm mới"}
         visible={true}
         onCancel={() => {
           setShowModal(false);
         }}
         className="modal__edit--category"
         footer={null}
-        maskStyle={{ background: 'rgba(51, 51, 51, 0.9)' }}
+        maskStyle={{ background: "rgba(51, 51, 51, 0.9)" }}
       >
         <Form
           className="bg-grey"
@@ -162,19 +173,19 @@ const ModalViewEditCategory = (props) => {
             <Col span={24}>
               <Form.Item
                 label={`${name}`}
-                name={['name']}
+                name={["name"]}
                 rules={[
                   {
                     required: true,
-                    message: 'Trường này bắt buộc'
-                  }
+                    message: "Trường này bắt buộc",
+                  },
                 ]}
               >
                 <Input
                   maxLength={255}
                   onBlur={(e) => {
                     form.setFieldsValue({
-                      name: e.target.value.trim()
+                      name: e.target.value.trim(),
                     });
                   }}
                 />
@@ -182,12 +193,12 @@ const ModalViewEditCategory = (props) => {
               {dataType === CATEGORY_NAME.EVENT_TYPE ? (
                 <Form.Item
                   label={`Lĩnh vực`}
-                  name={['fieldUuid']}
+                  name={["fieldUuid"]}
                   rules={[
                     {
                       required: true,
-                      message: 'Trường này bắt buộc'
-                    }
+                      message: "Trường này bắt buộc",
+                    },
                   ]}
                 >
                   <select>
