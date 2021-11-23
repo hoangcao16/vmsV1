@@ -250,7 +250,7 @@ const ModalEditAdministrativeUnit = (props) => {
   return (
     <>
       <Modal
-        title={selectedCategoryId ? 'Sửa Đơn Vị Hành Chính' : `${t('view.camera.add_new')}`}
+        title={selectedCategoryId ? `${t('view.category.edit_administrative_unit')}` : `${t('view.camera.add_new')}`}
         visible={true}
         onCancel={() => {
           setShowModal(false);
@@ -344,7 +344,7 @@ const ModalEditAdministrativeUnit = (props) => {
                       },
                       {
                         min: 11,
-                        message: 'Tối thiểu 10 ký tự'
+                        message: `${t('noti.at_least_10_characters')}`
                       }
                     ]}
                   >
