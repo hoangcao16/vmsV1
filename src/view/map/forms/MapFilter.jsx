@@ -1,18 +1,23 @@
+import { CloseOutlined } from "@ant-design/icons";
+import { Button, Form, Radio } from "antd";
 import React, { useEffect, useState } from "react";
-import { Radio, Select, Button, Form} from "antd";
+import { useTranslation } from "react-i18next";
+import { AdministrativeUnitType, CamType } from "../../../@core/common/common";
 import AddressApi from "../../../actions/api/address/AddressApi";
 import adDivisionApi from "../../../api/controller-api/adDivisionApi";
 import cameraGroupApi from "../../../api/controller-api/cameraGroupApi";
 import { PAGE_SIZE } from "../../common/vms/Constant";
-import { AdministrativeUnitType, CamType } from "../../../@core/common/common";
-import CameraFormFilter from "./CamFormFilter";
 import AdminisUnitFormFilter from "./AdminisUnitFormFilter";
-import { useTranslation } from 'react-i18next';
-import { CloseOutlined } from "@ant-design/icons";
+import CameraFormFilter from "./CamFormFilter";
 
 const MapFilter = (props) => {
   const { t } = useTranslation();
-  let { provinces, handlerToggleFilter, handleApplyFilterCallback, isShowRadioGroupChangeMode= true } = props;
+  let {
+    provinces,
+    handlerToggleFilter,
+    handleApplyFilterCallback,
+    isShowRadioGroupChangeMode = true,
+  } = props;
   const [form] = Form.useForm();
 
   const [filterType, setFilterType] = useState(1);
@@ -20,7 +25,6 @@ const MapFilter = (props) => {
   const [districtId, setDistrictId] = useState(null);
   const [administrativeUnitUuid, setAdministrativeUnitUuid] = useState(null);
   const [wardId, setWardId] = useState(null);
-
   const [districts, setDistrict] = useState();
   const [wards, setWards] = useState([]);
   const [adDivisions, setAdDivisions] = useState([]);
@@ -52,6 +56,7 @@ const MapFilter = (props) => {
   }, [districtId]);
   const onChangeFilterType = (e) => {
     setFilterType(e.target.value);
+    resetFilter();
   };
   const points = [
     {
@@ -92,6 +97,11 @@ const MapFilter = (props) => {
   }
 
   const handleSubmit = async (value) => {
+
+console.log('value:',value)
+console.log('administrativeUnitUuid:',administrativeUnitUuid)
+
+
     const location = form.getFieldValue("locationOnMap");
     const address = form.getFieldValue("address");
     const filter = {
@@ -147,15 +157,22 @@ const MapFilter = (props) => {
         onFinish={handleSubmit}
       >
         <Form.Item>
-          <CloseOutlined className="icon-close app-icon" onClick={props.handlerToggleFilter} />
+          <CloseOutlined
+            className="icon-close app-icon"
+            onClick={props.handlerToggleFilter}
+          />
         </Form.Item>
 
-        {isShowRadioGroupChangeMode && <Form.Item>
-          <Radio.Group onChange={onChangeFilterType} value={filterType}>
-            <Radio value={CamType}>{t('camera')}</Radio>
-            <Radio value={AdministrativeUnitType}>{t('view.map.administrative_unit_uuid')}</Radio>
-          </Radio.Group>
-        </Form.Item>}
+        {isShowRadioGroupChangeMode && (
+          <Form.Item>
+            <Radio.Group onChange={onChangeFilterType} value={filterType}>
+              <Radio value={CamType}>{t("camera")}</Radio>
+              <Radio value={AdministrativeUnitType}>
+                {t("view.map.administrative_unit_uuid")}
+              </Radio>
+            </Radio.Group>
+          </Form.Item>
+        )}
         {filterType == CamType ? (
           <CameraFormFilter
             provinces={provinces}
@@ -170,6 +187,7 @@ const MapFilter = (props) => {
             setAdministrativeUnitUuid={setAdministrativeUnitUuid}
             adDivisions={adDivisions}
             points={points}
+            form={form}
           />
         ) : (
           <AdminisUnitFormFilter
@@ -180,17 +198,18 @@ const MapFilter = (props) => {
             onChangeWard={onChangeWard}
             wards={wards}
             points={points}
+            form={form}
           />
         )}
 
         <Form.Item>
           <Button type="primary" block onClick={() => handleSubmit()}>
-          {t('view.map.btn_apply')}
+            {t("view.map.btn_apply")}
           </Button>
         </Form.Item>
         <Form.Item>
           <Button type="primary" ghost block onClick={() => handleReset()}>
-          {t('view.map.btn_remove_filter', { del: t('delete') })}
+            {t("view.map.btn_remove_filter", { del: t("delete") })}
           </Button>
         </Form.Item>
       </Form>

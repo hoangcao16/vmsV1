@@ -7,15 +7,21 @@ import { PAGE_SIZE } from "../../common/vms/Constant";
 import { AdministrativeUnitType, CamType } from "../../../@core/common/common";
 import MapAdminisUnitList from "./MapAdminisUnitList";
 import MapPagination from "./MapPagination";
-import Search from '../../../components/vms/search'
+import Search from "../../../components/vms/search";
 import MapCameraList from "./MapCameraList";
 import HeaderRightSideBar from "./HeaderRightSideBar";
 import MapFilter from "./MapFilter";
-import './RightSideBar.scss'
+import "./RightSideBar.scss";
 const RightSideBarMap = (props) => {
-  const { listCamera: cameras, metadata: camMetadata } = useSelector((state) => state.map.camera);
-  const { listAdminisUnit: adUnits, metadata: adMetadata } = useSelector((state) => state.map.adminisUnit);
-  const { isLoading: isLoadingAdUnit } = useSelector((state) => state.map.adminisUnit);
+  const { listCamera: cameras, metadata: camMetadata } = useSelector(
+    (state) => state.map.camera
+  );
+  const { listAdminisUnit: adUnits, metadata: adMetadata } = useSelector(
+    (state) => state.map.adminisUnit
+  );
+  const { isLoading: isLoadingAdUnit } = useSelector(
+    (state) => state.map.adminisUnit
+  );
   const { isLoading: isLoadingMap } = useSelector((state) => state.map.camera);
   let {
     handleSelectCameraCallback,
@@ -28,7 +34,7 @@ const RightSideBarMap = (props) => {
     handleFocusAdUnitCallback,
     isOpenForm,
     filterType,
-    searchValue
+    searchValue,
   } = props;
   const [isCollapsedCameraList, setIsCollapsedCameraList] = useState(false);
   const [isOpennedCameraFilter, setIsOpennedCameraFilter] = useState(false);
@@ -58,7 +64,6 @@ const RightSideBarMap = (props) => {
     setIsOpennedCameraFilter(!isOpennedCameraFilter);
   };
 
-
   const handleApplyFilterCallback1 = (data, type) => {
     handleApplyFilterCallback(data, type);
   };
@@ -84,7 +89,7 @@ const RightSideBarMap = (props) => {
   };
 
   useEffect(() => {
-    provinceApi.getAll().then(data => {
+    provinceApi.getAll().then((data) => {
       if (data && data.payload) setProvinces(data.payload);
     });
   }, []);
@@ -96,24 +101,31 @@ const RightSideBarMap = (props) => {
         (isCollapsedCameraList ? " collapsed" : "")
       }
     >
-
-      <HeaderRightSideBar toggleCollapsedCameraList={toggleCollapsedCameraList} />
-      <Search searchValue={searchValue} onPressEnter={onPressEnter} toggleOpenFilter={toggleOpennedCameraFilter} />
-      {filterType === CamType ?
+      <HeaderRightSideBar
+        toggleCollapsedCameraList={toggleCollapsedCameraList}
+      />
+      <Search
+        searchValue={searchValue}
+        onPressEnter={onPressEnter}
+        toggleOpenFilter={toggleOpennedCameraFilter}
+      />
+      {filterType === CamType ? (
         <MapCameraList
           cameras={cameras}
           handleSelectCameraCallback={handleSelectCameraCallback}
           handleFocusCameraCallback={handleFocusCameraCallback}
           isOpenForm={isOpenForm}
           isLoading={isLoadingMap}
-        /> :
+        />
+      ) : (
         <MapAdminisUnitList
           adUnits={adUnits}
           handleSelectAdUnitCallback={handleSelectAdUnitCallback}
           handleFocusAdUnitCallback={handleFocusAdUnitCallback}
           isOpenForm={isOpenForm}
           isLoading={isLoadingAdUnit}
-        />}
+        />
+      )}
       <MapPagination
         currentPage={currentPage}
         totalPage={totalPage}
