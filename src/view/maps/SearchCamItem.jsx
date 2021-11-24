@@ -12,6 +12,10 @@ const SearchCamItem = (props) => {
     setExpandSearch(!expandSearch);
   };
 
+  const handleFocusCameraCallback = (camera) => {
+    props.handleFocusCameraCallback(camera);
+  };
+
   return (
     <div ref={searchCamRef} className="search-cam-item">
       <div className="search-box">
@@ -23,8 +27,15 @@ const SearchCamItem = (props) => {
       {!isEmpty(props.cameraTags) && (
         <div className="list-data-search">
           <ul>
-            {props.cameraTags.map((t, index) => {
-              return <li key={index}>{t.name}</li>;
+            {props.cameraTags.map((camera, index) => {
+              return (
+                <li
+                  key={index}
+                  onClick={() => handleFocusCameraCallback(camera)}
+                >
+                  {camera.name}
+                </li>
+              );
             })}
           </ul>
         </div>

@@ -9,17 +9,17 @@ class EditableTagGroup extends React.Component {
     inputVisible: false,
     inputValue: "",
     isShowSuggestions: false,
-    
+    isEdit: true,
+    addonValue: "",
   };
 
-  componentDidMount(){
-    this.props.callDataCameraTag(this.state.tags)
+  componentDidMount() {
+    this.props.callDataCameraTag(this.state.tags);
   }
 
   handleClose = (removedTag) => {
     const tags = this.state.tags.filter((tag) => tag !== removedTag);
 
-    console.log("tags:", tags);
     localStorage.setItem("tags", JSON.stringify(tags));
     this.setState({ tags }, this.props.callDataCameraTag(tags));
   };
@@ -34,20 +34,20 @@ class EditableTagGroup extends React.Component {
       e.stopPropagation();
       this.setState({
         isShowSuggestions: true,
-        inputValue: value,
+        inputValue: value.trim(),
       });
       return;
     }
 
-    this.setState({ inputValue: value, isShowSuggestions: false });
+    this.setState({ inputValue: value.trim(), isShowSuggestions: false });
   };
 
   handleInputConfirm = () => {
     const state = this.state;
-    const inputValue = state.inputValue;
+    const inputValue = state.addonValue + state.inputValue;
     let tags = state.tags;
     if (inputValue && tags.indexOf(inputValue) === -1) {
-      tags = [...tags, inputValue];
+      tags = [...tags, inputValue.trim()];
     }
 
     localStorage.setItem("tags", JSON.stringify(tags));
@@ -55,19 +55,13 @@ class EditableTagGroup extends React.Component {
     //call data
 
     this.props.callDataCameraTag(tags);
-    this.saveInputRef.focus(
-
-
-      {
-        cursor: 'end',
-      }
-    );
-
     this.setState({
       tags,
       inputVisible: false,
       inputValue: "",
       isShowSuggestions: false,
+      isEdit: true,
+      addonValue: "",
     });
   };
 
@@ -75,15 +69,22 @@ class EditableTagGroup extends React.Component {
 
   handlePickData = (value) => {
     this.setState({
-      inputValue: value,
+      inputValue: "",
       isShowSuggestions: false,
+      isEdit: false,
+      addonValue: value,
     });
   };
 
   render() {
-    const { tags, inputVisible, inputValue, isShowSuggestions } = this.state;
-
-    console.log("tags:", tags);
+    const {
+      tags,
+      inputVisible,
+      inputValue,
+      isShowSuggestions,
+      isEdit,
+      addonValue,
+    } = this.state;
 
     return (
       <>
@@ -121,11 +122,19 @@ class EditableTagGroup extends React.Component {
               onChange={this.handleInputChange}
               // onBlur={this.handleInputConfirm}
               onPressEnter={this.handleInputConfirm}
+              // {...rest}
+              addonBefore={!isEdit ? addonValue : null}
+              maxLength={255}
             />
           )}
 
           {!inputVisible && (
-            <Button size="small" type="dashed" onClick={this.showInput}>
+            <Button
+              size="small"
+              type="dashed"
+              onClick={this.showInput}
+              style={{ height: "100%" }}
+            >
               + New Tag
             </Button>
           )}
