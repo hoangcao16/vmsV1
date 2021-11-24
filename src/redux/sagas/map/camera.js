@@ -1,12 +1,21 @@
-import { call, put, takeLatest, select, all } from 'redux-saga/effects';
-import { ADD_CAMERA_ON_MAP, FETCH_ALL_CAMERA_ON_MAP, UPDATE_CAMERA_ON_MAP_BY_FILTER } from '../../types/map'
-import cameraApi from '../../../api/controller-api/cameraApi';
-import { NOTYFY_TYPE, STATUS_CODE } from '../../../view/common/vms/Constant';
-import mapActions from '../../actions/map';
-import { addCameraOnMapFailed, addCameraOnMapSuccess, updateCameraOnMapByFilterFailed, updateCameraOnMapByFilterSuccess } from '../../actions/map/cameraActions';
-import { updateMapObject } from '../../actions/map/formMapActions';
-import { FORM_MAP_ITEM } from '../../../view/common/vms/constans/map';
-import Notification from "../../../components/vms/notification/Notification"
+import { call, put, takeLatest, select, all } from "redux-saga/effects";
+import {
+  ADD_CAMERA_ON_MAP,
+  FETCH_ALL_CAMERA_ON_MAP,
+  UPDATE_CAMERA_ON_MAP_BY_FILTER,
+} from "../../types/map";
+import cameraApi from "../../../api/controller-api/cameraApi";
+import { NOTYFY_TYPE, STATUS_CODE } from "../../../view/common/vms/Constant";
+import mapActions from "../../actions/map";
+import {
+  addCameraOnMapFailed,
+  addCameraOnMapSuccess,
+  updateCameraOnMapByFilterFailed,
+  updateCameraOnMapByFilterSuccess,
+} from "../../actions/map/cameraActions";
+import { updateMapObject } from "../../actions/map/formMapActions";
+import { FORM_MAP_ITEM } from "../../../view/common/vms/constans/map";
+import Notification from "../../../components/vms/notification/Notification";
 const { fetchAllCameraOnMapFailed, fetchAllCameraOnMapSuccess } = mapActions;
 
 export function* fetchListCameraAction(action) {
@@ -17,6 +26,13 @@ export function* fetchListCameraAction(action) {
   // }
   try {
     const { params } = action.payload;
+
+
+console.log('params:',params)
+
+
+
+    
     const resp = yield call(cameraApi.getAll, params);
     if (resp && resp.payload) {
       const { code, payload, metadata } = resp;
@@ -35,31 +51,35 @@ export function* fetchListCameraAction(action) {
   }
 }
 
-
 export function* updateListCameraByFilterAction(action) {
   const notifyMess = {
     type: NOTYFY_TYPE.success,
-    title: '',
-    description: 'Bạn đã cập nhật thành công Camera'
-  }
+    title: "",
+    description: "Bạn đã cập nhật thành công Camera",
+  };
   try {
     const formMapObject = {
       selectedPos: false,
       isOpenForm: false,
       formEditting: null,
-      actionType: '',
-      isEditForm: false
-    }
+      actionType: "",
+      isEditForm: false,
+    };
     const bodyCamInfo = action.payload;
     const resp = yield call(cameraApi.update, bodyCamInfo, bodyCamInfo.uuid);
-    const formMapSelector = yield select(state => state.map.form);
+    const formMapSelector = yield select((state) => state.map.form);
     if (resp && resp.payload) {
       yield put(updateCameraOnMapByFilterSuccess(resp.payload));
-      yield put(updateMapObject({
-        ...formMapSelector,
-        ...formMapObject
-      }))
-      sessionStorage.setItem(FORM_MAP_ITEM, JSON.stringify({ ...formMapSelector, ...formMapObject }));
+      yield put(
+        updateMapObject({
+          ...formMapSelector,
+          ...formMapObject,
+        })
+      );
+      sessionStorage.setItem(
+        FORM_MAP_ITEM,
+        JSON.stringify({ ...formMapSelector, ...formMapObject })
+      );
       Notification(notifyMess);
     } else {
       yield put(updateCameraOnMapByFilterFailed(null));
@@ -68,7 +88,9 @@ export function* updateListCameraByFilterAction(action) {
     if (error.response && error.response.data && error.response.data.errors) {
       yield put(updateCameraOnMapByFilterFailed(null));
       notifyMess.type = NOTYFY_TYPE.warning;
-      notifyMess.description = error.response.data.errors.message || 'something is wrong from server side'
+      notifyMess.description =
+        error.response.data.errors.message ||
+        "something is wrong from server side";
       Notification(notifyMess);
     }
   }
@@ -77,27 +99,32 @@ export function* updateListCameraByFilterAction(action) {
 export function* addNewCamAction(action) {
   const notifyMess = {
     type: NOTYFY_TYPE.success,
-    title: '',
-    description: 'Bạn đã thêm thành công Camera'
-  }
+    title: "",
+    description: "Bạn đã thêm thành công Camera",
+  };
   try {
     const formMapObject = {
       selectedPos: false,
       isOpenForm: false,
       formEditting: null,
-      actionType: '',
-      isEditForm: false
-    }
+      actionType: "",
+      isEditForm: false,
+    };
     const bodyCamInfo = action.payload;
     const resp = yield call(cameraApi.createNew, bodyCamInfo);
-    const formMapSelector = yield select(state => state.map.form);
+    const formMapSelector = yield select((state) => state.map.form);
     if (resp && resp.payload) {
       yield put(addCameraOnMapSuccess(resp.payload));
-      yield put(updateMapObject({
-        ...formMapSelector,
-        ...formMapObject
-      }))
-      sessionStorage.setItem(FORM_MAP_ITEM, JSON.stringify({ ...formMapSelector, ...formMapObject }));
+      yield put(
+        updateMapObject({
+          ...formMapSelector,
+          ...formMapObject,
+        })
+      );
+      sessionStorage.setItem(
+        FORM_MAP_ITEM,
+        JSON.stringify({ ...formMapSelector, ...formMapObject })
+      );
       Notification(notifyMess);
     } else {
       yield put(addCameraOnMapFailed(null));
@@ -106,7 +133,9 @@ export function* addNewCamAction(action) {
     if (error.response && error.response.data && error.response.data.errors) {
       yield put(addCameraOnMapFailed(null));
       notifyMess.type = NOTYFY_TYPE.warning;
-      notifyMess.description = error.response.data.errors.message || 'something is wrong from server side'
+      notifyMess.description =
+        error.response.data.errors.message ||
+        "something is wrong from server side";
       Notification(notifyMess);
     }
   }
@@ -115,7 +144,10 @@ export function* addNewCamAction(action) {
 export default function* watchCameraSaga() {
   yield all([
     yield takeLatest(FETCH_ALL_CAMERA_ON_MAP, fetchListCameraAction),
-    yield takeLatest(UPDATE_CAMERA_ON_MAP_BY_FILTER, updateListCameraByFilterAction),
+    yield takeLatest(
+      UPDATE_CAMERA_ON_MAP_BY_FILTER,
+      updateListCameraByFilterAction
+    ),
     yield takeLatest(ADD_CAMERA_ON_MAP, addNewCamAction),
-  ])
+  ]);
 }
