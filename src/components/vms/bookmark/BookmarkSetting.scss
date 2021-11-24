@@ -48,7 +48,9 @@
           line-height: 40px;
           padding-left: 16px;
         }
+
       }
+
     }
   }
 
@@ -278,5 +280,11 @@
       }
     }
   }
+
+
 }
 //end: modal bookmark
+
+.ant-select-dropdown.ant-select-dropdown-placement-bottomLeft{
+  z-index: 10000000000;
+}
