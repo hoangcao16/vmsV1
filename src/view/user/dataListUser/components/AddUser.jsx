@@ -101,31 +101,34 @@ function AddUser(props) {
   };
 
   const handleSubmit = async (value) => {
-    const payload = {
-      ...value,
-      phone: value?.phone?.substring(1),
-      date_of_birth: moment(value?.date_of_birth).format('DD-MM-YYYY')
-    };
-
-    const createdUser = await UserApi.createdUser(payload);
-
-    if (createdUser?.uuid) {
-      const notifyMess = {
-        type: 'success',
-        title: `${t('view.user.detail_list.success')}`,
-        description: `${t('noti.successfully_added_data', { add: t('add') })}`
+    if (validatePhoneNumber(value?.phone)) {
+      const payload = {
+        ...value,
+        phone: value?.phone,
+        date_of_birth: moment(value?.date_of_birth).format('DD-MM-YYYY')
       };
-      Notification(notifyMess);
 
-      history.replace(`detail/${createdUser?.uuid}`);
-    } else {
-      const notifyMess = {
-        type: 'warning',
-        title: `${t('view.user.detail_list.fail')}`,
-        description: `${t('noti.unsuccessfully_add_data', { add: t('add') })}`
-      };
-      Notification(notifyMess);
+      const createdUser = await UserApi.createdUser(payload);
+
+      if (createdUser?.uuid) {
+        const notifyMess = {
+          type: 'success',
+          title: `${t('view.user.detail_list.success')}`,
+          description: `${t('noti.successfully_added_data', { add: t('add') })}`
+        };
+        Notification(notifyMess);
+
+        history.replace(`detail/${createdUser?.uuid}`);
+      } else {
+        const notifyMess = {
+          type: 'warning',
+          title: `${t('view.user.detail_list.fail')}`,
+          description: `${t('noti.unsuccessfully_add_data', { add: t('add') })}`
+        };
+        Notification(notifyMess);
+      }
     }
+
   };
 
   const uploadButton = (
@@ -155,6 +158,20 @@ function AddUser(props) {
       cancelText: `${t('view.user.detail_list.back')}`,
       onOk: test
     });
+  }
+
+  const validatePhoneNumber = (value) => {
+
+    const pattern = /^[+]*[(]{0,1}[0-9]{1,3}[)]{0,1}[-\s\./0-9]*$/g
+    if (!pattern.test(value) && value.length > 10) {
+      const notifyMess = {
+        type: NOTYFY_TYPE.error,
+        description: 'Định dạng số điện thoại chưa đúng'
+      };
+      Notification(notifyMess);
+      return false;
+    }
+    return true;
   }
 
   const test = () => {
@@ -327,7 +344,6 @@ function AddUser(props) {
 
                     <Col span={17}>
                       <Form.Item
-                        className="phone__input"
                         name={['phone']}
                         rules={[
                           {
@@ -335,17 +351,16 @@ function AddUser(props) {
                             message: `${t('view.map.required_field')}`
                           },
                           {
-                            min: 11,
+                            min: 10,
                             message: `${t('noti.at_least_10_characters')}`
                           }
                         ]}
                       >
-                        <MuiPhoneNumber
-                          name="phone"
-                          data-cy="user-phone"
-                          defaultCountry={'vn'}
-                          autoComplete="off"
-                        // placeholder={t('view.user.detail_list.phone_number')}
+                        <Input
+                          type="text"
+                          maxLength={13}
+                          onBlur={(e) => validatePhoneNumber(e.target.value)}
+                          placeholder='Số điện thoại'
                         />
                       </Form.Item>
                     </Col>
