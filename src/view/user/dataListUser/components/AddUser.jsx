@@ -163,7 +163,7 @@ function AddUser(props) {
   const validatePhoneNumber = (value) => {
 
     const pattern = /^[+]*[(]{0,1}[0-9]{1,3}[)]{0,1}[-\s\./0-9]*$/g
-    if (!pattern.test(value) && value.length > 10) {
+    if (!pattern.test(value) && value.length >= 10) {
       const notifyMess = {
         type: NOTYFY_TYPE.error,
         description: 'Định dạng số điện thoại chưa đúng'
@@ -359,7 +359,6 @@ function AddUser(props) {
                         <Input
                           type="text"
                           maxLength={13}
-                          onBlur={(e) => validatePhoneNumber(e.target.value)}
                           placeholder='Số điện thoại'
                         />
                       </Form.Item>

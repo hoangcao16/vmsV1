@@ -44,7 +44,7 @@ class EditableTagGroup extends React.Component {
 
   handleInputConfirm = () => {
     const state = this.state;
-    const inputValue = state.addonValue + state.inputValue;
+    const inputValue = state.addonValue + ' ' + state.inputValue;
     let tags = state.tags;
     if (inputValue && tags.indexOf(inputValue) === -1) {
       tags = [...tags, inputValue.trim()];
@@ -88,7 +88,7 @@ class EditableTagGroup extends React.Component {
 
     return (
       <>
-        <div style={{ height: "100%", position: "relative", overflow: "auto" }}>
+        <div style={{ height: "100%", width: "100%", position: "relative", overflow: "auto" }}>
           {tags.map((tag, index) => {
             const isLongTag = tag.length > 20;
             const tagElem = (
@@ -101,6 +101,7 @@ class EditableTagGroup extends React.Component {
                   this.handleClose(tag);
                 }}
               >
+                {console.log('tag', tag)}
                 {isLongTag ? `${tag.slice(0, 20)}...` : tag}
               </Tag>
             );
@@ -120,9 +121,7 @@ class EditableTagGroup extends React.Component {
               style={{ width: "70%", height: "100%" }}
               value={inputValue}
               onChange={this.handleInputChange}
-              // onBlur={this.handleInputConfirm}
               onPressEnter={this.handleInputConfirm}
-              // {...rest}
               addonBefore={!isEdit ? addonValue : null}
               maxLength={255}
             />
@@ -140,7 +139,7 @@ class EditableTagGroup extends React.Component {
           )}
         </div>
         {isShowSuggestions && (
-          <div style={{ position: "absolute", width: "100%", top: 50 }}>
+          <div style={{ marginTop: '4px' }}>
             <SelectWithHiddenSelectedOptions
               handlePickData={this.handlePickData}
               allTags={tags}
