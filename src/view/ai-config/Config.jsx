@@ -1,4 +1,5 @@
 import {
+  ConsoleSqlOutlined,
   DeleteOutlined,
   EditOutlined,
   PlusOutlined,
@@ -14,6 +15,7 @@ import {
   Table,
   Tag,
   Tabs,
+  Checkbox
 } from 'antd';
 import 'antd/dist/antd.css';
 import { isEmpty } from 'lodash-es';
@@ -21,12 +23,13 @@ import debounce from 'lodash/debounce';
 import React, { useEffect, useState } from 'react';
 import { withRouter } from 'react-router-dom';
 import CameraApi from '../../actions/api/camera/CameraApi';
+import AIConfigScheduleApi from '../../actions/api/ai-config/AIConfigScheduleApi';
 
 import Notification from '../../components/vms/notification/Notification';
 import './../commonStyle/commonInput.scss';
 import './../commonStyle/commonSelect.scss';
 import './../commonStyle/commonTable.scss';
-import ModalEditHumans from './ModalEditHumans';
+import ModalEditScheduleConfig from './ModalEditScheduleConfig';
 import './Config.scss';
 import { bodyStyleCard, headStyleCard } from './variables';
 import { useTranslation } from 'react-i18next';
@@ -40,6 +43,7 @@ import Timeline, {
   DateHeader
 } from "react-calendar-timeline/lib";
 import moment from 'moment'
+import TabSchedule from './TabSchedule';
 const { TabPane } = Tabs;
 
 
@@ -54,16 +58,29 @@ export const CATEGORY_NAME = {
 };
 
 const { Option } = Select;
-const TableHumans = () => {
+const Config = () => {
   const { t } = useTranslation();
   const language = reactLocalStorage.get('language');
   const [selectedHumansId, setSelectedHumansId] = useState(null);
   const [showModal, setShowModal] = useState(false);
   const [total, setTotal] = useState(0);
-  const [listHumans, setListHumans] = useState([]);
+  const [checkStatus, setCheckStatus] = useState(false);
   const [listCameras, setListCameras] = useState([]);
+  const [cameraUuid, setCameraUuid] = useState("");
   const [page, setPage] = useState(1);
   const [pageSize, setPageSize] = useState(10);
+  const [listDetail, setListDetail] = useState(10);
+  const [listTimes, setListTimes] = useState([]);
+  const [listTimesCN, setListTimesCN] = useState([]);
+  const [listTimes2, setListTimes2] = useState([]);
+  const [listTimes3, setListTimes3] = useState([]);
+  const [listTimes4, setListTimes4] = useState([]);
+  const [listTimes5, setListTimes5] = useState([]);
+  const [listTimes6, setListTimes6] = useState([]);
+  const [listTimes7, setListTimes7] = useState([]);
+  const [data, setData] = useState(false);
+  const [selectDay, setSelectDay] = useState("");
+
 
   useEffect(() => {
     if (
@@ -71,9 +88,7 @@ const TableHumans = () => {
         ? (document.title = 'CCTV | Quản lý sự kiện thông minh')
         : (document.title = 'CCTV | AI Config Management')
     );
-  }, []);
-
-  useEffect(() => {
+    
     const data = {
       page: page,
       pageSize: pageSize
@@ -81,68 +96,183 @@ const TableHumans = () => {
     CameraApi.getAllCamera(data).then((result) => {
       setListCameras(result);
     });
-
   }, []);
+
+  useEffect(() => {
+    const data = {
+      type: '',
+      cameraUuid: cameraUuid
+    };
+    AIConfigScheduleApi.getAllConfigSchedule(data).then((result) => {
+      setData(result)
+      setDefaultData(result)
+    });
+  }, [cameraUuid]);
+
+
+  function setDefaultData(data) {
+    const itemList = [];
+    let i = 1;
+    setListTimesCN(data?.sunday)
+    data?.sunday && data.sunday.map(item => {
+        const start = item.startTime * 1000
+        const end = item.endTime * 1000
+        itemList.push({
+          id: i,
+          group: 1,
+          title: '',
+          canMove: true,
+          canResize: false,
+          canChangeGroup: false,
+          start_time: moment([2021, 1, 1, moment(start).get('hour'), moment(start).get('minute'), moment(start).get('second'), moment(start).get('millisecond')]),
+          end_time: moment([2021, 1, 1, moment(end).get('hour'), moment(end).get('minute'), moment(end).get('second'), moment(end).get('millisecond')])
+        })
+        i++
+      })
+      setListTimes2(data?.monday)
+      data?.monday && data.monday.map(item => {
+        const start = item.startTime * 1000
+        const end = item.endTime * 1000
+        itemList.push({
+          id: i,
+          group: 2,
+          title: '',
+          canMove: true,
+          canResize: false,
+          canChangeGroup: false,
+          start_time: moment([2021, 1, 1, moment(start).get('hour'), moment(start).get('minute'), moment(start).get('second'), moment(start).get('millisecond')]),
+          end_time: moment([2021, 1, 1, moment(end).get('hour'), moment(end).get('minute'), moment(end).get('second'), moment(end).get('millisecond')])
+        })
+        i++
+      })
+      setListTimes3(data?.tuesday)
+      data?.tuesday && data.tuesday.map(item => {
+        const start = item.startTime * 1000
+        const end = item.endTime * 1000
+        itemList.push({
+          id: i,
+          group: 3,
+          title: '',
+          canMove: true,
+          canResize: false,
+          canChangeGroup: false,
+          start_time: moment([2021, 1, 1, moment(start).get('hour'), moment(start).get('minute'), moment(start).get('second'), moment(start).get('millisecond')]),
+          end_time: moment([2021, 1, 1, moment(end).get('hour'), moment(end).get('minute'), moment(end).get('second'), moment(end).get('millisecond')])
+        })
+        i++
+      })
+      setListTimes4(data?.wednesday)
+      data?.wednesday && data.wednesday.map(item => {
+        const start = item.startTime * 1000
+        const end = item.endTime * 1000
+        itemList.push({
+          id: i,
+          group: 4,
+          title: '',
+          canMove: true,
+          canResize: false,
+          canChangeGroup: false,
+          start_time: moment([2021, 1, 1, moment(start).get('hour'), moment(start).get('minute'), moment(start).get('second'), moment(start).get('millisecond')]),
+          end_time: moment([2021, 1, 1, moment(end).get('hour'), moment(end).get('minute'), moment(end).get('second'), moment(end).get('millisecond')])
+        })
+        i++
+      })
+      setListTimes5(data?.thursday)
+      data?.thursday && data.thursday.map(item => {
+        const start = item.startTime * 1000
+        const end = item.endTime * 1000
+        itemList.push({
+          id: i,
+          group: 5,
+          title: '',
+          canMove: true,
+          canResize: false,
+          canChangeGroup: false,
+          start_time: moment([2021, 1, 1, moment(start).get('hour'), moment(start).get('minute'), moment(start).get('second'), moment(start).get('millisecond')]),
+          end_time: moment([2021, 1, 1, moment(end).get('hour'), moment(end).get('minute'), moment(end).get('second'), moment(end).get('millisecond')])
+        })
+        i++
+      })
+      setListTimes6(data?.friday)
+      data?.friday && data.friday.map(item => {
+        const start = item.startTime * 1000
+        const end = item.endTime * 1000
+        itemList.push({
+          id: i,
+          group: 6,
+          title: '',
+          canMove: true,
+          canResize: false,
+          canChangeGroup: false,
+          start_time: moment([2021, 1, 1, moment(start).get('hour'), moment(start).get('minute'), moment(start).get('second'), moment(start).get('millisecond')]),
+          end_time: moment([2021, 1, 1, moment(end).get('hour'), moment(end).get('minute'), moment(end).get('second'), moment(end).get('millisecond')])
+        })
+        i++
+      })
+      setListTimes7(data?.saturday)
+      data?.saturday && data.saturday.map(item => {
+        const start = item.startTime * 1000
+        const end = item.endTime * 1000
+        itemList.push({
+          id: i,
+          group: 7,
+          title: '',
+          canMove: true,
+          canResize: false,
+          canChangeGroup: false,
+          start_time: moment([2021, 1, 1, moment(start).get('hour'), moment(start).get('minute'), moment(start).get('second'), moment(start).get('millisecond')]),
+          end_time: moment([2021, 1, 1, moment(end).get('hour'), moment(end).get('minute'), moment(end).get('second'), moment(end).get('millisecond')])
+        })
+        i++
+      })
+      setListDetail(itemList)
+  }
 
   function onSearch(val) {
     console.log('search:', val);
   }
+  function onChangeCheckBox(val) {
+    setCheckStatus(val.target.checked)
+  }
 
-  const groups = [{ id: 1, title: 'group 1', bgColor: 'white' }, { id: 2, title: 'group 2' }]
-
-  const items = [
-    {
-      id: 1,
-      group: 1,
-      title: 'item 1',
-      canMove: true,
-      canResize: false,
-      canChangeGroup: false,
-      start_time: moment(),
-      end_time: moment().add(1, 'hour')
-    },
-    {
-      id: 1,
-      group: 1,
-      title: 'Random title',
-      start_time: 1457902922261,
-      end_time: 1457902922261 + 86400000,
-      canMove: true,
-      canResize: false,
-      canChangeGroup: false,
-      className: 'weekend',
-      itemProps: {
-        'data-custom-attribute': 'Random content'
+  const getTimeLong = (start_m, end_m) => {
+    if (start_m && end_m) {
+      const start = moment([2021, 1, 1, start_m.get('hour'), start_m.get('minute'), start_m.get('second'), start_m.get('millisecond')])
+      const end = moment([2021, 1, 1, end_m.get('hour'), end_m.get('minute'), end_m.get('second'), end_m.get('millisecond')])
+      return {
+        startTime: start.unix(),
+        endTime: end.unix()
       }
-    },
-    {
-      id: 2,
-      group: 2,
-      title: 'item 2',
-      canMove: true,
-      canResize: false,
-      canChangeGroup: false,
-      start_time: moment().add(-0.5, 'hour'),
-      end_time: moment().add(0.5, 'hour')
-    },
-    {
-      id: 3,
-      group: 1,
-      title: 'item 3',
-      canMove: true,
-      canResize: false,
-      canChangeGroup: false,
-      start_time: moment().add(2, 'hour'),
-      end_time: moment().add(3, 'hour')
     }
-  ]
-  const defaultTimeStart = moment()
-    .startOf("day")
-    .toDate();
-  const defaultTimeEnd = moment()
-    .startOf("day")
-    .add(1, "day")
-    .toDate();
+
+  }
+
+  const handleSubmit = async () => {
+    const payload = {
+      ...data
+    };
+
+    try {
+      let isPost = await AIConfigScheduleApi.addConfigSchedule(payload);
+
+        if (isPost) {
+          const notifyMess = {
+            type: "success",
+            title: "Thành công",
+            description: `Bạn đã add thành công`,
+          };
+          Notification(notifyMess);
+          setShowModal(false)
+        }
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
+
+  function onChangeSelect(selected) {
+    setCameraUuid(selected)
+  }
 
 
 
@@ -190,87 +320,9 @@ const TableHumans = () => {
   };
 
 
-  const onShowSizeChange = (current, pageSize) => {
-    setPage(current);
-    setPageSize(pageSize);
-  };
-
-  const renderTag = (haveImg) => {
-    let str = ""
-    haveImg ? str = "Đã có ảnh" : str = "Chưa có ảnh"
-    return (
-      <Tag color={haveImg ? '#1380FF' : '#FF4646'} style={{ color: '#ffffff' }}>{str}</Tag>
-    );
-  };
-
-
-  const categoryColumns = [
-    {
-      title: 'STT',
-      fixed: 'left',
-      key: 'index',
-      className: 'headerColums',
-      width: '10%',
-      render: (text, record, index) => index + 1
-    },
-    {
-      title: `${t('view.ai_humans.name')}`,
-      dataIndex: 'name',
-      key: 'name',
-      className: 'headerColums',
-      fixed: 'left',
-      width: '15%',
-      // ...TableUtils.getColumnSearchProps('name')
-    },
-    {
-      title: `${t('view.ai_humans.code')}`,
-      dataIndex: 'code',
-      className: 'headerColums',
-      key: 'code',
-      width: '5%'
-    },
-    {
-      title: `${t('view.ai_humans.position')}`,
-      dataIndex: 'position',
-      className: 'headerColums',
-      key: 'position',
-      width: '10%'
-    },
-    {
-      title: `${t('view.ai_humans.adminUnit')}`,
-      dataIndex: 'adminUnit',
-      className: 'headerColums',
-      key: 'adminUnit',
-      width: '10%'
-    },
-    {
-      title: `${t('view.ai_humans.department')}`,
-      dataIndex: 'department',
-      className: 'headerColums',
-      key: 'department',
-      width: '10%'
-    },
-    {
-      title: `${t('view.ai_humans.status')}`,
-      dataIndex: 'haveImg',
-      className: 'headerColums',
-      key: 'haveImg',
-      render: renderTag,
-      width: '10%'
-    },
-
-  ];
-
-  const addColumn = {
-    title: 'Lĩnh vực',
-    dataIndex: 'fieldName',
-    key: 'fieldName',
-    fixed: 'left',
-    className: 'headerColums'
-  };
 
   return (
-    <div className="tabs__container--category">
+    <div className="tabs__container--ai_config">
       <Breadcrumds
         url="/app/setting"
         nameParent={t('breadcrumd.setting')}
@@ -284,6 +336,7 @@ const TableHumans = () => {
           placeholder="Select a person"
           optionFilterProp="children"
           onSearch={onSearch}
+          onChange={onChangeSelect}
         // filterOption={(input, option) =>
         //   option.children.toLowerCase().indexOf(input.toLowerCase()) >= 0
         // }
@@ -294,46 +347,22 @@ const TableHumans = () => {
             </Option>
           ))}
         </Select>
-
-
       </div>
       <div className="tabs__container--store">
         <Tabs type="card">
           <TabPane tab={t('view.ai_config.hurdles_events')} key="1">
-            {/* <TableNVR /> */}
+          <TabSchedule cameraUuid={cameraUuid} type="hurdles_events"></TabSchedule>
           </TabPane>
-          <TabPane tab={t('view.ai_config.intrusion_detection_events')} key="2">
-            {/* <TableNVR /> */}
+          <TabPane tab={t('view.ai_config.intrusion_detection_events')} key="2" width='480px'>
+          <TabSchedule cameraUuid={cameraUuid} type="intrusion_detection_events"></TabSchedule>
           </TabPane>
           <TabPane tab={t('view.ai_config.attendance_events')} key="3">
-            {/* <TableNVR /> */}
+            <TabSchedule cameraUuid={cameraUuid} type="attendance_events"></TabSchedule>
           </TabPane>
         </Tabs>
       </div>
 
-      <Card
-        bodyStyle={bodyStyleCard}
-        headStyle={headStyleCard}
-        className="card--category"
-      // headStyle={{ padding: 30 }}
-      >
-        <div className="tabs__container--store">
-          <Tabs type="card">
-            <TabPane tab={t('view.ai_config.area_config')} key="1">
-              {/* Content of Tab Pane 1 */}
-            </TabPane>
-            <TabPane tab={t('view.ai_config.schedule_config')} key="2">
-              <Timeline
-                groups={groups}
-                items={items}
-                defaultTimeStart={moment().startOf('d')}
-                defaultTimeEnd={moment().endOf('d')}
-
-              />
-            </TabPane>
-          </Tabs>
-        </div>
-      </Card>
+      
 
 
     </div>
@@ -341,4 +370,4 @@ const TableHumans = () => {
 };
 
 
-export default withRouter(TableHumans);
+export default withRouter(Config);

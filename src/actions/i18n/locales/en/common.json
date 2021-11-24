@@ -11,7 +11,6 @@
   "g": "group",
   "R": "Role",
   "r": "role",
-
   "components": {
     "bookmark": {
       "favorite_screen_list": "Favorite Screen List",
@@ -26,7 +25,6 @@
       "notification": "Notification"
     }
   },
-
   "view": {
     "camera": {
       "active": "Active",
@@ -60,7 +58,6 @@
       "please_enter_camera_group_name": "Please enter Camera group name",
       "add_camera_group": "Add Camera to Camera group"
     },
-
     "category": {
       "camera_vendor": "{{cam}} vendor",
       "field": "Field",
@@ -75,7 +72,6 @@
       "choose_field_for_event": "Please choose field for event",
       "administrative_unit_detail": "Administrative unit detail"
     },
-
     "common_device": {
       "camproxy_name": "Camproxy name",
       "playback_name": "Playback name",
@@ -105,7 +101,6 @@
       "please_enter_zone_name": "{{plsEnter}} Zone name",
       "please_enter_camproxy_name": "{{plsEnter}} Camproxy name"
     },
-
     "live": {
       "preset_setting": "Preset setting",
       "open_control_panel": "Open control panel",
@@ -115,7 +110,6 @@
       "add_new_preset_tour": "Add new preset tour",
       "choose_preset_tour": "Choose preset tour"
     },
-
     "map": {
       "search": "Search",
       "camera_list": "{{cam}} List",
@@ -172,7 +166,6 @@
       "please_enter_original_url": "{{plsEnter}} Original URL",
       "save_live_camera": "Save Live {{cam}}"
     },
-
     "maps": {
       "not_provide": "Not provide",
       "loading": "Loading...",
@@ -185,7 +178,6 @@
       "select_date": "Select date",
       "select_time": "Select time"
     },
-
     "report": {
       "cameraIsWorking": "Camera is working",
       "cameraIsNotWorking": "Camera is not working",
@@ -201,7 +193,6 @@
       "trend_chart": "SITUATION TREND CHART:",
       "proportion_chart": "SITUATION PROPORTION CHART:"
     },
-
     "pages": {
       "login": "Login",
       "wc_pls_login": "Welcome, please login.",
@@ -217,7 +208,6 @@
       "update": "Update",
       "return_to_homepage": "Return to homepage"
     },
-
     "storage": {
       "daily_archive_files_list": "Daily archive files list",
       "captured_files_list": "Captured files list",
@@ -279,7 +269,6 @@
       "automatically_95_percent": "Automatically delete to 95% when the memory is full",
       "automatically_5gb": "Automatically delete to 5GB when the memory is full",
       "email_sending_to_users_setting": "Email sending to users setting",
-
       "daily_record": "File Daily Record",
       "choose": "Choose",
       "record": "records",
@@ -302,7 +291,6 @@
       "delete": "Delete file",
       "set_event": "Set event"
     },
-
     "user": {
       "record": "Record",
       "configuration": "Configuration",
@@ -316,7 +304,6 @@
       "log_out": "Log out",
       "user_group": "{{U}} {{G}}",
       "new_password": "New password",
-
       "detail_list": {
         "user_list": "{{U}} List",
         "add_user": "{{add}} {{U}}",
@@ -407,7 +394,16 @@
       "position": "Position",
       "department": "Department",
       "adminUnit": "AdminUnit",
-      "status": "Status"
+      "status": "Status",
+      "guide_photo": "Guide Photo",
+      "image_error": {
+        "IMAGE_IS_VALID": "image is valid and was added to collection",
+        "IMAGE_HAS_ALREADY_IN_DB": "image has already in collection",
+        "MANY_FACES_IN_IMAGE": "there are more than one faces in image",
+        "IMAGE_IS_BLUR": "image is blur",
+        "IMAGE_HAS_NOT_FACE": "there isn't any faces in image ",
+        "FACE_NOT_OF_PERSON": "Face in the image is different from those already in the collection"
+      }
     },
     "ai_config": {
       "config": "Event Config Management ",
@@ -415,10 +411,15 @@
       "intrusion_detection_events": "Intrusion Detection Events",
       "attendance_events": "Attendance Events",
       "schedule_config": "Schedule Config",
-      "area_config": "Area onfig"
+      "area_config": "Area onfig",
+      "time_config": "Time onfig",
+      "activate_attendance_events": "Activate Attendance Events",
+      "activate_hurdles": "Activate Hurdles",
+      "activate_intrusion_detection_events": "Activate Intrusion Detection Events ",
+      "all_day": "All day",
+      "apply": "Apply"
     }
   },
-
   "noti": {
     "successfully_update_tag_category": "Successfully imported label type",
     "fail_update_tag_category": "Label type update failed",
@@ -427,9 +428,7 @@
 
     "logged_out_successfully": "Logged out successfully",
     "logged_out_failed": "Logged out failed",
-
     "delete_camera": "Are you sure you want to delete {{this}} {{cam}}?",
-
     "successfully_delete_administrative_category": "Successfully deleted administrative category",
     "successfully_delete_camera_type": "Successfully deleted {{cam}} type",
     "successfully_delete_camera_vendor": "Successfully deleted {{cam}} vendor",
@@ -445,7 +444,6 @@
     "successfully_edit_zone": "Successfully edited Zone",
     "successfully_delete_zone": "Successfully deleted Zone",
     "255_characters_limit": "255 characters limit",
-
     "do_not_have_permission_to_view_list_event": "You don't have permission to view list of events",
     "error_get_file_check_again": "Errors occur while getting file list. Please check again",
     "do_not_have_permission_to_action": "You don't have permission to perform this action",
@@ -461,7 +459,6 @@
     "delete_file": "Are you sure you want to delete {{this}} file?",
     "save_change": "Are you sure you want to save this changes?",
     "delete_archived_file": "Are you sure you want to delete {{this}} archived file?",
-
     "successfully_deleted_user": "Successfully deleted {{u}}",
     "delete_user": "Are you sure you want to delete {{this}} {{u}}?",
     "successfully_deleted_group": "Successfully deleted {{g}}",
@@ -473,20 +470,17 @@
     "remove_member": "Are you sure you want to remove this member from group?",
     "deleting": "You are deleting",
     "remove_all_info": "This action will remove all your informations",
-
     "upload_file_desc": "Only file type JPG/PNG allowed!",
     "size_file_desc": "File size must under 2MB!",
     "successfully_added_data": "Successfully added data",
     "unsuccessfully_add_data": "{{add}}ed data fail, please check again",
     "cancel": "Are you sure you want to cancel?",
-
     "enter_this_field": "Please enter this field!",
     "input_number": "Please enter number only",
     "at_least_10_characters": "At least 10 characters",
     "at_least_8_characters": "At least 8 characters",
     "no_valid_results_found": "No valid results  found"
   },
-
   "breadcrumd": {
     "report": "Report Management",
     "info": "Infomation",
