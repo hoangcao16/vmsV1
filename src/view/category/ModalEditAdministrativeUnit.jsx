@@ -250,7 +250,7 @@ const ModalEditAdministrativeUnit = (props) => {
   return (
     <>
       <Modal
-        title={selectedCategoryId ? 'Sửa Đơn Vị Hành Chính' : `${t('view.camera.add_new')}`}
+        title={selectedCategoryId ? `${t('view.category.edit_administrative_unit')}` : `${t('view.camera.add_new')}`}
         visible={true}
         onCancel={() => {
           setShowModal(false);
@@ -344,7 +344,7 @@ const ModalEditAdministrativeUnit = (props) => {
                       },
                       {
                         min: 11,
-                        message: 'Tối thiểu 10 ký tự'
+                        message: `${t('noti.at_least_10_characters')}`
                       }
                     ]}
                   >
@@ -448,20 +448,22 @@ const ModalEditAdministrativeUnit = (props) => {
             <Col span={12}>
               <Form.Item label={t('view.map.longitude')} name={['long_']}>
                 <Input
+                  type='number'
+                  onKeyDown={(evt) => ["e", "E", "+", "-"].includes(evt.key) && evt.preventDefault()}
                   placeholder={t('view.map.please_enter_longitude', {
                     plsEnter: t('please_enter')
                   })}
-                  type="number"
                 />
               </Form.Item>
             </Col>
             <Col span={12}>
               <Form.Item label={t('view.map.latitude')} name={['lat_']}>
                 <Input
+                  type='number'
+                  onKeyDown={(evt) => ["e", "E", "+", "-"].includes(evt.key) && evt.preventDefault()}
                   placeholder={t('view.map.please_enter_latitude', {
                     plsEnter: t('please_enter')
                   })}
-                  type="number"
                 />
               </Form.Item>
             </Col>

@@ -336,7 +336,7 @@ function AddUser(props) {
                           },
                           {
                             min: 11,
-                            message: 'Tối thiểu 10 ký tự'
+                            message: `${t('noti.at_least_10_characters')}`
                           }
                         ]}
                       >

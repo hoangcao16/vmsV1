@@ -225,7 +225,7 @@ const ModalEditHumans = (props) => {
   return (
     <>
       <Modal
-        title={selectedHumansId ? 'Sửa' : 'Thêm mới'}
+        title={selectedHumansId ? `${t('view.common_device.edit')}` : `${t('view.camera.add_new')}`}
         visible={true}
         // onOk={handleSubmit}
         onCancel={() => {
@@ -251,7 +251,7 @@ const ModalEditHumans = (props) => {
                 rules={[
                   {
                     required: true,
-                    message: "Trường này bắt buộc",
+                    message: `${t('view.map.required_field')}`,
                     pattern: new RegExp("([a-zA-Z]{1,30}\\s*)+"),
                   },
                 ]}
@@ -266,7 +266,7 @@ const ModalEditHumans = (props) => {
                 rules={[
                   {
                     required: true,
-                    message: "Trường này bắt buộc",
+                    message: `${t('view.map.required_field')}`,
                     pattern: new RegExp("([a-zA-Z]{1,30}\\s*)+"),
                   },
                 ]}
@@ -357,7 +357,7 @@ const ModalEditHumans = (props) => {
 
           </Row>
           <Row style={{ marginTop: 30, color: "#d0e5ff", marginBottom: 30 }} gutter={24}>
-            <Col span={20} style={{ flex: 'none' }}>{'Ảnh mẫu hướng dẫn'}</Col>
+            <Col span={20} style={{ flex: 'none' }}>{t('view.ai_humans.guide_photo')}</Col>
           </Row>
 
           <Row gutter={24}>
@@ -446,7 +446,7 @@ const ModalEditHumans = (props) => {
                               borderRadius: '4px'
                             }}
 
-                            >{item.errorStatus}</div> : null
+                            >{t('view.ai_humans.image_error.' + item.errorStatus)}</div> : null
                           }
 
 
@@ -474,8 +474,8 @@ const ModalEditHumans = (props) => {
           </Row>
 
           <div className="footer__modal">
-            <Button onClick={() => { setShowModal(false) }}>Đóng</Button>
-            <Button htmlType="submit">Lưu</Button>
+            <Button onClick={() => { setShowModal(false) }}>{t('view.camera.close')}</Button>
+            <Button htmlType="submit">{t('view.map.button_save')}</Button>
 
           </div>
         </Form>

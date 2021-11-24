@@ -52,7 +52,7 @@
       "IP2_range": "IP kết thúc:",
       "add_new": "Thêm mới",
       "add_new_camera_group": "Thêm mới nhóm Camera",
-      "edit_tag": "Sửa nhãn",
+      "edit_tag": "Chỉnh sửa nhãn",
       "add_new_tag": "Thêm nhãn mới",
       "please_enter_new_camera_group_name": "Nhập tên nhóm Camera mới",
       "please_enter_camera_group_name": "Nhập tên nhóm Camera",
@@ -68,6 +68,8 @@
       "edit_administrative_unit": "Chỉnh sửa đơn vị hành chính",
       "administrative_unit_name": "Tên đơn vị hành chính",
       "plsEnter_administrative_unit_name": "{{plsEnter}} tên đơn vị hành chính",
+      "enter_key": "Nhập khóa",
+      "choose_field_for_event": "Chọn lĩnh vực cho sự kiện",
       "administrative_unit_detail": "Chi tiết đơn vị hành chính"
     },
     "common_device": {
@@ -391,10 +393,19 @@
       "face": "Quản lý khuôn mặt",
       "name": "Tên",
       "code": "Mã",
-      "position": "Chức vụ",
-      "department": "Phòng ban",
-      "adminUnit": "Đơn vị",
-      "status": "Trạng thái"
+      "position" : "Chức vụ",
+      "department" : "Phòng ban",
+      "adminUnit" : "Đơn vị",
+      "status" : "Trạng thái",
+      "guide_photo" : "Ảnh hướng dẫn",
+      "image_error": {
+        "IMAGE_IS_VALID": "Thành công",
+        "IMAGE_HAS_ALREADY_IN_DB": "Hình ảnh đã tồn tại trong db",
+        "MANY_FACES_IN_IMAGE": "Có nhiều hơn 1 khuôn mặt",
+        "IMAGE_IS_BLUR": "Ảnh bị mờ",
+        "IMAGE_HAS_NOT_FACE": "Không có mặt ở trong ảnh",
+        "FACE_NOT_OF_PERSON": "Khuôn mặt trong ảnh khác với khuôn mặt đã có trong bộ sưu tập"
+      }
     },
     "ai_config": {
       "config": "Quản lý sự kiện thông minh",
@@ -402,7 +413,13 @@
       "intrusion_detection_events": "Sự kiện phát hiện xâm nhập",
       "attendance_events": "Điểm danh",
       "schedule_config": "Thiết lập lịch trình",
-      "area_config": "Thiết lập Khu vực"
+      "area_config": "Thiết lập Khu vực",
+      "time_config": "Cài đặt thời gian",
+      "activate_attendance_events": "Kích hoạt tính năng điểm danh",
+      "activate_hurdles": "Kích hoạt tính năng phát hiện vượt rào ảo",
+      "activate_intrusion_detection_events": "Kích hoạt tính năng phát hiện xâm nhập",
+      "all_day": "Áp dụng cho tất cả các ngày trong tuần",
+      "apply": "Áp dụng"
     }
   },
   "noti": {
