@@ -25,8 +25,7 @@ import './../commonStyle/commonModal.scss';
 import './../commonStyle/commonSelect.scss';
 import './ModalEditAdministrativeUnit.scss';
 import './UploadFile.scss';
-import MuiPhoneNumber from 'material-ui-phone-number';
-
+import { NOTYFY_TYPE } from '../common/vms/Constant';
 
 const formItemLayout = {
   wrapperCol: { span: 24 },
@@ -200,45 +199,61 @@ const ModalEditAdministrativeUnit = (props) => {
     return <Loading />;
   }
 
-  const handleSubmit = async (value) => {
-    const payload = {
-      ...value,
-      tel: value?.phone?.substring(1),
-      avatarFileName: avatarFileName
-    };
-
-    try {
-      if (selectedCategoryId !== null) {
-        const isEdit = await AdDivisionApi.editAdDivision(
-          props.selectedCategoryId,
-          payload
-        );
-
-        if (isEdit) {
-          const notifyMess = {
-            type: 'success',
-            title: '',
-            description: `${t('noti.successfully_edit_administrative_unit')}`
-          };
-          Notification(notifyMess);
-        }
-      } else {
-        const isAdd = await AdDivisionApi.addAdDivision(payload);
-
-        if (isAdd) {
-          const notifyMess = {
-            type: 'success',
-            title: '',
-            description: 'Bạn đã thêm thành công đơn vị hành chính'
-          };
-          Notification(notifyMess);
-        }
-      }
-
-      setShowModal(false);
-    } catch (error) {
-      console.log(error);
+  const validatePhoneNumber = (value) => {
+    const pattern = /^[+]*[(]{0,1}[0-9]{1,3}[)]{0,1}[-\s\./0-9]*$/g
+    if (!pattern.test(value) && value.length > 10) {
+      const notifyMess = {
+        type: NOTYFY_TYPE.error,
+        description: 'Định dạng số điện thoại chưa đúng'
+      };
+      Notification(notifyMess);
+      return false;
     }
+    return true;
+  }
+
+  const handleSubmit = async (value) => {
+    if (validatePhoneNumber(value?.tel)) {
+      const payload = {
+        ...value,
+        tel: value?.tel,
+        avatarFileName: avatarFileName
+      };
+
+      try {
+        if (selectedCategoryId !== null) {
+          const isEdit = await AdDivisionApi.editAdDivision(
+            props.selectedCategoryId,
+            payload
+          );
+
+          if (isEdit) {
+            const notifyMess = {
+              type: 'success',
+              title: '',
+              description: `${t('noti.successfully_edit_administrative_unit')}`
+            };
+            Notification(notifyMess);
+          }
+        } else {
+          const isAdd = await AdDivisionApi.addAdDivision(payload);
+
+          if (isAdd) {
+            const notifyMess = {
+              type: 'success',
+              title: '',
+              description: 'Bạn đã thêm thành công đơn vị hành chính'
+            };
+            Notification(notifyMess);
+          }
+        }
+
+        setShowModal(false);
+      } catch (error) {
+        console.log(error);
+      }
+    }
+
   };
 
   if (selectedCategoryId !== null) {
@@ -250,7 +265,7 @@ const ModalEditAdministrativeUnit = (props) => {
   return (
     <>
       <Modal
-        title={selectedCategoryId ? 'Sửa Đơn Vị Hành Chính' : `${t('view.camera.add_new')}`}
+        title={selectedCategoryId ? `${t('view.category.edit_administrative_unit')}` : `${t('view.camera.add_new')}`}
         visible={true}
         onCancel={() => {
           setShowModal(false);
@@ -328,43 +343,22 @@ const ModalEditAdministrativeUnit = (props) => {
                   <Form.Item
                     name={['tel']}
                     label={t('view.map.phone_number')}
-                    className="phone__input"
-                    // rules={[
-                    //   {
-                    //     required: true,
-                    //     message: `${t('view.map.required_field')}`,
-                    //     max: 12
-                    //   }
-
-                    // ]}
                     rules={[
                       {
                         required: true,
                         message: `${t('view.map.required_field')}`
                       },
                       {
-                        min: 11,
-                        message: 'Tối thiểu 10 ký tự'
+                        min: 10,
+                        message: `${t('noti.at_least_10_characters')}`
                       }
                     ]}
                   >
-                    {/* <Input
-                      placeholder={t(
-                        'view.map.please_enter_your_phone_number',
-                        { plsEnter: t('please_enter') }
-                      )}
-                      onKeyDown={(evt) =>
-                        evt.key === 'e' && evt.preventDefault()
-                      }
-                      type="number"
-                    /> */}
-
-                    <MuiPhoneNumber
-                      name="phone"
-                      data-cy="user-phone"
-                      defaultCountry={'vn'}
-                      autoComplete="off"
-                    // placeholder={t('view.user.detail_list.phone_number')}
+                    <Input
+                      type="text"
+                      maxLength={13}
+                      onBlur={(e) => validatePhoneNumber(e.target.value)}
+                      placeholder='Số điện thoại'
                     />
                   </Form.Item>
                 </Col>
@@ -448,20 +442,22 @@ const ModalEditAdministrativeUnit = (props) => {
             <Col span={12}>
               <Form.Item label={t('view.map.longitude')} name={['long_']}>
                 <Input
+                  type='number'
+                  onKeyDown={(evt) => ["e", "E", "+", "-"].includes(evt.key) && evt.preventDefault()}
                   placeholder={t('view.map.please_enter_longitude', {
                     plsEnter: t('please_enter')
                   })}
-                  type="number"
                 />
               </Form.Item>
             </Col>
             <Col span={12}>
               <Form.Item label={t('view.map.latitude')} name={['lat_']}>
                 <Input
+                  type='number'
+                  onKeyDown={(evt) => ["e", "E", "+", "-"].includes(evt.key) && evt.preventDefault()}
                   placeholder={t('view.map.please_enter_latitude', {
                     plsEnter: t('please_enter')
                   })}
-                  type="number"
                 />
               </Form.Item>
             </Col>

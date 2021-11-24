@@ -1,6 +1,6 @@
 @import "../../assets/scss/core/variables/vms-variable";
 
-.modal__edit--humans {
+.modal__edit--schedule_config {
   max-width: 960px;
 
   .ant-modal-content {
@@ -38,7 +38,7 @@
         border-radius: 6px;
 
         input {
-          background-color: $vms-bg-sub !important;
+          // background-color: $vms-bg-sub !important;
 
           // background-color: $vms-bg-primary !important;
           &::placeholder {
@@ -52,7 +52,7 @@
         select {
           height: 100%;
           width: 100%;
-          background-color: $vms-bg-sub;
+          // background-color: $vms-bg-sub;
           border-radius: 6px;
           padding: 8px;
           color: $vms-status;
@@ -60,7 +60,6 @@
           border: $vms-border-gray;
         }
       }
-
       button {
         padding: 8px 46px;
         height: 100%;
@@ -101,6 +100,9 @@
           color: $vms-status;
         }
       }
+    }
+    .ant-picker{
+      width: 100%;
     }
   }
 }

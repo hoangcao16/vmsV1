@@ -126,6 +126,8 @@ const ViewMapOffline = (props) => {
   };
 
 
+
+
   //khởi tạo map
   const showViewMap = () => {
     try {
@@ -172,9 +174,9 @@ const ViewMapOffline = (props) => {
         mapboxRef.current.on("draw.create", e => notifyParent(e));
         mapboxRef.current.on("draw.update", e => notifyParent(e));
         mapboxRef.current.on("draw.delete", e => notifyParent(e));
-        mapboxRef.current.on('load', () => {
 
-        })
+
+
       }
     } catch (error) {
       console.log(error);
@@ -620,6 +622,8 @@ const ViewMapOffline = (props) => {
       center: currentLatLngSelector,
     });
   }, [currentLatLngSelector]);
+
+
 
   return <div key="map" id="map" className="view-map-offline"></div>;
 };

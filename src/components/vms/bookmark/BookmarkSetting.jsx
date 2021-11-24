@@ -249,7 +249,7 @@ const BookmarkSetting = ({
             Notification({
                 type: "warning",
                 title: "Xem danh sách màn hình",
-                description: "Lỗi:" + err.toString(),
+                description: err.toString(),
             });
         }
     };
