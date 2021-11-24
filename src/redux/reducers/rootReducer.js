@@ -17,6 +17,7 @@ import liveReducer from "./live"
 import chartData from './../../view/report/redux/reduders/index';
 
 import email from './../../view/storage/store-setting/redux/reducers/index';
+import quickSearch from './../../view/maps/redux/reducers/index';
 
 const rootReducer = combineReducers({
   calendar: calenderReducer,
@@ -34,7 +35,8 @@ const rootReducer = combineReducers({
   notification: notificationReducer,
   email: email,
   chart: chartData,
-  live: liveReducer
+  live: liveReducer,
+  quickSearch:quickSearch
 });
 
 export default rootReducer;

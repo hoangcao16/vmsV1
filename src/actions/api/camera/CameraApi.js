@@ -7,31 +7,31 @@ import MyService from '../service';
 import Notification from './../../../components/vms/notification/Notification';
 const CameraApi = {
   getAllCamera: async (dataSearch) => {
-    // const data = {
-    //   ...dataSearch,
-    //   provinceId:
-    //     dataSearch?.provinceId === undefined ? '' : dataSearch?.provinceId,
-    //   districtId:
-    //     dataSearch?.districtId === undefined ? '' : dataSearch?.districtId,
-    //   id: dataSearch?.id === undefined ? '' : dataSearch?.id,
-    //   administrativeUnitUuid:
-    //     dataSearch?.administrativeUnitUuid === undefined
-    //       ? ''
-    //       : dataSearch?.administrativeUnitUuid,
-    //   vendorUuid:
-    //     dataSearch?.vendorUuid === undefined ? '' : dataSearch?.vendorUuid,
-    //   status: dataSearch?.status === undefined ? '' : dataSearch?.status,
-    //   cameraGroupUuid:
-    //     dataSearch?.cameraGroupUuid === undefined
-    //       ? ''
-    //       : dataSearch?.cameraGroupUuid
-    // };
 
     let result;
 
     try {
       result = await MyService.getRequestData(
         `/cctv-controller-svc/api/v1/cameras`,
+        dataSearch
+      );
+    } catch (error) {
+      console.log(error);
+    }
+    if (responseCheckerErrorsController(result) === null) {
+      return [];
+    }
+    return result.payload;
+  },
+  getCameraByTagName: async (dataSearch) => {
+
+    console.log('dataSearch:',dataSearch)
+
+    let result;
+
+    try {
+      result = await MyService.postRequestData(
+        `/cctv-controller-svc/api/v1/cameras/find_by_tags`,
         dataSearch
       );
     } catch (error) {

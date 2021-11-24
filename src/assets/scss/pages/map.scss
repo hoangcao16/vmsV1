@@ -1,5 +1,6 @@
 @import "../core/variables/vms-variable.scss";
 @import "../core/variables/z-index";
+@import '../core/mixins/vms-mixins';
 
 .map-filter-dropdown-list {
   z-index: $zindex-map-filter-dropdown-list !important;
@@ -11,6 +12,7 @@
     width: 100%;
     height: 100%;
     .search-cam-item {
+      border-radius: 4px;
       position: absolute;
       top: 20px;
       right: 300px;
@@ -21,6 +23,10 @@
       height: 40px;
       transition: 0.5s;
       background:#d0e5ff;
+      .anticon-search svg {
+        color: $vms-bg-primary;
+      }
+      
       & .list-data-search {
         transition: 0.5s;
         margin-top: 2px;
@@ -43,7 +49,12 @@
       }
       & .search-box  {
         display: flex;
+        // height: 100%;
+
         .search-icon {
+          position: absolute;
+          right: 0;
+          top: 10px;
           width: 40px;
           display: flex;
           align-items: center;
@@ -71,14 +82,105 @@
         }
       }
       &.active {
-        width: 235px;
-        left: calc(50% + 20rem) !important;
+        width: 330px;
+        left: calc(50% + 25rem) !important;
         & .list-data-search {
+          margin-top: 4px ;
+          border-radius: 8px;
           opacity: 1 ;
           visibility: visible;
+          width: 100%;
+          li {
+            border-bottom: 0;
+            &:hover {
+              border-radius: 8px;
+            }
+          }
         }
       }
     }
+    .active {
+      background-color: transparent;
+
+      .search-box{
+        display: flex;
+        flex-direction: column;
+        position: relative;
+        
+        > div:first-child {
+          @include scrollbar-styling(7px,0);
+          background-color: $vms-bg-primary;
+          border-radius: 8px;
+          padding: 8px 36px 8px 8px;
+          border: $vms-border-gray;
+          .ant-tag{
+            margin: 4px;
+            background-color: $vms-bg-sub;
+            border: 0;
+            border-radius: 8px;
+            display: inline-flex;
+            justify-content: center;
+            span.anticon-close {
+              display: flex;
+              align-items: center;
+              padding: 4px;
+              svg {
+                color: $vms-soft-statuts;
+              }
+              ;
+            }
+  
+          }
+          
+          button {
+            height: 20px !important;
+            margin: 4px;
+            display: flex;
+            align-items: center;
+            border: 0;
+            background-color: $vms-bg-primary;
+            span {
+              color: $vms-main-blue-primary;
+              font-size: 1.2rem;
+            }
+          }
+          input {
+            height: 20px !important;
+            margin: 0 4px;
+            border: 4px;
+            width: 100% !important  ;
+            outline: none;
+            border: 0;
+            font-size: 12px;
+          }
+      } 
+
+      }
+      .ant-select-selector{
+        border: 0;
+        border-radius: 8px;
+        color: $vms-soft-statuts;
+      }
+      .ant-input-group{
+        padding: 4px;
+        .ant-input-group-addon{
+          background-color: $vms-bg-primary;
+          border: 0;
+          border-radius: 8px;
+          color: $vms-main-blue-primary;
+        }
+        input {
+          border-radius: 4px;
+        }
+      }
+      
+      .search-icon {
+        svg {
+          color: $vms-soft-statuts;
+        }
+      }
+    }
+    
   }
   .mode-container {
     width: 400px;
@@ -157,7 +259,7 @@
 
   .map__edit-mode {
     left: calc(50% + 44px);
-    border-right: 1px solid #d9d9d9;
+    // border-right: 1px solid #d9d9d9;
 
     & > .mapboxgl-popup-content {
       border-radius: 8px;
