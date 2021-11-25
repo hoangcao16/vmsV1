@@ -4,7 +4,7 @@ import {
   EditOutlined,
   StarFilled,
 } from "@ant-design/icons";
-import { Image, Modal, Spin, Select } from "antd";
+import { Image, Modal, Spin, Select, Tooltip } from "antd";
 import { debounce, isEmpty } from "lodash";
 import React, { useCallback, useEffect, useState } from "react";
 import { useTranslation } from "react-i18next";
@@ -201,10 +201,6 @@ const BookmarkSetting = ({
 
   const handleSelectScreen = async (item) => {
     setActiveRow(item.id);
-    // const currentClass = document.getElementsByClassName("bookmarks__list-item");
-    // for (let i = 0; i < currentClass.length; i++) {
-    //   currentClass[i].classList.toggle("active_item");
-    // }
 
     if (!item && item.cameraUuids) {
       return;
@@ -303,6 +299,7 @@ const BookmarkSetting = ({
   };
 
   const handleSetDefault = async (screen, idx) => {
+    handleSelectScreen(screen)
     const nameScreen = screen.name;
     try {
       const resData = await bookmarkApi.setDefault(screen.id);
@@ -515,13 +512,29 @@ const BookmarkSetting = ({
                         {item.gridType}
                       </span>
                       <div className="bookmarks__list-actions">
-                        <EditOutlined
-                          className="bookmarks__list-icon"
-                          onClick={(e) => {
-                            e.stopPropagation();
-                            handleEditMode(e, item, idx);
-                          }}
-                        />
+                        <Tooltip
+                          placement="top"
+                          title={t("view.user.detail_list.edit")}
+                          arrowPointAtCenter={true}
+                        >
+                          <EditOutlined
+                            className="bookmarks__list-icon"
+                            onClick={(e) => {
+                              e.stopPropagation();
+                              handleEditMode(e, item, idx);
+                            }}
+                          />
+                        </Tooltip>
+
+                        <Tooltip
+                  placement="top"
+                  title={t('delete')}
+                  arrowPointAtCenter={true}
+                >
+
+
+
+
                         <CloseOutlined
                           className="bookmarks__list-icon"
                           onClick={(e) => {
@@ -529,6 +542,14 @@ const BookmarkSetting = ({
                             handleDeleteScreen(item, idx);
                           }}
                         />
+
+                        </Tooltip>
+
+                        <Tooltip
+                          placement="top"
+                          title={t("view.user.detail_list.star")}
+                          arrowPointAtCenter={true}
+                        >
                         <StarFilled
                           className={
                             "bookmarks__list-icon " +
@@ -541,6 +562,7 @@ const BookmarkSetting = ({
                             handleSetDefault(item, idx);
                           }}
                         />
+                        </Tooltip>
                       </div>
                     </div>
                   ))

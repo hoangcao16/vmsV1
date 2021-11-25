@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { Input, Space, Button } from "antd";
+import { Input, Space, Button, Tooltip } from "antd";
 import { SearchOutlined, FilterOutlined } from "@ant-design/icons";
 
 import "./index.scss";
@@ -35,7 +35,13 @@ const Search = ({ onPressEnter, toggleOpenFilter, searchValue }) => {
       />
       {toggleOpenFilter && (
         <Button onClick={toggleOpenFilter} className="search-input__filter">
+                      <Tooltip
+              placement="top"
+              title={t("view.user.detail_list.hight_filter")}
+              arrowPointAtCenter={true}
+            >
           <FilterOutlined />
+          </Tooltip>
         </Button>
       )}
     </Space>

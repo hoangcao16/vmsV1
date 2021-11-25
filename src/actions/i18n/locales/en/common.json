@@ -305,6 +305,23 @@
       "user_group": "{{U}} {{G}}",
       "new_password": "New password",
       "detail_list": {
+        "star":"Set as default display",
+        "gird1":"Gird 1x1",
+        "gird2":"Gird 2x2",
+        "gird3":"Gird 3x3",
+        "gird4":"Gird 4x4",
+        "playback":"Playback view mode",
+        "live":"Live view mode",
+        "left":"Move left",
+        "right":"Move right",
+        "up":"Move up",
+        "down":"Move down",
+        "zoom_in":"Zoom in",
+        "zoom_out":"Zoom out",
+        "hight_filter":"Hight filter",
+
+
+
         "user_list": "{{U}} List",
         "add_user": "{{add}} {{U}}",
         "all": "All",
