@@ -227,7 +227,7 @@ const Preset = (props) => {
                 setPresetTourDatas(datas);
                 const warnNotyfi = {
                     type: NOTYFY_TYPE.success,
-                    title: "Thành công",
+                    title: `${t('noti.success')}`,
                     description: "Bạn đã thay đổi thứ tự preset thành công",
                     duration: 2,
                 };
@@ -580,7 +580,7 @@ const Preset = (props) => {
                 }
                 const warnNotyfi = {
                     type: NOTYFY_TYPE.success,
-                    title: "Thành công",
+                    title: `${t('noti.success')}`,
                     description: "Bạn đã xoá preset thành công ",
                     duration: 2,
                 };
@@ -612,7 +612,7 @@ const Preset = (props) => {
             setCallPresetAgain(!callPresetAgain);
             const warnNotyfi = {
                 type: NOTYFY_TYPE.success,
-                title: "Thành công",
+                title: `${t('noti.success')}`,
                 description: "Bạn đã thiết lập preset thành công",
                 duration: 2,
             };
@@ -664,7 +664,7 @@ const Preset = (props) => {
 
                 const warnNotyfi = {
                     type: NOTYFY_TYPE.success,
-                    title: "Thành công",
+                    title: `${t('noti.success')}`,
                     description: "Bạn đã thêm mới một preset thành công",
                     duration: 2,
                 };
@@ -713,7 +713,7 @@ const Preset = (props) => {
                 setPresetTourDatas(newPresetTourDatas);
                 const warnNotyfi = {
                     type: NOTYFY_TYPE.success,
-                    title: "Thành công",
+                    title: `${t('noti.success')}`,
                     description: "Bạn đã thêm preset thành công",
                     duration: 2,
                 };
@@ -769,7 +769,7 @@ const Preset = (props) => {
                 setCallPresetTourAgain(!callPresetTourAgain);
                 const warnNotyfi = {
                     type: NOTYFY_TYPE.success,
-                    title: "Thành công",
+                    title: `${t('noti.success')}`,
                     description: "Bạn đã đổi tên preset thành công",
                     duration: 2,
                 };
@@ -887,7 +887,7 @@ const Preset = (props) => {
             setPresetTourDatas(newPresetTourDatas);
             const warnNotyfi = {
                 type: NOTYFY_TYPE.success,
-                title: "Thành công",
+                title: `${t('noti.success')}`,
                 description: "Bạn đã đổi tên preset tour thành công",
                 duration: 2,
             };
@@ -927,7 +927,7 @@ const Preset = (props) => {
             setPresetTourDatas(newDatas);
             const warnNotyfi = {
                 type: NOTYFY_TYPE.success,
-                title: "Thành công",
+                title: `${t('noti.success')}`,
                 description: "Bạn đã đổi xoá preset thành công",
                 duration: 2,
             };
@@ -958,7 +958,7 @@ const Preset = (props) => {
             }
             const warnNotyfi = {
                 type: NOTYFY_TYPE.success,
-                title: "Thành công",
+                title: `${t('noti.success')}`,
                 description: "Bạn đã xoá preset tour thành công",
                 duration: 2,
             };

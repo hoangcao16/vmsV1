@@ -204,7 +204,7 @@ const ModalEditAdministrativeUnit = (props) => {
     if (!pattern.test(value) && value.length >= 10) {
       const notifyMess = {
         type: NOTYFY_TYPE.error,
-        description: 'Định dạng số điện thoại chưa đúng'
+        description: `${t('noti.phone_number_format_is_not_correct')}`
       };
       Notification(notifyMess);
       return false;
@@ -242,7 +242,7 @@ const ModalEditAdministrativeUnit = (props) => {
             const notifyMess = {
               type: 'success',
               title: '',
-              description: 'Bạn đã thêm thành công đơn vị hành chính'
+              description: `${t('noti.successfully_add_administrative')}`
             };
             Notification(notifyMess);
           }

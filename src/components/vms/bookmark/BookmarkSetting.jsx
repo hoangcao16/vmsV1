@@ -352,7 +352,7 @@ const BookmarkSetting = ({
                 Notification({
                     type: NOTYFY_TYPE.success,
                     title: "Đổi tên màn hình",
-                    description: "Thành công",
+                    description: `${t('noti.success')}`,
                 });
             }
         } catch (err) {
