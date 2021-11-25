@@ -223,7 +223,10 @@ const DetailUser = (props) => {
     }
     if (name_data === 'phone') {
       rules.push(
-
+        {
+          required: true,
+          message: `${t('view.map.required_field')}`
+        },
         {
           min: 10,
           message: `${t('noti.at_least_10_characters')}`
@@ -360,7 +363,6 @@ const DetailUser = (props) => {
                       <Input
                         type="text"
                         maxLength={13}
-                        onBlur={(e) => validatePhoneNumber(e.target.value)}
                         placeholder='Số điện thoại'
                       />
                     }
@@ -553,7 +555,7 @@ const DetailUser = (props) => {
   const validatePhoneNumber = (value) => {
 
     const pattern = /^[+]*[(]{0,1}[0-9]{1,3}[)]{0,1}[-\s\./0-9]*$/g
-    if (!pattern.test(value) && value.length > 10) {
+    if (!pattern.test(value) && value.length >= 10) {
       const notifyMess = {
         type: NOTYFY_TYPE.error,
         description: 'Định dạng số điện thoại chưa đúng'
