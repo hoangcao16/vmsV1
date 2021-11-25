@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import Bookmark from "../../components/vms/bookmark/Bookmark";
 import LiveAndPlaybackCam from "./LiveAndPlaybackCam";
 import LiveMenuTool from "./LiveMenuTool";
@@ -15,6 +15,11 @@ import { useTranslation } from "react-i18next";
 const MenuTools = (props) => {
   const { t } = useTranslation();
   const [gridSize, setGridSize] = useState(16);
+
+  useEffect(() => {
+    setGridSize(props.defaultSize);
+  }, [props.defaultSize]);
+
   const {
     updateGridSize2,
     handleBookmarkSaveCallback,
@@ -85,7 +90,7 @@ const MenuTools = (props) => {
           </Tooltip>
           <Tooltip
             placement="top"
-            title={t("view.user.detail_list.gird1")}
+            title={t("view.user.detail_list.gird3")}
             arrowPointAtCenter={true}
           >
             <div
@@ -108,7 +113,7 @@ const MenuTools = (props) => {
           </Tooltip>
           <Tooltip
             placement="top"
-            title={t("view.user.detail_list.gird1")}
+            title={t("view.user.detail_list.gird4")}
             arrowPointAtCenter={true}
           >
             <div

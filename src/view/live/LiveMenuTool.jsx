@@ -20,9 +20,9 @@ const LiveMenuTool = (props) => {
   const { idCamera, reloadLiveMenuTool } = props;
   const [presetLists, setPresetLists] = useState([]);
   const [presetTourLists, setPresetTourLists] = useState([]);
-  const getAllPreset = async (params) => {
+  const getPreset = async (params) => {
     if (idCamera) {
-      const payload = await ptzControllerApi.getAllPreset(params);
+      const payload = await ptzControllerApi.getPreset(params);
       if (payload == null) {
         return;
       }
@@ -31,9 +31,9 @@ const LiveMenuTool = (props) => {
       }
     }
   };
-  const getAllPresetTour = async (params) => {
+  const getPresetTour = async (params) => {
     if (idCamera) {
-      const payload = await ptzControllerApi.getAllPresetTour(params);
+      const payload = await ptzControllerApi.getPresetTour(params);
       if (payload == null) {
         return;
       }
@@ -48,7 +48,7 @@ const LiveMenuTool = (props) => {
       let params = {
         cameraUuid: idCamera,
       };
-      getAllPreset(params);
+      getPreset(params);
     }
   }, [idCamera, reloadLiveMenuTool]);
 
@@ -58,7 +58,7 @@ const LiveMenuTool = (props) => {
       let params = {
         cameraUuid: idCamera,
       };
-      getAllPresetTour(params);
+      getPresetTour(params);
     }
   }, [idCamera, reloadLiveMenuTool]);
 
