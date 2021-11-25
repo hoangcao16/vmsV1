@@ -13,7 +13,7 @@
   "r": "vai trò",
   "components": {
     "bookmark": {
-      "favorite_screen_list": "Danh sách màn hình ưu thích",
+      "favorite_screen_list": "Danh sách màn hình ưa thích",
       "enter_screen_name": "Nhập tên màn hình",
       "grid_type": "Loại lưới",
       "screen_name": "Tên màn hình",
@@ -21,7 +21,7 @@
       "action": "Thao tác",
       "display": "Hiển thị",
       "record": "bản ghi",
-      "favorite_screen": "Màn hình ưu thích",
+      "favorite_screen": "Màn hình ưa thích",
       "notification": "Thông báo"
     }
   },
