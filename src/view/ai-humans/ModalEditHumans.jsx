@@ -112,8 +112,8 @@ const ModalEditHumans = (props) => {
         if (isEdit) {
           const notifyMess = {
             type: "success",
-            title: "Thành công",
-            description: `Bạn đã sửa thành công tên ${name}`,
+            title: `${t('noti.success')}`,
+            description: `${t('noti.successfully_edit_name')} ${name}`,
           };
           setShowModal(false)
           Notification(notifyMess);
@@ -125,8 +125,8 @@ const ModalEditHumans = (props) => {
         if (isPost) {
           const notifyMess = {
             type: "success",
-            title: "Thành công",
-            description: `Bạn đã add thành công ${name}`,
+            title: `${t('noti.success')}`,
+            description: `${t('noti.successfully_add')} ${name}`,
           };
           Notification(notifyMess);
           setShowModal(false)

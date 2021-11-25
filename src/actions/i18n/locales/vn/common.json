@@ -482,7 +482,14 @@
     "at_least_10_characters": "Tối thiểu 10 ký tự",
     "at_least_8_characters": "Tối thiểu 8 ký tự",
     "successfully_delete_human": "{{delete}} thành công người",
-    "no_valid_results_found": "Không tìm thấy kết quả hợp lệ"
+    "no_valid_results_found": "Không tìm thấy kết quả hợp lệ",
+
+    "successfully_add_administrative": "Bạn đã thêm thành công đơn vị hành chính",
+    "phone_number_format_is_not_correct": "Định dạng số điện thoại chưa đúng",
+    "successfully_add_camera": "Bạn đã thêm thành công Camera",
+    "successfully_edit_name": "Bạn đã thêm thành công tên của",
+    "successfully_add": "Bạn đã thêm thành công",
+    "success": "Thành công"
   },
 
   "breadcrumd": {

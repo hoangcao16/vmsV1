@@ -479,7 +479,14 @@
     "input_number": "Please enter number only",
     "at_least_10_characters": "At least 10 characters",
     "at_least_8_characters": "At least 8 characters",
-    "no_valid_results_found": "No valid results  found"
+    "no_valid_results_found": "No valid results found",
+
+    "successfully_add_administrative": "Successfully add new administrativ",
+    "phone_number_format_is_not_correct": "Phone number format is not correct",
+    "successfully_add_camera": "Successfully add new Camera",
+    "successfully_edit_name": "Successfully edit name of",
+    "successfully_add": "Successfully add new",
+    "success": "Success"
   },
   "breadcrumd": {
     "report": "Report Management",
