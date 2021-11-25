@@ -105,8 +105,8 @@ const ModalViewEditCategory = (props) => {
         if (isEdit) {
           const notifyMess = {
             type: "success",
-            title: "Thành công",
-            description: `Bạn đã sửa thành công tên ${name}`,
+            title: `${t('noti.success')}`,
+            description: `${t('noti.successfully_edit_name')} ${name}`,
           };
           Notification(notifyMess);
         }
@@ -132,8 +132,8 @@ const ModalViewEditCategory = (props) => {
         if (isPost) {
           const notifyMess = {
             type: "success",
-            title: "Thành công",
-            description: `Bạn đã thêm thành công ${name}`,
+            title: `${t('noti.success')}`,
+            description: `${t('noti.successfully_add')} ${name}`,
           };
           Notification(notifyMess);
           setShowModal(false);

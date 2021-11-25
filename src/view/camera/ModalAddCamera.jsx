@@ -215,7 +215,7 @@ const ModalAddCamera = (props) => {
       const notifyMess = {
         type: 'success',
         title: '',
-        description: 'Bạn đã thêm thành công Camera'
+        description: `${t('noti.successfully_add_camera')}`
       };
       Notification(notifyMess);
       setIsModalVisible(false);
