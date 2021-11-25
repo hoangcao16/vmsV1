@@ -64,6 +64,9 @@
       padding-bottom: 37px;
     }
   }
+  .active_item {
+    background-color: $vms-bg-sub;
+  }
 
   &__list {
     flex: 12;
@@ -98,6 +101,8 @@
       overflow: auto;
       @include scrollbar-styling(12px, 0);
     }
+
+
 
     &-icon {
       font-size: 16px;

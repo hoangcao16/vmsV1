@@ -4,8 +4,8 @@ import {
   EditOutlined,
   StarFilled,
 } from "@ant-design/icons";
-import { Image, Modal, Spin,Select } from "antd";
-import { debounce } from "lodash";
+import { Image, Modal, Spin, Select } from "antd";
+import { debounce, isEmpty } from "lodash";
 import React, { useCallback, useEffect, useState } from "react";
 import { useTranslation } from "react-i18next";
 import InfiniteScroll from "react-infinite-scroller";
@@ -75,6 +75,9 @@ const BookmarkSetting = ({
   const [newName, setNewName] = useState(null);
   const [searchName, setSearchName] = useState(null);
   const [initialGridPreview, setInitialGridPreview] = useState([]);
+  const [loaded, setLoaded] = useState(false);
+
+  const [activeRow, setActiveRow] = useState(null);
 
   // Debounce the original search async function
   const searchFunc = useCallback(
@@ -146,6 +149,7 @@ const BookmarkSetting = ({
         });
       });
       setBookmarks(tmp);
+      setLoaded(true);
       const total = data.metadata.total;
       const pageSize = data.metadata.size;
       const totalPage = Math.floor(total / pageSize) + 1;
@@ -196,6 +200,12 @@ const BookmarkSetting = ({
   };
 
   const handleSelectScreen = async (item) => {
+    setActiveRow(item.id);
+    // const currentClass = document.getElementsByClassName("bookmarks__list-item");
+    // for (let i = 0; i < currentClass.length; i++) {
+    //   currentClass[i].classList.toggle("active_item");
+    // }
+
     if (!item && item.cameraUuids) {
       return;
     }
@@ -429,8 +439,6 @@ const BookmarkSetting = ({
           <Select
             className="bookmarks__filter-gridType"
             datasource={gridTypes ? gridTypes : []}
-            // showSearch
-            // allowClear
             onChange={(gridType) => {
               handleSelectGridType(gridType);
             }}
@@ -454,85 +462,96 @@ const BookmarkSetting = ({
                 hasMore={!config.loading && config.hasMore}
                 useWindow={false}
               >
-                {bookmarks.map((item, idx) => (
-                  <div
-                    key={idx}
-                    className={"bookmarks__list-item"}
-                    onClick={(e) => handleSelectScreen(item)}
-                  >
-                    <span
-                      className="bookmarks__list-item--name"
-                      id={`screenId-${idx}`}
-                      onClick={(e) => handleEditMode(e, item, idx)}
-                      title={item?.name}
-                    >
-                      {item?.name}
-                    </span>
+                {!isEmpty(bookmarks) ? (
+                  bookmarks.map((item, idx) => (
                     <div
-                      className=" bookmarks__list-item--edit-input"
-                      id={`screenEditInput-${idx}`}
+                      key={idx}
+                      className={`bookmarks__list-item ${
+                        item.id === activeRow ? " active_item" : ""
+                      }`}
+                      onClick={(e) => handleSelectScreen(item)}
                     >
-                      <input
-                        id={`screenIdInput-${idx}`}
-                        type="text"
-                        onChange={(e) => {
-                          e.stopPropagation();
-                          setNewName(e.target.value);
-                        }}
-                        defaultValue={item.name}
-                        onClick={(e) => {
-                          e.stopPropagation();
-                        }}
-                        onBlur={(e) => {
-                          setNewName(e.target.value.trim());
-                        }}
-                        maxLength={100}
+                      <span
+                        className="bookmarks__list-item--name"
+                        id={`screenId-${idx}`}
+                        onClick={(e) => handleEditMode(e, item, idx)}
+                        title={item?.name}
+                      >
+                        {item?.name.length > 40
+                          ? `${item?.name.slice(0, 20)}...`
+                          : `${item?.name}`}
+                      </span>
+                      <div
+                        className=" bookmarks__list-item--edit-input"
+                        id={`screenEditInput-${idx}`}
+                      >
+                        <input
+                          id={`screenIdInput-${idx}`}
+                          type="text"
+                          onChange={(e) => {
+                            e.stopPropagation();
+                            setNewName(e.target.value);
+                          }}
+                          defaultValue={item.name.slice(0, 20)}
+                          onClick={(e) => {
+                            e.stopPropagation();
+                          }}
+                          onBlur={(e) => {
+                            setNewName(e.target.value.trim());
+                          }}
+                          maxLength={100}
+                        />
+                        <CheckOutlined
+                          className="bookmarks__list-item--icon"
+                          onClick={(e) => onRenameCompleted(e, item, idx)}
+                        />
+                        <CloseOutlined
+                          className="bookmarks__list-item--icon"
+                          onClick={(e) => onCloseCompleted(e, item, idx)}
+                        />
+                      </div>
 
-                        
-                      />
-                      <CheckOutlined
-                        className="bookmarks__list-item--icon"
-                        onClick={(e) => onRenameCompleted(e, item, idx)}
-                      />
-                      <CloseOutlined
-                        className="bookmarks__list-item--icon"
-                        onClick={(e) => onCloseCompleted(e, item, idx)}
-                      />
+                      <span className="bookmarks__list-item--grid">
+                        {item.gridType}
+                      </span>
+                      <div className="bookmarks__list-actions">
+                        <EditOutlined
+                          className="bookmarks__list-icon"
+                          onClick={(e) => {
+                            e.stopPropagation();
+                            handleEditMode(e, item, idx);
+                          }}
+                        />
+                        <CloseOutlined
+                          className="bookmarks__list-icon"
+                          onClick={(e) => {
+                            e.stopPropagation();
+                            handleDeleteScreen(item, idx);
+                          }}
+                        />
+                        <StarFilled
+                          className={
+                            "bookmarks__list-icon " +
+                            (item.defaultBookmark == 1
+                              ? "bookmarks__list-icon--active"
+                              : "")
+                          }
+                          onClick={(e) => {
+                            e.stopPropagation();
+                            handleSetDefault(item, idx);
+                          }}
+                        />
+                      </div>
                     </div>
-
-                    <span className="bookmarks__list-item--grid">
-                      {item.gridType}
-                    </span>
-                    <div className="bookmarks__list-actions">
-                      <EditOutlined
-                        className="bookmarks__list-icon"
-                        onClick={(e) => {
-                          e.stopPropagation();
-                          handleEditMode(e, item, idx);
-                        }}
-                      />
-                      <CloseOutlined
-                        className="bookmarks__list-icon"
-                        onClick={(e) => {
-                          e.stopPropagation();
-                          handleDeleteScreen(item, idx);
-                        }}
-                      />
-                      <StarFilled
-                        className={
-                          "bookmarks__list-icon " +
-                          (item.defaultBookmark == 1
-                            ? "bookmarks__list-icon--active"
-                            : "")
-                        }
-                        onClick={(e) => {
-                          e.stopPropagation();
-                          handleSetDefault(item, idx);
-                        }}
-                      />
-                    </div>
+                  ))
+                ) : loaded ? (
+                  <div
+                    className="text-center"
+                    style={{ color: "white", margin: "20px 0px" }}
+                  >
+                    {t("view.user.detail_list.no_valid_results_found")}
                   </div>
-                ))}
+                ) : null}
                 {config.loading && config.hasMore && (
                   <div className="demo-loading-container">
                     <Spin />
