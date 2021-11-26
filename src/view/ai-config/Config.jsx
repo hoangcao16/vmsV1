@@ -351,13 +351,13 @@ const Config = () => {
       <div className="tabs__container--store">
         <Tabs type="card">
           <TabPane tab={t('view.ai_config.hurdles_events')} key="1">
-          <TabSchedule cameraUuid={cameraUuid} type="hurdles_events"></TabSchedule>
+          <TabSchedule cameraUuid={cameraUuid} type="hurdles"></TabSchedule>
           </TabPane>
           <TabPane tab={t('view.ai_config.intrusion_detection_events')} key="2" width='480px'>
-          <TabSchedule cameraUuid={cameraUuid} type="intrusion_detection_events"></TabSchedule>
+          <TabSchedule cameraUuid={cameraUuid} type="intrusion_detection"></TabSchedule>
           </TabPane>
           <TabPane tab={t('view.ai_config.attendance_events')} key="3">
-            <TabSchedule cameraUuid={cameraUuid} type="attendance_events"></TabSchedule>
+            <TabSchedule cameraUuid={cameraUuid} type="attendance"></TabSchedule>
           </TabPane>
         </Tabs>
       </div>
