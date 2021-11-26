@@ -299,7 +299,7 @@ const BookmarkSetting = ({
   };
 
   const handleSetDefault = async (screen, idx) => {
-    handleSelectScreen(screen)
+    handleSelectScreen(screen);
     const nameScreen = screen.name;
     try {
       const resData = await bookmarkApi.setDefault(screen.id);
@@ -333,6 +333,11 @@ const BookmarkSetting = ({
     setBookmarks([]);
     searchFunc(value, gridType);
   };
+
+  const handleBlur = (e)=>{
+    setSearchName(e.target.value.trim());
+  }
+
   const handleSelectGridType = (gType) => {
     setCurrentPage(1);
     setBookmarks([]);
@@ -425,6 +430,7 @@ const BookmarkSetting = ({
       <div className="bookmarks">
         <div className="bookmarks__filter">
           <input
+            value={searchName}
             className="bookmarks__filter-input"
             type="text"
             maxLength={100}
@@ -432,6 +438,7 @@ const BookmarkSetting = ({
             onChange={(e) => {
               handleInputOnchange(e);
             }}
+            onBlur={(e)=>handleBlur(e)}
           />
           <Select
             className="bookmarks__filter-gridType"
@@ -527,22 +534,17 @@ const BookmarkSetting = ({
                         </Tooltip>
 
                         <Tooltip
-                  placement="top"
-                  title={t('delete')}
-                  arrowPointAtCenter={true}
-                >
-
-
-
-
-                        <CloseOutlined
-                          className="bookmarks__list-icon"
-                          onClick={(e) => {
-                            e.stopPropagation();
-                            handleDeleteScreen(item, idx);
-                          }}
-                        />
-
+                          placement="top"
+                          title={t("delete")}
+                          arrowPointAtCenter={true}
+                        >
+                          <CloseOutlined
+                            className="bookmarks__list-icon"
+                            onClick={(e) => {
+                              e.stopPropagation();
+                              handleDeleteScreen(item, idx);
+                            }}
+                          />
                         </Tooltip>
 
                         <Tooltip
@@ -550,18 +552,18 @@ const BookmarkSetting = ({
                           title={t("view.user.detail_list.star")}
                           arrowPointAtCenter={true}
                         >
-                        <StarFilled
-                          className={
-                            "bookmarks__list-icon " +
-                            (item.defaultBookmark == 1
-                              ? "bookmarks__list-icon--active"
-                              : "")
-                          }
-                          onClick={(e) => {
-                            e.stopPropagation();
-                            handleSetDefault(item, idx);
-                          }}
-                        />
+                          <StarFilled
+                            className={
+                              "bookmarks__list-icon " +
+                              (item.defaultBookmark == 1
+                                ? "bookmarks__list-icon--active"
+                                : "")
+                            }
+                            onClick={(e) => {
+                              e.stopPropagation();
+                              handleSetDefault(item, idx);
+                            }}
+                          />
                         </Tooltip>
                       </div>
                     </div>
