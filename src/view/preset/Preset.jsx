@@ -835,6 +835,7 @@ const Preset = (props) => {
     const value = e.target.value;
     const datas = JSON.parse(JSON.stringify(presetTourDatas));
     const index = datas[indexPresetTourChoosed].listPoint.findIndex(
+      
       (item, index) => item.index == record.index
     );
     const data = datas[indexPresetTourChoosed].listPoint[index];
