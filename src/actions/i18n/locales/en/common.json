@@ -319,9 +319,8 @@
         "zoom_in":"Zoom in",
         "zoom_out":"Zoom out",
         "hight_filter":"Hight filter",
-
-
-
+        "save_preset_tour":"Save preset tour",
+        "save_preset":"Save preset tour",
         "user_list": "{{U}} List",
         "add_user": "{{add}} {{U}}",
         "all": "All",

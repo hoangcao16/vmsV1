@@ -321,7 +321,8 @@
         "zoom_in":"Thu nhỏ",
         "zoom_out":"Phóng to",
         "hight_filter":"Bộ lọc nâng cao",
-
+        "save_preset_tour":"Lưu preset tour",
+        "save_preset":"Lưu preset",
         "user_list": "Danh sách {{u}}",
         "add_user": "{{add}} {{u}}",
         "all": "Tất cả",

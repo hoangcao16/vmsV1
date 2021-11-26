@@ -35,12 +35,12 @@ const Search = ({ onPressEnter, toggleOpenFilter, searchValue }) => {
       />
       {toggleOpenFilter && (
         <Button onClick={toggleOpenFilter} className="search-input__filter">
-                      <Tooltip
-              placement="top"
-              title={t("view.user.detail_list.hight_filter")}
-              arrowPointAtCenter={true}
-            >
-          <FilterOutlined />
+          <Tooltip
+            placement="top"
+            title={t("view.user.detail_list.hight_filter")}
+            arrowPointAtCenter={true}
+          >
+            <FilterOutlined />
           </Tooltip>
         </Button>
       )}
