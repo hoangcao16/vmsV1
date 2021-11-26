@@ -1,4 +1,4 @@
-import { Popover, Space, Spin } from "antd";
+import { Popover, Space, Spin, Tooltip } from "antd";
 import React, { useEffect, useRef, useState } from "react";
 import { Camera, Maximize2, Menu, Minimize2, Video, X } from "react-feather";
 import { v4 as uuidV4 } from "uuid";
@@ -169,34 +169,43 @@ const LiveCameraSlot = (props) => {
         {
           <div className={`video-toolbar__control ${toolbarCss}`}>
             {/*{recMode && <label className='video-toolbar__status'>{`REC ${formatWithMilliseconds(countInMinis)}`}</label>}*/}
-            <a
-              className={
-                recMode ? "video-toolbar__capture" : "video-toolbar__link"
-              }
-              size="small"
-              onClick={() => captureCameraHandler(slotId)}
-            >
-              <Video className="video-toolbar__icon" size={12} />
-            </a>
-            <a
-              className="video-toolbar__link"
-              size="small"
-              onClick={() => startSnapshotCamera(slotId)}
-            >
-              <Camera className="video-toolbar__icon" size={12} />
-            </a>
-            <a
-              className="video-toolbar__link"
-              size="small"
-              onClick={() => maxMinCamera(slotId)}
-            >
-              {isMaximize && (
-                <Minimize2 className="video-toolbar__icon" size={12} />
-              )}
-              {!isMaximize && (
-                <Maximize2 className="video-toolbar__icon" size={12} />
-              )}
-            </a>
+            <Tooltip title='Ghi hình'>
+              <a
+                className={
+                  recMode ? "video-toolbar__capture" : "video-toolbar__link"
+                }
+                size="small"
+                onClick={() => captureCameraHandler(slotId)}
+              >
+                <Video className="video-toolbar__icon" size={12} />
+              </a>
+            </Tooltip>
+            <Tooltip title='Chụp ảnh'>
+
+              <a
+                className="video-toolbar__link"
+                size="small"
+                onClick={() => startSnapshotCamera(slotId)}
+              >
+                <Camera className="video-toolbar__icon" size={12} />
+              </a>
+            </Tooltip>
+            <Tooltip title='Phóng to/Thu nhỏ'>
+
+              <a
+                className="video-toolbar__link"
+                size="small"
+                onClick={() => maxMinCamera(slotId)}
+              >
+                {isMaximize && (
+                  <Minimize2 className="video-toolbar__icon" size={12} />
+                )}
+                {!isMaximize && (
+                  <Maximize2 className="video-toolbar__icon" size={12} />
+                )}
+              </a>
+            </Tooltip>
+
             <Popover
               placement="top"
               visible={openMenuControl}
@@ -216,27 +225,33 @@ const LiveCameraSlot = (props) => {
               overlayClassName="control-panel-popover"
               trigger="click"
             >
+              <Tooltip title='Menu Preset'>
+                <a
+                  className="video-toolbar__link"
+                  size="small"
+                  onClick={() => {
+                    setOpenMenuControl(!openMenuControl);
+                  }}
+                >
+                  <Menu className="video-toolbar__icon" size={12} />
+                </a>
+              </Tooltip>
+
+            </Popover>
+            <Tooltip title='Tắt Camera'>
+
               <a
                 className="video-toolbar__link"
                 size="small"
                 onClick={() => {
-                  setOpenMenuControl(!openMenuControl);
+                  setOpenMenuControl(false);
+                  closeCameraHandler(slotId);
+                  setIsOpenModalControlPanel(false);
                 }}
               >
-                <Menu className="video-toolbar__icon" size={12} />
+                <X className="video-toolbar__icon" size={12} />
               </a>
-            </Popover>
-            <a
-              className="video-toolbar__link"
-              size="small"
-              onClick={() => {
-                setOpenMenuControl(false);
-                closeCameraHandler(slotId);
-                setIsOpenModalControlPanel(false);
-              }}
-            >
-              <X className="video-toolbar__icon" size={12} />
-            </a>
+            </Tooltip>
           </div>
         }
       </div>

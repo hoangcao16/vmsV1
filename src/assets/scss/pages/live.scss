@@ -547,15 +547,29 @@
           justify-content: space-evenly;
           .toolbar__ptz {
             margin: 0;
-            select {
-              background-color: $vms-bg-3;
-              color: $vms-status-05;
-              height: 34px;
-              border-radius: 8px;
-              padding: 0 8px;
-              width: 9vw;
+            // .ant-select-disabled{
+            .ant-select-selector{
+              width: 120px;
+
+              background-color: $vms-bg-primary;
               border: $vms-border-gray;
+              border-radius: 8px;
+              .ant-select-selection-item{
+                max-width: 100px;
+
+                overflow: hidden;
+                white-space: nowrap;
+                text-overflow: ellipsis;
+              }
             }
+            // }
+            .ant-select-clear{
+              background-color: transparent;
+            }
+            .ant-select-selection-placeholder{
+              color: $vms-status-05;
+            }
+            
           }
         }
       }
