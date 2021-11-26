@@ -4,14 +4,14 @@ export default function convertDataBarChart(arrObj) {
     if (!isEmpty(arrObj)) {
         let arr = [];
         arrObj.map((d) => {
-            let a = {};
+            let object = {};
             let temp = Object.values(d);
             if (!arr.includes(temp[0])) {
-                a.time = temp[0];
-                a[temp[1]] = d.totalEvent1;
-                arr.push(a);
+                object.time = temp[0];
+                object[temp[1]] = d.totalEvent1;
+                arr.push(object);
             } else {
-                a[temp[1]] = d.totalEvent1;
+                object[temp[1]] = d.totalEvent1;
             }
         });
 
