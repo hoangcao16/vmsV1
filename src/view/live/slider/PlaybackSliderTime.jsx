@@ -74,7 +74,7 @@ const PlaybackSliderTime = ({ playbackByDragSlideTime, dateTimeSeek }) => {
                 date = ''
             }
             markers.push({
-                hourLabel: moment(timeLeft).format('HH:mm:ss'),
+                hourLabel: moment(timeLeft).format('HH:mm'),
                 dateLabel: date,
                 id: --timeLeftCnt,
                 className: `slider__marker`,
@@ -97,7 +97,7 @@ const PlaybackSliderTime = ({ playbackByDragSlideTime, dateTimeSeek }) => {
                 date = ''
             }
             markers.push({
-                hourLabel: moment(timeRight).format('HH:mm:ss'),
+                hourLabel: moment(timeRight).format('HH:mm'),
                 dateLabel: date,
                 id: ++timeRightCnt,
                 className: `slider__marker`,
