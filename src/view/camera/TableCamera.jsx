@@ -148,13 +148,8 @@ const TableCamera = () => {
   useEffect(() => {
     setLoading(true);
     let data = {
-      name: '',
-      provinceId: '',
-      districtId: '',
-      id: '',
-      administrativeUnitUuid: '',
-      vendorUuid: '',
-      status: '',
+      searchType: unit,
+      searchValue: search,
       page: page,
       size: size
     };
