@@ -214,8 +214,6 @@
                 width: 100%;
                 border: 0;
                 color: $vms-status;
-                padding-left: 12px;
-                padding-right: 12px;
               }
             }
 
@@ -348,7 +346,7 @@
                       // justify-content: center;
                       align-items: center;
                       button {
-                        background-color: $vms-bg-primary;
+                        background-color: transparent;
                         border: 0;
                         span {
                           svg {
@@ -383,19 +381,40 @@
       margin-top: 60px;
       // min-width: 150px;
 
-      select {
-        display: flex;
+      .ant-select{
         width: 100%;
-        background-color: $vms-bg-sub;
-        justify-content: space-between;
-        border-radius: 8px;
-        padding: 12px;
-        color: $vms-status;
-        border: 1px solid rgba(234, 240, 247, 0.1);
-        outline: none;
-        appearance: none;
-        position: relative;
+
+        .ant-select-selector {
+          border: $vms-border-gray;
+          border-radius: 4px;
+          // height: 40px;
+          .ant-select-selection-search {
+            display: flex;
+            align-items: center;
+            input {
+              line-height: 30px;
+            }
+          }
+          .ant-select-selection-item{
+            // display: flex;
+            // align-items: center;
+          }
+        }
       }
+
+      // select {
+      //   display: flex;
+      //   width: 100%;
+      //   background-color: $vms-bg-sub;
+      //   justify-content: space-between;
+      //   border-radius: 8px;
+      //   padding: 12px;
+      //   color: $vms-status;
+      //   border: 1px solid rgba(234, 240, 247, 0.1);
+      //   outline: none;
+      //   appearance: none;
+      //   position: relative;
+      // }
       button {
         height: 40px;
         width: 40px;
@@ -431,46 +450,15 @@
         width: 100%;
         margin-bottom: 20px;
         justify-content: space-between;
-        .ant-select {
-          flex: 3;
-          margin-right: 20px;
-          height: 40px;
-          .ant-select-selector {
-            border-radius: 8px;
-            border: $vms-border-gray;
-            height: 40px;
-            position: relative;
-            .ant-select-selection-search {
-              input {
-                border-radius: 8px;
-                outline: none;
-                height: 100%;
-                background-color: $vms-bg-sub;
-                width: 100%;
-                border: 0;
-                color: $vms-status;
-                padding-left: 12px;
-                padding-right: 12px;
-              }
-            }
-
-            .ant-select-selection-placeholder {
-              position: absolute;
-              left: 12px;
-              top: 50%;
-              transform: translateY(-50%);
-              color: $vms-status-05;
-            }
-          }
-        }
+        
         #name__preset-tour {
-          flex: 3;
-          max-width: 186px;
+          flex: 1;
           border-radius: 8px;
           border: 0;
           outline: none;
           border: $vms-border-gray;
-          padding: 8px;
+          padding: 8px 8px 8px 16px;
+
           background-color: $vms-bg-sub;
           color: $vms-status;
         }

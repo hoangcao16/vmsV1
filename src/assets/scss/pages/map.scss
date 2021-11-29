@@ -134,7 +134,7 @@
           
           button {
             height: 20px !important;
-            margin: 4px;
+            // margin: 4px;
             display: flex;
             align-items: center;
             border: 0;
@@ -145,8 +145,8 @@
             }
           }
           input {
+            // margin: 4px;
             height: 20px !important;
-            margin: 0 4px;
             border: 4px;
             width: 100% !important  ;
             outline: none;

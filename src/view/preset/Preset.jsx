@@ -12,8 +12,10 @@ import {
   RightOutlined,
   UpOutlined,
 } from "@ant-design/icons";
-import { AutoComplete, Button, Image, Space, Spin, Table, Tooltip } from "antd";
+import { AutoComplete, Button, Image, Space, Spin, Table, Tooltip, Select } from "antd";
 import { arrayMoveImmutable } from "array-move";
+import { param } from "jquery";
+import { isEmpty } from "lodash";
 import React, { useEffect, useLayoutEffect, useState } from "react";
 import { useTranslation } from "react-i18next";
 import {
@@ -31,7 +33,7 @@ import "./Preset.scss";
 
 const Preset = (props) => {
   const { idCamera } = props;
-  useLayoutEffect(() => {}, []);
+  useLayoutEffect(() => { }, []);
   const [rowsPreset, setRowsPreset] = useState([]);
   const [presetTourDatas, setPresetTourDatas] = useState([]);
   const [indexPresetTourChoosed, setIndexPresetTourChoosed] = useState(0);
@@ -49,6 +51,9 @@ const Preset = (props) => {
   ] = useState(true);
   const [isPlayCamera, setIsPlayCamera] = useState(false);
   const [isActionIsStart, setIsActionStart] = useState(false);
+  const [searchPreset, setSearchPreset] = useState();
+  const [searchPresetTour, setSearchPresetTour] = useState();
+  const [selectPresetTour, setSelectPresetTour] = useState('')
   const { t } = useTranslation();
 
   // const [newPresetTour, setNewPresetTour] = useState([]);
@@ -108,8 +113,11 @@ const Preset = (props) => {
 
   const getAllPreset = async (params) => {
     if (idCamera) {
-      const payload = await ptzControllerApi.getAllPreset(params);
-      if (payload == null) {
+
+      const payload = isEmpty(params?.name) ?
+        await ptzControllerApi.getAllPreset(params) :
+        await ptzControllerApi.getPreset(params);
+      if (isEmpty(payload)) {
         setRowsPreset(DEFAULT_VALUE_PRESET);
         return;
       }
@@ -117,16 +125,21 @@ const Preset = (props) => {
       setRowsPreset(rowsPreset);
     }
   };
+
   const getAllPresetTour = async (params) => {
     if (idCamera) {
-      const payload = await ptzControllerApi.getAllPresetTour(params);
-      if (payload == null) {
+      const payload = isEmpty(params?.name) ?
+        await ptzControllerApi.getAllPresetTour(params) :
+        await ptzControllerApi.getPresetTour(params);
+      if (isEmpty(payload)) {
         setPresetTourDatas(DEFAULT_VALUE_PRESET_TOUR);
         return;
       }
       setPresetTourDatas(convertPresetTourDatas(payload.data));
     }
   };
+
+
   //call api get all preset
   useEffect(() => {
     let params = {
@@ -284,7 +297,7 @@ const Preset = (props) => {
 
     const pc = new RTCPeerConnection();
     pc.addTransceiver("video");
-    pc.oniceconnectionstatechange = () => {};
+    pc.oniceconnectionstatechange = () => { };
     const spin = document.getElementById("spin-slot-1");
     pc.ontrack = (event) => {
       //binding and play
@@ -315,7 +328,7 @@ const Preset = (props) => {
           })
           .then((res) => {
             if (res) {
-              pc.setRemoteDescription(res).then((r) => {});
+              pc.setRemoteDescription(res).then((r) => { });
             } else {
               spin.style.display = "none";
               Notification({
@@ -330,7 +343,7 @@ const Preset = (props) => {
         spin.style.display = "none";
       })
       .catch(alert)
-      .finally(() => {});
+      .finally(() => { });
   };
 
   const closeCamera = () => {
@@ -724,8 +737,8 @@ const Preset = (props) => {
   const handleDoneRenamePreset = async (e, record) => {
     const value = document.getElementById(
       `input-name-preset-${record.idPreset}`
-    ).value;
-    if (value.trim().length >= 100 || value.trim().length === 0) {
+    ).value.trim();
+    if (value.length >= 100 || value.length === 0) {
       //validate
       const warnNotyfi = {
         type: NOTYFY_TYPE.warning,
@@ -738,7 +751,7 @@ const Preset = (props) => {
       const body = {
         cameraUuid: idCamera,
         idPreset: record.idPreset,
-        name: value.trim(),
+        name: value,
       };
 
       try {
@@ -799,29 +812,26 @@ const Preset = (props) => {
     }
   };
 
-  const onChangeOptionSetPresetInPresetTour = async (e) => {
-    const value = e.target.value;
-    const valueSelect = document.getElementById("choose__preset-tour").value;
-    if (valueSelect === "none") {
+  const onChangeOptionSetPresetInPresetTour = async (data, option) => {
+    const value = option.children;
+    setSelectPresetTour(data)
+    if (data === "none") {
       setVisiblePresetInPresetTour(false);
       document.getElementById("name__preset-tour").value = "";
       setIsDisableButtonAddPresetToPresetTour(false);
+      document.getElementById("rename__preset-tour").style.display = "none";
+      document.getElementById("delete__preset-tour").style.display = "flex";
     }
-    // else if(valueSelect === ""){
-    //   setVisiblePresetInPresetTour(false);
-    //   document.getElementById("name__preset-tour").value = "";
-
-    // }
     else {
       setIsDisableButtonAddPresetToPresetTour(false);
       document.getElementById("name__preset-tour").value =
-        presetTourDatas[value].name;
-      setIndexPresetTourChoosed(value);
+        presetTourDatas[data].name;
+      setIndexPresetTourChoosed(data);
       setVisiblePresetInPresetTour(true);
 
       const body = {
         cameraUuid: idCamera,
-        idPresetTour: presetTourDatas[value].idPresetTour,
+        idPresetTour: presetTourDatas[data].idPresetTour,
       };
       try {
         const pload = await ptzControllerApi.postCallPresetTour(body);
@@ -835,7 +845,7 @@ const Preset = (props) => {
     const value = e.target.value;
     const datas = JSON.parse(JSON.stringify(presetTourDatas));
     const index = datas[indexPresetTourChoosed].listPoint.findIndex(
-      
+
       (item, index) => item.index == record.index
     );
     const data = datas[indexPresetTourChoosed].listPoint[index];
@@ -860,7 +870,7 @@ const Preset = (props) => {
   };
 
   const handleDoneRenamePresetTour = async (e) => {
-    const value = document.getElementById("name__preset-tour").value;
+    const value = document.getElementById("name__preset-tour").value.trim();
     const body = {
       cameraUuid: idCamera,
       idPresetTour: presetTourDatas[indexPresetTourChoosed].idPresetTour,
@@ -990,6 +1000,7 @@ const Preset = (props) => {
             <input
               id={`input-name-preset-${record.idPreset}`}
               defaultValue={record?.name}
+              maxLength={255}
               onFocus={(e) => handleFocusInputNamePreset(record)}
               autoComplete="off"
             />
@@ -1040,6 +1051,38 @@ const Preset = (props) => {
       },
     },
   ];
+
+  const { Option, OptGroup } = Select
+
+  const handleSearchPreset = async (value) => {
+    setSearchPreset(value);
+    const params = {
+      cameraUuid: idCamera,
+      name: value
+    }
+    getAllPreset(params)
+  }
+
+  const handleBlurPreset = (e) => {
+    const value = e.target.value.trim();
+    setSearchPreset(value)
+  }
+
+  const handleBlurPresetTour = (e) => {
+    const value = e.target.value.trim();
+    setSearchPresetTour(value)
+  }
+
+  const handleSearchPresetTour = async (value) => {
+    setSearchPresetTour(value);
+    const params = {
+      cameraUuid: idCamera,
+      name: value
+    }
+    getAllPresetTour(params)
+  }
+
+
   const columnsTablePresetTour = [
     {
       title: "",
@@ -1104,9 +1147,9 @@ const Preset = (props) => {
   const presetTourSelect = [];
   for (let item of presetTourDatas) {
     presetTourSelect.push(
-      <option key={item.index} value={item.index}>
+      <Option key={item.index} value={item.index}>
         {item.name}
-      </option>
+      </Option>
     );
   }
   return (
@@ -1229,7 +1272,13 @@ const Preset = (props) => {
       <div className="table__preset--setting">
         <div className="table__preset">
           <div className="preset__tool">
-            <AutoComplete placeholder={t("view.map.search")} />
+            <AutoComplete
+              value={searchPreset}
+              onSearch={handleSearchPreset}
+              onBlur={handleBlurPreset}
+              maxLength={255}
+              placeholder={t("view.map.search")}
+            />
             <Tooltip
               placement="top"
               title={t("view.user.detail_list.save_preset")}
@@ -1252,23 +1301,29 @@ const Preset = (props) => {
         </div>
 
         <div className="confirm__choosing--preset">
-          <select
+          <Select
             id="choose__preset-tour"
-            onChange={(e) => {
-              onChangeOptionSetPresetInPresetTour(e);
+            onSelect={(value, option) => {
+              onChangeOptionSetPresetInPresetTour(value, option);
             }}
+            value={selectPresetTour}
+            optionFilterProp="children"
+            filterOption={(input, option) =>
+              option.children.toLowerCase().indexOf(input.toLowerCase()) >= 0
+            }
+            showSearch
             defaultValue=""
           >
-            <option value="" hidden disabled>
+            <Option value="" hidden disabled>
               {t("view.live.add_new_or_edit_preset_tour")}
-            </option>
-            <optgroup label={t("view.live.add_new_preset_tour")}>
-              <option value="none">{t("view.live.add_new_preset_tour")}</option>
-            </optgroup>
-            <optgroup label={t("view.live.choose_preset_tour")}>
-              {presetTourSelect}
-            </optgroup>
-          </select>
+            </Option>
+            {/* <OptGroup label={t("view.live.add_new_preset_tour")}> */}
+            <Option value="none">{t("view.live.add_new_preset_tour")}</Option>
+            {/* </OptGroup> */}
+            {/* <OptGroup label={t("view.live.choose_preset_tour")}> */}
+            {presetTourSelect}
+            {/* </OptGroup> */}
+          </Select>
 
           <Tooltip
             placement="top"
@@ -1288,11 +1343,15 @@ const Preset = (props) => {
         <div className="table__preset-tour">
           <>
             <div className="preset-tour__tool">
-              <AutoComplete placeholder={t("view.map.search")} />
+
               <input
                 id="name__preset-tour"
                 disabled={!visiblePresetInPresetTour}
                 onFocus={(e) => handleFocusNamePresetTour()}
+                onBlur={() => {
+                  let value = document.getElementById("name__preset-tour").value
+                  document.getElementById("name__preset-tour").value = value.trim()
+                }}
                 autoComplete="off"
               />
 
@@ -1331,8 +1390,8 @@ const Preset = (props) => {
                 visiblePresetInPresetTour && isPresetLastDeleted
                   ? ""
                   : visiblePresetInPresetTour
-                  ? presetTourDatas[indexPresetTourChoosed]?.listPoint
-                  : ""
+                    ? presetTourDatas[indexPresetTourChoosed]?.listPoint
+                    : ""
               }
               pagination={false}
               rowKey={(record) => record.index}
@@ -1347,7 +1406,7 @@ const Preset = (props) => {
           </>
         </div>
       </div>
-    </div>
+    </div >
   );
 };
 export default Preset;

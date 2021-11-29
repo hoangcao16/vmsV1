@@ -6,7 +6,8 @@ import {
   RightOutlined,
   UpOutlined,
 } from "@ant-design/icons";
-import { Button, Tooltip } from "antd";
+
+import { Button, Tooltip, Select } from "antd";
 import { isEmpty } from "lodash-es";
 import React, { useEffect, useState } from "react";
 import { useTranslation } from "react-i18next";
@@ -16,10 +17,11 @@ import "./LiveMenuTool.scss";
 
 const LiveMenuTool = (props) => {
 
-  const {t} = useTranslation()
+  const { t } = useTranslation()
   const { idCamera, reloadLiveMenuTool } = props;
   const [presetLists, setPresetLists] = useState([]);
   const [presetTourLists, setPresetTourLists] = useState([]);
+  const { Option } = Select;
   const getPreset = async (params) => {
     if (idCamera) {
       const payload = await ptzControllerApi.getPreset(params);
@@ -230,8 +232,8 @@ const LiveMenuTool = (props) => {
     }
   };
 
-  const onChangeSelectPreset = async () => {
-    const value = document.getElementById("select__preset").value;
+  const onChangeSelectPreset = async (e, option) => {
+    const value = option.value;
     const body = {
       cameraUuid: idCamera,
       idPreset: value,
@@ -243,8 +245,8 @@ const LiveMenuTool = (props) => {
     }
   };
 
-  const onChangeSelectPresetTour = async () => {
-    const value = document.getElementById("select__preset-tour").value;
+  const onChangeSelectPresetTour = async (e, option) => {
+    const value = option.value;
     const body = {
       cameraUuid: idCamera,
       idPresetTour: value,
@@ -258,17 +260,17 @@ const LiveMenuTool = (props) => {
 
   const renderOptionPreset = () => {
     return presetLists?.map((item, index) => (
-      <option key={index} value={item?.idPreset}>
+      <Option key={index} value={item?.idPreset}>
         {item?.name}
-      </option>
+      </Option>
     ));
   };
 
   const renderOptionPresetTour = () => {
     return presetTourLists?.map((item, index) => (
-      <option key={index} value={item?.idPresetTour}>
+      <Option key={index} value={item?.idPresetTour}>
         {item?.name}
-      </option>
+      </Option>
     ));
   };
 
@@ -394,39 +396,46 @@ const LiveMenuTool = (props) => {
       </div>
       <div className="toolbar__ptz--call">
         <div className="toolbar__ptz toolbar__preset">
-          <select
+          <Select
             disabled={!checkPermissionViewCamera(idCamera)}
             id="select__preset"
-            onChange={(e) => {
-              e.stopPropagation();
-              onChangeSelectPreset();
+            allowClear
+            showSearch
+            optionFilterProp="children"
+            filterOption={(input, option) =>
+              option.children.toLowerCase().indexOf(input.toLowerCase()) >= 0
+            }
+            onSelect={(e, option) => {
+              onChangeSelectPreset(e, option);
             }}
-            defaultValue=""
+            placeholder='Preset'
+            notFoundContent='Không tìm thấy kết quả hợp lệ'
+
           >
-            <option value="" disabled hidden>
-              Preset
-            </option>
             {renderOptionPreset()}
-          </select>
+          </Select>
         </div>
         <div className="toolbar__ptz toolbar__preset-tour">
-          <select
+          <Select
+            allowClear
+            showSearch
+            optionFilterProp="children"
+            filterOption={(input, option) =>
+              option.children.toLowerCase().indexOf(input.toLowerCase()) >= 0
+            }
             disabled={!checkPermissionViewCamera(idCamera)}
             id="select__preset-tour"
-            onChange={(e) => {
-              e.stopPropagation();
-              onChangeSelectPresetTour();
+            onSelect={(e, option) => {
+              onChangeSelectPresetTour(e, option);
             }}
-            defaultValue=""
+            placeholder="Preset Tour"
+            notFoundContent='Không tìm thấy kết quả hợp lệ'
           >
-            <option value="" disabled hidden>
-              Preset Tour
-            </option>
             {renderOptionPresetTour()}
-          </select>
+          </Select>
         </div>
       </div>
-    </div>
+    </div >
   );
 };
 
