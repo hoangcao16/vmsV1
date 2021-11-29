@@ -305,6 +305,22 @@
       "user_group": "{{U}} {{G}}",
       "new_password": "New password",
       "detail_list": {
+        "star":"Set as default display",
+        "gird1":"Gird 1x1",
+        "gird2":"Gird 2x2",
+        "gird3":"Gird 3x3",
+        "gird4":"Gird 4x4",
+        "playback":"Playback view mode",
+        "live":"Live view mode",
+        "left":"Move left",
+        "right":"Move right",
+        "up":"Move up",
+        "down":"Move down",
+        "zoom_in":"Zoom in",
+        "zoom_out":"Zoom out",
+        "hight_filter":"Hight filter",
+        "save_preset_tour":"Save preset tour",
+        "save_preset":"Save preset tour",
         "user_list": "{{U}} List",
         "add_user": "{{add}} {{U}}",
         "all": "All",
@@ -411,13 +427,14 @@
       "intrusion_detection_events": "Intrusion Detection Events",
       "attendance_events": "Attendance Events",
       "schedule_config": "Schedule Config",
-      "area_config": "Area onfig",
-      "time_config": "Time onfig",
+      "area_config": "Area config",
+      "time_config": "Time config",
       "activate_attendance_events": "Activate Attendance Events",
       "activate_hurdles": "Activate Hurdles",
       "activate_intrusion_detection_events": "Activate Intrusion Detection Events ",
       "all_day": "All day",
-      "apply": "Apply"
+      "apply": "Apply",
+      "time_config_copys": "Time config copy"
     }
   },
   "noti": {
@@ -479,7 +496,14 @@
     "input_number": "Please enter number only",
     "at_least_10_characters": "At least 10 characters",
     "at_least_8_characters": "At least 8 characters",
-    "no_valid_results_found": "No valid results  found"
+    "no_valid_results_found": "No valid results found",
+
+    "successfully_add_administrative": "Successfully add new administrativ",
+    "phone_number_format_is_not_correct": "Phone number format is not correct",
+    "successfully_add_camera": "Successfully add new Camera",
+    "successfully_edit_name": "Successfully edit name of",
+    "successfully_add": "Successfully add new",
+    "success": "Success"
   },
   "breadcrumd": {
     "report": "Report Management",

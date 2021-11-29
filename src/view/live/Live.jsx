@@ -1,52 +1,49 @@
-import React, { useEffect, useState, useRef } from "react";
-import { withRouter } from "react-router-dom";
-import { connect } from "react-redux";
 import "antd/dist/antd.css";
+import Hls from "hls.js";
+import moment from "moment";
+import React, { useEffect, useRef, useState } from "react";
+import { DragDropContext, Draggable, Droppable } from "react-beautiful-dnd";
+import { connect, useDispatch } from "react-redux";
+import { withRouter } from "react-router-dom";
+import { v4 as uuidV4 } from "uuid";
+import ExportEventFileApi from "../../actions/api/exporteventfile/ExportEventFileApi";
+import tokenApi from "../../api/authz/token";
+import playCamApi from "../../api/camproxy/cameraApi";
+import cheetahSvcApi from "../../api/cheetah/fileApi";
+import bookmarkApi from "../../api/controller-api/bookmarkApi";
+import cameraApi from "../../api/controller-api/cameraApi";
+import lionSvcApi from "../../api/lion/cameraApi";
+import playbackApi from "../../api/playback/cameraApi";
+import "../../assets/scss/app-icons.scss";
 import "../../assets/scss/pages/live.scss";
 import "../../assets/scss/pages/map.scss";
-import "../../assets/scss/app-icons.scss";
-import { useDispatch } from "react-redux"
-import DraggableCameraList from "./DraggableCameraList";
-import cameraApi from "../../api/controller-api/cameraApi";
-import bookmarkApi from "../../api/controller-api/bookmarkApi";
-import { DragDropContext, Droppable, Draggable } from "react-beautiful-dnd";
-import playCamApi from "../../api/camproxy/cameraApi";
 import BookmarkSetting from "../../components/vms/bookmark/BookmarkSetting";
-import getServerCamproxyForPlay from "../../utility/vms/camera";
-import LiveCameraSlot from "./LiveCameraSlot";
-import MenuTools from "./MenuTools";
 import Notification from "../../components/vms/notification/Notification";
-import { doSwap } from "../../utility/vms/swapElement";
 import {
   removePlayBackHlsLive,
   setPlayBackHlsLive,
 } from "../../redux/actions/live";
+import getServerCamproxyForPlay from "../../utility/vms/camera";
+import { captureVideoFrame } from "../../utility/vms/captureVideoFrame";
+import { getBase64Text } from "../../utility/vms/getBase64Text";
+import { doSwap } from "../../utility/vms/swapElement";
 import {
   GRID1X1,
   GRID2X2,
   GRID3X3,
   GRID4X4,
-  GRIDALL,
 } from "../common/vms/constans/grid";
-import lionSvcApi from "../../api/lion/cameraApi";
 import {
   SEEK_BACK,
-  SEEK_FORWARD,
   SEEK_CURRENT_TIME,
+  SEEK_FORWARD,
   STEP_SIZE_MINUTE,
 } from "../common/vms/constans/playback";
-import playbackApi from "../../api/playback/cameraApi";
-import Hls from "hls.js";
-
-import { changeZoom } from "./../../redux/actions/customizer/index";
 import { NOTYFY_TYPE, PAGE_SIZE } from "../common/vms/Constant";
-import { captureVideoFrame } from "../../utility/vms/captureVideoFrame";
-import moment from "moment";
-import { v4 as uuidV4 } from "uuid";
-import ExportEventFileApi from "../../actions/api/exporteventfile/ExportEventFileApi";
-import { getBase64Text } from "../../utility/vms/getBase64Text";
-import cheetahSvcApi from "../../api/cheetah/fileApi";
-import tokenApi from "../../api/authz/token";
+import { changeZoom } from "./../../redux/actions/customizer/index";
+import DraggableCameraList from "./DraggableCameraList";
+import LiveCameraSlot from "./LiveCameraSlot";
+import MenuTools from "./MenuTools";
 
 const initialDataGrid = [...Array(16).keys()];
 let currentGridSize = 16;
@@ -74,6 +71,7 @@ const Live = (props) => {
   const [resetSpeed, setResetSpeed] = useState(false);
   const [reloadLiveMenuTool, setReloadLiveMenuTool] = useState(false);
   const [curSpeed, setCurSpeed] = useState(1);
+  const [defaultSize, setDefaultSize] = useState(16);
   let currentItemIdx = 0;
   useEffect(() => {
     initialDataGrid.forEach((it) =>
@@ -93,7 +91,7 @@ const Live = (props) => {
   }, []);
 
   useEffect(() => {
-    fetchCameras(filter, search)
+    fetchCameras(filter, search);
   }, [filter, search]);
 
   /**
@@ -158,7 +156,7 @@ const Live = (props) => {
       Notification({
         type: "warning",
         title: "Xem danh sách màn hình",
-        description: "Lỗi:" + err.toString(),
+        description: err.toString(),
       });
       return null;
     }
@@ -167,6 +165,8 @@ const Live = (props) => {
   const fetchDefaultScreen = async () => {
     try {
       const data = await bookmarkApi.getDefault();
+
+      console.log("data:", data);
       if (data && data.payload && data.payload.length >= 1) {
         const defaultScreen = data.payload[0];
         // Get all cam info of each slot from a screen
@@ -179,6 +179,25 @@ const Live = (props) => {
           });
         }
         handleBookmarkOk(screen);
+
+        console.log("defaultScreen:", defaultScreen);
+
+        switch (defaultScreen.gridType) {
+          case "1x1":
+            setDefaultSize(1);
+            break;
+          case "2x2":
+            setDefaultSize(4);
+            break;
+          case "3x3":
+            setDefaultSize(9);
+            break;
+          case "4x4":
+            setDefaultSize(16);
+            break;
+          default:
+            setDefaultSize(16);
+        }
       }
     } catch (e) {
       Notification({
@@ -237,8 +256,7 @@ const Live = (props) => {
 
     const pc = new RTCPeerConnection();
     pc.addTransceiver("video");
-    pc.oniceconnectionstatechange = () => {
-    };
+    pc.oniceconnectionstatechange = () => {};
     const spin = document.getElementById("spin-slot-" + slotIdx);
     pc.ontrack = (event) => {
       //binding and play
@@ -259,8 +277,7 @@ const Live = (props) => {
     })
       .then((offer) => {
         spin.style.display = "block";
-        pc.setLocalDescription(offer).then((r) => {
-        });
+        pc.setLocalDescription(offer).then((r) => {});
         //call camproxy
         playCamApi
           .playCamera(API, {
@@ -270,8 +287,7 @@ const Live = (props) => {
           })
           .then((res) => {
             if (res) {
-              pc.setRemoteDescription(res).then((r) => {
-              });
+              pc.setRemoteDescription(res).then((r) => {});
             } else {
               spin.style.display = "none";
               Notification({
@@ -287,7 +303,7 @@ const Live = (props) => {
         spin.style.display = "none";
       })
       .catch((e) => console.log(e))
-      .finally(() => { });
+      .finally(() => {});
   };
 
   const playbackCamera = async (name, camUuid, camId, originSlotId) => {
@@ -406,13 +422,8 @@ const Live = (props) => {
           dispatch(setPlayBackHlsLive(tmp[slotIdx]));
           tmp[slotIdx].hls.loadSource(videoSrc);
           tmp[slotIdx].hls.attachMedia(video);
-          tmp[slotIdx].hls.on(
-            Hls.Events.MANIFEST_PARSED
-
-          );
-          tmp[slotIdx].hls.on(
-            Hls.Events.MEDIA_ATTACHED
-          );
+          tmp[slotIdx].hls.on(Hls.Events.MANIFEST_PARSED);
+          tmp[slotIdx].hls.on(Hls.Events.MEDIA_ATTACHED);
           tmp[slotIdx].hls.on(Hls.Events.ERROR, function (event, data) {
             if (data.fatal) {
               switch (data.type) {
@@ -422,7 +433,6 @@ const Live = (props) => {
                   tmp[slotIdx].hls.startLoad();
                   break;
                 case Hls.ErrorTypes.MEDIA_ERROR:
-
                   tmp[slotIdx].hls.recoverMediaError();
                   break;
                 default:
@@ -452,7 +462,7 @@ const Live = (props) => {
       // });
     }
   };
-  const handleSelectCameraCallback = (cam, idx) => { };
+  const handleSelectCameraCallback = (cam, idx) => {};
 
   const fetchCameras = async (
     filter,
@@ -695,7 +705,7 @@ const Live = (props) => {
         setAddedCameras([...cameras]);
       }
     } catch (e) {
-      console.log(e)
+      console.log(e);
     }
   };
   const stopCaptureCamera = async (
@@ -826,7 +836,7 @@ const Live = (props) => {
     const slotIdx = findCameraIndexInGrid(slotId);
     const camera = addedCameras[slotIdx];
     const cell = document.getElementById("video-slot-" + slotId);
-    const {blob, tBlob} = captureVideoFrame(cell, null, "jpeg");
+    const { blob, tBlob } = captureVideoFrame(cell, null, "jpeg");
     if (blob) {
       const fileName = setFileName(1);
       const uuid = uuidV4();
@@ -853,7 +863,7 @@ const Live = (props) => {
         thumbnailData: [""],
         nginx_host: "",
         blob: blob,
-        tBlob: tBlob
+        tBlob: tBlob,
       };
       ExportEventFileApi.uploadFile(
         eventFile.uuid + ".jpeg",
@@ -954,6 +964,7 @@ const Live = (props) => {
   };
 
   const zoomOutByDoubleClick = (originSlotId) => {
+    console.log("zoomOutByDoubleClick:");
     maxMinCamera(originSlotId);
   };
 
@@ -1144,14 +1155,13 @@ const Live = (props) => {
     const slotIdx = findCameraIndexInGrid(originSlotId);
     prevSelectedSlotRef.current = currentSelectSlotRef.current;
 
-
     const prevCell = document.getElementById(
       "video-slot-" + prevSelectedSlotRef.current
     );
     if (prevCell != null) {
       prevCell.style.border = "";
       prevCell.playbackRate = 1;
-      setCurSpeed(1)
+      setCurSpeed(1);
     }
     const cam = addedCameras[slotIdx];
     const cell = document.getElementById("video-slot-" + cam.id);
@@ -1245,8 +1255,7 @@ const Live = (props) => {
       const selectedCam = addedCameras[slotIdx];
       const cell = document.getElementById("video-slot-" + selectedCam.id);
       cell.playbackRate = speed;
-      setCurSpeed(speed)
-
+      setCurSpeed(speed);
     } else {
       Notification({
         type: "warning",
@@ -1258,10 +1267,7 @@ const Live = (props) => {
 
   const renderVideoSlot = (originSlotId, provided, snapshot) => {
     return (
-      <div
-        className="video-toolbar"
-        id={"draggable-video-" + originSlotId}
-      >
+      <div className="video-toolbar" id={"draggable-video-" + originSlotId}>
         <div
           ref={provided.innerRef}
           {...provided.draggableProps}
@@ -1369,7 +1375,7 @@ const Live = (props) => {
                 resetSpeed={resetSpeed}
                 reloadLiveMenuTool={reloadLiveMenuTool}
                 curSpeed={curSpeed}
-
+                defaultSize={defaultSize}
               />
             </div>
           </div>

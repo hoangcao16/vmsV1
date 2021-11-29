@@ -1,15 +1,17 @@
 @import "../../assets/scss/core/variables/vms-variable";
 @import '../../assets/scss/core/mixins/vms-mixins';
 
-
 .tabs__container--ai_config{
     .ant-checkbox-wrapper{
-        margin: 30px;
-       }
-       .react-calendar-timeline{
-           width: 941px;
-           .rct-dateHeader-primary {
-               height: 0px;
-           }
-       }
+    margin: 30px;
+    }
+    .react-calendar-timeline{
+        width: 941px;
+        .rct-dateHeader-primary {
+            height: 0px;
+        }
+    }
+    .ant-form-item-control-input-content{
+        background-color: none;
+    }
 }

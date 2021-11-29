@@ -32,6 +32,7 @@ import UserApi from '../../../../actions/api/user/UserApi';
 import clearData from '../../../../actions/function/MyUltil/CheckData';
 import permissionCheck from '../../../../actions/function/MyUltil/PermissionCheck';
 import Notification from '../../../../components/vms/notification/Notification';
+import { NOTYFY_TYPE } from '../../../common/vms/Constant';
 import { changeAvatar } from '../../../../redux/actions/customizer/index';
 import Camera from './Camera';
 import CameraGroup from './CameraGroup';
@@ -222,7 +223,10 @@ const DetailUser = (props) => {
     }
     if (name_data === 'phone') {
       rules.push(
-
+        {
+          required: true,
+          message: `${t('view.map.required_field')}`
+        },
         {
           min: 10,
           message: `${t('noti.at_least_10_characters')}`
@@ -341,7 +345,6 @@ const DetailUser = (props) => {
                     }}
                     name={name_data}
                     rules={dataRules(name_data)}
-                    className={`${name_data === "phone" ? 'phone__input' : ''}`}
                   >
                     {name_data !== 'phone' ?
                       <Input
@@ -357,14 +360,12 @@ const DetailUser = (props) => {
                           });
                         }}
                       /> :
-                      <MuiPhoneNumber
-
-                        name="phone"
-                        data-cy="user-phone"
-                        defaultCountry={"vn"}
-                        autoComplete='off'
-                      // placeholder={t('view.user.detail_list.phone_number')}
-                      />}
+                      <Input
+                        type="text"
+                        maxLength={13}
+                        placeholder='Số điện thoại'
+                      />
+                    }
 
 
                   </Form.Item>
@@ -523,43 +524,48 @@ const DetailUser = (props) => {
   };
 
   const onHandleData = async (value) => {
-    handleClose();
-    let payload = {
-      ...value,
-      phone: value?.phone?.substring(1),
-      // date_of_birth: moment(value?.date_of_birth).format('DD-MM-YYYY') || null
-    };
-
-    if (!isEmpty(payload.date_of_birth)) {
-      payload = {
-        date_of_birth: moment(value?.date_of_birth).format('DD-MM-YYYY') || null
+    if (validatePhoneNumber(value?.phone)) {
+      handleClose();
+      let payload = {
+        ...value,
+        phone: value?.phone,
       };
+
+      if (!isEmpty(payload.date_of_birth)) {
+        payload = {
+          date_of_birth: moment(value?.date_of_birth).format('DD-MM-YYYY') || null
+        };
+      }
+
+      const isUpdate = await UserApi.updateUser(userUuid, payload);
+
+      if (isUpdate) {
+        const notifyMess = {
+          type: 'success',
+          title: '',
+          description: 'Thay đổi dữ liệu thành công'
+        };
+        Notification(notifyMess);
+        setLoading(!isLoading);
+      }
     }
 
-    // if (isEmpty(clearData(payload))) {
-    //   const notifyMess = {
-    //     type: 'error',
-    //     title: '',
-    //     description: 'Lỗi không nhập dữ liệu'
-    //   };
-    //   Notification(notifyMess);
+  };
 
-    //   return;
-    // }
+  const validatePhoneNumber = (value) => {
 
-    const isUpdate = await UserApi.updateUser(userUuid, payload);
-
-    if (isUpdate) {
+    const pattern = /^[+]*[(]{0,1}[0-9]{1,3}[)]{0,1}[-\s\./0-9]*$/g
+    if (!pattern.test(value) && value.length >= 10) {
       const notifyMess = {
-        type: 'success',
-        title: '',
-        description: 'Thay đổi dữ liệu thành công'
+        type: NOTYFY_TYPE.error,
+        description: 'Định dạng số điện thoại chưa đúng'
       };
       Notification(notifyMess);
-
-      setLoading(!isLoading);
+      return false;
     }
-  };
+    return true;
+  }
+
 
   const goBack = () => {
     history.go(-1);

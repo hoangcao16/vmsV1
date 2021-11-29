@@ -13,7 +13,7 @@
   "r": "vai trò",
   "components": {
     "bookmark": {
-      "favorite_screen_list": "Danh sách màn hình ưu thích",
+      "favorite_screen_list": "Danh sách màn hình ưa thích",
       "enter_screen_name": "Nhập tên màn hình",
       "grid_type": "Loại lưới",
       "screen_name": "Tên màn hình",
@@ -21,7 +21,7 @@
       "action": "Thao tác",
       "display": "Hiển thị",
       "record": "bản ghi",
-      "favorite_screen": "Màn hình ưu thích",
+      "favorite_screen": "Màn hình ưa thích",
       "notification": "Thông báo"
     }
   },
@@ -307,6 +307,22 @@
       "user_group": "{{G}} {{u}}",
       "new_password": "Mật khẩu mới",
       "detail_list": {
+        "star":"Đặt làm màn hình mặc định",
+        "gird1":"Lưới 1x1",
+        "gird2":"Lưới 2x2",
+        "gird3":"Lưới 3x3",
+        "gird4":"Lưới 4x4",
+        "live":"Chế độ xem trực tiếp",
+        "playback":"Chế độ xem lại",
+        "left":"Di chuyển sang trái",
+        "right":"Di chuyển sang phải",
+        "up":"Di chuyển lên trên",
+        "down":"Di chuyển xuống dưới",
+        "zoom_in":"Thu nhỏ",
+        "zoom_out":"Phóng to",
+        "hight_filter":"Bộ lọc nâng cao",
+        "save_preset_tour":"Lưu preset tour",
+        "save_preset":"Lưu preset",
         "user_list": "Danh sách {{u}}",
         "add_user": "{{add}} {{u}}",
         "all": "Tất cả",
@@ -419,7 +435,8 @@
       "activate_hurdles": "Kích hoạt tính năng phát hiện vượt rào ảo",
       "activate_intrusion_detection_events": "Kích hoạt tính năng phát hiện xâm nhập",
       "all_day": "Áp dụng cho tất cả các ngày trong tuần",
-      "apply": "Áp dụng"
+      "apply": "Áp dụng",
+      "time_config_copy": "Áp dụng lịch"
     }
   },
   "noti": {
@@ -482,7 +499,14 @@
     "at_least_10_characters": "Tối thiểu 10 ký tự",
     "at_least_8_characters": "Tối thiểu 8 ký tự",
     "successfully_delete_human": "{{delete}} thành công người",
-    "no_valid_results_found": "Không tìm thấy kết quả hợp lệ"
+    "no_valid_results_found": "Không tìm thấy kết quả hợp lệ",
+
+    "successfully_add_administrative": "Bạn đã thêm thành công đơn vị hành chính",
+    "phone_number_format_is_not_correct": "Định dạng số điện thoại chưa đúng",
+    "successfully_add_camera": "Bạn đã thêm thành công Camera",
+    "successfully_edit_name": "Bạn đã thêm thành công tên của",
+    "successfully_add": "Bạn đã thêm thành công",
+    "success": "Thành công"
   },
 
   "breadcrumd": {

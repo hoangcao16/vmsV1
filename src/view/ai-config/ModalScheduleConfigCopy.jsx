@@ -44,7 +44,7 @@ const ModalScheduleConfigCopy = (props) => {
   return (
     <>
       <Modal
-        title={t('view.ai_config.time_config')}
+        title={t('view.ai_config.time_config_copy')}
         visible={true}
         // onOk={handleSubmit}
         onCancel={() => {

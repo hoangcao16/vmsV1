@@ -236,7 +236,7 @@ export default function CleanSetting(props) {
       if (isPost) {
         const noti = {
           type: NOTYFY_TYPE.success,
-          title: "Thành công",
+          title: `${t('noti.success')}`,
           description: "Bạn đã cài đặt thành công",
         };
         Notification(noti);

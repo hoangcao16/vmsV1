@@ -79,7 +79,7 @@ export default function RecordSetting(props) {
       if (isPost) {
         const noti = {
           type: NOTYFY_TYPE.success,
-          title: "Thành công",
+          title: `${t('noti.success')}`,
           description: "Bạn đã cài đặt thành công",
           duration: 10000,
         };

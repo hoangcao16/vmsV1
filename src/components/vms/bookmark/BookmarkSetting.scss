@@ -48,7 +48,9 @@
           line-height: 40px;
           padding-left: 16px;
         }
+
       }
+
     }
   }
 
@@ -61,6 +63,9 @@
       align-self: center;
       padding-bottom: 37px;
     }
+  }
+  .active_item {
+    background-color: $vms-bg-sub;
   }
 
   &__list {
@@ -96,6 +101,8 @@
       overflow: auto;
       @include scrollbar-styling(12px, 0);
     }
+
+
 
     &-icon {
       font-size: 16px;
@@ -278,5 +285,15 @@
       }
     }
   }
+
+
 }
 //end: modal bookmark
+
+.ant-select-dropdown.ant-select-dropdown-placement-bottomLeft{
+  z-index: 10000000000;
+}
+
+.ant-tooltip.ant-tooltip-placement-top {
+  z-index: 10000000000;
+}

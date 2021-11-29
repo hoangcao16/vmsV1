@@ -258,7 +258,7 @@ const Config = () => {
         if (isPost) {
           const notifyMess = {
             type: "success",
-            title: "Thành công",
+            title: `${t('noti.success')}`,
             description: `Bạn đã add thành công`,
           };
           Notification(notifyMess);
