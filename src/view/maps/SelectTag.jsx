@@ -1,4 +1,4 @@
-import { Select, Spin } from "antd";
+import { Spin } from "antd";
 import React, { useEffect, useState } from "react";
 import { connect } from "react-redux";
 import { loadTags } from "./redux/actions/tagsActions";
@@ -16,10 +16,7 @@ const SelectTag = (props) => {
   }, [props.tags]);
 
   const handleChange = (selectedItems) => {
-    setSelectedItems(
-      setSelectedItems,
-      props.handlePickData(`${selectedItems[0]}:`)
-    );
+    props.handlePickData(`${selectedItems}:`);
   };
 
   const filteredOptions = options.filter((o) => !selectedItems.includes(o));
@@ -29,19 +26,15 @@ const SelectTag = (props) => {
   }
 
   return (
-    <Select
-      mode="multiple"
-      placeholder="Chọn gợi ý"
-      value={selectedItems}
-      onChange={handleChange}
-      style={{ width: "100%" }}
-    >
-      {filteredOptions.map((item) => (
-        <Select.Option key={item} value={item}>
-          {item}
-        </Select.Option>
-      ))}
-    </Select>
+    <div className="list-data-search">
+      <ul>
+        {filteredOptions.map((item) => (
+          <li key={item} onClick={() => handleChange(item)}>
+            {item}
+          </li>
+        ))}
+      </ul>
+    </div>
   );
 };
 

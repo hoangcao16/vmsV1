@@ -13,13 +13,24 @@ class EditableTagGroup extends React.Component {
     addonValue: "",
   };
 
+
+  escFunction = (event) => {
+    if(event.keyCode === 27 && this.state.inputValue ==='#') {
+      this.setState({ isShowSuggestions:false,inputValue:'' });
+    }
+  }
+
   componentDidMount() {
     this.props.callDataCameraTag(this.state.tags);
+    document.addEventListener("keydown", this.escFunction, false);
+  }
+
+  componentWillUnmount(){
+    document.removeEventListener("keydown", this.escFunction, false);
   }
 
   handleClose = (removedTag) => {
     const tags = this.state.tags.filter((tag) => tag !== removedTag);
-
     localStorage.setItem("tags", JSON.stringify(tags));
     this.setState({ tags }, this.props.callDataCameraTag(tags));
   };
@@ -34,12 +45,12 @@ class EditableTagGroup extends React.Component {
       e.stopPropagation();
       this.setState({
         isShowSuggestions: true,
-        inputValue: value.trim(),
+        inputValue: value.trimStart(),
       });
       return;
     }
 
-    this.setState({ inputValue: value.trim(), isShowSuggestions: false });
+    this.setState({ inputValue: value.trimStart(), isShowSuggestions: false });
   };
 
   handleInputConfirm = () => {
@@ -47,7 +58,7 @@ class EditableTagGroup extends React.Component {
     const inputValue = state.addonValue + ' ' + state.inputValue;
     let tags = state.tags;
     if (inputValue && tags.indexOf(inputValue) === -1) {
-      tags = [...tags, inputValue.trim()];
+      tags = [...tags, inputValue.trimStart()];
     }
 
     localStorage.setItem("tags", JSON.stringify(tags));
@@ -101,7 +112,6 @@ class EditableTagGroup extends React.Component {
                   this.handleClose(tag);
                 }}
               >
-                {console.log('tag', tag)}
                 {isLongTag ? `${tag.slice(0, 20)}...` : tag}
               </Tag>
             );
@@ -124,6 +134,7 @@ class EditableTagGroup extends React.Component {
               onPressEnter={this.handleInputConfirm}
               addonBefore={!isEdit ? addonValue : null}
               maxLength={255}
+              disabled={isShowSuggestions}
             />
           )}
 
