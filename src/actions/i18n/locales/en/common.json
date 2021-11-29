@@ -308,6 +308,11 @@
       "user_group": "{{U}} {{G}}",
       "new_password": "New password",
       "detail_list": {
+        "back5":"Back 5 minutes",
+        "play":"Play",
+        "pause":"Pause",
+        "forward5":"Forward 5 minutes",
+        "speed":"Speed",
         "star":"Set as default display",
         "gird1":"Gird 1x1",
         "gird2":"Gird 2x2",

@@ -310,6 +310,11 @@
       "user_group": "{{G}} {{u}}",
       "new_password": "Mật khẩu mới",
       "detail_list": {
+        "back5":"Quay lại 5 phút trước",
+        "play":"Phát",
+        "pause":"Tạm dừng",
+        "forward5":"Tiến lên 5 phút sau",
+        "speed":"Tốc độ",
         "star":"Đặt làm màn hình mặc định",
         "gird1":"Lưới 1x1",
         "gird2":"Lưới 2x2",
