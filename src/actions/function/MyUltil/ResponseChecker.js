@@ -22,6 +22,10 @@ const AuthZStatusNotFound = 603;
 const AuthZStatusConflict = 604;
 const AuthZStatusForbidden = 605;
 const AuthZStatusInternalServerError = 606;
+const AuthZWrongPass = 607;
+const AuthZAccountNotExists = 608;
+const AuthZAccountAlreadyExists = 609;
+
 
 export const handleErrCodeAuthZ = (data) => {
   const { code, message, deny_permission_codes } = data || {};
@@ -60,7 +64,18 @@ export const handleErrCodeAuthZ = (data) => {
       errCode.description = message;
       Notification(errCode);
       return null;
-
+    case AuthZWrongPass:
+      errCode.description = 'Đăng nhập không thành công. Vui lòng kiểm tra lại mật khẩu';
+      Notification(errCode);
+      return null;
+    case AuthZAccountNotExists:
+      errCode.description = 'Đăng nhập không thành công. Email không tồn tại trong hệ thống';
+      Notification(errCode);
+      return null;
+    case AuthZAccountAlreadyExists:
+      errCode.description = 'Email đã tồn tại trong hệ thống';
+      Notification(errCode);
+      return null;
     default:
       errCode.description = 'Unknown';
       Notification(errCode);
