@@ -45,7 +45,7 @@ function Chart(props) {
   }
 
   if(props.isLoading){
-    return <Loading />
+    return null;
   }
 
   return (

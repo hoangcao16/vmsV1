@@ -86,7 +86,7 @@ function PieChartComponents(props) {
   }
 
   if(props.isLoading){
-    return <Loading />
+    return null;
   }
 
   return (

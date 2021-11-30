@@ -55,75 +55,93 @@ function BarChartComponent(props) {
     return null;
   }
 
-  if(props.isLoading){
-    return <Loading />
+  if (props.isLoading) {
+    return null;
   }
-  if (!isEmpty(data)) {
-    console.log("data", data)
-    const a = Object.values(data)
-    console.log("data_values", Object.values(data))
-  }
+
   const dataConvert = (data) => {
-    // if (isEmpty(data)) {
-    //   return;
-    // } 
-    // const dataNoName = data[0];
+    console.log('data:',data);
+    if (isEmpty(data)) {
+      return;
+    }
+    console.log("data", data);
+    console.log("data_values", Object.values(data));
+    const dataNoName = Object.values(data)[0]
+    console.log("dataNoName:",dataNoName)
 
-    // delete dataNoName.time;
+    delete dataNoName.time;
 
-    // const keyArr = Object.keys(dataNoName);
-    // return keyArr.map((k) => {
-    //   return <Bar dataKey={k} fill={randomColor()} />;
-    // });
+    const keyArr = Object.keys(dataNoName);
+    return keyArr.map((k) => {
+      return <Bar dataKey={k} fill={randomColor()} />;
+    });
   };
 
+  if (isEmpty(data)) {
+    return null;
+  }
   return (
     <>
       {!props.isShowLineAndPieChart && (
         <div className="BarChart">
-          {isEmpty(data) ? <>
+          {isEmpty(data) ? (
+            <>
               <div className="BarChart__title">
                 <h3>
                   {" "}
-                  {t("view.report.compare_chart")} {props.title.toUpperCase()}{" "}
+                  {t(
+                    "view.report.compare_chart"
+                  )} {props.title.toUpperCase()}{" "}
                 </h3>
               </div>
-              <div className="BarChart__no-data"><span className="BarChart__no-data__title">{t('noti.choose_event')}</span></div>
-            </> : 
-            <><div className="BarChart__title">
-              <h3>
-                {" "}
-                {t("view.report.compare_chart")} {props.title.toUpperCase()}{" "}
-              </h3>
-              <ExportReport currentDataSource={data} />
-            </div>
-            <div><ResponsiveContainer
-                width="95%"
-                aspect={3 / 1}
-                className="ResponsiveContainer"
-              >
-                <BarChart
-                  width={500}
-                  height={300}
-                  data={data}
-                  margin={{
-                    top: 5,
-                    right: 30,
-                    left: 20,
-                    bottom: 5,
-                  }}
-                >
-                  <CartesianGrid strokeDasharray="3 3" />
-                  <XAxis dataKey="time" />
-                  <YAxis />
-                  <Tooltip />
-                  <Legend />
-                  {dataConvert(data)}
-                </BarChart>
-              
-              </ResponsiveContainer></div>
+              <div className="BarChart__no-data">
+                <span className="BarChart__no-data__title">
+                  {t("noti.choose_event")}
+                </span>
+              </div>
             </>
-          }
+          ) : (
+            <>
+              {Object.keys(data).map((item, i) => (
+                <>
+                  <div className="BarChart__title">
+                    <h3>
+                      {" "}
+                      {t("view.report.compare_chart")}{" "}
+                      {props.title.toUpperCase()}{" "}
+                    </h3>
+                    <ExportReport currentDataSource={data} />
+                  </div>
+                  <div>
+                    <ResponsiveContainer
+                      width="95%"
+                      aspect={3 / 1}
+                      className="ResponsiveContainer"
+                    >
+                      <BarChart
+                        width={500}
+                        height={300}
+                        data={data[item]}
+                        margin={{
+                          top: 5,
+                          right: 30,
+                          left: 20,
+                          bottom: 5,
+                        }}
+                      >
+                        <CartesianGrid strokeDasharray="3 3" />
+                        <XAxis dataKey="time" />
+                        <YAxis />
+                        <Tooltip />
+                        <Legend />
+                        {dataConvert(data[item])}
+                      </BarChart>
+                    </ResponsiveContainer>
+                  </div>
+                </>
+              ))}
+            </>
+          )}
         </div>
       )}
     </>
