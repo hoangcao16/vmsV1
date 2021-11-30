@@ -1,29 +1,61 @@
+import { LoadingOutlined, PlusOutlined } from "@ant-design/icons";
+import { Button, Col, Form, Input, Row, Select, Space, Upload } from "antd";
+import { isEmpty } from "lodash";
 import React, { useEffect, useState } from "react";
-import { v4 as uuidV4 } from "uuid";
-import { Button, Col, Form, Input, Row, Select, Upload, Space } from "antd";
+import { useTranslation } from "react-i18next";
 import AddressApi from "../../../actions/api/address/AddressApi";
 import AdDivisionApi from "../../../actions/api/advision/AdDivision";
-import { LoadingOutlined, PlusOutlined } from "@ant-design/icons";
-import cameraTypeApi from "../../../api/controller-api/cameraTypeApi";
-import vendorApi from "../../../api/controller-api/vendorApi";
+import CameraApi from "../../../actions/api/camera/CameraApi";
+import VendorApi from "../../../actions/api/vendor/VendorApi";
+import ZoneApi from "../../../actions/api/zone/ZoneApi";
+import useHandleUploadFile from "../../../hooks/useHandleUploadFile";
+import { DATA_FAKE_CAMERA } from "../../camera/ModalAddCamera";
+import { compareName } from "../../camera/ModalEditCamera";
 import {
   filterOption,
   normalizeOptions,
 } from "../../common/select/CustomSelect";
-import zoneApi from "../../../api/controller-api/zoneApi";
-import Notification from "../../../components/vms/notification/Notification";
-import ExportEventFileApi from "../../../actions/api/exporteventfile/ExportEventFileApi";
-import useHandleUploadFile from "../../../hooks/useHandleUploadFile";
-import { useTranslation } from "react-i18next";
 
 const { Dragger } = Upload;
 
 async function fetchSelectOptions() {
-  const provinces = await AddressApi.getAllProvinces();
-  const zones = await zoneApi.getAll();
-  const adDivisions = await AdDivisionApi.getAllAdDivision();
-  const cameraTypes = await cameraTypeApi.getAll();
-  const vendors = await vendorApi.getAll();
+  const data = {
+    name: "",
+    id: "",
+    provinceId: "",
+    districtId: "",
+  };
+  let provinces = await AddressApi.getAllProvinces();
+
+  if (isEmpty(provinces)) {
+    provinces = DATA_FAKE_CAMERA.provinces;
+  }
+  let zones = await ZoneApi.getAllZones(data);
+
+  if (isEmpty(zones)) {
+    zones = DATA_FAKE_CAMERA.zones;
+  }
+
+  let adDivisions = await AdDivisionApi.getAllAdDivision(data);
+
+  if (isEmpty(adDivisions)) {
+    adDivisions = DATA_FAKE_CAMERA.adDivisions;
+  }
+
+  let cameraTypes = await CameraApi.getAllCameraTypes(data);
+
+  if (isEmpty(cameraTypes)) {
+    cameraTypes = DATA_FAKE_CAMERA.cameraTypes;
+  } else {
+    cameraTypes = cameraTypes.sort(compareName);
+  }
+
+  let vendors = await VendorApi.getAllVendor(data);
+
+  if (isEmpty(vendors)) {
+    vendors = DATA_FAKE_CAMERA.vendors;
+  }
+
   return {
     provinces,
     zones,
@@ -153,6 +185,8 @@ const MapCameraAdd = (props) => {
 
   const { provinces, zones, vendors, cameraTypes, adDivisions } = filterOptions;
 
+  console.log("adDivisions:", adDivisions);
+
   const uploadButton = (
     <div>
       {loading ? <LoadingOutlined /> : <PlusOutlined />}
@@ -209,6 +243,7 @@ const MapCameraAdd = (props) => {
         <Row gutter={12}>
           <Col span={24} className="pb-1">
             <Dragger
+              accept=".png,.jpeg,.jpg"
               name="avatar"
               listType="picture-card"
               className="camera-image"
@@ -243,6 +278,12 @@ const MapCameraAdd = (props) => {
                   plsEnter: t("please_enter"),
                   cam: t("camera"),
                 })}
+                maxLength={255}
+                onBlur={(e) => {
+                  form.setFieldsValue({
+                    name: e.target.value.trim(),
+                  });
+                }}
               />
             </Form.Item>
           </Col>
@@ -261,6 +302,12 @@ const MapCameraAdd = (props) => {
                   cam: t("camera"),
                 })}
                 value={editCam?.name}
+                maxLength={255}
+                onBlur={(e) => {
+                  form.setFieldsValue({
+                    code: e.target.value.trim(),
+                  });
+                }}
               />
             </Form.Item>
           </Col>
@@ -285,7 +332,13 @@ const MapCameraAdd = (props) => {
         </Row>
         <Row gutter={12}>
           <Col span={24}>
-            <Form.Item name="vendorUuid" label={t("view.map.vendor")}>
+            <Form.Item
+              name="vendorUuid"
+              label={t("view.map.vendor")}
+              rules={[
+                { required: true, message: t("view.map.required_field") },
+              ]}
+            >
               <Select
                 dataSource={vendors || []}
                 filterOption={filterOption}
@@ -318,7 +371,15 @@ const MapCameraAdd = (props) => {
                 { required: true, message: t("view.map.required_field") },
               ]}
             >
-              <Input placeholder={t("view.map.please_choose_location")} />
+              <Input
+                placeholder={t("view.map.please_choose_location")}
+                maxLength={255}
+                onBlur={(e) => {
+                  form.setFieldsValue({
+                    address: e.target.value.trim(),
+                  });
+                }}
+              />
             </Form.Item>
           </Col>
 
@@ -368,13 +429,7 @@ const MapCameraAdd = (props) => {
         </Row>
         <Row gutter={12}>
           <Col span={12}>
-            <Form.Item
-              name={["wardId"]}
-              label={t("view.map.ward_id")}
-              rules={[
-                { required: true, message: t("view.map.required_field") },
-              ]}
-            >
+            <Form.Item name={["wardId"]} label={t("view.map.ward_id")}>
               <Select
                 dataSource={wards}
                 filterOption={filterOption}
@@ -407,7 +462,7 @@ const MapCameraAdd = (props) => {
               ]}
             >
               <Input
-                placeholder={t("view.map.please_enter_latitude", {
+                placeholder={t("view.map.please_enter_longitude", {
                   pleEnter: t("please_enter"),
                 })}
                 // defaultValue={initialLatLgn.lng}
@@ -492,6 +547,12 @@ const MapCameraAdd = (props) => {
                 placeholder={t("view.map.please_enter_ip", {
                   plsEnter: t("please_enter"),
                 })}
+                maxLength={255}
+                onBlur={(e) => {
+                  form.setFieldsValue({
+                    ip: e.target.value.trim(),
+                  });
+                }}
               />
             </Form.Item>
           </Col>
@@ -508,6 +569,12 @@ const MapCameraAdd = (props) => {
                 placeholder={t("view.map.please_enter_original_url", {
                   plsEnter: t("please_enter"),
                 })}
+                maxLength={2000}
+                onBlur={(e) => {
+                  form.setFieldsValue({
+                    cameraUrl: e.target.value.trim(),
+                  });
+                }}
               />
             </Form.Item>
           </Col>

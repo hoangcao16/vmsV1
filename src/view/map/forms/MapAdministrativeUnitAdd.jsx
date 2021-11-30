@@ -12,7 +12,7 @@ import zoneApi from "../../../api/controller-api/zoneApi";
 import useHandleUploadFile from "../../../hooks/useHandleUploadFile";
 import {
   filterOption,
-  normalizeOptions,
+  normalizeOptions
 } from "../../common/select/CustomSelect";
 
 const { Dragger } = Upload;
@@ -304,9 +304,6 @@ const MapAdministrativeUnitAdd = (props) => {
             <Form.Item
               name={["wardId"]}
               label={t("view.map.ward_id")}
-              rules={[
-                { required: true, message: t("view.map.required_field") },
-              ]}
             >
               <Select
                 dataSource={wards}
