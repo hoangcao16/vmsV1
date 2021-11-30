@@ -47,7 +47,7 @@ const PlaybackMenuTool = ({
           value={seekToDate}
           defaultValue={moment("2021-09-20", "YYYY-MM-DD")}
           onChange={onDateChange}
-          format="DD-MM-YYYY"
+          // format="DD-MM-YYYY"
           placeholder={t("view.maps.select_date")}
         />
         <TimePicker
