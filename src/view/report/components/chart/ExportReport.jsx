@@ -29,10 +29,10 @@ export default function ExportReport(props) {
       var data = new Blob([value], {type: 'application/force-download'});
       var xlsxURL = window.URL.createObjectURL(data);
       saveAs(xlsxURL, 'Report.xlsx')
-      // const tempLink = document.createElement('a');
-      // tempLink.href = xlsxURL;
-      // tempLink.setAttribute('download', 'Report.xlsx');
-      // tempLink.click();
+      const tempLink = document.createElement('a');
+      tempLink.href = xlsxURL;
+      tempLink.setAttribute('download', 'Report.xlsx');
+      tempLink.click();
     })
     
   }

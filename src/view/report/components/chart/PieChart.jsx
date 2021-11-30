@@ -7,6 +7,7 @@ import ExportReport from './ExportReport';
 import './pieChart.scss';
 import { useTranslation } from 'react-i18next';
 import convertDataChartAndPieChart from '../../../../actions/function/MyUltil/ConvertDataChartAndPieChart';
+import Loading from '../../../common/element/Loading';
 
 var randomColor = require('randomcolor');
 
@@ -82,6 +83,10 @@ function PieChartComponents(props) {
 
   if (isEmpty(dataPieChart)) {
     return null;
+  }
+
+  if(props.isLoading){
+    return <Loading />
   }
 
   return (

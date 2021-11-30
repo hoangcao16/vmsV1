@@ -22,6 +22,7 @@ import './../../../../view/commonStyle/commonInput.scss';
 import './../../../../view/commonStyle/commonSelect.scss';
 import './sidebar.scss';
 import { useTranslation } from 'react-i18next';
+import { reactLocalStorage } from 'reactjs-localstorage';
 
 const { Option } = Select;
 const formItemLayout = {
@@ -138,14 +139,24 @@ function Sidebar(props) {
       AddressApi.getDistrictByProvinceId(provinceId).then(setDistrict);
     }
     if (provinceId.length > 5) {
-      const notifyMess = {
-        type: 'error',
-        title: '',
-        description: 'Số lượng khu vực không được vượt quá 5'
-      };
-      Notification(notifyMess);
-      
-      return;
+      const language = reactLocalStorage.get('language')
+      if (language == 'vn') {
+        const notifyMess = {
+          type: 'error',
+          title: '',
+          description: 'Số lượng khu vực không được vượt quá 5'
+        };
+        Notification(notifyMess);
+        return;
+      } else {
+        const notifyMess = {
+          type: 'error',
+          title: '',
+          description: `The number of areas must not exceed 5`
+        };
+        Notification(notifyMess);
+        return;
+      }
     }
   }, [provinceId]);
 
@@ -187,14 +198,26 @@ function Sidebar(props) {
     setFeildIds(dataFilter.uuid)
     setEventList(dataFilter.eventList);
     if (isEmpty(dataFilter.eventList)) {
-      const notifyMess = {
-        type: 'warning',
-        title: '',
-        description: 'Lĩnh vực này chưa có sự kiện, vui lòng chọn lĩnh vực khác'
-      };
-      Notification(notifyMess);
-      setSelectedRowKeys(null);
-      return;
+      const language = reactLocalStorage.get('language')
+      if (language == 'vn') {
+        const notifyMess = {
+          type: 'warning',
+          title: '',
+          description: 'Lĩnh vực này chưa có sự kiện, vui lòng chọn lĩnh vực khác'
+        };
+        Notification(notifyMess);
+        setSelectedRowKeys(null);
+        return;
+      } else {
+        const notifyMess = {
+          type: 'warning',
+          title: '',
+          description: 'This field does not have any event, please choose another field'
+        };
+        Notification(notifyMess);
+        setSelectedRowKeys(null);
+        return;
+      }
     }
     setSelectedRowKeys([dataFilter.eventList[0].uuid])
     
@@ -322,13 +345,24 @@ function Sidebar(props) {
   const onSelectChange = (selectedRowKeys) => {
     if (isShowLineAndPieChart === true) {
       if (selectedRowKeys.length < 1 || selectedRowKeys.length > 3) {
-        const notifyMess = {
-          type: 'error',
-          title: '',
-          description: 'Số lượng sự kiện phải trong khoảng từ 1 đến 3'
-        };
-        Notification(notifyMess);
-        return;
+        const language = reactLocalStorage.get('language')
+        if (language == 'vn') {
+          const notifyMess = {
+            type: 'error',
+            title: '',
+            description: `Số lượng sự kiện phải trong khoảng từ 1 đến 3`
+          };
+          Notification(notifyMess);
+          return;
+        } else {
+          const notifyMess = {
+            type: 'error',
+            title: '',
+            description: 'Number of events must be in range from 1 to 3'
+          };
+          Notification(notifyMess);
+          return;
+        }
       }
       setSelectedRowKeys(selectedRowKeys);
       props.changeCount(selectedRowKeys);
@@ -350,11 +384,11 @@ function Sidebar(props) {
       };
       props.callData(clearData(data));
     } else {
-      if (selectedRowKeys.length > 1) {
+      if (selectedRowKeys.length > 2) {
         const notifyMess = {
           type: 'error',
           title: '',
-          description: 'Số lượng sự kiện phải bằng 1'
+          description: 'Số lượng sự kiện không được vượt quá 2'
         };
         Notification(notifyMess);
         
@@ -388,26 +422,8 @@ function Sidebar(props) {
       onChange: onSelectChange
     };
     
-  function onChange(value) {
-    setDatatime(value);
-
-    //Call API
-    const data = {
-      pickTime: value,
-      timeStartDay: timeStartDay,
-      timeEndDay: timeEndDay,
-      timeStartMonth: timeStartMonth,
-      timeEndMonth: timeEndMonth,
-      timeStartYear: timeStartYear,
-      timeEndYear: timeEndYear,
-      provinceId: provinceId || ['2'],
-      districtId: districtId,
-      wardId: wardId,
-      fieldId: feildIds,
-      eventList: selectedRowKeys
-    };
-
-    props.callData(clearData(data));
+  const onChangeDateTime = async (dateTime) => {
+    setDatatime(dateTime);
   }
 
   //=================================================================
@@ -437,7 +453,6 @@ function Sidebar(props) {
       fieldId: feildIds,
       eventList: selectedRowKeys
     };
-
     props.callData(clearData(data));
   }
 
@@ -447,7 +462,7 @@ function Sidebar(props) {
     const currentStart = form.getFieldValue('timeStartDay');
 
     const dk = moment(currentStart).add(2, 'days');
-
+    console.log("dk", dk)
     if (!value) {
       form.setFieldsValue({
         timeStartDay: timeStartDay
@@ -460,15 +475,26 @@ function Sidebar(props) {
         timeStartDay: ''
       });
 
-      const notifyMess = {
-        type: 'error',
-        title: '',
-        description:
-          'Khoảng thời gian bạn chọn chưa đúng, vui lòng chọn lại thời gian'
-      };
-      Notification(notifyMess);
-
-      return;
+      const language = reactLocalStorage.get('language')
+      if (language == 'vn') {
+        const notifyMess = {
+          type: 'error',
+          title: '',
+          description:
+            'Khoảng thời gian bạn chọn chưa đúng, vui lòng kiểm tra lại'
+        };
+        Notification(notifyMess);
+        return;
+      } else {
+        const notifyMess = {
+          type: 'error',
+          title: '',
+          description:
+            'Time range you choose is not correct, please check again'
+        };
+        Notification(notifyMess);
+        return;
+      }
     }
 
     //Call API
@@ -517,6 +543,7 @@ function Sidebar(props) {
       pickTime: dataTime,
       timeStartDay: timeStartDay,
       timeEndDay: timeEndDay,
+
       timeStartMonth: value,
       timeEndMonth: timeEndMonth,
       timeStartYear: timeStartYear,
@@ -527,7 +554,6 @@ function Sidebar(props) {
       fieldId: feildIds,
       eventList: selectedRowKeys
     };
-
     props.callData(clearData(data));
   }
 
@@ -535,7 +561,6 @@ function Sidebar(props) {
     setTimeEndMonth(value);
 
     const currentStart = form.getFieldValue('timeStartMonth');
-
     const dk = moment(currentStart).add(2, 'month');
 
     if (!value) {
@@ -550,14 +575,26 @@ function Sidebar(props) {
         timeStartMonth: ''
       });
 
-      const notifyMess = {
-        type: 'error',
-        title: '',
-        description:
-          'Khoảng thời gian bạn chọn chưa đúng, vui lòng chọn lại thời gian'
-      };
-      Notification(notifyMess);
-      return;
+      const language = reactLocalStorage.get('language')
+      if (language == 'vn') {
+        const notifyMess = {
+          type: 'error',
+          title: '',
+          description:
+            'Khoảng thời gian bạn chọn chưa đúng, vui lòng kiểm tra lại'
+        };
+        Notification(notifyMess);
+        return;
+      } else {
+        const notifyMess = {
+          type: 'error',
+          title: '',
+          description:
+            'Time range you choose is not correct, please check again'
+        };
+        Notification(notifyMess);
+        return;
+      }
     }
 
     //Call API
@@ -639,14 +676,26 @@ function Sidebar(props) {
         timeStartYear: ''
       });
 
-      const notifyMess = {
-        type: 'error',
-        title: '',
-        description:
-          'Khoảng thời gian bạn chọn chưa đúng, vui lòng chọn lại thời gian'
-      };
-      Notification(notifyMess);
-      return;
+      const language = reactLocalStorage.get('language')
+      if (language == 'vn') {
+        const notifyMess = {
+          type: 'error',
+          title: '',
+          description:
+            'Khoảng thời gian bạn chọn chưa đúng, vui lòng kiểm tra lại'
+        };
+        Notification(notifyMess);
+        return;
+      } else {
+        const notifyMess = {
+          type: 'error',
+          title: '',
+          description:
+            'Time range you choose is not correct, please check again'
+        };
+        Notification(notifyMess);
+        return;
+      }
     }
 
     //Call API
@@ -691,7 +740,7 @@ function Sidebar(props) {
           <Row gutter={24} style={{ margin: '5px' }}>
             <Col span={24}>
               <Form.Item name={['pickTime']}>
-                <Select defaultValue="day" onChange={onChange}>
+                <Select defaultValue="day" onChange={(dateTime) => onChangeDateTime(dateTime)}>
                   <Option value="day">{t('view.report.day')}</Option>
                   <Option value="month">{t('view.report.month')}</Option>
                   <Option value="year">{t('view.report.year')}</Option>
