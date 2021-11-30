@@ -308,6 +308,10 @@
       "user_group": "{{U}} {{G}}",
       "new_password": "New password",
       "detail_list": {
+        "edit_mode":"Edit Mode",
+        "search_mode":"Search",
+        "dark_mode":"Dark mode",
+        "light_mode":"Light Mode",
         "back5":"Back 5 minutes",
         "play":"Play",
         "pause":"Pause",
