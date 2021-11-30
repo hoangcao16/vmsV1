@@ -20,6 +20,7 @@ const StatusInternalServerError = 606;
 //USER-->controller-->authz
 
 export const handleErrCode = (data) => {
+  console.log('data:',data);
   if (isEmpty(data)) {
     const errCode = {
       type: 'error',
