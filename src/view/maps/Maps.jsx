@@ -431,10 +431,10 @@ const Maps = (props) => {
             playbackCameraSeekTimeCallback={playbackCameraSeekTimeCallback}
           />
         )}
-        <LiveAndPlaybackCam
+        {/* <LiveAndPlaybackCam
           onChaneModePlayCam={handleChaneModePlayCam}
           liveMode={liveMode}
-        />
+        /> */}
       </div>
     </RelativeWrapper>
   );
