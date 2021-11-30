@@ -51,21 +51,6 @@ const renderQuarterTick = (tickProps) => {
 function BarChartComponent(props) {
   const data = props.chartData;
   const { t } = useTranslation();
-  
-  const dataConvert = (data) => {
-    if (isEmpty(data)) {
-      return;
-    } 
-    const dataNoName = data[0];
-
-    delete dataNoName.time;
-
-    const keyArr = Object.keys(dataNoName);
-    return keyArr.map((k) => {
-      return <Bar dataKey={k} fill={randomColor()} />;
-    });
-  };
-
   if (props.isShowLineAndPieChart) {
     return null;
   }
@@ -73,6 +58,24 @@ function BarChartComponent(props) {
   if(props.isLoading){
     return <Loading />
   }
+  if (!isEmpty(data)) {
+    console.log("data", data)
+    const a = Object.values(data)
+    console.log("data_values", Object.values(data))
+  }
+  const dataConvert = (data) => {
+    // if (isEmpty(data)) {
+    //   return;
+    // } 
+    // const dataNoName = data[0];
+
+    // delete dataNoName.time;
+
+    // const keyArr = Object.keys(dataNoName);
+    // return keyArr.map((k) => {
+    //   return <Bar dataKey={k} fill={randomColor()} />;
+    // });
+  };
 
   return (
     <>

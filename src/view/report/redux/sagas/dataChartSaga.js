@@ -42,7 +42,6 @@ export function* handleDataChartLoad(action) {
   try {
     if (!isEmpty(payloadDataChart.eventId)) {
       const data = yield call(() => ReportApi.getChartData(payloadDataChart).then((data)=>{
-        console.log("data", data)
         return data
       }));
       yield put(setDataChart(data));
