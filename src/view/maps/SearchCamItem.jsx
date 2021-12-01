@@ -1,10 +1,13 @@
 import { SearchOutlined } from "@ant-design/icons";
+import { Tooltip } from "antd";
 import { isEmpty } from "lodash";
 import React, { useRef, useState } from "react";
+import { useTranslation } from "react-i18next";
 import { connect } from "react-redux";
 import EditableTagGroup from "./EditableTagGroup";
 
 const SearchCamItem = (props) => {
+  const {t } = useTranslation()
   const searchCamRef = useRef(null);
   const [expandSearch, setExpandSearch] = useState(false);
   const handleExpandSearchBar = () => {
@@ -21,7 +24,13 @@ const SearchCamItem = (props) => {
       <div className="search-box">
         {expandSearch && <EditableTagGroup />}
         <div className="search-icon" onClick={handleExpandSearchBar}>
-          <SearchOutlined />
+          <Tooltip
+            placement="top"
+            title={t("view.user.detail_list.search_mode")}
+            arrowPointAtCenter={true}
+          >
+            <SearchOutlined />
+          </Tooltip>
         </div>
       </div>
       {!isEmpty(props.cameraTags) && (

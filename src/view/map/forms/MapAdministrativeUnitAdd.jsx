@@ -1,15 +1,8 @@
 import { LoadingOutlined, PlusOutlined } from "@ant-design/icons";
-import {
-    Button,
-    Col,
-    Form,
-    Input,
-    Row,
-    Select, Space, Upload
-} from "antd";
+import { Button, Col, Form, Input, Row, Select, Space, Upload } from "antd";
 import React, { useEffect, useState } from "react";
-import { useTranslation } from 'react-i18next';
-import validator from 'validator';
+import { useTranslation } from "react-i18next";
+import validator from "validator";
 import { AdministrativeUnitType } from "../../../@core/common/common";
 import AddressApi from "../../../actions/api/address/AddressApi";
 import AdDivisionApi from "../../../actions/api/advision/AdDivision";
@@ -18,313 +11,394 @@ import vendorApi from "../../../api/controller-api/vendorApi";
 import zoneApi from "../../../api/controller-api/zoneApi";
 import useHandleUploadFile from "../../../hooks/useHandleUploadFile";
 import {
-    filterOption,
-    normalizeOptions
+  filterOption,
+  normalizeOptions,
 } from "../../common/select/CustomSelect";
-
 
 const { Dragger } = Upload;
 async function fetchSelectOptions() {
-    const provinces = await AddressApi.getAllProvinces();
-    const zones = await zoneApi.getAll();
-    const adDivisions = await AdDivisionApi.getAllAdDivision();
-    const cameraTypes = await cameraTypeApi.getAll()
-    const vendors = await vendorApi.getAll()
-    return {
-        provinces,
-        zones,
-        adDivisions,
-        cameraTypes,
-        vendors,
-    };
+  const provinces = await AddressApi.getAllProvinces();
+  const zones = await zoneApi.getAll();
+  const adDivisions = await AdDivisionApi.getAllAdDivision();
+  const cameraTypes = await cameraTypeApi.getAll();
+  const vendors = await vendorApi.getAll();
+  return {
+    provinces,
+    zones,
+    adDivisions,
+    cameraTypes,
+    vendors,
+  };
 }
 
 const MapAdministrativeUnitAdd = (props) => {
-    const { t } = useTranslation();
-    const [form] = Form.useForm();
-    const [imgFile, setImgFile] = useState('');
-    const [isCollapsedCameraForm, setIsCollapsedCameraForm] = useState(false);
-    const [imageUrl, imgFileName, loading, handleChange, uploadImage, beforeUpload] = useHandleUploadFile(imgFile);
-    const { initialLatLgn, editAdminisUnit, handleSubmitCallback, selectNewPosition } = props;
+  const { t } = useTranslation();
+  const [form] = Form.useForm();
+  const [imgFile, setImgFile] = useState("");
+  const [isCollapsedCameraForm, setIsCollapsedCameraForm] = useState(false);
+  const [
+    imageUrl,
+    imgFileName,
+    loading,
+    handleChange,
+    uploadImage,
+    beforeUpload,
+  ] = useHandleUploadFile(imgFile);
+  const {
+    initialLatLgn,
+    editAdminisUnit,
+    handleSubmitCallback,
+    selectNewPosition,
+  } = props;
 
-    useEffect(() => {
-        if (editAdminisUnit != null) {
-            setProvinceId(editAdminisUnit.provinceId)
-            form.setFieldsValue({
-                uuid: editAdminisUnit.uuid,
-                name: editAdminisUnit.name,
-                long_: editAdminisUnit.long_,
-                lat_: editAdminisUnit.lat_,
-                address: editAdminisUnit.address,
-                provinceId: editAdminisUnit.provinceId,
-                districtId: editAdminisUnit.districtId,
-                wardId: editAdminisUnit.wardId,
-                tel: editAdminisUnit.tel,
-            })
-            if (selectNewPosition) {
-                form.setFieldsValue({
-                    long_: initialLatLgn[0],
-                    lat_: initialLatLgn[1],
-                })
-            }
-
-        } else {
-            if (selectNewPosition) {
-                form.setFieldsValue({
-                    long_: initialLatLgn[0],
-                    lat_: initialLatLgn[1],
-                })
-            }
-        }
-        setImgFile(editAdminisUnit?.avatarFileName)
-    }, [editAdminisUnit, form, initialLatLgn[0], initialLatLgn[1], selectNewPosition])
-
-
-    const toggleCollapsedCameraForm = () => {
-        setIsCollapsedCameraForm(isCollapsedCameraForm ? false : true);
-    };
-
-
-
-    const [filterOptions, setFilterOptions] = useState({});
-
-    const [provinceId, setProvinceId] = useState(null);
-
-    const [districts, setDistrict] = useState([]);
-
-    const [districtId, setDistrictId] = useState(null);
-
-    const [wards, setWard] = useState([]);
-
-    useEffect(() => {
-        fetchSelectOptions().then(setFilterOptions);
-    }, []);
-
-
-    useEffect(() => {
-        setDistrict([]);
-        if (provinceId) {
-            AddressApi.getDistrictByProvinceId(provinceId).then(setDistrict);
-        }
-        if (editAdminisUnit && editAdminisUnit.districtId) {
-            AddressApi.getWardByDistrictId(editAdminisUnit.districtId).then(setWard);
-        }
-    }, [editAdminisUnit, provinceId]);
-
-    useEffect(() => {
-        setWard([]);
-        if (districtId) {
-            AddressApi.getWardByDistrictId(districtId).then(setWard);
-        }
-    }, [districtId, provinceId]);
-
-    const { provinces } = filterOptions;
-
-    const uploadButton = (
-        <div>
-            {loading ? <LoadingOutlined /> : <PlusOutlined />}
-            <div style={{ marginTop: 8 }}>{t('view.map.add_image')}</div>
-        </div>
-    );
-
-    const onChangeCity = async (cityId) => {
-        setProvinceId(cityId);
-
-        await resetDistrictAndWardData();
-    };
-
-    function resetDistrictAndWardData() {
-        form.setFieldsValue({ districtId: null, wardId: null });
+  useEffect(() => {
+    if (editAdminisUnit != null) {
+      setProvinceId(editAdminisUnit.provinceId);
+      form.setFieldsValue({
+        uuid: editAdminisUnit.uuid,
+        name: editAdminisUnit.name,
+        long_: editAdminisUnit.long_,
+        lat_: editAdminisUnit.lat_,
+        address: editAdminisUnit.address,
+        provinceId: editAdminisUnit.provinceId,
+        districtId: editAdminisUnit.districtId,
+        wardId: editAdminisUnit.wardId,
+        tel: editAdminisUnit.tel,
+      });
+      if (selectNewPosition) {
+        form.setFieldsValue({
+          long_: initialLatLgn[0],
+          lat_: initialLatLgn[1],
+        });
+      }
+    } else {
+      if (selectNewPosition) {
+        form.setFieldsValue({
+          long_: initialLatLgn[0],
+          lat_: initialLatLgn[1],
+        });
+      }
     }
+    setImgFile(editAdminisUnit?.avatarFileName);
+  }, [
+    editAdminisUnit,
+    form,
+    initialLatLgn[0],
+    initialLatLgn[1],
+    selectNewPosition,
+  ]);
 
-    const onChangeDistrict = async (districtId) => {
-        setDistrictId(districtId);
-        await resetWardData();
-    };
+  const toggleCollapsedCameraForm = () => {
+    setIsCollapsedCameraForm(isCollapsedCameraForm ? false : true);
+  };
 
-    function resetWardData() {
-        form.setFieldsValue({ wardId: null });
+  const [filterOptions, setFilterOptions] = useState({});
+
+  const [provinceId, setProvinceId] = useState(null);
+
+  const [districts, setDistrict] = useState([]);
+
+  const [districtId, setDistrictId] = useState(null);
+
+  const [wards, setWard] = useState([]);
+
+  useEffect(() => {
+    fetchSelectOptions().then(setFilterOptions);
+  }, []);
+
+  useEffect(() => {
+    setDistrict([]);
+    if (provinceId) {
+      AddressApi.getDistrictByProvinceId(provinceId).then(setDistrict);
     }
+    if (editAdminisUnit && editAdminisUnit.districtId) {
+      AddressApi.getWardByDistrictId(editAdminisUnit.districtId).then(setWard);
+    }
+  }, [editAdminisUnit, provinceId]);
 
-    const handleSubmit = async (value) => {
+  useEffect(() => {
+    setWard([]);
+    if (districtId) {
+      AddressApi.getWardByDistrictId(districtId).then(setWard);
+    }
+  }, [districtId, provinceId]);
 
-        const payload = {
-            ...value,
-            avatarFileName: imgFileName
-        };
-        handleSubmitCallback(payload, AdministrativeUnitType)
+  const { provinces } = filterOptions;
 
+  const uploadButton = (
+    <div>
+      {loading ? <LoadingOutlined /> : <PlusOutlined />}
+      <div style={{ marginTop: 8 }}>{t("view.map.add_image")}</div>
+    </div>
+  );
+
+  const onChangeCity = async (cityId) => {
+    setProvinceId(cityId);
+
+    await resetDistrictAndWardData();
+  };
+
+  function resetDistrictAndWardData() {
+    form.setFieldsValue({ districtId: null, wardId: null });
+  }
+
+  const onChangeDistrict = async (districtId) => {
+    setDistrictId(districtId);
+    await resetWardData();
+  };
+
+  function resetWardData() {
+    form.setFieldsValue({ wardId: null });
+  }
+
+  const handleSubmit = async (value) => {
+    const payload = {
+      ...value,
+      avatarFileName: imgFileName,
     };
+    handleSubmitCallback(payload, AdministrativeUnitType);
+  };
 
-    const onReset = () => {
-        form.resetFields();
-    };
+  const onReset = () => {
+    form.resetFields();
+  };
 
-    const onTelChange = (rule, value, callback) => {
-        const tel = form.getFieldValue('tel')
-        const isValidPhoneNumber = validator.isMobilePhone(tel)
-        if (!isValidPhoneNumber) {
-            callback(t('view.map.invalid_phone_number'))
-        } else {
-            callback()
-        }
-    };
+  const onTelChange = (rule, value, callback) => {
+    const tel = form.getFieldValue("tel");
+    const isValidPhoneNumber = validator.isMobilePhone(tel);
+    if (!isValidPhoneNumber) {
+      callback(t("view.map.invalid_phone_number"));
+    } else {
+      callback();
+    }
+  };
 
-    return (
-        <div
-            className={
-                "camera-form position-absolute d-flex flex-column" +
-                (isCollapsedCameraForm ? " collapsed" : "")
-            }
-        >
-            <a className="toggle-collapse" onClick={toggleCollapsedCameraForm} />
-            <Form
-                className="camera-form-inner"
-                layout="vertical"
-                form={form}
-                fields={[]}
-                onFinish={handleSubmit}
+  return (
+    <div
+      className={
+        "camera-form position-absolute d-flex flex-column" +
+        (isCollapsedCameraForm ? " collapsed" : "")
+      }
+    >
+      <a className="toggle-collapse" onClick={toggleCollapsedCameraForm} />
+      <Form
+        className="camera-form-inner"
+        layout="vertical"
+        form={form}
+        fields={[]}
+        onFinish={handleSubmit}
+      >
+        <Row gutter={12}>
+          <Col span={24} className="pb-1">
+            <Dragger
+              name="avatar"
+              listType="picture-card"
+              className="camera-image"
+              showUploadList={false}
+              action="https://www.mocky.io/v2/5cc8019d300000980a055e76"
+              beforeUpload={beforeUpload}
+              onChange={handleChange}
+              customRequest={uploadImage}
             >
-                <Row gutter={12}>
-                    <Col span={24} className="pb-1">
-                        <Dragger
-                            name="avatar"
-                            listType="picture-card"
-                            className="camera-image"
-                            showUploadList={false}
-                            action="https://www.mocky.io/v2/5cc8019d300000980a055e76"
-                            beforeUpload={beforeUpload}
-                            onChange={handleChange}
-                            customRequest={uploadImage}
-                        >
-                            {imageUrl ? (
-                                <img src={imageUrl} alt="avatar" style={{ width: "100%" }} />
-                            ) : (
-                                uploadButton
-                            )}
-                        </Dragger>
-                    </Col>
-                    <Col span={24} hidden={true}>
-                        <Form.Item
-                            name={["uuid"]}
-                        >
-                            <Input placeholder="uuid" />
-                        </Form.Item>
-                    </Col>
-                    <Col span={24}>
-                        <Form.Item
-                            name={["name"]}
-                            label={t('view.map.unit_name')}
-                            rules={[{ required: true, message: t('view.map.required_field') }]}
-                        >
-                            <Input placeholder={t('view.map.please_enter_unit_name', { plsEnter: t('please_enter') })} />
-                        </Form.Item>
-                    </Col>
-                </Row>
-                <Row gutter={12} className="camera-form-inner__item">
-                    <Col span={24}>
-                        <Form.Item
-                            name={["address"]}
-                            label={t('view.map.address')}
-                        >
-                            <Input placeholder={t('view.map.please_enter_your_address', { plsEnter: t('please_enter') })} />
-                        </Form.Item>
-                    </Col>
-                </Row>
-                <Row gutter={12}>
-                    <Col span={24}>
-                        <Form.Item
-                            label={t('view.map.phone_number')}
-                            name={["tel"]}
-                            rules={[{ validator: onTelChange }]}
-                        >
-                            <Input placeholder={t('view.map.please_enter_your_phone_number', { plsEnter: t('please_enter') })}></Input>
-                        </Form.Item>
-                    </Col>
-                </Row>
-                <Row gutter={12}>
-                    <Col span={12}>
-                        <Form.Item
-                            name={["provinceId"]}
-                            label={t('view.map.province_id')}
-                            rules={[{ required: true, message: t('view.map.required_field') }]}
-                        >
-                            <Select
-                                dataSource={provinces || []}
-                                onChange={(cityId) => onChangeCity(cityId)}
-                                filterOption={filterOption}
-                                options={normalizeOptions("name", "provinceId", provinces || [])}
-                                placeholder={t('view.map.province_id')}
-                            />
-                        </Form.Item>
-                    </Col>
+              {imageUrl ? (
+                <img src={imageUrl} alt="avatar" style={{ width: "100%" }} />
+              ) : (
+                uploadButton
+              )}
+            </Dragger>
+          </Col>
+          <Col span={24} hidden={true}>
+            <Form.Item name={["uuid"]}>
+              <Input placeholder="uuid" />
+            </Form.Item>
+          </Col>
+          <Col span={24}>
+            <Form.Item
+              name={["name"]}
+              label={t("view.map.unit_name")}
+              rules={[
+                { required: true, message: t("view.map.required_field") },
+              ]}
+            >
+              <Input
+                placeholder={t("view.map.please_enter_unit_name", {
+                  plsEnter: t("please_enter"),
+                })}
+              />
+            </Form.Item>
+          </Col>
+        </Row>
+        <Row gutter={12} className="camera-form-inner__item">
+          <Col span={24}>
+            <Form.Item name={["address"]} label={t("view.map.address")}>
+              <Input
+                placeholder={t("view.map.please_enter_your_address", {
+                  plsEnter: t("please_enter"),
+                })}
+              />
+            </Form.Item>
+          </Col>
+        </Row>
+        <Row gutter={12}>
+          <Col span={24}>
+            <Form.Item
+              label={t("view.map.phone_number")}
+              name={["tel"]}
+              rules={[{ validator: onTelChange }]}
+            >
+              <Input
+                placeholder={t("view.map.please_enter_your_phone_number", {
+                  plsEnter: t("please_enter"),
+                })}
+              ></Input>
+            </Form.Item>
+          </Col>
+        </Row>
+        <Row gutter={12}>
+          <Col span={12}>
+            <Form.Item
+              name={["provinceId"]}
+              label={t("view.map.province_id")}
+              rules={[
+                { required: true, message: t("view.map.required_field") },
+              ]}
+            >
+              <Select
+                dataSource={provinces || []}
+                onChange={(cityId) => onChangeCity(cityId)}
+                filterOption={filterOption}
+                options={normalizeOptions(
+                  "name",
+                  "provinceId",
+                  provinces || []
+                )}
+                placeholder={t("view.map.province_id")}
+              />
+            </Form.Item>
+          </Col>
 
-                    <Col span={12}>
-                        <Form.Item
-                            name={["districtId"]}
-                            label={t('view.map.district_id')}
-                            rules={[{ required: true, message: t('view.map.required_field') }]}
-                        >
-                            <Select
-                                dataSource={districts}
-                                onChange={(districtId) => onChangeDistrict(districtId)}
-                                filterOption={filterOption}
-                                options={normalizeOptions("name", "districtId", districts || [])}
-                                placeholder={t('view.map.district_id')}
-                            />
-                        </Form.Item>
-                    </Col>
-                </Row>
-                <Row gutter={12}>
-                    <Col span={12}>
-                        <Form.Item
-                            name={["wardId"]}
-                            label={t('view.map.ward_id')}
-                            rules={[{ required: true, message: t('view.map.required_field') }]}
-                        >
-                            <Select
-                                dataSource={wards}
-                                filterOption={filterOption}
-                                options={normalizeOptions("name", "id", wards || [])}
-                                placeholder={t('view.map.ward_id')}
-                            />
-                        </Form.Item>
-                    </Col>
-                </Row>
-                <Row gutter={12}>
-                    <Col span={12}>
-                        <Form.Item label={t('view.map.longitude')} name={["long_"]}>
-                            <Input
-                                placeholder={t('view.map.longitude')}
-                            />
-                        </Form.Item>
-                    </Col>
-                    <Col span={12}>
-                        <Form.Item label={t('view.map.latitude')} name={["lat_"]}>
-                            <Input
-                                placeholder={t('view.map.latitude')}
-                            />
-                        </Form.Item>
-                    </Col>
-                </Row>
+          <Col span={12}>
+            <Form.Item
+              name={["districtId"]}
+              label={t("view.map.district_id")}
+              rules={[
+                { required: true, message: t("view.map.required_field") },
+              ]}
+            >
+              <Select
+                dataSource={districts}
+                onChange={(districtId) => onChangeDistrict(districtId)}
+                filterOption={filterOption}
+                options={normalizeOptions(
+                  "name",
+                  "districtId",
+                  districts || []
+                )}
+                placeholder={t("view.map.district_id")}
+              />
+            </Form.Item>
+          </Col>
+        </Row>
+        <Row gutter={12}>
+          <Col span={12}>
+            <Form.Item name={["wardId"]} label={t("view.map.ward_id")}>
+              <Select
+                dataSource={wards}
+                filterOption={filterOption}
+                options={normalizeOptions("name", "id", wards || [])}
+                placeholder={t("view.map.ward_id")}
+              />
+            </Form.Item>
+          </Col>
+        </Row>
+        <Row gutter={12}>
+          <Col span={12}>
+            <Form.Item
+              label={t("view.map.longitude")}
+              name={["long_"]}
+              rules={[
+                ({ getFieldValue }) => ({
+                  validator(rule, value) {
+                    const data = getFieldValue(["long_"]);
+                    if (data) {
+                      if (
+                        isFinite(data) &&
+                        Math.abs(data) <= 180 &&
+                        data[0] !== "." &&
+                        data[data.length - 1] !== "."
+                      ) {
+                        return Promise.resolve();
+                      } else {
+                        return Promise.reject(`${t("view.map.long_error")}`);
+                      }
+                    } else {
+                      return Promise.resolve(`${t("view.map.required_field")}`);
+                    }
+                  },
+                }),
+              ]}
+            >
+              <Input placeholder={t("view.map.longitude")} />
+            </Form.Item>
+          </Col>
+          <Col span={12}>
+            <Form.Item
+              label={t("view.map.latitude")}
+              name={["lat_"]}
+              rules={[
+                ({ getFieldValue }) => ({
+                  validator(rule, value) {
+                    const data = getFieldValue(["lat_"]);
+                    if (data) {
+                      if (
+                        isFinite(data) &&
+                        Math.abs(data) <= 90 &&
+                        data[0] !== "." &&
+                        data[data.length - 1] !== "."
+                      ) {
+                        return Promise.resolve();
+                      } else {
+                        return Promise.reject(`${t("view.map.lat_error")}`);
+                      }
+                    } else {
+                      return Promise.resolve(`${t("view.map.required_field")}`);
+                    }
+                  },
+                }),
+              ]}
+            >
+              <Input type="number" placeholder={t("view.map.latitude")} />
+            </Form.Item>
+          </Col>
+        </Row>
 
-                <div
-                    className="submit"
-                    style={{
-                        textAlign: "center",
-                    }}
-                >
-                    <Space>
-                        <Button className="submit__button submit__button--cancel" htmlType="button" ghost
-                            onClick={onReset}>{t('view.map.button_cancel')}</Button>
-                        <Button className="submit__button" type="primary" htmlType="submit ">
-                            {t('view.map.button_save')}
-                        </Button>
-                    </Space>
-                </div>
-            </Form>
+        <div
+          className="submit"
+          style={{
+            textAlign: "center",
+          }}
+        >
+          <Space>
+            <Button
+              className="submit__button submit__button--cancel"
+              htmlType="button"
+              ghost
+              onClick={onReset}
+            >
+              {t("view.map.button_cancel")}
+            </Button>
+            <Button
+              className="submit__button"
+              type="primary"
+              htmlType="submit "
+            >
+              {t("view.map.button_save")}
+            </Button>
+          </Space>
         </div>
-    );
+      </Form>
+    </div>
+  );
 };
 
 export default MapAdministrativeUnitAdd;

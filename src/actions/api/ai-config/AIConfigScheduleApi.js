@@ -54,7 +54,22 @@ const AIConfigScheduleApi = {
     }
     return true;
   },
-  
+  copyConfigSchedule: async (uuid, payload) => {
+    let result;
+
+    try {
+      result = await AIService.postRequestData(
+        `/api/v1/config_schedule/${uuid}/copy`,
+        payload
+      );
+    } catch (error) {
+      console.log(error);
+    }
+    if (handleErrCodeAI(result) === null) {
+      return false;
+    }
+    return true;
+  },
   deleteConfigSchedule: async (uuid) => {
     let result;
     try {

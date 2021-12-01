@@ -1,4 +1,4 @@
-import { LoadingOutlined, PlusOutlined, UserOutlined } from '@ant-design/icons';
+import { LoadingOutlined, PlusOutlined, UserOutlined } from "@ant-design/icons";
 import {
   Avatar,
   Button,
@@ -8,40 +8,40 @@ import {
   Modal,
   Row,
   Select,
-  Upload
-} from 'antd';
-import 'antd/dist/antd.css';
-import { isEmpty, value } from 'lodash-es';
-import React, { useEffect, useState } from 'react';
-import { useTranslation } from 'react-i18next';
-import { v4 as uuidV4 } from 'uuid';
-import AddressApi from '../../actions/api/address/AddressApi';
-import AdDivisionApi from '../../actions/api/advision/AdDivision';
-import CameraApi from '../../actions/api/camera/CameraApi';
-import VendorApi from '../../actions/api/vendor/VendorApi';
-import ZoneApi from '../../actions/api/zone/ZoneApi';
-import clearData from '../../actions/function/MyUltil/CheckData';
-import Notification from '../../components/vms/notification/Notification';
-import Loading from '../common/element/Loading';
-import { filterOption, normalizeOptions } from '../common/select/CustomSelect';
-import ExportEventFileApi from './../../actions/api/exporteventfile/ExportEventFileApi';
-import './../commonStyle/commonForm.scss';
-import './../commonStyle/commonInput.scss';
-import './../commonStyle/commonModal.scss';
-import './../commonStyle/commonSelect.scss';
-import { DATA_FAKE_CAMERA } from './ModalAddCamera';
-import ModalAddEditTagBindCam from './ModalAddEditTagBindCam';
-import './ModalEditCamera.scss';
-import './UploadFile.scss';
+  Upload,
+} from "antd";
+import "antd/dist/antd.css";
+import { isEmpty } from "lodash-es";
+import React, { useEffect, useState } from "react";
+import { useTranslation } from "react-i18next";
+import { v4 as uuidV4 } from "uuid";
+import AddressApi from "../../actions/api/address/AddressApi";
+import AdDivisionApi from "../../actions/api/advision/AdDivision";
+import CameraApi from "../../actions/api/camera/CameraApi";
+import VendorApi from "../../actions/api/vendor/VendorApi";
+import ZoneApi from "../../actions/api/zone/ZoneApi";
+import clearData from "../../actions/function/MyUltil/CheckData";
+import Notification from "../../components/vms/notification/Notification";
+import Loading from "../common/element/Loading";
+import { filterOption, normalizeOptions } from "../common/select/CustomSelect";
+import ExportEventFileApi from "./../../actions/api/exporteventfile/ExportEventFileApi";
+import "./../commonStyle/commonForm.scss";
+import "./../commonStyle/commonInput.scss";
+import "./../commonStyle/commonModal.scss";
+import "./../commonStyle/commonSelect.scss";
+import { DATA_FAKE_CAMERA } from "./ModalAddCamera";
+import ModalAddEditTagBindCam from "./ModalAddEditTagBindCam";
+import "./ModalEditCamera.scss";
+import "./UploadFile.scss";
 
 const formItemLayout = {
   wrapperCol: { span: 24 },
-  labelCol: { span: 24 }
+  labelCol: { span: 24 },
 };
 
 function getBase64(img, callback) {
   const reader = new FileReader();
-  reader.addEventListener('load', () => callback(reader.result));
+  reader.addEventListener("load", () => callback(reader.result));
   reader.readAsDataURL(img);
 }
 
@@ -69,9 +69,9 @@ const ModalEditCamera = (props) => {
   );
 
   const [wards, setWard] = useState([]);
-  const [avatarUrl, setAvatarUrl] = useState('');
+  const [avatarUrl, setAvatarUrl] = useState("");
   const [isLoading, setLoading] = useState(false);
-  const [avatarFileName, setAvatarFileName] = useState('');
+  const [avatarFileName, setAvatarFileName] = useState("");
 
   const [form] = Form.useForm();
 
@@ -120,14 +120,14 @@ const ModalEditCamera = (props) => {
   const { provinces, zones, vendors, cameraTypes, adDivisions } = filterOptions;
 
   const loadAvatarHandler = async (avatarFileName) => {
-    if (avatarFileName !== '' && avatarUrl === '') {
+    if (avatarFileName !== "" && avatarUrl === "") {
       await ExportEventFileApi.getAvatar(avatarFileName).then((result) => {
         if (result.data) {
-          let blob = new Blob([result.data], { type: 'octet/stream' });
+          let blob = new Blob([result.data], { type: "octet/stream" });
           let url = window.URL.createObjectURL(blob);
           setAvatarUrl(url);
         } else {
-          setAvatarUrl('');
+          setAvatarUrl("");
         }
       });
     }
@@ -136,33 +136,33 @@ const ModalEditCamera = (props) => {
   const uploadButton = (
     <div>
       {isLoading ? <LoadingOutlined /> : <PlusOutlined />}
-      <div style={{ marginTop: 8 }}>{t('view.map.add_image')}</div>
+      <div style={{ marginTop: 8 }}>{t("view.map.add_image")}</div>
     </div>
   );
 
   function beforeUpload(file) {
-    const isJpgOrPng = file.type === 'image/jpeg' || file.type === 'image/png';
+    const isJpgOrPng = file.type === "image/jpeg" || file.type === "image/png";
     if (!isJpgOrPng) {
       const notifyMess = {
-        type: 'error',
-        title: '',
-        description: `${t('noti.upload_file_desc')}`
+        type: "error",
+        title: "",
+        description: `${t("noti.upload_file_desc")}`,
       };
       Notification(notifyMess);
     }
     const isLt2M = file.size / 1024 / 1024 < 2;
     if (!isLt2M) {
       const notifyMess = {
-        type: 'error',
-        title: '',
-        description: `${t('noti.size_file_desc')}`
+        type: "error",
+        title: "",
+        description: `${t("noti.size_file_desc")}`,
       };
       Notification(notifyMess);
     }
     return isJpgOrPng && isLt2M;
   }
   const handleChange = (info) => {
-    if (info.file.status === 'uploading') {
+    if (info.file.status === "uploading") {
       setLoading(true);
     }
   };
@@ -221,7 +221,7 @@ const ModalEditCamera = (props) => {
   const handleSubmit = async (value) => {
     const payload = {
       ...value,
-      avatarFileName: avatarFileName
+      avatarFileName: avatarFileName,
     };
 
     const clearPayload = clearData(payload);
@@ -238,9 +238,9 @@ const ModalEditCamera = (props) => {
       }
     } catch (error) {
       Notification({
-        type: 'error',
-        title: '',
-        description: 'Edit camera failed ' + error.toString()
+        type: "error",
+        title: "",
+        description: "Edit camera failed " + error.toString(),
       });
       console.log(error);
     }
@@ -258,13 +258,13 @@ const ModalEditCamera = (props) => {
   return (
     <>
       <Modal
-        title={t('view.camera.edit_camera', { cam: t('camera') })}
+        title={t("view.camera.edit_camera", { cam: t("camera") })}
         visible={isModalVisible}
         onOk={handleShowModalEdit}
         onCancel={handleShowModalEdit}
         footer={null}
         className="modal--edit-camera"
-        maskStyle={{ background: 'rgba(51, 51, 51, 0.9)' }}
+        maskStyle={{ background: "rgba(51, 51, 51, 0.9)" }}
       >
         <Form
           className="bg-grey"
@@ -278,19 +278,19 @@ const ModalEditCamera = (props) => {
               <Row>
                 <Col span={24}>
                   <Form.Item
-                    name={['name']}
-                    label={t('view.camera.camera_name', { cam: t('camera') })}
+                    name={["name"]}
+                    label={t("view.camera.camera_name", { cam: t("camera") })}
                     rules={[
                       {
                         required: true,
-                        message: `${t('view.map.required_field')}`
-                      }
+                        message: `${t("view.map.required_field")}`,
+                      },
                     ]}
                   >
                     <Input
-                      placeholder={t('view.map.please_enter_camera_name', {
-                        plsEnter: t('please_enter'),
-                        cam: t('camera')
+                      placeholder={t("view.map.please_enter_camera_name", {
+                        plsEnter: t("please_enter"),
+                        cam: t("camera"),
                       })}
                       maxLength={255}
                       onBlur={(e) =>
@@ -302,19 +302,19 @@ const ModalEditCamera = (props) => {
 
                 <Col span={24}>
                   <Form.Item
-                    name={['code']}
-                    label={t('view.map.camera_id', { cam: t('camera') })}
+                    name={["code"]}
+                    label={t("view.map.camera_id", { cam: t("camera") })}
                     rules={[
                       {
                         required: true,
-                        message: `${t('view.map.required_field')}`
-                      }
+                        message: `${t("view.map.required_field")}`,
+                      },
                     ]}
                   >
                     <Input
-                      placeholder={t('view.map.please_enter_camera_id', {
-                        plsEnter: t('please_enter'),
-                        cam: t('camera')
+                      placeholder={t("view.map.please_enter_camera_id", {
+                        plsEnter: t("please_enter"),
+                        cam: t("camera"),
                       })}
                       maxLength={255}
                       onBlur={(e) =>
@@ -328,9 +328,9 @@ const ModalEditCamera = (props) => {
             <Col
               span={12}
               style={{
-                display: 'flex',
-                alignItem: 'center',
-                justifyContent: 'center'
+                display: "flex",
+                alignItem: "center",
+                justifyContent: "center",
               }}
             >
               <Col span={12}>
@@ -344,7 +344,7 @@ const ModalEditCamera = (props) => {
                   customRequest={uploadImage}
                   onChange={handleChange}
                 >
-                  {avatarUrl && avatarUrl !== '' ? (
+                  {avatarUrl && avatarUrl !== "" ? (
                     <div className=" d-flex justify-content-center">
                       <Avatar
                         icon={<UserOutlined />}
@@ -356,7 +356,7 @@ const ModalEditCamera = (props) => {
                           md: 40,
                           lg: 64,
                           xl: 80,
-                          xxl: 130
+                          xxl: 130,
                         }}
                       />
                     </div>
@@ -370,22 +370,22 @@ const ModalEditCamera = (props) => {
           <Row gutter={24}>
             <Col span={12}>
               <Form.Item
-                label={t('view.map.camera_type', { cam: t('camera') })}
-                name={['cameraTypeUuid']}
+                label={t("view.map.camera_type", { cam: t("camera") })}
+                name={["cameraTypeUuid"]}
                 rules={[
                   {
                     required: true,
-                    message: `${t('view.map.required_field')}`
-                  }
+                    message: `${t("view.map.required_field")}`,
+                  },
                 ]}
               >
                 <Select
                   dataSource={cameraTypes}
                   filterOption={filterOption}
-                  options={normalizeOptions('name', 'uuid', cameraTypes)}
+                  options={normalizeOptions("name", "uuid", cameraTypes)}
                   placeholder={
-                    (t('view.map.please_choose_camera_type'),
-                      { cam: t('camera') })
+                    (t("view.map.please_choose_camera_type"),
+                    { cam: t("camera") })
                   }
                 />
               </Form.Item>
@@ -393,21 +393,21 @@ const ModalEditCamera = (props) => {
 
             <Col span={12}>
               <Form.Item
-                name={['vendorUuid']}
-                label={t('view.map.vendor')}
+                name={["vendorUuid"]}
+                label={t("view.map.vendor")}
                 rules={[
                   {
                     required: true,
-                    message: `${t('view.map.required_field')}`
-                  }
+                    message: `${t("view.map.required_field")}`,
+                  },
                 ]}
               >
                 <Select
                   dataSource={vendors}
                   filterOption={filterOption}
-                  options={normalizeOptions('name', 'uuid', vendors)}
-                  placeholder={t('view.map.please_enter_name_vendor', {
-                    plsEnter: t('please_enter')
+                  options={normalizeOptions("name", "uuid", vendors)}
+                  placeholder={t("view.map.please_enter_name_vendor", {
+                    plsEnter: t("please_enter"),
                   })}
                 />
               </Form.Item>
@@ -415,74 +415,77 @@ const ModalEditCamera = (props) => {
 
             <Col span={8}>
               <Form.Item
-                name={['provinceId']}
-                label={t('view.map.province_id')}
+                name={["provinceId"]}
+                label={t("view.map.province_id")}
                 rules={[
                   {
                     required: true,
-                    message: `${t('view.map.required_field')}`
-                  }
+                    message: `${t("view.map.required_field")}`,
+                  },
                 ]}
               >
                 <Select
+                  showSearch
                   dataSource={provinces}
                   onChange={(cityId) => onChangeCity(cityId)}
                   filterOption={filterOption}
-                  options={normalizeOptions('name', 'provinceId', provinces)}
-                  placeholder={t('view.map.province_id')}
+                  options={normalizeOptions("name", "provinceId", provinces)}
+                  placeholder={t("view.map.province_id")}
                 />
               </Form.Item>
             </Col>
 
             <Col span={8}>
               <Form.Item
-                name={['districtId']}
-                label={t('view.map.district_id')}
+                name={["districtId"]}
+                label={t("view.map.district_id")}
                 rules={[
                   {
                     required: true,
-                    message: `${t('view.map.required_field')}`
-                  }
+                    message: `${t("view.map.required_field")}`,
+                  },
                 ]}
               >
                 <Select
+                  showSearch
                   dataSource={districts}
                   onChange={(districtId) => onChangeDistrict(districtId)}
                   filterOption={filterOption}
-                  options={normalizeOptions('name', 'districtId', districts)}
-                  placeholder={t('view.map.district_id')}
+                  options={normalizeOptions("name", "districtId", districts)}
+                  placeholder={t("view.map.district_id")}
                 />
               </Form.Item>
             </Col>
 
             <Col span={8}>
               <Form.Item
-                name={['wardId']}
-                label={t('view.map.ward_id')}
-              // rules={[{ required: true, message: `${t('view.map.required_field')}` }]}
+                name={["wardId"]}
+                label={t("view.map.ward_id")}
+                // rules={[{ required: true, message: `${t('view.map.required_field')}` }]}
               >
                 <Select
+                  showSearch
                   dataSource={wards}
                   filterOption={filterOption}
-                  options={normalizeOptions('name', 'id', wards)}
-                  placeholder={t('view.map.ward_id')}
+                  options={normalizeOptions("name", "id", wards)}
+                  placeholder={t("view.map.ward_id")}
                   allowClear
                 />
               </Form.Item>
             </Col>
             <Col span={12}>
               <Form.Item
-                label={t('view.map.location')}
-                name={['address']}
+                label={t("view.map.location")}
+                name={["address"]}
                 rules={[
                   {
                     required: true,
-                    message: `${t('view.map.required_field')}`
-                  }
+                    message: `${t("view.map.required_field")}`,
+                  },
                 ]}
               >
                 <Input
-                  placeholder={t('view.map.please_choose_location')}
+                  placeholder={t("view.map.please_choose_location")}
                   maxLength={255}
                   onBlur={(e) =>
                     form.setFieldsValue({ address: e.target.value.trim() })
@@ -493,27 +496,56 @@ const ModalEditCamera = (props) => {
 
             <Col span={12}>
               <Form.Item
-                label={t('view.map.administrative_unit')}
-                name={['administrativeUnitUuid']}
+                label={t("view.map.administrative_unit")}
+                name={["administrativeUnitUuid"]}
               >
                 <Select
                   allowClear
                   showSearch
                   dataSource={adDivisions}
                   filterOption={filterOption}
-                  options={normalizeOptions('name', 'uuid', adDivisions)}
-                  placeholder={t('view.map.please_choose_administrative_unit')}
+                  options={normalizeOptions("name", "uuid", adDivisions)}
+                  placeholder={t("view.map.please_choose_administrative_unit")}
                 />
               </Form.Item>
             </Col>
 
             <Col span={12}>
-              <Form.Item label={t('view.map.longitude')} name={['long_']}>
+              <Form.Item
+                label={t("view.map.longitude")}
+                name={["long_"]}
+                rules={[
+                  ({ getFieldValue }) => ({
+                    validator(rule, value) {
+                      const data = getFieldValue(["long_"]);
+                      if (data) {
+                        if (
+                          isFinite(data) &&
+                          Math.abs(data) <= 180 &&
+                          data[0] !== "." &&
+                          data[data.length - 1] !== "."
+                        ) {
+                          return Promise.resolve();
+                        } else {
+                          return Promise.reject(`${t("view.map.long_error")}`);
+                        }
+                      } else {
+                        return Promise.resolve(
+                          `${t("view.map.required_field")}`
+                        );
+                      }
+                    },
+                  }),
+                ]}
+              >
                 <Input
-                  type='number'
-                  onKeyDown={(evt) => ["e", "E", "+", "-"].includes(evt.key) && evt.preventDefault()}
-                  placeholder={t('view.map.please_enter_longitude', {
-                    plsEnter: t('please_enter')
+                  // type="number"
+                  // onKeyDown={(evt) =>
+                  //   ["e", "E","d","D"].includes(evt.key) &&
+                  //   evt.preventDefault()
+                  // }
+                  placeholder={t("view.map.please_enter_longitude", {
+                    plsEnter: t("please_enter"),
                   })}
                   maxLength={255}
                   onBlur={(e) =>
@@ -523,12 +555,41 @@ const ModalEditCamera = (props) => {
               </Form.Item>
             </Col>
             <Col span={12}>
-              <Form.Item label={t('view.map.latitude')} name={['lat_']}>
+              <Form.Item
+                label={t("view.map.latitude")}
+                name={["lat_"]}
+                rules={[
+                  ({ getFieldValue }) => ({
+                    validator(rule, value) {
+                      const data = getFieldValue(["lat_"]);
+                      if (data) {
+                        if (
+                          isFinite(data) &&
+                          Math.abs(data) <= 90 &&
+                          data[0] !== "." &&
+                          data[data.length - 1] !== "."
+                        ) {
+                          return Promise.resolve();
+                        } else {
+                          return Promise.reject(`${t("view.map.lat_error")}`);
+                        }
+                      } else {
+                        return Promise.resolve(
+                          `${t("view.map.required_field")}`
+                        );
+                      }
+                    },
+                  }),
+                ]}
+              >
                 <Input
-                  type='number'
-                  onKeyDown={(evt) => ["e", "E", "+", "-"].includes(evt.key) && evt.preventDefault()}
-                  placeholder={t('view.map.please_enter_latitude', {
-                    plsEnter: t('please_enter')
+                  // type="number"
+                  // onKeyDown={(evt) =>
+                  //   ["e", "E","d","D"].includes(evt.key) &&
+                  //   evt.preventDefault()
+                  // }
+                  placeholder={t("view.map.please_enter_latitude", {
+                    plsEnter: t("please_enter"),
                   })}
                   maxLength={255}
                   onBlur={(e) =>
@@ -540,18 +601,18 @@ const ModalEditCamera = (props) => {
 
             <Col span={12}>
               <Form.Item
-                label={t('view.map.port')}
-                name={['port']}
+                label={t("view.map.port")}
+                name={["port"]}
                 rules={[
                   {
                     required: true,
-                    message: `${t('view.map.required_field')}`
-                  }
+                    message: `${t("view.map.required_field")}`,
+                  },
                 ]}
               >
                 <Input
-                  placeholder={t('view.map.please_enter_port', {
-                    plsEnter: t('please_enter')
+                  placeholder={t("view.map.please_enter_port", {
+                    plsEnter: t("please_enter"),
                   })}
                   maxLength={255}
                   onBlur={(e) =>
@@ -562,37 +623,37 @@ const ModalEditCamera = (props) => {
             </Col>
             <Col span={12}>
               <Form.Item
-                label={t('view.map.zone')}
-                name={['zoneUuid']}
+                label={t("view.map.zone")}
+                name={["zoneUuid"]}
                 rules={[
                   {
                     required: true,
-                    message: `${t('view.map.required_field')}`
-                  }
+                    message: `${t("view.map.required_field")}`,
+                  },
                 ]}
               >
                 <Select
                   dataSource={zones}
                   filterOption={filterOption}
-                  options={normalizeOptions('name', 'uuid', zones)}
-                  placeholder={t('view.camera.choose_zone')}
+                  options={normalizeOptions("name", "uuid", zones)}
+                  placeholder={t("view.camera.choose_zone")}
                 />
               </Form.Item>
             </Col>
             <Col span={24}>
               <Form.Item
                 label="IP"
-                name={['ip']}
+                name={["ip"]}
                 rules={[
                   {
                     required: true,
-                    message: `${t('view.map.required_field')}`
-                  }
+                    message: `${t("view.map.required_field")}`,
+                  },
                 ]}
               >
                 <Input
-                  placeholder={t('view.map.please_enter_ip', {
-                    plsEnter: t('please_enter')
+                  placeholder={t("view.map.please_enter_ip", {
+                    plsEnter: t("please_enter"),
                   })}
                   maxLength={255}
                   onBlur={(e) =>
@@ -603,18 +664,18 @@ const ModalEditCamera = (props) => {
             </Col>
             <Col span={24}>
               <Form.Item
-                label={t('view.map.original_url')}
-                name={['cameraUrl']}
+                label={t("view.map.original_url")}
+                name={["cameraUrl"]}
                 rules={[
                   {
                     required: true,
-                    message: `${t('view.map.required_field')}`
-                  }
+                    message: `${t("view.map.required_field")}`,
+                  },
                 ]}
               >
                 <Input
-                  placeholder={t('view.map.please_enter_original_url', {
-                    plsEnter: t('please_enter')
+                  placeholder={t("view.map.please_enter_original_url", {
+                    plsEnter: t("please_enter"),
                   })}
                   maxLength={2000}
                   onBlur={(e) =>
@@ -623,23 +684,23 @@ const ModalEditCamera = (props) => {
                 />
               </Form.Item>
               <Col span={24}>
-                <Form.Item noStyle name={['tags']}>
+                <Form.Item noStyle name={["tags"]}>
                   <Input type="hidden" />
                 </Form.Item>
               </Col>
             </Col>
             <Col span={24} className="mt-1">
               <span className="edit-tag-item" onClick={showModalEditTag}>
-                {t('view.camera.edit_tag')}
+                {t("view.camera.edit_tag")}
               </span>
             </Col>
           </Row>
           <div className="btn--confirm">
             <Button type="primary" htmlType="submit ">
-              {t('view.user.detail_list.confirm')}
+              {t("view.user.detail_list.confirm")}
             </Button>
             <Button onClick={handleShowModalEdit}>
-              {t('view.camera.close')}
+              {t("view.camera.close")}
             </Button>
           </div>
         </Form>
@@ -669,10 +730,10 @@ export function compareName(a, b) {
 
 async function fetchSelectOptions() {
   const data = {
-    name: '',
-    id: '',
-    provinceId: '',
-    districtId: ''
+    name: "",
+    id: "",
+    provinceId: "",
+    districtId: "",
   };
   let provinces = await AddressApi.getAllProvinces();
 
@@ -711,7 +772,7 @@ async function fetchSelectOptions() {
     zones,
     adDivisions,
     cameraTypes,
-    vendors
+    vendors,
   };
 }
 
