@@ -1,4 +1,4 @@
-import { LoadingOutlined, PlusOutlined, UserOutlined } from '@ant-design/icons';
+import { LoadingOutlined, PlusOutlined, UserOutlined } from "@ant-design/icons";
 import {
   Avatar,
   Button,
@@ -7,41 +7,41 @@ import {
   Input,
   Modal,
   Row,
-  Select, Upload
-} from 'antd';
-import { isEmpty } from 'lodash-es';
-import React, { useEffect, useState } from 'react';
-import { useTranslation } from 'react-i18next';
-import { v4 as uuidV4 } from 'uuid';
-import AddressApi from '../../actions/api/address/AddressApi';
-import AdDivisionApi from '../../actions/api/advision/AdDivision';
-import Notification from '../../components/vms/notification/Notification';
-import Loading from '../common/element/Loading';
-import { filterOption, normalizeOptions } from '../common/select/CustomSelect';
-import ExportEventFileApi from './../../actions/api/exporteventfile/ExportEventFileApi';
-import './../commonStyle/commonForm.scss';
-import './../commonStyle/commonInput.scss';
-import './../commonStyle/commonModal.scss';
-import './../commonStyle/commonSelect.scss';
-import './ModalEditAdministrativeUnit.scss';
-import './UploadFile.scss';
-import { NOTYFY_TYPE } from '../common/vms/Constant';
+  Select,
+  Upload,
+} from "antd";
+import { isEmpty } from "lodash-es";
+import React, { useEffect, useState } from "react";
+import { useTranslation } from "react-i18next";
+import { v4 as uuidV4 } from "uuid";
+import AddressApi from "../../actions/api/address/AddressApi";
+import AdDivisionApi from "../../actions/api/advision/AdDivision";
+import Notification from "../../components/vms/notification/Notification";
+import Loading from "../common/element/Loading";
+import { filterOption, normalizeOptions } from "../common/select/CustomSelect";
+import ExportEventFileApi from "./../../actions/api/exporteventfile/ExportEventFileApi";
+import "./../commonStyle/commonForm.scss";
+import "./../commonStyle/commonInput.scss";
+import "./../commonStyle/commonModal.scss";
+import "./../commonStyle/commonSelect.scss";
+import "./ModalEditAdministrativeUnit.scss";
+import "./UploadFile.scss";
+import { NOTYFY_TYPE } from "../common/vms/Constant";
 
 const formItemLayout = {
   wrapperCol: { span: 24 },
-  labelCol: { span: 24 }
+  labelCol: { span: 24 },
 };
 
 const DATA_FAKE_UNIT = {
-  provinces: [{ name: '', provinceId: '' }]
+  provinces: [{ name: "", provinceId: "" }],
 };
 
 function getBase64(img, callback) {
   const reader = new FileReader();
-  reader.addEventListener('load', () => callback(reader.result));
+  reader.addEventListener("load", () => callback(reader.result));
   reader.readAsDataURL(img);
 }
-
 
 const ModalEditAdministrativeUnit = (props) => {
   const { t } = useTranslation();
@@ -58,9 +58,9 @@ const ModalEditAdministrativeUnit = (props) => {
   const [districtId, setDistrictId] = useState(adUnit?.districtId || null);
 
   const [wards, setWard] = useState([]);
-  const [avatarUrl, setAvatarUrl] = useState('');
+  const [avatarUrl, setAvatarUrl] = useState("");
   const [isLoading, setLoading] = useState(false);
-  const [avatarFileName, setAvatarFileName] = useState('');
+  const [avatarFileName, setAvatarFileName] = useState("");
 
   const [form] = Form.useForm();
 
@@ -110,14 +110,14 @@ const ModalEditAdministrativeUnit = (props) => {
   const { provinces } = filterOptions;
 
   const loadAvatarHandler = async (avatarFileName) => {
-    if (avatarFileName !== '' && avatarUrl === '') {
+    if (avatarFileName !== "" && avatarUrl === "") {
       await ExportEventFileApi.getAvatar(avatarFileName).then((result) => {
         if (result.data) {
-          let blob = new Blob([result.data], { type: 'octet/stream' });
+          let blob = new Blob([result.data], { type: "octet/stream" });
           let url = window.URL.createObjectURL(blob);
           setAvatarUrl(url);
         } else {
-          setAvatarUrl('');
+          setAvatarUrl("");
         }
       });
     }
@@ -126,26 +126,26 @@ const ModalEditAdministrativeUnit = (props) => {
   const uploadButton = (
     <div>
       {isLoading ? <LoadingOutlined /> : <PlusOutlined />}
-      <div style={{ marginTop: 8 }}>{t('view.map.add_image')}</div>
+      <div style={{ marginTop: 8 }}>{t("view.map.add_image")}</div>
     </div>
   );
 
   function beforeUpload(file) {
-    const isJpgOrPng = file.type === 'image/jpeg' || file.type === 'image/png';
+    const isJpgOrPng = file.type === "image/jpeg" || file.type === "image/png";
     if (!isJpgOrPng) {
       const notifyMess = {
-        type: 'error',
-        title: '',
-        description: `${t('noti.upload_file_desc')}`
+        type: "error",
+        title: "",
+        description: `${t("noti.upload_file_desc")}`,
       };
       Notification(notifyMess);
     }
     const isLt2M = file.size / 1024 / 1024 < 2;
     if (!isLt2M) {
       const notifyMess = {
-        type: 'error',
-        title: '',
-        description: `${t('noti.size_file_desc')}`
+        type: "error",
+        title: "",
+        description: `${t("noti.size_file_desc")}`,
       };
       Notification(notifyMess);
     }
@@ -153,7 +153,7 @@ const ModalEditAdministrativeUnit = (props) => {
   }
 
   const handleChange = (info) => {
-    if (info.file.status === 'uploading') {
+    if (info.file.status === "uploading") {
       setLoading(true);
     }
   };
@@ -200,24 +200,24 @@ const ModalEditAdministrativeUnit = (props) => {
   }
 
   const validatePhoneNumber = (value) => {
-    const pattern = /^[+]*[(]{0,1}[0-9]{1,3}[)]{0,1}[-\s\./0-9]*$/g
+    const pattern = /^[+]*[(]{0,1}[0-9]{1,3}[)]{0,1}[-\s\./0-9]*$/g;
     if (!pattern.test(value) && value.length >= 10) {
       const notifyMess = {
         type: NOTYFY_TYPE.error,
-        description: `${t('noti.phone_number_format_is_not_correct')}`
+        description: `${t("noti.phone_number_format_is_not_correct")}`,
       };
       Notification(notifyMess);
       return false;
     }
     return true;
-  }
+  };
 
   const handleSubmit = async (value) => {
     if (validatePhoneNumber(value?.tel)) {
       const payload = {
         ...value,
         tel: value?.tel,
-        avatarFileName: avatarFileName
+        avatarFileName: avatarFileName,
       };
 
       try {
@@ -229,9 +229,9 @@ const ModalEditAdministrativeUnit = (props) => {
 
           if (isEdit) {
             const notifyMess = {
-              type: 'success',
-              title: '',
-              description: `${t('noti.successfully_edit_administrative_unit')}`
+              type: "success",
+              title: "",
+              description: `${t("noti.successfully_edit_administrative_unit")}`,
             };
             Notification(notifyMess);
           }
@@ -240,9 +240,9 @@ const ModalEditAdministrativeUnit = (props) => {
 
           if (isAdd) {
             const notifyMess = {
-              type: 'success',
-              title: '',
-              description: `${t('noti.successfully_add_administrative')}`
+              type: "success",
+              title: "",
+              description: `${t("noti.successfully_add_administrative")}`,
             };
             Notification(notifyMess);
           }
@@ -253,7 +253,6 @@ const ModalEditAdministrativeUnit = (props) => {
         console.log(error);
       }
     }
-
   };
 
   if (selectedCategoryId !== null) {
@@ -265,14 +264,18 @@ const ModalEditAdministrativeUnit = (props) => {
   return (
     <>
       <Modal
-        title={selectedCategoryId ? `${t('view.category.edit_administrative_unit')}` : `${t('view.camera.add_new')}`}
+        title={
+          selectedCategoryId
+            ? `${t("view.category.edit_administrative_unit")}`
+            : `${t("view.camera.add_new")}`
+        }
         visible={true}
         onCancel={() => {
           setShowModal(false);
         }}
         footer={null}
         className="modal--administrative__unit"
-        maskStyle={{ background: 'rgba(51, 51, 51, 0.9)' }}
+        maskStyle={{ background: "rgba(51, 51, 51, 0.9)" }}
       >
         <Form
           form={form}
@@ -292,19 +295,19 @@ const ModalEditAdministrativeUnit = (props) => {
                 customRequest={uploadImage}
                 onChange={handleChange}
               >
-                {avatarUrl && avatarUrl !== '' ? (
+                {avatarUrl && avatarUrl !== "" ? (
                   <Avatar
                     icon={<UserOutlined />}
                     src={avatarUrl}
                     className="avatarUser"
-                  // size={{
-                  //   xs: 24,
-                  //   sm: 32,
-                  //   md: 40,
-                  //   lg: 64,
-                  //   xl: 80,
-                  //   xxl: 130
-                  // }}
+                    // size={{
+                    //   xs: 24,
+                    //   sm: 32,
+                    //   md: 40,
+                    //   lg: 64,
+                    //   xl: 80,
+                    //   xxl: 130
+                    // }}
                   />
                 ) : (
                   uploadButton
@@ -315,24 +318,24 @@ const ModalEditAdministrativeUnit = (props) => {
               <Row gutter={24}>
                 <Col span={24}>
                   <Form.Item
-                    name={['name']}
-                    label={t('view.category.administrative_unit_name')}
+                    name={["name"]}
+                    label={t("view.category.administrative_unit_name")}
                     rules={[
                       {
                         required: true,
-                        message: `${t('view.map.required_field')}`
-                      }
+                        message: `${t("view.map.required_field")}`,
+                      },
                     ]}
                   >
                     <Input
                       placeholder={t(
-                        'view.category.plsEnter_administrative_unit_name',
-                        { plsEnter: t('please_enter') }
+                        "view.category.plsEnter_administrative_unit_name",
+                        { plsEnter: t("please_enter") }
                       )}
                       maxLength={255}
                       onBlur={(e) => {
                         form.setFieldsValue({
-                          name: e.target.value.trim()
+                          name: e.target.value.trim(),
                         });
                       }}
                     />
@@ -341,23 +344,23 @@ const ModalEditAdministrativeUnit = (props) => {
 
                 <Col span={24}>
                   <Form.Item
-                    name={['tel']}
-                    label={t('view.map.phone_number')}
+                    name={["tel"]}
+                    label={t("view.map.phone_number")}
                     rules={[
                       {
                         required: true,
-                        message: `${t('view.map.required_field')}`
+                        message: `${t("view.map.required_field")}`,
                       },
                       {
                         min: 10,
-                        message: `${t('noti.at_least_10_characters')}`
-                      }
+                        message: `${t("noti.at_least_10_characters")}`,
+                      },
                     ]}
                   >
                     <Input
                       type="text"
                       maxLength={13}
-                      placeholder='Số điện thoại'
+                      placeholder="Số điện thoại"
                     />
                   </Form.Item>
                 </Col>
@@ -367,21 +370,21 @@ const ModalEditAdministrativeUnit = (props) => {
           <Row gutter={24}>
             <Col span={24}>
               <Form.Item
-                label={t('view.map.location')}
-                name={['address']}
+                label={t("view.map.location")}
+                name={["address"]}
                 rules={[
                   {
                     required: true,
-                    message: `${t('view.map.required_field')}`
-                  }
+                    message: `${t("view.map.required_field")}`,
+                  },
                 ]}
               >
                 <Input
-                  placeholder={t('view.map.please_choose_location')}
+                  placeholder={t("view.map.please_choose_location")}
                   maxLength={255}
                   onBlur={(e) => {
                     form.setFieldsValue({
-                      address: e.target.value.trim()
+                      address: e.target.value.trim(),
                     });
                   }}
                 />
@@ -390,18 +393,21 @@ const ModalEditAdministrativeUnit = (props) => {
 
             <Col span={8}>
               <Form.Item
-                name={['provinceId']}
-                label={t('view.map.province_id')}
+                name={["provinceId"]}
+                label={t("view.map.province_id")}
                 rules={[
-                  { required: true, message: `${t('view.map.required_field')}` }
+                  {
+                    required: true,
+                    message: `${t("view.map.required_field")}`,
+                  },
                 ]}
               >
                 <Select
                   dataSource={provinces}
                   onChange={(cityId) => onChangeCity(cityId)}
                   filterOption={filterOption}
-                  options={normalizeOptions('name', 'provinceId', provinces)}
-                  placeholder={t('view.map.province_id')}
+                  options={normalizeOptions("name", "provinceId", provinces)}
+                  placeholder={t("view.map.province_id")}
                   allowClear
                 />
               </Form.Item>
@@ -409,68 +415,93 @@ const ModalEditAdministrativeUnit = (props) => {
 
             <Col span={8}>
               <Form.Item
-                name={['districtId']}
-                label={t('view.map.district_id')}
+                name={["districtId"]}
+                label={t("view.map.district_id")}
                 rules={[
-                  { required: true, message: `${t('view.map.required_field')}` }
+                  {
+                    required: true,
+                    message: `${t("view.map.required_field")}`,
+                  },
                 ]}
               >
                 <Select
                   dataSource={districts}
                   onChange={(districtId) => onChangeDistrict(districtId)}
                   filterOption={filterOption}
-                  options={normalizeOptions('name', 'districtId', districts)}
+                  options={normalizeOptions("name", "districtId", districts)}
                   allowClear
-                  placeholder={t('view.map.district_id')}
+                  placeholder={t("view.map.district_id")}
                 />
               </Form.Item>
             </Col>
 
             <Col span={8}>
-              <Form.Item name={['wardId']} label={t('view.map.ward_id')}>
+              <Form.Item name={["wardId"]} label={t("view.map.ward_id")}>
                 <Select
                   dataSource={wards}
                   filterOption={filterOption}
-                  options={normalizeOptions('name', 'id', wards)}
+                  options={normalizeOptions("name", "id", wards)}
                   allowClear
-                  placeholder={t('view.map.ward_id')}
+                  placeholder={t("view.map.ward_id")}
                 />
               </Form.Item>
             </Col>
 
             <Col span={12}>
-              <Form.Item label={t('view.map.longitude')} name={['long_']}  rules={[
-                ({ getFieldValue }) => ({
-                  validator(rule, value) {
-                    const data = getFieldValue(["long_"]);
-                    if (data) {
-                      if (isFinite(data) && Math.abs(data) <= 180) {
-                        return Promise.resolve();
+              <Form.Item
+                label={t("view.map.longitude")}
+                name={["long_"]}
+                rules={[
+                  ({ getFieldValue }) => ({
+                    validator(rule, value) {
+                      const data = getFieldValue(["long_"]);
+                      if (data) {
+                        if (
+                          isFinite(data) &&
+                          Math.abs(data) <= 180 &&
+                          data[0] !== "." &&
+                          data[data.length - 1] !== "."
+                        ) {
+                          return Promise.resolve();
+                        } else {
+                          return Promise.reject(`${t("view.map.long_error")}`);
+                        }
                       } else {
-                        return Promise.reject(`${t("view.map.lat_error")}`);
+                        return Promise.resolve(
+                          `${t("view.map.required_field")}`
+                        );
                       }
-                    } else {
-                      return Promise.resolve(`${t("view.map.required_field")}`);
-                    }
-                  },
-                }),
-              ]}>
+                    },
+                  }),
+                ]}
+              >
                 <Input
-                  type='number'
-                  onKeyDown={(evt) => ["e", "E", "D", "d"].includes(evt.key) && evt.preventDefault()}
-                  placeholder={t('view.map.please_enter_longitude', {
-                    plsEnter: t('please_enter')
+                  type="number"
+                  onKeyDown={(evt) =>
+                    ["e", "E", "D", "d"].includes(evt.key) &&
+                    evt.preventDefault()
+                  }
+                  placeholder={t("view.map.please_enter_longitude", {
+                    plsEnter: t("please_enter"),
                   })}
                 />
               </Form.Item>
             </Col>
             <Col span={12}>
-              <Form.Item label={t('view.map.latitude')} name={['lat_']}                 rules={[
+              <Form.Item
+                label={t("view.map.latitude")}
+                name={["lat_"]}
+                rules={[
                   ({ getFieldValue }) => ({
                     validator(rule, value) {
                       const data = getFieldValue(["lat_"]);
                       if (data) {
-                        if (isFinite(data) && Math.abs(data) <= 90) {
+                        if (
+                          isFinite(data) &&
+                          Math.abs(data) <= 90 &&
+                          data[0] !== "." &&
+                          data[data.length - 1] !== "."
+                        ) {
                           return Promise.resolve();
                         } else {
                           return Promise.reject(`${t("view.map.lat_error")}`);
@@ -482,12 +513,16 @@ const ModalEditAdministrativeUnit = (props) => {
                       }
                     },
                   }),
-                ]}>
+                ]}
+              >
                 <Input
-                  type='number'
-                  onKeyDown={(evt) => ["e", "E", "D", "d"].includes(evt.key) && evt.preventDefault()}
-                  placeholder={t('view.map.please_enter_latitude', {
-                    plsEnter: t('please_enter')
+                  type="number"
+                  onKeyDown={(evt) =>
+                    ["e", "E", "D", "d"].includes(evt.key) &&
+                    evt.preventDefault()
+                  }
+                  placeholder={t("view.map.please_enter_latitude", {
+                    plsEnter: t("please_enter"),
                   })}
                 />
               </Form.Item>
@@ -495,14 +530,14 @@ const ModalEditAdministrativeUnit = (props) => {
           </Row>
           <div className="footer__modal">
             <Button type="primary" htmlType="submit ">
-              {t('view.user.detail_list.confirm')}
+              {t("view.user.detail_list.confirm")}
             </Button>
             <Button
               onClick={() => {
                 setShowModal(false);
               }}
             >
-              {t('view.camera.close')}
+              {t("view.camera.close")}
             </Button>
           </div>
         </Form>
@@ -515,7 +550,7 @@ async function fetchSelectOptions() {
   const provinces = await AddressApi.getAllProvinces();
 
   return {
-    provinces
+    provinces,
   };
 }
 

@@ -521,7 +521,9 @@ const ModalEditCamera = (props) => {
                       if (data) {
                         if (
                           isFinite(data) &&
-                          Math.abs(data) <= 180 
+                          Math.abs(data) <= 180 &&
+                          data[0] !== "." &&
+                          data[data.length - 1] !== "."
                         ) {
                           return Promise.resolve();
                         } else {
@@ -561,7 +563,12 @@ const ModalEditCamera = (props) => {
                     validator(rule, value) {
                       const data = getFieldValue(["lat_"]);
                       if (data) {
-                        if (isFinite(data) && Math.abs(data) <= 90) {
+                        if (
+                          isFinite(data) &&
+                          Math.abs(data) <= 90 &&
+                          data[0] !== "." &&
+                          data[data.length - 1] !== "."
+                        ) {
                           return Promise.resolve();
                         } else {
                           return Promise.reject(`${t("view.map.lat_error")}`);
