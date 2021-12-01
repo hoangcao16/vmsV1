@@ -3,6 +3,7 @@ import { Settings } from "react-feather";
 import "./Bookmark.scss";
 import { useTranslation } from "react-i18next";
 import { reactLocalStorage } from "reactjs-localstorage";
+import { Tooltip } from "antd";
 
 const Bookmark = ({
   handleBookmarkSaveCallback,
@@ -56,11 +57,14 @@ const Bookmark = ({
         <div className="bookmark__actions-save" onClick={handleBookmarkSave}>
           {t("view.map.button_save")}
         </div>
-        <Settings
-          className="bookmark__actions-setting"
-          onClick={handleOpenBookmarkSetting}
-          size={16}
-        />
+
+        <Tooltip placement="top" title={t("view.map.setting_favorite_screen")}>
+          <Settings
+            className="bookmark__actions-setting"
+            onClick={handleOpenBookmarkSetting}
+            size={16}
+          />
+        </Tooltip>
       </div>
     </div>
   );

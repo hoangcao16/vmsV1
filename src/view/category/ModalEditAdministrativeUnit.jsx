@@ -439,10 +439,25 @@ const ModalEditAdministrativeUnit = (props) => {
             </Col>
 
             <Col span={12}>
-              <Form.Item label={t('view.map.longitude')} name={['long_']}>
+              <Form.Item label={t('view.map.longitude')} name={['long_']}  rules={[
+                ({ getFieldValue }) => ({
+                  validator(rule, value) {
+                    const data = getFieldValue(["long_"]);
+                    if (data) {
+                      if (isFinite(data) && Math.abs(data) <= 180) {
+                        return Promise.resolve();
+                      } else {
+                        return Promise.reject(`${t("view.map.lat_error")}`);
+                      }
+                    } else {
+                      return Promise.resolve(`${t("view.map.required_field")}`);
+                    }
+                  },
+                }),
+              ]}>
                 <Input
                   type='number'
-                  onKeyDown={(evt) => ["e", "E", "+", "-"].includes(evt.key) && evt.preventDefault()}
+                  onKeyDown={(evt) => ["e", "E", "D", "d"].includes(evt.key) && evt.preventDefault()}
                   placeholder={t('view.map.please_enter_longitude', {
                     plsEnter: t('please_enter')
                   })}
@@ -450,10 +465,27 @@ const ModalEditAdministrativeUnit = (props) => {
               </Form.Item>
             </Col>
             <Col span={12}>
-              <Form.Item label={t('view.map.latitude')} name={['lat_']}>
+              <Form.Item label={t('view.map.latitude')} name={['lat_']}                 rules={[
+                  ({ getFieldValue }) => ({
+                    validator(rule, value) {
+                      const data = getFieldValue(["lat_"]);
+                      if (data) {
+                        if (isFinite(data) && Math.abs(data) <= 90) {
+                          return Promise.resolve();
+                        } else {
+                          return Promise.reject(`${t("view.map.lat_error")}`);
+                        }
+                      } else {
+                        return Promise.resolve(
+                          `${t("view.map.required_field")}`
+                        );
+                      }
+                    },
+                  }),
+                ]}>
                 <Input
                   type='number'
-                  onKeyDown={(evt) => ["e", "E", "+", "-"].includes(evt.key) && evt.preventDefault()}
+                  onKeyDown={(evt) => ["e", "E", "D", "d"].includes(evt.key) && evt.preventDefault()}
                   placeholder={t('view.map.please_enter_latitude', {
                     plsEnter: t('please_enter')
                   })}
