@@ -12,7 +12,7 @@ import zoneApi from "../../../api/controller-api/zoneApi";
 import useHandleUploadFile from "../../../hooks/useHandleUploadFile";
 import {
   filterOption,
-  normalizeOptions
+  normalizeOptions,
 } from "../../common/select/CustomSelect";
 
 const { Dragger } = Upload;
@@ -301,10 +301,7 @@ const MapAdministrativeUnitAdd = (props) => {
         </Row>
         <Row gutter={12}>
           <Col span={12}>
-            <Form.Item
-              name={["wardId"]}
-              label={t("view.map.ward_id")}
-            >
+            <Form.Item name={["wardId"]} label={t("view.map.ward_id")}>
               <Select
                 dataSource={wards}
                 filterOption={filterOption}
@@ -316,24 +313,30 @@ const MapAdministrativeUnitAdd = (props) => {
         </Row>
         <Row gutter={12}>
           <Col span={12}>
-            <Form.Item label={t("view.map.longitude")} name={["long_"]} 
-             rules={[
-              ({ getFieldValue }) => ({
-                validator(rule, value) {
-                  const data = getFieldValue(["long_"]);
-                  if (data) {
-                    if (isFinite(data) && Math.abs(data) <= 180) {
-                      return Promise.resolve();
+            <Form.Item
+              label={t("view.map.longitude")}
+              name={["long_"]}
+              rules={[
+                ({ getFieldValue }) => ({
+                  validator(rule, value) {
+                    const data = getFieldValue(["long_"]);
+                    if (data) {
+                      if (
+                        isFinite(data) &&
+                        Math.abs(data) <= 180 &&
+                        data[0] !== "." &&
+                        data[data.length - 1] !== "."
+                      ) {
+                        return Promise.resolve();
+                      } else {
+                        return Promise.reject(`${t("view.map.long_error")}`);
+                      }
                     } else {
-                      return Promise.reject(`${t("view.map.lat_error")}`);
+                      return Promise.resolve(`${t("view.map.required_field")}`);
                     }
-                  } else {
-                    return Promise.resolve(`${t("view.map.required_field")}`);
-                  }
-                },
-              }),
-            ]}
-            
+                  },
+                }),
+              ]}
             >
               <Input placeholder={t("view.map.longitude")} />
             </Form.Item>
@@ -347,7 +350,12 @@ const MapAdministrativeUnitAdd = (props) => {
                   validator(rule, value) {
                     const data = getFieldValue(["lat_"]);
                     if (data) {
-                      if (isFinite(data) && Math.abs(data) <= 90) {
+                      if (
+                        isFinite(data) &&
+                        Math.abs(data) <= 90 &&
+                        data[0] !== "." &&
+                        data[data.length - 1] !== "."
+                      ) {
                         return Promise.resolve();
                       } else {
                         return Promise.reject(`${t("view.map.lat_error")}`);
