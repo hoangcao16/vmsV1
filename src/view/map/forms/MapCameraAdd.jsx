@@ -431,6 +431,7 @@ const MapCameraAdd = (props) => {
           <Col span={12}>
             <Form.Item name={["wardId"]} label={t("view.map.ward_id")}>
               <Select
+                allowClear
                 dataSource={wards}
                 filterOption={filterOption}
                 options={normalizeOptions("name", "id", wards || [])}
@@ -538,6 +539,10 @@ const MapCameraAdd = (props) => {
                 placeholder={t("view.map.please_enter_port", {
                   plsEnter: t("please_enter"),
                 })}
+                maxLength={255}
+                onBlur={(e) =>
+                  form.setFieldsValue({ lat_: e.target.value.trim() })
+                }
               ></Input>
             </Form.Item>
           </Col>
