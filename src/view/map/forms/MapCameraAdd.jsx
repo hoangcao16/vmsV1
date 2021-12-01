@@ -13,7 +13,7 @@ import { DATA_FAKE_CAMERA } from "../../camera/ModalAddCamera";
 import { compareName } from "../../camera/ModalEditCamera";
 import {
   filterOption,
-  normalizeOptions,
+  normalizeOptions
 } from "../../common/select/CustomSelect";
 
 const { Dragger } = Upload;
@@ -153,7 +153,7 @@ const MapCameraAdd = (props) => {
         }
       }
 
-      setImgFile(editCam?.avatarFileName);
+      setImgFile(editCam?.avatarFileName??'');
     },
     [editCam, form, initialLatLgn[0], initialLatLgn[1], selectNewPosition]
   );
