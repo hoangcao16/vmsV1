@@ -56,7 +56,7 @@ const ViewMapOffline = (props) => {
   const { addTrackingPoint, onContextMenuCallback, updateTrackingPoint } =
     props;
 
-  const liveCameras = useSelector((state) => state.map.camera.listCamera);
+  const liveCameras = useSelector((state) => state.map.camera.listCamera); 
   const adminisUnitList = useSelector(
     (state) => state.map.adminisUnit.listAdminisUnit
   );

@@ -72,7 +72,7 @@ const Index = ({
             if (payload == null) {
                 return;
             }
-            if (isEmpty(payload)) {
+            if (payload) {
                 setPresetTourLists(payload.data);
             }
         }
@@ -178,6 +178,7 @@ const Index = ({
     };
 
     const renderListPresetTour = () => {
+        console.log('presetTourLists', presetTourLists)
         return presetTourLists?.map((item, index) => (
             <button
                 key={index}

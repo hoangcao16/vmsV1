@@ -53,7 +53,8 @@ const Preset = (props) => {
   const [isActionIsStart, setIsActionStart] = useState(false);
   const [searchPreset, setSearchPreset] = useState();
   const [searchPresetTour, setSearchPresetTour] = useState();
-  const [selectPresetTour, setSelectPresetTour] = useState('')
+  const [selectPresetTour, setSelectPresetTour] = useState('');
+  const [speed, setSpeed] = useState(1)
   const { t } = useTranslation();
 
   // const [newPresetTour, setNewPresetTour] = useState([]);
@@ -138,6 +139,9 @@ const Preset = (props) => {
       setPresetTourDatas(convertPresetTourDatas(payload.data));
     }
   };
+  useEffect(() => {
+    setIsPlayCamera(true)
+  }, [])
 
 
   //call api get all preset
@@ -346,6 +350,18 @@ const Preset = (props) => {
       .finally(() => { });
   };
 
+  const setUpSpeed = () => {
+    if (speed <= 5) {
+      setSpeed(speed + 1)
+    }
+  }
+
+  const setDownSpeed = () => {
+    if (speed > 1) {
+      setSpeed(speed - 1)
+    }
+  }
+
   const closeCamera = () => {
     const cell = document.getElementById("video-slot-1");
     cell.srcObject = null;
@@ -357,7 +373,7 @@ const Preset = (props) => {
       cameraUuid: idCamera,
       direction: "left",
       isStop: 0,
-      speed: 1,
+      speed: speed,
     };
     try {
       setIsActionStart(true);
@@ -372,7 +388,7 @@ const Preset = (props) => {
       cameraUuid: idCamera,
       direction: "left",
       isStop: 1,
-      speed: 1,
+      speed: speed,
     };
     try {
       if (isActionIsStart) {
@@ -389,7 +405,7 @@ const Preset = (props) => {
       cameraUuid: idCamera,
       direction: "right",
       isStop: 0,
-      speed: 1,
+      speed: speed,
     };
     try {
       setIsActionStart(true);
@@ -404,7 +420,7 @@ const Preset = (props) => {
       cameraUuid: idCamera,
       direction: "right",
       isStop: 1,
-      speed: 1,
+      speed: speed,
     };
     try {
       if (isActionIsStart) {
@@ -421,7 +437,7 @@ const Preset = (props) => {
       cameraUuid: idCamera,
       direction: "up",
       isStop: 0,
-      speed: 1,
+      speed: speed,
     };
     try {
       setIsActionStart(true);
@@ -436,7 +452,7 @@ const Preset = (props) => {
       cameraUuid: idCamera,
       direction: "up",
       isStop: 1,
-      speed: 1,
+      speed: speed,
     };
     try {
       if (isActionIsStart) {
@@ -453,7 +469,7 @@ const Preset = (props) => {
       cameraUuid: idCamera,
       direction: "down",
       isStop: 0,
-      speed: 1,
+      speed: speed,
     };
     try {
       setIsActionStart(true);
@@ -468,7 +484,7 @@ const Preset = (props) => {
       cameraUuid: idCamera,
       direction: "down",
       isStop: 1,
-      speed: 1,
+      speed: speed,
     };
     try {
       if (isActionIsStart) {
@@ -485,7 +501,7 @@ const Preset = (props) => {
       cameraUuid: idCamera,
       direction: "in",
       isStop: 0,
-      speed: 1,
+      speed: speed,
     };
     try {
       setIsActionStart(true);
@@ -500,7 +516,7 @@ const Preset = (props) => {
       cameraUuid: idCamera,
       direction: "in",
       isStop: 1,
-      speed: 1,
+      speed: speed,
     };
     try {
       if (isActionIsStart) {
@@ -517,7 +533,7 @@ const Preset = (props) => {
       cameraUuid: idCamera,
       direction: "out",
       isStop: 0,
-      speed: 1,
+      speed: speed,
     };
     try {
       setIsActionStart(true);
@@ -531,7 +547,7 @@ const Preset = (props) => {
       cameraUuid: idCamera,
       direction: "out",
       isStop: 1,
-      speed: 1,
+      speed: speed,
     };
     try {
       if (isActionIsStart) {
@@ -1212,13 +1228,29 @@ const Preset = (props) => {
                 onMouseLeave={onTiltDownEnd}
               />
             </Tooltip>
-            <Button
+            {/* <Button
               className="play-camera"
               onClick={() => {
                 setIsPlayCamera(!isPlayCamera);
               }}
               icon={<PlayCircleOutlined />}
-            ></Button>
+            ></Button> */}
+
+            <Tooltip
+              placement="top"
+              title={'Tốc độ quay'}
+              arrowPointAtCenter={true}
+            >
+              <div className="change__speed-camera">
+                <div className="speed">{speed}</div>
+                <div className='chang__speed-tool'>
+                  <Button icon={<UpOutlined />} onClick={setUpSpeed}></Button>
+                  <Button icon={<DownOutlined />} onClick={setDownSpeed}></Button>
+                </div>
+              </div>
+            </Tooltip>
+
+
           </div>
           <div className="camera__zoom">
             <Tooltip
@@ -1313,13 +1345,20 @@ const Preset = (props) => {
             }
             showSearch
             defaultValue=""
+            dropdownClassName="dropdown--choose__preset-tour"
           >
+
             <Option value="" hidden disabled>
               {t("view.live.add_new_or_edit_preset_tour")}
             </Option>
+
+
             {/* <OptGroup label={t("view.live.add_new_preset_tour")}> */}
             <Option value="none">{t("view.live.add_new_preset_tour")}</Option>
             {/* </OptGroup> */}
+            <Option value="@@" disabled style={{ color: '#191919', margin: 0 }}>
+              Chọn một preset tour
+            </Option>
             {/* <OptGroup label={t("view.live.choose_preset_tour")}> */}
             {presetTourSelect}
             {/* </OptGroup> */}

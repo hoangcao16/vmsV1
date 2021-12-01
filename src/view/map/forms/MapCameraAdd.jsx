@@ -13,7 +13,7 @@ import { DATA_FAKE_CAMERA } from "../../camera/ModalAddCamera";
 import { compareName } from "../../camera/ModalEditCamera";
 import {
   filterOption,
-  normalizeOptions,
+  normalizeOptions
 } from "../../common/select/CustomSelect";
 
 const { Dragger } = Upload;
@@ -153,7 +153,7 @@ const MapCameraAdd = (props) => {
         }
       }
 
-      setImgFile(editCam?.avatarFileName ?? "");
+      setImgFile(editCam?.avatarFileName??'');
     },
     [editCam, form, initialLatLgn[0], initialLatLgn[1], selectNewPosition]
   );
@@ -431,6 +431,7 @@ const MapCameraAdd = (props) => {
           <Col span={12}>
             <Form.Item name={["wardId"]} label={t("view.map.ward_id")}>
               <Select
+                allowClear
                 dataSource={wards}
                 filterOption={filterOption}
                 options={normalizeOptions("name", "id", wards || [])}
@@ -528,6 +529,10 @@ const MapCameraAdd = (props) => {
                 placeholder={t("view.map.please_enter_port", {
                   plsEnter: t("please_enter"),
                 })}
+                maxLength={255}
+                onBlur={(e) =>
+                  form.setFieldsValue({ port: e.target.value.trim() })
+                }
               ></Input>
             </Form.Item>
           </Col>

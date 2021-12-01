@@ -62,6 +62,7 @@ const AdminisUnitFormFilter = (props) => {
       <Form.Item name={["address"]} label={t("view.map.address_id")}>
         <Input
           placeholder={t("view.map.address_id")}
+          maxLength={255}
           onBlur={(e) => {
             form.setFieldsValue({
               address: e.target.value.trim(),
