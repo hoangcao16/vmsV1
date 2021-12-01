@@ -123,6 +123,8 @@ const Preset = (props) => {
         return;
       }
       const rowsPreset = convertRowsPreset(payload.data);
+      console.log('get all preset', payload);
+      console.log('rowsPreset', rowsPreset)
       setRowsPreset(rowsPreset);
     }
   };
@@ -148,6 +150,7 @@ const Preset = (props) => {
   useEffect(() => {
     let params = {
       cameraUuid: idCamera,
+      name: searchPreset
     };
     getAllPreset(params);
   }, [callPresetAgain]);
@@ -1071,6 +1074,7 @@ const Preset = (props) => {
   const { Option, OptGroup } = Select
 
   const handleSearchPreset = async (value) => {
+
     setSearchPreset(value);
     const params = {
       cameraUuid: idCamera,
