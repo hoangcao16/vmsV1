@@ -58,7 +58,7 @@ class EditableTagGroup extends React.Component {
     const inputValue = state.addonValue + ' ' + state.inputValue;
     let tags = state.tags;
     if (inputValue && tags.indexOf(inputValue) === -1) {
-      tags = [...tags, inputValue.trimStart()];
+      tags = [...tags, inputValue.trim()];
     }
 
     localStorage.setItem("tags", JSON.stringify(tags));
