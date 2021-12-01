@@ -79,8 +79,8 @@ const CamInfoPopup = (props) => {
         <span className="camera-info__detail-desc">
           {dataDetailInfo
             ? `${dataDetailInfo.address}, ${
-                dataDetailInfo.districtName !== ""
-                  ? `${dataDetailInfo.districtName},`
+                dataDetailInfo.wardName !== ""
+                  ? `${dataDetailInfo.wardName},`
                   : null
               } ${dataDetailInfo.districtName},${dataDetailInfo.provinceName}`
             : ""}
