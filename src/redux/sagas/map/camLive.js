@@ -72,7 +72,7 @@ export function* saveListCamLiveAction(action) {
     if (resp && resp.code === STATUS_CODE.SUCCESS) {
       yield put(saveListCamLiveSuccess(resp.payload));
       notifyMess.type = NOTYFY_TYPE.success;
-      notifyMess.description = "Lưu thông tin cam live thành công";
+      notifyMess.description = "Lưu camera trực tuyến thành công";
       Notification(notifyMess);
     } else {
       yield put(saveListCamLiveError(null));
@@ -103,7 +103,7 @@ export function* updateListCamLiveAction(action) {
     if (resp && resp.code === STATUS_CODE.SUCCESS) {
       yield put(updateListCamLiveSuccess(resp.payload));
       notifyMess.type = NOTYFY_TYPE.success;
-      notifyMess.description = "Cập nhật thông tin cam live thành công";
+      notifyMess.description = "Cập nhật thông tin camra trực tuyến thành công";
       Notification(notifyMess);
     } else {
       yield put(updateListCamLiveError(null));
@@ -133,7 +133,7 @@ export function* deleteListCamLiveAction(action) {
     if (code === STATUS_CODE.SUCCESS) {
       yield put(deleteListCamLiveSuccess({}));
       notifyMess.type = NOTYFY_TYPE.success;
-      notifyMess.description = "Xóa thông tin cam live thành công";
+      notifyMess.description = "Xóa thông tin camera trực tuyến thành công";
       Notification(notifyMess);
     } else {
       yield put(deleteListCamLiveError(null));

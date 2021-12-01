@@ -25,7 +25,6 @@ const camLiveApi = {
         .catch((error) => reject(error));
     });
 
-    console.log('response:',response)
 
     if (response && response?.payload) {
       return handleErrCode(response);
@@ -40,7 +39,6 @@ const camLiveApi = {
         .catch((error) => reject(error));
     });
 
-    console.log('response:',response)
     if (response && response.payload) {
       return handleErrCode(response);
     }
@@ -53,7 +51,6 @@ const camLiveApi = {
         .then((response) => resolve(response?.data))
         .catch((error) => reject(error));
     });
-    console.log('response delete:',response)
     if (response) {
       return handleErrCode(response);
     }
