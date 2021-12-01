@@ -203,7 +203,7 @@ const camLiveReducer = (state = initialState, action) => {
     case SAVE_LIST_CAM_LIVE_SUCCESS:
     case UPDATE_LIST_CAM_LIVE_SUCCESS:
     case DELETE_LIST_CAM_LIVE_SUCCESS: {
-      return { ...state, loading: false };
+      return { ...state, loading: false, camLiveObject: action.payload };
     }
     case SAVE_LIST_CAM_LIVE_ERROR:
     case UPDATE_LIST_CAM_LIVE_ERROR:

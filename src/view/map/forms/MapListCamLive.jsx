@@ -1,15 +1,16 @@
 import { SaveOutlined } from "@ant-design/icons";
 import { Button, Tooltip } from "antd";
 import "antd/dist/antd.css";
+import { isEmpty } from 'lodash';
 import React, { useEffect, useState } from "react";
 import { useTranslation } from "react-i18next";
 import { useDispatch, useSelector } from "react-redux";
 import "../../../assets/scss/app-icons.scss";
 import {
-    deleteListCamLive,
-    getListCamLive,
-    saveListCamLive,
-    updateListCamLive
+  deleteListCamLive,
+  getListCamLive,
+  saveListCamLive,
+  updateListCamLive
 } from "../../../redux/actions/map/camLiveAction";
 import { getListCamLiveSelector } from "../../../redux/selectors/map/camera";
 import { CAM_LIVE_ITEMS } from "../../common/vms/constans/map";
@@ -61,9 +62,6 @@ const MapListCamLive = (props) => {
 
   const handleSaveListLiveCam = () => {
     const listCamLiveFilter = camsLiveSelector.filter((cam) => cam.isPlay);
-
-    console.log("listCamLiveFilter");
-    console.log("listCamLiveFilter",listCamLiveFilter);
     const cameraUuids = listCamLiveFilter.map((cam) => cam.uuid);
     const payload = {
       type: "4x1",
@@ -71,16 +69,14 @@ const MapListCamLive = (props) => {
     };
     sessionStorage.setItem(CAM_LIVE_ITEMS, JSON.stringify(listCamLiveFilter));
 
-    console.log('camLiveObject:',camLiveObject)
-
-    if (listCamLiveFilter.length > 0) {
-      if (camLiveObject?.uuid) {
+    if (isEmpty(camLiveObject)) {
+      dispatch(saveListCamLive(payload));
+    } else {
+      if (listCamLiveFilter.length > 0) {
         dispatch(updateListCamLive(payload, camLiveObject?.uuid));
       } else {
-        dispatch(saveListCamLive(payload));
+        dispatch(deleteListCamLive(camLiveObject?.uuid));
       }
-    } else {
-      camLiveObject?.uuid && dispatch(deleteListCamLive(camLiveObject?.uuid));
     }
   };
 
