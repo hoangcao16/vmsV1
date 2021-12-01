@@ -74,8 +74,6 @@ const ModalScheduleConfigCopy = (props) => {
   };
 
   const handleSubmit = async () => {
-    console.log("____________________")
-    console.log(selectedRowKeys)
     const payload = {
       cameraUuids: selectedRowKeys,
       type: type

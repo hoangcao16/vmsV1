@@ -1,5 +1,5 @@
 import { EditOutlined } from '@ant-design/icons';
-import { Button, Card, Checkbox, Tabs } from 'antd';
+import { Button, Card, Checkbox, Tabs, Row, Col, Form, Input, Divider } from 'antd';
 import 'antd/dist/antd.css';
 import moment from 'moment';
 import React, { useEffect, useState } from 'react';
@@ -13,8 +13,12 @@ import CameraApi from '../../actions/api/camera/CameraApi';
 import ModalEditScheduleConfig from './ModalEditScheduleConfig';
 import ModalScheduleConfigCopy from './ModalScheduleConfigCopy';
 import './TabSchedule.scss';
+import imagePoster from "../../assets/event/videoposter.png";
 import { bodyStyleCard, headStyleCard } from './variables';
 const { TabPane } = Tabs;
+
+const CheckboxGroup = Checkbox.Group;
+
 
 
 
@@ -42,8 +46,21 @@ const TabSchedule = (props) => {
   const [listTimes7, setListTimes7] = useState([]);
   const [data, setData] = useState(false);
   const [selectDay, setSelectDay] = useState("");
+  const [form] = Form.useForm();
 
+  const formItemLayout = {
+    wrapperCol: { span: 24 },
+    labelCol: { span: 24 },
+  };
 
+  const [checkedList, setCheckedList] = React.useState([]);
+  const [indeterminate, setIndeterminate] = React.useState(true);
+  const [checkAll, setCheckAll] = React.useState(false);
+
+  const options = [
+    { label: 'human', value: `${t('view.ai_config.human')}`},
+    { label: 'vehicle', value: `${t('view.ai_config.vehicle')}` },
+  ];
 
   useEffect(() => {
 
@@ -285,6 +302,17 @@ const TabSchedule = (props) => {
     setDefaultData(data2)
   };
 
+  const onChange = list => {
+    setCheckedList(list);
+    setIndeterminate(!!list.length && list.length < options.length);
+    setCheckAll(list.length === options.length);
+  };
+
+  const onCheckAllChange = e => {
+    setCheckedList(e.target.checked ? options : []);
+    setIndeterminate(false);
+    setCheckAll(e.target.checked);
+  };
 
 
 
@@ -427,8 +455,8 @@ const TabSchedule = (props) => {
 
   return (
     <div className="tabs__container--device">
-      <div className="">
-        <Checkbox onChange={onChangeCheckBox} checked={checkStatus}>{t('view.ai_config.activate_attendance_events')}</Checkbox>
+      <div className="activate">
+        <Checkbox onChange={onChangeCheckBox} checked={checkStatus}>{t('view.ai_config.activate_' + type)}</Checkbox>
       </div>
 
       <Card
@@ -440,7 +468,85 @@ const TabSchedule = (props) => {
         <div className="" >
           <Tabs type="card" >
             <TabPane tab={t('view.ai_config.area_config')} key="2">
-              {/* Content of Tab Pane 1 */}
+              <Row gutter={24}>
+                <Col span={12} style={{ flex: 'none' }}>
+                  <div style={{ width: '90%', padding: '20px' }}>
+                    <img
+                      style={{ width: '100%' }}
+                      className='iconPoster'
+                      src={`${imagePoster}`}
+                      alt=""
+                    />
+
+                    <div className="">
+
+                      <Button
+                        onClick={() => {
+                          handleSubmit();
+                        }}
+                        type="primary" htmlType="submit ">
+                        {t('view.ai_config.apply')}
+                      </Button>
+                      <Button
+
+                        type="primary"
+                        onClick={() => {
+                          setShowModalCopy(true);
+                        }}
+                      >
+                        {t('view.ai_config.config_copy')}
+                      </Button>
+                    </div>
+
+                    <Form
+                      className='bg-grey'
+                      form={form}
+                      {...formItemLayout}
+                      onFinish={handleSubmit}
+                    // initialValues={timeDetails}
+                    >
+
+                      <Row gutter={24} style={{ marginTop: "20px" }}>
+                        <Col span={12} style={{ flex: 'none' }}>
+                          <p className="threshold">{t('view.ai_config.time_threshold')}</p>
+                        </Col>
+                        <Col span={6} style={{ flex: 'none' }}>
+                          <Form.Item
+                            name={["name"]}
+                            rules={[
+                            ]}
+                          >
+                            <Input placeholder="Số" type='number' />
+                          </Form.Item>
+                        </Col>
+                        <Col span={6} style={{ flex: 'none' }}>
+                          <p className="threshold">{t('view.ai_config.second')}</p>
+                        </Col>
+
+                      </Row>
+                      <Row gutter={24} style={{ marginTop: "20px" }}>
+                        <div className="">
+                          <Checkbox indeterminate={indeterminate} onChange={onCheckAllChange} checked={checkAll}>
+                            {t('view.ai_config.object_recognition')}
+                          </Checkbox>
+                          <Divider />
+                          <CheckboxGroup options={options} value={checkedList} onChange={onChange} />
+                        </div>
+                      </Row>
+
+
+                    </Form>
+
+
+
+                  </div>
+                </Col>
+                <Col span={12} style={{ flex: 'none' }}>
+                  <div style={{ width: '90%', padding: '20px' }}>
+
+                  </div>
+                </Col>
+              </Row>
               {cameraUuid ?
                 <div className="footer__modal">
 
@@ -456,7 +562,6 @@ const TabSchedule = (props) => {
             </TabPane>
             <TabPane tab={t('view.ai_config.schedule_config')} key="1">
               <Timeline
-               
                 style={{ color: 'white', marginTop: '20px', marginBottom: '20px' }}
                 groups={groups}
                 items={listDetail}

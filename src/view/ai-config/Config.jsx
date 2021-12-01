@@ -274,53 +274,6 @@ const Config = () => {
     setCameraUuid(selected)
   }
 
-
-
-  const getNameByCategory = () => {
-
-    return (
-      <div className="card--header">
-        <h4>{t('view.ai_config.config')}</h4>
-
-
-
-        <div className="search__toolbar">
-          {/* <AutoComplete
-            className="searchInputCamproxy"
-            style={{ width: 350, height: 40, marginRight: 18 }}
-            onSearch={debounce(handleSearch, 300)}
-            placeholder={
-              <div>
-                <span> &nbsp;{t('view.map.search')} </span>{' '}
-                <SearchOutlined style={{ fontSize: 22 }} />
-              </div>
-            }
-          ></AutoComplete> */}
-
-          <Button
-            type="primary"
-            onClick={() => {
-              setSelectedHumansId(null);
-              setShowModal(true);
-            }}
-          >
-            <PlusOutlined />
-          </Button>
-
-          {/* <Button
-              className="btnAdd"
-              style={{ borderColor: '#7367F0' }}
-              onClick={handleImport}
-            >
-              + Import
-            </Button> */}
-        </div>
-      </div>
-    );
-  };
-
-
-
   return (
     <div className="tabs__container--ai_config">
       <Breadcrumds
