@@ -439,13 +439,15 @@
       "intrusion_detection_events": "Intrusion Detection Events",
       "attendance_events": "Attendance Events",
       "schedule_config": "Schedule Config",
-      "area_config": "Area onfig",
-      "time_config": "Time onfig",
+      "area_config": "Area config",
+      "time_config": "Time config",
       "activate_attendance_events": "Activate Attendance Events",
       "activate_hurdles": "Activate Hurdles",
       "activate_intrusion_detection_events": "Activate Intrusion Detection Events ",
       "all_day": "All day",
-      "apply": "Apply"
+      "apply": "Apply",
+      "time_config_copy": "Time config copy",
+      "config_copy": "Copy"
     }
   },
   "noti": {

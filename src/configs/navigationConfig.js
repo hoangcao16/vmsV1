@@ -43,18 +43,6 @@ const navigationConfig = [
     type: 'item',
     navLink: '/app/setting'
   },
-  {
-    id: 'humans',
-    title: 'Quản lý khuôn mặt',
-    type: 'item',
-    navLink: '/humans/list'
-  },
-  {
-    id: 'ai-config',
-    title: 'Quản lý sự kiện thông minh',
-    type: 'item',
-    navLink: '/ai_config'
-  }
 ];
 
 export default navigationConfig;
