@@ -11,30 +11,34 @@ import ExportEventFileApi from "../../actions/api/exporteventfile/ExportEventFil
 // import { useSelector, useDispatch } from "react-redux";
 
 const CamInfoPopup = (props) => {
-  const { type, dataDetailInfo, handlePinCam, onClosePopup, handleEditInfo, trans: t } =
-    props;
+  const {
+    type,
+    dataDetailInfo,
+    handlePinCam,
+    onClosePopup,
+    handleEditInfo,
+    trans: t,
+  } = props;
   const [imageUrl, setImageUrl] = useState(null);
 
   useEffect(() => {
     const loadImageFileHanleler = (avatarFileName) => {
       if (avatarFileName) {
-        ExportEventFileApi.getAvatar(avatarFileName)
-          .then((result) => {
-            if (result.data) {
-              let blob = new Blob([result.data], { type: 'octet/stream' });
-              let url = window.URL.createObjectURL(blob);
-              setImageUrl(url);
-            } else {
-              setImageUrl('');
-            }
-          });
+        ExportEventFileApi.getAvatar(avatarFileName).then((result) => {
+          if (result.data) {
+            let blob = new Blob([result.data], { type: "octet/stream" });
+            let url = window.URL.createObjectURL(blob);
+            setImageUrl(url);
+          } else {
+            setImageUrl("");
+          }
+        });
       }
     };
-    loadImageFileHanleler(dataDetailInfo?.avatarFileName)
-  }, [dataDetailInfo?.avatarFileName])
+    loadImageFileHanleler(dataDetailInfo?.avatarFileName);
+  }, [dataDetailInfo?.avatarFileName]);
 
-  const renderCamInfo = () =>
-  (
+  const renderCamInfo = () => (
     <>
       <li>
         <EnvironmentOutlined className="camera-info__icon camera-info__icon--black" />
@@ -53,9 +57,7 @@ const CamInfoPopup = (props) => {
 
       <li>
         <span className="camera-info__detail-desc camera-info__detail-address camera-info__detail--venderName">
-          {dataDetailInfo?.vendorName
-            ? dataDetailInfo.vendorName
-            : ""}
+          {dataDetailInfo?.vendorName ? dataDetailInfo.vendorName : ""}
         </span>
       </li>
 
@@ -64,7 +66,7 @@ const CamInfoPopup = (props) => {
         <span className="camera-info__detail-desc camera-info__phone">
           {dataDetailInfo && dataDetailInfo.zoneName
             ? dataDetailInfo.zoneName
-            : `${t('view.maps.not_provide')}`}
+            : `${t("view.maps.not_provide")}`}
         </span>
       </li>
     </>
@@ -75,7 +77,13 @@ const CamInfoPopup = (props) => {
       <li>
         <EnvironmentOutlined className="camera-info__icon camera-info__icon--black" />
         <span className="camera-info__detail-desc">
-          {dataDetailInfo ? dataDetailInfo.address : ""}
+          {dataDetailInfo
+            ? `${dataDetailInfo.address}, ${
+                dataDetailInfo.districtName !== ""
+                  ? `${dataDetailInfo.districtName},`
+                  : null
+              } ${dataDetailInfo.districtName},${dataDetailInfo.provinceName}`
+            : ""}
         </span>
       </li>
 
@@ -85,13 +93,12 @@ const CamInfoPopup = (props) => {
         </span>
       </li>
 
-
       <li>
         <AimOutlined className="camera-info__icon camera-info__icon--black" />
         <span className="camera-info__detail-desc ">
-          {dataDetailInfo && dataDetailInfo.zoneName
-            ? dataDetailInfo.zoneName
-            : `${t('view.maps.not_provide')}`}
+          {dataDetailInfo && dataDetailInfo.lat_ && dataDetailInfo.long_
+            ? `${dataDetailInfo.lat_}/${dataDetailInfo.long_}`
+            : `${t("view.maps.not_provide")}`}
         </span>
       </li>
     </>
@@ -102,7 +109,7 @@ const CamInfoPopup = (props) => {
       <div className="camera-info__header">
         {type === TYPE_FORM_ACTION_ON_MAP.cam && (
           <Spin
-            tip={t('view.maps.loading')}
+            tip={t("view.maps.loading")}
             className="camera-info__header--loading"
             id={`cam-loading-${dataDetailInfo.uuid}`}
           ></Spin>
@@ -118,7 +125,10 @@ const CamInfoPopup = (props) => {
             data-setup="{}"
           />
         ) : (
-          <img src={imageUrl ? imageUrl : adUnitImgSrcDefault} className="camera-info__header__img" />
+          <img
+            src={imageUrl ? imageUrl : adUnitImgSrcDefault}
+            className="camera-info__header__img"
+          />
         )}
         <div className="camera-info__header-action">
           <span
