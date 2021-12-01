@@ -7,6 +7,10 @@
     }
     .react-calendar-timeline{
         width: 941px;
+
+        .rct-scroll{
+            overflow-x: hidden !important;
+         }
         .rct-dateHeader-primary {
             height: 0px;
         }
@@ -14,4 +18,11 @@
     .ant-form-item-control-input-content{
         background-color: none;
     }
+
+    .footer__modal {
+        .ant-btn{
+            margin: 15px;
+        }
+    }
+
 }

@@ -434,7 +434,8 @@
       "activate_intrusion_detection_events": "Activate Intrusion Detection Events ",
       "all_day": "All day",
       "apply": "Apply",
-      "time_config_copys": "Time config copy"
+      "time_config_copy": "Time config copy",
+      "config_copy": "Copy"
     }
   },
   "noti": {
