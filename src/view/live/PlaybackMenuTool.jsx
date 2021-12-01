@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { TimePicker, DatePicker } from 'antd';
+import { TimePicker, DatePicker, Tooltip } from 'antd';
 import moment from 'moment';
 import PlayControl from "./PlayControl";
 import locale from 'antd/lib/locale/vi_VN';
@@ -41,7 +41,7 @@ const PlaybackMenuTool = ({
                 <DatePicker
                     dropdownClassName="playback-menu-tool__date" locale={locale}
                     value={seekToDate}
-                    defaultValue={moment('2021-09-20', 'YYYY-MM-DD')}
+                    defaultValue={moment('20-09-2021', 'DD-MM-YYYY')}
                     onChange={onDateChange}
                 />
                 <TimePicker

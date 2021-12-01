@@ -28,7 +28,7 @@ const PlaybackSpeed = (props) => {
     }
     return (
         <div className="speed">
-            <span className="speed__title">Speed</span>
+            <span className="speed__title">Tốc độ</span>
             <div className="speed__value">
                 {curSpeed}X
             </div>
