@@ -1,6 +1,6 @@
-import { isEmpty } from 'lodash';
-import Notification from '../../components/vms/notification/Notification';
-import { handleForbiddenCode } from '../authz/forbidden';
+import { isEmpty } from "lodash";
+import Notification from "../../components/vms/notification/Notification";
+import { handleForbiddenCode } from "../authz/forbidden";
 
 export const KControllerOk = 700;
 const KControllerBadRequest = 701;
@@ -22,9 +22,9 @@ const StatusInternalServerError = 606;
 export const handleErrCode = (data) => {
   if (isEmpty(data)) {
     const errCode = {
-      type: 'error',
-      title: 'Code: Unknown',
-      description: 'Unknown'
+      type: "error",
+      title: "Code: Unknown",
+      description: "Unknown",
     };
     Notification(errCode);
     return null;
@@ -32,9 +32,9 @@ export const handleErrCode = (data) => {
   // const { code, message, payload } = data;
   const { code, message, payload, deny_permission_codes } = data;
   const errCode = {
-    type: 'error',
-    title: 'Code:' + code,
-    description: ''
+    type: "error",
+    title: "Code:" + code,
+    description: "",
   };
   switch (+code) {
     case KMonitorControllerOk:
@@ -54,11 +54,12 @@ export const handleErrCode = (data) => {
       Notification(errCode);
       return null;
     case KControllerDuplicate:
-      errCode.description = 'Dữ liệu bạn nhập bị trùng, vui lòng kiểm tra lại';
+      errCode.description = "Dữ liệu bạn nhập bị trùng, vui lòng kiểm tra lại";
       Notification(errCode);
       return null;
     case KControllerCannotDelete:
-      errCode.description = 'Lĩnh vực đã được gán sự kiện. Xóa không thành công';
+      errCode.description =
+        "Lĩnh vực đã được gán sự kiện. Xóa không thành công";
       Notification(errCode);
       return null;
     case KControllerInternalServerError:
@@ -66,30 +67,30 @@ export const handleErrCode = (data) => {
       Notification(errCode);
       return null;
     case StatusBadRequest:
-      errCode.description = 'Bad request';
+      errCode.description = "Bad request";
       Notification(errCode);
       return null;
     case StatusInternalServerError:
-      errCode.description = 'Internal server error';
+      errCode.description = "Internal server error";
       Notification(errCode);
       return null;
     case StatusUnauthorized:
-      errCode.description = 'Unauthorized';
+      errCode.description = "Unauthorized";
       Notification(errCode);
       return null;
     case StatusNotFound:
-      errCode.description = 'Not found';
+      errCode.description = "Not found";
       Notification(errCode);
       return null;
     case StatusConflict:
-      errCode.description = 'Conflict';
+      errCode.description = "Conflict";
       Notification(errCode);
       return null;
     case StatusForbidden:
       handleForbiddenCode(deny_permission_codes);
       return null;
     default:
-      errCode.description = 'Unknown';
+      errCode.description = "Unknown";
       Notification(errCode);
       return null;
   }
