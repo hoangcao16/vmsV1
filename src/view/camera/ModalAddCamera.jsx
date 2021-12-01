@@ -486,10 +486,15 @@ const ModalAddCamera = (props) => {
                     validator(rule, value) {
                       const data = getFieldValue(["long_"]);
                       if (data) {
-                        if (isFinite(data) && Math.abs(data) <= 90) {
+                        if (
+                          isFinite(data) &&
+                          Math.abs(data) <= 90 &&
+                          data[0] !== "." &&
+                          data[data.length - 1] !== "."
+                        ) {
                           return Promise.resolve();
                         } else {
-                          return Promise.reject(`${t("view.map.lat_error")}`);
+                          return Promise.reject(`${t("view.map.long_error")}`);
                         }
                       } else {
                         return Promise.resolve(
@@ -527,7 +532,12 @@ const ModalAddCamera = (props) => {
                     validator(rule, value) {
                       const data = getFieldValue(["lat_"]);
                       if (data) {
-                        if (isFinite(data) && Math.abs(data) <= 90) {
+                        if (
+                          isFinite(data) &&
+                          Math.abs(data) <= 90 &&
+                          data[0] !== "." &&
+                          data[data.length - 1] !== "."
+                        ) {
                           return Promise.resolve();
                         } else {
                           return Promise.reject(`${t("view.map.lat_error")}`);

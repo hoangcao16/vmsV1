@@ -13,7 +13,7 @@ import { DATA_FAKE_CAMERA } from "../../camera/ModalAddCamera";
 import { compareName } from "../../camera/ModalEditCamera";
 import {
   filterOption,
-  normalizeOptions,
+  normalizeOptions
 } from "../../common/select/CustomSelect";
 
 const { Dragger } = Upload;
@@ -153,7 +153,7 @@ const MapCameraAdd = (props) => {
         }
       }
 
-      setImgFile(editCam?.avatarFileName);
+      setImgFile(editCam?.avatarFileName??'');
     },
     [editCam, form, initialLatLgn[0], initialLatLgn[1], selectNewPosition]
   );
@@ -431,6 +431,7 @@ const MapCameraAdd = (props) => {
           <Col span={12}>
             <Form.Item name={["wardId"]} label={t("view.map.ward_id")}>
               <Select
+                allowClear
                 dataSource={wards}
                 filterOption={filterOption}
                 options={normalizeOptions("name", "id", wards || [])}
@@ -448,11 +449,17 @@ const MapCameraAdd = (props) => {
                 ({ getFieldValue }) => ({
                   validator(rule, value) {
                     const data = getFieldValue(["long_"]);
+                    console.log("data[0]:", data[0]);
                     if (data) {
-                      if (isFinite(data) && Math.abs(data) <= 180) {
+                      if (
+                        isFinite(data) &&
+                        Math.abs(data) <= 180 &&
+                        data[0] !== "." &&
+                        data[data.length - 1] !== "."
+                      ) {
                         return Promise.resolve();
                       } else {
-                        return Promise.reject(`${t("view.map.lat_error")}`);
+                        return Promise.reject(`${t("view.map.long_error")}`);
                       }
                     } else {
                       return Promise.resolve(`${t("view.map.required_field")}`);
@@ -462,10 +469,18 @@ const MapCameraAdd = (props) => {
               ]}
             >
               <Input
+                // type="number"
+                // onKeyDown={(evt) =>
+                //   ["e", "E","d","D"].includes(evt.key) &&
+                //   evt.preventDefault()
+                // }
                 placeholder={t("view.map.please_enter_longitude", {
-                  pleEnter: t("please_enter"),
+                  plsEnter: t("please_enter"),
                 })}
-                // defaultValue={initialLatLgn.lng}
+                maxLength={255}
+                onBlur={(e) =>
+                  form.setFieldsValue({ long_: e.target.value.trim() })
+                }
               />
             </Form.Item>
           </Col>
@@ -478,7 +493,12 @@ const MapCameraAdd = (props) => {
                   validator(rule, value) {
                     const data = getFieldValue(["lat_"]);
                     if (data) {
-                      if (isFinite(data) && Math.abs(data) <= 90) {
+                      if (
+                        isFinite(data) &&
+                        Math.abs(data) <= 90 &&
+                        data[0] !== "." &&
+                        data[data.length - 1] !== "."
+                      ) {
                         return Promise.resolve();
                       } else {
                         return Promise.reject(`${t("view.map.lat_error")}`);
@@ -491,11 +511,18 @@ const MapCameraAdd = (props) => {
               ]}
             >
               <Input
-                type="number"
+                // type="number"
+                // onKeyDown={(evt) =>
+                //   ["e", "E","d","D"].includes(evt.key) &&
+                //   evt.preventDefault()
+                // }
                 placeholder={t("view.map.please_enter_latitude", {
-                  pleEnter: t("please_enter"),
+                  plsEnter: t("please_enter"),
                 })}
-                // defaultValue={initialLatLgn.lat}
+                maxLength={255}
+                onBlur={(e) =>
+                  form.setFieldsValue({ lat_: e.target.value.trim() })
+                }
               />
             </Form.Item>
           </Col>
@@ -512,6 +539,10 @@ const MapCameraAdd = (props) => {
                 placeholder={t("view.map.please_enter_port", {
                   plsEnter: t("please_enter"),
                 })}
+                maxLength={255}
+                onBlur={(e) =>
+                  form.setFieldsValue({ lat_: e.target.value.trim() })
+                }
               ></Input>
             </Form.Item>
           </Col>

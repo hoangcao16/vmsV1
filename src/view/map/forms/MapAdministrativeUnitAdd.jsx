@@ -2,7 +2,6 @@ import { LoadingOutlined, PlusOutlined } from "@ant-design/icons";
 import { Button, Col, Form, Input, Row, Select, Space, Upload } from "antd";
 import React, { useEffect, useState } from "react";
 import { useTranslation } from "react-i18next";
-import validator from "validator";
 import { AdministrativeUnitType } from "../../../@core/common/common";
 import AddressApi from "../../../actions/api/address/AddressApi";
 import AdDivisionApi from "../../../actions/api/advision/AdDivision";
@@ -79,7 +78,7 @@ const MapAdministrativeUnitAdd = (props) => {
         });
       }
     }
-    setImgFile(editAdminisUnit?.avatarFileName);
+    setImgFile(editAdminisUnit?.avatarFileName ?? "");
   }, [
     editAdminisUnit,
     form,
@@ -163,16 +162,6 @@ const MapAdministrativeUnitAdd = (props) => {
     form.resetFields();
   };
 
-  const onTelChange = (rule, value, callback) => {
-    const tel = form.getFieldValue("tel");
-    const isValidPhoneNumber = validator.isMobilePhone(tel);
-    if (!isValidPhoneNumber) {
-      callback(t("view.map.invalid_phone_number"));
-    } else {
-      callback();
-    }
-  };
-
   return (
     <div
       className={
@@ -224,28 +213,38 @@ const MapAdministrativeUnitAdd = (props) => {
                 placeholder={t("view.map.please_enter_unit_name", {
                   plsEnter: t("please_enter"),
                 })}
+                maxLength={255}
+                onBlur={(e) =>
+                  form.setFieldsValue({ name: e.target.value.trim() })
+                }
               />
             </Form.Item>
           </Col>
         </Row>
         <Row gutter={12} className="camera-form-inner__item">
           <Col span={24}>
-            <Form.Item name={["address"]} label={t("view.map.address")}>
+            <Form.Item
+              name={["address"]}
+              label={t("view.map.address")}
+              rules={[
+                { required: true, message: t("view.map.required_field") },
+              ]}
+            >
               <Input
                 placeholder={t("view.map.please_enter_your_address", {
                   plsEnter: t("please_enter"),
                 })}
+                maxLength={255}
+                onBlur={(e) =>
+                  form.setFieldsValue({ address: e.target.value.trim() })
+                }
               />
             </Form.Item>
           </Col>
         </Row>
         <Row gutter={12}>
           <Col span={24}>
-            <Form.Item
-              label={t("view.map.phone_number")}
-              name={["tel"]}
-              rules={[{ validator: onTelChange }]}
-            >
+            <Form.Item label={t("view.map.phone_number")} name={["tel"]}>
               <Input
                 placeholder={t("view.map.please_enter_your_phone_number", {
                   plsEnter: t("please_enter"),
@@ -301,10 +300,7 @@ const MapAdministrativeUnitAdd = (props) => {
         </Row>
         <Row gutter={12}>
           <Col span={12}>
-            <Form.Item
-              name={["wardId"]}
-              label={t("view.map.ward_id")}
-            >
+            <Form.Item name={["wardId"]} label={t("view.map.ward_id")}>
               <Select
                 dataSource={wards}
                 filterOption={filterOption}
@@ -316,24 +312,30 @@ const MapAdministrativeUnitAdd = (props) => {
         </Row>
         <Row gutter={12}>
           <Col span={12}>
-            <Form.Item label={t("view.map.longitude")} name={["long_"]} 
-             rules={[
-              ({ getFieldValue }) => ({
-                validator(rule, value) {
-                  const data = getFieldValue(["long_"]);
-                  if (data) {
-                    if (isFinite(data) && Math.abs(data) <= 180) {
-                      return Promise.resolve();
+            <Form.Item
+              label={t("view.map.longitude")}
+              name={["long_"]}
+              rules={[
+                ({ getFieldValue }) => ({
+                  validator(rule, value) {
+                    const data = getFieldValue(["long_"]);
+                    if (data) {
+                      if (
+                        isFinite(data) &&
+                        Math.abs(data) <= 180 &&
+                        data[0] !== "." &&
+                        data[data.length - 1] !== "."
+                      ) {
+                        return Promise.resolve();
+                      } else {
+                        return Promise.reject(`${t("view.map.long_error")}`);
+                      }
                     } else {
-                      return Promise.reject(`${t("view.map.lat_error")}`);
+                      return Promise.resolve(`${t("view.map.required_field")}`);
                     }
-                  } else {
-                    return Promise.resolve(`${t("view.map.required_field")}`);
-                  }
-                },
-              }),
-            ]}
-            
+                  },
+                }),
+              ]}
             >
               <Input placeholder={t("view.map.longitude")} />
             </Form.Item>
@@ -347,7 +349,12 @@ const MapAdministrativeUnitAdd = (props) => {
                   validator(rule, value) {
                     const data = getFieldValue(["lat_"]);
                     if (data) {
-                      if (isFinite(data) && Math.abs(data) <= 90) {
+                      if (
+                        isFinite(data) &&
+                        Math.abs(data) <= 90 &&
+                        data[0] !== "." &&
+                        data[data.length - 1] !== "."
+                      ) {
                         return Promise.resolve();
                       } else {
                         return Promise.reject(`${t("view.map.lat_error")}`);

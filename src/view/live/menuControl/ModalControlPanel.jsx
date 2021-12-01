@@ -6,14 +6,15 @@ import ControlPanel from "./ControlPanel";
 import "./ModalControlPanel.scss";
 const ModalPanel = ({ isOpen, onCloseModal, idCamera }) => {
   const [zoomPercent, setZoomPercent] = useState(30);
-  const [isActionStart, setIsActionStart] = useState(false)
+  const [isActionStart, setIsActionStart] = useState(false);
+  const [speed, setSpeed] = useState(1)
 
   const onPanLeftStart = async () => {
     const payload = {
       cameraUuid: idCamera,
       direction: "left",
       isStop: 0,
-      speed: 1,
+      speed: speed,
     };
     try {
       setIsActionStart(true)
@@ -28,7 +29,7 @@ const ModalPanel = ({ isOpen, onCloseModal, idCamera }) => {
       cameraUuid: idCamera,
       direction: "left",
       isStop: 1,
-      speed: 1,
+      speed: speed,
     };
     try {
       if (isActionStart) {
@@ -45,7 +46,7 @@ const ModalPanel = ({ isOpen, onCloseModal, idCamera }) => {
       cameraUuid: idCamera,
       direction: "right",
       isStop: 0,
-      speed: 1,
+      speed: speed,
     };
     try {
       setIsActionStart(true)
@@ -60,7 +61,7 @@ const ModalPanel = ({ isOpen, onCloseModal, idCamera }) => {
       cameraUuid: idCamera,
       direction: "right",
       isStop: 1,
-      speed: 1,
+      speed: speed,
     };
     try {
       if (isActionStart) {
@@ -77,7 +78,7 @@ const ModalPanel = ({ isOpen, onCloseModal, idCamera }) => {
       cameraUuid: idCamera,
       direction: "up",
       isStop: 0,
-      speed: 1,
+      speed: speed,
     };
     try {
       setIsActionStart(true)
@@ -92,7 +93,7 @@ const ModalPanel = ({ isOpen, onCloseModal, idCamera }) => {
       cameraUuid: idCamera,
       direction: "up",
       isStop: 1,
-      speed: 1,
+      speed: speed,
     };
     try {
       if (isActionStart) {
@@ -109,7 +110,7 @@ const ModalPanel = ({ isOpen, onCloseModal, idCamera }) => {
       cameraUuid: idCamera,
       direction: "down",
       isStop: 0,
-      speed: 1,
+      speed: speed,
     };
     try {
       setIsActionStart(true)
@@ -124,7 +125,7 @@ const ModalPanel = ({ isOpen, onCloseModal, idCamera }) => {
       cameraUuid: idCamera,
       direction: "down",
       isStop: 1,
-      speed: 1,
+      speed: speed,
     };
     try {
       if (isActionStart) {
@@ -141,7 +142,7 @@ const ModalPanel = ({ isOpen, onCloseModal, idCamera }) => {
       cameraUuid: idCamera,
       direction: "in",
       isStop: 0,
-      speed: 1,
+      speed: speed,
     };
     try {
       setIsActionStart(true)
@@ -156,7 +157,7 @@ const ModalPanel = ({ isOpen, onCloseModal, idCamera }) => {
       cameraUuid: idCamera,
       direction: "in",
       isStop: 1,
-      speed: 1,
+      speed: speed,
     };
     try {
       if (isActionStart) {
@@ -173,7 +174,7 @@ const ModalPanel = ({ isOpen, onCloseModal, idCamera }) => {
       cameraUuid: idCamera,
       direction: "out",
       isStop: 0,
-      speed: 1,
+      speed: speed,
     };
     try {
       setIsActionStart(true)
@@ -188,7 +189,7 @@ const ModalPanel = ({ isOpen, onCloseModal, idCamera }) => {
       cameraUuid: idCamera,
       direction: "out",
       isStop: 1,
-      speed: 1,
+      speed: speed,
     };
     try {
       if (isActionStart) {
@@ -232,6 +233,8 @@ const ModalPanel = ({ isOpen, onCloseModal, idCamera }) => {
         onZoomInEnd={onZoomInEnd}
         onZoomOutStart={onZoomOutStart}
         onZoomOutEnd={onZoomOutEnd}
+        speed={speed}
+        setSpeed={setSpeed}
       />
     </Modal>
   );
