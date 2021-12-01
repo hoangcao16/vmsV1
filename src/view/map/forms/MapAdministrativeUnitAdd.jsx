@@ -2,7 +2,6 @@ import { LoadingOutlined, PlusOutlined } from "@ant-design/icons";
 import { Button, Col, Form, Input, Row, Select, Space, Upload } from "antd";
 import React, { useEffect, useState } from "react";
 import { useTranslation } from "react-i18next";
-import validator from "validator";
 import { AdministrativeUnitType } from "../../../@core/common/common";
 import AddressApi from "../../../actions/api/address/AddressApi";
 import AdDivisionApi from "../../../actions/api/advision/AdDivision";
@@ -12,7 +11,7 @@ import zoneApi from "../../../api/controller-api/zoneApi";
 import useHandleUploadFile from "../../../hooks/useHandleUploadFile";
 import {
   filterOption,
-  normalizeOptions,
+  normalizeOptions
 } from "../../common/select/CustomSelect";
 
 const { Dragger } = Upload;
@@ -79,7 +78,7 @@ const MapAdministrativeUnitAdd = (props) => {
         });
       }
     }
-    setImgFile(editAdminisUnit?.avatarFileName);
+    setImgFile(editAdminisUnit?.avatarFileName ?? "");
   }, [
     editAdminisUnit,
     form,
@@ -163,7 +162,6 @@ const MapAdministrativeUnitAdd = (props) => {
     form.resetFields();
   };
 
-
   return (
     <div
       className={
@@ -246,11 +244,7 @@ const MapAdministrativeUnitAdd = (props) => {
         </Row>
         <Row gutter={12}>
           <Col span={24}>
-            <Form.Item
-              label={t("view.map.phone_number")}
-              name={["tel"]}
-           
-            >
+            <Form.Item label={t("view.map.phone_number")} name={["tel"]}>
               <Input
                 placeholder={t("view.map.please_enter_your_phone_number", {
                   plsEnter: t("please_enter"),
