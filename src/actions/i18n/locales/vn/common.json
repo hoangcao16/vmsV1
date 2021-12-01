@@ -447,7 +447,9 @@
       "activate_hurdles": "Kích hoạt tính năng phát hiện vượt rào ảo",
       "activate_intrusion_detection_events": "Kích hoạt tính năng phát hiện xâm nhập",
       "all_day": "Áp dụng cho tất cả các ngày trong tuần",
-      "apply": "Áp dụng"
+      "apply": "Áp dụng",
+      "time_config_copy": "Áp dụng lịch",
+      "config_copy": "Sao chép"
     }
   },
   "noti": {

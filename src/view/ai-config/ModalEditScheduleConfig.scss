@@ -3,6 +3,10 @@
 .modal__edit--schedule_config {
   max-width: 960px;
 
+  .ant-checkbox-wrapper{
+    margin: 30px;
+   }
+
   .ant-modal-content {
     border-radius: 12px !important;
     background-color: $vms-bg-primary;

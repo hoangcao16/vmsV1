@@ -1,4 +1,4 @@
-import { Col, Form, Input, Modal, Row, Spin, Button, Checkbox, TimePicker } from "antd";
+import { Col, Form, Input, Modal, Row, Spin, Button, Checkbox, TimePicker, Table } from "antd";
 import { isEmpty } from "lodash-es";
 import React, { useEffect, useState } from "react";
 import CameraApi from "../../actions/api/camera/CameraApi";
@@ -12,12 +12,14 @@ import "./../commonStyle/commonForm.scss";
 import "./../commonStyle/commonInput.scss";
 import "./../commonStyle/commonModal.scss";
 import "./../commonStyle/commonSelect.scss";
+import './../commonStyle/commonTable.scss';
 import "./../commonStyle/commonDatePicker.scss";
 import "./../commonStyle/commonTimePicker.scss";
-import "./ModalEditScheduleConfig.scss";
+import "./ModalScheduleConfigCopy.scss";
 import { useTranslation } from 'react-i18next';
 import AIHumansApi from '../../actions/api/ai-humans/AIHumansApi';
 import { PlusOutlined, DeleteOutlined, CloseOutlined } from '@ant-design/icons';
+import AIConfigScheduleApi from "../../actions/api/ai-config/AIConfigScheduleApi";
 const AI_URL = process.env.REACT_APP_AI_BASE_URL;
 
 const format = 'HH:mm';
@@ -30,27 +32,83 @@ const formItemLayout = {
 const ModalScheduleConfigCopy = (props) => {
 
   const { t } = useTranslation();
-  let { setShowModalCopy, handleSubmit } = props;
+  let { setShowModalCopy, cameraUuid, type } = props;
   const [fieldData, setFieldData] = useState();
   const [name, setName] = useState("");
   const [form] = Form.useForm();
   const [listImages, setlistImages] = useState([]);
   const [timeDetails, setTimeDetails] = useState(null)
   const [checkAll, setCheckAll] = useState(false);
+  const [page, setPage] = useState(1);
+  const [pageSize, setPageSize] = useState(10);
+  const [listCameras, setListCameras] = useState([]);
+  const [selectedRowKeys, setSelectedRowKeys] = useState([]);
+  const [select, setSelect] = useState({
+    selectedRowKeys: [],
+    loading: false,
+  });
 
+  
 
+  useEffect(() => {
+    
+    const data = {
+      page: page,
+      pageSize: pageSize
+    };
+    CameraApi.getAllCamera(data).then((result) => {
+      setListCameras(result);
+    });
+  }, []);
+
+  const columns = [{
+    dataIndex: 'name',
+  }];
+  const onSelectChange = (selectedRowKeys) => {
+    setSelectedRowKeys(selectedRowKeys);
+  };
+
+  const rowSelection = {
+    selectedRowKeys,
+    onChange: onSelectChange
+  };
+
+  const handleSubmit = async () => {
+    console.log("____________________")
+    console.log(selectedRowKeys)
+    const payload = {
+      cameraUuids: selectedRowKeys,
+      type: type
+    };
+    try {
+      let isPost = await AIConfigScheduleApi.copyConfigSchedule(cameraUuid, payload);
+
+      if (isPost) {
+        const notifyMess = {
+          type: "success",
+          title: `${t('noti.success')}`,
+          description: `Bạn đã copy thành công`,
+        };
+        Notification(notifyMess);
+        setShowModalCopy(false)
+      }
+    } catch (error) {
+      console.log(error);
+    }
+
+  };
 
 
   return (
     <>
       <Modal
-        title={t('view.ai_config.time_config')}
+        title={t('view.ai_config.time_config_copy')}
         visible={true}
         // onOk={handleSubmit}
         onCancel={() => {
           setShowModalCopy(false)
         }}
-        className='modal__edit--schedule_config'
+        className='modal__edit--schedule_config_copy'
         footer={null}
         width={624}
       >
@@ -63,75 +121,11 @@ const ModalScheduleConfigCopy = (props) => {
         >
 
           
-          {/* <Row gutter={24}>
-            <Col span={8}>
-              <label className="optionTitle">{t('view.report.date_range')} </label>
-            </Col>
-            <Col >
-              <Row gutter={24}>
-                <Form.Item name={['start_1']}>
-                  <TimePicker ></TimePicker>
-                </Form.Item>
-                <Form.Item name={['end_1']}>
-                  <TimePicker ></TimePicker>
-                </Form.Item>
-              </Row>
-            </Col>
-          </Row>
-          <Row gutter={24}>
-            <Col span={8}>
-              <label className="optionTitle">{t('view.report.date_range')} </label>
-            </Col>
-            <Col >
-              <Row gutter={24}>
-                <Form.Item name={['start_2']}>
-                  <TimePicker ></TimePicker>
-                </Form.Item>
-                <Form.Item name={['end_2']}>
-                  <TimePicker ></TimePicker>
-                </Form.Item>
-              </Row>
-            </Col>
-          </Row>
-          <Row gutter={24}>
-            <Col span={8}>
-              <label className="optionTitle">{t('view.report.date_range')} </label>
-            </Col>
-            <Col >
-              <Row gutter={24}>
-                <Form.Item name={['start_3']}>
-                  <TimePicker ></TimePicker>
-                </Form.Item>
-                <Form.Item name={['end_3']}>
-                  <TimePicker ></TimePicker>
-                </Form.Item>
-              </Row>
-            </Col>
-          </Row>
-          <Row gutter={24}>
-            <Col span={8}>
-              <label className="optionTitle">{t('view.report.date_range')} </label>
-            </Col>
-            <Col >
-              <Row gutter={24}>
-                <Form.Item name={['start_4']}>
-                  <TimePicker ></TimePicker>
-                </Form.Item>
-                <Form.Item name={['end_4']}>
-                  <TimePicker ></TimePicker>
-                </Form.Item>
-              </Row>
-            </Col>
-          </Row>
-          <Row gutter={24} className="bg-grey">
-              <Form.Item name={['all_day']}>
-                <Checkbox
-                  checked={checkAll}
-                  color="primary"
-                  onChange={onChangeCheckBox}
-                >{t('view.ai_config.all_day')}</Checkbox>
-              </Form.Item>
-          </Row> */}
+          <Table className="table__hard--cam" 
+          rowSelection={rowSelection} 
+          columns={columns} 
+          rowKey="uuid"
+          dataSource={listCameras} />
 
           <div className="footer__modal">
             <Button onClick={() => { setShowModalCopy(false) }}>Đóng</Button>

@@ -20,7 +20,7 @@ const { TabPane } = Tabs;
 
 
 const TabSchedule = (props) => {
-  const {cameraUuid, type}  = props
+  const { cameraUuid, type } = props
   const { t } = useTranslation();
   const language = reactLocalStorage.get('language');
   const [selectedHumansId, setSelectedHumansId] = useState(null);
@@ -42,11 +42,11 @@ const TabSchedule = (props) => {
   const [listTimes7, setListTimes7] = useState([]);
   const [data, setData] = useState(false);
   const [selectDay, setSelectDay] = useState("");
-  
+
 
 
   useEffect(() => {
-    
+
     const data = {
       page: page,
       pageSize: pageSize
@@ -73,117 +73,117 @@ const TabSchedule = (props) => {
     let i = 1;
     setListTimesCN(data?.sunday)
     data?.sunday && data.sunday.map(item => {
-        const start = item.startTime * 1000
-        const end = item.endTime * 1000
-        itemList.push({
-          id: i,
-          group: 1,
-          title: '',
-          canMove: true,
-          canResize: false,
-          canChangeGroup: false,
-          start_time: moment([2021, 1, 1, moment(start).get('hour'), moment(start).get('minute'), moment(start).get('second'), moment(start).get('millisecond')]),
-          end_time: moment([2021, 1, 1, moment(end).get('hour'), moment(end).get('minute'), moment(end).get('second'), moment(end).get('millisecond')])
-        })
-        i++
+      const start = item.startTime * 1000
+      const end = item.endTime * 1000
+      itemList.push({
+        id: i,
+        group: 1,
+        title: '',
+        canMove: true,
+        canResize: false,
+        canChangeGroup: false,
+        start_time: moment([2021, 1, 1, moment(start).get('hour'), moment(start).get('minute'), moment(start).get('second'), moment(start).get('millisecond')]),
+        end_time: moment([2021, 1, 1, moment(end).get('hour'), moment(end).get('minute'), moment(end).get('second'), moment(end).get('millisecond')])
       })
-      setListTimes2(data?.monday)
-      data?.monday && data.monday.map(item => {
-        const start = item.startTime * 1000
-        const end = item.endTime * 1000
-        itemList.push({
-          id: i,
-          group: 2,
-          title: '',
-          canMove: true,
-          canResize: false,
-          canChangeGroup: false,
-          start_time: moment([2021, 1, 1, moment(start).get('hour'), moment(start).get('minute'), moment(start).get('second'), moment(start).get('millisecond')]),
-          end_time: moment([2021, 1, 1, moment(end).get('hour'), moment(end).get('minute'), moment(end).get('second'), moment(end).get('millisecond')])
-        })
-        i++
+      i++
+    })
+    setListTimes2(data?.monday)
+    data?.monday && data.monday.map(item => {
+      const start = item.startTime * 1000
+      const end = item.endTime * 1000
+      itemList.push({
+        id: i,
+        group: 2,
+        title: '',
+        canMove: true,
+        canResize: false,
+        canChangeGroup: false,
+        start_time: moment([2021, 1, 1, moment(start).get('hour'), moment(start).get('minute'), moment(start).get('second'), moment(start).get('millisecond')]),
+        end_time: moment([2021, 1, 1, moment(end).get('hour'), moment(end).get('minute'), moment(end).get('second'), moment(end).get('millisecond')])
       })
-      setListTimes3(data?.tuesday)
-      data?.tuesday && data.tuesday.map(item => {
-        const start = item.startTime * 1000
-        const end = item.endTime * 1000
-        itemList.push({
-          id: i,
-          group: 3,
-          title: '',
-          canMove: true,
-          canResize: false,
-          canChangeGroup: false,
-          start_time: moment([2021, 1, 1, moment(start).get('hour'), moment(start).get('minute'), moment(start).get('second'), moment(start).get('millisecond')]),
-          end_time: moment([2021, 1, 1, moment(end).get('hour'), moment(end).get('minute'), moment(end).get('second'), moment(end).get('millisecond')])
-        })
-        i++
+      i++
+    })
+    setListTimes3(data?.tuesday)
+    data?.tuesday && data.tuesday.map(item => {
+      const start = item.startTime * 1000
+      const end = item.endTime * 1000
+      itemList.push({
+        id: i,
+        group: 3,
+        title: '',
+        canMove: true,
+        canResize: false,
+        canChangeGroup: false,
+        start_time: moment([2021, 1, 1, moment(start).get('hour'), moment(start).get('minute'), moment(start).get('second'), moment(start).get('millisecond')]),
+        end_time: moment([2021, 1, 1, moment(end).get('hour'), moment(end).get('minute'), moment(end).get('second'), moment(end).get('millisecond')])
       })
-      setListTimes4(data?.wednesday)
-      data?.wednesday && data.wednesday.map(item => {
-        const start = item.startTime * 1000
-        const end = item.endTime * 1000
-        itemList.push({
-          id: i,
-          group: 4,
-          title: '',
-          canMove: true,
-          canResize: false,
-          canChangeGroup: false,
-          start_time: moment([2021, 1, 1, moment(start).get('hour'), moment(start).get('minute'), moment(start).get('second'), moment(start).get('millisecond')]),
-          end_time: moment([2021, 1, 1, moment(end).get('hour'), moment(end).get('minute'), moment(end).get('second'), moment(end).get('millisecond')])
-        })
-        i++
+      i++
+    })
+    setListTimes4(data?.wednesday)
+    data?.wednesday && data.wednesday.map(item => {
+      const start = item.startTime * 1000
+      const end = item.endTime * 1000
+      itemList.push({
+        id: i,
+        group: 4,
+        title: '',
+        canMove: true,
+        canResize: false,
+        canChangeGroup: false,
+        start_time: moment([2021, 1, 1, moment(start).get('hour'), moment(start).get('minute'), moment(start).get('second'), moment(start).get('millisecond')]),
+        end_time: moment([2021, 1, 1, moment(end).get('hour'), moment(end).get('minute'), moment(end).get('second'), moment(end).get('millisecond')])
       })
-      setListTimes5(data?.thursday)
-      data?.thursday && data.thursday.map(item => {
-        const start = item.startTime * 1000
-        const end = item.endTime * 1000
-        itemList.push({
-          id: i,
-          group: 5,
-          title: '',
-          canMove: true,
-          canResize: false,
-          canChangeGroup: false,
-          start_time: moment([2021, 1, 1, moment(start).get('hour'), moment(start).get('minute'), moment(start).get('second'), moment(start).get('millisecond')]),
-          end_time: moment([2021, 1, 1, moment(end).get('hour'), moment(end).get('minute'), moment(end).get('second'), moment(end).get('millisecond')])
-        })
-        i++
+      i++
+    })
+    setListTimes5(data?.thursday)
+    data?.thursday && data.thursday.map(item => {
+      const start = item.startTime * 1000
+      const end = item.endTime * 1000
+      itemList.push({
+        id: i,
+        group: 5,
+        title: '',
+        canMove: true,
+        canResize: false,
+        canChangeGroup: false,
+        start_time: moment([2021, 1, 1, moment(start).get('hour'), moment(start).get('minute'), moment(start).get('second'), moment(start).get('millisecond')]),
+        end_time: moment([2021, 1, 1, moment(end).get('hour'), moment(end).get('minute'), moment(end).get('second'), moment(end).get('millisecond')])
       })
-      setListTimes6(data?.friday)
-      data?.friday && data.friday.map(item => {
-        const start = item.startTime * 1000
-        const end = item.endTime * 1000
-        itemList.push({
-          id: i,
-          group: 6,
-          title: '',
-          canMove: true,
-          canResize: false,
-          canChangeGroup: false,
-          start_time: moment([2021, 1, 1, moment(start).get('hour'), moment(start).get('minute'), moment(start).get('second'), moment(start).get('millisecond')]),
-          end_time: moment([2021, 1, 1, moment(end).get('hour'), moment(end).get('minute'), moment(end).get('second'), moment(end).get('millisecond')])
-        })
-        i++
+      i++
+    })
+    setListTimes6(data?.friday)
+    data?.friday && data.friday.map(item => {
+      const start = item.startTime * 1000
+      const end = item.endTime * 1000
+      itemList.push({
+        id: i,
+        group: 6,
+        title: '',
+        canMove: true,
+        canResize: false,
+        canChangeGroup: false,
+        start_time: moment([2021, 1, 1, moment(start).get('hour'), moment(start).get('minute'), moment(start).get('second'), moment(start).get('millisecond')]),
+        end_time: moment([2021, 1, 1, moment(end).get('hour'), moment(end).get('minute'), moment(end).get('second'), moment(end).get('millisecond')])
       })
-      setListTimes7(data?.saturday)
-      data?.saturday && data.saturday.map(item => {
-        const start = item.startTime * 1000
-        const end = item.endTime * 1000
-        itemList.push({
-          id: i,
-          group: 7,
-          title: '',
-          canMove: true,
-          canResize: false,
-          canChangeGroup: false,
-          start_time: moment([2021, 1, 1, moment(start).get('hour'), moment(start).get('minute'), moment(start).get('second'), moment(start).get('millisecond')]),
-          end_time: moment([2021, 1, 1, moment(end).get('hour'), moment(end).get('minute'), moment(end).get('second'), moment(end).get('millisecond')])
-        })
-        i++
+      i++
+    })
+    setListTimes7(data?.saturday)
+    data?.saturday && data.saturday.map(item => {
+      const start = item.startTime * 1000
+      const end = item.endTime * 1000
+      itemList.push({
+        id: i,
+        group: 7,
+        title: '',
+        canMove: true,
+        canResize: false,
+        canChangeGroup: false,
+        start_time: moment([2021, 1, 1, moment(start).get('hour'), moment(start).get('minute'), moment(start).get('second'), moment(start).get('millisecond')]),
+        end_time: moment([2021, 1, 1, moment(end).get('hour'), moment(end).get('minute'), moment(end).get('second'), moment(end).get('millisecond')])
       })
-      setListDetail(itemList)
+      i++
+    })
+    setListDetail(itemList)
   }
 
   function onSearch(val) {
@@ -207,7 +207,7 @@ const TabSchedule = (props) => {
 
   const handleSubmit = async () => {
     const status = "off"
-    if(checkStatus){
+    if (checkStatus) {
       status = "on"
     }
     const payload = {
@@ -216,19 +216,18 @@ const TabSchedule = (props) => {
       cameraUuid: cameraUuid,
       status: status
     };
-
     try {
       let isPost = await AIConfigScheduleApi.addConfigSchedule(payload);
 
-        if (isPost) {
-          const notifyMess = {
-            type: "success",
-            title: `${t('noti.success')}`,
-            description: `Bạn đã add thành công`,
-          };
-          Notification(notifyMess);
-          setShowModal(false)
-        }
+      if (isPost) {
+        const notifyMess = {
+          type: 'success',
+          title: `${t('noti.success')}`,
+          description: 'Bạn đã config thành công',
+        };
+        Notification(notifyMess);
+        setShowModal(false)
+      }
     } catch (error) {
       console.log(error);
     }
@@ -295,7 +294,7 @@ const TabSchedule = (props) => {
         style={{ fontSize: '16px', color: '#6E6B7B' }}
         onClick={() => {
           setSelectDay("CN")
-          if(!listTimesCN){
+          if (!listTimesCN) {
             const defaultList = [];
             defaultList.push({
               startTime: 1609434000,
@@ -314,7 +313,7 @@ const TabSchedule = (props) => {
         style={{ fontSize: '16px', color: '#6E6B7B' }}
         onClick={() => {
           setSelectDay("2")
-          if(!listTimes2){
+          if (!listTimes2) {
             const defaultList = [];
             defaultList.push({
               startTime: 1609434000,
@@ -333,7 +332,7 @@ const TabSchedule = (props) => {
         style={{ fontSize: '16px', color: '#6E6B7B' }}
         onClick={() => {
           setSelectDay("3")
-          if(!listTimes3){
+          if (!listTimes3) {
             const defaultList = [];
             defaultList.push({
               startTime: 1609434000,
@@ -352,7 +351,7 @@ const TabSchedule = (props) => {
         style={{ fontSize: '16px', color: '#6E6B7B' }}
         onClick={() => {
           setSelectDay("4")
-          if(!listTimes4){
+          if (!listTimes4) {
             const defaultList = [];
             defaultList.push({
               startTime: 1609434000,
@@ -371,7 +370,7 @@ const TabSchedule = (props) => {
         style={{ fontSize: '16px', color: '#6E6B7B' }}
         onClick={() => {
           setSelectDay("5")
-          if(!listTimes5){
+          if (!listTimes5) {
             const defaultList = [];
             defaultList.push({
               startTime: 1609434000,
@@ -390,7 +389,7 @@ const TabSchedule = (props) => {
         style={{ fontSize: '16px', color: '#6E6B7B' }}
         onClick={() => {
           setSelectDay("6")
-          if(!listTimes6){
+          if (!listTimes6) {
             const defaultList = [];
             defaultList.push({
               startTime: 1609434000,
@@ -409,7 +408,7 @@ const TabSchedule = (props) => {
         style={{ fontSize: '16px', color: '#6E6B7B' }}
         onClick={() => {
           setSelectDay("7")
-          if(!listTimes7){
+          if (!listTimes7) {
             const defaultList = [];
             defaultList.push({
               startTime: 1609434000,
@@ -419,7 +418,7 @@ const TabSchedule = (props) => {
           } else {
             setListTimes(listTimes7)
           }
-          
+
           setShowModal(true);
         }}
       />,
@@ -442,9 +441,22 @@ const TabSchedule = (props) => {
           <Tabs type="card" >
             <TabPane tab={t('view.ai_config.area_config')} key="2">
               {/* Content of Tab Pane 1 */}
+              {cameraUuid ?
+                <div className="footer__modal">
+
+                  <Button
+                    onClick={() => {
+                      handleSubmit();
+                    }}
+                    type="primary" htmlType="submit ">
+                    {t('view.ai_config.apply')}
+                  </Button>
+                </div> : null
+              }
             </TabPane>
             <TabPane tab={t('view.ai_config.schedule_config')} key="1">
               <Timeline
+               
                 style={{ color: 'white', marginTop: '20px', marginBottom: '20px' }}
                 groups={groups}
                 items={listDetail}
@@ -453,29 +465,36 @@ const TabSchedule = (props) => {
                 visibleTimeStart={moment([2021, 1, 1, 0, 0, 0, 0])}
                 visibleTimeEnd={moment([2021, 1, 1, 23, 59, 59, 999])}
                 rightSidebarWidth={30}
-                rightSidebarContent={<div>Above The Right</div>}
-                canResize={false}
+                minZoom={moment([2021, 1, 1, 0, 0, 0, 0])}
+                maxZoom={moment([2021, 1, 1, 23, 59, 59, 999])}
+                sidebarWidth={80}
                 useResizeHandle={false}
               />
+              {cameraUuid ?
+                <div className="footer__modal">
+
+                  <Button
+                    onClick={() => {
+                      handleSubmit();
+                    }}
+                    type="primary" htmlType="submit ">
+                    {t('view.ai_config.apply')}
+                  </Button>
+                  <Button
+                    type="primary"
+                    onClick={() => {
+                      setShowModalCopy(true);
+                    }}
+                  >
+                    {t('view.ai_config.config_copy')}
+                  </Button>
+                </div> : null
+              }
+
             </TabPane>
           </Tabs>
         </div>
-        <div className="footer__modal">
-          <Button 
-          onClick={() => {
-            handleSubmit();
-          }}
-          type="primary" htmlType="submit ">
-            {t('view.ai_config.apply')}
-          </Button>
-          <Button
-            onClick={() => {
-              setShowModalCopy(true);
-            }}
-          >
-            {t('view.camera.close')}
-          </Button>
-        </div>
+
       </Card>
       {showModal &&
         <ModalEditScheduleConfig
@@ -487,8 +506,8 @@ const TabSchedule = (props) => {
       }
       {showModalCopy &&
         <ModalScheduleConfigCopy
-          listTimes={listTimes}
-          selectedHumansId={selectedHumansId}
+          type={type}
+          cameraUuid={cameraUuid}
           setShowModalCopy={setShowModalCopy}
           handleCreateTimeConfig={handleCreateTimeConfig}
         />
