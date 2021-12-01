@@ -163,15 +163,6 @@ const MapAdministrativeUnitAdd = (props) => {
     form.resetFields();
   };
 
-  const onTelChange = (rule, value, callback) => {
-    const tel = form.getFieldValue("tel");
-    const isValidPhoneNumber = validator.isMobilePhone(tel);
-    if (!isValidPhoneNumber) {
-      callback(t("view.map.invalid_phone_number"));
-    } else {
-      callback();
-    }
-  };
 
   return (
     <div
@@ -224,17 +215,31 @@ const MapAdministrativeUnitAdd = (props) => {
                 placeholder={t("view.map.please_enter_unit_name", {
                   plsEnter: t("please_enter"),
                 })}
+                maxLength={255}
+                onBlur={(e) =>
+                  form.setFieldsValue({ name: e.target.value.trim() })
+                }
               />
             </Form.Item>
           </Col>
         </Row>
         <Row gutter={12} className="camera-form-inner__item">
           <Col span={24}>
-            <Form.Item name={["address"]} label={t("view.map.address")}>
+            <Form.Item
+              name={["address"]}
+              label={t("view.map.address")}
+              rules={[
+                { required: true, message: t("view.map.required_field") },
+              ]}
+            >
               <Input
                 placeholder={t("view.map.please_enter_your_address", {
                   plsEnter: t("please_enter"),
                 })}
+                maxLength={255}
+                onBlur={(e) =>
+                  form.setFieldsValue({ address: e.target.value.trim() })
+                }
               />
             </Form.Item>
           </Col>
@@ -244,7 +249,7 @@ const MapAdministrativeUnitAdd = (props) => {
             <Form.Item
               label={t("view.map.phone_number")}
               name={["tel"]}
-              rules={[{ validator: onTelChange }]}
+           
             >
               <Input
                 placeholder={t("view.map.please_enter_your_phone_number", {
