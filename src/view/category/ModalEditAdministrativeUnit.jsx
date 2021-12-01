@@ -476,14 +476,13 @@ const ModalEditAdministrativeUnit = (props) => {
                 ]}
               >
                 <Input
-                  type="number"
-                  onKeyDown={(evt) =>
-                    ["e", "E", "D", "d"].includes(evt.key) &&
-                    evt.preventDefault()
-                  }
                   placeholder={t("view.map.please_enter_longitude", {
                     plsEnter: t("please_enter"),
                   })}
+                  maxLength={255}
+                  onBlur={(e) =>
+                    form.setFieldsValue({ long_: e.target.value.trim() })
+                  }
                 />
               </Form.Item>
             </Col>
@@ -516,14 +515,13 @@ const ModalEditAdministrativeUnit = (props) => {
                 ]}
               >
                 <Input
-                  type="number"
-                  onKeyDown={(evt) =>
-                    ["e", "E", "D", "d"].includes(evt.key) &&
-                    evt.preventDefault()
-                  }
                   placeholder={t("view.map.please_enter_latitude", {
                     plsEnter: t("please_enter"),
                   })}
+                  maxLength={255}
+                  onBlur={(e) =>
+                    form.setFieldsValue({ lat_: e.target.value.trim() })
+                  }
                 />
               </Form.Item>
             </Col>

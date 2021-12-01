@@ -338,7 +338,15 @@ const MapAdministrativeUnitAdd = (props) => {
                 }),
               ]}
             >
-              <Input placeholder={t("view.map.longitude")} />
+              <Input
+                placeholder={t("view.map.please_enter_longitude", {
+                  plsEnter: t("please_enter"),
+                })}
+                maxLength={255}
+                onBlur={(e) =>
+                  form.setFieldsValue({ long_: e.target.value.trim() })
+                }
+              />
             </Form.Item>
           </Col>
           <Col span={12}>
@@ -367,7 +375,15 @@ const MapAdministrativeUnitAdd = (props) => {
                 }),
               ]}
             >
-              <Input type="number" placeholder={t("view.map.latitude")} />
+              <Input
+                placeholder={t("view.map.please_enter_latitude", {
+                  plsEnter: t("please_enter"),
+                })}
+                maxLength={255}
+                onBlur={(e) =>
+                  form.setFieldsValue({ lat_: e.target.value.trim() })
+                }
+              />
             </Form.Item>
           </Col>
         </Row>

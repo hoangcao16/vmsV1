@@ -485,10 +485,11 @@ const ModalAddCamera = (props) => {
                   ({ getFieldValue }) => ({
                     validator(rule, value) {
                       const data = getFieldValue(["long_"]);
+                      console.log("data[0]:", data[0]);
                       if (data) {
                         if (
                           isFinite(data) &&
-                          Math.abs(data) <= 90 &&
+                          Math.abs(data) <= 180 &&
                           data[0] !== "." &&
                           data[data.length - 1] !== "."
                         ) {
@@ -506,20 +507,13 @@ const ModalAddCamera = (props) => {
                 ]}
               >
                 <Input
-                  type="number"
-                  onKeyDown={(evt) =>
-                    ["e", "E", "D", "d"].includes(evt.key) &&
-                    evt.preventDefault()
-                  }
                   placeholder={t("view.map.please_enter_longitude", {
                     plsEnter: t("please_enter"),
                   })}
-                  onBlur={(e) => {
-                    form.setFieldsValue({
-                      long_: e.target.value.trim(),
-                    });
-                  }}
                   maxLength={255}
+                  onBlur={(e) =>
+                    form.setFieldsValue({ long_: e.target.value.trim() })
+                  }
                 />
               </Form.Item>
             </Col>
@@ -552,20 +546,13 @@ const ModalAddCamera = (props) => {
                 ]}
               >
                 <Input
-                  type="number"
-                  onKeyDown={(evt) =>
-                    ["e", "E", "D", "d"].includes(evt.key) &&
-                    evt.preventDefault()
-                  }
                   placeholder={t("view.map.please_enter_latitude", {
                     plsEnter: t("please_enter"),
                   })}
-                  onBlur={(e) => {
-                    form.setFieldsValue({
-                      lat_: e.target.value.trim(),
-                    });
-                  }}
                   maxLength={255}
+                  onBlur={(e) =>
+                    form.setFieldsValue({ lat_: e.target.value.trim() })
+                  }
                 />
               </Form.Item>
             </Col>

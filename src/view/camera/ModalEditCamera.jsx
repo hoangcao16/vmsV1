@@ -518,6 +518,7 @@ const ModalEditCamera = (props) => {
                   ({ getFieldValue }) => ({
                     validator(rule, value) {
                       const data = getFieldValue(["long_"]);
+                      console.log("data[0]:", data[0]);
                       if (data) {
                         if (
                           isFinite(data) &&
@@ -539,11 +540,6 @@ const ModalEditCamera = (props) => {
                 ]}
               >
                 <Input
-                  // type="number"
-                  // onKeyDown={(evt) =>
-                  //   ["e", "E","d","D"].includes(evt.key) &&
-                  //   evt.preventDefault()
-                  // }
                   placeholder={t("view.map.please_enter_longitude", {
                     plsEnter: t("please_enter"),
                   })}
@@ -583,11 +579,6 @@ const ModalEditCamera = (props) => {
                 ]}
               >
                 <Input
-                  // type="number"
-                  // onKeyDown={(evt) =>
-                  //   ["e", "E","d","D"].includes(evt.key) &&
-                  //   evt.preventDefault()
-                  // }
                   placeholder={t("view.map.please_enter_latitude", {
                     plsEnter: t("please_enter"),
                   })}

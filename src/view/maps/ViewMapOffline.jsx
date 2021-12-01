@@ -1,10 +1,13 @@
 import MapboxDraw from "@mapbox/mapbox-gl-draw";
 import "@mapbox/mapbox-gl-draw/dist/mapbox-gl-draw.css";
 import * as turf from "@turf/turf";
-import _ from 'lodash';
+import _ from "lodash";
 import {
-  CircleMode, DirectMode, DragCircleMode, SimpleSelectMode
-} from 'mapbox-gl-draw-circle';
+  CircleMode,
+  DirectMode,
+  DragCircleMode,
+  SimpleSelectMode,
+} from "mapbox-gl-draw-circle";
 import React, { useEffect, useRef, useState } from "react";
 import ReactDOM from "react-dom";
 import { useTranslation } from "react-i18next";
@@ -16,7 +19,11 @@ import { updateAdminisUnitOnMap } from "../../redux/actions/map/adminisUnitsActi
 import { updateCameraOnMapByFilter } from "../../redux/actions/map/cameraActions";
 import { setCamsLiveOnMap } from "../../redux/actions/map/camLiveAction";
 import { updateMapObject } from "../../redux/actions/map/formMapActions";
-import { deleteAllTrackingPoint, deleteOneTrackingPoint, setSelectedTrackingPoint } from "../../redux/actions/map/trackingPointActions";
+import {
+  deleteAllTrackingPoint,
+  deleteOneTrackingPoint,
+  setSelectedTrackingPoint,
+} from "../../redux/actions/map/trackingPointActions";
 import {
   CAM_LIVE_ITEMS,
   FORM_MAP_ITEM,
@@ -26,7 +33,7 @@ import {
   STYLE_MODE,
   TRACKING_POINTS,
   TYPE_CONTEXT_MENU,
-  TYPE_FORM_ACTION_ON_MAP
+  TYPE_FORM_ACTION_ON_MAP,
 } from "../common/vms/constans/map";
 import { cameraGreenIconSvg } from "../map/camera-green.icon";
 import { cameraRedIconSvg } from "../map/camera-red.icon";
@@ -34,9 +41,6 @@ import { svg } from "../map/camera.icon";
 import CamInfoPopup from "./CamInfoPopup";
 import ContextMenuPopup from "./ContextMenuPopup";
 import { AdminisUnitIconSvg } from "./icons/adminisUnit.icon";
-
-
-
 
 const ViewMapOffline = (props) => {
   const { t } = useTranslation();
@@ -61,10 +65,11 @@ const ViewMapOffline = (props) => {
   );
   const formMapSelector = useSelector((state) => state.map.form);
 
-
-  const { listCamByTrackingPoint: camsByTrackPointSelector, trackingPoints: trackingPointSelector, selectedTrackPoint } = useSelector(
-    (state) => state.map.trackingPoint
-  );
+  const {
+    listCamByTrackingPoint: camsByTrackPointSelector,
+    trackingPoints: trackingPointSelector,
+    selectedTrackPoint,
+  } = useSelector((state) => state.map.trackingPoint);
 
   const image = new Image();
   const adminisUinitIcon = new Image();
@@ -78,7 +83,6 @@ const ViewMapOffline = (props) => {
   cameraGreenIcon.src =
     "data:image/svg+xml;charset=utf-8;base64," + btoa(cameraGreenIconSvg);
 
-
   // const mapContainerSelecttor = useSelector(state => state.map.contextMapReducer.mapContainer);
   const contextMenuPoppupRef = useRef();
   const mapboxRef = useRef(null);
@@ -89,13 +93,14 @@ const ViewMapOffline = (props) => {
   const mapMarkerTrackPointsRef = useRef([]);
   const markerTargetRef = useRef(null);
   const mapBoxDrawRef = useRef(null);
-  const zoom = 14
+  const zoom = 14;
   const dispatch = useDispatch();
   const { editMode, selectedMapStyle, selectedPos } = formMapSelector;
   const [rmTrackingPoint, setRmTrackingPoint] = useState(false);
-  const showTypeMapPopup = (editMode && !rmTrackingPoint)
-    ? TYPE_CONTEXT_MENU[0]
-    : rmTrackingPoint
+  const showTypeMapPopup =
+    editMode && !rmTrackingPoint
+      ? TYPE_CONTEXT_MENU[0]
+      : rmTrackingPoint
       ? TYPE_CONTEXT_MENU[1]
       : TYPE_CONTEXT_MENU[2];
 
@@ -118,15 +123,16 @@ const ViewMapOffline = (props) => {
 
   const notifyParent = (event) => {
     const feature = event.features[0];
-    if (event.type === 'draw.update') {
-      feature && feature.properties.isCircle && updateTrackingPoint(feature, feature.id)
-    } else if (event.type === 'draw.create') {
-      feature && feature.properties.isCircle && addTrackingPoint(feature, feature.id);
+    if (event.type === "draw.update") {
+      feature &&
+        feature.properties.isCircle &&
+        updateTrackingPoint(feature, feature.id);
+    } else if (event.type === "draw.create") {
+      feature &&
+        feature.properties.isCircle &&
+        addTrackingPoint(feature, feature.id);
     }
   };
-
-
-
 
   //khởi tạo map
   const showViewMap = () => {
@@ -163,20 +169,17 @@ const ViewMapOffline = (props) => {
             draw_circle: CircleMode,
             simple_select: SimpleSelectMode,
             direct_select: DirectMode,
-            drag_circle: DragCircleMode
-          }
+            drag_circle: DragCircleMode,
+          },
         });
 
         // Add this draw object to the map when map loads
         // thêm phần control cho map: kéo, xoay map
         mapboxRef.current.addControl(mapBoxDrawRef.current);
 
-        mapboxRef.current.on("draw.create", e => notifyParent(e));
-        mapboxRef.current.on("draw.update", e => notifyParent(e));
-        mapboxRef.current.on("draw.delete", e => notifyParent(e));
-
-
-
+        mapboxRef.current.on("draw.create", (e) => notifyParent(e));
+        mapboxRef.current.on("draw.update", (e) => notifyParent(e));
+        mapboxRef.current.on("draw.delete", (e) => notifyParent(e));
       }
     } catch (error) {
       console.log(error);
@@ -206,7 +209,7 @@ const ViewMapOffline = (props) => {
         })
       );
     }
-  }
+  };
 
   const onClickFirstItem = (type) => {
     switch (type) {
@@ -261,10 +264,9 @@ const ViewMapOffline = (props) => {
   };
 
   const handleAddTrackingPoint = () => {
-    mapBoxDrawRef.current.changeMode('draw_circle', { initialRadiusInKm: 1 });
+    mapBoxDrawRef.current.changeMode("draw_circle", { initialRadiusInKm: 1 });
     handleRemoveContextMenu();
   };
-
 
   const handleRemoveAllTrackingPoint = () => {
     mapBoxDrawRef.current.deleteAll();
@@ -317,13 +319,16 @@ const ViewMapOffline = (props) => {
   };
 
   const handlePinCam = (type, camera) => {
-    const allCamLive = sessionStorage.getItem(CAM_LIVE_ITEMS) ? JSON.parse(sessionStorage.getItem(CAM_LIVE_ITEMS)) : [];
-    const isCamExist = allCamLive.find(camLive => camLive.uuid === camera.uuid);
+    const allCamLive = sessionStorage.getItem(CAM_LIVE_ITEMS)
+      ? JSON.parse(sessionStorage.getItem(CAM_LIVE_ITEMS))
+      : [];
+    const isCamExist = allCamLive.find(
+      (camLive) => camLive.uuid === camera.uuid
+    );
     if (!isCamExist) {
-      dispatch(setCamsLiveOnMap({ ...camera, isPlay: false }))
+      dispatch(setCamsLiveOnMap({ ...camera, isPlay: false }));
     }
-  }
-
+  };
 
   const showContextMenuPopup = (lngLat) => {
     const mapCardNode = document.createElement("div");
@@ -353,11 +358,12 @@ const ViewMapOffline = (props) => {
     popup.on("open", (e) => {
       liveCameras.forEach((cam) => {
         data && CameraService.closeCamera(cam.uuid);
-      })
+      });
       popupAttachMarkerRef.current = e.target;
-      data && CameraService.playCameraOnline(data, data.uuid).then(res => {
-        console.log(res);
-      })
+      data &&
+        CameraService.playCameraOnline(data, data.uuid).then((res) => {
+          console.log(res);
+        });
     });
 
     el.addEventListener("click", (e) => {
@@ -367,7 +373,6 @@ const ViewMapOffline = (props) => {
       markerTargetRef.current = e.target;
     });
   };
-
 
   const createMarkerCam = (listCam, markerRef) => {
     if (listCam.length > 0) {
@@ -402,24 +407,23 @@ const ViewMapOffline = (props) => {
             .setLngLat([camera.long_, camera.lat_])
             .setPopup(popup)
             .addTo(mapboxRef.current);
-          marker.on('dragend', () => handleDragEndMarker(marker, camera, TYPE_FORM_ACTION_ON_MAP.cam));
+          marker.on("dragend", () =>
+            handleDragEndMarker(marker, camera, TYPE_FORM_ACTION_ON_MAP.cam)
+          );
           mapCamMarkersRef.current && mapCamMarkersRef.current.push(marker);
           markerRef.current && markerRef.current.push(marker);
           hanldeExposePopup(el, popup, camera);
         }
       });
     }
-  }
-
-
-  const displayMarkerCamOnMap = (listCam) => {
-    createMarkerCam(listCam, mapMarkersRef)
   };
 
+  const displayMarkerCamOnMap = (listCam) => {
+    createMarkerCam(listCam, mapMarkersRef);
+  };
 
   const displayMarkerCamByTrackingPointOnMap = (listCam) => {
-    createMarkerCam(listCam, mapMarkerTrackPointsRef)
-
+    createMarkerCam(listCam, mapMarkerTrackPointsRef);
   };
 
   const handleDragEndMarker = (marker, data, type) => {
@@ -427,14 +431,14 @@ const ViewMapOffline = (props) => {
     const payload = {
       ...data,
       long_: lngLat.lng,
-      lat_: lngLat.lat
-    }
+      lat_: lngLat.lat,
+    };
     if (type === TYPE_FORM_ACTION_ON_MAP.ad_unit) {
       dispatch(updateAdminisUnitOnMap(payload));
     } else {
       dispatch(updateCameraOnMapByFilter(payload));
     }
-  }
+  };
 
   const displayMarkerUnitsOnMap = () => {
     if (adminisUnitList.length) {
@@ -468,22 +472,18 @@ const ViewMapOffline = (props) => {
             .setLngLat([unit.long_, unit.lat_])
             .setPopup(popup)
             .addTo(mapboxRef.current);
-          marker.on('dragend', () => handleDragEndMarker(marker, unit, TYPE_FORM_ACTION_ON_MAP.ad_unit));
+          marker.on("dragend", () =>
+            handleDragEndMarker(marker, unit, TYPE_FORM_ACTION_ON_MAP.ad_unit)
+          );
           popup.on("open", (e) => {
             popupAttachMarkerRef.current = e.target;
           });
-          mapAdUnitMarkersRef.current && mapAdUnitMarkersRef.current.push(marker);
+          mapAdUnitMarkersRef.current &&
+            mapAdUnitMarkersRef.current.push(marker);
           hanldeExposePopup(el, popup);
         }
       });
     }
-  };
-
-  const getCircle = (center, radius, options) => {
-    if (!options) {
-      options = { steps: 50, units: "kilometers", properties: { foo: "bar" } };
-    }
-    return turf.circle(center, radius, options);
   };
 
   const handleAddLayer = () => {
@@ -491,11 +491,9 @@ const ViewMapOffline = (props) => {
       if (trackingPointSelector.length > 0) {
         trackingPointSelector.forEach((point, index) => {
           const FeatureCollection = {
-            "type": "FeatureCollection",
-            "features": [
-              point.feature
-            ]
-          }
+            type: "FeatureCollection",
+            features: [point.feature],
+          };
           mapBoxDrawRef.current.add(FeatureCollection);
         });
       }
@@ -521,24 +519,24 @@ const ViewMapOffline = (props) => {
     const svgElement = marker.getElement().children[0];
     svgElement.style.transform = `scale(${scalePercent})`;
     svgElement.style.transformOrigin = "bottom";
-  }
+  };
 
   const handleControlZoomMarker = () => {
     const currentZoom = mapboxRef.current.getZoom();
     mapCamMarkersRef.current &&
       mapCamMarkersRef.current.forEach((marker) => {
-        calRatioZoom(marker, currentZoom)
+        calRatioZoom(marker, currentZoom);
       });
     mapAdUnitMarkersRef.current &&
       mapAdUnitMarkersRef.current.forEach((marker) => {
-        calRatioZoom(marker, currentZoom)
+        calRatioZoom(marker, currentZoom);
       });
-  }
+  };
   useEffect(() => {
     showViewMap();
     mapboxRef.current &&
       mapboxRef.current.on("zoom", function () {
-        handleControlZoomMarker()
+        handleControlZoomMarker();
       });
   }, []);
 
@@ -547,26 +545,27 @@ const ViewMapOffline = (props) => {
   }, [selectedMapStyle]);
 
   const resetMarker = (marker) => {
-    marker && marker.forEach((data) => {
-      data.remove();
-    });
+    marker &&
+      marker.forEach((data) => {
+        data.remove();
+      });
     marker = [];
-  }
+  };
 
   useEffect(() => {
-    resetMarker(mapMarkersRef.current)
+    resetMarker(mapMarkersRef.current);
     displayMarkerCamOnMap(liveCameras);
-  }, [liveCameras])
+  }, [liveCameras]);
 
   useEffect(() => {
-    resetMarker(mapMarkerTrackPointsRef.current)
+    resetMarker(mapMarkerTrackPointsRef.current);
     displayMarkerCamByTrackingPointOnMap(camsByTrackPointSelector);
-  }, [camsByTrackPointSelector])
+  }, [camsByTrackPointSelector]);
 
   useEffect(() => {
-    resetMarker(mapAdUnitMarkersRef.current)
+    resetMarker(mapAdUnitMarkersRef.current);
     displayMarkerUnitsOnMap();
-  }, [adminisUnitList])
+  }, [adminisUnitList]);
 
   useEffect(() => {
     displayTrackingPointsOnMap();
@@ -581,19 +580,19 @@ const ViewMapOffline = (props) => {
 
   const handleCheckDuplicate = (e, trackPointId) => {
     let isCheck = false;
-    const trackingPointItems = localStorage.getItem(TRACKING_POINTS) ? JSON.parse(localStorage.getItem(TRACKING_POINTS)) : [];
+    const trackingPointItems = localStorage.getItem(TRACKING_POINTS)
+      ? JSON.parse(localStorage.getItem(TRACKING_POINTS))
+      : [];
     isCheck = trackingPointItems.find((point) => point.id === trackPointId);
     if (isCheck) {
-      dispatch(setSelectedTrackingPoint(isCheck))
+      dispatch(setSelectedTrackingPoint(isCheck));
       setRmTrackingPoint(true);
     } else {
       setRmTrackingPoint(false);
     }
     handleRemoveContextMenu();
     onContextMenuCallback(e);
-  }
-
-
+  };
 
   useEffect(() => {
     if (contextMenuPoppupRef.current) {
@@ -622,8 +621,6 @@ const ViewMapOffline = (props) => {
       center: currentLatLngSelector,
     });
   }, [currentLatLngSelector]);
-
-
 
   return <div key="map" id="map" className="view-map-offline"></div>;
 };
