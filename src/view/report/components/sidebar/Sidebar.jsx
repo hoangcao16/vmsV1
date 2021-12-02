@@ -138,26 +138,26 @@ function Sidebar(props) {
     if (provinceId.length === 1) {
       AddressApi.getDistrictByProvinceId(provinceId).then(setDistrict);
     }
-    if (provinceId.length > 5) {
-      const language = reactLocalStorage.get('language')
-      if (language == 'vn') {
-        const notifyMess = {
-          type: 'error',
-          title: '',
-          description: 'Số lượng khu vực không được vượt quá 5'
-        };
-        Notification(notifyMess);
-        return;
-      } else {
-        const notifyMess = {
-          type: 'error',
-          title: '',
-          description: `The number of areas must not exceed 5`
-        };
-        Notification(notifyMess);
-        return;
-      }
-    }
+    // if (provinceId.length > 5) {
+    //   const language = reactLocalStorage.get('language')
+    //   if (language == 'vn') {
+    //     const notifyMess = {
+    //       type: 'error',
+    //       title: '',
+    //       description: 'Số lượng khu vực không được vượt quá 5'
+    //     };
+    //     Notification(notifyMess);
+    //     return;
+    //   } else {
+    //     const notifyMess = {
+    //       type: 'error',
+    //       title: '',
+    //       description: `The number of areas must not exceed 5`
+    //     };
+    //     Notification(notifyMess);
+    //     return;
+    //   }
+    // }
   }, [provinceId]);
 
   useEffect(() => {
@@ -243,6 +243,9 @@ function Sidebar(props) {
   
 
   const onChangeCity = async (cityIdArr) => {
+
+    
+
     if (cityIdArr.length < 1) {
       form.setFieldsValue({
         provinceId: provinceId
@@ -254,7 +257,6 @@ function Sidebar(props) {
       setHiddenWard(true);
       setisShowLineAndPieChart(true);
       setProvinceId(cityIdArr);
-      console.log(eventList)
       if (isEmpty(eventList)) {
         setSelectedRowKeys(null);
       } else {
@@ -263,7 +265,7 @@ function Sidebar(props) {
       form.setFieldsValue({ districtId: undefined, wardId: undefined });
 
       return;
-    } else if (cityIdArr.length > 1) {
+    } else if (cityIdArr.length > 1 || cityIdArr.length < 6) {
       setHiddenDistrictAndWard(false);
       setHiddenWard(false);
       setisShowLineAndPieChart(false);
@@ -271,7 +273,6 @@ function Sidebar(props) {
       setWardId([]);
       form.setFieldsValue({ districtId: undefined, wardId: undefined });
       setProvinceId(cityIdArr);
-      console.log(eventList)
       if (isEmpty(eventList)) {
         setSelectedRowKeys(null);
       } else {
@@ -280,6 +281,7 @@ function Sidebar(props) {
 
       return;
     }
+
     form.setFieldsValue({ districtId: undefined, wardId: undefined });
   };
 
@@ -288,7 +290,6 @@ function Sidebar(props) {
       setHiddenWard(true);
       setisShowLineAndPieChart(true)
       setDistrictId(districtIdArr);
-      console.log(eventList)
       if (isEmpty(eventList)) {
         setSelectedRowKeys(null);
       } else {
@@ -303,7 +304,6 @@ function Sidebar(props) {
       setisShowLineAndPieChart(false)
       setDistrictId(districtIdArr);
       setWardId([]);
-      console.log(eventList)
       if (isEmpty(eventList)) {
         setSelectedRowKeys(null);
       } else {
@@ -318,7 +318,6 @@ function Sidebar(props) {
       setHiddenWard(true);
       setDistrictId([]);
       setisShowLineAndPieChart(true);
-      console.log(eventList)
       if (isEmpty(eventList)) {
         setSelectedRowKeys(null);
       } else {
@@ -336,7 +335,6 @@ function Sidebar(props) {
       setWardId(wardIdArr);
       setisShowLineAndPieChart(true)
       props.changeChart(true);
-      console.log(eventList)
       if (isEmpty(eventList)) {
         setSelectedRowKeys(null);
       } else {
@@ -347,7 +345,6 @@ function Sidebar(props) {
     } else if (wardIdArr.length > 1) {
       setisShowLineAndPieChart(false)
       setWardId(wardIdArr);
-      console.log(eventList)
       if (isEmpty(eventList)) {
         setSelectedRowKeys(null);
       } else {
@@ -361,7 +358,6 @@ function Sidebar(props) {
       setHiddenWard(true);
       setisShowLineAndPieChart(true)
       setWardId([]);
-      console.log(eventList)
       if (isEmpty(eventList)) {
         setSelectedRowKeys(null);
       } else {
@@ -457,10 +453,10 @@ function Sidebar(props) {
     }
   };
     
-    const rowSelection = {
-      selectedRowKeys,
-      onChange: onSelectChange
-    };
+  const rowSelection = {
+    selectedRowKeys,
+    onChange: onSelectChange
+  };
     
   const onChangeDateTime = async (dateTime) => {
     setDatatime(dateTime);
