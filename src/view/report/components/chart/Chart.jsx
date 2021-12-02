@@ -16,6 +16,8 @@ import './chart.scss';
 import ExportReport from './ExportReport';
 import { useTranslation } from 'react-i18next';
 import convertDataChartAndPieChart from '../../../../actions/function/MyUltil/ConvertDataChartAndPieChart';
+import { Spin } from 'antd';
+import Loading from '../../../common/element/Loading';
 
 var randomColor = require('randomcolor');
 
@@ -28,7 +30,8 @@ function Chart(props) {
     const keyArr = Object.keys(dataNoName);
     return keyArr.map((k) => {
       return (
-        <Line
+        <Line 
+          key={k}
           type="monotone"
           dataKey={k}
           stroke={randomColor()}
@@ -39,6 +42,10 @@ function Chart(props) {
   };
 
   if (isEmpty(JSON.parse(JSON.stringify(data)))) {
+    return null;
+  }
+
+  if(props.isLoading){
     return null;
   }
 

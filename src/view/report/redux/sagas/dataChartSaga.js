@@ -45,6 +45,8 @@ export function* handleDataChartLoad(action) {
         return data
       }));
       yield put(setDataChart(data));
+    } else {
+      yield put(setDataChart([]));
     }
   } catch (error) {
     yield put(setError(error.toString()));

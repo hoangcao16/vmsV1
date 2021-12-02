@@ -166,7 +166,6 @@ const Live = (props) => {
     try {
       const data = await bookmarkApi.getDefault();
 
-      console.log("data:", data);
       if (data && data.payload && data.payload.length >= 1) {
         const defaultScreen = data.payload[0];
         // Get all cam info of each slot from a screen

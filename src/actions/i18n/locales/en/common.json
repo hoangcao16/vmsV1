@@ -516,7 +516,8 @@
     "successfully_add_camera": "Successfully add new Camera",
     "successfully_edit_name": "Successfully edit name of",
     "successfully_add": "Successfully add new",
-    "success": "Success"
+    "success": "Success",
+    "choose_event" : "You need to choose event"
   },
   "breadcrumd": {
     "report": "Report Management",
