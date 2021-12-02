@@ -26,7 +26,16 @@ export default function ExportReport(props) {
       typeChart:type
     }
     await ReportApi.getExportData(data).then((value) => {
-      var data = new Blob([value], {type: 'application/force-download'});
+
+      // const url = window.URL.createObjectURL(new Blob([value]));
+      // const link = document.createElement('a');
+      // link.href = url;
+      // link.setAttribute('download', 'Report.xlsx'); //or any other extension
+      // document.body.appendChild(link);
+      // link.click();
+
+      // var data = new Blob([value], {type: 'application/force-download'});
+      var data = new Blob([value], {type: 'application/json'});
       var xlsxURL = window.URL.createObjectURL(data);
       var a = document.createElement("a");
       document.body.appendChild(a);

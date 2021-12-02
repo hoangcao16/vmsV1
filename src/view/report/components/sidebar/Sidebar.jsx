@@ -221,7 +221,7 @@ function Sidebar(props) {
     }
     setSelectedRowKeys([dataFilter.eventList[0].uuid])
     
-    //Call API
+    // Call API
     // const data = {
     //   pickTime: dataTime,
     //   timeStartDay: timeStartDay,
@@ -254,7 +254,12 @@ function Sidebar(props) {
       setHiddenWard(true);
       setisShowLineAndPieChart(true);
       setProvinceId(cityIdArr);
-      setSelectedRowKeys([eventList[0].uuid]);
+      console.log(eventList)
+      if (isEmpty(eventList)) {
+        setSelectedRowKeys(null);
+      } else {
+        setSelectedRowKeys([eventList[0].uuid]);
+      }
       form.setFieldsValue({ districtId: undefined, wardId: undefined });
 
       return;
@@ -266,7 +271,12 @@ function Sidebar(props) {
       setWardId([]);
       form.setFieldsValue({ districtId: undefined, wardId: undefined });
       setProvinceId(cityIdArr);
-      setSelectedRowKeys([eventList[0].uuid]);
+      console.log(eventList)
+      if (isEmpty(eventList)) {
+        setSelectedRowKeys(null);
+      } else {
+        setSelectedRowKeys([eventList[0].uuid]);
+      }
 
       return;
     }
@@ -278,7 +288,12 @@ function Sidebar(props) {
       setHiddenWard(true);
       setisShowLineAndPieChart(true)
       setDistrictId(districtIdArr);
-      setSelectedRowKeys([eventList[0].uuid]);
+      console.log(eventList)
+      if (isEmpty(eventList)) {
+        setSelectedRowKeys(null);
+      } else {
+        setSelectedRowKeys([eventList[0].uuid]);
+      }
 
       form.setFieldsValue({ wardId: undefined });
 
@@ -288,7 +303,12 @@ function Sidebar(props) {
       setisShowLineAndPieChart(false)
       setDistrictId(districtIdArr);
       setWardId([]);
-      setSelectedRowKeys([eventList[0].uuid]);
+      console.log(eventList)
+      if (isEmpty(eventList)) {
+        setSelectedRowKeys(null);
+      } else {
+        setSelectedRowKeys([eventList[0].uuid]);
+      }
 
       form.setFieldsValue({ wardId: undefined });
 
@@ -298,7 +318,12 @@ function Sidebar(props) {
       setHiddenWard(true);
       setDistrictId([]);
       setisShowLineAndPieChart(true);
-      setSelectedRowKeys([eventList[0].uuid]);
+      console.log(eventList)
+      if (isEmpty(eventList)) {
+        setSelectedRowKeys(null);
+      } else {
+        setSelectedRowKeys([eventList[0].uuid]);
+      }
 
       form.setFieldsValue({ districtId: undefined, wardId: undefined });
 
@@ -311,13 +336,23 @@ function Sidebar(props) {
       setWardId(wardIdArr);
       setisShowLineAndPieChart(true)
       props.changeChart(true);
-      setSelectedRowKeys([eventList[0].uuid]);
+      console.log(eventList)
+      if (isEmpty(eventList)) {
+        setSelectedRowKeys(null);
+      } else {
+        setSelectedRowKeys([eventList[0].uuid]);
+      }
 
       return;
     } else if (wardIdArr.length > 1) {
       setisShowLineAndPieChart(false)
       setWardId(wardIdArr);
-      setSelectedRowKeys([eventList[0].uuid]);
+      console.log(eventList)
+      if (isEmpty(eventList)) {
+        setSelectedRowKeys(null);
+      } else {
+        setSelectedRowKeys([eventList[0].uuid]);
+      }
 
       props.changeChart(false);
 
@@ -326,7 +361,12 @@ function Sidebar(props) {
       setHiddenWard(true);
       setisShowLineAndPieChart(true)
       setWardId([]);
-      setSelectedRowKeys([eventList[0].uuid]);
+      console.log(eventList)
+      if (isEmpty(eventList)) {
+        setSelectedRowKeys(null);
+      } else {
+        setSelectedRowKeys([eventList[0].uuid]);
+      }
 
       form.setFieldsValue({ wardId: undefined });
     }

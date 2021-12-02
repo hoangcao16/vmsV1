@@ -30,7 +30,8 @@ function Chart(props) {
     const keyArr = Object.keys(dataNoName);
     return keyArr.map((k) => {
       return (
-        <Line
+        <Line 
+          key={k}
           type="monotone"
           dataKey={k}
           stroke={randomColor()}

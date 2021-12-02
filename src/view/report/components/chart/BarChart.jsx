@@ -73,7 +73,7 @@ function BarChartComponent(props) {
 
     const keyArr = Object.keys(dataNoName);
     return keyArr.map((k) => {
-      return <Bar dataKey={k} fill={randomColor()} />;
+      return <Bar key={k} dataKey={k} fill={randomColor()} />;
     });
   };
 
