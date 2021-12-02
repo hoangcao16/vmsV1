@@ -55,20 +55,18 @@ const Preset = (props) => {
   const [searchPresetTour, setSearchPresetTour] = useState();
   const [selectPresetTour, setSelectPresetTour] = useState('');
   const [speed, setSpeed] = useState(1)
+  const [loading, setLoading] = useState(false)
   const { t } = useTranslation();
 
   // const [newPresetTour, setNewPresetTour] = useState([]);
 
-  const convertRowsPreset = (rowsPreset) => {
-    return rowsPreset.map((row, index) => {
+  const convertRowsPreset = (data) => {
+    return data.map((row, index) => {
       return {
         key: index,
         index: index,
         STT: index + 1,
-        name:
-          row?.name.length > 25
-            ? `${row?.name.slice(0, 20)}...`
-            : `${row?.name}`,
+        name: row?.name,
         idPreset: row?.idPreset,
         speed: 1,
       };
@@ -114,18 +112,18 @@ const Preset = (props) => {
 
   const getAllPreset = async (params) => {
     if (idCamera) {
+      await ptzControllerApi.getAllPreset(params).then((result) => {
+        if (isEmpty(result)) {
+          setRowsPreset(DEFAULT_VALUE_PRESET);
+          return;
+        }
 
-      const payload = isEmpty(params?.name) ?
-        await ptzControllerApi.getAllPreset(params) :
-        await ptzControllerApi.getPreset(params);
-      if (isEmpty(payload)) {
-        setRowsPreset(DEFAULT_VALUE_PRESET);
-        return;
-      }
-      const rowsPreset = convertRowsPreset(payload.data);
-      console.log('get all preset', payload);
-      console.log('rowsPreset', rowsPreset)
-      setRowsPreset(rowsPreset);
+        const newRowsPreset = convertRowsPreset(result.data);
+        console.log('get all preset', result);
+        console.log('rowsPreset', newRowsPreset)
+        setRowsPreset(newRowsPreset);
+      })
+
     }
   };
 
@@ -153,7 +151,7 @@ const Preset = (props) => {
       name: searchPreset
     };
     getAllPreset(params);
-  }, [callPresetAgain]);
+  }, []);
 
   //call api get call preset tour
   useEffect(() => {
@@ -628,12 +626,29 @@ const Preset = (props) => {
       cameraUuid: idCamera,
       name: "new name",
     };
+    setLoading(true);
     try {
-      const pload = await ptzControllerApi.postSetPreset(payload);
-      if (pload === null) {
-        return;
-      }
-      setCallPresetAgain(!callPresetAgain);
+      await ptzControllerApi.postSetPreset(payload).then(async () => {
+        let params = {
+          cameraUuid: idCamera,
+          name: searchPreset
+        };
+        await ptzControllerApi.getAllPreset(params).then((result) => {
+          if (isEmpty(result)) {
+            setRowsPreset(DEFAULT_VALUE_PRESET);
+            return;
+          }
+
+          const newRowsPreset = convertRowsPreset(result.data);
+          console.log('get all preset', result);
+          console.log('rowsPreset', newRowsPreset)
+          setRowsPreset([...newRowsPreset]);
+          setLoading(false)
+        })
+      });
+
+
+
       const warnNotyfi = {
         type: NOTYFY_TYPE.success,
         title: `${t("noti.success")}`,
@@ -825,7 +840,7 @@ const Preset = (props) => {
       idPreset: record.idPreset,
     };
     try {
-      const pload = await ptzControllerApi.postCallPreset(body);
+      await ptzControllerApi.postCallPreset(body);
     } catch (error) {
       console.log(error);
     }
@@ -1071,16 +1086,16 @@ const Preset = (props) => {
     },
   ];
 
-  const { Option, OptGroup } = Select
+  const { Option } = Select
 
   const handleSearchPreset = async (value) => {
-
     setSearchPreset(value);
-    const params = {
-      cameraUuid: idCamera,
-      name: value
-    }
-    getAllPreset(params)
+    // const params = {
+    //   cameraUuid: idCamera,
+    //   name: value
+    // }
+    setCallPresetAgain(!callPresetAgain)
+    // getAllPreset(params)
   }
 
   const handleBlurPreset = (e) => {
@@ -1172,6 +1187,7 @@ const Preset = (props) => {
       </Option>
     );
   }
+  console.log('rowsPreset', rowsPreset)
   return (
     <div className="preset__container">
       <div className="setting__preset">
@@ -1323,7 +1339,7 @@ const Preset = (props) => {
               <Image src={arrow} preview={false} onClick={handleSetPreset} />
             </Tooltip>
           </div>
-          <Table
+          {!loading ? <Table
             rowSelection={{
               type: "checkbox",
               ...rowSelection,
@@ -1333,7 +1349,8 @@ const Preset = (props) => {
             pagination={false}
             scroll={{ y: 240 }}
             className="preset__table"
-          />
+          /> : <Spin />}
+
         </div>
 
         <div className="confirm__choosing--preset">
@@ -1345,7 +1362,7 @@ const Preset = (props) => {
             value={selectPresetTour}
             optionFilterProp="children"
             filterOption={(input, option) =>
-              option.children.toLowerCase().indexOf(input.toLowerCase()) >= 0
+              option.children.toLowerCase().indexOf(input.toLowerCase()) >= 0 && option.value !== '@@'
             }
             showSearch
             defaultValue=""

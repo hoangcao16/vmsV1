@@ -2,7 +2,8 @@ import { DatePicker, TimePicker } from 'antd';
 import locale from 'antd/lib/locale/vi_VN';
 import { isEmpty } from "lodash-es";
 import moment from 'moment';
-import { React, useState } from 'react';
+import React, { useEffect, useLayoutEffect, useState } from "react";
+
 import Clock from "react-digital-clock";
 import { useTranslation } from "react-i18next";
 import '../commonStyle/commonDatePicker.scss';
