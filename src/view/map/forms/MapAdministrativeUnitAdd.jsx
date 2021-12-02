@@ -2,7 +2,6 @@ import { LoadingOutlined, PlusOutlined } from "@ant-design/icons";
 import { Button, Col, Form, Input, Row, Select, Space, Upload } from "antd";
 import React, { useEffect, useState } from "react";
 import { useTranslation } from "react-i18next";
-import validator from "validator";
 import { AdministrativeUnitType } from "../../../@core/common/common";
 import AddressApi from "../../../actions/api/address/AddressApi";
 import AdDivisionApi from "../../../actions/api/advision/AdDivision";
@@ -12,7 +11,7 @@ import zoneApi from "../../../api/controller-api/zoneApi";
 import useHandleUploadFile from "../../../hooks/useHandleUploadFile";
 import {
   filterOption,
-  normalizeOptions,
+  normalizeOptions
 } from "../../common/select/CustomSelect";
 
 const { Dragger } = Upload;
@@ -79,7 +78,7 @@ const MapAdministrativeUnitAdd = (props) => {
         });
       }
     }
-    setImgFile(editAdminisUnit?.avatarFileName);
+    setImgFile(editAdminisUnit?.avatarFileName ?? "");
   }, [
     editAdminisUnit,
     form,
@@ -163,16 +162,6 @@ const MapAdministrativeUnitAdd = (props) => {
     form.resetFields();
   };
 
-  const onTelChange = (rule, value, callback) => {
-    const tel = form.getFieldValue("tel");
-    const isValidPhoneNumber = validator.isMobilePhone(tel);
-    if (!isValidPhoneNumber) {
-      callback(t("view.map.invalid_phone_number"));
-    } else {
-      callback();
-    }
-  };
-
   return (
     <div
       className={
@@ -224,28 +213,38 @@ const MapAdministrativeUnitAdd = (props) => {
                 placeholder={t("view.map.please_enter_unit_name", {
                   plsEnter: t("please_enter"),
                 })}
+                maxLength={255}
+                onBlur={(e) =>
+                  form.setFieldsValue({ name: e.target.value.trim() })
+                }
               />
             </Form.Item>
           </Col>
         </Row>
         <Row gutter={12} className="camera-form-inner__item">
           <Col span={24}>
-            <Form.Item name={["address"]} label={t("view.map.address")}>
+            <Form.Item
+              name={["address"]}
+              label={t("view.map.address")}
+              rules={[
+                { required: true, message: t("view.map.required_field") },
+              ]}
+            >
               <Input
                 placeholder={t("view.map.please_enter_your_address", {
                   plsEnter: t("please_enter"),
                 })}
+                maxLength={255}
+                onBlur={(e) =>
+                  form.setFieldsValue({ address: e.target.value.trim() })
+                }
               />
             </Form.Item>
           </Col>
         </Row>
         <Row gutter={12}>
           <Col span={24}>
-            <Form.Item
-              label={t("view.map.phone_number")}
-              name={["tel"]}
-              rules={[{ validator: onTelChange }]}
-            >
+            <Form.Item label={t("view.map.phone_number")} name={["tel"]}>
               <Input
                 placeholder={t("view.map.please_enter_your_phone_number", {
                   plsEnter: t("please_enter"),
@@ -338,7 +337,15 @@ const MapAdministrativeUnitAdd = (props) => {
                 }),
               ]}
             >
-              <Input placeholder={t("view.map.longitude")} />
+              <Input
+                placeholder={t("view.map.please_enter_longitude", {
+                  plsEnter: t("please_enter"),
+                })}
+                maxLength={255}
+                onBlur={(e) =>
+                  form.setFieldsValue({ long_: e.target.value.trim() })
+                }
+              />
             </Form.Item>
           </Col>
           <Col span={12}>
@@ -367,7 +374,15 @@ const MapAdministrativeUnitAdd = (props) => {
                 }),
               ]}
             >
-              <Input type="number" placeholder={t("view.map.latitude")} />
+              <Input
+                placeholder={t("view.map.please_enter_latitude", {
+                  plsEnter: t("please_enter"),
+                })}
+                maxLength={255}
+                onBlur={(e) =>
+                  form.setFieldsValue({ lat_: e.target.value.trim() })
+                }
+              />
             </Form.Item>
           </Col>
         </Row>
