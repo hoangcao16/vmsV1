@@ -10,9 +10,19 @@ import React from 'react';
 import controlIcon from "../../../assets/img/icons/preset/control.png";
 import Slider from "../../../components/vms/Slider";
 import './ControlPanel.scss';
-const controlPanel = ({ onPanLeftStart, onPanLeftEnd, onPanRightStart, onPanRightEnd, onTiltUpStart, onTiltUpEnd, onTiltDownStart, onTiltDownEnd, onZoomInStart, onZoomInEnd, onZoomOutStart, onZoomOutEnd, onChangeSlider, zoomPercent }) => {
+const controlPanel = ({ onPanLeftStart, onPanLeftEnd, onPanRightStart, onPanRightEnd, onTiltUpStart, onTiltUpEnd, onTiltDownStart, onTiltDownEnd, onZoomInStart, onZoomInEnd, onZoomOutStart, onZoomOutEnd, onChangeSlider, zoomPercent, speed, setSpeed }) => {
 
+  const setUpSpeed = () => {
+    if (speed <= 5) {
+      setSpeed(speed + 1)
+    }
+  }
 
+  const setDownSpeed = () => {
+    if (speed > 1) {
+      setSpeed(speed - 1)
+    }
+  }
   return (
     <div className='control-panel-wrapper' >
       <div className='control-panel'>
@@ -47,8 +57,12 @@ const controlPanel = ({ onPanLeftStart, onPanLeftEnd, onPanRightStart, onPanRigh
             onMouseLeave={onTiltUpEnd}
 
           />
-          <div className="control-panel__direction__circle">
-            <img src={controlIcon} />
+          <div className="change__speed-camera">
+            <div className="speed">{speed}</div>
+            <div className='chang__speed-tool'>
+              <Button icon={<UpOutlined />} onClick={setUpSpeed}></Button>
+              <Button icon={<DownOutlined />} onClick={setDownSpeed}></Button>
+            </div>
           </div>
         </div>
       </div>

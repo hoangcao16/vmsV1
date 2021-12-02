@@ -1,32 +1,35 @@
-import { useState, useEffect } from 'react'
-import ExportEventFileApi from '../actions/api/exporteventfile/ExportEventFileApi';
-import { v4 as uuidV4 } from 'uuid';
-import { getBase64 } from '../utility/vms/file';
+import { isEmpty } from "lodash";
+import { useEffect, useState } from "react";
+import { v4 as uuidV4 } from "uuid";
+import ExportEventFileApi from "../actions/api/exporteventfile/ExportEventFileApi";
+import { getBase64 } from "../utility/vms/file";
 
 const useHandleUploadFile = (fileName) => {
   const [imageUrl, setImageUrl] = useState(null);
   const [loading, setLoading] = useState(false);
   const [imgFileName, setImgFileName] = useState(fileName);
   useEffect(() => {
-    setImgFileName(fileName)
+    setImgFileName(fileName);
     const loadImageFileHanleler = (fileName) => {
-      if (fileName) {
-        ExportEventFileApi.getAvatar(fileName)
-          .then((result) => {
-            if (result.data) {
-              let blob = new Blob([result.data], { type: 'octet/stream' });
-              let url = window.URL.createObjectURL(blob);
-              setImageUrl(url);
-            } else {
-              setImageUrl('');
-            }
-          });
+      console.log("fileName:", fileName);
+      if (!isEmpty(fileName)) {
+        ExportEventFileApi.getAvatar(fileName).then((result) => {
+          if (result.data) {
+            let blob = new Blob([result.data], { type: "octet/stream" });
+            let url = window.URL.createObjectURL(blob);
+            setImageUrl(url);
+          } else {
+            setImageUrl("");
+          }
+        });
+      } else {
+        setImageUrl("");
       }
     };
     loadImageFileHanleler(fileName);
-  }, [fileName])
+  }, [fileName]);
   const handleChange = (info) => {
-    if (info.file.status === 'uploading') {
+    if (info.file.status === "uploading") {
       setLoading(true);
     }
   };
@@ -53,22 +56,29 @@ const useHandleUploadFile = (fileName) => {
     const isJpgOrPng = file.type === "image/jpeg" || file.type === "image/png";
     if (!isJpgOrPng) {
       Notification({
-        type: 'error',
-        title: '',
-        description: 'You can only upload JPG/PNG file'
+        type: "error",
+        title: "",
+        description: "You can only upload JPG/PNG file",
       });
     }
     const isLt2M = file.size / 1024 / 1024 < 2;
     if (!isLt2M) {
       Notification({
-        type: 'error',
-        title: '',
-        description: 'Image must smaller than 2MB'
+        type: "error",
+        title: "",
+        description: "Image must smaller than 2MB",
       });
     }
     return isJpgOrPng && isLt2M;
   }
-  return [imageUrl, imgFileName, loading, handleChange, uploadImage, beforeUpload]
-}
+  return [
+    imageUrl,
+    imgFileName,
+    loading,
+    handleChange,
+    uploadImage,
+    beforeUpload,
+  ];
+};
 
-export default useHandleUploadFile
+export default useHandleUploadFile;
