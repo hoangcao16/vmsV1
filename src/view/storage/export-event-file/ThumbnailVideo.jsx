@@ -146,6 +146,7 @@ const ThumbnailVideo = (props) => {
     };
 
     const timeUpEventHandler = (event) => {
+        debugger;
         if (duration !== 0 && playerVideo.current != null && cbRightRef.current != null) {
             currentRef.current.style.left = playerVideo.current.currentTime * (100 / duration) + '%';
             let value = format(playerVideo.current.currentTime);
@@ -178,15 +179,26 @@ const ThumbnailVideo = (props) => {
         playEle.style.display = "none";
     };
 
-    const loadStartEventHandler = (event) => {
-        cbLeftRef.current.setAttribute("data-content", format(0));
-        cbRightRef.current.setAttribute("data-content", format(duration));
-    };
+    // const loadStartEventHandler = (event) => {
+        // cbLeftRef.current.setAttribute("data-content", format(0));
+        // cbRightRef.current.setAttribute("data-content", format(duration));
+    // };
 
     useEffect(() => {
+        startVideoRef.current.style.width = '0%';
+        currentRef.current.style.left = '0%';
+        controlBarRef.current.style.left = '0%';
+        controlBarRef.current.style.right = '0%';
+        startVideoRef.current.style.width = '0%';
+        endVideoRef.current.style.width = '0%';
+        cbLeftRef.current.setAttribute("data-start_time", Math.floor(startTime));
+        cbRightRef.current.setAttribute("data-end_time", Math.floor(endTime));
+        cbLeftRef.current.setAttribute("data-content", format(0));
+        cbRightRef.current.setAttribute("data-content", format(duration));
+
         currentRef.current.style.left = '0%';
         playerVideo.current.addEventListener('timeupdate', timeUpEventHandler);
-        playerVideo.current.addEventListener('loadstart', loadStartEventHandler);
+        // playerVideo.current.addEventListener('loadstart', loadStartEventHandler);
         playerVideo.current.addEventListener('pause', pauseEventHandler);
         playerVideo.current.addEventListener('play', playEventHandler);
         playerVideo.current.addEventListener('ratechange', rateChangeEventHandler);
@@ -194,26 +206,17 @@ const ThumbnailVideo = (props) => {
         return () => {
             if (playerVideo.current != null) {
                 playerVideo.current.removeEventListener("timeupdate", timeUpEventHandler);
-                playerVideo.current.removeEventListener("loadstart", loadStartEventHandler);
+                // playerVideo.current.removeEventListener("loadstart", loadStartEventHandler);
                 playerVideo.current.removeEventListener('pause', pauseEventHandler);
                 playerVideo.current.removeEventListener('play', playEventHandler);
                 playerVideo.current.removeEventListener('ratechange', rateChangeEventHandler);
                 window.removeEventListener('mouseup', windowMouseUpEventHandler);
             }
         }
-    }, []);
-
-    useEffect(() => {
-        startVideoRef.current.style.width = '0%';
-        currentRef.current.style.left = '0%';
-        controlBarRef.current.style.left = '0%';
-        controlBarRef.current.style.right = '0%';
-        cbLeftRef.current.setAttribute("data-start_time", Math.floor(startTime));
-        cbRightRef.current.setAttribute("data-end_time", Math.floor(endTime));
-    }, [fileCurrent]);
+    }, [fileCurrent, duration]);
 
     return (<>
-        <div data-prevent-html2-canvas="" style={{ width: '100%' }}>
+        <div data-prevent-html2-canvas="" style={{ width: '100%' }} className="disable-select">
             <div className="component_storyboard storyboard">
                 {renderImage()}
             </div>
@@ -247,7 +250,9 @@ const ThumbnailVideo = (props) => {
 }
 
 function thumbnailVideoPropsAreEqual(prevThumbVideo, nextThumbVideo) {
-    return _.isEqual(prevThumbVideo.fileCurrent, nextThumbVideo.fileCurrent) && _.isEqual(prevThumbVideo.zoom, nextThumbVideo.zoom);
+    return _.isEqual(prevThumbVideo.fileCurrent, nextThumbVideo.fileCurrent)
+        && _.isEqual(prevThumbVideo.zoom, nextThumbVideo.zoom)
+        && prevThumbVideo.duration === nextThumbVideo.duration;
 }
 
 export const MemoizedThumbnailVideo = React.memo(ThumbnailVideo, thumbnailVideoPropsAreEqual);
