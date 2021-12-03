@@ -60,14 +60,10 @@ function BarChartComponent(props) {
   }
 
   const dataConvert = (data) => {
-    console.log('data:',data);
     if (isEmpty(data)) {
       return;
     }
-    console.log("data", data);
-    console.log("data_values", Object.values(data));
     const dataNoName = Object.values(data)[0]
-    console.log("dataNoName:",dataNoName)
 
     delete dataNoName.time;
 

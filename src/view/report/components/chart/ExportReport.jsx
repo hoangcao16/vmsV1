@@ -5,6 +5,7 @@ import './ExportReport.scss';
 import { useTranslation } from 'react-i18next';
 import ReportApi from '../../../../actions/api/report/ReportApi';
 import { saveAs } from 'file-saver';
+import moment from 'moment';
 
 export default function ExportReport(props) {
 
@@ -26,22 +27,13 @@ export default function ExportReport(props) {
       typeChart:type
     }
     await ReportApi.getExportData(data).then((value) => {
-
-      // const url = window.URL.createObjectURL(new Blob([value]));
-      // const link = document.createElement('a');
-      // link.href = url;
-      // link.setAttribute('download', 'Report.xlsx'); //or any other extension
-      // document.body.appendChild(link);
-      // link.click();
-
-      // var data = new Blob([value], {type: 'application/force-download'});
       var data = new Blob([value], {type: 'application/json'});
       var xlsxURL = window.URL.createObjectURL(data);
-      var a = document.createElement("a");
-      document.body.appendChild(a);
-      a.href = xlsxURL;
-      a.download = "Report.xlsx";
-      a.click();
+      var link = document.createElement("a");
+      document.body.appendChild(link);
+      link.href = xlsxURL;
+      link.download = `Report_${moment().format("DD.MM.YYYY_HH.mm.ss")}.xlsx`;
+      link.click();
     })
     
   }
