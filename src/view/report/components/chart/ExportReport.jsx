@@ -5,6 +5,7 @@ import './ExportReport.scss';
 import { useTranslation } from 'react-i18next';
 import ReportApi from '../../../../actions/api/report/ReportApi';
 import { saveAs } from 'file-saver';
+import moment from 'moment';
 
 export default function ExportReport(props) {
 
@@ -31,7 +32,7 @@ export default function ExportReport(props) {
       var link = document.createElement("a");
       document.body.appendChild(link);
       link.href = xlsxURL;
-      link.download = "Report.xlsx";
+      link.download = `Report_${moment().format("DD.MM.YYYY_HH.mm.ss")}.xlsx`;
       link.click();
     })
     
