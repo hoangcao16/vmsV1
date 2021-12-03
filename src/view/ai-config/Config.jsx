@@ -43,7 +43,7 @@ import Timeline, {
   DateHeader
 } from "react-calendar-timeline/lib";
 import moment from 'moment'
-import TabSchedule from './TabSchedule';
+import TabSchedule, {MemoizedTabSchedule} from './TabSchedule';
 const { TabPane } = Tabs;
 
 
@@ -274,53 +274,6 @@ const Config = () => {
     setCameraUuid(selected)
   }
 
-
-
-  const getNameByCategory = () => {
-
-    return (
-      <div className="card--header">
-        <h4>{t('view.ai_config.config')}</h4>
-
-
-
-        <div className="search__toolbar">
-          {/* <AutoComplete
-            className="searchInputCamproxy"
-            style={{ width: 350, height: 40, marginRight: 18 }}
-            onSearch={debounce(handleSearch, 300)}
-            placeholder={
-              <div>
-                <span> &nbsp;{t('view.map.search')} </span>{' '}
-                <SearchOutlined style={{ fontSize: 22 }} />
-              </div>
-            }
-          ></AutoComplete> */}
-
-          <Button
-            type="primary"
-            onClick={() => {
-              setSelectedHumansId(null);
-              setShowModal(true);
-            }}
-          >
-            <PlusOutlined />
-          </Button>
-
-          {/* <Button
-              className="btnAdd"
-              style={{ borderColor: '#7367F0' }}
-              onClick={handleImport}
-            >
-              + Import
-            </Button> */}
-        </div>
-      </div>
-    );
-  };
-
-
-
   return (
     <div className="tabs__container--ai_config">
       <Breadcrumds
@@ -351,13 +304,13 @@ const Config = () => {
       <div className="tabs__container--store">
         <Tabs type="card">
           <TabPane tab={t('view.ai_config.hurdles_events')} key="1">
-          <TabSchedule cameraUuid={cameraUuid} type="hurdles"></TabSchedule>
+          <MemoizedTabSchedule cameraUuid={cameraUuid} type="hurdles"></MemoizedTabSchedule>
           </TabPane>
           <TabPane tab={t('view.ai_config.intrusion_detection_events')} key="2" width='480px'>
-          <TabSchedule cameraUuid={cameraUuid} type="intrusion_detection"></TabSchedule>
+          <MemoizedTabSchedule cameraUuid={cameraUuid} type="intrusion_detection"></MemoizedTabSchedule>
           </TabPane>
           <TabPane tab={t('view.ai_config.attendance_events')} key="3">
-            <TabSchedule cameraUuid={cameraUuid} type="attendance"></TabSchedule>
+            <MemoizedTabSchedule cameraUuid={cameraUuid} type="attendance"></MemoizedTabSchedule>
           </TabPane>
         </Tabs>
       </div>

@@ -251,14 +251,6 @@ const TableHumans = () => {
     }
   ];
 
-  const addColumn = {
-    title: 'Lĩnh vực',
-    dataIndex: 'fieldName',
-    key: 'fieldName',
-    fixed: 'left',
-    className: 'headerColums'
-  };
-
   return (
     <div className="tabs__container--category">
       <Breadcrumds
