@@ -6,7 +6,7 @@ const KLionBadRequest = 1101;
 const KLionPlaybackNotFound = 1102;
 const KLionSendReqFailed = 1103;
 const KLionInternalServerError = 1104;
-const KLionInternalExistToken = 1105;
+const KLionInternalFileNotFound = 1105;
 const StatusForbidden = 605;
 
 export const handleErrCode = ({ code, message, payload, deny_permission_codes }) => {
@@ -34,8 +34,8 @@ export const handleErrCode = ({ code, message, payload, deny_permission_codes })
       errCode.description = "Internal server error";
       Notification(errCode);
       return null;
-    case KLionInternalExistToken:
-      errCode.description = "Token is not valid";
+    case KLionInternalFileNotFound:
+      errCode.description = "Could not find any mp4 file";
       Notification(errCode);
       return null;
     case StatusForbidden:
