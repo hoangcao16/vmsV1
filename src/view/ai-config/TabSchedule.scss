@@ -23,3 +23,126 @@
     }
 
 }
+
+.table__config_rect {
+    .ant-table {
+      background-color: $vms-bg-sub;
+      border: 1px solid rgba(234, 240, 247, 0.1);
+  
+      //begin: title table
+      .ant-table-title {
+        padding: 10px 16px;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        h4 {
+          margin-bottom: 0;
+          font-size: 16px;
+        }
+  
+        button {
+          width: 40px;
+          height: 40px;
+          padding: 9px;
+          margin-right: 0 !important;
+          background-color: $vms-main-blue-primary;
+          display: flex;
+          justify-content: center;
+          align-items: center;
+          border-radius: 4px;
+          &:hover {
+            box-shadow: 0 0 8px $vms-main-blue-primary;
+          }
+          span {
+  
+           
+            svg {
+              font-size: 20px;
+            }
+          }
+        }
+      }
+  
+      //end: title table
+  
+      //begin: head table 
+      .ant-table-thead {
+  
+        .ant-table-cell {
+          background-color: $vms-bg-3;
+          padding: 13px 0 11px 16px;
+          color: $vms-soft-statuts;
+          border-top: 1px solid rgba(234, 240, 247, 0.1);
+          border-bottom: 1px solid rgba(234, 240, 247, 0.1);
+          font-weight: 600;
+        }
+        tr th{
+          &:nth-child(2),
+          &:nth-child(3),
+          &:nth-child(4),
+          &:nth-child(5) {
+            text-align: center;
+            padding: 13px 8px;
+          }
+        }
+        tr > th:last-child {
+          padding: 0 16px;
+          text-align: center;
+  
+        }
+      }
+  
+      .ant-table-tbody {
+  
+        .ant-table-cell {
+          background-color: $vms-bg-primary;
+          // font-weight: 500;
+          padding: 13px 0 11px 16px;
+          color: $vms-status-07;
+  
+          border-top: 1px solid rgba(234, 240, 247, 0.1);
+          border-bottom: 1px solid rgba(234, 240, 247, 0.1);
+  
+          .ant-typography{
+            color: $vms-status-07;
+          }
+        }
+  
+        tr > td:last-child {
+          padding: 0 16px;
+            svg:hover {
+              color: $vms-main-blue-primary
+            }
+        }
+  
+        tr td{
+          &:nth-child(2),
+          &:nth-child(3),
+          &:nth-child(4),
+          &:nth-child(5) {
+            padding: 13px 8px;
+            text-align: center;
+            .ant-checkbox-inner{
+              background-color: $vms-bg-primary;
+              border: 1px solid $vms-main-blue-primary
+            }
+            .ant-checkbox-checked{
+              .ant-checkbox-inner{
+                background-color: $vms-main-blue-primary;
+                svg {
+                  color: $vms-soft-statuts
+                }
+              }
+            }
+          }
+        }
+  
+        
+        
+      }
+  
+      //end: head table 
+    }
+
+    
+}

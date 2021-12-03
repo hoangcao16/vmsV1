@@ -1,5 +1,5 @@
-import { EditOutlined } from '@ant-design/icons';
-import { Button, Card, Checkbox, Tabs, Row, Col, Form, Input, Divider } from 'antd';
+import { EditOutlined, PlusOutlined, DeleteOutlined, CheckOutlined, CloseOutlined } from '@ant-design/icons';
+import { Button, Card, Checkbox, Tabs, Row, Col, Form, Input, Table, Space , Popconfirm} from 'antd';
 import 'antd/dist/antd.css';
 import moment from 'moment';
 import React, { useEffect, useState } from 'react';
@@ -9,12 +9,15 @@ import { useTranslation } from 'react-i18next';
 import { withRouter } from 'react-router-dom';
 import { reactLocalStorage } from "reactjs-localstorage";
 import AIConfigScheduleApi from '../../actions/api/ai-config/AIConfigScheduleApi';
+import AIConfigRectApi from '../../actions/api/ai-config/AIConfigRectApi';
 import CameraApi from '../../actions/api/camera/CameraApi';
 import ModalEditScheduleConfig from './ModalEditScheduleConfig';
 import ModalScheduleConfigCopy from './ModalScheduleConfigCopy';
 import './TabSchedule.scss';
 import imagePoster from "../../assets/event/videoposter.png";
 import { bodyStyleCard, headStyleCard } from './variables';
+
+
 const { TabPane } = Tabs;
 
 const CheckboxGroup = Checkbox.Group;
@@ -44,22 +47,169 @@ const TabSchedule = (props) => {
   const [listTimes5, setListTimes5] = useState([]);
   const [listTimes6, setListTimes6] = useState([]);
   const [listTimes7, setListTimes7] = useState([]);
-  const [data, setData] = useState(false);
+  const [data, setData] = useState({});
   const [selectDay, setSelectDay] = useState("");
   const [form] = Form.useForm();
+  const [selectedRowKeys, setSelectedRowKeys] = useState([]);
+  const [checkedList, setCheckedList] = React.useState([]);
+  const [indeterminate, setIndeterminate] = React.useState(true);
+  const [checkAll, setCheckAll] = React.useState(false);
+  const [dataRectList, setDataRectList] = React.useState([]);
+  const [dataRect, setDataRect] = React.useState({});
+
+
 
   const formItemLayout = {
     wrapperCol: { span: 24 },
     labelCol: { span: 24 },
   };
 
-  const [checkedList, setCheckedList] = React.useState([]);
-  const [indeterminate, setIndeterminate] = React.useState(true);
-  const [checkAll, setCheckAll] = React.useState(false);
+  const handleFocusInputNamePreset = (record) => {
+    document.getElementById(`rename__preset-${record.key}`).style.display =
+      "flex";
+  };
+
+  const handleFocusNamePresetTour = (e) => {
+    document.getElementById("rename__preset-tour").style.display = "flex";
+    document.getElementById("delete__preset-tour").style.display = "none";
+  };
+
+  const handleChangeTimeDelay = async (e, record) => {
+    const value = e.target.value;
+    // const datas = JSON.parse(JSON.stringify(presetTourDatas));
+    // const index = datas[indexPresetTourChoosed].listPoint.findIndex(
+
+    //   (item, index) => item.index == record.index
+    // );
+    // const data = datas[indexPresetTourChoosed].listPoint[index];
+    // data.timeDelay = value;
+    // datas[indexPresetTourChoosed].listPoint.splice(index, 1, data);
+
+    // const body = {
+    //   cameraUuid: idCamera,
+    //   name: presetTourDatas[indexPresetTourChoosed].name,
+    //   listPoint: datas[indexPresetTourChoosed].listPoint,
+    //   idPresetTour: datas[indexPresetTourChoosed].idPresetTour,
+    // };
+    // try {
+    //   const pload = await ptzControllerApi.postSetPresetTour(body);
+    //   if (pload == null) {
+    //     return;
+    //   }
+    //   setPresetTourDatas(datas);
+    // } catch (error) {
+    //   console.log(error);
+    // }
+  };
+
+  const columnTables = [
+    {
+      title: 'No',
+      dataIndex: 'no',
+    },
+    {
+      title: 'Name',
+      dataIndex: 'name',
+      editable: true,
+      render: (text, record) => {
+        return (
+          <>
+            <input
+              id={`input-name-preset-${record.key}`}
+              defaultValue={record?.name}
+              maxLength={20}
+              onFocus={(e) => handleFocusInputNamePreset(record)}
+              autoComplete="off"
+              style={{width:'130px'}}
+              className="ant-form-item-control-input"
+            />
+            <span
+              id={`rename__preset-${record.key}`}
+              style={{ display: "none" }}
+            >
+              {/* <CheckOutlined
+                id={`confirm-done-icon-rename-${record.idPreset}`}
+                onClick={(e) => {
+                  e.stopPropagation();
+                  // handleDoneRenamePreset(e, record);
+                }}
+              />
+              <CloseOutlined
+                id={`confirm-close-icon-rename-${record.idPreset}`}
+                onClick={(e) => {
+                  e.stopPropagation();
+                  // handleCloseRenamePreset(e, record);
+                }}
+              /> */}
+            </span>
+          </>
+        );
+      },
+    },
+    {
+      title: 'Status',
+      dataIndex: 'status',
+      // render: (text, record) => {
+      //   return (
+      //     <div>
+      //       <select
+      //         defaultValue={record.status}
+      //         onChange={(e) => handleChangeTimeDelay(e, record)}
+      //       >
+      //         <option value={0}>Không hoạt động</option>
+      //         <option value={1}>Đang hoạt động</option>
+      //       </select>
+      //     </div>
+      //   );
+      // },
+    },
+    {
+      className: 'action-1',
+      title: () => {
+        return (
+          <div style={{ textAlign: 'center' }}>
+            <Button
+              size="small"
+              type="primary"
+              className="ml-2 mr-2"
+              onClick={onPlusConfigRect}
+            >
+              <PlusOutlined className="d-flex justify-content-between align-center" />
+            </Button>
+          </div>
+        );
+      },
+      dataIndex: 'action',
+      render: (_text, record) => {
+        return (
+          <Space>
+            <Popconfirm
+              title={t('noti.delete_category', { this: t('this') })}
+              onConfirm={() => handleDelete(record.key)}
+            >
+              <DeleteOutlined style={{ fontSize: '16px', color: '#6E6B7B' }} />
+            </Popconfirm>
+          </Space>
+        );
+      }
+    }
+  ];
+
+  const dataTable = [];
+  for (let i = 0; i < 4; i++) {
+    dataTable.push({
+      key: i,
+      name: `Edward King ${i}`,
+      no: 32,
+      status: `London, ${i}`,
+    });
+  }
+
+
 
   const options = [
-    { label: 'human', value: `${t('view.ai_config.human')}`},
-    { label: 'vehicle', value: `${t('view.ai_config.vehicle')}` },
+    { label: `${t('view.ai_config.human')}`, value: 'human' },
+    { label: `${t('view.ai_config.vehicle')}`, value: 'vehicle' },
   ];
 
   useEffect(() => {
@@ -82,6 +232,23 @@ const TabSchedule = (props) => {
       setData(result)
       setDefaultData(result)
     });
+
+    AIConfigRectApi.getAllConfigRect(data).then((result) => {
+      const itemRectList = [];
+      let i = 1;
+      result?.configRect && result.configRect.map(result => {
+        itemRectList.push({
+          key: i,
+          name: result.name,
+          no: result.lineNo,
+          status: result.status,
+        })
+        i++;
+      })
+      setDataRectList(itemRectList)
+    });
+
+
   }, [cameraUuid, type]);
 
 
@@ -203,9 +370,6 @@ const TabSchedule = (props) => {
     setListDetail(itemList)
   }
 
-  function onSearch(val) {
-    console.log('search:', val);
-  }
   function onChangeCheckBox(val) {
     setCheckStatus(val.target.checked)
   }
@@ -248,6 +412,48 @@ const TabSchedule = (props) => {
     } catch (error) {
       console.log(error);
     }
+  };
+
+  const onSelectChange = (selectedRowKeys) => {
+    setSelectedRowKeys(selectedRowKeys);
+  };
+
+  const rowSelection = {
+    selectedRowKeys,
+    onChange: onSelectChange,
+    selections: [
+      Table.SELECTION_ALL,
+      Table.SELECTION_INVERT,
+      Table.SELECTION_NONE,
+      {
+        key: 'odd',
+        text: 'Select Odd Row',
+        onSelect: changableRowKeys => {
+          let newSelectedRowKeys = [];
+          newSelectedRowKeys = changableRowKeys.filter((key, index) => {
+            if (index % 2 !== 0) {
+              return false;
+            }
+            return true;
+          });
+          this.setState({ selectedRowKeys: newSelectedRowKeys });
+        },
+      },
+      {
+        key: 'even',
+        text: 'Select Even Row',
+        onSelect: changableRowKeys => {
+          let newSelectedRowKeys = [];
+          newSelectedRowKeys = changableRowKeys.filter((key, index) => {
+            if (index % 2 !== 0) {
+              return true;
+            }
+            return false;
+          });
+          this.setState({ selectedRowKeys: newSelectedRowKeys });
+        },
+      },
+    ],
   };
 
 
@@ -313,6 +519,40 @@ const TabSchedule = (props) => {
     setIndeterminate(false);
     setCheckAll(e.target.checked);
   };
+
+  const onPlusConfigRect = e => {
+    let dataNew = [...dataRectList]
+    
+    dataNew.push({
+      key: dataRectList.length + 1,
+      name: "Khu vực " + (dataRectList.length + 1),
+      no: dataRectList.length + 1,
+      status: "active",
+      threshold: 0,
+    })
+
+    setDataRectList(dataNew);
+    
+  };
+
+  const handleDelete = async (id) => {
+    let newData = [...dataRectList];
+    if (newData !== undefined && newData !== null && newData.length > 0) {
+      newData = newData.filter(item => item.key !== id);
+      setDataRectList(newData);
+    } else {
+      setDataRectList([]);
+    }
+   
+  };
+
+
+  const handleRowClick = (event, data) => {
+    console.log("data   :", data)
+    console.log(dataRectList)
+    setDataRect(data)
+  };
+
 
 
 
@@ -469,7 +709,7 @@ const TabSchedule = (props) => {
           <Tabs type="card" >
             <TabPane tab={t('view.ai_config.area_config')} key="2">
               <Row gutter={24}>
-                <Col span={12} style={{ flex: 'none' }}>
+                <Col span={12}>
                   <div style={{ width: '90%', padding: '20px' }}>
                     <img
                       style={{ width: '100%' }}
@@ -503,7 +743,7 @@ const TabSchedule = (props) => {
                       form={form}
                       {...formItemLayout}
                       onFinish={handleSubmit}
-                    // initialValues={timeDetails}
+                      initialValues={dataRect}
                     >
 
                       <Row gutter={24} style={{ marginTop: "20px" }}>
@@ -512,11 +752,11 @@ const TabSchedule = (props) => {
                         </Col>
                         <Col span={6} style={{ flex: 'none' }}>
                           <Form.Item
-                            name={["name"]}
+                            name={["threshold"]}
                             rules={[
                             ]}
                           >
-                            <Input placeholder="Số" type='number' />
+                            <Input placeholder="Số" type='threshold' />
                           </Form.Item>
                         </Col>
                         <Col span={6} style={{ flex: 'none' }}>
@@ -529,21 +769,27 @@ const TabSchedule = (props) => {
                           <Checkbox indeterminate={indeterminate} onChange={onCheckAllChange} checked={checkAll}>
                             {t('view.ai_config.object_recognition')}
                           </Checkbox>
-                          <Divider />
                           <CheckboxGroup options={options} value={checkedList} onChange={onChange} />
                         </div>
                       </Row>
-
-
                     </Form>
-
-
-
                   </div>
                 </Col>
-                <Col span={12} style={{ flex: 'none' }}>
-                  <div style={{ width: '90%', padding: '20px' }}>
-
+                <Col span={12} >
+                  <div style={{ width: '100%', padding: '20px' }}>
+                    <Table 
+                    className="table__config_rect"
+                    rowSelection={rowSelection} 
+                    columns={columnTables} 
+                    dataSource={dataRectList} 
+                    onRow={(record, recordIndex) => {
+                      return {
+                        onClick: event => {
+                          handleRowClick(event, record);
+                        },
+                      };
+                    }}
+                    />;
                   </div>
                 </Col>
               </Row>
