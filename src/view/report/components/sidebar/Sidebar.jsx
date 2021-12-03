@@ -138,26 +138,26 @@ function Sidebar(props) {
     if (provinceId.length === 1) {
       AddressApi.getDistrictByProvinceId(provinceId).then(setDistrict);
     }
-    // if (provinceId.length > 5) {
-    //   const language = reactLocalStorage.get('language')
-    //   if (language == 'vn') {
-    //     const notifyMess = {
-    //       type: 'error',
-    //       title: '',
-    //       description: 'Số lượng khu vực không được vượt quá 5'
-    //     };
-    //     Notification(notifyMess);
-    //     return;
-    //   } else {
-    //     const notifyMess = {
-    //       type: 'error',
-    //       title: '',
-    //       description: `The number of areas must not exceed 5`
-    //     };
-    //     Notification(notifyMess);
-    //     return;
-    //   }
-    // }
+    if (provinceId.length > 5) {
+      const language = reactLocalStorage.get('language')
+      if (language == 'vn') {
+        const notifyMess = {
+          type: 'error',
+          title: '',
+          description: 'Số lượng khu vực không được vượt quá 5'
+        };
+        Notification(notifyMess);
+        return;
+      } else {
+        const notifyMess = {
+          type: 'error',
+          title: '',
+          description: `The number of areas must not exceed 5`
+        };
+        Notification(notifyMess);
+        return;
+      }
+    }
   }, [provinceId]);
 
   useEffect(() => {
@@ -219,25 +219,8 @@ function Sidebar(props) {
         return;
       }
     }
-    setSelectedRowKeys([dataFilter.eventList[0].uuid])
-    
-    // Call API
-    // const data = {
-    //   pickTime: dataTime,
-    //   timeStartDay: timeStartDay,
-    //   timeEndDay: timeEndDay,
-    //   timeStartMonth: timeStartMonth,
-    //   timeEndMonth: timeEndMonth,
-    //   timeStartYear: timeStartYear,
-    //   timeEndYear: timeEndYear,
-    //   provinceId: provinceId,
-    //   districtId: districtId,
-    //   wardId: wardId,
-    //   fieldId: feildId,
-    //   eventList: [dataFilter.eventList[0].uuid]
-    // };
 
-    // props.callData(clearData(data));
+    setSelectedRowKeys([dataFilter.eventList[0].uuid])
   };
 
   
