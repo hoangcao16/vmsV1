@@ -54,7 +54,7 @@ export const handleErrCode = (data) => {
       Notification(errCode);
       return null;
     case KControllerDuplicate:
-      errCode.description = "Dữ liệu bạn nhập bị trùng, vui lòng kiểm tra lại";
+      errCode.description = "Dữ liệu bạn nhập đã tồn tại hoặc không hợp lệ, vui lòng kiểm tra lại";
       Notification(errCode);
       return null;
     case KControllerCannotDelete:

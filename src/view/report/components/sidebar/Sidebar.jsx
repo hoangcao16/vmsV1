@@ -480,8 +480,7 @@ function Sidebar(props) {
 
     const currentStart = form.getFieldValue('timeStartDay');
 
-    const dk = moment(currentStart).add(2, 'days');
-    console.log("dk", dk)
+    const dk = moment(currentStart).add(1, 'days');
     if (!value) {
       form.setFieldsValue({
         timeStartDay: timeStartDay
@@ -537,7 +536,7 @@ function Sidebar(props) {
 
   function disabledDateTimeStartDay(current) {
     const start = moment(timeEndDay).subtract(12, 'days');
-    const end = moment(timeEndDay).subtract(2, 'days');
+    const end = moment(timeEndDay).subtract(0, 'days');
     return current < start || current > end;
   }
 
@@ -580,7 +579,7 @@ function Sidebar(props) {
     setTimeEndMonth(value);
 
     const currentStart = form.getFieldValue('timeStartMonth');
-    const dk = moment(currentStart).add(2, 'month');
+    const dk = moment(currentStart).add(0, 'month');
 
     if (!value) {
       form.setFieldsValue({
@@ -637,7 +636,7 @@ function Sidebar(props) {
 
   function disabledDateTimeStartMonth(current) {
     const start = moment(timeEndMonth).subtract(12, 'month');
-    const end = moment(timeEndMonth).subtract(2, 'month');
+    const end = moment(timeEndMonth).subtract(0, 'month');
     return current < start || current > end;
   }
 
@@ -681,7 +680,7 @@ function Sidebar(props) {
 
     const currentStart = form.getFieldValue('timeStartYear');
 
-    const dk = moment(currentStart).add(2, 'year');
+    const dk = moment(currentStart).add(0, 'year');
 
     if (!value) {
       form.setFieldsValue({
@@ -738,7 +737,7 @@ function Sidebar(props) {
 
   function disabledDateTimeStartYear(current) {
     const start = moment(timeEndYear).subtract(5, 'year');
-    const end = moment(timeEndYear).subtract(2, 'year');
+    const end = moment(timeEndYear).subtract(0, 'year');
     return current < start || current > end;
   }
 
