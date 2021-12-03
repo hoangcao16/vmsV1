@@ -55,17 +55,17 @@ function Sidebar(props) {
   const [dataTime, setDatatime] = useState(SELECTED_TIME.DAY);
 
   const [timeStartDay, setTimeStartDay] = useState(
-    moment().subtract(12, 'day')
+    moment().subtract(11, 'day')
   );
   const [timeEndDay, setTimeEndDay] = useState(moment());
 
   const [timeStartMonth, setTimeStartMonth] = useState(
-    moment().subtract(12, 'month')
+    moment().subtract(11, 'month')
   );
   const [timeEndMonth, setTimeEndMonth] = useState(moment());
 
   const [timeStartYear, setTimeStartYear] = useState(
-    moment().subtract(5, 'year')
+    moment().subtract(4, 'year')
   );
   const [timeEndYear, setTimeEndYear] = useState(moment());
 
@@ -138,26 +138,26 @@ function Sidebar(props) {
     if (provinceId.length === 1) {
       AddressApi.getDistrictByProvinceId(provinceId).then(setDistrict);
     }
-    if (provinceId.length > 5) {
-      const language = reactLocalStorage.get('language')
-      if (language == 'vn') {
-        const notifyMess = {
-          type: 'error',
-          title: '',
-          description: 'Số lượng khu vực không được vượt quá 5'
-        };
-        Notification(notifyMess);
-        return;
-      } else {
-        const notifyMess = {
-          type: 'error',
-          title: '',
-          description: `The number of areas must not exceed 5`
-        };
-        Notification(notifyMess);
-        return;
-      }
-    }
+    // if (provinceId.length > 5) {
+    //   const language = reactLocalStorage.get('language')
+    //   if (language == 'vn') {
+    //     const notifyMess = {
+    //       type: 'error',
+    //       title: '',
+    //       description: 'Số lượng khu vực không được vượt quá 5'
+    //     };
+    //     Notification(notifyMess);
+    //     return;
+    //   } else {
+    //     const notifyMess = {
+    //       type: 'error',
+    //       title: '',
+    //       description: `The number of areas must not exceed 5`
+    //     };
+    //     Notification(notifyMess);
+    //     return;
+    //   }
+    // }
   }, [provinceId]);
 
   useEffect(() => {
@@ -219,7 +219,7 @@ function Sidebar(props) {
         return;
       }
     }
-
+    
     setSelectedRowKeys([dataFilter.eventList[0].uuid])
   };
 
@@ -476,11 +476,9 @@ function Sidebar(props) {
   }
 
   function onChangeTimeEndDay(value) {
+    setTimeStartDay(timeStartDay);
     setTimeEndDay(value);
-
-    const currentStart = form.getFieldValue('timeStartDay');
-
-    const dk = moment(currentStart).add(1, 'days');
+    const dk = moment(timeStartDay).add(1, 'days');
     if (!value) {
       form.setFieldsValue({
         timeStartDay: timeStartDay
@@ -490,7 +488,7 @@ function Sidebar(props) {
 
     if (dk > value) {
       form.setFieldsValue({
-        timeStartDay: ''
+        timeEndDay: ''
       });
 
       const language = reactLocalStorage.get('language')
@@ -535,7 +533,7 @@ function Sidebar(props) {
   }
 
   function disabledDateTimeStartDay(current) {
-    const start = moment(timeEndDay).subtract(12, 'days');
+    const start = moment(timeEndDay).subtract(11, 'days');
     const end = moment(timeEndDay).subtract(0, 'days');
     return current < start || current > end;
   }
@@ -578,8 +576,7 @@ function Sidebar(props) {
   function onChangeTimeEndMonth(value) {
     setTimeEndMonth(value);
 
-    const currentStart = form.getFieldValue('timeStartMonth');
-    const dk = moment(currentStart).add(0, 'month');
+    const dk = moment(timeStartMonth).add(1, 'month');
 
     if (!value) {
       form.setFieldsValue({
@@ -635,7 +632,7 @@ function Sidebar(props) {
   }
 
   function disabledDateTimeStartMonth(current) {
-    const start = moment(timeEndMonth).subtract(12, 'month');
+    const start = moment(timeEndMonth).subtract(11, 'month');
     const end = moment(timeEndMonth).subtract(0, 'month');
     return current < start || current > end;
   }
@@ -677,10 +674,7 @@ function Sidebar(props) {
 
   function onChangeTimeEndYear(value) {
     setTimeEndYear(value);
-
-    const currentStart = form.getFieldValue('timeStartYear');
-
-    const dk = moment(currentStart).add(0, 'year');
+    const dk = moment(timeStartYear).add(1, 'year');
 
     if (!value) {
       form.setFieldsValue({
@@ -736,7 +730,7 @@ function Sidebar(props) {
   }
 
   function disabledDateTimeStartYear(current) {
-    const start = moment(timeEndYear).subtract(5, 'year');
+    const start = moment(timeEndYear).subtract(4, 'year');
     const end = moment(timeEndYear).subtract(0, 'year');
     return current < start || current > end;
   }
@@ -777,7 +771,7 @@ function Sidebar(props) {
                     allowClear={false}
                     picker="date"
                     format="DD/MM/YYYY"
-                    defaultValue={moment().subtract(12, 'day')}
+                    defaultValue={moment().subtract(11, 'day')}
                     disabledDate={disabledDateTimeStartDay}
                     dropdownClassName="dropdown__date-picker"
                     onChange={onChangeTimeStartDay}
@@ -808,7 +802,7 @@ function Sidebar(props) {
                     allowClear={false}
                     picker="month"
                     format="MM/YYYY"
-                    defaultValue={moment().subtract(12, 'months')}
+                    defaultValue={moment().subtract(11, 'months')}
                     disabledDate={disabledDateTimeStartMonth}
                     dropdownClassName="dropdown__date-picker"
                     onChange={onChangeTimeStartMonth}
@@ -839,7 +833,7 @@ function Sidebar(props) {
                     allowClear={false}
                     picker="year"
                     format="YYYY"
-                    defaultValue={moment().subtract(5, 'year')}
+                    defaultValue={moment().subtract(4, 'year')}
                     disabledDate={disabledDateTimeStartYear}
                     dropdownClassName="dropdown__date-picker"
                     onChange={onChangeTimeStartYear}
