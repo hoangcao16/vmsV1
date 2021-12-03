@@ -26,24 +26,6 @@ export default function ExportReport(props) {
       typeChart:type
     }
     await ReportApi.getExportData(data).then((value) => {
-
-      // const url = window.URL.createObjectURL(new Blob([value]));
-      // const link = document.createElement('a');
-      // link.href = url;
-      // link.setAttribute('download', 'Report.xlsx'); //or any other extension
-      // document.body.appendChild(link);
-      // link.click();
-
-      
-      // const url = URL.createObjectURL(new Blob([value]));
-      // const link = document.createElement('a');
-      // link.href = url;
-      // link.setAttribute('download', "Report.xlsx");
-      // document.body.appendChild(link);
-      // link.click();
-
-
-      // var data = new Blob([value], {type: 'application/force-download'});
       var data = new Blob([value], {type: 'application/json'});
       var xlsxURL = window.URL.createObjectURL(data);
       var link = document.createElement("a");
