@@ -43,7 +43,7 @@ import Timeline, {
   DateHeader
 } from "react-calendar-timeline/lib";
 import moment from 'moment'
-import TabSchedule from './TabSchedule';
+import TabSchedule, {MemoizedTabSchedule} from './TabSchedule';
 const { TabPane } = Tabs;
 
 
@@ -304,13 +304,13 @@ const Config = () => {
       <div className="tabs__container--store">
         <Tabs type="card">
           <TabPane tab={t('view.ai_config.hurdles_events')} key="1">
-          <TabSchedule cameraUuid={cameraUuid} type="hurdles"></TabSchedule>
+          <MemoizedTabSchedule cameraUuid={cameraUuid} type="hurdles"></MemoizedTabSchedule>
           </TabPane>
           <TabPane tab={t('view.ai_config.intrusion_detection_events')} key="2" width='480px'>
-          <TabSchedule cameraUuid={cameraUuid} type="intrusion_detection"></TabSchedule>
+          <MemoizedTabSchedule cameraUuid={cameraUuid} type="intrusion_detection"></MemoizedTabSchedule>
           </TabPane>
           <TabPane tab={t('view.ai_config.attendance_events')} key="3">
-            <TabSchedule cameraUuid={cameraUuid} type="attendance"></TabSchedule>
+            <MemoizedTabSchedule cameraUuid={cameraUuid} type="attendance"></MemoizedTabSchedule>
           </TabPane>
         </Tabs>
       </div>

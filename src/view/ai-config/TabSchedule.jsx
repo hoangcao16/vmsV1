@@ -1,5 +1,5 @@
 import { EditOutlined, PlusOutlined, DeleteOutlined, CheckOutlined, CloseOutlined } from '@ant-design/icons';
-import { Button, Card, Checkbox, Tabs, Row, Col, Form, Input, Table, Space , Popconfirm} from 'antd';
+import {Button, Card, Checkbox, Tabs, Row, Col, Form, Input, Table, Space, Popconfirm, Spin} from 'antd';
 import 'antd/dist/antd.css';
 import moment from 'moment';
 import React, { useEffect, useState } from 'react';
@@ -16,6 +16,11 @@ import ModalScheduleConfigCopy from './ModalScheduleConfigCopy';
 import './TabSchedule.scss';
 import imagePoster from "../../assets/event/videoposter.png";
 import { bodyStyleCard, headStyleCard } from './variables';
+import Notification from "../../components/vms/notification/Notification";
+import {NOTYFY_TYPE} from "../common/vms/Constant";
+import getServerCamproxyForPlay from "../../utility/vms/camera";
+import playCamApi from "../../api/camproxy/cameraApi";
+import _ from "lodash";
 
 
 const { TabPane } = Tabs;
@@ -205,7 +210,7 @@ const TabSchedule = (props) => {
     });
   }
 
-
+  console.log(">>>>> cameraUuid: ", cameraUuid);
 
   const options = [
     { label: `${t('view.ai_config.human')}`, value: 'human' },
@@ -213,7 +218,6 @@ const TabSchedule = (props) => {
   ];
 
   useEffect(() => {
-
     const data = {
       page: page,
       pageSize: pageSize
@@ -221,6 +225,10 @@ const TabSchedule = (props) => {
     CameraApi.getAllCamera(data).then((result) => {
       setListCameras(result);
     });
+    playCameraOnline(cameraUuid).then(r => {});
+    return () => {
+      closeCamera();
+    }
   }, []);
 
   useEffect(() => {
@@ -693,6 +701,84 @@ const TabSchedule = (props) => {
     },
   ]
 
+  const playCameraOnline = async (cameraUuid) => {
+    console.log(">>>>> Play camera: ", cameraUuid);
+    if (cameraUuid === "" || cameraUuid == null) {
+      Notification({
+        type: NOTYFY_TYPE.warning,
+        title: "Xem trực tiếp",
+        description: "Camera không xác định",
+      });
+      return;
+    }
+    const data = await getServerCamproxyForPlay(cameraUuid);
+    if (data == null) {
+      Notification({
+        type: NOTYFY_TYPE.warning,
+        title: "Xem trực tiếp",
+        description: "Không nhận địa chỉ camproxy lỗi",
+      });
+      return;
+    }
+
+    const pc = new RTCPeerConnection();
+    pc.addTransceiver("video");
+    pc.oniceconnectionstatechange = () => { };
+    const spin = document.getElementById("spin-slot-1");
+    pc.ontrack = (event) => {
+      //binding and play
+      const cell = document.getElementById("ptz-slot");
+      if (cell) {
+        cell.srcObject = event.streams[0];
+        cell.autoplay = true;
+        cell.controls = false;
+        cell.style = "width:100%;height:100%;display:block;object-fit:cover;";
+        spin.style.display = "none";
+      }
+    };
+    const token = "123";
+    const API = data.camproxyApi;
+
+    pc.createOffer({
+      iceRestart: false,
+    })
+        .then((offer) => {
+          spin.style.display = "block";
+          pc.setLocalDescription(offer);
+          //call api
+          playCamApi
+              .playCamera(API, {
+                token: token,
+                camUuid: cameraUuid,
+                offer: offer,
+              })
+              .then((res) => {
+                if (res) {
+                  pc.setRemoteDescription(res).then((r) => { });
+                } else {
+                  spin.style.display = "none";
+                  Notification({
+                    type: NOTYFY_TYPE.warning,
+                    title: "Xem trực tiếp",
+                    description: "Nhận offer từ server bị lỗi",
+                  });
+                }
+              });
+        })
+        .catch((error) => {
+          spin.style.display = "none";
+        })
+        .catch(alert)
+        .finally(() => { });
+  };
+
+  const closeCamera = () => {
+    console.log(">>>>> Close camera: ", cameraUuid);
+    const cell = document.getElementById("ptz-slot");
+    cell.srcObject = null;
+    cell.style.display = "none";
+  };
+
   return (
     <div className="tabs__container--device">
       <div className="activate">
@@ -711,13 +797,33 @@ const TabSchedule = (props) => {
               <Row gutter={24}>
                 <Col span={12}>
                   <div style={{ width: '90%', padding: '20px' }}>
-                    <img
-                      style={{ width: '100%' }}
-                      className='iconPoster'
-                      src={`${imagePoster}`}
-                      alt=""
-                    />
-
+                    {!cameraUuid && (<img
+                        style={{width: '100%'}}
+                        className='iconPoster'
+                        src={`${imagePoster}`}
+                        alt=""/>)
+                    }
+                    {cameraUuid && (
+                    <div className="camera__monitor">
+                      <Space size="middle">
+                        <Spin
+                            className="video-js"
+                            size="large"
+                            id="spin-slot-1"
+                            style={{ display: "none" }}
+                        />
+                      </Space>
+                      <video
+                          className="video-js"
+                          width="100%"
+                          autoPlay="1"
+                          id="ptz-slot"
+                          style={{ display: "none" }}
+                      >
+                        Trình duyệt không hỗ trợ thẻ video.
+                      </video>
+                    </div>
+                    )}
                     <div className="">
 
                       <Button
@@ -867,4 +973,8 @@ const TabSchedule = (props) => {
   );
 };
 
-export default withRouter(TabSchedule);
+function tabSchedulePropsAreEqual(prevTabSchedule, nextTabSchedule) {
+  return _.isEqual(prevTabSchedule.cameraUuid, nextTabSchedule.cameraUuid);
+}
+
+export const MemoizedTabSchedule = React.memo(TabSchedule, tabSchedulePropsAreEqual);
