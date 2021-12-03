@@ -1,3 +1,4 @@
+import { Spin } from "antd";
 import { isEmpty } from "lodash";
 import React from "react";
 import { useTranslation } from "react-i18next";
@@ -13,6 +14,7 @@ import {
   YAxis,
 } from "recharts";
 import convertDataBarChart from "../../../../actions/function/MyUltil/ConvertDataBarChart";
+import Loading from "../../../common/element/Loading";
 import { loadDataChart } from "../../redux/actions";
 import "./barChart.scss";
 import ExportReport from "./ExportReport";
@@ -49,62 +51,93 @@ const renderQuarterTick = (tickProps) => {
 function BarChartComponent(props) {
   const data = props.chartData;
   const { t } = useTranslation();
-  
-  const dataConvert = (data) => {
-    const dataNoName = data[0];
-    delete dataNoName.time;
-
-    const keyArr = Object.keys(dataNoName);
-
-    return keyArr.map((k) => {
-      return <Bar dataKey={k} fill={randomColor()} />;
-    });
-  };
-
   if (props.isShowLineAndPieChart) {
     return null;
   }
 
-  if (isEmpty(data)) {
+  if (props.isLoading) {
     return null;
   }
 
+  const dataConvert = (data) => {
+    if (isEmpty(data)) {
+      return;
+    }
+    const dataNoName = Object.values(data)[0]
+
+    delete dataNoName.time;
+
+    const keyArr = Object.keys(dataNoName);
+    return keyArr.map((k) => {
+      return <Bar key={k} dataKey={k} fill={randomColor()} />;
+    });
+  };
+
+  if (isEmpty(data)) {
+    return null;
+  }
   return (
     <>
       {!props.isShowLineAndPieChart && (
         <div className="BarChart">
-          <div className="BarChart__title">
-            <h3>
-              {" "}
-              {t("view.report.compare_chart")} {props.title.toUpperCase()}{" "}
-            </h3>
-            <ExportReport currentDataSource={data} />
-          </div>
-          <ResponsiveContainer
-            width="95%"
-            aspect={3 / 1}
-            className="ResponsiveContainer"
-          >
-            <BarChart
-              width={500}
-              height={300}
-              data={data}
-              margin={{
-                top: 5,
-                right: 30,
-                left: 20,
-                bottom: 5,
-              }}
-            >
-              <CartesianGrid strokeDasharray="3 3" />
-              <XAxis dataKey="time" />
-              <YAxis />
-              <Tooltip />
-              <Legend />
-              {dataConvert(data)}
-            </BarChart>
-           
-          </ResponsiveContainer>
+          {isEmpty(data) ? (
+            <>
+              <div className="BarChart__title">
+                <h3>
+                  {" "}
+                  {t(
+                    "view.report.compare_chart"
+                  )} {props.title.toUpperCase()}{" "}
+                </h3>
+              </div>
+              <div className="BarChart__no-data">
+                <span className="BarChart__no-data__title">
+                  {t("noti.choose_event")}
+                </span>
+              </div>
+            </>
+          ) : (
+            <>
+              {Object.keys(data).map((item, i) => (
+                <>
+                  <div className="BarChart__title">
+                    <h3>
+                      {" "}
+                      {t("view.report.compare_chart")}{" "}
+                      {props.title.toUpperCase()}{" "}
+                    </h3>
+                    <ExportReport currentDataSource={data} />
+                  </div>
+                  <div>
+                    <ResponsiveContainer
+                      width="95%"
+                      aspect={3 / 1}
+                      className="ResponsiveContainer"
+                    >
+                      <BarChart
+                        width={500}
+                        height={300}
+                        data={data[item]}
+                        margin={{
+                          top: 5,
+                          right: 30,
+                          left: 20,
+                          bottom: 5,
+                        }}
+                      >
+                        <CartesianGrid strokeDasharray="3 3" />
+                        <XAxis dataKey="time" />
+                        <YAxis />
+                        <Tooltip />
+                        <Legend />
+                        {dataConvert(data[item])}
+                      </BarChart>
+                    </ResponsiveContainer>
+                  </div>
+                </>
+              ))}
+            </>
+          )}
         </div>
       )}
     </>

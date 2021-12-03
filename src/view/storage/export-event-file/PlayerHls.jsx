@@ -21,7 +21,7 @@ const HlsPlayer = ({ playerVideo, playerSrc, duration }) => {
 }
 
 function hlsPlayerPropsAreEqual(prevHls, nextHls) {
-    return prevHls.playerSrc === nextHls.playerSrc;
+    return prevHls.playerSrc === nextHls.playerSrc && prevHls.duration === nextHls.duration;
 }
 
 export const MemoizedHlsPlayer = React.memo(HlsPlayer, hlsPlayerPropsAreEqual);

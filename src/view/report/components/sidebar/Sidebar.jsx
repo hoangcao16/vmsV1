@@ -22,6 +22,7 @@ import './../../../../view/commonStyle/commonInput.scss';
 import './../../../../view/commonStyle/commonSelect.scss';
 import './sidebar.scss';
 import { useTranslation } from 'react-i18next';
+import { reactLocalStorage } from 'reactjs-localstorage';
 
 const { Option } = Select;
 const formItemLayout = {
@@ -36,6 +37,7 @@ const SELECTED_TIME = {
 
 function Sidebar(props) {
   const { t } = useTranslation();
+
   const [filterOptions, setFilterOptions] = useState(DATA_FAKE_CAMERA);
 
   const [provinceId, setProvinceId] = useState(['2']);
@@ -76,7 +78,9 @@ function Sidebar(props) {
   const [selectedRowKeys, setSelectedRowKeys] = useState([]);
 
   const [feildIds, setFeildIds] = useState([]);
+
   const [isShowLineAndPieChart, setisShowLineAndPieChart] = useState(true);
+
 
   useEffect(() => {
     fetchSelectOptions().then((data) => {
@@ -90,6 +94,7 @@ function Sidebar(props) {
         !isEmpty(data?.fields[0]?.eventList) &&
         !isEmpty(data?.fields[0]?.eventList[0].uuid)
       ) {
+        // setCheck(data?.)
         setEventList(data?.fields[0]?.eventList);
         setSelectedRowKeys([data?.fields[0]?.eventList[0].uuid]);
 
@@ -120,9 +125,6 @@ function Sidebar(props) {
         props.changeCount(1);
       }
     });
-    const isShowLineAndPieChart = hiddenDistrictAndWard && hiddenWard; 
-
-    props.changeChart(isShowLineAndPieChart);
   }, []);
 
   useEffect(() => {
@@ -137,21 +139,34 @@ function Sidebar(props) {
       AddressApi.getDistrictByProvinceId(provinceId).then(setDistrict);
     }
     if (provinceId.length > 5) {
-      const notifyMess = {
-        type: 'error',
-        title: '',
-        description: 'Số lượng khu vực không được vượt quá 5'
-      };
-      Notification(notifyMess);
-      
-      return;
+      const language = reactLocalStorage.get('language')
+      if (language == 'vn') {
+        const notifyMess = {
+          type: 'error',
+          title: '',
+          description: 'Số lượng khu vực không được vượt quá 5'
+        };
+        Notification(notifyMess);
+        return;
+      } else {
+        const notifyMess = {
+          type: 'error',
+          title: '',
+          description: `The number of areas must not exceed 5`
+        };
+        Notification(notifyMess);
+        return;
+      }
     }
   }, [provinceId]);
 
   useEffect(() => {
     setWard([]);
-
-    if (districtId && provinceId.length === 1) {
+    if (isEmpty(districtId)) {
+      return;
+    } else if (districtId.length > 1) {
+      return;
+    } else if (districtId.length === 1 && provinceId.length === 1) {
       AddressApi.getWardByDistrictId(districtId).then(setWard);
     }
   }, [districtId]);
@@ -173,54 +188,47 @@ function Sidebar(props) {
       fieldId: feildIds,
       eventList: selectedRowKeys
     };
-
     props.callData(clearData(data));
     return;
-  }, [selectedRowKeys, provinceId, districtId])
+  }, [selectedRowKeys, provinceId, districtId, wardId, dataTime, timeStartDay, timeEndDay, timeStartMonth, timeEndMonth, timeStartYear, timeEndYear, feildIds])
 
   const onChangeField = (feildId) => {
-    const dataFilter = fields.find((f) => f.uuid === feildId);
+    const dataFilter = fields.find((f) => f.uuid === feildId)
     props.changeTitle(dataFilter.name);
-
+    setFeildIds(dataFilter.uuid)
     setEventList(dataFilter.eventList);
-      console.log("eventList", eventList)
-
     if (isEmpty(dataFilter.eventList)) {
-      const notifyMess = {
-        type: 'warning',
-        title: '',
-        description: 'Lĩnh vực này chưa có sự kiện, vui lòng chọn lĩnh vực khác'
-      };
-      Notification(notifyMess);
-      setSelectedRowKeys(null);
-      return;
+      const language = reactLocalStorage.get('language')
+      if (language == 'vn') {
+        const notifyMess = {
+          type: 'warning',
+          title: '',
+          description: 'Lĩnh vực này chưa có sự kiện, vui lòng chọn lĩnh vực khác'
+        };
+        Notification(notifyMess);
+        setSelectedRowKeys(null);
+        return;
+      } else {
+        const notifyMess = {
+          type: 'warning',
+          title: '',
+          description: 'This field does not have any event, please choose another field'
+        };
+        Notification(notifyMess);
+        setSelectedRowKeys(null);
+        return;
+      }
     }
 
-   
     setSelectedRowKeys([dataFilter.eventList[0].uuid])
-    
-    //Call API
-    // const data = {
-    //   pickTime: dataTime,
-    //   timeStartDay: timeStartDay,
-    //   timeEndDay: timeEndDay,
-    //   timeStartMonth: timeStartMonth,
-    //   timeEndMonth: timeEndMonth,
-    //   timeStartYear: timeStartYear,
-    //   timeEndYear: timeEndYear,
-    //   provinceId: provinceId,
-    //   districtId: districtId,
-    //   wardId: wardId,
-    //   fieldId: feildId,
-    //   eventList: [dataFilter.eventList[0].uuid]
-    // };
-
-    // props.callData(clearData(data));
   };
 
   
 
   const onChangeCity = async (cityIdArr) => {
+
+    
+
     if (cityIdArr.length < 1) {
       form.setFieldsValue({
         provinceId: provinceId
@@ -232,29 +240,15 @@ function Sidebar(props) {
       setHiddenWard(true);
       setisShowLineAndPieChart(true);
       setProvinceId(cityIdArr);
-      setSelectedRowKeys([filterOptions?.fields[0]?.eventList[0].uuid]);
+      if (isEmpty(eventList)) {
+        setSelectedRowKeys(null);
+      } else {
+        setSelectedRowKeys([eventList[0].uuid]);
+      }
       form.setFieldsValue({ districtId: undefined, wardId: undefined });
-      
-      //Call API
-      // const data = {
-      //   pickTime: dataTime,
-      //   timeStartDay: timeStartDay,
-      //   timeEndDay: timeEndDay,
-      //   timeStartMonth: timeStartMonth,
-      //   timeEndMonth: timeEndMonth,
-      //   timeStartYear: timeStartYear,
-      //   timeEndYear: timeEndYear,
-      //   provinceId: cityIdArr,
-      //   districtId: districtId,
-      //   wardId: wardId,
-      //   fieldId: feildIds,
-      //   eventList: selectedRowKeys
-      // };
-
-      // props.callData(clearData(data));
 
       return;
-    } else if (cityIdArr.length > 1) {
+    } else if (cityIdArr.length > 1 || cityIdArr.length < 6) {
       setHiddenDistrictAndWard(false);
       setHiddenWard(false);
       setisShowLineAndPieChart(false);
@@ -262,27 +256,15 @@ function Sidebar(props) {
       setWardId([]);
       form.setFieldsValue({ districtId: undefined, wardId: undefined });
       setProvinceId(cityIdArr);
-      setSelectedRowKeys([filterOptions?.fields[0]?.eventList[0].uuid]);
+      if (isEmpty(eventList)) {
+        setSelectedRowKeys(null);
+      } else {
+        setSelectedRowKeys([eventList[0].uuid]);
+      }
 
-      //Call API
-      // const data = {
-      //   pickTime: dataTime,
-      //   timeStartDay: timeStartDay,
-      //   timeEndDay: timeEndDay,
-      //   timeStartMonth: timeStartMonth,
-      //   timeEndMonth: timeEndMonth,
-      //   timeStartYear: timeStartYear,
-      //   timeEndYear: timeEndYear,
-      //   provinceId: cityIdArr,
-      //   districtId: districtId,
-      //   wardId: wardId,
-      //   fieldId: feildIds,
-      //   eventList: selectedRowKeys
-      // };
-
-      // props.callData(clearData(data));
       return;
     }
+
     form.setFieldsValue({ districtId: undefined, wardId: undefined });
   };
 
@@ -291,26 +273,13 @@ function Sidebar(props) {
       setHiddenWard(true);
       setisShowLineAndPieChart(true)
       setDistrictId(districtIdArr);
-      setSelectedRowKeys([filterOptions?.fields[0]?.eventList[0].uuid]);
+      if (isEmpty(eventList)) {
+        setSelectedRowKeys(null);
+      } else {
+        setSelectedRowKeys([eventList[0].uuid]);
+      }
+
       form.setFieldsValue({ wardId: undefined });
-
-      //Call API
-      // const data = {
-      //   pickTime: dataTime,
-      //   timeStartDay: timeStartDay,
-      //   timeEndDay: timeEndDay,
-      //   timeStartMonth: timeStartMonth,
-      //   timeEndMonth: timeEndMonth,
-      //   timeStartYear: timeStartYear,
-      //   timeEndYear: timeEndYear,
-      //   provinceId: provinceId,
-      //   districtId: districtIdArr,
-      //   wardId: wardId,
-      //   fieldId: feildIds,
-      //   eventList: selectedRowKeys
-      // };
-
-      // props.callData(clearData(data));
 
       return;
     } else if (districtIdArr.length > 1) {
@@ -318,37 +287,27 @@ function Sidebar(props) {
       setisShowLineAndPieChart(false)
       setDistrictId(districtIdArr);
       setWardId([]);
-      setSelectedRowKeys([filterOptions?.fields[0]?.eventList[0].uuid]);
+      if (isEmpty(eventList)) {
+        setSelectedRowKeys(null);
+      } else {
+        setSelectedRowKeys([eventList[0].uuid]);
+      }
+
       form.setFieldsValue({ wardId: undefined });
-
-      //Call API
-      // const data = {
-      //   pickTime: dataTime,
-      //   timeStartDay: timeStartDay,
-      //   timeEndDay: timeEndDay,
-      //   timeStartMonth: timeStartMonth,
-      //   timeEndMonth: timeEndMonth,
-      //   timeStartYear: timeStartYear,
-      //   timeEndYear: timeEndYear,
-      //   provinceId: provinceId,
-      //   districtId: districtIdArr,
-      //   wardId: wardId,
-      //   fieldId: feildIds,
-      //   eventList: selectedRowKeys
-      // };
-
-      // props.callData(clearData(data));
 
       return;
     } else {
       setHiddenDistrictAndWard(true);
       setHiddenWard(true);
       setDistrictId([]);
-      localStorage.setItem(`payloadDataChart.districtId`, [])
       setisShowLineAndPieChart(true);
-      setSelectedRowKeys([filterOptions?.fields[0]?.eventList[0].uuid]);
+      if (isEmpty(eventList)) {
+        setSelectedRowKeys(null);
+      } else {
+        setSelectedRowKeys([eventList[0].uuid]);
+      }
+
       form.setFieldsValue({ districtId: undefined, wardId: undefined });
-      props.callData(clearData(filterOptions));
 
     }
     form.setFieldsValue({ wardId: undefined });
@@ -359,57 +318,35 @@ function Sidebar(props) {
       setWardId(wardIdArr);
       setisShowLineAndPieChart(true)
       props.changeChart(true);
-      setSelectedRowKeys([filterOptions?.fields[0]?.eventList[0].uuid]);
-
-      //Call API
-      // const data = {
-      //   pickTime: dataTime,
-      //   timeStartDay: timeStartDay,
-      //   timeEndDay: timeEndDay,
-      //   timeStartMonth: timeStartMonth,
-      //   timeEndMonth: timeEndMonth,
-      //   timeStartYear: timeStartYear,
-      //   timeEndYear: timeEndYear,
-      //   provinceId: provinceId,
-      //   districtId: districtId,
-      //   wardId: wardIdArr,
-      //   fieldId: feildIds,
-      //   eventList: selectedRowKeys
-      // };
-
-      // props.callData(clearData(data));
+      if (isEmpty(eventList)) {
+        setSelectedRowKeys(null);
+      } else {
+        setSelectedRowKeys([eventList[0].uuid]);
+      }
 
       return;
     } else if (wardIdArr.length > 1) {
       setisShowLineAndPieChart(false)
       setWardId(wardIdArr);
-      setSelectedRowKeys([filterOptions?.fields[0]?.eventList[0].uuid]);
+      if (isEmpty(eventList)) {
+        setSelectedRowKeys(null);
+      } else {
+        setSelectedRowKeys([eventList[0].uuid]);
+      }
+
       props.changeChart(false);
-
-      //Call API
-      // const data = {
-      //   pickTime: dataTime,
-      //   timeStartDay: timeStartDay,
-      //   timeEndDay: timeEndDay,
-      //   timeStartMonth: timeStartMonth,
-      //   timeEndMonth: timeEndMonth,
-      //   timeStartYear: timeStartYear,
-      //   timeEndYear: timeEndYear,
-      //   provinceId: provinceId,
-      //   districtId: districtId,
-      //   wardId: wardIdArr,
-      //   fieldId: feildIds,
-      //   eventList: selectedRowKeys
-      // };
-
-      // props.callData(clearData(data));
 
       return;
     } else {
       setHiddenWard(true);
       setisShowLineAndPieChart(true)
       setWardId([]);
-      setSelectedRowKeys([filterOptions?.fields[0]?.eventList[0].uuid]);
+      if (isEmpty(eventList)) {
+        setSelectedRowKeys(null);
+      } else {
+        setSelectedRowKeys([eventList[0].uuid]);
+      }
+
       form.setFieldsValue({ wardId: undefined });
     }
     props.changeChart(true);
@@ -427,13 +364,24 @@ function Sidebar(props) {
   const onSelectChange = (selectedRowKeys) => {
     if (isShowLineAndPieChart === true) {
       if (selectedRowKeys.length < 1 || selectedRowKeys.length > 3) {
-        const notifyMess = {
-          type: 'error',
-          title: '',
-          description: 'Số lượng sự kiện phải trong khoảng từ 1 đến 3'
-        };
-        Notification(notifyMess);
-        return;
+        const language = reactLocalStorage.get('language')
+        if (language == 'vn') {
+          const notifyMess = {
+            type: 'error',
+            title: '',
+            description: `Số lượng sự kiện phải trong khoảng từ 1 đến 3`
+          };
+          Notification(notifyMess);
+          return;
+        } else {
+          const notifyMess = {
+            type: 'error',
+            title: '',
+            description: 'Number of events must be in range from 1 to 3'
+          };
+          Notification(notifyMess);
+          return;
+        }
       }
       setSelectedRowKeys(selectedRowKeys);
       props.changeCount(selectedRowKeys);
@@ -455,11 +403,11 @@ function Sidebar(props) {
       };
       props.callData(clearData(data));
     } else {
-      if (selectedRowKeys.length > 1) {
+      if (selectedRowKeys.length > 2) {
         const notifyMess = {
           type: 'error',
           title: '',
-          description: 'Số lượng sự kiện phải bằng 1'
+          description: 'Số lượng sự kiện không được vượt quá 2'
         };
         Notification(notifyMess);
         
@@ -488,31 +436,13 @@ function Sidebar(props) {
     }
   };
     
-    const rowSelection = {
-      selectedRowKeys,
-      onChange: onSelectChange
-    };
+  const rowSelection = {
+    selectedRowKeys,
+    onChange: onSelectChange
+  };
     
-  function onChange(value) {
-    setDatatime(value);
-
-    //Call API
-    const data = {
-      pickTime: value,
-      timeStartDay: timeStartDay,
-      timeEndDay: timeEndDay,
-      timeStartMonth: timeStartMonth,
-      timeEndMonth: timeEndMonth,
-      timeStartYear: timeStartYear,
-      timeEndYear: timeEndYear,
-      provinceId: provinceId || ['2'],
-      districtId: districtId,
-      wardId: wardId,
-      fieldId: feildIds,
-      eventList: selectedRowKeys
-    };
-
-    props.callData(clearData(data));
+  const onChangeDateTime = async (dateTime) => {
+    setDatatime(dateTime);
   }
 
   //=================================================================
@@ -542,7 +472,6 @@ function Sidebar(props) {
       fieldId: feildIds,
       eventList: selectedRowKeys
     };
-
     props.callData(clearData(data));
   }
 
@@ -552,7 +481,7 @@ function Sidebar(props) {
     const currentStart = form.getFieldValue('timeStartDay');
 
     const dk = moment(currentStart).add(2, 'days');
-
+    console.log("dk", dk)
     if (!value) {
       form.setFieldsValue({
         timeStartDay: timeStartDay
@@ -565,15 +494,26 @@ function Sidebar(props) {
         timeStartDay: ''
       });
 
-      const notifyMess = {
-        type: 'error',
-        title: '',
-        description:
-          'Khoảng thời gian bạn chọn chưa đúng, vui lòng chọn lại thời gian'
-      };
-      Notification(notifyMess);
-
-      return;
+      const language = reactLocalStorage.get('language')
+      if (language == 'vn') {
+        const notifyMess = {
+          type: 'error',
+          title: '',
+          description:
+            'Khoảng thời gian bạn chọn chưa đúng, vui lòng kiểm tra lại'
+        };
+        Notification(notifyMess);
+        return;
+      } else {
+        const notifyMess = {
+          type: 'error',
+          title: '',
+          description:
+            'Time range you choose is not correct, please check again'
+        };
+        Notification(notifyMess);
+        return;
+      }
     }
 
     //Call API
@@ -622,6 +562,7 @@ function Sidebar(props) {
       pickTime: dataTime,
       timeStartDay: timeStartDay,
       timeEndDay: timeEndDay,
+
       timeStartMonth: value,
       timeEndMonth: timeEndMonth,
       timeStartYear: timeStartYear,
@@ -632,7 +573,6 @@ function Sidebar(props) {
       fieldId: feildIds,
       eventList: selectedRowKeys
     };
-
     props.callData(clearData(data));
   }
 
@@ -640,7 +580,6 @@ function Sidebar(props) {
     setTimeEndMonth(value);
 
     const currentStart = form.getFieldValue('timeStartMonth');
-
     const dk = moment(currentStart).add(2, 'month');
 
     if (!value) {
@@ -655,14 +594,26 @@ function Sidebar(props) {
         timeStartMonth: ''
       });
 
-      const notifyMess = {
-        type: 'error',
-        title: '',
-        description:
-          'Khoảng thời gian bạn chọn chưa đúng, vui lòng chọn lại thời gian'
-      };
-      Notification(notifyMess);
-      return;
+      const language = reactLocalStorage.get('language')
+      if (language == 'vn') {
+        const notifyMess = {
+          type: 'error',
+          title: '',
+          description:
+            'Khoảng thời gian bạn chọn chưa đúng, vui lòng kiểm tra lại'
+        };
+        Notification(notifyMess);
+        return;
+      } else {
+        const notifyMess = {
+          type: 'error',
+          title: '',
+          description:
+            'Time range you choose is not correct, please check again'
+        };
+        Notification(notifyMess);
+        return;
+      }
     }
 
     //Call API
@@ -744,14 +695,26 @@ function Sidebar(props) {
         timeStartYear: ''
       });
 
-      const notifyMess = {
-        type: 'error',
-        title: '',
-        description:
-          'Khoảng thời gian bạn chọn chưa đúng, vui lòng chọn lại thời gian'
-      };
-      Notification(notifyMess);
-      return;
+      const language = reactLocalStorage.get('language')
+      if (language == 'vn') {
+        const notifyMess = {
+          type: 'error',
+          title: '',
+          description:
+            'Khoảng thời gian bạn chọn chưa đúng, vui lòng kiểm tra lại'
+        };
+        Notification(notifyMess);
+        return;
+      } else {
+        const notifyMess = {
+          type: 'error',
+          title: '',
+          description:
+            'Time range you choose is not correct, please check again'
+        };
+        Notification(notifyMess);
+        return;
+      }
     }
 
     //Call API
@@ -796,7 +759,7 @@ function Sidebar(props) {
           <Row gutter={24} style={{ margin: '5px' }}>
             <Col span={24}>
               <Form.Item name={['pickTime']}>
-                <Select defaultValue="day" onChange={onChange}>
+                <Select defaultValue="day" onChange={(dateTime) => onChangeDateTime(dateTime)}>
                   <Option value="day">{t('view.report.day')}</Option>
                   <Option value="month">{t('view.report.month')}</Option>
                   <Option value="year">{t('view.report.year')}</Option>
@@ -997,7 +960,7 @@ function Sidebar(props) {
               <Row gutter={24} style={{ margin: '5px' }}>
                 <Col span={24}>
                   <Table
-                    className="table__list--event mt-2"
+                    className="table__list--event mt-2 test"
                     rowKey="uuid"
                     columns={eventColumns}
                     // showHeader={false}

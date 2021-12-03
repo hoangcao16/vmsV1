@@ -1321,10 +1321,10 @@ const ExportEventFile = () => {
             </Col>
           </Row>
           <Row className="playControl">
-            <Col span={7}></Col>
+            <Col span={7}/>
             <Col className="actionControl" span={10}>
               <div
-                className={`${
+                className={`disable-select ${
                   checkDisabled()
                     ? "playIconContainer__disabled"
                     : "playIconContainer"
@@ -1342,35 +1342,44 @@ const ExportEventFile = () => {
               {/*    <FiSkipBack className="playIcon"/>*/}
               {/*</div>*/}
               <div
-                className={`${
+                className={`disable-select ${
                   checkDisabled()
                     ? "playIcon2Container__disabled"
                     : "playIcon2Container"
                 }`}
+                onClick={() => {
+                  if (checkDisabled()) return;
+                  const playEle = document.getElementById("video-control-play");
+                  if (playEle.style.display === "none") {
+                    playHandler("pause");
+                  }else{
+                    playHandler("play");
+                  }
+                }}
               >
                 <FiPause
                   id="video-control-pause"
                   className="playIcon2"
                   style={{ display: "none" }}
-                  onClick={() => {
-                    if (checkDisabled()) return;
-                    playHandler("pause");
-                  }}
+                  // onClick={() => {
+                  //   if (checkDisabled()) return;
+                  //   playHandler("pause");
+                  // }}
                 />
                 <FiPlay
                   id="video-control-play"
                   className="playIcon2"
-                  onClick={() => {
-                    if (checkDisabled()) return;
-                    playHandler("play");
-                  }}
+                  // onClick={() => {
+                  //   if (checkDisabled()) return;
+                  //   playHandler("play");
+                  // }}
                 />
               </div>
               {/*<div className={`${checkDisabled()?'playIconContainer__disabled':'playIconContainer'}`}>*/}
               {/*    <FiSkipForward className="playIcon"/>*/}
               {/*</div>*/}
               <div
-                className={`${
+                className={`disable-select ${
                   checkDisabled()
                     ? "playIconContainer__disabled"
                     : "playIconContainer"
