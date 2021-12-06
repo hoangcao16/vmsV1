@@ -1361,6 +1361,9 @@ const Preset = (props) => {
               pagination={false}
               scroll={{ y: 240 }}
               className="preset__table"
+              locale={{
+                emptyText: `${t('view.user.detail_list.no_valid_results_found')}`
+              }}
             />
           ) : (
             <Spin />
@@ -1473,6 +1476,7 @@ const Preset = (props) => {
                   row: DraggableBodyRow,
                 },
               }}
+
             />
           </>
         </div>
