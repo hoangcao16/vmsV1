@@ -143,7 +143,7 @@ const LiveCameraSlot = (props) => {
 
   return (
     <div
-      onDoubleClick={() => onDoubleClick()}
+      // onDoubleClick={() => onDoubleClick()}                                                                         
       onMouseEnter={() => onSelectedVideoSlot()}
       onMouseLeave={() => onUnSelectedVideoSlot()}
       onClick={() => onSelectVideoSlot(slotId)}
