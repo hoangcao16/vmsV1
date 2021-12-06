@@ -1,4 +1,5 @@
 import "antd/dist/antd.css";
+import { isEmpty } from "lodash";
 import React, { useEffect, useState } from "react";
 import { Draggable, Droppable } from "react-beautiful-dnd";
 import { useTranslation } from "react-i18next";
@@ -123,35 +124,41 @@ const DraggableCameraList = (props) => {
             {...provided.droppableProps}
             className="mt-1 list-unstyled border h-100"
           >
-            {cameras?.map((camera, index) => (
-              <li key={index}>
-                <Draggable
-                  key={camera.uuid}
-                  draggableId={buildDraggableId(camera)}
-                  index={index}
-                  style={{ with: "100%" }}
-                >
-                  {(provided, snapshot) => (
-                    <div
-                      ref={provided.innerRef}
-                      {...provided.draggableProps}
-                      {...provided.dragHandleProps}
-                      style={getItemStyle(
-                        snapshot.isDragging,
-                        provided.draggableProps.style
-                      )}
-                      className="draggable-cam-item"
-                    >
-                      <MapCamItem
-                        isControlCam={false}
-                        camera={camera}
-                        handleSelectCamera={handleSelectCamera}
-                      />
-                    </div>
-                  )}
-                </Draggable>
-              </li>
-            ))}
+            {!isEmpty(cameras) ? (
+              cameras?.map((camera, index) => (
+                <li key={index}>
+                  <Draggable
+                    key={camera.uuid}
+                    draggableId={buildDraggableId(camera)}
+                    index={index}
+                    style={{ with: "100%" }}
+                  >
+                    {(provided, snapshot) => (
+                      <div
+                        ref={provided.innerRef}
+                        {...provided.draggableProps}
+                        {...provided.dragHandleProps}
+                        style={getItemStyle(
+                          snapshot.isDragging,
+                          provided.draggableProps.style
+                        )}
+                        className="draggable-cam-item"
+                      >
+                        <MapCamItem
+                          isControlCam={false}
+                          camera={camera}
+                          handleSelectCamera={handleSelectCamera}
+                        />
+                      </div>
+                    )}
+                  </Draggable>
+                </li>
+              ))
+            ) : (
+              <div style={{ color: "white", padding: 10 }}>
+                {t("view.user.detail_list.no_valid_results_found")}
+              </div>
+            )}
             {provided.placeholder}
           </ul>
         )}
