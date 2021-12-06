@@ -8,6 +8,7 @@ import { TYPE_FORM_ACTION_ON_MAP } from "../common/vms/constans/map";
 import camImgSrcDefault from "../../assets/img/vms/cam-default.png";
 import adUnitImgSrcDefault from "../../assets/img/vms/adminis-unit-default.png";
 import ExportEventFileApi from "../../actions/api/exporteventfile/ExportEventFileApi";
+import { isEmpty } from "lodash";
 // import { useSelector, useDispatch } from "react-redux";
 
 const CamInfoPopup = (props) => {
@@ -79,9 +80,9 @@ const CamInfoPopup = (props) => {
         <span className="camera-info__detail-desc">
           {dataDetailInfo
             ? `${dataDetailInfo.address}, ${
-                dataDetailInfo.wardName !== ""
+                !isEmpty(dataDetailInfo.wardName)
                   ? `${dataDetailInfo.wardName},`
-                  : null
+                  : ""
               } ${dataDetailInfo.districtName},${dataDetailInfo.provinceName}`
             : ""}
         </span>

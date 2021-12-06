@@ -657,7 +657,7 @@
 }
 .dropdown--choose__preset-tour {
   .rc-virtual-list-holder-inner {
-    .ant-select-item-option:nth-child(3){
+    .ant-select-item-option-disabled{
       .ant-select-item-option-content{
         color: $vms-bg-primary;
         font-size: 1.6rem;
