@@ -7,7 +7,6 @@ import {
   LeftOutlined,
   MenuOutlined,
   MinusOutlined,
-  PlayCircleOutlined,
   PlusOutlined,
   RightOutlined,
   UpOutlined,
@@ -23,7 +22,6 @@ import {
   Select,
 } from "antd";
 import { arrayMoveImmutable } from "array-move";
-import { param } from "jquery";
 import { isEmpty } from "lodash";
 import React, { useEffect, useLayoutEffect, useState } from "react";
 import { useTranslation } from "react-i18next";
@@ -128,8 +126,7 @@ const Preset = (props) => {
         }
 
         const newRowsPreset = convertRowsPreset(result.data);
-        console.log("get all preset", result);
-        console.log("rowsPreset", newRowsPreset);
+
         setRowsPreset(newRowsPreset);
       });
     }
@@ -273,7 +270,7 @@ const Preset = (props) => {
     <SortableContainer
       useDragHandle
       disableAutoscroll
-      helperClass='row-dragging'
+      helperClass="row-dragging"
       onSortEnd={onChangOrderPreset}
       {...props}
     />
@@ -634,7 +631,11 @@ const Preset = (props) => {
     setLoading(true);
     try {
       await ptzControllerApi.postSetPreset(payload).then(async () => {
-        setCallPresetAgain(!callPresetAgain);
+        let params = {
+          cameraUuid: idCamera,
+          name: searchPreset,
+        };
+        await getAllPreset(params);
         setLoading(false);
       });
 
@@ -770,6 +771,7 @@ const Preset = (props) => {
         duration: 2,
       };
       Notification(warnNotyfi);
+      return;
     } else {
       const body = {
         cameraUuid: idCamera,
@@ -777,25 +779,35 @@ const Preset = (props) => {
         name: value,
       };
 
+
       try {
-        await ptzControllerApi.postRenamePreset(body);
+        await ptzControllerApi.postRenamePreset(body).then(async () => {
+          setLoading(true);
+
+          let params = {
+            cameraUuid: idCamera,
+            name: searchPreset,
+          };
+          await getAllPreset(params);
+          setLoading(false);
+        });
 
         document.getElementById(
           `rename__preset-${record.idPreset}`
         ).style.display = "none";
 
-        let params = {
-          cameraUuid: idCamera,
-          name: "",
-        };
+        // let params = {
+        //   cameraUuid: idCamera,
+        //   name: "",
+        // };
 
-        const payload = await ptzControllerApi.getAllPreset(params);
+        // const payload = await ptzControllerApi.getAllPreset(params);
 
-        const convertData = convertRowsPreset(payload.data);
+        // const convertData = convertRowsPreset(payload.data);
 
-        setRowsPreset(convertData);
+        // setRowsPreset(convertData);
 
-        setCallPresetTourAgain(!callPresetTourAgain);
+        // setCallPresetTourAgain(!callPresetTourAgain);
         const successNotyfi = {
           type: NOTYFY_TYPE.success,
           title: `${t("noti.success")}`,
@@ -892,6 +904,17 @@ const Preset = (props) => {
 
   const handleDoneRenamePresetTour = async (e) => {
     const value = document.getElementById("name__preset-tour").value.trim();
+
+    if (isEmpty(value)) {
+      const warnNotyfi = {
+        type: NOTYFY_TYPE.warning,
+        description:
+          "Cập nhập tên không thành công, vui lòng kiểm tra lại tên Preset Tour",
+        duration: 2,
+      };
+      Notification(warnNotyfi);
+      return;
+    }
     const body = {
       cameraUuid: idCamera,
       idPresetTour: presetTourDatas[indexPresetTourChoosed].idPresetTour,
@@ -907,13 +930,13 @@ const Preset = (props) => {
       const newPresetTourDatas = JSON.parse(JSON.stringify(presetTourDatas));
       newPresetTourDatas[indexPresetTourChoosed].name = value;
       setPresetTourDatas(newPresetTourDatas);
-      const warnNotyfi = {
+      const successNotyfi = {
         type: NOTYFY_TYPE.success,
         title: `${t("noti.success")}`,
         description: "Bạn đã đổi tên preset tour thành công",
         duration: 2,
       };
-      Notification(warnNotyfi);
+      Notification(successNotyfi);
     } catch (error) {
       console.log(error);
     }
@@ -1021,9 +1044,9 @@ const Preset = (props) => {
             <input
               id={`input-name-preset-${record.idPreset}`}
               defaultValue={record?.name}
-              maxLength={255}
+              maxLength={100}
               onFocus={(e) => handleFocusInputNamePreset(record)}
-              autoComplete='off'
+              autoComplete="off"
             />
             <span
               id={`rename__preset-${record.idPreset}`}
@@ -1055,13 +1078,13 @@ const Preset = (props) => {
         // const record = record;
         return (
           <Space>
-            <Tooltip placement='top' title={t("view.camera.camera_detail")}>
+            <Tooltip placement="top" title={t("view.camera.camera_detail")}>
               <Button
                 icon={<EyeOutlined />}
                 onClick={(e) => handleCallPreset(record)}
               />
             </Tooltip>
-            <Tooltip placement='top' title={t("delete")}>
+            <Tooltip placement="top" title={t("delete")}>
               <Button
                 icon={<DeleteOutlined />}
                 onClick={(e) => handleDeletePreset(record)}
@@ -1153,7 +1176,7 @@ const Preset = (props) => {
         // const record = record;
         return (
           <Space>
-            <Tooltip placement='top' title={t("delete")}>
+            <Tooltip placement="top" title={t("delete")}>
               <Button
                 icon={<DeleteOutlined />}
                 onClick={(e) => handleDeletePresetInPresetTour(record)}
@@ -1173,19 +1196,20 @@ const Preset = (props) => {
       </Option>
     );
   }
-  console.log("rowsPreset", rowsPreset);
+
+  
   return (
-    <div className='preset__container'>
-      <div className='setting__preset'>
-        <div className='camera__control'>
-          <div className='camera__direction'>
+    <div className="preset__container">
+      <div className="setting__preset">
+        <div className="camera__control">
+          <div className="camera__direction">
             <Tooltip
-              placement='top'
+              placement="top"
               title={t("view.user.detail_list.left")}
               arrowPointAtCenter={true}
             >
               <Button
-                className='left'
+                className="left"
                 icon={<LeftOutlined />}
                 onMouseDown={onPanLeftStart}
                 onMouseUp={onPanLeftEnd}
@@ -1194,12 +1218,12 @@ const Preset = (props) => {
             </Tooltip>
 
             <Tooltip
-              placement='top'
+              placement="top"
               title={t("view.user.detail_list.right")}
               arrowPointAtCenter={true}
             >
               <Button
-                className='right'
+                className="right"
                 icon={<RightOutlined />}
                 onMouseDown={onPanRightStart}
                 onMouseUp={onPanRightEnd}
@@ -1208,12 +1232,12 @@ const Preset = (props) => {
             </Tooltip>
 
             <Tooltip
-              placement='top'
+              placement="top"
               title={t("view.user.detail_list.up")}
               arrowPointAtCenter={true}
             >
               <Button
-                className='up'
+                className="up"
                 icon={<UpOutlined />}
                 onMouseDown={onTiltUpStart}
                 onMouseUp={onTiltUpEnd}
@@ -1222,12 +1246,12 @@ const Preset = (props) => {
             </Tooltip>
 
             <Tooltip
-              placement='top'
+              placement="top"
               title={t("view.user.detail_list.down")}
               arrowPointAtCenter={true}
             >
               <Button
-                className='down'
+                className="down"
                 icon={<DownOutlined />}
                 onMouseDown={onTiltDownStart}
                 onMouseUp={onTiltDownEnd}
@@ -1243,13 +1267,13 @@ const Preset = (props) => {
             ></Button> */}
 
             <Tooltip
-              placement='top'
+              placement="top"
               title={"Tốc độ quay"}
               arrowPointAtCenter={true}
             >
-              <div className='change__speed-camera'>
-                <div className='speed'>{speed}</div>
-                <div className='chang__speed-tool'>
+              <div className="change__speed-camera">
+                <div className="speed">{speed}</div>
+                <div className="chang__speed-tool">
                   <Button icon={<UpOutlined />} onClick={setUpSpeed}></Button>
                   <Button
                     icon={<DownOutlined />}
@@ -1259,28 +1283,28 @@ const Preset = (props) => {
               </div>
             </Tooltip>
           </div>
-          <div className='camera__zoom'>
+          <div className="camera__zoom">
             <Tooltip
-              placement='top'
+              placement="top"
               title={t("view.user.detail_list.zoom_out")}
               arrowPointAtCenter={true}
             >
               <Button
-                className='plus'
+                className="plus"
                 icon={<PlusOutlined />}
                 onMouseDown={onZoomInStart}
                 onMouseUp={onZoomInEnd}
               />
             </Tooltip>
-            <span className='zoom'>Zoom</span>
+            <span className="zoom">Zoom</span>
 
             <Tooltip
-              placement='top'
+              placement="top"
               title={t("view.user.detail_list.zoom_in")}
               arrowPointAtCenter={true}
             >
               <Button
-                className='minus'
+                className="minus"
                 icon={<MinusOutlined />}
                 onMouseDown={onZoomOutStart}
                 onMouseUp={onZoomOutEnd}
@@ -1288,38 +1312,38 @@ const Preset = (props) => {
             </Tooltip>
           </div>
         </div>
-        <div className='camera__monitor'>
-          <Space size='middle'>
+        <div className="camera__monitor">
+          <Space size="middle">
             <Spin
-              className='video-js'
-              size='large'
-              id='spin-slot-1'
+              className="video-js"
+              size="large"
+              id="spin-slot-1"
               style={{ display: "none" }}
             />
           </Space>
           <video
-            className='video-js'
-            width='100%'
-            autoPlay='1'
-            id='ptz-slot'
+            className="video-js"
+            width="100%"
+            autoPlay="1"
+            id="ptz-slot"
             style={{ display: "none" }}
           >
             Trình duyệt không hỗ trợ thẻ video.
           </video>
         </div>
       </div>
-      <div className='table__preset--setting'>
-        <div className='table__preset'>
-          <div className='preset__tool'>
+      <div className="table__preset--setting">
+        <div className="table__preset">
+          <div className="preset__tool">
             <AutoComplete
               value={searchPreset}
               onSearch={handleSearchPreset}
               onBlur={handleBlurPreset}
-              maxLength={255}
+              maxLength={100}
               placeholder={t("view.map.search")}
             />
             <Tooltip
-              placement='top'
+              placement="top"
               title={t("view.user.detail_list.save_preset")}
               arrowPointAtCenter={true}
             >
@@ -1336,37 +1360,37 @@ const Preset = (props) => {
               columns={columnsTablePreset}
               pagination={false}
               scroll={{ y: 240 }}
-              className='preset__table'
+              className="preset__table"
             />
           ) : (
             <Spin />
           )}
         </div>
 
-        <div className='confirm__choosing--preset'>
+        <div className="confirm__choosing--preset">
           <Select
-            id='choose__preset-tour'
+            id="choose__preset-tour"
             onSelect={(value, option) => {
               onChangeOptionSetPresetInPresetTour(value, option);
             }}
             value={selectPresetTour}
-            optionFilterProp='children'
+            optionFilterProp="children"
             filterOption={(input, option) =>
               option.children.toLowerCase().indexOf(input.toLowerCase()) >= 0 &&
               option.value !== "@@"
             }
             showSearch
-            defaultValue=''
-            dropdownClassName='dropdown--choose__preset-tour'
+            defaultValue=""
+            dropdownClassName="dropdown--choose__preset-tour"
           >
-            <Option value='' hidden disabled>
+            <Option value="" hidden disabled>
               {t("view.live.add_new_or_edit_preset_tour")}
             </Option>
 
             {/* <OptGroup label={t("view.live.add_new_preset_tour")}> */}
-            <Option value='none'>{t("view.live.add_new_preset_tour")}</Option>
+            <Option value="none">{t("view.live.add_new_preset_tour")}</Option>
             {/* </OptGroup> */}
-            <Option value='@@' disabled style={{ color: "#191919", margin: 0 }}>
+            <Option value="@@" disabled style={{ color: "#191919", margin: 0 }}>
               Chọn một preset tour
             </Option>
             {/* <OptGroup label={t("view.live.choose_preset_tour")}> */}
@@ -1375,12 +1399,12 @@ const Preset = (props) => {
           </Select>
 
           <Tooltip
-            placement='top'
+            placement="top"
             title={t("view.user.detail_list.save_preset_tour")}
             arrowPointAtCenter={true}
           >
             <Button
-              id='add__preset-in-preset-tour'
+              id="add__preset-in-preset-tour"
               onClick={handleAddPreset}
               disabled={isDisableButtonAddPresetToPresetTour}
             >
@@ -1389,11 +1413,11 @@ const Preset = (props) => {
           </Tooltip>
         </div>
 
-        <div className='table__preset-tour'>
+        <div className="table__preset-tour">
           <>
-            <div className='preset-tour__tool'>
+            <div className="preset-tour__tool">
               <input
-                id='name__preset-tour'
+                id="name__preset-tour"
                 disabled={!visiblePresetInPresetTour}
                 onFocus={(e) => handleFocusNamePresetTour()}
                 onBlur={() => {
@@ -1402,19 +1426,20 @@ const Preset = (props) => {
                   document.getElementById("name__preset-tour").value =
                     value.trim();
                 }}
-                autoComplete='off'
+                maxLength={100}
+                autoComplete="off"
               />
 
-              <span id='rename__preset-tour' style={{ display: "none" }}>
+              <span id="rename__preset-tour" style={{ display: "none" }}>
                 <CheckOutlined
-                  id='confirm__done--rename-preset-tour'
+                  id="confirm__done--rename-preset-tour"
                   onClick={(e) => {
                     e.stopPropagation();
                     handleDoneRenamePresetTour(e);
                   }}
                 />
                 <CloseOutlined
-                  id='confirm__close--rename-preset-tour'
+                  id="confirm__close--rename-preset-tour"
                   onClick={(e) => {
                     e.stopPropagation();
                     handleCloseRenamePresetTour();
@@ -1422,8 +1447,8 @@ const Preset = (props) => {
                 />
               </span>
 
-              <div id='delete__preset-tour'>
-                <Tooltip placement='top' title={t("delete")}>
+              <div id="delete__preset-tour">
+                <Tooltip placement="top" title={t("delete")}>
                   <Button
                     icon={<DeleteOutlined />}
                     onClick={handleDeletePresetTour}
@@ -1433,8 +1458,8 @@ const Preset = (props) => {
               </div>
             </div>
             <Table
-              size='small'
-              className='preset-tour__table'
+              size="small"
+              className="preset-tour__table"
               columns={columnsTablePresetTour}
               dataSource={
                 visiblePresetInPresetTour && isPresetLastDeleted
