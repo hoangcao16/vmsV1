@@ -49,6 +49,8 @@ const LiveMenuTool = (props) => {
     if (checkPermissionViewCamera(idCamera)) {
       let params = {
         cameraUuid: idCamera,
+        sortType:'asc',
+        sortField:'name'
       };
       getPreset(params);
     }
@@ -59,6 +61,8 @@ const LiveMenuTool = (props) => {
     if (checkPermissionViewCamera(idCamera)) {
       let params = {
         cameraUuid: idCamera,
+        sortType:'asc',
+        sortField:'name'
       };
       getPresetTour(params);
     }
