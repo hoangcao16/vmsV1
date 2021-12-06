@@ -49,8 +49,8 @@ const ViewMapOffline = (props) => {
   useEffect(() => {
     if (
       language === "vn"
-        ? (document.title = "CCTV | Bản đồ")
-        : (document.title = "CCTV | Map")
+        ? (document.title = "VMS | Bản đồ")
+        : (document.title = "VMS | Map")
     );
   }, [t]);
   const { addTrackingPoint, onContextMenuCallback, updateTrackingPoint } =

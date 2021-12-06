@@ -3,7 +3,7 @@ export const MAP_STYLES = {
     normal: "vietmap://styles/default/style.json",
     basic: "vietmap://styles/basic/style.json"
   };
-  export const LAT_LNG = [105.82398306332402, 21.05138537645672]
+  export const LAT_LNG = [105.77249691, 19.804496782]
   export const NAVIGATION_CONTROL = "bottom-right";
 
 export const STYLE_MODE = {
