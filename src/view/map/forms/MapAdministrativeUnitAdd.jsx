@@ -162,6 +162,17 @@ const MapAdministrativeUnitAdd = (props) => {
     form.resetFields();
   };
 
+  const validatePhoneNumber = (value) => {
+    console.log("value:", value);
+    const pattern = /^[+]*[(]{0,1}[0-9]{1,3}[)]{0,1}[-\s\./0-9]*$/g;
+
+    if (pattern.test(value) && value.length >= 10 && value.length <= 13) {
+      return true;
+    }
+
+    return false;
+  };
+
   return (
     <div
       className={
@@ -244,7 +255,29 @@ const MapAdministrativeUnitAdd = (props) => {
         </Row>
         <Row gutter={12}>
           <Col span={24}>
-            <Form.Item label={t("view.map.phone_number")} name={["tel"]}>
+            <Form.Item
+              label={t("view.map.phone_number")}
+              name={["tel"]}
+              rules={[
+                { required: true, message: t("view.map.required_field") },
+                ({ getFieldValue }) => ({
+                  validator(rule, value) {
+                    const data = getFieldValue(["tel"]);
+                    if (data) {
+                      if (validatePhoneNumber(value)) {
+                        return Promise.resolve();
+                      } else {
+                        return Promise.reject(
+                          `${t("noti.phone_number_format_is_not_correct")}`
+                        );
+                      }
+                    } else {
+                      return Promise.resolve(`${t("view.map.required_field")}`);
+                    }
+                  },
+                }),
+              ]}
+            >
               <Input
                 placeholder={t("view.map.please_enter_your_phone_number", {
                   plsEnter: t("please_enter"),
