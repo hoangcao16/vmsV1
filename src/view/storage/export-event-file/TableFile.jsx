@@ -502,12 +502,12 @@ const TableFile = (props) => {
         if (!props.isOpenRootFile) {
             if (props.viewFileType === 2) {
                 props.onSearch({
-                    ...searchParam,
+                    ...searchCaptureFileParamDefault,
                     searchType: "all",
                     eventUuid: "notnull",
                 });
             } else {
-                props.onSearch({...searchParam, searchType: "all"});
+                props.onSearch({...searchCaptureFileParamDefault, searchType: "all"});
             }
         }
     }, [props.viewFileType]);
