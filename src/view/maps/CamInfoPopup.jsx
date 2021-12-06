@@ -82,7 +82,7 @@ const CamInfoPopup = (props) => {
             ? `${dataDetailInfo.address}, ${
                 !isEmpty(dataDetailInfo.wardName)
                   ? `${dataDetailInfo.wardName},`
-                  : null
+                  : ""
               } ${dataDetailInfo.districtName},${dataDetailInfo.provinceName}`
             : ""}
         </span>
