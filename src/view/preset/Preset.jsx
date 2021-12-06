@@ -59,7 +59,6 @@ const Preset = (props) => {
   const [isPlayCamera, setIsPlayCamera] = useState(false);
   const [isActionIsStart, setIsActionStart] = useState(false);
   const [searchPreset, setSearchPreset] = useState();
-  const [searchPresetTour, setSearchPresetTour] = useState();
   const [selectPresetTour, setSelectPresetTour] = useState("");
   const [speed, setSpeed] = useState(1);
   const [loading, setLoading] = useState(false);
@@ -99,7 +98,9 @@ const Preset = (props) => {
       };
     });
 
-    return newPresetTourData;
+    const newConvert = [...newPresetTourData]
+
+    return newConvert;
   };
 
   const DEFAULT_VALUE_PRESET = [
@@ -126,7 +127,6 @@ const Preset = (props) => {
         }
 
         const newRowsPreset = convertRowsPreset(result.data);
-
         setRowsPreset(newRowsPreset);
       });
     }
@@ -199,6 +199,8 @@ const Preset = (props) => {
       return;
     }
   }, [rowsPreset.length]);
+
+  
   useEffect(() => {
     if (isPlayCamera) {
       playCameraOnline(idCamera);
@@ -660,10 +662,13 @@ const Preset = (props) => {
   const handleAddPreset = async () => {
     const datas = JSON.parse(JSON.stringify(selectedPreset));
     const newPresetTourDatas = JSON.parse(JSON.stringify(presetTourDatas));
-    const valueSelect = document.getElementById("choose__preset-tour").value;
+    // const valueSelect = document.getElementById("choose__preset-tour").value;
+
+    // console.log("valueSelect:", valueSelect);
 
     //neu chua chon preset tour thi tao preset tour moi
-    if (valueSelect === "none") {
+
+    if (selectPresetTour == "none") {
       const convertListPoint = datas.map((point, index) => {
         return {
           index: index,
@@ -681,13 +686,24 @@ const Preset = (props) => {
         listPoint: convertListPoint,
         idPresetTour: "",
       };
+
       try {
         const pload = await ptzControllerApi.postSetPresetTour(body);
         if (pload == null) {
           return;
         }
         setIsAddNewPresetTour(true);
-        setCallPresetTourAgain(!callPresetTourAgain);
+
+
+
+
+        let params = {
+          cameraUuid: idCamera,
+        };
+
+       await getAllPresetTour(params);
+
+
         document.getElementById("name__preset-tour").value = "new preset tour";
 
         const warnNotyfi = {
@@ -779,7 +795,6 @@ const Preset = (props) => {
         name: value,
       };
 
-
       try {
         await ptzControllerApi.postRenamePreset(body).then(async () => {
           setLoading(true);
@@ -848,7 +863,7 @@ const Preset = (props) => {
   };
 
   const onChangeOptionSetPresetInPresetTour = async (data, option) => {
-    const value = option.children;
+
     setSelectPresetTour(data);
     if (data === "none") {
       setVisiblePresetInPresetTour(false);
@@ -868,7 +883,7 @@ const Preset = (props) => {
         idPresetTour: presetTourDatas[data].idPresetTour,
       };
       try {
-        const pload = await ptzControllerApi.postCallPresetTour(body);
+        await ptzControllerApi.postCallPresetTour(body);
       } catch (error) {
         console.log(error);
       }
@@ -1113,20 +1128,6 @@ const Preset = (props) => {
     setSearchPreset(value);
   };
 
-  const handleBlurPresetTour = (e) => {
-    const value = e.target.value.trim();
-    setSearchPresetTour(value);
-  };
-
-  const handleSearchPresetTour = async (value) => {
-    setSearchPresetTour(value);
-    const params = {
-      cameraUuid: idCamera,
-      name: value,
-    };
-    getAllPresetTour(params);
-  };
-
   const columnsTablePresetTour = [
     {
       title: "",
@@ -1197,7 +1198,6 @@ const Preset = (props) => {
     );
   }
 
-  
   return (
     <div className="preset__container">
       <div className="setting__preset">
@@ -1387,15 +1387,11 @@ const Preset = (props) => {
               {t("view.live.add_new_or_edit_preset_tour")}
             </Option>
 
-            {/* <OptGroup label={t("view.live.add_new_preset_tour")}> */}
             <Option value="none">{t("view.live.add_new_preset_tour")}</Option>
-            {/* </OptGroup> */}
             <Option value="@@" disabled style={{ color: "#191919", margin: 0 }}>
               Chọn một preset tour
             </Option>
-            {/* <OptGroup label={t("view.live.choose_preset_tour")}> */}
             {presetTourSelect}
-            {/* </OptGroup> */}
           </Select>
 
           <Tooltip
