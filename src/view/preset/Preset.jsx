@@ -7,14 +7,21 @@ import {
   LeftOutlined,
   MenuOutlined,
   MinusOutlined,
-  PlayCircleOutlined,
   PlusOutlined,
   RightOutlined,
   UpOutlined,
 } from "@ant-design/icons";
-import { AutoComplete, Button, Image, Space, Spin, Table, Tooltip, Select } from "antd";
+import {
+  AutoComplete,
+  Button,
+  Image,
+  Space,
+  Spin,
+  Table,
+  Tooltip,
+  Select,
+} from "antd";
 import { arrayMoveImmutable } from "array-move";
-import { param } from "jquery";
 import { isEmpty } from "lodash";
 import React, { useEffect, useLayoutEffect, useState } from "react";
 import { useTranslation } from "react-i18next";
@@ -33,7 +40,7 @@ import "./Preset.scss";
 
 const Preset = (props) => {
   const { idCamera } = props;
-  useLayoutEffect(() => { }, []);
+  useLayoutEffect(() => {}, []);
   const [rowsPreset, setRowsPreset] = useState([]);
   const [presetTourDatas, setPresetTourDatas] = useState([]);
   const [indexPresetTourChoosed, setIndexPresetTourChoosed] = useState(0);
@@ -53,22 +60,20 @@ const Preset = (props) => {
   const [isActionIsStart, setIsActionStart] = useState(false);
   const [searchPreset, setSearchPreset] = useState();
   const [searchPresetTour, setSearchPresetTour] = useState();
-  const [selectPresetTour, setSelectPresetTour] = useState('');
-  const [speed, setSpeed] = useState(1)
+  const [selectPresetTour, setSelectPresetTour] = useState("");
+  const [speed, setSpeed] = useState(1);
+  const [loading, setLoading] = useState(false);
   const { t } = useTranslation();
 
   // const [newPresetTour, setNewPresetTour] = useState([]);
 
-  const convertRowsPreset = (rowsPreset) => {
-    return rowsPreset.map((row, index) => {
+  const convertRowsPreset = (data) => {
+    return data.map((row, index) => {
       return {
         key: index,
         index: index,
         STT: index + 1,
-        name:
-          row?.name.length > 25
-            ? `${row?.name.slice(0, 20)}...`
-            : `${row?.name}`,
+        name: row?.name,
         idPreset: row?.idPreset,
         speed: 1,
       };
@@ -114,24 +119,22 @@ const Preset = (props) => {
 
   const getAllPreset = async (params) => {
     if (idCamera) {
+      await ptzControllerApi.getAllPreset(params).then((result) => {
+        if (isEmpty(result)) {
+          setRowsPreset(DEFAULT_VALUE_PRESET);
+          return;
+        }
 
-      const payload = isEmpty(params?.name) ?
-        await ptzControllerApi.getAllPreset(params) :
-        await ptzControllerApi.getPreset(params);
-      if (isEmpty(payload)) {
-        setRowsPreset(DEFAULT_VALUE_PRESET);
-        return;
-      }
-      const rowsPreset = convertRowsPreset(payload.data);
-      setRowsPreset(rowsPreset);
+        const newRowsPreset = convertRowsPreset(result.data);
+
+        setRowsPreset(newRowsPreset);
+      });
     }
   };
 
   const getAllPresetTour = async (params) => {
     if (idCamera) {
-      const payload = isEmpty(params?.name) ?
-        await ptzControllerApi.getAllPresetTour(params) :
-        await ptzControllerApi.getPresetTour(params);
+      const payload = await ptzControllerApi.getAllPresetTour(params);
       if (isEmpty(payload)) {
         setPresetTourDatas(DEFAULT_VALUE_PRESET_TOUR);
         return;
@@ -140,14 +143,14 @@ const Preset = (props) => {
     }
   };
   useEffect(() => {
-    setIsPlayCamera(true)
-  }, [])
-
+    setIsPlayCamera(true);
+  }, []);
 
   //call api get all preset
   useEffect(() => {
     let params = {
       cameraUuid: idCamera,
+      name: searchPreset,
     };
     getAllPreset(params);
   }, [callPresetAgain]);
@@ -301,7 +304,7 @@ const Preset = (props) => {
 
     const pc = new RTCPeerConnection();
     pc.addTransceiver("video");
-    pc.oniceconnectionstatechange = () => { };
+    pc.oniceconnectionstatechange = () => {};
     const spin = document.getElementById("spin-slot-1");
     pc.ontrack = (event) => {
       //binding and play
@@ -332,7 +335,7 @@ const Preset = (props) => {
           })
           .then((res) => {
             if (res) {
-              pc.setRemoteDescription(res).then((r) => { });
+              pc.setRemoteDescription(res).then((r) => {});
             } else {
               spin.style.display = "none";
               Notification({
@@ -347,20 +350,20 @@ const Preset = (props) => {
         spin.style.display = "none";
       })
       .catch(alert)
-      .finally(() => { });
+      .finally(() => {});
   };
 
   const setUpSpeed = () => {
     if (speed <= 5) {
-      setSpeed(speed + 1)
+      setSpeed(speed + 1);
     }
-  }
+  };
 
   const setDownSpeed = () => {
     if (speed > 1) {
-      setSpeed(speed - 1)
+      setSpeed(speed - 1);
     }
-  }
+  };
 
   const closeCamera = () => {
     const cell = document.getElementById("video-slot-1");
@@ -625,12 +628,17 @@ const Preset = (props) => {
       cameraUuid: idCamera,
       name: "new name",
     };
+    setLoading(true);
     try {
-      const pload = await ptzControllerApi.postSetPreset(payload);
-      if (pload === null) {
-        return;
-      }
-      setCallPresetAgain(!callPresetAgain);
+      await ptzControllerApi.postSetPreset(payload).then(async () => {
+        let params = {
+          cameraUuid: idCamera,
+          name: searchPreset,
+        };
+        await getAllPreset(params);
+        setLoading(false);
+      });
+
       const warnNotyfi = {
         type: NOTYFY_TYPE.success,
         title: `${t("noti.success")}`,
@@ -751,9 +759,9 @@ const Preset = (props) => {
   };
 
   const handleDoneRenamePreset = async (e, record) => {
-    const value = document.getElementById(
-      `input-name-preset-${record.idPreset}`
-    ).value.trim();
+    const value = document
+      .getElementById(`input-name-preset-${record.idPreset}`)
+      .value.trim();
     if (value.length >= 100 || value.length === 0) {
       //validate
       const warnNotyfi = {
@@ -763,6 +771,7 @@ const Preset = (props) => {
         duration: 2,
       };
       Notification(warnNotyfi);
+      return;
     } else {
       const body = {
         cameraUuid: idCamera,
@@ -770,25 +779,35 @@ const Preset = (props) => {
         name: value,
       };
 
+
       try {
-        await ptzControllerApi.postRenamePreset(body);
+        await ptzControllerApi.postRenamePreset(body).then(async () => {
+          setLoading(true);
+
+          let params = {
+            cameraUuid: idCamera,
+            name: searchPreset,
+          };
+          await getAllPreset(params);
+          setLoading(false);
+        });
 
         document.getElementById(
           `rename__preset-${record.idPreset}`
         ).style.display = "none";
 
-        let params = {
-          cameraUuid: idCamera,
-          name: "",
-        };
+        // let params = {
+        //   cameraUuid: idCamera,
+        //   name: "",
+        // };
 
-        const payload = await ptzControllerApi.getAllPreset(params);
+        // const payload = await ptzControllerApi.getAllPreset(params);
 
-        const convertData = convertRowsPreset(payload.data);
+        // const convertData = convertRowsPreset(payload.data);
 
-        setRowsPreset(convertData);
+        // setRowsPreset(convertData);
 
-        setCallPresetTourAgain(!callPresetTourAgain);
+        // setCallPresetTourAgain(!callPresetTourAgain);
         const successNotyfi = {
           type: NOTYFY_TYPE.success,
           title: `${t("noti.success")}`,
@@ -822,7 +841,7 @@ const Preset = (props) => {
       idPreset: record.idPreset,
     };
     try {
-      const pload = await ptzControllerApi.postCallPreset(body);
+      await ptzControllerApi.postCallPreset(body);
     } catch (error) {
       console.log(error);
     }
@@ -830,15 +849,14 @@ const Preset = (props) => {
 
   const onChangeOptionSetPresetInPresetTour = async (data, option) => {
     const value = option.children;
-    setSelectPresetTour(data)
+    setSelectPresetTour(data);
     if (data === "none") {
       setVisiblePresetInPresetTour(false);
       document.getElementById("name__preset-tour").value = "";
       setIsDisableButtonAddPresetToPresetTour(false);
       document.getElementById("rename__preset-tour").style.display = "none";
       document.getElementById("delete__preset-tour").style.display = "flex";
-    }
-    else {
+    } else {
       setIsDisableButtonAddPresetToPresetTour(false);
       document.getElementById("name__preset-tour").value =
         presetTourDatas[data].name;
@@ -861,7 +879,6 @@ const Preset = (props) => {
     const value = e.target.value;
     const datas = JSON.parse(JSON.stringify(presetTourDatas));
     const index = datas[indexPresetTourChoosed].listPoint.findIndex(
-
       (item, index) => item.index == record.index
     );
     const data = datas[indexPresetTourChoosed].listPoint[index];
@@ -887,6 +904,17 @@ const Preset = (props) => {
 
   const handleDoneRenamePresetTour = async (e) => {
     const value = document.getElementById("name__preset-tour").value.trim();
+
+    if (isEmpty(value)) {
+      const warnNotyfi = {
+        type: NOTYFY_TYPE.warning,
+        description:
+          "Cập nhập tên không thành công, vui lòng kiểm tra lại tên Preset Tour",
+        duration: 2,
+      };
+      Notification(warnNotyfi);
+      return;
+    }
     const body = {
       cameraUuid: idCamera,
       idPresetTour: presetTourDatas[indexPresetTourChoosed].idPresetTour,
@@ -902,13 +930,13 @@ const Preset = (props) => {
       const newPresetTourDatas = JSON.parse(JSON.stringify(presetTourDatas));
       newPresetTourDatas[indexPresetTourChoosed].name = value;
       setPresetTourDatas(newPresetTourDatas);
-      const warnNotyfi = {
+      const successNotyfi = {
         type: NOTYFY_TYPE.success,
         title: `${t("noti.success")}`,
         description: "Bạn đã đổi tên preset tour thành công",
         duration: 2,
       };
-      Notification(warnNotyfi);
+      Notification(successNotyfi);
     } catch (error) {
       console.log(error);
     }
@@ -1016,7 +1044,7 @@ const Preset = (props) => {
             <input
               id={`input-name-preset-${record.idPreset}`}
               defaultValue={record?.name}
-              maxLength={255}
+              maxLength={100}
               onFocus={(e) => handleFocusInputNamePreset(record)}
               autoComplete="off"
             />
@@ -1068,36 +1096,36 @@ const Preset = (props) => {
     },
   ];
 
-  const { Option, OptGroup } = Select
+  const { Option } = Select;
 
   const handleSearchPreset = async (value) => {
     setSearchPreset(value);
-    const params = {
-      cameraUuid: idCamera,
-      name: value
-    }
-    getAllPreset(params)
-  }
+    // const params = {
+    //   cameraUuid: idCamera,
+    //   name: value
+    // }
+    setCallPresetAgain(!callPresetAgain);
+    // getAllPreset(params)
+  };
 
   const handleBlurPreset = (e) => {
     const value = e.target.value.trim();
-    setSearchPreset(value)
-  }
+    setSearchPreset(value);
+  };
 
   const handleBlurPresetTour = (e) => {
     const value = e.target.value.trim();
-    setSearchPresetTour(value)
-  }
+    setSearchPresetTour(value);
+  };
 
   const handleSearchPresetTour = async (value) => {
     setSearchPresetTour(value);
     const params = {
       cameraUuid: idCamera,
-      name: value
-    }
-    getAllPresetTour(params)
-  }
-
+      name: value,
+    };
+    getAllPresetTour(params);
+  };
 
   const columnsTablePresetTour = [
     {
@@ -1168,6 +1196,8 @@ const Preset = (props) => {
       </Option>
     );
   }
+
+  
   return (
     <div className="preset__container">
       <div className="setting__preset">
@@ -1238,19 +1268,20 @@ const Preset = (props) => {
 
             <Tooltip
               placement="top"
-              title={'Tốc độ quay'}
+              title={"Tốc độ quay"}
               arrowPointAtCenter={true}
             >
               <div className="change__speed-camera">
                 <div className="speed">{speed}</div>
-                <div className='chang__speed-tool'>
+                <div className="chang__speed-tool">
                   <Button icon={<UpOutlined />} onClick={setUpSpeed}></Button>
-                  <Button icon={<DownOutlined />} onClick={setDownSpeed}></Button>
+                  <Button
+                    icon={<DownOutlined />}
+                    onClick={setDownSpeed}
+                  ></Button>
                 </div>
               </div>
             </Tooltip>
-
-
           </div>
           <div className="camera__zoom">
             <Tooltip
@@ -1308,7 +1339,7 @@ const Preset = (props) => {
               value={searchPreset}
               onSearch={handleSearchPreset}
               onBlur={handleBlurPreset}
-              maxLength={255}
+              maxLength={100}
               placeholder={t("view.map.search")}
             />
             <Tooltip
@@ -1319,17 +1350,21 @@ const Preset = (props) => {
               <Image src={arrow} preview={false} onClick={handleSetPreset} />
             </Tooltip>
           </div>
-          <Table
-            rowSelection={{
-              type: "checkbox",
-              ...rowSelection,
-            }}
-            dataSource={rowsPreset}
-            columns={columnsTablePreset}
-            pagination={false}
-            scroll={{ y: 240 }}
-            className="preset__table"
-          />
+          {!loading ? (
+            <Table
+              rowSelection={{
+                type: "checkbox",
+                ...rowSelection,
+              }}
+              dataSource={rowsPreset}
+              columns={columnsTablePreset}
+              pagination={false}
+              scroll={{ y: 240 }}
+              className="preset__table"
+            />
+          ) : (
+            <Spin />
+          )}
         </div>
 
         <div className="confirm__choosing--preset">
@@ -1341,22 +1376,21 @@ const Preset = (props) => {
             value={selectPresetTour}
             optionFilterProp="children"
             filterOption={(input, option) =>
-              option.children.toLowerCase().indexOf(input.toLowerCase()) >= 0
+              option.children.toLowerCase().indexOf(input.toLowerCase()) >= 0 &&
+              option.value !== "@@"
             }
             showSearch
             defaultValue=""
             dropdownClassName="dropdown--choose__preset-tour"
           >
-
             <Option value="" hidden disabled>
               {t("view.live.add_new_or_edit_preset_tour")}
             </Option>
 
-
             {/* <OptGroup label={t("view.live.add_new_preset_tour")}> */}
             <Option value="none">{t("view.live.add_new_preset_tour")}</Option>
             {/* </OptGroup> */}
-            <Option value="@@" disabled style={{ color: '#191919', margin: 0 }}>
+            <Option value="@@" disabled style={{ color: "#191919", margin: 0 }}>
               Chọn một preset tour
             </Option>
             {/* <OptGroup label={t("view.live.choose_preset_tour")}> */}
@@ -1382,15 +1416,17 @@ const Preset = (props) => {
         <div className="table__preset-tour">
           <>
             <div className="preset-tour__tool">
-
               <input
                 id="name__preset-tour"
                 disabled={!visiblePresetInPresetTour}
                 onFocus={(e) => handleFocusNamePresetTour()}
                 onBlur={() => {
-                  let value = document.getElementById("name__preset-tour").value
-                  document.getElementById("name__preset-tour").value = value.trim()
+                  let value =
+                    document.getElementById("name__preset-tour").value;
+                  document.getElementById("name__preset-tour").value =
+                    value.trim();
                 }}
+                maxLength={100}
                 autoComplete="off"
               />
 
@@ -1429,8 +1465,8 @@ const Preset = (props) => {
                 visiblePresetInPresetTour && isPresetLastDeleted
                   ? ""
                   : visiblePresetInPresetTour
-                    ? presetTourDatas[indexPresetTourChoosed]?.listPoint
-                    : ""
+                  ? presetTourDatas[indexPresetTourChoosed]?.listPoint
+                  : ""
               }
               pagination={false}
               rowKey={(record) => record.index}
@@ -1445,7 +1481,7 @@ const Preset = (props) => {
           </>
         </div>
       </div>
-    </div >
+    </div>
   );
 };
 export default Preset;
