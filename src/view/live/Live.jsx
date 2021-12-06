@@ -166,7 +166,6 @@ const Live = (props) => {
     try {
       const data = await bookmarkApi.getDefault();
 
-      console.log("data:", data);
       if (data && data.payload && data.payload.length >= 1) {
         const defaultScreen = data.payload[0];
         // Get all cam info of each slot from a screen
@@ -422,8 +421,8 @@ const Live = (props) => {
           dispatch(setPlayBackHlsLive(tmp[slotIdx]));
           tmp[slotIdx].hls.loadSource(videoSrc);
           tmp[slotIdx].hls.attachMedia(video);
-          tmp[slotIdx].hls.on(Hls.Events.MANIFEST_PARSED);
-          tmp[slotIdx].hls.on(Hls.Events.MEDIA_ATTACHED);
+          //tmp[slotIdx].hls.on(Hls.Events.MANIFEST_PARSED);
+          //tmp[slotIdx].hls.on(Hls.Events.MEDIA_ATTACHED);
           tmp[slotIdx].hls.on(Hls.Events.ERROR, function (event, data) {
             if (data.fatal) {
               switch (data.type) {
@@ -760,7 +759,6 @@ const Live = (props) => {
       const video = document.getElementById(videoCellName);
       const playbackTimeInSecond = Math.floor(video.currentTime);
       const recordTimeInSecond = Math.ceil((stopTime - startTime) / 1000);
-
       const startT = currentPlaybackTime + playbackTimeInSecond;
       const stopT = startT + recordTimeInSecond;
       const fileName = setFileName(0);

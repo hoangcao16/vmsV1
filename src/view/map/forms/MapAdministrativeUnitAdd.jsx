@@ -302,6 +302,7 @@ const MapAdministrativeUnitAdd = (props) => {
           <Col span={12}>
             <Form.Item name={["wardId"]} label={t("view.map.ward_id")}>
               <Select
+                allowClear
                 dataSource={wards}
                 filterOption={filterOption}
                 options={normalizeOptions("name", "id", wards || [])}

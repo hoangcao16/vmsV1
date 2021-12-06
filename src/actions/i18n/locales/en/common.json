@@ -441,13 +441,19 @@
       "schedule_config": "Schedule Config",
       "area_config": "Area config",
       "time_config": "Time config",
-      "activate_attendance_events": "Activate Attendance Events",
+      "activate_attendance": "Activate Attendance Events",
       "activate_hurdles": "Activate Hurdles",
-      "activate_intrusion_detection_events": "Activate Intrusion Detection Events ",
+      "activate_intrusion_detection": "Activate Intrusion Detection Events ",
       "all_day": "All day",
       "apply": "Apply",
       "time_config_copy": "Time config copy",
-      "config_copy": "Copy"
+      "config_copy": "Copy",
+      "time_threshold" : "Time Threshold",
+      "second": "second",
+      "object_recognition": "Object Recognition",
+      "vehicle": "Vehicle",
+      "human" : "human"
+
     }
   },
   "noti": {
@@ -516,7 +522,8 @@
     "successfully_add_camera": "Successfully add new Camera",
     "successfully_edit_name": "Successfully edit name of",
     "successfully_add": "Successfully add new",
-    "success": "Success"
+    "success": "Success",
+    "choose_event" : "You need to choose event"
   },
   "breadcrumd": {
     "report": "Report Management",

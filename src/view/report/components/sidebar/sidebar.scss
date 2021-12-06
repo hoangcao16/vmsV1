@@ -5,7 +5,8 @@
   margin-left: 12px;
   padding: 0 0 12px;
   border-left: 1px solid #eaf0f62c;
-  width: 100%;
+  max-width: 345px;
+  min-width: 345px;
 
   .ant-select-multiple {
     height: 100%;
@@ -106,7 +107,6 @@
         .ant-table-cell:last-child,
         .ant-table-cell:nth-last-child(2) {
           padding: 0;
-          text-align: center;
         }
       }
 
@@ -224,6 +224,8 @@
 
         tr .ant-table-cell:last-child {
           border-radius: 0 !important;
+          text-align: left;
+          padding-left: 20px;
 
           span {
             display: flex;

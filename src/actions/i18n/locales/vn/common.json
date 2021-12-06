@@ -443,13 +443,18 @@
       "schedule_config": "Thiết lập lịch trình",
       "area_config": "Thiết lập Khu vực",
       "time_config": "Cài đặt thời gian",
-      "activate_attendance_events": "Kích hoạt tính năng điểm danh",
+      "activate_attendance": "Kích hoạt tính năng điểm danh",
       "activate_hurdles": "Kích hoạt tính năng phát hiện vượt rào ảo",
-      "activate_intrusion_detection_events": "Kích hoạt tính năng phát hiện xâm nhập",
+      "activate_intrusion_detection": "Kích hoạt tính năng phát hiện xâm nhập",
       "all_day": "Áp dụng cho tất cả các ngày trong tuần",
       "apply": "Áp dụng",
       "time_config_copy": "Áp dụng lịch",
-      "config_copy": "Sao chép"
+      "config_copy": "Sao chép",
+      "time_threshold": "Ngưỡng thời gian",
+      "second": "giây",
+      "object_recognition": "Nhận diện đối tượng",
+      "vehicle": "Xe cộ",
+      "human" : "Người"
     }
   },
   "noti": {
@@ -519,7 +524,8 @@
     "successfully_add_camera": "Bạn đã thêm thành công Camera",
     "successfully_edit_name": "Bạn đã thêm thành công tên của",
     "successfully_add": "Bạn đã thêm thành công",
-    "success": "Thành công"
+    "success": "Thành công",
+    "choose_event" : "Bạn cần phải chọn sự kiện"
   },
 
   "breadcrumd": {

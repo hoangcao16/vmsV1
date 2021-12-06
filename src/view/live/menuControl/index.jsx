@@ -231,7 +231,7 @@ const Index = ({
                         value={search}
                         onSearch={handleSearch}
                         onBlur={handleBlur}
-                        maxLength={255}
+                        maxLength={100}
                         className=" full-width height-40 read search__camera-group"
                         placeholder={t("view.map.search")}
                     />
