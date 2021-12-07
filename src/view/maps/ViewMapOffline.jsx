@@ -434,6 +434,8 @@ const ViewMapOffline = (props) => {
       lat_: lngLat.lat,
     };
     if (type === TYPE_FORM_ACTION_ON_MAP.ad_unit) {
+
+      console.log('===========================================================================')
       dispatch(updateAdminisUnitOnMap(payload));
     } else {
       dispatch(updateCameraOnMapByFilter(payload));
@@ -472,9 +474,9 @@ const ViewMapOffline = (props) => {
             .setLngLat([unit.long_, unit.lat_])
             .setPopup(popup)
             .addTo(mapboxRef.current);
-          marker.on("dragend", () =>
-            handleDragEndMarker(marker, unit, TYPE_FORM_ACTION_ON_MAP.ad_unit)
-          );
+          // marker.on("dragend", () =>
+          //   handleDragEndMarker(marker, unit, TYPE_FORM_ACTION_ON_MAP.ad_unit)
+          // );
           popup.on("open", (e) => {
             popupAttachMarkerRef.current = e.target;
           });
