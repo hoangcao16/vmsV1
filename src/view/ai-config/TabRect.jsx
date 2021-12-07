@@ -201,9 +201,9 @@ const TabRect = (props) => {
 
   const handleSubmit = async () => {
     const status = "off"
-    if (checkStatus) {
-      status = "on"
-    }
+    // if (checkStatus) {
+    //   status = "on"
+    // }
     const rectList = [];
     dataRectList.map(result => {
       rectList.push({
@@ -211,7 +211,7 @@ const TabRect = (props) => {
         name: document.getElementById(`input-name-preset-${result.key}`).value,
         no: result.lineNo,
         status: result.status,
-        status: result.status,
+        // status: result.status,
       })
     })
     console.log("checlisst :" , checkedList  )

@@ -184,15 +184,15 @@ const TabSchedule = (props) => {
   }
 
   const handleSubmit = async () => {
-    const status = "off"
-    if (checkStatus) {
-      status = "on"
-    }
+    // const status = "off"
+    // if (checkStatus) {
+    //   status = "on"
+    // }
     const payload = {
       ...data,
       type: type,
       cameraUuid: cameraUuid,
-      status: status
+      // status: status
     };
     try {
       let isPost = await AIConfigScheduleApi.addConfigSchedule(payload);
