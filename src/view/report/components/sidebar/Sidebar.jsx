@@ -458,21 +458,21 @@ function Sidebar(props) {
     setTimeStartDay(value);
 
     //Call API
-    const data = {
-      pickTime: dataTime,
-      timeStartDay: value,
-      timeEndDay: timeEndDay,
-      timeStartMonth: timeStartMonth,
-      timeEndMonth: timeEndMonth,
-      timeStartYear: timeStartYear,
-      timeEndYear: timeEndYear,
-      provinceId: provinceId,
-      districtId: districtId,
-      wardId: wardId,
-      fieldId: feildIds,
-      eventList: selectedRowKeys
-    };
-    props.callData(clearData(data));
+    // const data = {
+    //   pickTime: dataTime,
+    //   timeStartDay: value,
+    //   timeEndDay: timeEndDay,
+    //   timeStartMonth: timeStartMonth,
+    //   timeEndMonth: timeEndMonth,
+    //   timeStartYear: timeStartYear,
+    //   timeEndYear: timeEndYear,
+    //   provinceId: provinceId,
+    //   districtId: districtId,
+    //   wardId: wardId,
+    //   fieldId: feildIds,
+    //   eventList: selectedRowKeys
+    // };
+    // props.callData(clearData(data));
   }
 
   function onChangeTimeEndDay(value) {
@@ -514,32 +514,34 @@ function Sidebar(props) {
     }
 
     //Call API
-    const data = {
-      pickTime: dataTime,
-      timeStartDay: timeStartDay,
-      timeEndDay: value,
-      timeStartMonth: timeStartMonth,
-      timeEndMonth: timeEndMonth,
-      timeStartYear: timeStartYear,
-      timeEndYear: timeEndYear,
-      provinceId: provinceId,
-      districtId: districtId,
-      wardId: wardId,
-      fieldId: feildIds,
-      eventList: selectedRowKeys
-    };
+    // const data = {
+    //   pickTime: dataTime,
+    //   timeStartDay: timeStartDay,
+    //   timeEndDay: value,
+    //   timeStartMonth: timeStartMonth,
+    //   timeEndMonth: timeEndMonth,
+    //   timeStartYear: timeStartYear,
+    //   timeEndYear: timeEndYear,
+    //   provinceId: provinceId,
+    //   districtId: districtId,
+    //   wardId: wardId,
+    //   fieldId: feildIds,
+    //   eventList: selectedRowKeys
+    // };
 
-    props.callData(clearData(data));
+    // props.callData(clearData(data));
   }
 
   function disabledDateTimeStartDay(current) {
     const start = moment(timeEndDay).subtract(11, 'days');
-    const end = moment(timeEndDay).subtract(0, 'days');
-    return current < start || current > end;
+    const end = moment(timeEndDay).subtract(1, 'days');
+    return current < start || current > end + 1;
   }
 
   function disabledDateTimeEndDay(current) {
-    return current > moment();
+    const start = moment(timeStartDay).add(1, 'days');
+    const end = moment(timeStartDay).add(11, 'days');
+    return current > end + 1 || current > moment() + 1 || current < start;
   }
 
   //=================================================================
