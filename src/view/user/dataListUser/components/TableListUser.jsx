@@ -4,8 +4,8 @@ import {
   DeleteOutlined,
   EditOutlined,
   PlusOutlined,
-  SearchOutlined
-} from '@ant-design/icons';
+  SearchOutlined,
+} from "@ant-design/icons";
 import {
   AutoComplete,
   Button,
@@ -18,31 +18,31 @@ import {
   Switch,
   Table,
   Tooltip,
-  Typography
-} from 'antd';
-import { isEmpty } from 'lodash-es';
-import React, { useEffect, useState } from 'react';
-import { useTranslation } from 'react-i18next';
-import { useHistory, useRouteMatch } from 'react-router-dom';
-import { reactLocalStorage } from 'reactjs-localstorage';
-import UserApi from '../../../../actions/api/user/UserApi';
-import permissionCheck from '../../../../actions/function/MyUltil/PermissionCheck';
-import Notification from '../../../../components/vms/notification/Notification';
-import { ShowTotal } from '../../../../styled/showTotal';
-import '../../../commonStyle/commonAuto.scss';
-import '../../../commonStyle/commonSelect.scss';
-import './TableListUser.scss';
+  Typography,
+} from "antd";
+import { isEmpty } from "lodash-es";
+import React, { useEffect, useState } from "react";
+import { useTranslation } from "react-i18next";
+import { useHistory, useRouteMatch } from "react-router-dom";
+import { reactLocalStorage } from "reactjs-localstorage";
+import UserApi from "../../../../actions/api/user/UserApi";
+import permissionCheck from "../../../../actions/function/MyUltil/PermissionCheck";
+import Notification from "../../../../components/vms/notification/Notification";
+import { ShowTotal } from "../../../../styled/showTotal";
+import "../../../commonStyle/commonAuto.scss";
+import "../../../commonStyle/commonSelect.scss";
+import "./TableListUser.scss";
 
 const { Option } = Select;
 const { Text } = Typography;
 
 export const renderText = (cellValue, row, t) => {
-  const language = reactLocalStorage.get('language');
+  const language = reactLocalStorage.get("language");
 
   if (isEmpty(cellValue)) {
     return (
-      <Text type="warning" style={{ float: 'left !important' }}>
-        {language !== 'en' ? 'Không có thông tin' : 'No Information'}
+      <Text type="warning" style={{ float: "left !important" }}>
+        {language !== "en" ? "Không có thông tin" : "No Information"}
       </Text>
     );
   }
@@ -50,10 +50,10 @@ export const renderText = (cellValue, row, t) => {
     <Tooltip placement="top" title={cellValue}>
       <Text>
         {cellValue.length > 25
-          ? `${cellValue.slice(0, 19)}...${cellValue.slice(
-            cellValue.length - 20,
-            cellValue.length
-          )}`
+          ? `${cellValue.slice(0, 15)}...${cellValue.slice(
+              cellValue.length - 15,
+              cellValue.length
+            )}`
           : `${cellValue}`}
       </Text>
     </Tooltip>
@@ -61,19 +61,19 @@ export const renderText = (cellValue, row, t) => {
 };
 
 const UNIT = {
-  ALL: 'all',
-  POSITION: 'position',
-  NAME: 'name',
-  EMAIL: 'email',
-  PHONE: 'phone',
-  UNIT: 'unit',
-  GROUP: 'group',
-  ROLE: 'role'
+  ALL: "all",
+  POSITION: "position",
+  NAME: "name",
+  EMAIL: "email",
+  PHONE: "phone",
+  UNIT: "unit",
+  GROUP: "group",
+  ROLE: "role",
 };
 
 const TableListUser = (props) => {
   const { t } = useTranslation();
-  const [search, setSearch] = useState('');
+  const [search, setSearch] = useState("");
   const [unit, setUnit] = useState(UNIT.ALL);
   const [form] = Form.useForm();
   const history = useHistory();
@@ -89,8 +89,8 @@ const TableListUser = (props) => {
       page: page,
       size: size,
 
-      filter: '',
-      type: ''
+      filter: "",
+      type: "",
     };
     UserApi.getAllUser(data).then((result) => {
       setListUsers(result.payload);
@@ -102,21 +102,21 @@ const TableListUser = (props) => {
     return (
       <div className="header d-flex justify-content-between align-items-center">
         <h4 className="font-weight-700">
-          {t('view.user.detail_list.user_list', { u: t('u'), U: t('U') })}
+          {t("view.user.detail_list.user_list", { u: t("u"), U: t("U") })}
         </h4>
         <Tooltip
           placement="rightTop"
-          title={t('view.user.detail_list.add_user', {
-            add: t('add'),
-            u: t('u'),
-            U: t('U')
+          title={t("view.user.detail_list.add_user", {
+            add: t("add"),
+            u: t("u"),
+            U: t("U"),
           })}
         >
           <Button
             type="primary"
             className="btnAddUser height-40 mr-1"
-            style={{ borderRadius: '6px', border: '0' }}
-            disabled={!permissionCheck('add_user')}
+            style={{ borderRadius: "6px", border: "0" }}
+            disabled={!permissionCheck("add_user")}
             onClick={() => {
               history.push(`${path}/add`);
             }}
@@ -146,7 +146,7 @@ const TableListUser = (props) => {
         page: page,
         size: size,
         filter: value.trim(),
-        type: unit
+        type: unit,
       };
       UserApi.getAllUser(data).then((result) => {
         setListUsers(result.payload);
@@ -162,15 +162,15 @@ const TableListUser = (props) => {
 
   const onChangeUnit = async (value) => {
     setUnit(value);
-    setSearch('');
+    setSearch("");
 
     form.setFieldsValue({ searchForm: null });
 
     const data = {
       page: 1,
       size: size,
-      filter: '',
-      type: unit
+      filter: "",
+      type: unit,
     };
     UserApi.getAllUser(data).then((result) => {
       setListUsers(result.payload);
@@ -183,20 +183,20 @@ const TableListUser = (props) => {
 
     if (isDeleted) {
       const notifyMess = {
-        type: 'success',
-        title: '',
-        description: `${t('noti.successfully_deleted_user', {
-          u: t('u'),
-          this: t('this')
-        })}`
+        type: "success",
+        title: "",
+        description: `${t("noti.successfully_deleted_user", {
+          u: t("u"),
+          this: t("this"),
+        })}`,
       };
       Notification(notifyMess);
 
       const data = {
         page: 1,
         size: size,
-        filter: '',
-        type: unit
+        filter: "",
+        type: unit,
       };
       UserApi.getAllUser(data).then((result) => {
         setListUsers(result.payload);
@@ -207,56 +207,56 @@ const TableListUser = (props) => {
 
   const columns = [
     {
-      title: `${t('view.user.detail_list.user_name', {
-        u: t('u'),
-        U: t('U')
+      title: `${t("view.user.detail_list.user_name", {
+        u: t("u"),
+        U: t("U"),
       })}`,
-      dataIndex: 'name',
-      with: '20%',
-      render: (cellValue, row) => renderText(cellValue, row, t)
+      dataIndex: "name",
+      with: "20%",
+      render: (cellValue, row) => renderText(cellValue, row, t),
     },
     {
-      title: `${t('view.user.detail_list.user_email')}`,
-      dataIndex: 'email',
-      render: (cellValue, row) => renderText(cellValue, row, t)
+      title: `${t("view.user.detail_list.user_email")}`,
+      dataIndex: "email",
+      render: (cellValue, row) => renderText(cellValue, row, t),
     },
     {
-      title: `${t('view.user.detail_list.user_phone_number')}`,
-      dataIndex: 'phone',
-      render: (cellValue, row) => renderText(cellValue, row, t)
+      title: `${t("view.user.detail_list.user_phone_number")}`,
+      dataIndex: "phone",
+      render: (cellValue, row) => renderText(cellValue, row, t),
     },
     {
-      title: `${t('view.user.detail_list.user_status')}`,
-      dataIndex: 'status',
+      title: `${t("view.user.detail_list.user_status")}`,
+      dataIndex: "status",
       render: (text, record) => {
         return (
           <Space>
             <Tooltip
               placement="top"
-              title={t('view.user.detail_list.change_status')}
+              title={t("view.user.detail_list.change_status")}
             >
               <Switch
                 defaultChecked={record.status === 1 ? true : false}
                 onChange={(e) => handleUpdateStatus(e, record.uuid)}
                 checkedChildren={<CheckOutlined />}
                 unCheckedChildren={<CloseOutlined />}
-                disabled={!permissionCheck('deactivate_user')}
+                disabled={!permissionCheck("deactivate_user")}
               />
             </Tooltip>
           </Space>
         );
-      }
+      },
     },
     {
-      title: `${t('view.user.detail_list.action')}`,
-      fixed: 'right',
+      title: `${t("view.user.detail_list.action")}`,
+      fixed: "right",
       render: (text, record) => {
         return (
           <div className="table__list--user__toolbar">
-            {permissionCheck('edit_user') && (
+            {permissionCheck("edit_user") && (
               <Tooltip
                 placement="top"
-                title={t('view.user.detail_list.edit')}
+                title={t("view.user.detail_list.edit")}
                 arrowPointAtCenter={true}
               >
                 <EditOutlined
@@ -268,14 +268,14 @@ const TableListUser = (props) => {
             )}
 
             {/* <div> */}
-            {permissionCheck('delete_user') && (
+            {permissionCheck("delete_user") && (
               <Popconfirm
-                title={t('noti.delete_user', { this: t('this'), u: t('u') })}
+                title={t("noti.delete_user", { this: t("this"), u: t("u") })}
                 onConfirm={() => handleDeleteUser(record.uuid)}
               >
                 <Tooltip
                   placement="top"
-                  title={t('delete')}
+                  title={t("delete")}
                   arrowPointAtCenter={true}
                 >
                   <DeleteOutlined />
@@ -285,8 +285,8 @@ const TableListUser = (props) => {
             {/* </div> */}
           </div>
         );
-      }
-    }
+      },
+    },
   ];
 
   const onShowSizeChange = (current, pageSize) => {
@@ -300,27 +300,27 @@ const TableListUser = (props) => {
         <Col span={6} className="height-40">
           <Select
             className="selected__user--by full-width full-height"
-            placeholder={t('view.user.detail_list.search_by')}
+            placeholder={t("view.user.detail_list.search_by")}
             showSearch
             filterOption={(input, option) =>
               option.children.toLowerCase().indexOf(input.toLowerCase()) >= 0
             }
             onChange={(value) => onChangeUnit(value)}
           >
-            <Option value={UNIT.ALL}>{t('view.user.detail_list.all')}</Option>
+            <Option value={UNIT.ALL}>{t("view.user.detail_list.all")}</Option>
             <Option value={UNIT.POSITION}>
-              {t('view.user.detail_list.position')}
+              {t("view.user.detail_list.position")}
             </Option>
-            <Option value={UNIT.NAME}>{t('view.user.detail_list.name')}</Option>
+            <Option value={UNIT.NAME}>{t("view.user.detail_list.name")}</Option>
             <Option value={UNIT.EMAIL}>
-              {t('view.user.detail_list.user_email')}
+              {t("view.user.detail_list.user_email")}
             </Option>
             <Option value={UNIT.PHONE}>
-              {t('view.user.detail_list.user_phone_number')}
+              {t("view.user.detail_list.user_phone_number")}
             </Option>
-            <Option value={UNIT.UNIT}>{t('view.user.detail_list.unit')}</Option>
-            <Option value={UNIT.GROUP}>{t('G')}</Option>
-            <Option value={UNIT.ROLE}>{t('R')}</Option>
+            <Option value={UNIT.UNIT}>{t("view.user.detail_list.unit")}</Option>
+            <Option value={UNIT.GROUP}>{t("G")}</Option>
+            <Option value={UNIT.ROLE}>{t("R")}</Option>
           </Select>
         </Col>
         <Col span={18}>
@@ -333,13 +333,13 @@ const TableListUser = (props) => {
               maxLength={255}
               placeholder={
                 <div className="placehoder height-40 justify-content-between d-flex align-items-center">
-                  <span style={{ opacity: '0.5' }}>
-                    {' '}
-                    &nbsp;{' '}
-                    {t('view.user.detail_list.please_enter_search_keyword', {
-                      plsEnter: t('please_enter')
-                    })}{' '}
-                  </span>{' '}
+                  <span style={{ opacity: "0.5" }}>
+                    {" "}
+                    &nbsp;{" "}
+                    {t("view.user.detail_list.please_enter_search_keyword", {
+                      plsEnter: t("please_enter"),
+                    })}{" "}
+                  </span>{" "}
                   <SearchOutlined style={{ fontSize: 22 }} />
                 </div>
               }
@@ -370,16 +370,16 @@ const TableListUser = (props) => {
           showTotal: (total, range) => {
             return (
               <ShowTotal className="show--total">
-                {t('view.user.detail_list.viewing')} {range[0]}{' '}
-                {t('view.user.detail_list.to')} {range[1]}{' '}
-                {t('view.user.detail_list.out_of')} {total}{' '}
-                {t('view.user.detail_list.indexes')}
+                {t("view.user.detail_list.viewing")} {range[0]}{" "}
+                {t("view.user.detail_list.to")} {range[1]}{" "}
+                {t("view.user.detail_list.out_of")} {total}{" "}
+                {t("view.user.detail_list.indexes")}
               </ShowTotal>
             );
-          }
+          },
         }}
         locale={{
-          emptyText: `${t('view.user.detail_list.no_valid_results_found')}`
+          emptyText: `${t("view.user.detail_list.no_valid_results_found")}`,
         }}
       />
     </div>

@@ -1,22 +1,24 @@
-import { SearchOutlined } from '@ant-design/icons';
-import { AutoComplete, Modal, Table } from 'antd';
-import React, { useEffect, useState } from 'react';
-import { useTranslation } from 'react-i18next';
-import CameraApi from '../../../../actions/api/camera/CameraApi';
-import './ModalAddCameraGroup.scss';
+import { SearchOutlined } from "@ant-design/icons";
+import { AutoComplete, Modal, Table } from "antd";
+import React, { useEffect, useState } from "react";
+import { useTranslation } from "react-i18next";
+import CameraApi from "../../../../actions/api/camera/CameraApi";
+import "./ModalAddCameraGroup.scss";
 
 const ModalAddCameraGroup = (props) => {
   const { handleShowModalAdd, selectedAdd } = props;
   const [isModalVisible, setIsModalVisible] = useState(selectedAdd);
   const [selectedRowKeys, setSelectedRowKeys] = useState([]);
-  const [search, setSearch] = useState('');
+  const [search, setSearch] = useState("");
   const { t } = useTranslation();
 
   const [cameraGroup, setCameraGroup] = useState([]);
 
   useEffect(() => {
     let data = {
-      name: search
+      name: search,
+      page: 1,
+      size: 1000000,
     };
     CameraApi.getAllGroupCamera(data).then((result) => {
       let selectedId = props?.checkedGroups;
@@ -32,14 +34,16 @@ const ModalAddCameraGroup = (props) => {
 
   const rowSelection = {
     selectedRowKeys,
-    onChange: onSelectChange
+    onChange: onSelectChange,
   };
 
   const handleSearch = async (value) => {
     setSearch(value);
 
     const data = {
-      name: value
+      name: value,
+      page: 1,
+      size: 1000000,
     };
 
     CameraApi.getAllGroupCamera(data).then((result) => {
@@ -53,18 +57,18 @@ const ModalAddCameraGroup = (props) => {
       return {
         subject: `user_g@${props.groupCode}`,
         object: `cam_g@${s}`,
-        action: 'view_online'
+        action: "view_online",
       };
     });
 
     const dataAdd = {
-      policies: data
+      policies: data,
     };
 
     await CameraApi.addMultilPermission(dataAdd);
     setIsModalVisible(false);
     handleShowModalAdd([
-      ...new Set(props?.checkedGroups.concat(selectedRowKeys))
+      ...new Set(props?.checkedGroups.concat(selectedRowKeys)),
     ]);
   };
 
@@ -90,13 +94,13 @@ const ModalAddCameraGroup = (props) => {
             maxLength={255}
             placeholder={
               <div className="placehoder height-40 justify-content-between d-flex align-items-center">
-                <span style={{ opacity: '0.5' }}>
-                  {' '}
-                  &nbsp;{' '}
-                  {t('view.user.detail_list.please_enter_search_keyword', {
-                    plsEnter: t('please_enter')
-                  })}{' '}
-                </span>{' '}
+                <span style={{ opacity: "0.5" }}>
+                  {" "}
+                  &nbsp;{" "}
+                  {t("view.user.detail_list.please_enter_search_keyword", {
+                    plsEnter: t("please_enter"),
+                  })}{" "}
+                </span>{" "}
                 <SearchOutlined style={{ fontSize: 22 }} />
               </div>
             }
@@ -108,8 +112,8 @@ const ModalAddCameraGroup = (props) => {
             marginRight: 20,
             // marginBottom: 20,
             // marginTop: 20,
-            color: '#ffffff',
-            height: '30px'
+            color: "#ffffff",
+            height: "30px",
           }}
         >
           {/* {hasSelected
@@ -123,28 +127,28 @@ const ModalAddCameraGroup = (props) => {
 
   const columns = [
     {
-      title: `${t('view.user.detail_list.camera_group_name')}`,
-      dataIndex: 'name',
-      className: 'headerUserColums'
+      title: `${t("view.user.detail_list.camera_group_name")}`,
+      dataIndex: "name",
+      className: "headerUserColums",
     },
     {
-      title: `${t('view.user.detail_list.desc')}`,
-      dataIndex: 'description',
-      className: 'headerUserColums'
-    }
+      title: `${t("view.user.detail_list.desc")}`,
+      dataIndex: "description",
+      className: "headerUserColums",
+    },
   ];
 
   return (
     <>
       <Modal
-        title={t('view.user.detail_list.add_camera_group_to_user')}
+        title={t("view.user.detail_list.add_camera_group_to_user")}
         className="modal__add-camera-group--in-group-user "
         visible={isModalVisible}
         onOk={handleSubmit}
         onCancel={handleCancel}
-        cancelText={t('view.map.button_cancel')}
-        okText={t('view.map.button_save')}
-        maskStyle={{ background: 'rgba(51, 51, 51, 0.9)' }}
+        cancelText={t("view.map.button_cancel")}
+        okText={t("view.map.button_save")}
+        maskStyle={{ background: "rgba(51, 51, 51, 0.9)" }}
       >
         <Table
           className="tableAddCameraGroup"
@@ -155,10 +159,10 @@ const ModalAddCameraGroup = (props) => {
           // scroll={{ y: 300 }}
           rowSelection={rowSelection}
           rowClassName={(includes) =>
-            props?.checkedGroups.includes(includes?.uuid) ? 'disabled-row' : ''
+            props?.checkedGroups.includes(includes?.uuid) ? "disabled-row" : ""
           }
           locale={{
-            emptyText: `${t('view.user.detail_list.no_valid_results_found')}`
+            emptyText: `${t("view.user.detail_list.no_valid_results_found")}`,
           }}
         />
       </Modal>
