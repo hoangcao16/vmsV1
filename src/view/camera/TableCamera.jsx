@@ -125,7 +125,7 @@ const TableCamera = () => {
   useEffect(() => {
     setLoading(true);
     let data = {
-      name: '',
+      name: search,
       provinceId: '',
       districtId: '',
       id: '',
