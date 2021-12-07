@@ -49,7 +49,7 @@ export const renderText = (cellValue, row, t) => {
   return (
     <Tooltip placement="top" title={cellValue}>
       <Text>
-        {cellValue.length > 40
+        {cellValue.length > 25
           ? `${cellValue.slice(0, 19)}...${cellValue.slice(
             cellValue.length - 20,
             cellValue.length
