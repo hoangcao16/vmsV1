@@ -1,0 +1,8 @@
+@import "../../assets/scss/core/variables/vms-variable";
+@import '../../assets/scss/core/mixins/vms-mixins';
+
+.tabs__container--tab_type{
+  .tab_type_checkbox .ant-checkbox-wrapper{
+    margin: 25px;
+  }
+}

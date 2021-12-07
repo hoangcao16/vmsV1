@@ -9,17 +9,15 @@ import {
   MinusOutlined,
   PlusOutlined,
   RightOutlined,
-  UpOutlined,
+  UpOutlined
 } from "@ant-design/icons";
 import {
   AutoComplete,
   Button,
-  Image,
-  Space,
+  Image, Select, Space,
   Spin,
   Table,
-  Tooltip,
-  Select,
+  Tooltip
 } from "antd";
 import { arrayMoveImmutable } from "array-move";
 import { isEmpty } from "lodash";
@@ -28,7 +26,7 @@ import { useTranslation } from "react-i18next";
 import {
   sortableContainer,
   sortableElement,
-  sortableHandle,
+  sortableHandle
 } from "react-sortable-hoc";
 import playCamApi from "../../api/camproxy/cameraApi";
 import ptzControllerApi from "../../api/ptz/ptzController";
@@ -166,7 +164,7 @@ const Preset = (props) => {
   //cho viec them preset tour
   useEffect(() => {
     if (isAddNewPresetTour) {
-      setIndexPresetTourChoosed(presetTourDatas.length - 1);
+      setIndexPresetTourChoosed(0);
       setIsAddNewPresetTour(false);
       document.getElementById("choose__preset-tour").value =
         presetTourDatas.length - 1;

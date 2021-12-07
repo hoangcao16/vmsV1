@@ -101,7 +101,6 @@
       "please_enter_zone_name": "{{plsEnter}} tên Zone",
       "please_enter_camproxy_name": "{{plsEnter}} tên Camproxy"
     },
-
     "live": {
       "preset_setting": "Cài đặt Preset",
       "open_control_panel": "Mở bảng điểu khiển",
@@ -132,7 +131,7 @@
       "latitude": "Vĩ độ",
       "button_cancel": "Hủy",
       "button_save": "Lưu",
-      "setting_favorite_screen":"Cài đặt màn hình ưa thích",
+      "setting_favorite_screen": "Cài đặt màn hình ưa thích",
       "invalid_phone_number": "{{plsEnter}} số điện thoại",
       "please_enter_unit_name": "{{plsEnter}} tên đơn vị",
       "please_enter_your_address": "{{plsEnter}} địa chỉ",
@@ -197,7 +196,6 @@
       "trend_chart": "BIỂU ĐỒ XU THẾ TÌNH HÌNH:",
       "proportion_chart": "BIỂU ĐỒ TỶ LỆ TÌNH HÌNH:"
     },
-
     "pages": {
       "login": "Đăng nhập",
       "wc_pls_login": "Chào mừng, vui lòng đăng nhập.",
@@ -310,31 +308,31 @@
       "user_group": "{{G}} {{u}}",
       "new_password": "Mật khẩu mới",
       "detail_list": {
-        "edit_mode":"Chế độ chỉnh sửa",
-        "search_mode":"Tìm kiếm",
-        "dark_mode":"Giao diện tối",
-        "light_mode":"Giao diện sáng",
-        "back5":"Quay lại 5 phút trước",
-        "play":"Phát",
-        "pause":"Tạm dừng",
-        "forward5":"Tiến lên 5 phút sau",
-        "speed":"Tốc độ",
-        "star":"Đặt làm màn hình mặc định",
-        "gird1":"Lưới 1x1",
-        "gird2":"Lưới 2x2",
-        "gird3":"Lưới 3x3",
-        "gird4":"Lưới 4x4",
-        "live":"Chế độ xem trực tiếp",
-        "playback":"Chế độ xem lại",
-        "left":"Di chuyển sang trái",
-        "right":"Di chuyển sang phải",
-        "up":"Di chuyển lên trên",
-        "down":"Di chuyển xuống dưới",
-        "zoom_in":"Thu nhỏ",
-        "zoom_out":"Phóng to",
-        "hight_filter":"Bộ lọc nâng cao",
-        "save_preset_tour":"Lưu preset tour",
-        "save_preset":"Lưu preset",
+        "edit_mode": "Chế độ chỉnh sửa",
+        "search_mode": "Tìm kiếm",
+        "dark_mode": "Giao diện tối",
+        "light_mode": "Giao diện sáng",
+        "back5": "Quay lại 5 phút trước",
+        "play": "Phát",
+        "pause": "Tạm dừng",
+        "forward5": "Tiến lên 5 phút sau",
+        "speed": "Tốc độ",
+        "star": "Đặt làm màn hình mặc định",
+        "gird1": "Lưới 1x1",
+        "gird2": "Lưới 2x2",
+        "gird3": "Lưới 3x3",
+        "gird4": "Lưới 4x4",
+        "live": "Chế độ xem trực tiếp",
+        "playback": "Chế độ xem lại",
+        "left": "Di chuyển sang trái",
+        "right": "Di chuyển sang phải",
+        "up": "Di chuyển lên trên",
+        "down": "Di chuyển xuống dưới",
+        "zoom_in": "Thu nhỏ",
+        "zoom_out": "Phóng to",
+        "hight_filter": "Bộ lọc nâng cao",
+        "save_preset_tour": "Lưu preset tour",
+        "save_preset": "Lưu preset",
         "user_list": "Danh sách {{u}}",
         "add_user": "{{add}} {{u}}",
         "all": "Tất cả",
@@ -421,11 +419,11 @@
       "face": "Quản lý khuôn mặt",
       "name": "Tên",
       "code": "Mã",
-      "position" : "Chức vụ",
-      "department" : "Phòng ban",
-      "adminUnit" : "Đơn vị",
-      "status" : "Trạng thái",
-      "guide_photo" : "Ảnh hướng dẫn",
+      "position": "Chức vụ",
+      "department": "Phòng ban",
+      "adminUnit": "Đơn vị",
+      "status": "Trạng thái",
+      "guide_photo": "Ảnh hướng dẫn",
       "image_error": {
         "IMAGE_IS_VALID": "Thành công",
         "IMAGE_HAS_ALREADY_IN_DB": "Hình ảnh đã tồn tại trong db",
@@ -454,7 +452,15 @@
       "second": "giây",
       "object_recognition": "Nhận diện đối tượng",
       "vehicle": "Xe cộ",
-      "human" : "Người"
+      "human": "Người",
+      "draw": {
+        "hurdles": "Vẽ đường",
+        "intrusion_detection": "Vẽ vùng"
+      },
+      "delete": {
+        "hurdles": "Xóa đường",
+        "intrusion_detection": "Xóa vùng"
+      }
     }
   },
   "noti": {
@@ -462,7 +468,6 @@
     "fail_update_tag_category": "Cập nhập nhãn thất bại",
     "successfully_add_tag_category": "Thêm mới nhãn thành công",
     "fail_add_tag_category": "Thêm mới nhãn thất bại",
-
     "logged_out_successfully": "Đăng xuất thành công",
     "logged_out_failed": "Đăng xuất thất bại",
     "delete_camera": "Bạn chắc chắn muốn xóa {{cam}} {{this}}?",
@@ -518,16 +523,14 @@
     "at_least_8_characters": "Tối thiểu 8 ký tự",
     "successfully_delete_human": "{{delete}} thành công người",
     "no_valid_results_found": "Không tìm thấy kết quả hợp lệ",
-
     "successfully_add_administrative": "Bạn đã thêm thành công đơn vị hành chính",
     "phone_number_format_is_not_correct": "Định dạng số điện thoại chưa đúng",
     "successfully_add_camera": "Bạn đã thêm thành công Camera",
     "successfully_edit_name": "Bạn đã thêm thành công tên của",
     "successfully_add": "Bạn đã thêm thành công",
     "success": "Thành công",
-    "choose_event" : "Bạn cần phải chọn sự kiện"
+    "choose_event": "Bạn cần phải chọn sự kiện"
   },
-
   "breadcrumd": {
     "report": "Quản lý báo cáo",
     "info": "Thông tin cá nhân",

@@ -452,7 +452,15 @@
       "second": "second",
       "object_recognition": "Object Recognition",
       "vehicle": "Vehicle",
-      "human" : "human"
+      "human" : "human",
+      "draw" :  {
+        "hurdles" :"Draw hurdles",
+        "intrusion_detection" : "Draw area"
+      },
+      "delete" :  {
+        "hurdles" :"Delete hurdles",
+        "intrusion_detection" : "Delete area"
+      }
 
     }
   },

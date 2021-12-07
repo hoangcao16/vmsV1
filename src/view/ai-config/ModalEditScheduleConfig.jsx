@@ -30,7 +30,7 @@ const formItemLayout = {
 const ModalEditScheduleConfig = (props) => {
 
   const { t } = useTranslation();
-  let { setShowModal, selectedHumansId, listTimes, handleCreateTimeConfig } = props;
+  let { setShowModal, listTimes, handleCreateTimeConfig } = props;
   const [fieldData, setFieldData] = useState();
   const [name, setName] = useState("");
   const [form] = Form.useForm();

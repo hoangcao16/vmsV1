@@ -219,17 +219,18 @@ const ModalEditCamera = (props) => {
   }
 
   const handleSubmit = async (value) => {
+    console.log(value);
     const payload = {
       ...value,
       avatarFileName: avatarFileName,
+      administrativeUnitUuid: isEmpty(value?.administrativeUnitUuid)
+        ? ""
+        : value?.administrativeUnitUuid,
     };
-
-    const clearPayload = clearData(payload);
-
     try {
       const isEdit = await CameraApi.editCamera(
         props.selectedCameraIdEdit,
-        clearPayload
+        payload
       );
 
       if (isEdit) {
