@@ -179,8 +179,6 @@ const Live = (props) => {
         }
         handleBookmarkOk(screen);
 
-        console.log("defaultScreen:", defaultScreen);
-
         switch (defaultScreen.gridType) {
           case "1x1":
             setDefaultSize(1);
