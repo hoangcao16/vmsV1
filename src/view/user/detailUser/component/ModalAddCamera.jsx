@@ -1,24 +1,25 @@
-import { SearchOutlined } from '@ant-design/icons';
-import { AutoComplete, Col, Form, Modal, Row, Select, Table, Tag } from 'antd';
-import { isEmpty } from 'lodash';
-import React, { useEffect, useState } from 'react';
-import { useTranslation } from 'react-i18next';
-import AddressApi from '../../../../actions/api/address/AddressApi';
-import AdDivisionApi from '../../../../actions/api/advision/AdDivision';
-import CameraApi from '../../../../actions/api/camera/CameraApi';
-import VendorApi from '../../../../actions/api/vendor/VendorApi';
-import { DATA_FAKE_CAMERA } from '../../../camera/ModalAddCamera';
+import { SearchOutlined } from "@ant-design/icons";
+import { AutoComplete, Col, Form, Modal, Row, Select, Table, Tag } from "antd";
+import { isEmpty } from "lodash";
+import React, { useEffect, useState } from "react";
+import { useTranslation } from "react-i18next";
+import AddressApi from "../../../../actions/api/address/AddressApi";
+import AdDivisionApi from "../../../../actions/api/advision/AdDivision";
+import CameraApi from "../../../../actions/api/camera/CameraApi";
+import VendorApi from "../../../../actions/api/vendor/VendorApi";
+import { DATA_FAKE_CAMERA } from "../../../camera/ModalAddCamera";
 import {
   filterOption,
-  normalizeOptions
-} from '../../../common/select/CustomSelect';
-import './ModalAddCamera.scss';
+  normalizeOptions,
+} from "../../../common/select/CustomSelect";
+import "./ModalAddCamera.scss";
+import { renderText } from "../../../user/dataListUser/components/TableListUser";
 
 const { Option } = Select;
 
 const STATUS = {
   SUCCESS: 1,
-  ERRORS: 0
+  ERRORS: 0,
 };
 
 const ModalAddCamera = (props) => {
@@ -27,67 +28,68 @@ const ModalAddCamera = (props) => {
   const [isModalVisible, setIsModalVisible] = useState(selectedAdd);
   const [selectedRowKeys, setSelectedRowKeys] = useState([]);
   const [listCamera, setListCamera] = useState([]);
-  const selectedCameraIdEdit = null
-  const [provinceId, setProvinceId] = useState('');
-  const [search, setSearch] = useState('');
+  const selectedCameraIdEdit = null;
+  const [provinceId, setProvinceId] = useState("");
+  const [search, setSearch] = useState("");
   const [districts, setDistrict] = useState([]);
-  const [districtId, setDistrictId] = useState('');
+  const [districtId, setDistrictId] = useState("");
   const [wards, setWard] = useState([]);
   const [form] = Form.useForm();
-  const [name, setName] = useState('');
-  const [id, setId] = useState('');
+  const [name, setName] = useState("");
+  const [id, setId] = useState("");
 
-  const [administrativeUnitUuid, setAdministrativeUnitUuid] = useState('');
-  const [vendorUuid, setVendorUuid] = useState('');
-  const [status, setStatus] = useState('');
+  const [administrativeUnitUuid, setAdministrativeUnitUuid] = useState("");
+  const [vendorUuid, setVendorUuid] = useState("");
+  const [status, setStatus] = useState("");
 
   const [filterOptions, setFilterOptions] = useState(DATA_FAKE_CAMERA);
 
   const formItemLayout = {
     wrapperCol: { span: 24 },
-    labelCol: { span: 24 }
+    labelCol: { span: 24 },
   };
 
   useEffect(() => {
     let data = {
-      name: '',
-      provinceId: '',
-      districtId: '',
-      id: '',
-      administrativeUnitUuid: '',
-      vendorUuid: '',
-      status: ''
+      name: "",
+      provinceId: "",
+      districtId: "",
+      id: "",
+      administrativeUnitUuid: "",
+      vendorUuid: "",
+      status: "",
+      page: 1,
+      size: 1000000,
     };
 
-    CameraApi.getAllCamera(data)
-      .then((result) => {
-        let selectedId = props?.checkedGroups;
+    CameraApi.getAllCamera(data).then((result) => {
+      let selectedId = props?.checkedGroups;
 
-        const data = result.filter((r) => !selectedId.includes(r.uuid));
+      const data = result.filter((r) => !selectedId.includes(r.uuid));
 
-        setListCamera(data);
-      })
-
+      setListCamera(data);
+    });
   }, [selectedCameraIdEdit]);
 
   useEffect(() => {
     let data = {
-      name: '',
-      provinceId: '',
-      districtId: '',
-      id: '',
-      administrativeUnitUuid: '',
-      vendorUuid: '',
-      status: ''
+      name: "",
+      provinceId: "",
+      districtId: "",
+      id: "",
+      administrativeUnitUuid: "",
+      vendorUuid: "",
+      status: "",
+      page: 1,
+      size: 1000000,
     };
-    CameraApi.getAllCamera(data)
-      .then((result) => {
-        let selectedId = props?.checkedGroups;
+    CameraApi.getAllCamera(data).then((result) => {
+      let selectedId = props?.checkedGroups;
 
-        const data = result.filter((r) => !selectedId.includes(r.uuid));
+      const data = result.filter((r) => !selectedId.includes(r.uuid));
 
-        setListCamera(data);
-      })
+      setListCamera(data);
+    });
   }, []);
 
   useEffect(() => {
@@ -120,11 +122,13 @@ const ModalAddCamera = (props) => {
     let data = {
       name: name,
       provinceId: cityId,
-      districtId: '',
-      id: '',
+      districtId: "",
+      id: "",
       administrativeUnitUuid: administrativeUnitUuid,
       vendorUuid: vendorUuid,
-      status: status
+      status: status,
+      page: 1,
+      size: 1000000,
     };
     CameraApi.getAllCamera(data).then((result) => {
       let selectedId = props?.checkedGroups;
@@ -145,11 +149,13 @@ const ModalAddCamera = (props) => {
     const data = {
       provinceId: provinceId,
       districtId: districtId,
-      id: '',
+      id: "",
       name: name,
       administrativeUnitUuid: administrativeUnitUuid,
       vendorUuid: vendorUuid,
-      status: status
+      status: status,
+      page: 1,
+      size: 1000000,
     };
     CameraApi.getAllCamera(data).then((result) => {
       let selectedId = props?.checkedGroups;
@@ -169,7 +175,9 @@ const ModalAddCamera = (props) => {
       name: name,
       administrativeUnitUuid: administrativeUnitUuid,
       vendorUuid: vendorUuid,
-      status: status
+      status: status,
+      page: 1,
+      size: 1000000,
     };
     CameraApi.getAllCamera(data).then((result) => {
       let selectedId = props?.checkedGroups;
@@ -189,7 +197,9 @@ const ModalAddCamera = (props) => {
       name: name,
       administrativeUnitUuid: administrativeUnitUuid,
       vendorUuid: vendorUuid,
-      status: status
+      status: status,
+      page: 1,
+      size: 1000000,
     };
     CameraApi.getAllCamera(data).then((result) => {
       let selectedId = props?.checkedGroups;
@@ -209,7 +219,9 @@ const ModalAddCamera = (props) => {
       name: name,
       administrativeUnitUuid: administrativeUnitUuid,
       vendorUuid: vendorUuid,
-      status: status
+      status: status,
+      page: 1,
+      size: 1000000,
     };
 
     CameraApi.getAllCamera(data).then((result) => {
@@ -229,7 +241,9 @@ const ModalAddCamera = (props) => {
       name: name,
       administrativeUnitUuid: administrativeUnitUuid,
       vendorUuid: vendorUuid,
-      status: status
+      status: status,
+      page: 1,
+      size: 1000000,
     };
     CameraApi.getAllCamera(data).then((result) => {
       let selectedId = props?.checkedGroups;
@@ -250,7 +264,7 @@ const ModalAddCamera = (props) => {
 
   const rowSelection = {
     selectedRowKeys,
-    onChange: onSelectChange
+    onChange: onSelectChange,
   };
   // const hasSelected = selectedRowKeys.length - props.checkedGroups.length > 0;
   const handleSearch = async (value) => {
@@ -263,7 +277,9 @@ const ModalAddCamera = (props) => {
       id: id,
       administrativeUnitUuid: administrativeUnitUuid,
       vendorUuid: vendorUuid,
-      status: status
+      status: status,
+      page: 1,
+      size: 1000000,
     };
     CameraApi.getAllCamera(data).then((result) => {
       let selectedId = props?.checkedGroups;
@@ -279,24 +295,24 @@ const ModalAddCamera = (props) => {
       return (
         <Tag
           style={{
-            borderRadius: '6px',
-            backgroundColor: 'rgba(40, 199, 111, 0.2)'
+            borderRadius: "6px",
+            backgroundColor: "rgba(40, 199, 111, 0.2)",
           }}
           color="success"
         >
-          {t('view.camera.active')}
+          {t("view.camera.active")}
         </Tag>
       );
     }
     return (
       <Tag
         style={{
-          borderRadius: '6px',
-          backgroundColor: 'rgba(234, 84, 85, 0.2)'
+          borderRadius: "6px",
+          backgroundColor: "rgba(234, 84, 85, 0.2)",
         }}
         color="error"
       >
-        {t('view.camera.inactive')}
+        {t("view.camera.inactive")}
       </Tag>
     );
   };
@@ -306,19 +322,19 @@ const ModalAddCamera = (props) => {
       return {
         subject: `user@${props.id}`,
         object: `cam@${s}`,
-        action: 'view_online'
+        action: "view_online",
       };
     });
 
     const dataAdd = {
-      policies: data
+      policies: data,
     };
 
     await CameraApi.addMultilPermission(dataAdd);
 
     setIsModalVisible(false);
     handleShowModalAdd([
-      ...new Set(props?.checkedGroups.concat(selectedRowKeys))
+      ...new Set(props?.checkedGroups.concat(selectedRowKeys)),
     ]);
   };
 
@@ -343,13 +359,13 @@ const ModalAddCamera = (props) => {
             maxLength={255}
             placeholder={
               <div className="placehoder height-40 justify-content-between d-flex align-items-center">
-                <span style={{ opacity: '0.5' }}>
-                  {' '}
-                  &nbsp;{' '}
-                  {t('view.user.detail_list.please_enter_search_keyword', {
-                    plsEnter: t('please_enter')
-                  })}{' '}
-                </span>{' '}
+                <span style={{ opacity: "0.5" }}>
+                  {" "}
+                  &nbsp;{" "}
+                  {t("view.user.detail_list.please_enter_search_keyword", {
+                    plsEnter: t("please_enter"),
+                  })}{" "}
+                </span>{" "}
                 <SearchOutlined style={{ fontSize: 22 }} />
               </div>
             }
@@ -359,60 +375,64 @@ const ModalAddCamera = (props) => {
           className="mt-2 bg-grey"
           form={form}
           {...formItemLayout}
-          style={{ width: '100%', paddingBottom: '30px' }}
+          style={{ width: "100%", paddingBottom: "30px" }}
         >
           <Row gutter={24}>
             <Col span={6}>
-              <Form.Item name={['provinceId']} label={t('view.map.province_id')}>
+              <Form.Item
+                name={["provinceId"]}
+                label={t("view.map.province_id")}
+              >
                 <Select
                   allowClear
                   showSearch
                   dataSource={provinces}
                   onChange={(cityId) => onChangeCity(cityId)}
                   filterOption={filterOption}
-                  options={normalizeOptions('name', 'provinceId', provinces)}
-                  placeholder={t('view.map.province_id')}
+                  options={normalizeOptions("name", "provinceId", provinces)}
+                  placeholder={t("view.map.province_id")}
                 />
               </Form.Item>
             </Col>
 
             <Col span={6}>
-              <Form.Item name={['districtId']} label={t('view.map.district_id')}>
+              <Form.Item
+                name={["districtId"]}
+                label={t("view.map.district_id")}
+              >
                 <Select
                   allowClear
                   showSearch
                   dataSource={districts}
                   onChange={(districtId) => onChangeDistrict(districtId)}
                   filterOption={filterOption}
-                  options={normalizeOptions('name', 'districtId', districts)}
-                  placeholder={t('view.map.district_id')}
+                  options={normalizeOptions("name", "districtId", districts)}
+                  placeholder={t("view.map.district_id")}
                 />
               </Form.Item>
             </Col>
 
-
-
             <Col span={6}>
-              <Form.Item name={['wardId']} label={t('view.map.ward_id')}>
+              <Form.Item name={["wardId"]} label={t("view.map.ward_id")}>
                 <Select
                   allowClear
                   showSearch
                   dataSource={wards}
                   onChange={(id) => onChangeWard(id)}
                   filterOption={filterOption}
-                  options={normalizeOptions('name', 'id', wards)}
-                  placeholder={t('view.map.ward_id')}
+                  options={normalizeOptions("name", "id", wards)}
+                  placeholder={t("view.map.ward_id")}
                 />
               </Form.Item>
             </Col>
 
             <Col span={6}>
-              <Form.Item name="status" label={t('view.common_device.status')}>
+              <Form.Item name="status" label={t("view.common_device.status")}>
                 <Select
                   showSearch
                   allowClear
                   onChange={(id) => onChangeStatus(id)}
-                  placeholder={t('view.common_device.status')}
+                  placeholder={t("view.common_device.status")}
                   // style={{ width: 200 }}
                   filterOption={(input, option) =>
                     option.children
@@ -420,8 +440,12 @@ const ModalAddCamera = (props) => {
                       .indexOf(input.toLowerCase()) >= 0
                   }
                 >
-                  <Option value={STATUS.SUCCESS}>{t('view.camera.active')}</Option>
-                  <Option value={STATUS.ERRORS}>{t('view.camera.inactive')}</Option>
+                  <Option value={STATUS.SUCCESS}>
+                    {t("view.camera.active")}
+                  </Option>
+                  <Option value={STATUS.ERRORS}>
+                    {t("view.camera.inactive")}
+                  </Option>
                 </Select>
               </Form.Item>
             </Col>
@@ -429,8 +453,8 @@ const ModalAddCamera = (props) => {
           <Row gutter={24} style={{ marginTop: 10 }}>
             <Col span={12}>
               <Form.Item
-                name={['administrativeUnitUuid']}
-                label={t('view.map.administrative_unit')}
+                name={["administrativeUnitUuid"]}
+                label={t("view.map.administrative_unit")}
               >
                 <Select
                   allowClear
@@ -438,22 +462,24 @@ const ModalAddCamera = (props) => {
                   onChange={(id) => onChangeUnit(id)}
                   dataSource={adDivisions}
                   filterOption={filterOption}
-                  options={normalizeOptions('name', 'uuid', adDivisions)}
-                  placeholder={t('view.map.please_choose_administrative_unit')}
+                  options={normalizeOptions("name", "uuid", adDivisions)}
+                  placeholder={t("view.map.please_choose_administrative_unit")}
                 />
               </Form.Item>
             </Col>
 
             <Col span={12}>
-              <Form.Item name={['vendorUuid']} label={t('view.map.vendor')}>
+              <Form.Item name={["vendorUuid"]} label={t("view.map.vendor")}>
                 <Select
                   allowClear
                   onChange={(id) => onChangeVendor(id)}
                   showSearch
                   dataSource={vendors}
                   filterOption={filterOption}
-                  options={normalizeOptions('name', 'uuid', vendors)}
-                  placeholder={t('view.map.please_enter_vendor_name', { plsEnter: t('please_enter') })}
+                  options={normalizeOptions("name", "uuid", vendors)}
+                  placeholder={t("view.map.please_enter_vendor_name", {
+                    plsEnter: t("please_enter"),
+                  })}
                 />
               </Form.Item>
             </Col>
@@ -479,88 +505,89 @@ const ModalAddCamera = (props) => {
 
   const columns = [
     {
-      title: `${t('view.storage.NO')}`,
-      fixed: 'left',
-      key: 'index',
-      className: 'headerUserColums',
-      width: '5%',
-      render: (text, record, index) => index + 1
+      title: `${t("view.storage.NO")}`,
+      fixed: "left",
+      key: "index",
+      className: "headerUserColums",
+      width: "5%",
+      render: (text, record, index) => index + 1,
     },
 
     {
-      title: `${t('view.map.camera_name', { cam: t('camera') })}`,
-      dataIndex: 'name',
-      key: 'name',
-      fixed: 'left',
-      className: 'headerUserColums',
-      ellipsis: true
+      title: `${t("view.map.camera_name", { cam: t("camera") })}`,
+      dataIndex: "name",
+      key: "name",
+      fixed: "left",
+      className: "headerUserColums",
+      ellipsis: true,
     },
     {
-      title: `${t('view.user.detail_list.image')}`,
-      dataIndex: 'name',
-      key: 'name',
-      className: 'headerUserColums',
-      ellipsis: true
+      title: `${t("view.user.detail_list.image")}`,
+      dataIndex: "name",
+      key: "name",
+      className: "headerUserColums",
+      ellipsis: true,
     },
     {
-      title: `${t('view.camera.camera_type', { cam: t('camera') })}`,
-      dataIndex: 'code',
-      key: 'code',
-      className: 'headerUserColums'
+      title: `${t("view.camera.camera_type", { cam: t("camera") })}`,
+      dataIndex: "code",
+      key: "code",
+      className: "headerUserColums",
     },
     {
-      title: `${t('view.map.province_id')}`,
-      dataIndex: 'provinceName',
-      key: 'provinceName',
-      className: 'headerUserColums'
+      title: `${t("view.map.province_id")}`,
+      dataIndex: "provinceName",
+      key: "provinceName",
+      className: "headerUserColums",
     },
     {
-      title: `${t('view.map.district_id')}`,
-      dataIndex: 'districtName',
-      key: 'provinceName',
-      className: 'headerUserColums'
+      title: `${t("view.map.district_id")}`,
+      dataIndex: "districtName",
+      key: "provinceName",
+      className: "headerUserColums",
     },
     {
-      title: 'Phường xã',
-      dataIndex: 'wardName',
-      key: 'wardName',
-      className: 'headerUserColums'
+      title: "Phường xã",
+      dataIndex: "wardName",
+      key: "wardName",
+      className: "headerUserColums",
     },
     {
-      title: `${t('view.map.location')}`,
-      dataIndex: 'address',
-      key: 'address',
-      className: 'headerUserColums'
+      title: `${t("view.map.location")}`,
+      dataIndex: "address",
+      key: "address",
+      className: "headerUserColums",
+      render: renderText,
     },
     {
-      title: `${t('view.common_device.status')}`,
-      dataIndex: 'recordingStatus',
-      key: 'recordingStatus',
-      className: 'headerUserColums',
-      render: statusTag
+      title: `${t("view.common_device.status")}`,
+      dataIndex: "recordingStatus",
+      key: "recordingStatus",
+      className: "headerUserColums",
+      render: statusTag,
     },
 
     {
-      title: `${t('view.map.administrative_unit')}`,
-      dataIndex: 'administrativeUnitName',
-      className: 'headerUserColums',
-      key: 'administrativeUnitName'
-    }
+      title: `${t("view.map.administrative_unit")}`,
+      dataIndex: "administrativeUnitName",
+      className: "headerUserColums",
+      key: "administrativeUnitName",
+    },
   ];
 
   return (
     <>
       <Modal
-        title={t('view.user.detail_list.add_camera_to_user')}
+        title={t("view.user.detail_list.add_camera_to_user")}
         className="modal__add-camera--in-detail-user"
         visible={isModalVisible}
         onOk={handleSubmit}
         onCancel={handleCancel}
         style={{ top: 30, height: 790, borderRadius: 10 }}
         width={1000}
-        okText={t('view.map.button_save')}
-        cancelText={t('view.map.button_cancel')}
-        maskStyle={{ background: 'rgba(51, 51, 51, 0.9)' }}
+        okText={t("view.map.button_save")}
+        cancelText={t("view.map.button_cancel")}
+        maskStyle={{ background: "rgba(51, 51, 51, 0.9)" }}
       >
         <Table
           className="tableAddCamera"
@@ -574,10 +601,10 @@ const ModalAddCamera = (props) => {
           scroll={{ x: 2000 }}
           rowSelection={rowSelection}
           rowClassName={(includes) =>
-            props?.checkedGroups.includes(includes?.uuid) ? 'disabled-row' : ''
+            props?.checkedGroups.includes(includes?.uuid) ? "disabled-row" : ""
           }
           locale={{
-            emptyText: `${t('view.user.detail_list.no_valid_results_found')}`
+            emptyText: `${t("view.user.detail_list.no_valid_results_found")}`,
           }}
         />
       </Modal>
@@ -585,14 +612,12 @@ const ModalAddCamera = (props) => {
   );
 };
 
-
-
 async function fetchSelectOptions() {
   const data = {
-    name: '',
-    id: '',
-    provinceId: '',
-    districtId: ''
+    name: "",
+    id: "",
+    provinceId: "",
+    districtId: "",
   };
 
   let provinces = await AddressApi.getAllProvinces();
@@ -616,7 +641,7 @@ async function fetchSelectOptions() {
   return {
     provinces,
     adDivisions,
-    vendors
+    vendors,
   };
 }
 
