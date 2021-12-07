@@ -55,17 +55,17 @@ function Sidebar(props) {
   const [dataTime, setDatatime] = useState(SELECTED_TIME.DAY);
 
   const [timeStartDay, setTimeStartDay] = useState(
-    moment().subtract(11, 'day')
+    moment().subtract(6, 'days')
   );
   const [timeEndDay, setTimeEndDay] = useState(moment());
 
   const [timeStartMonth, setTimeStartMonth] = useState(
-    moment().subtract(11, 'month')
+    moment().subtract(11, 'months')
   );
   const [timeEndMonth, setTimeEndMonth] = useState(moment());
 
   const [timeStartYear, setTimeStartYear] = useState(
-    moment().subtract(4, 'year')
+    moment().subtract(4, 'years')
   );
   const [timeEndYear, setTimeEndYear] = useState(moment());
 
@@ -676,7 +676,7 @@ function Sidebar(props) {
                     allowClear={false}
                     picker="date"
                     format="DD/MM/YYYY"
-                    defaultValue={moment().subtract(11, 'day')}
+                    defaultValue={moment(timeEndDay).subtract(6, 'days')}
                     disabledDate={disabledDateTimeStartDay}
                     dropdownClassName="dropdown__date-picker"
                     onChange={onChangeTimeStartDay}
