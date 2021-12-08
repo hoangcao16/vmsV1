@@ -254,6 +254,9 @@ const TabRect = (props) => {
     setThreshold(2)
     setKeyActive(data.key)
     console.log("dataRect   :", dataRect)
+    form.setFieldsValue({
+      threshold:100
+    })
 
   };
 
