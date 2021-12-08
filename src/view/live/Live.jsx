@@ -250,8 +250,13 @@ const Live = (props) => {
       });
       return;
     }
-
+    var restartConfig = {
+      iceServers: [{
+        urls: "stun:turn.edsolabs.com:3478",
+      }]
+    };
     const pc = new RTCPeerConnection();
+    pc.setConfiguration(restartConfig);
     pc.addTransceiver("video");
     pc.oniceconnectionstatechange = () => {};
     const spin = document.getElementById("spin-slot-" + slotIdx);
@@ -270,7 +275,7 @@ const Live = (props) => {
     const token = "123";
     const API = data.camproxyApi;
     pc.createOffer({
-      iceRestart: false,
+      iceRestart: true,
     })
       .then((offer) => {
         spin.style.display = "block";
