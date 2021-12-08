@@ -141,6 +141,8 @@
       //end: head table
     }
 
+    
+
 
   }
 
@@ -150,5 +152,12 @@
     //background-color: rgba(255, 0, 0, 0.2);
   }
 
+}
+.select-direction {
+  width: 100px;
+  
+  .ant-select-single {
+    width: 100%;
+  }
 }
 

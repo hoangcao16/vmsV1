@@ -181,9 +181,4 @@ const ModalEditScheduleConfig = (props) => {
   );
 };
 
-async function getHumansByUuid(selectedHumansId) {
-  let dataEdit = await AIHumansApi.getHumansByUuid(selectedHumansId);
-  return dataEdit;
-}
-
 export default ModalEditScheduleConfig;

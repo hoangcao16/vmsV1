@@ -460,6 +460,11 @@
       "delete": {
         "hurdles": "Xóa đường",
         "intrusion_detection": "Xóa vùng"
+      },
+      "direction" :{
+        "title" : "Xác định hướng",
+        "AB" : "A --> B",
+        "BA" : "B --> A"
       }
     }
   },
