@@ -507,7 +507,7 @@ function Sidebar(props) {
 
   function disabledDateTimeEndDay(current) {
     const start = moment(timeStartDay).add(1, 'days');
-    const end = moment(timeStartDay).add(11, 'days');
+    const end = moment(timeStartDay).add(12, 'days');
     return current > end + 1 || current > moment() + 1 || current < start;
   }
 
