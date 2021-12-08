@@ -219,13 +219,14 @@ const ModalEditCamera = (props) => {
   }
 
   const handleSubmit = async (value) => {
-    console.log(value);
     const payload = {
       ...value,
       avatarFileName: avatarFileName,
       administrativeUnitUuid: isEmpty(value?.administrativeUnitUuid)
         ? ""
         : value?.administrativeUnitUuid,
+      lat_: +value?.lat_,
+      long_: +value?.long_,
     };
     try {
       const isEdit = await CameraApi.editCamera(
@@ -519,7 +520,6 @@ const ModalEditCamera = (props) => {
                   ({ getFieldValue }) => ({
                     validator(rule, value) {
                       const data = getFieldValue(["long_"]);
-                      console.log("data[0]:", data[0]);
                       if (data) {
                         if (
                           isFinite(data) &&
