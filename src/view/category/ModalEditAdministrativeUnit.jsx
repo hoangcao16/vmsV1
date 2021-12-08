@@ -218,6 +218,8 @@ const ModalEditAdministrativeUnit = (props) => {
         ...value,
         tel: value?.tel,
         avatarFileName: avatarFileName,
+        lat_: +value?.lat_,
+        long_: +value?.long_,
       };
 
       try {
