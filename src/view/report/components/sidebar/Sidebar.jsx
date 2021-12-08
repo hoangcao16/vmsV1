@@ -55,17 +55,17 @@ function Sidebar(props) {
   const [dataTime, setDatatime] = useState(SELECTED_TIME.DAY);
 
   const [timeStartDay, setTimeStartDay] = useState(
-    moment().subtract(11, 'day')
+    moment().subtract(6, 'days')
   );
   const [timeEndDay, setTimeEndDay] = useState(moment());
 
   const [timeStartMonth, setTimeStartMonth] = useState(
-    moment().subtract(11, 'month')
+    moment().subtract(11, 'months')
   );
   const [timeEndMonth, setTimeEndMonth] = useState(moment());
 
   const [timeStartYear, setTimeStartYear] = useState(
-    moment().subtract(4, 'year')
+    moment().subtract(4, 'years')
   );
   const [timeEndYear, setTimeEndYear] = useState(moment());
 
@@ -134,30 +134,9 @@ function Sidebar(props) {
 
   useEffect(() => {
     setDistrict([]);
-
     if (provinceId.length === 1) {
       AddressApi.getDistrictByProvinceId(provinceId).then(setDistrict);
     }
-    // if (provinceId.length > 5) {
-    //   const language = reactLocalStorage.get('language')
-    //   if (language == 'vn') {
-    //     const notifyMess = {
-    //       type: 'error',
-    //       title: '',
-    //       description: 'Số lượng khu vực không được vượt quá 5'
-    //     };
-    //     Notification(notifyMess);
-    //     return;
-    //   } else {
-    //     const notifyMess = {
-    //       type: 'error',
-    //       title: '',
-    //       description: `The number of areas must not exceed 5`
-    //     };
-    //     Notification(notifyMess);
-    //     return;
-    //   }
-    // }
   }, [provinceId]);
 
   useEffect(() => {
@@ -223,12 +202,11 @@ function Sidebar(props) {
     setSelectedRowKeys([dataFilter.eventList[0].uuid])
   };
 
-  
+  //const blurCity = async (cityIdArr) => {
+
+  // }
 
   const onChangeCity = async (cityIdArr) => {
-
-    
-
     if (cityIdArr.length < 1) {
       form.setFieldsValue({
         provinceId: provinceId
@@ -246,9 +224,9 @@ function Sidebar(props) {
         setSelectedRowKeys([eventList[0].uuid]);
       }
       form.setFieldsValue({ districtId: undefined, wardId: undefined });
-
+      
       return;
-    } else if (cityIdArr.length > 1 || cityIdArr.length < 6) {
+    } else if (cityIdArr.length > 1 && cityIdArr.length <= 5) {
       setHiddenDistrictAndWard(false);
       setHiddenWard(false);
       setisShowLineAndPieChart(false);
@@ -261,7 +239,26 @@ function Sidebar(props) {
       } else {
         setSelectedRowKeys([eventList[0].uuid]);
       }
-
+      return;
+    } else if (cityIdArr.length > 5) {
+      const language = reactLocalStorage.get('language')
+      if (language == 'vn') {
+        const notifyMess = {
+          type: 'error',
+          title: '',
+          description: 'Số lượng tỉnh/thành phố không được vượt quá 5'
+        };
+        Notification(notifyMess);
+      } else {
+        const notifyMess = {
+          type: 'error',
+          title: '',
+          description: `The number of province must not exceed 5`
+        };
+        Notification(notifyMess);
+      }
+      cityIdArr.pop();
+      setProvinceId(cityIdArr);
       return;
     }
 
@@ -282,7 +279,7 @@ function Sidebar(props) {
       form.setFieldsValue({ wardId: undefined });
 
       return;
-    } else if (districtIdArr.length > 1) {
+    } else if (districtIdArr.length > 1 && districtIdArr.length <= 5) {
       setHiddenWard(false);
       setisShowLineAndPieChart(false)
       setDistrictId(districtIdArr);
@@ -295,6 +292,26 @@ function Sidebar(props) {
 
       form.setFieldsValue({ wardId: undefined });
 
+      return;
+    } else if (districtIdArr.length > 5) {
+      const language = reactLocalStorage.get('language')
+      if (language == 'vn') {
+        const notifyMess = {
+          type: 'error',
+          title: '',
+          description: 'Số lượng quận/huyện không được vượt quá 5'
+        };
+        Notification(notifyMess);
+      } else {
+        const notifyMess = {
+          type: 'error',
+          title: '',
+          description: `The number of district must not exceed 5`
+        };
+        Notification(notifyMess);
+      }
+      districtIdArr.pop();
+      setDistrictId(districtIdArr);
       return;
     } else {
       setHiddenDistrictAndWard(true);
@@ -325,7 +342,7 @@ function Sidebar(props) {
       }
 
       return;
-    } else if (wardIdArr.length > 1) {
+    } else if (wardIdArr.length > 1 && wardIdArr.length <= 5) {
       setisShowLineAndPieChart(false)
       setWardId(wardIdArr);
       if (isEmpty(eventList)) {
@@ -336,6 +353,26 @@ function Sidebar(props) {
 
       props.changeChart(false);
 
+      return;
+    } else if (wardIdArr.length > 5) {
+      const language = reactLocalStorage.get('language')
+      if (language == 'vn') {
+        const notifyMess = {
+          type: 'error',
+          title: '',
+          description: 'Số lượng phường/xã không được vượt quá 5'
+        };
+        Notification(notifyMess);
+      } else {
+        const notifyMess = {
+          type: 'error',
+          title: '',
+          description: `The number of ward must not exceed 5`
+        };
+        Notification(notifyMess);
+      }
+      wardIdArr.pop();
+      setWardId(wardIdArr);
       return;
     } else {
       setHiddenWard(true);
@@ -457,22 +494,6 @@ function Sidebar(props) {
 
     setTimeStartDay(value);
 
-    //Call API
-    const data = {
-      pickTime: dataTime,
-      timeStartDay: value,
-      timeEndDay: timeEndDay,
-      timeStartMonth: timeStartMonth,
-      timeEndMonth: timeEndMonth,
-      timeStartYear: timeStartYear,
-      timeEndYear: timeEndYear,
-      provinceId: provinceId,
-      districtId: districtId,
-      wardId: wardId,
-      fieldId: feildIds,
-      eventList: selectedRowKeys
-    };
-    props.callData(clearData(data));
   }
 
   function onChangeTimeEndDay(value) {
@@ -513,33 +534,18 @@ function Sidebar(props) {
       }
     }
 
-    //Call API
-    const data = {
-      pickTime: dataTime,
-      timeStartDay: timeStartDay,
-      timeEndDay: value,
-      timeStartMonth: timeStartMonth,
-      timeEndMonth: timeEndMonth,
-      timeStartYear: timeStartYear,
-      timeEndYear: timeEndYear,
-      provinceId: provinceId,
-      districtId: districtId,
-      wardId: wardId,
-      fieldId: feildIds,
-      eventList: selectedRowKeys
-    };
-
-    props.callData(clearData(data));
   }
 
   function disabledDateTimeStartDay(current) {
     const start = moment(timeEndDay).subtract(11, 'days');
-    const end = moment(timeEndDay).subtract(0, 'days');
-    return current < start || current > end;
+    const end = moment(timeEndDay).subtract(1, 'days');
+    return current < start || current > end + 1;
   }
 
   function disabledDateTimeEndDay(current) {
-    return current > moment();
+    const start = moment(timeStartDay).add(1, 'days');
+    const end = moment(timeStartDay).add(12, 'days');
+    return current > end + 1 || current > moment() + 1 || current < start;
   }
 
   //=================================================================
@@ -554,29 +560,12 @@ function Sidebar(props) {
 
     setTimeStartMonth(value);
 
-    //Call API
-    const data = {
-      pickTime: dataTime,
-      timeStartDay: timeStartDay,
-      timeEndDay: timeEndDay,
-
-      timeStartMonth: value,
-      timeEndMonth: timeEndMonth,
-      timeStartYear: timeStartYear,
-      timeEndYear: timeEndYear,
-      provinceId: provinceId,
-      districtId: districtId,
-      wardId: wardId,
-      fieldId: feildIds,
-      eventList: selectedRowKeys
-    };
-    props.callData(clearData(data));
   }
 
   function onChangeTimeEndMonth(value) {
     setTimeEndMonth(value);
 
-    const dk = moment(timeStartMonth).add(1, 'month');
+    const dk = moment(timeStartMonth).add(1, 'months');
 
     if (!value) {
       form.setFieldsValue({
@@ -612,33 +601,18 @@ function Sidebar(props) {
       }
     }
 
-    //Call API
-    const data = {
-      pickTime: dataTime,
-      timeStartDay: timeStartDay,
-      timeEndDay: timeEndDay,
-      timeStartMonth: timeStartMonth,
-      timeEndMonth: value,
-      timeStartYear: timeStartYear,
-      timeEndYear: timeEndYear,
-      provinceId: provinceId,
-      districtId: districtId,
-      wardId: wardId,
-      fieldId: feildIds,
-      eventList: selectedRowKeys
-    };
-
-    props.callData(clearData(data));
   }
 
   function disabledDateTimeStartMonth(current) {
-    const start = moment(timeEndMonth).subtract(11, 'month');
-    const end = moment(timeEndMonth).subtract(0, 'month');
-    return current < start || current > end;
+    const start = moment(timeEndMonth).subtract(11, 'months');
+    const end = moment(timeEndMonth).subtract(1, 'months');
+    return current < start || current > end + 1;
   }
 
   function disabledDateTimeEndMonth(current) {
-    return current > moment();
+    const start = moment(timeStartMonth).add(1, 'months');
+    const end = moment(timeStartMonth).add(11, 'months');
+    return current > moment() + 1 || current < start || current > end + 1;
   }
 
   //=================================================================
@@ -653,28 +627,11 @@ function Sidebar(props) {
 
     setTimeStartYear(value);
 
-    //Call API
-    const data = {
-      pickTime: dataTime,
-      timeStartDay: timeStartDay,
-      timeEndDay: timeEndDay,
-      timeStartMonth: timeStartMonth,
-      timeEndMonth: timeEndMonth,
-      timeStartYear: value,
-      timeEndYear: timeEndYear,
-      provinceId: provinceId,
-      districtId: districtId,
-      wardId: wardId,
-      fieldId: feildIds,
-      eventList: selectedRowKeys
-    };
-
-    props.callData(clearData(data));
   }
 
   function onChangeTimeEndYear(value) {
     setTimeEndYear(value);
-    const dk = moment(timeStartYear).add(1, 'year');
+    const dk = moment(timeStartYear).add(1, 'years');
 
     if (!value) {
       form.setFieldsValue({
@@ -710,33 +667,18 @@ function Sidebar(props) {
       }
     }
 
-    //Call API
-    const data = {
-      pickTime: dataTime,
-      timeStartDay: timeStartDay,
-      timeEndDay: timeEndDay,
-      timeStartMonth: timeStartMonth,
-      timeEndMonth: timeEndMonth,
-      timeStartYear: timeStartYear,
-      timeEndYear: value,
-      provinceId: provinceId,
-      districtId: districtId,
-      wardId: wardId,
-      fieldId: feildIds,
-      eventList: selectedRowKeys
-    };
-
-    props.callData(clearData(data));
   }
 
   function disabledDateTimeStartYear(current) {
-    const start = moment(timeEndYear).subtract(4, 'year');
-    const end = moment(timeEndYear).subtract(0, 'year');
-    return current < start || current > end;
+    const start = moment(timeEndYear).subtract(4, 'years');
+    const end = moment(timeEndYear).subtract(1, 'years');
+    return current < start || current > end + 1;
   }
 
   function disabledDateTimeEndYear(current) {
-    return current > moment();
+    const start = moment(timeStartYear).add(1, 'years');
+    const end = moment(timeStartYear).add(4, 'years');
+    return current > end + 1 || current > moment() + 1 || current < start;
   }
 
   return (
@@ -771,7 +713,7 @@ function Sidebar(props) {
                     allowClear={false}
                     picker="date"
                     format="DD/MM/YYYY"
-                    defaultValue={moment().subtract(11, 'day')}
+                    defaultValue={moment(timeEndDay).subtract(6, 'days')}
                     disabledDate={disabledDateTimeStartDay}
                     dropdownClassName="dropdown__date-picker"
                     onChange={onChangeTimeStartDay}
@@ -872,6 +814,7 @@ function Sidebar(props) {
                   filterOption={filterOption}
                   options={normalizeOptions('name', 'provinceId', provinces)}
                   placeholder={t('view.map.province_id')}
+                  maxTagPlaceholder={5}
                 />
               </Form.Item>
             </Col>

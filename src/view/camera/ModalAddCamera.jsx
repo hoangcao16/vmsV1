@@ -101,20 +101,6 @@ const ModalAddCamera = (props) => {
     reader.readAsDataURL(img);
   }
 
-  const loadAvatarHandler = async (avatarFileName) => {
-    if (avatarFileName !== "" && avatarUrl === "") {
-      await ExportEventFileApi.getAvatar(avatarFileName).then((result) => {
-        if (result.data) {
-          let blob = new Blob([result.data], { type: "octet/stream" });
-          let url = window.URL.createObjectURL(blob);
-          setAvatarUrl(url);
-        } else {
-          setAvatarUrl("");
-        }
-      });
-    }
-  };
-
   const uploadButton = (
     <div>
       {isLoading ? <LoadingOutlined /> : <PlusOutlined />}
@@ -205,6 +191,8 @@ const ModalAddCamera = (props) => {
     const payload = {
       ...value,
       avatarFileName: avatarFileName,
+      lat_: +value?.lat_,
+      long_: +value?.long_,
     };
 
     const clearPayload = clearData(payload);
@@ -485,7 +473,6 @@ const ModalAddCamera = (props) => {
                   ({ getFieldValue }) => ({
                     validator(rule, value) {
                       const data = getFieldValue(["long_"]);
-                      console.log("data[0]:", data[0]);
                       if (data) {
                         if (
                           isFinite(data) &&

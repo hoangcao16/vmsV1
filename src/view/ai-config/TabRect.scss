@@ -1,140 +1,163 @@
 @import "../../assets/scss/core/variables/vms-variable";
 @import '../../assets/scss/core/mixins/vms-mixins';
 
-.tabs__container--config_rect{
-    
-    .ant-form-item-control-input-content{
-        background-color: none;
-    }
+.tabs__container--config_rect {
 
-    .footer__modal {
-        .ant-btn{
-            margin: 15px;
+  .ant-form-item-control-input-content {
+    background-color: transparent;
+  }
+
+  .footer__modal {
+    .ant-btn {
+      margin: 15px;
+    }
+  }
+
+  .table__config_rect {
+    .ant-table {
+      background-color: $vms-bg-sub;
+      border: 1px solid rgba(234, 240, 247, 0.1);
+
+      //begin: title table
+      .ant-table-title {
+        padding: 10px 16px;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+
+        h4 {
+          margin-bottom: 0;
+          font-size: 16px;
         }
-    }
 
-    .table__config_rect {
-      .ant-table {
-        background-color: $vms-bg-sub;
-        border: 1px solid rgba(234, 240, 247, 0.1);
-    
-        //begin: title table
-        .ant-table-title {
-          padding: 10px 16px;
+        button {
+          width: 40px;
+          height: 40px;
+          padding: 9px;
+          margin-right: 0 !important;
+          background-color: $vms-main-blue-primary;
           display: flex;
-          justify-content: space-between;
+          justify-content: center;
           align-items: center;
-          h4 {
-            margin-bottom: 0;
-            font-size: 16px;
+          border-radius: 4px;
+
+          &:hover {
+            box-shadow: 0 0 8px $vms-main-blue-primary;
           }
-    
-          button {
-            width: 40px;
-            height: 40px;
-            padding: 9px;
-            margin-right: 0 !important;
-            background-color: $vms-main-blue-primary;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            border-radius: 4px;
-            &:hover {
-              box-shadow: 0 0 8px $vms-main-blue-primary;
-            }
-            span {
-    
-             
-              svg {
-                font-size: 20px;
-              }
+
+          span {
+
+
+            svg {
+              font-size: 20px;
             }
           }
         }
-    
-        //end: title table
-    
-        //begin: head table 
-        .ant-table-thead {
-    
-          .ant-table-cell {
-            background-color: $vms-bg-3;
-            padding: 13px 0 11px 16px;
-            color: $vms-soft-statuts;
-            border-top: 1px solid rgba(234, 240, 247, 0.1);
-            border-bottom: 1px solid rgba(234, 240, 247, 0.1);
-            font-weight: 600;
-          }
-          tr th{
-            &:nth-child(2),
-            &:nth-child(3),
-            &:nth-child(4),
-            &:nth-child(5) {
-              text-align: center;
-              padding: 13px 8px;
-            }
-          }
-          tr > th:last-child {
-            padding: 0 16px;
+      }
+
+      //end: title table
+
+      //begin: head table
+      .ant-table-thead {
+
+        .ant-table-cell {
+          background-color: $vms-bg-3;
+          padding: 13px 0 11px 16px;
+          color: $vms-soft-statuts;
+          border-top: 1px solid rgba(234, 240, 247, 0.1);
+          border-bottom: 1px solid rgba(234, 240, 247, 0.1);
+          font-weight: 600;
+        }
+
+        tr th {
+          &:nth-child(2),
+          &:nth-child(3),
+          &:nth-child(4),
+          &:nth-child(5) {
             text-align: center;
-    
+            padding: 13px 8px;
           }
         }
-    
-        .ant-table-tbody {
-    
-          .ant-table-cell {
-            background-color: $vms-bg-primary;
-            // font-weight: 500;
-            padding: 13px 0 11px 16px;
+
+        tr > th:last-child {
+          padding: 0 16px;
+          text-align: center;
+
+        }
+      }
+
+      .ant-table-tbody {
+
+        .ant-table-cell {
+          background-color: $vms-bg-primary;
+          // font-weight: 500;
+          padding: 13px 0 11px 16px;
+          color: $vms-status-07;
+
+          border-top: 1px solid rgba(234, 240, 247, 0.1);
+          border-bottom: 1px solid rgba(234, 240, 247, 0.1);
+
+          .ant-typography {
             color: $vms-status-07;
-    
-            border-top: 1px solid rgba(234, 240, 247, 0.1);
-            border-bottom: 1px solid rgba(234, 240, 247, 0.1);
-    
-            .ant-typography{
-              color: $vms-status-07;
+          }
+        }
+
+        tr > td:last-child {
+          padding: 0 16px;
+
+          svg:hover {
+            color: $vms-main-blue-primary
+          }
+        }
+
+        tr td {
+          &:nth-child(2),
+          &:nth-child(3),
+          &:nth-child(4),
+          &:nth-child(5) {
+            padding: 13px 8px;
+            text-align: center;
+
+            .ant-checkbox-inner {
+              background-color: $vms-bg-primary;
+              border: 1px solid $vms-main-blue-primary
             }
-          }
-    
-          tr > td:last-child {
-            padding: 0 16px;
-              svg:hover {
-                color: $vms-main-blue-primary
-              }
-          }
-    
-          tr td{
-            &:nth-child(2),
-            &:nth-child(3),
-            &:nth-child(4),
-            &:nth-child(5) {
-              padding: 13px 8px;
-              text-align: center;
-              .ant-checkbox-inner{
-                background-color: $vms-bg-primary;
-                border: 1px solid $vms-main-blue-primary
-              }
-              .ant-checkbox-checked{
-                .ant-checkbox-inner{
-                  background-color: $vms-main-blue-primary;
-                  svg {
-                    color: $vms-soft-statuts
-                  }
+
+            .ant-checkbox-checked {
+              .ant-checkbox-inner {
+                background-color: $vms-main-blue-primary;
+
+                svg {
+                  color: $vms-soft-statuts
                 }
               }
             }
           }
-    
-          
-          
         }
-    
-        //end: head table 
+
+
       }
-  
-      
+
+      //end: head table
+    }
+
+    
+
+
   }
 
+  .canvas-slot {
+    position: absolute;
+    z-index: 1;
+    //background-color: rgba(255, 0, 0, 0.2);
+  }
+
+}
+.select-direction {
+  width: 100px;
+  
+  .ant-select-single {
+    width: 100%;
+  }
 }
 

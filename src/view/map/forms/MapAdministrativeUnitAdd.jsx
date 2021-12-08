@@ -154,6 +154,8 @@ const MapAdministrativeUnitAdd = (props) => {
     const payload = {
       ...value,
       avatarFileName: imgFileName,
+      lat_: +value?.lat_,
+      long_: +value?.long_,
     };
     handleSubmitCallback(payload, AdministrativeUnitType);
   };
