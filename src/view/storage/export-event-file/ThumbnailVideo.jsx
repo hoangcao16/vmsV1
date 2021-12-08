@@ -146,7 +146,6 @@ const ThumbnailVideo = (props) => {
     };
 
     const timeUpEventHandler = (event) => {
-        debugger;
         if (duration !== 0 && playerVideo.current != null && cbRightRef.current != null) {
             currentRef.current.style.left = playerVideo.current.currentTime * (100 / duration) + '%';
             let value = format(playerVideo.current.currentTime);
