@@ -713,7 +713,7 @@ function Sidebar(props) {
                     allowClear={false}
                     picker="date"
                     format="DD/MM/YYYY"
-                    defaultValue={moment(timeEndDay).subtract(6, 'days')}
+                    defaultValue={moment(timeEndDay).subtract(7, 'days')}
                     disabledDate={disabledDateTimeStartDay}
                     dropdownClassName="dropdown__date-picker"
                     onChange={onChangeTimeStartDay}
