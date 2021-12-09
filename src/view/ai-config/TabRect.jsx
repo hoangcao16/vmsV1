@@ -32,10 +32,9 @@ const TabRect = (props) => {
   const [checkAll, setCheckAll] = React.useState(false);
   const [dataRectList, setDataRectList] = React.useState([]);
   const [dataRect, setDataRect] = React.useState({});
-  const [directionV, setDirectionV] = React.useState("");
   const [threshold, setThreshold] = React.useState(0);
   const [keyActive, setKeyActive] = React.useState(0);
-  
+
 
   const canvasRef = useRef(null);
   let fromX = 0, fromY = 0, toX = 0, toY = 0, direction = 2;
@@ -53,11 +52,44 @@ const TabRect = (props) => {
       "flex";
   };
 
-  const handleSubmit = () => {
-  }
+  const handleSubmit = async (value) => {
+
+
+    const payload = {
+
+      ...dataRect,
+      type: type,
+      cameraUuid: cameraUuid,
+      peopleDetection: checkedList.includes('human'),
+      vehicleDetection: checkedList.includes('vehicle'),
+      threshold: value.threshold,
+      status: "1",
+      direction: value.direction,
+      name: document.getElementById(`input-name-preset-${keyActive}`).value,
+      points: [[]]
+
+      // status: status
+    };
+    console.log(">>>>>>>>>>>>>>>>>>>>>value: ", payload)
+
+    try {
+      let isPost = await AIConfigRectApi.addConfigRect(payload);
+
+      if (isPost) {
+        const notifyMess = {
+          type: 'success',
+          title: `${t('noti.success')}`,
+          description: 'Bạn đã config thành công',
+        };
+        Notification(notifyMess);
+      }
+    } catch (error) {
+      console.log(error);
+    }
+  };
 
   const onChangeTimeTypeTwo = (value) => {
-    setDirectionV(value)
+    // setDirectionV(value)
     // //create data
     // let configCleanFileNew = cleanSettingData.configCleanFile;
     // configCleanFileNew[2].timeType = value;
@@ -82,7 +114,7 @@ const TabRect = (props) => {
   const columnTables = [
     {
       title: 'No',
-      dataIndex: 'no',
+      dataIndex: 'lineNo',
     },
     {
       title: 'Name',
@@ -184,11 +216,17 @@ const TabRect = (props) => {
         const itemRectList = [];
         let i = 1;
         result?.configRect && result.configRect.map(result => {
+          let date = Date.now();
           itemRectList.push({
-            key: i,
+            key: result.uuid,
             name: result.name,
-            no: result.lineNo,
+            lineNo: result.lineNo,
             status: result.status,
+            objectDetection: result.objectDetection,
+            vehicleDetection: result.vehicleDetection,
+            peopleDetection: result.peopleDetection,
+            direction: result.direction,
+            threshold: result.threshold
           })
           i++;
         })
@@ -203,7 +241,7 @@ const TabRect = (props) => {
     }
   }, [cameraUuid, type]);
 
-  
+
 
   const onSelectChange = (selectedRowKeys) => {
     setSelectedRowKeys(selectedRowKeys);
@@ -221,18 +259,21 @@ const TabRect = (props) => {
   };
 
   const onCheckAllChange = e => {
-    setCheckedList(e.target.checked ? options : []);
+    const checkList = ["vehicle", "human"];
+    setCheckedList(e.target.checked ? checkList : []);
     setIndeterminate(false);
     setCheckAll(e.target.checked);
+
   };
 
   const onPlusConfigRect = e => {
+    let date = Date.now();
     let dataNew = [...dataRectList]
     dataNew.push({
-      key: dataRectList.length + 1,
+      key: --date,
       name: "Khu vực " + (dataRectList.length + 1),
-      no: dataRectList.length + 1,
-      status: "active",
+      lineNo: dataRectList.length + 1,
+      status: "1",
       threshold: 0,
     })
     setDataRectList(dataNew);
@@ -249,14 +290,24 @@ const TabRect = (props) => {
   };
 
   const handleRowClick = (event, data) => {
-    console.log("data   :", data)
     setDataRect(data)
     setThreshold(2)
     setKeyActive(data.key)
-    console.log("dataRect   :", dataRect)
+    let checkList = []
+    if (data.peopleDetection) {
+      checkList.push("human")
+    }
+    if (data.vehicleDetection) {
+      checkList.push("vehicle")
+    }
+
+    setCheckedList(checkList)
+    // setDirectionV(data.direction)
     form.setFieldsValue({
-      threshold:100
+      threshold: 100,
+      direction: data.direction
     })
+
 
   };
 
@@ -682,29 +733,48 @@ const TabRect = (props) => {
                         <p className="threshold">{t('view.ai_config.direction.title')}</p>
                       </Col>
                       <Col span={12} style={{ flex: 'none' }}>
-                      <div className="select-direction">
-                        <Select
-                          onChange={onChangeTimeTypeTwo}
-                          value={directionV}
-                        >
-                          <Option value='AB'>{t('view.ai_config.direction.AB')}</Option>
-                          <Option value='BA'>{t('view.ai_config.direction.BA')}</Option>
-                        </Select></div>
-                        
+                        <div className="select-direction">
+                          <Form.Item name={['direction']}>
+                            <Select onChange={(e) => onChangeTimeTypeTwo(e)}>
+                              <Option value={0}>{t('view.ai_config.direction.AB')}</Option>
+                              <Option value={1}>{t('view.ai_config.direction.BA')}</Option>
+                              <Option value={2}>{t('view.ai_config.direction.All')}</Option>
+                            </Select>
+                          </Form.Item>
+                        </div>
+
                       </Col>
 
                     </Row>
                   }
 
                   <Row gutter={24} style={{ marginTop: "20px" }}>
-                    <div className="">
-                      <Checkbox indeterminate={indeterminate} onChange={onCheckAllChange}
-                        checked={checkAll}>
-                        {t('view.ai_config.object_recognition')}
-                      </Checkbox>
-                      <CheckboxGroup options={options} value={checkedList} onChange={onChange} />
-                    </div>
+                    <Col span={24} style={{ flex: 'none' }}>
+                      <div className="">
+                        <Form.Item
+                          name="checkedList">
+                          <Checkbox indeterminate={indeterminate} onChange={onCheckAllChange}
+                            checked={checkAll}>
+                            {t('view.ai_config.object_recognition')}
+                          </Checkbox>
+                          <CheckboxGroup options={options} value={checkedList} onChange={onChange} />
+                        </Form.Item>
+
+                      </div>
+                    </Col>
+
                   </Row>
+
+                  {cameraUuid ?
+                    <div className="footer__modal">
+                      <Button
+                        onClick={() => {
+                        }}
+                        type="primary" htmlType="submit ">
+                        {t('view.ai_config.apply')}
+                      </Button>
+                    </div> : null
+                  }
                 </Form>
               </div>
             </Col>
@@ -727,16 +797,7 @@ const TabRect = (props) => {
               </div>
             </Col>
           </Row>
-          {cameraUuid ?
-            <div className="footer__modal">
-              <Button
-                onClick={() => {
-                }}
-                type="primary" htmlType="submit ">
-                {t('view.ai_config.apply')}
-              </Button>
-            </div> : null
-          }
+
         </div>
       </Card>
     </div>
@@ -746,7 +807,7 @@ const TabRect = (props) => {
 function tabRectPropsAreEqual(prevTabRect, nextTabRect) {
   return _.isEqual(prevTabRect.cameraUuid, nextTabRect.cameraUuid) && _.isEqual(prevTabRect.type, nextTabRect.type)
 
-  ;
+    ;
 }
 
 export const MemoizedTabRect = React.memo(TabRect, tabRectPropsAreEqual);

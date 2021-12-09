@@ -460,7 +460,14 @@
       "delete" :  {
         "hurdles" :"Delete hurdles",
         "intrusion_detection" : "Delete area"
+      },
+      "direction" :{
+        "title" : "Direction",
+        "AB" : "A --> B",
+        "BA" : "B --> A",
+        "All" : "All"
       }
+
 
     }
   },

@@ -26,7 +26,7 @@ const AIConfigRectApi = {
 
     try {
       result = await AIService.postRequestData(
-        "/api/v1/config_schedule",
+        "/api/v1/config_rect",
         payload
       );
     } catch (error) {

@@ -464,7 +464,8 @@
       "direction" :{
         "title" : "Xác định hướng",
         "AB" : "A --> B",
-        "BA" : "B --> A"
+        "BA" : "B --> A",
+        "All" : "Tất cả"
       }
     }
   },
