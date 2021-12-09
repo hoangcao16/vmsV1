@@ -217,6 +217,8 @@ const MapCameraAdd = (props) => {
     const payload = {
       ...value,
       avatarFileName: imgFileName,
+      lat_: +value?.lat_,
+      long_: +value?.long_,
     };
     handleSubmitCallback(payload);
   };
@@ -449,7 +451,6 @@ const MapCameraAdd = (props) => {
                 ({ getFieldValue }) => ({
                   validator(rule, value) {
                     const data = getFieldValue(["long_"]);
-                    console.log("data[0]:", data[0]);
                     if (data) {
                       if (
                         isFinite(data) &&

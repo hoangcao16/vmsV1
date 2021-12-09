@@ -134,30 +134,9 @@ function Sidebar(props) {
 
   useEffect(() => {
     setDistrict([]);
-
     if (provinceId.length === 1) {
       AddressApi.getDistrictByProvinceId(provinceId).then(setDistrict);
     }
-    // if (provinceId.length > 5) {
-    //   const language = reactLocalStorage.get('language')
-    //   if (language == 'vn') {
-    //     const notifyMess = {
-    //       type: 'error',
-    //       title: '',
-    //       description: 'Số lượng khu vực không được vượt quá 5'
-    //     };
-    //     Notification(notifyMess);
-    //     return;
-    //   } else {
-    //     const notifyMess = {
-    //       type: 'error',
-    //       title: '',
-    //       description: `The number of areas must not exceed 5`
-    //     };
-    //     Notification(notifyMess);
-    //     return;
-    //   }
-    // }
   }, [provinceId]);
 
   useEffect(() => {
@@ -223,12 +202,11 @@ function Sidebar(props) {
     setSelectedRowKeys([dataFilter.eventList[0].uuid])
   };
 
-  
+  //const blurCity = async (cityIdArr) => {
+
+  // }
 
   const onChangeCity = async (cityIdArr) => {
-
-    
-
     if (cityIdArr.length < 1) {
       form.setFieldsValue({
         provinceId: provinceId
@@ -246,9 +224,9 @@ function Sidebar(props) {
         setSelectedRowKeys([eventList[0].uuid]);
       }
       form.setFieldsValue({ districtId: undefined, wardId: undefined });
-
+      
       return;
-    } else if (cityIdArr.length > 1 || cityIdArr.length < 6) {
+    } else if (cityIdArr.length > 1 && cityIdArr.length <= 5) {
       setHiddenDistrictAndWard(false);
       setHiddenWard(false);
       setisShowLineAndPieChart(false);
@@ -261,7 +239,26 @@ function Sidebar(props) {
       } else {
         setSelectedRowKeys([eventList[0].uuid]);
       }
-
+      return;
+    } else if (cityIdArr.length > 5) {
+      const language = reactLocalStorage.get('language')
+      if (language == 'vn') {
+        const notifyMess = {
+          type: 'error',
+          title: '',
+          description: 'Số lượng tỉnh/thành phố không được vượt quá 5'
+        };
+        Notification(notifyMess);
+      } else {
+        const notifyMess = {
+          type: 'error',
+          title: '',
+          description: `The number of province must not exceed 5`
+        };
+        Notification(notifyMess);
+      }
+      cityIdArr.pop();
+      setProvinceId(cityIdArr);
       return;
     }
 
@@ -282,7 +279,7 @@ function Sidebar(props) {
       form.setFieldsValue({ wardId: undefined });
 
       return;
-    } else if (districtIdArr.length > 1) {
+    } else if (districtIdArr.length > 1 && districtIdArr.length <= 5) {
       setHiddenWard(false);
       setisShowLineAndPieChart(false)
       setDistrictId(districtIdArr);
@@ -295,6 +292,26 @@ function Sidebar(props) {
 
       form.setFieldsValue({ wardId: undefined });
 
+      return;
+    } else if (districtIdArr.length > 5) {
+      const language = reactLocalStorage.get('language')
+      if (language == 'vn') {
+        const notifyMess = {
+          type: 'error',
+          title: '',
+          description: 'Số lượng quận/huyện không được vượt quá 5'
+        };
+        Notification(notifyMess);
+      } else {
+        const notifyMess = {
+          type: 'error',
+          title: '',
+          description: `The number of district must not exceed 5`
+        };
+        Notification(notifyMess);
+      }
+      districtIdArr.pop();
+      setDistrictId(districtIdArr);
       return;
     } else {
       setHiddenDistrictAndWard(true);
@@ -325,7 +342,7 @@ function Sidebar(props) {
       }
 
       return;
-    } else if (wardIdArr.length > 1) {
+    } else if (wardIdArr.length > 1 && wardIdArr.length <= 5) {
       setisShowLineAndPieChart(false)
       setWardId(wardIdArr);
       if (isEmpty(eventList)) {
@@ -336,6 +353,26 @@ function Sidebar(props) {
 
       props.changeChart(false);
 
+      return;
+    } else if (wardIdArr.length > 5) {
+      const language = reactLocalStorage.get('language')
+      if (language == 'vn') {
+        const notifyMess = {
+          type: 'error',
+          title: '',
+          description: 'Số lượng phường/xã không được vượt quá 5'
+        };
+        Notification(notifyMess);
+      } else {
+        const notifyMess = {
+          type: 'error',
+          title: '',
+          description: `The number of ward must not exceed 5`
+        };
+        Notification(notifyMess);
+      }
+      wardIdArr.pop();
+      setWardId(wardIdArr);
       return;
     } else {
       setHiddenWard(true);
@@ -507,7 +544,7 @@ function Sidebar(props) {
 
   function disabledDateTimeEndDay(current) {
     const start = moment(timeStartDay).add(1, 'days');
-    const end = moment(timeStartDay).add(11, 'days');
+    const end = moment(timeStartDay).add(12, 'days');
     return current > end + 1 || current > moment() + 1 || current < start;
   }
 
@@ -777,6 +814,7 @@ function Sidebar(props) {
                   filterOption={filterOption}
                   options={normalizeOptions('name', 'provinceId', provinces)}
                   placeholder={t('view.map.province_id')}
+                  maxTagPlaceholder={5}
                 />
               </Form.Item>
             </Col>
