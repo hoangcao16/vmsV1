@@ -1,6 +1,7 @@
 import { constant, isEmpty } from 'lodash';
 import React, { useEffect } from 'react';
 import { connect } from 'react-redux';
+import { Tooltip as TooltipAnt } from "antd";
 import {
   CartesianGrid,
   Legend,
@@ -33,7 +34,7 @@ function Chart(props) {
         <Line 
           key={k}
           type="monotone"
-          dataKey={k}
+          dataKey={ k.length > 25 ? <TooltipAnt placement="bottomRight" title={k}>{k.slice(0, 25) + "..."}</TooltipAnt> : k}
           stroke={randomColor()}
           activeDot={{ r: 8 }}
         />
