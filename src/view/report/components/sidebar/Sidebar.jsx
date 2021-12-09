@@ -92,11 +92,18 @@ function Sidebar(props) {
         data &&
         !isEmpty(data.fields) &&
         !isEmpty(data?.fields[0]?.eventList) &&
-        !isEmpty(data?.fields[0]?.eventList[0].uuid)
+        !isEmpty(data?.fields[0]?.eventList[0].uuid) &&
+        !isEmpty(data?.fields[0]?.eventList[1].uuid) &&
+        !isEmpty(data?.fields[0]?.eventList[2].uuid)
       ) {
+        console.log("data", data)
         // setCheck(data?.)
         setEventList(data?.fields[0]?.eventList);
-        setSelectedRowKeys([data?.fields[0]?.eventList[0].uuid]);
+        let arr = [];
+        arr[0] = data?.fields[0]?.eventList[0].uuid
+        arr[1] = data?.fields[0]?.eventList[1].uuid
+        arr[2] = data?.fields[0]?.eventList[2].uuid
+        setSelectedRowKeys(arr);
 
         props.changeTitle(data?.fields[0].name);
 
@@ -105,6 +112,7 @@ function Sidebar(props) {
         });
 
         setFeildIds(data?.fields[0].uuid);
+        setisShowLineAndPieChart(true)
 
         const dataDefault = {
           pickTime: dataTime,
@@ -118,11 +126,10 @@ function Sidebar(props) {
           districtId: '',
           wardId: '',
           fieldId: data?.fields[0].uuid,
-          eventList: [data?.fields[0]?.eventList[0].uuid]
+          eventList: arr
         };
-
         props.callData(clearData(dataDefault));
-        props.changeCount(1);
+        props.changeCount(arr);
       }
     });
   }, []);
@@ -175,8 +182,13 @@ function Sidebar(props) {
     const dataFilter = fields.find((f) => f.uuid === feildId)
     props.changeTitle(dataFilter.name);
     setFeildIds(dataFilter.uuid)
-    setEventList(dataFilter.eventList);
-    if (isEmpty(dataFilter.eventList)) {
+    if (!isEmpty(dataFilter.eventList[0])) {
+      setEventList(dataFilter.eventList);
+      props.changeCount(dataFilter.eventList[0])
+    } else {
+      let arr = [''];
+      props.changeCount(arr)
+      setEventList(dataFilter.eventList);
       const language = reactLocalStorage.get('language')
       if (language == 'vn') {
         const notifyMess = {
@@ -214,6 +226,9 @@ function Sidebar(props) {
     }
 
     if (cityIdArr.length == 1) {
+      let arr = [];
+      arr[0] = filterOptions?.fields[0]?.eventList[0].uuid
+      props.changeCount(arr)
       setHiddenDistrictAndWard(true);
       setHiddenWard(true);
       setisShowLineAndPieChart(true);
@@ -267,6 +282,9 @@ function Sidebar(props) {
 
   const onChangeDistrict = async (districtIdArr) => {
     if (districtIdArr.length === 1) {
+      let arr = [];
+      arr[0] = filterOptions?.fields[0]?.eventList[0].uuid
+      props.changeCount(arr)
       setHiddenWard(true);
       setisShowLineAndPieChart(true)
       setDistrictId(districtIdArr);
@@ -332,6 +350,9 @@ function Sidebar(props) {
 
   const onChangeWard = (wardIdArr) => {
     if (wardIdArr.length === 1) {
+      let arr = [];
+      arr[0] = filterOptions?.fields[0]?.eventList[0].uuid
+      props.changeCount(arr)
       setWardId(wardIdArr);
       setisShowLineAndPieChart(true)
       props.changeChart(true);
@@ -713,7 +734,7 @@ function Sidebar(props) {
                     allowClear={false}
                     picker="date"
                     format="DD/MM/YYYY"
-                    defaultValue={moment(timeEndDay).subtract(7, 'days')}
+                    defaultValue={moment(timeEndDay).subtract(6, 'days')}
                     disabledDate={disabledDateTimeStartDay}
                     dropdownClassName="dropdown__date-picker"
                     onChange={onChangeTimeStartDay}
