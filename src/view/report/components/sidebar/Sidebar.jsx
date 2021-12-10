@@ -93,32 +93,33 @@ function Sidebar(props) {
   useEffect(() => {
     fetchSelectOptions().then((data) => {
       setFilterOptions(data);
-
+      console.log("data", data);
       // setSelectedRowKeys([data?.fields[0]?.eventList[0].uuid]);
 
       if (
-        data &&
+        !isEmpty(data) &&
         !isEmpty(data.fields) &&
         !isEmpty(data?.fields[0]?.eventList) &&
-        !isEmpty(data?.fields[0]?.eventList[0].uuid) &&
-        !isEmpty(data?.fields[0]?.eventList[1].uuid) &&
-        !isEmpty(data?.fields[0]?.eventList[2].uuid)
+        !isEmpty(data?.fields[0]?.eventList[0]?.uuid) &&
+        !isEmpty(data?.fields[0]?.eventList[1]?.uuid) &&
+        !isEmpty(data?.fields[0]?.eventList[2]?.uuid)
       ) {
+       
         // setCheck(data?.)
         setEventList(data?.fields[0]?.eventList);
         let arr = [];
-        arr[0] = data?.fields[0]?.eventList[0].uuid;
-        arr[1] = data?.fields[0]?.eventList[1].uuid;
-        arr[2] = data?.fields[0]?.eventList[2].uuid;
+        arr[0] = data?.fields[0]?.eventList[0]?.uuid;
+        arr[1] = data?.fields[0]?.eventList[1]?.uuid;
+        arr[2] = data?.fields[0]?.eventList[2]?.uuid;
         setSelectedRowKeys(arr);
 
-        props.changeTitle(data?.fields[0].name);
+        props.changeTitle(data?.fields[0]?.name);
 
         form.setFieldsValue({
-          fieldId: data?.fields[0].uuid,
+          fieldId: data?.fields[0]?.uuid,
         });
 
-        setFeildIds(data?.fields[0].uuid);
+        setFeildIds(data?.fields[0]?.uuid);
         setisShowLineAndPieChart(true);
 
         const dataDefault = {
@@ -444,6 +445,7 @@ function Sidebar(props) {
 
   const eventColumns = [
     {
+<<<<<<< HEAD
       key: "name",
       fixed: "left",
       dataIndex: "name",
@@ -463,6 +465,12 @@ function Sidebar(props) {
           );
         }
       },
+=======
+      dataIndex: "name",
+      key: "name",
+      fixed: "left",
+      className: "headerColums",
+>>>>>>> f924f464f38bbb4838c0dd7b188a48dbd1ae1908
     },
   ];
 
