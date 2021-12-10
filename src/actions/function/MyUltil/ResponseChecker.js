@@ -40,14 +40,12 @@ export const handleErrCodeAuthZ = (data) => {
       return data;
 
     case AuthZStatusBadRequest:
-      errCode.description =
-        "Đăng nhập không thành công. Vui lòng kiểm tra lại Tài khoản hoặc Mật khẩu";
+      errCode.description = "Vui lòng kiểm tra lại Tài khoản hoặc Mật khẩu";
       Notification(errCode);
       return null;
 
     case AuthZStatusUnauthorized:
-      errCode.description =
-        "Đăng nhập không thành công. Vui lòng kiểm tra lại Tài khoản hoặc Mật khẩu";
+      errCode.description = "Vui lòng kiểm tra lại Tài khoản hoặc Mật khẩu";
       Notification(errCode);
       return null;
     case AuthZStatusNotFound:
@@ -67,13 +65,11 @@ export const handleErrCodeAuthZ = (data) => {
       Notification(errCode);
       return null;
     case AuthZWrongPass:
-      errCode.description =
-        "Đăng nhập không thành công. Vui lòng kiểm tra lại mật khẩu";
+      errCode.description = 'Vui lòng kiểm tra lại mật khẩu';
       Notification(errCode);
       return null;
     case AuthZAccountNotExists:
-      errCode.description =
-        "Đăng nhập không thành công. Email không tồn tại trong hệ thống";
+      errCode.description = 'Email không tồn tại trong hệ thống';
       Notification(errCode);
       return null;
     case AuthZAccountAlreadyExists:

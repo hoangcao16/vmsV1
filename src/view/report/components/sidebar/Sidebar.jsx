@@ -102,7 +102,6 @@ function Sidebar(props) {
         !isEmpty(data?.fields[0]?.eventList[1]?.uuid) &&
         !isEmpty(data?.fields[0]?.eventList[2]?.uuid)
       ) {
-       
         // setCheck(data?.)
         setEventList(data?.fields[0]?.eventList);
         let arr = [];
@@ -181,17 +180,6 @@ function Sidebar(props) {
       eventList: selectedRowKeys,
     };
     props.callData(clearData(data));
-    // if (!isEmpty(fields)) {
-    //   fields.map((d) => {
-    //     if (!isEmpty(d)) {
-    //       d.eventList.map((i) => {
-    //         if (i.name.length > 25) {
-    //           i.name = i.name.slice(0, 25) + "..."
-    //         }
-    //       })
-    //     }
-    //   })
-    // }
     return;
   }, [
     selectedRowKeys,
@@ -208,12 +196,38 @@ function Sidebar(props) {
     feildIds,
   ]);
 
+  const emptyField = () => {
+    const language = reactLocalStorage.get("language");
+    if (language == "vn") {
+      const notifyMess = {
+        type: "warning",
+        title: "",
+        description:
+          "Lĩnh vực này chưa có sự kiện, vui lòng chọn lĩnh vực khác",
+      };
+      Notification(notifyMess);
+      setSelectedRowKeys(null);
+      return;
+    } else {
+      const notifyMess = {
+        type: "warning",
+        title: "",
+        description:
+          "This field does not have any event, please choose another field",
+      };
+      Notification(notifyMess);
+      setSelectedRowKeys(null);
+      return;
+    }
+  };
+
   const onChangeField = (feildId) => {
     const dataFilter = fields.find((f) => f.uuid === feildId);
     props.changeTitle(dataFilter.name);
     setFeildIds(dataFilter.uuid);
-    if (!isEmpty(dataFilter?.eventList[0])) {
-      setEventList(dataFilter?.eventList);
+
+    if (!isEmpty(dataFilter.eventList[0])) {
+      setEventList(dataFilter.eventList);
       props.changeCount(dataFilter?.eventList[0]);
     } else {
       let arr = [""];
@@ -266,7 +280,7 @@ function Sidebar(props) {
       setisShowLineAndPieChart(true);
       setProvinceId(cityIdArr);
       if (isEmpty(eventList)) {
-        setSelectedRowKeys(null);
+        emptyField();
       } else {
         setSelectedRowKeys([eventList[0]?.uuid]);
       }
@@ -282,7 +296,7 @@ function Sidebar(props) {
       form.setFieldsValue({ districtId: undefined, wardId: undefined });
       setProvinceId(cityIdArr);
       if (isEmpty(eventList)) {
-        setSelectedRowKeys(null);
+        emptyField();
       } else {
         setSelectedRowKeys([eventList[0]?.uuid]);
       }
@@ -321,7 +335,7 @@ function Sidebar(props) {
       setisShowLineAndPieChart(true);
       setDistrictId(districtIdArr);
       if (isEmpty(eventList)) {
-        setSelectedRowKeys(null);
+        emptyField();
       } else {
         setSelectedRowKeys([eventList[0]?.uuid]);
       }
@@ -335,7 +349,7 @@ function Sidebar(props) {
       setDistrictId(districtIdArr);
       setWardId([]);
       if (isEmpty(eventList)) {
-        setSelectedRowKeys(null);
+        emptyField();
       } else {
         setSelectedRowKeys([eventList[0]?.uuid]);
       }
@@ -369,7 +383,7 @@ function Sidebar(props) {
       setDistrictId([]);
       setisShowLineAndPieChart(true);
       if (isEmpty(eventList)) {
-        setSelectedRowKeys(null);
+        emptyField();
       } else {
         setSelectedRowKeys([eventList[0]?.uuid]);
       }
@@ -388,7 +402,7 @@ function Sidebar(props) {
       setisShowLineAndPieChart(true);
       props.changeChart(true);
       if (isEmpty(eventList)) {
-        setSelectedRowKeys(null);
+        emptyField();
       } else {
         setSelectedRowKeys([eventList[0]?.uuid]);
       }
@@ -398,7 +412,7 @@ function Sidebar(props) {
       setisShowLineAndPieChart(false);
       setWardId(wardIdArr);
       if (isEmpty(eventList)) {
-        setSelectedRowKeys(null);
+        emptyField();
       } else {
         setSelectedRowKeys([eventList[0]?.uuid]);
       }
@@ -431,7 +445,7 @@ function Sidebar(props) {
       setisShowLineAndPieChart(true);
       setWardId([]);
       if (isEmpty(eventList)) {
-        setSelectedRowKeys(null);
+        emptyField();
       } else {
         setSelectedRowKeys([eventList[0]?.uuid]);
       }
@@ -547,6 +561,11 @@ function Sidebar(props) {
 
   const onChangeDateTime = async (dateTime) => {
     setDatatime(dateTime);
+    if (isEmpty(eventList)) {
+      emptyField();
+    } else {
+      setSelectedRowKeys([eventList[0].uuid]);
+    }
     let arr = [];
       arr[0] = filterOptions?.fields[0]?.eventList[0]?.uuid;
       props.changeCount(arr);
@@ -566,6 +585,11 @@ function Sidebar(props) {
     }
 
     setTimeStartDay(value);
+    if (isEmpty(eventList)) {
+      emptyField();
+    } else {
+      setSelectedRowKeys([eventList[0].uuid]);
+    }
   }
 
   function onChangeTimeEndDay(value) {
@@ -608,18 +632,23 @@ function Sidebar(props) {
         return;
       }
     }
+    if (isEmpty(eventList)) {
+      emptyField();
+    } else {
+      setSelectedRowKeys([eventList[0].uuid]);
+    }
   }
 
   function disabledDateTimeStartDay(current) {
     const start = moment(timeEndDay).subtract(11, "days");
     const end = moment(timeEndDay).subtract(1, "days");
-    return current < start || current > end + 1;
+    return current < start - 1 || current > end;
   }
 
   function disabledDateTimeEndDay(current) {
     const start = moment(timeStartDay).add(1, "days");
     const end = moment(timeStartDay).add(12, "days");
-    return current > end + 1 || current > moment() + 1 || current < start;
+    return current > end || current > moment() + 1 || current < start;
   }
 
   //=================================================================
