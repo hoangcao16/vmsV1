@@ -198,16 +198,6 @@ function Sidebar(props) {
     feildIds,
   ]);
 
-  useEffect((feildId) => {
-    if (isEmpty(fields)) {
-      return;
-    } else {
-      const dataFilter = fields.find((f) => f.uuid === feildId);
-      console.log("fields", fields);
-      console.log("dataFilter", dataFilter);
-    }
-  });
-
   const emptyField = () => {
     const language = reactLocalStorage.get("language");
     if (language == "vn") {
