@@ -142,13 +142,7 @@ function BarChartComponent(props) {
                         <XAxis dataKey="time" />
                         <YAxis />
                         <Tooltip />
-                        <Legend 
-                          // payload = {
-                          //   data.map((d) => {
-
-                          //   }) 
-                          // }
-                        />
+                        <Legend />
                         {dataConvert(data[item])}
                       </BarChart>
                     </ResponsiveContainer>
