@@ -182,17 +182,6 @@ function Sidebar(props) {
       eventList: selectedRowKeys,
     };
     props.callData(clearData(data));
-    // if (!isEmpty(fields)) {
-    //   fields.map((d) => {
-    //     if (!isEmpty(d)) {
-    //       d.eventList.map((i) => {
-    //         if (i.name.length > 25) {
-    //           i.name = i.name.slice(0, 25) + "..."
-    //         }
-    //       })
-    //     }
-    //   })
-    // }
     return;
   }, [
     selectedRowKeys,
@@ -209,10 +198,47 @@ function Sidebar(props) {
     feildIds,
   ]);
 
+  useEffect((feildId) => {
+    if (isEmpty(fields)) {
+      return;
+    } else {
+      const dataFilter = fields.find((f) => f.uuid === feildId);
+      console.log("fields", fields);
+      console.log("dataFilter", dataFilter);
+    }
+  });
+
+  const emptyField = () => {
+    const language = reactLocalStorage.get("language");
+    if (language == "vn") {
+      const notifyMess = {
+        type: "warning",
+        title: "",
+        description:
+          "Lĩnh vực này chưa có sự kiện, vui lòng chọn lĩnh vực khác",
+      };
+      Notification(notifyMess);
+      setSelectedRowKeys(null);
+      return;
+    } else {
+      const notifyMess = {
+        type: "warning",
+        title: "",
+        description:
+          "This field does not have any event, please choose another field",
+      };
+      Notification(notifyMess);
+      setSelectedRowKeys(null);
+      return;
+    }
+  };
+
   const onChangeField = (feildId) => {
     const dataFilter = fields.find((f) => f.uuid === feildId);
+    console.log("dataFilter1", dataFilter);
     props.changeTitle(dataFilter.name);
     setFeildIds(dataFilter.uuid);
+
     if (!isEmpty(dataFilter.eventList[0])) {
       setEventList(dataFilter.eventList);
       props.changeCount(dataFilter.eventList[0]);
@@ -267,7 +293,7 @@ function Sidebar(props) {
       setisShowLineAndPieChart(true);
       setProvinceId(cityIdArr);
       if (isEmpty(eventList)) {
-        setSelectedRowKeys(null);
+        emptyField();
       } else {
         setSelectedRowKeys([eventList[0].uuid]);
       }
@@ -283,7 +309,7 @@ function Sidebar(props) {
       form.setFieldsValue({ districtId: undefined, wardId: undefined });
       setProvinceId(cityIdArr);
       if (isEmpty(eventList)) {
-        setSelectedRowKeys(null);
+        emptyField();
       } else {
         setSelectedRowKeys([eventList[0].uuid]);
       }
@@ -322,7 +348,7 @@ function Sidebar(props) {
       setisShowLineAndPieChart(true);
       setDistrictId(districtIdArr);
       if (isEmpty(eventList)) {
-        setSelectedRowKeys(null);
+        emptyField();
       } else {
         setSelectedRowKeys([eventList[0].uuid]);
       }
@@ -336,7 +362,7 @@ function Sidebar(props) {
       setDistrictId(districtIdArr);
       setWardId([]);
       if (isEmpty(eventList)) {
-        setSelectedRowKeys(null);
+        emptyField();
       } else {
         setSelectedRowKeys([eventList[0].uuid]);
       }
@@ -370,7 +396,7 @@ function Sidebar(props) {
       setDistrictId([]);
       setisShowLineAndPieChart(true);
       if (isEmpty(eventList)) {
-        setSelectedRowKeys(null);
+        emptyField();
       } else {
         setSelectedRowKeys([eventList[0].uuid]);
       }
@@ -389,7 +415,7 @@ function Sidebar(props) {
       setisShowLineAndPieChart(true);
       props.changeChart(true);
       if (isEmpty(eventList)) {
-        setSelectedRowKeys(null);
+        emptyField();
       } else {
         setSelectedRowKeys([eventList[0].uuid]);
       }
@@ -399,7 +425,7 @@ function Sidebar(props) {
       setisShowLineAndPieChart(false);
       setWardId(wardIdArr);
       if (isEmpty(eventList)) {
-        setSelectedRowKeys(null);
+        emptyField();
       } else {
         setSelectedRowKeys([eventList[0].uuid]);
       }
@@ -432,7 +458,7 @@ function Sidebar(props) {
       setisShowLineAndPieChart(true);
       setWardId([]);
       if (isEmpty(eventList)) {
-        setSelectedRowKeys(null);
+        emptyField();
       } else {
         setSelectedRowKeys([eventList[0].uuid]);
       }
@@ -548,6 +574,11 @@ function Sidebar(props) {
 
   const onChangeDateTime = async (dateTime) => {
     setDatatime(dateTime);
+    if (isEmpty(eventList)) {
+      emptyField();
+    } else {
+      setSelectedRowKeys([eventList[0].uuid]);
+    }
   };
 
   //=================================================================
@@ -561,6 +592,11 @@ function Sidebar(props) {
     }
 
     setTimeStartDay(value);
+    if (isEmpty(eventList)) {
+      emptyField();
+    } else {
+      setSelectedRowKeys([eventList[0].uuid]);
+    }
   }
 
   function onChangeTimeEndDay(value) {
@@ -599,6 +635,11 @@ function Sidebar(props) {
         Notification(notifyMess);
         return;
       }
+    }
+    if (isEmpty(eventList)) {
+      emptyField();
+    } else {
+      setSelectedRowKeys([eventList[0].uuid]);
     }
   }
 

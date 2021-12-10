@@ -76,9 +76,6 @@ function BarChartComponent(props) {
     });
   };
 
-  if (isEmpty(data)) {
-    return null;
-  }
   return (
     <>
       {!props.isShowLineAndPieChart && (
