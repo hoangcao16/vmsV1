@@ -369,7 +369,7 @@ const DetailUser = (props) => {
                       <Input
                         type="text"
                         maxLength={13}
-                        placeholder="Số điện thoại"
+                        placeholder={t('view.map.phone_number')}
                       />
                     )}
                   </Form.Item>
