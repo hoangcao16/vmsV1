@@ -231,6 +231,14 @@ export const handleErrCodeAI = (data) => {
       errCode.description = message;
       Notification(errCode);
       return null;
+    case AI_NOT_FOUND:
+      errCode.description = message;
+      Notification(errCode);
+      return null;
+    case AI_CANNOT_DELETE_ENTITY:
+      errCode.description = message;
+      Notification(errCode);
+      return null;
     default:
       errCode.description = 'Unknown';
       Notification(errCode);

@@ -9,6 +9,7 @@ import { useTranslation } from 'react-i18next';
 import { withRouter } from 'react-router-dom';
 import { reactLocalStorage } from "reactjs-localstorage";
 import AIConfigScheduleApi from '../../actions/api/ai-config/AIConfigScheduleApi';
+import AIConfigApi from '../../actions/api/ai-config/AIConfigApi';
 import AIConfigRectApi from '../../actions/api/ai-config/AIConfigRectApi';
 import CameraApi from '../../actions/api/camera/CameraApi';
 import ModalEditScheduleConfig from './ModalEditScheduleConfig';
@@ -39,11 +40,56 @@ const TabType = (props) => {
   const [checkStatus, setCheckStatus] = useState(false);
 
 
+  useEffect(() => {
+    if(cameraUuid != null && cameraUuid !== ""){
+      const data = {
+        type: type,
+        cameraUuid: cameraUuid
+      };
+      setCheckStatus(true)
+  
+      AIConfigApi.getConfig(data).then((result) => {
+        if(result.status == "1"){
+          setCheckStatus(true)
+        }
+      });
+  
+    }
+  }, [cameraUuid, type]);
 
 
-  function onChangeCheckBox(val) {
-    setCheckStatus(val.target.checked)
-  }
+  const onChangeCheckBox = async (val) => {
+    let status = "0"
+    if(val.target.checked){
+      status = "1"
+    }
+    const body = {
+      cameraUuid: cameraUuid,
+      type: type,
+      status: status,
+    };
+
+    try {
+      let isPost = await AIConfigApi.editConfigStatus(body);
+
+      if (isPost) {
+        const notifyMess = {
+          type: 'success',
+          title: `${t('noti.success')}`,
+          description: 'Bạn đã config thành công',
+        };
+        Notification(notifyMess);
+        setCheckStatus(val.target.checked)
+      }
+
+    } catch (error) {
+      console.log(error);
+    }
+    
+    
+  };
+
+  
 
 
   return (
