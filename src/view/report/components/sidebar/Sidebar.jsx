@@ -547,11 +547,17 @@ function Sidebar(props) {
 
   const onChangeDateTime = async (dateTime) => {
     setDatatime(dateTime);
+    let arr = [];
+      arr[0] = filterOptions?.fields[0]?.eventList[0]?.uuid;
+      props.changeCount(arr);
   };
 
   //=================================================================
 
   function onChangeTimeStartDay(value) {
+    let arr = [];
+      arr[0] = filterOptions?.fields[0]?.eventList[0]?.uuid;
+      props.changeCount(arr);
     if (!value) {
       form.setFieldsValue({
         timeEndDay: timeEndDay,
@@ -563,6 +569,9 @@ function Sidebar(props) {
   }
 
   function onChangeTimeEndDay(value) {
+    let arr = [];
+      arr[0] = filterOptions?.fields[0]?.eventList[0]?.uuid;
+      props.changeCount(arr);
     setTimeStartDay(timeStartDay);
     setTimeEndDay(value);
     const dk = moment(timeStartDay).add(1, "days");
@@ -616,6 +625,9 @@ function Sidebar(props) {
   //=================================================================
 
   function onChangeTimeStartMonth(value) {
+    let arr = [];
+      arr[0] = filterOptions?.fields[0]?.eventList[0]?.uuid;
+      props.changeCount(arr);
     if (!value) {
       form.setFieldsValue({
         timeEndMonth: timeEndMonth,
@@ -627,6 +639,9 @@ function Sidebar(props) {
   }
 
   function onChangeTimeEndMonth(value) {
+    let arr = [];
+      arr[0] = filterOptions?.fields[0]?.eventList[0]?.uuid;
+      props.changeCount(arr);
     setTimeEndMonth(value);
 
     const dk = moment(timeStartMonth).add(1, "months");
@@ -681,6 +696,9 @@ function Sidebar(props) {
   //=================================================================
 
   function onChangeTimeStartYear(value) {
+    let arr = [];
+      arr[0] = filterOptions?.fields[0]?.eventList[0]?.uuid;
+      props.changeCount(arr);
     if (!value) {
       form.setFieldsValue({
         timeEndYear: timeEndYear,
@@ -692,6 +710,9 @@ function Sidebar(props) {
   }
 
   function onChangeTimeEndYear(value) {
+    let arr = [];
+      arr[0] = filterOptions?.fields[0]?.eventList[0]?.uuid;
+      props.changeCount(arr);
     setTimeEndYear(value);
     const dk = moment(timeStartYear).add(1, "years");
 
