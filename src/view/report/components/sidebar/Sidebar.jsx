@@ -93,11 +93,11 @@ function Sidebar(props) {
   useEffect(() => {
     fetchSelectOptions().then((data) => {
       setFilterOptions(data);
-
+      console.log("data", data);
       // setSelectedRowKeys([data?.fields[0]?.eventList[0].uuid]);
 
       if (
-        data &&
+        !isEmpty(data) &&
         !isEmpty(data.fields) &&
         !isEmpty(data?.fields[0]?.eventList) &&
         !isEmpty(data?.fields[0]?.eventList[0]?.uuid) &&
@@ -118,7 +118,7 @@ function Sidebar(props) {
           fieldId: data?.fields[0]?.uuid,
         });
 
-        setFeildIds(data?.fields[0].uuid);
+        setFeildIds(data?.fields[0]?.uuid);
         setisShowLineAndPieChart(true);
 
         const dataDefault = {
@@ -225,7 +225,6 @@ function Sidebar(props) {
 
   const onChangeField = (feildId) => {
     const dataFilter = fields.find((f) => f.uuid === feildId);
-    console.log("dataFilter1", dataFilter);
     props.changeTitle(dataFilter.name);
     setFeildIds(dataFilter.uuid);
 
