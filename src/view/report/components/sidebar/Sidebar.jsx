@@ -93,8 +93,6 @@ function Sidebar(props) {
   useEffect(() => {
     fetchSelectOptions().then((data) => {
       setFilterOptions(data);
-      console.log("data", data);
-      // setSelectedRowKeys([data?.fields[0]?.eventList[0].uuid]);
 
       if (
         !isEmpty(data) &&
@@ -132,7 +130,7 @@ function Sidebar(props) {
           provinceId: ["2"],
           districtId: "",
           wardId: "",
-          fieldId: data?.fields[0].uuid,
+          fieldId: data?.fields[0]?.uuid,
           eventList: arr,
         };
         props.callData(clearData(dataDefault));
@@ -230,7 +228,7 @@ function Sidebar(props) {
 
     if (!isEmpty(dataFilter.eventList[0])) {
       setEventList(dataFilter.eventList);
-      props.changeCount(dataFilter.eventList[0]);
+      props.changeCount(dataFilter?.eventList[0]);
     } else {
       let arr = [""];
       props.changeCount(arr);
@@ -259,7 +257,7 @@ function Sidebar(props) {
       }
     }
 
-    setSelectedRowKeys([dataFilter.eventList[0].uuid]);
+    setSelectedRowKeys([dataFilter?.eventList[0]?.uuid]);
   };
 
   //const blurCity = async (cityIdArr) => {
@@ -275,7 +273,7 @@ function Sidebar(props) {
 
     if (cityIdArr.length == 1) {
       let arr = [];
-      arr[0] = filterOptions?.fields[0]?.eventList[0].uuid;
+      arr[0] = filterOptions?.fields[0]?.eventList[0]?.uuid;
       props.changeCount(arr);
       setHiddenDistrictAndWard(true);
       setHiddenWard(true);
@@ -284,7 +282,7 @@ function Sidebar(props) {
       if (isEmpty(eventList)) {
         emptyField();
       } else {
-        setSelectedRowKeys([eventList[0].uuid]);
+        setSelectedRowKeys([eventList[0]?.uuid]);
       }
       form.setFieldsValue({ districtId: undefined, wardId: undefined });
 
@@ -300,7 +298,7 @@ function Sidebar(props) {
       if (isEmpty(eventList)) {
         emptyField();
       } else {
-        setSelectedRowKeys([eventList[0].uuid]);
+        setSelectedRowKeys([eventList[0]?.uuid]);
       }
       return;
     } else if (cityIdArr.length > 5) {
@@ -331,7 +329,7 @@ function Sidebar(props) {
   const onChangeDistrict = async (districtIdArr) => {
     if (districtIdArr.length === 1) {
       let arr = [];
-      arr[0] = filterOptions?.fields[0]?.eventList[0].uuid;
+      arr[0] = filterOptions?.fields[0]?.eventList[0]?.uuid;
       props.changeCount(arr);
       setHiddenWard(true);
       setisShowLineAndPieChart(true);
@@ -339,7 +337,7 @@ function Sidebar(props) {
       if (isEmpty(eventList)) {
         emptyField();
       } else {
-        setSelectedRowKeys([eventList[0].uuid]);
+        setSelectedRowKeys([eventList[0]?.uuid]);
       }
 
       form.setFieldsValue({ wardId: undefined });
@@ -353,7 +351,7 @@ function Sidebar(props) {
       if (isEmpty(eventList)) {
         emptyField();
       } else {
-        setSelectedRowKeys([eventList[0].uuid]);
+        setSelectedRowKeys([eventList[0]?.uuid]);
       }
 
       form.setFieldsValue({ wardId: undefined });
@@ -387,7 +385,7 @@ function Sidebar(props) {
       if (isEmpty(eventList)) {
         emptyField();
       } else {
-        setSelectedRowKeys([eventList[0].uuid]);
+        setSelectedRowKeys([eventList[0]?.uuid]);
       }
 
       form.setFieldsValue({ districtId: undefined, wardId: undefined });
@@ -398,7 +396,7 @@ function Sidebar(props) {
   const onChangeWard = (wardIdArr) => {
     if (wardIdArr.length === 1) {
       let arr = [];
-      arr[0] = filterOptions?.fields[0]?.eventList[0].uuid;
+      arr[0] = filterOptions?.fields[0]?.eventList[0]?.uuid;
       props.changeCount(arr);
       setWardId(wardIdArr);
       setisShowLineAndPieChart(true);
@@ -406,7 +404,7 @@ function Sidebar(props) {
       if (isEmpty(eventList)) {
         emptyField();
       } else {
-        setSelectedRowKeys([eventList[0].uuid]);
+        setSelectedRowKeys([eventList[0]?.uuid]);
       }
 
       return;
@@ -416,7 +414,7 @@ function Sidebar(props) {
       if (isEmpty(eventList)) {
         emptyField();
       } else {
-        setSelectedRowKeys([eventList[0].uuid]);
+        setSelectedRowKeys([eventList[0]?.uuid]);
       }
 
       props.changeChart(false);
@@ -449,7 +447,7 @@ function Sidebar(props) {
       if (isEmpty(eventList)) {
         emptyField();
       } else {
-        setSelectedRowKeys([eventList[0].uuid]);
+        setSelectedRowKeys([eventList[0]?.uuid]);
       }
 
       form.setFieldsValue({ wardId: undefined });
@@ -568,11 +566,17 @@ function Sidebar(props) {
     } else {
       setSelectedRowKeys([eventList[0].uuid]);
     }
+    let arr = [];
+      arr[0] = filterOptions?.fields[0]?.eventList[0]?.uuid;
+      props.changeCount(arr);
   };
 
   //=================================================================
 
   function onChangeTimeStartDay(value) {
+    let arr = [];
+      arr[0] = filterOptions?.fields[0]?.eventList[0]?.uuid;
+      props.changeCount(arr);
     if (!value) {
       form.setFieldsValue({
         timeEndDay: timeEndDay,
@@ -589,6 +593,9 @@ function Sidebar(props) {
   }
 
   function onChangeTimeEndDay(value) {
+    let arr = [];
+      arr[0] = filterOptions?.fields[0]?.eventList[0]?.uuid;
+      props.changeCount(arr);
     setTimeStartDay(timeStartDay);
     setTimeEndDay(value);
     const dk = moment(timeStartDay).add(1, "days");
@@ -647,6 +654,9 @@ function Sidebar(props) {
   //=================================================================
 
   function onChangeTimeStartMonth(value) {
+    let arr = [];
+      arr[0] = filterOptions?.fields[0]?.eventList[0]?.uuid;
+      props.changeCount(arr);
     if (!value) {
       form.setFieldsValue({
         timeEndMonth: timeEndMonth,
@@ -658,6 +668,9 @@ function Sidebar(props) {
   }
 
   function onChangeTimeEndMonth(value) {
+    let arr = [];
+      arr[0] = filterOptions?.fields[0]?.eventList[0]?.uuid;
+      props.changeCount(arr);
     setTimeEndMonth(value);
 
     const dk = moment(timeStartMonth).add(1, "months");
@@ -712,6 +725,9 @@ function Sidebar(props) {
   //=================================================================
 
   function onChangeTimeStartYear(value) {
+    let arr = [];
+      arr[0] = filterOptions?.fields[0]?.eventList[0]?.uuid;
+      props.changeCount(arr);
     if (!value) {
       form.setFieldsValue({
         timeEndYear: timeEndYear,
@@ -723,6 +739,9 @@ function Sidebar(props) {
   }
 
   function onChangeTimeEndYear(value) {
+    let arr = [];
+      arr[0] = filterOptions?.fields[0]?.eventList[0]?.uuid;
+      props.changeCount(arr);
     setTimeEndYear(value);
     const dk = moment(timeStartYear).add(1, "years");
 
