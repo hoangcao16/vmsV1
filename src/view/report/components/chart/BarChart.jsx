@@ -1,8 +1,8 @@
-import { Spin } from "antd";
 import { isEmpty } from "lodash";
 import React from "react";
 import { useTranslation } from "react-i18next";
 import { connect } from "react-redux";
+import { Spin, Tooltip as TooltipAnt } from "antd";
 import {
   Bar,
   BarChart,
@@ -63,19 +63,19 @@ function BarChartComponent(props) {
     if (isEmpty(data)) {
       return;
     }
-    const dataNoName = Object.values(data)[0]
-
+    const dataNoName = Object.values(data)[0];
+    
     delete dataNoName.time;
-
+    
     const keyArr = Object.keys(dataNoName);
     return keyArr.map((k) => {
+      if (k.length > 25) {
+        k = k.slice(0, 26) + "..."
+      }
       return <Bar key={k} dataKey={k} fill={randomColor()} />;
     });
   };
 
-  if (isEmpty(data)) {
-    return null;
-  }
   return (
     <>
       {!props.isShowLineAndPieChart && (
@@ -101,11 +101,24 @@ function BarChartComponent(props) {
               {Object.keys(data).map((item, i) => (
                 <>
                   <div className="BarChart__title">
-                    <h3>
-                      {" "}
-                      {t("view.report.compare_chart")}{" "}
-                      {props.title.toUpperCase()}{" "}
-                    </h3>
+                    {Object.keys(data)[i].length > 25 ? (
+                      <TooltipAnt placement="bottomRight" title={Object.keys(data)[i]}>
+                        <h3>
+                          {" "}
+                          {t("view.report.compare_chart")}{" "}
+                          {props.title.toUpperCase()} {"-"} {" "}
+                          {`${Object.keys(data)[i].slice(0, 26).toUpperCase()}...
+                          `} {" "}
+                        </h3>
+                      </TooltipAnt>
+                    ) : (
+                      <h3>
+                        {" "}
+                        {t("view.report.compare_chart")}{" "}
+                        {props.title.toUpperCase()} {"-"} {" "}
+                        {Object.keys(data)[i].toUpperCase()}{" "}
+                      </h3>
+                    )}
                     <ExportReport currentDataSource={data} />
                   </div>
                   <div>

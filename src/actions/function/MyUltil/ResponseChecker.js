@@ -1,6 +1,6 @@
-import { isEmpty } from 'lodash';
-import { handleErrCode } from '../../../api/controller-api/code';
-import Notification from '../../../components/vms/notification/Notification';
+import { isEmpty } from "lodash";
+import { handleErrCode } from "../../../api/controller-api/code";
+import Notification from "../../../components/vms/notification/Notification";
 import { handleForbiddenCode } from "../../../api/authz/forbidden";
 
 export function responseCheckerErrorsController(result) {
@@ -26,13 +26,12 @@ const AuthZWrongPass = 607;
 const AuthZAccountNotExists = 608;
 const AuthZAccountAlreadyExists = 609;
 
-
 export const handleErrCodeAuthZ = (data) => {
   const { code, message, deny_permission_codes } = data || {};
   const errCode = {
-    type: 'error',
-    title: 'Code:' + code,
-    description: ''
+    type: "error",
+    title: "Code:" + code,
+    description: "",
   };
   switch (+code) {
     case AuthZStatusOK:
@@ -41,16 +40,17 @@ export const handleErrCodeAuthZ = (data) => {
       return data;
 
     case AuthZStatusBadRequest:
-      errCode.description = "Đăng nhập không thành công. Vui lòng kiểm tra lại Tài khoản hoặc Mật khẩu";
+      errCode.description = "Vui lòng kiểm tra lại Tài khoản hoặc Mật khẩu";
       Notification(errCode);
       return null;
 
     case AuthZStatusUnauthorized:
-      errCode.description = message;
+      errCode.description = "Vui lòng kiểm tra lại Tài khoản hoặc Mật khẩu";
       Notification(errCode);
       return null;
     case AuthZStatusNotFound:
-      errCode.description = message;
+      errCode.description =
+        "Đăng nhập không thành công. Vui lòng kiểm tra lại Tài khoản hoặc Mật khẩu";
       Notification(errCode);
       return null;
     case AuthZStatusConflict:
@@ -65,19 +65,19 @@ export const handleErrCodeAuthZ = (data) => {
       Notification(errCode);
       return null;
     case AuthZWrongPass:
-      errCode.description = 'Đăng nhập không thành công. Vui lòng kiểm tra lại mật khẩu';
+      errCode.description = 'Vui lòng kiểm tra lại mật khẩu';
       Notification(errCode);
       return null;
     case AuthZAccountNotExists:
-      errCode.description = 'Đăng nhập không thành công. Email không tồn tại trong hệ thống';
+      errCode.description = 'Email không tồn tại trong hệ thống';
       Notification(errCode);
       return null;
     case AuthZAccountAlreadyExists:
-      errCode.description = 'Email đã tồn tại trong hệ thống';
+      errCode.description = "Email đã tồn tại trong hệ thống";
       Notification(errCode);
       return null;
     default:
-      errCode.description = 'Unknown';
+      errCode.description = "Unknown";
       Notification(errCode);
       return null;
   }
@@ -95,21 +95,20 @@ const DISK_AGENT_CLIENT_NOT_EXIST = 807;
 const TIME_OUT = 810;
 
 export const handleErrCodeMonitorCtrl = (data) => {
-
   if (isEmpty(data)) {
     const errCode = {
-      type: 'error',
-      title: 'Code: Unknown',
-      description: 'No data'
+      type: "error",
+      title: "Code: Unknown",
+      description: "No data",
     };
     Notification(errCode);
     return null;
   }
   const { code, message, deny_permission_codes } = data;
   const errCode = {
-    type: 'error',
-    title: 'Code:' + code,
-    description: ''
+    type: "error",
+    title: "Code:" + code,
+    description: "",
   };
 
   switch (+code) {
@@ -157,7 +156,7 @@ export const handleErrCodeMonitorCtrl = (data) => {
       return null;
 
     default:
-      errCode.description = 'Unknown';
+      errCode.description = "Unknown";
       Notification(errCode);
       return null;
   }
@@ -169,18 +168,18 @@ const REPORT_BAD_REQUEST = 1301;
 export const handleErrCodeReport = (data) => {
   if (!data) {
     const errCode = {
-      type: 'error',
-      title: 'Code:',
-      description: 'data is null'
+      type: "error",
+      title: "Code:",
+      description: "data is null",
     };
     Notification(errCode);
     return null;
   }
   const { code, message, payload, deny_permission_codes } = data;
   const errCode = {
-    type: 'error',
-    title: 'Code:' + code,
-    description: ''
+    type: "error",
+    title: "Code:" + code,
+    description: "",
   };
   switch (+code) {
     case REPORT_OKE:
@@ -193,7 +192,7 @@ export const handleErrCodeReport = (data) => {
       handleForbiddenCode(deny_permission_codes);
       return null;
     default:
-      errCode.description = 'Unknown';
+      errCode.description = "Unknown";
       Notification(errCode);
       return null;
   }
@@ -207,22 +206,21 @@ const AI_DUPLICATE_ENTITY = 1704;
 const AI_CANNOT_DELETE_ENTITY = 1705;
 const AI_INTERNAL_SERVER_ERROR = 1706;
 
-
 export const handleErrCodeAI = (data) => {
   if (isEmpty(data)) {
     const errCode = {
-      type: 'error',
-      title: 'Code: Unknown',
-      description: 'Unknown'
+      type: "error",
+      title: "Code: Unknown",
+      description: "Unknown",
     };
     Notification(errCode);
     return null;
   }
   const { code, message, payload } = data;
   const errCode = {
-    type: 'error',
-    title: 'Code:' + code,
-    description: ''
+    type: "error",
+    title: "Code:" + code,
+    description: "",
   };
   switch (+code) {
     case AI_OKE:
@@ -240,7 +238,7 @@ export const handleErrCodeAI = (data) => {
       Notification(errCode);
       return null;
     default:
-      errCode.description = 'Unknown';
+      errCode.description = "Unknown";
       Notification(errCode);
       return null;
   }

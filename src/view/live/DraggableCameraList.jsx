@@ -95,7 +95,7 @@ const DraggableCameraList = (props) => {
   }, []);
 
   const buildDraggableId = (camera) => {
-    return camera.uuid + "_" + camera.name + "_" + camera.id;
+    return camera.uuid + "##_" + camera.name + "##_" + camera.id;
   };
   return (
     <div

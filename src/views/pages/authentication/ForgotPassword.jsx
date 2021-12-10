@@ -62,7 +62,6 @@ const ForgotPassword = () => {
     }
 
     const isReset = await UserApi.resetPassword({ email });
-
     if (isReset) {
       setEmail("");
 

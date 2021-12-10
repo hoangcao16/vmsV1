@@ -111,7 +111,7 @@ export default function TableListCamInCamGroup(props) {
 
             <Tooltip placement="top" title={t('delete')}>
               <Popconfirm
-                title={t('noti.delete_role', { this: t('this') })}
+                title={t('noti.delete_camera', { this: t('this'), cam: t("camera") })}
                 onConfirm={() => removeCameraInGroup(record?.uuid)}
               >
                 <DeleteOutlined

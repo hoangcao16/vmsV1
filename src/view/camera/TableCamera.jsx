@@ -82,12 +82,17 @@ const TableCamera = () => {
   const [provinceId, setProvinceId] = useState("");
   const [districts, setDistrict] = useState([]);
   const [districtId, setDistrictId] = useState("");
+  const [wardId, setWardId] = useState("");
+  const [administrativeUnitUuid, setAdministrativeUnitUuid] = useState("");
+  const [address, setAddress] = useState("");
+  const [status,setStatus]=useState("");
+  const [vendorUuid,setVendorUuid] = useState("");
   const [wards, setWard] = useState([]);
   const [form] = Form.useForm();
   const [filterOptions, setFilterOptions] = useState(DATA_FAKE_CAMERA);
   const [total, setTotal] = useState(0);
   const [page, setPage] = useState(1);
-  const [size, setSize] = useState(3);
+  const [size, setSize] = useState(10);
   const [search, setSearch] = useState("");
   const [unit, setUnit] = useState(UNIT.ALL);
   const [isModalVisible, setIsModalVisible] = useState(false);
@@ -103,12 +108,13 @@ const TableCamera = () => {
     setLoading(true);
     let data = {
       name: "",
-      provinceId: "",
-      districtId: "",
-      id: "",
-      administrativeUnitUuid: "",
-      vendorUuid: "",
-      status: "",
+      address:address,
+      provinceId: provinceId,
+      districtId: districtId,
+      id: wardId,
+      administrativeUnitUuid: administrativeUnitUuid,
+      vendorUuid: vendorUuid,
+      starecordingStatustus: status,
       page: page,
       size: size,
     };
@@ -125,12 +131,21 @@ const TableCamera = () => {
   useEffect(() => {
     setLoading(true);
     let data = {
+      address:address,
       name: search,
       searchType: unit,
       searchValue: search,
+      provinceId: provinceId,
+      districtId: districtId,
+      id: wardId,
+      administrativeUnitUuid: administrativeUnitUuid,
+      vendorUuid: vendorUuid,
+      recordingStatus: status,
       page: page,
       size: size,
     };
+
+    console.log('data:',data)
 
     CameraApi.getAllCameraWidthTotal(data)
       .then((result) => {
@@ -144,8 +159,15 @@ const TableCamera = () => {
   useEffect(() => {
     setLoading(true);
     let data = {
+      address:address,
       searchType: unit,
       searchValue: search,
+      provinceId: provinceId,
+      districtId: districtId,
+      id: wardId,
+      administrativeUnitUuid: administrativeUnitUuid,
+      vendorUuid: vendorUuid,
+      recordingStatus: status,
       page: page,
       size: size,
     };
@@ -162,13 +184,14 @@ const TableCamera = () => {
   const handleDelete = async (cameraId) => {
     const isDeleted = await CameraApi.delete(cameraId);
     let data = {
-      name: "",
-      provinceId: "",
-      districtId: "",
-      id: "",
-      administrativeUnitUuid: "",
-      vendorUuid: "",
-      status: "",
+      name:search,
+      address:address,
+      provinceId: provinceId,
+      districtId: districtId,
+      id: wardId,
+      administrativeUnitUuid: administrativeUnitUuid,
+      vendorUuid: vendorUuid,
+      recordingStatus: status,
       page: page,
       size: size,
     };
@@ -203,7 +226,14 @@ const TableCamera = () => {
     // setLoading(true);
     let data = {
       searchType: unit,
+      address:address,
       searchValue: value,
+      provinceId: provinceId,
+      districtId: districtId,
+      id: wardId,
+      administrativeUnitUuid: administrativeUnitUuid,
+      vendorUuid: vendorUuid,
+      recordingStatus: status,
       page: page,
       size: size,
     };
@@ -290,6 +320,13 @@ const TableCamera = () => {
     let data = {
       searchType: unit,
       searchValue: "",
+      address:address,
+      provinceId: provinceId,
+      districtId: districtId,
+      id: wardId,
+      administrativeUnitUuid: administrativeUnitUuid,
+      vendorUuid: vendorUuid,
+      recordingStatus: status,
       page: page,
       size: size,
     };
@@ -350,6 +387,15 @@ const TableCamera = () => {
   };
 
   const handleSubmit = async (value) => {
+
+    setDistrictId(value.districtId??"");
+    setProvinceId(value.provinceId??"");
+    setWardId(value.wardId??"");
+    setAdministrativeUnitUuid(value.administrativeUnitUuid??"")
+    setStatus(value.recordingStatus??"")
+    setVendorUuid(value.vendorUuid??"")
+    setAddress(value.address??"")
+
     const payload = {
       ...value,
       page: page,
