@@ -93,8 +93,6 @@ function Sidebar(props) {
   useEffect(() => {
     fetchSelectOptions().then((data) => {
       setFilterOptions(data);
-      console.log("data", data);
-      // setSelectedRowKeys([data?.fields[0]?.eventList[0].uuid]);
 
       if (
         !isEmpty(data) &&
@@ -133,7 +131,7 @@ function Sidebar(props) {
           provinceId: ["2"],
           districtId: "",
           wardId: "",
-          fieldId: data?.fields[0].uuid,
+          fieldId: data?.fields[0]?.uuid,
           eventList: arr,
         };
         props.callData(clearData(dataDefault));
@@ -214,9 +212,9 @@ function Sidebar(props) {
     const dataFilter = fields.find((f) => f.uuid === feildId);
     props.changeTitle(dataFilter.name);
     setFeildIds(dataFilter.uuid);
-    if (!isEmpty(dataFilter.eventList[0])) {
-      setEventList(dataFilter.eventList);
-      props.changeCount(dataFilter.eventList[0]);
+    if (!isEmpty(dataFilter?.eventList[0])) {
+      setEventList(dataFilter?.eventList);
+      props.changeCount(dataFilter?.eventList[0]);
     } else {
       let arr = [""];
       props.changeCount(arr);
@@ -245,7 +243,7 @@ function Sidebar(props) {
       }
     }
 
-    setSelectedRowKeys([dataFilter.eventList[0].uuid]);
+    setSelectedRowKeys([dataFilter?.eventList[0]?.uuid]);
   };
 
   //const blurCity = async (cityIdArr) => {
@@ -261,7 +259,7 @@ function Sidebar(props) {
 
     if (cityIdArr.length == 1) {
       let arr = [];
-      arr[0] = filterOptions?.fields[0]?.eventList[0].uuid;
+      arr[0] = filterOptions?.fields[0]?.eventList[0]?.uuid;
       props.changeCount(arr);
       setHiddenDistrictAndWard(true);
       setHiddenWard(true);
@@ -270,7 +268,7 @@ function Sidebar(props) {
       if (isEmpty(eventList)) {
         setSelectedRowKeys(null);
       } else {
-        setSelectedRowKeys([eventList[0].uuid]);
+        setSelectedRowKeys([eventList[0]?.uuid]);
       }
       form.setFieldsValue({ districtId: undefined, wardId: undefined });
 
@@ -286,7 +284,7 @@ function Sidebar(props) {
       if (isEmpty(eventList)) {
         setSelectedRowKeys(null);
       } else {
-        setSelectedRowKeys([eventList[0].uuid]);
+        setSelectedRowKeys([eventList[0]?.uuid]);
       }
       return;
     } else if (cityIdArr.length > 5) {
@@ -317,7 +315,7 @@ function Sidebar(props) {
   const onChangeDistrict = async (districtIdArr) => {
     if (districtIdArr.length === 1) {
       let arr = [];
-      arr[0] = filterOptions?.fields[0]?.eventList[0].uuid;
+      arr[0] = filterOptions?.fields[0]?.eventList[0]?.uuid;
       props.changeCount(arr);
       setHiddenWard(true);
       setisShowLineAndPieChart(true);
@@ -325,7 +323,7 @@ function Sidebar(props) {
       if (isEmpty(eventList)) {
         setSelectedRowKeys(null);
       } else {
-        setSelectedRowKeys([eventList[0].uuid]);
+        setSelectedRowKeys([eventList[0]?.uuid]);
       }
 
       form.setFieldsValue({ wardId: undefined });
@@ -339,7 +337,7 @@ function Sidebar(props) {
       if (isEmpty(eventList)) {
         setSelectedRowKeys(null);
       } else {
-        setSelectedRowKeys([eventList[0].uuid]);
+        setSelectedRowKeys([eventList[0]?.uuid]);
       }
 
       form.setFieldsValue({ wardId: undefined });
@@ -373,7 +371,7 @@ function Sidebar(props) {
       if (isEmpty(eventList)) {
         setSelectedRowKeys(null);
       } else {
-        setSelectedRowKeys([eventList[0].uuid]);
+        setSelectedRowKeys([eventList[0]?.uuid]);
       }
 
       form.setFieldsValue({ districtId: undefined, wardId: undefined });
@@ -384,7 +382,7 @@ function Sidebar(props) {
   const onChangeWard = (wardIdArr) => {
     if (wardIdArr.length === 1) {
       let arr = [];
-      arr[0] = filterOptions?.fields[0]?.eventList[0].uuid;
+      arr[0] = filterOptions?.fields[0]?.eventList[0]?.uuid;
       props.changeCount(arr);
       setWardId(wardIdArr);
       setisShowLineAndPieChart(true);
@@ -392,7 +390,7 @@ function Sidebar(props) {
       if (isEmpty(eventList)) {
         setSelectedRowKeys(null);
       } else {
-        setSelectedRowKeys([eventList[0].uuid]);
+        setSelectedRowKeys([eventList[0]?.uuid]);
       }
 
       return;
@@ -402,7 +400,7 @@ function Sidebar(props) {
       if (isEmpty(eventList)) {
         setSelectedRowKeys(null);
       } else {
-        setSelectedRowKeys([eventList[0].uuid]);
+        setSelectedRowKeys([eventList[0]?.uuid]);
       }
 
       props.changeChart(false);
@@ -435,7 +433,7 @@ function Sidebar(props) {
       if (isEmpty(eventList)) {
         setSelectedRowKeys(null);
       } else {
-        setSelectedRowKeys([eventList[0].uuid]);
+        setSelectedRowKeys([eventList[0]?.uuid]);
       }
 
       form.setFieldsValue({ wardId: undefined });
@@ -445,7 +443,6 @@ function Sidebar(props) {
 
   const eventColumns = [
     {
-<<<<<<< HEAD
       key: "name",
       fixed: "left",
       dataIndex: "name",
@@ -465,12 +462,6 @@ function Sidebar(props) {
           );
         }
       },
-=======
-      dataIndex: "name",
-      key: "name",
-      fixed: "left",
-      className: "headerColums",
->>>>>>> f924f464f38bbb4838c0dd7b188a48dbd1ae1908
     },
   ];
 
