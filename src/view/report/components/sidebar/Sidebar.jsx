@@ -100,22 +100,22 @@ function Sidebar(props) {
         data &&
         !isEmpty(data.fields) &&
         !isEmpty(data?.fields[0]?.eventList) &&
-        !isEmpty(data?.fields[0]?.eventList[0].uuid) &&
-        !isEmpty(data?.fields[0]?.eventList[1].uuid) &&
-        !isEmpty(data?.fields[0]?.eventList[2].uuid)
+        !isEmpty(data?.fields[0]?.eventList[0]?.uuid) &&
+        !isEmpty(data?.fields[0]?.eventList[1]?.uuid) &&
+        !isEmpty(data?.fields[0]?.eventList[2]?.uuid)
       ) {
         // setCheck(data?.)
         setEventList(data?.fields[0]?.eventList);
         let arr = [];
-        arr[0] = data?.fields[0]?.eventList[0].uuid;
-        arr[1] = data?.fields[0]?.eventList[1].uuid;
-        arr[2] = data?.fields[0]?.eventList[2].uuid;
+        arr[0] = data?.fields[0]?.eventList[0]?.uuid;
+        arr[1] = data?.fields[0]?.eventList[1]?.uuid;
+        arr[2] = data?.fields[0]?.eventList[2]?.uuid;
         setSelectedRowKeys(arr);
 
-        props.changeTitle(data?.fields[0].name);
+        props.changeTitle(data?.fields[0]?.name);
 
         form.setFieldsValue({
-          fieldId: data?.fields[0].uuid,
+          fieldId: data?.fields[0]?.uuid,
         });
 
         setFeildIds(data?.fields[0].uuid);
@@ -605,7 +605,7 @@ function Sidebar(props) {
   function disabledDateTimeStartDay(current) {
     const start = moment(timeEndDay).subtract(11, "days");
     const end = moment(timeEndDay).subtract(1, "days");
-    return current < start || current > end + 1;
+    return current < start - 1 || current > end;
   }
 
   function disabledDateTimeEndDay(current) {
