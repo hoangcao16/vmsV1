@@ -35,13 +35,17 @@ const TabRect = (props) => {
   const [directionV, setDirectionV] = React.useState("");
   const [threshold, setThreshold] = React.useState(0);
   const [keyActive, setKeyActive] = React.useState(0);
-  
+  let coordinates = [];
 
   const canvasRef = useRef(null);
+  const canvasRefRect = useRef(null);
   let fromX = 0, fromY = 0, toX = 0, toY = 0, direction = 2;
   let isFromPointMouseDown = false;
   let isToPointMouseDown = false;
   let timerIdentifier = null;
+  let timerIdentifierRect = null;
+  let videoSlotSize = {};
+  let videoSlotSizeRect = {};
 
   const formItemLayout = {
     wrapperCol: { span: 24 },
@@ -163,8 +167,6 @@ const TabRect = (props) => {
     }
   ];
 
-  console.log(">>>>> cameraUuid: ", cameraUuid);
-
   const options = [
     { label: `${t('view.ai_config.human')}`, value: 'human' },
     { label: `${t('view.ai_config.vehicle')}`, value: 'vehicle' },
@@ -173,7 +175,10 @@ const TabRect = (props) => {
   useEffect(() => {
   }, []);
 
+  console.log("(1) >>>>> cameraUuid: ", cameraUuid, ", type: ", type);
+
   useEffect(() => {
+    console.log("(2) >>>>> cameraUuid: ", cameraUuid, ", type: ", type);
     if (cameraUuid != null && cameraUuid !== "") {
       const data = {
         type: type,
@@ -202,8 +207,6 @@ const TabRect = (props) => {
       }
     }
   }, [cameraUuid, type]);
-
-  
 
   const onSelectChange = (selectedRowKeys) => {
     setSelectedRowKeys(selectedRowKeys);
@@ -283,10 +286,10 @@ const TabRect = (props) => {
     pc.addTransceiver("video");
     pc.oniceconnectionstatechange = () => {
     };
-    const spin = document.getElementById("spin-slot");
+    const spin = document.getElementById("spin-slot-"+type);
     pc.ontrack = (event) => {
       //binding and play
-      const video = document.getElementById("video-slot");
+      const video = document.getElementById("video-slot-"+type);
       if (video) {
         video.srcObject = event.streams[0];
         video.autoplay = true;
@@ -334,58 +337,143 @@ const TabRect = (props) => {
   };
 
   const closeCamera = () => {
-    const video = document.getElementById("video-slot");
+    const video = document.getElementById("video-slot-"+type);
     video.srcObject = null;
     video.style.display = "none";
     if (timerIdentifier != null) clearTimeout(timerIdentifier);
-    window.removeEventListener('resize', resizeEventHandler);
+    if (timerIdentifierRect != null) clearTimeout(timerIdentifierRect);
+    window.removeEventListener('resize', resizeLineCanvasEventHandler);
+    window.removeEventListener('resize', resizeRectCanvasEventHandler);
   };
 
-  const initLine = (initDirection) => {
-    if (timerIdentifier != null) clearTimeout(timerIdentifier);
-    const video = document.getElementById("video-slot");
-    const canvas = document.getElementById("canvas-slot");
+  const initRect = () => {
+    if (timerIdentifierRect != null) clearTimeout(timerIdentifierRect);
+    const video = document.getElementById("video-slot-"+type);
+    const canvas = document.getElementById("canvas-slot-"+type);
     if (canvas !== null) {
       canvas.style.display = "block";
       canvas.width = video.clientWidth;
       canvas.height = video.clientHeight;
+      videoSlotSizeRect = {w: video.clientWidth, h: video.clientHeight};
+      coordinates = [];
+      coordinates.push({x: video.clientWidth / 4, y: video.clientHeight / 4, mouseDown: false});
+      coordinates.push({x: (video.clientWidth / 4) * 3, y: video.clientHeight / 4, mouseDown: false});
+      coordinates.push({x: (video.clientWidth / 4) * 3, y: (video.clientHeight / 4) * 3, mouseDown: false});
+      coordinates.push({x: video.clientWidth / 4, y: (video.clientHeight / 4) * 3, mouseDown: false});
+      drawRect();
+      window.addEventListener('resize', resizeRectCanvasEventHandler);
+    }
+  }
+
+  const drawRect = () => {
+    const canvas = document.getElementById("canvas-slot-"+type);
+    if (canvas !== null) {
+      const ctx = canvas.getContext('2d');
+      ctx.clearRect(0, 0, canvas.width, canvas.height);
+
+      ctx.lineWidth = '1'; // width of the line
+      ctx.strokeStyle = 'yellow'; // color of the line
+      ctx.fillStyle = "red";
+      ctx.font = "12px Arial";
+      ctx.lineJoin = ctx.lineCap = "round";
+
+      // Draw rect
+      ctx.beginPath();
+      ctx.moveTo(coordinates[0].x, coordinates[0].y);
+      for (let index = 1; index < coordinates.length; index++) {
+        ctx.lineTo(coordinates[index].x, coordinates[index].y);
+      }
+      ctx.closePath();
+      ctx.stroke();
+
+      // Rect number
+      ctx.fillText("#1#", coordinates[0].x - 15, coordinates[0].y - 10);
+
+      // Rect at all points
+      ctx.beginPath();
+      for (let index = 0; index < coordinates.length; index++) {
+        ctx.fillRect(coordinates[index].x - 2.5, coordinates[index].y - 2.5, 5, 5);
+      }
+      ctx.closePath();
+    }
+  }
+
+  const initLine = (initDirection) => {
+    if (timerIdentifier != null) clearTimeout(timerIdentifier);
+    const video = document.getElementById("video-slot-"+type);
+    const canvas = document.getElementById("canvas-slot-"+type);
+    if (canvas !== null) {
+      canvas.style.display = "block";
+      canvas.width = video.clientWidth;
+      canvas.height = video.clientHeight;
+      videoSlotSize = {w: video.clientWidth, h: video.clientHeight};
       fromX = video.clientWidth / 2;
       fromY = video.clientHeight / 4;
       toX = video.clientWidth / 2;
       toY = (video.clientHeight / 4) * 3;
       direction = initDirection;
       drawLine();
-      window.addEventListener('resize', resizeEventHandler);
+      window.addEventListener('resize', resizeLineCanvasEventHandler);
     }
   }
 
   const clearEventHandler = () => {
-    const canvas = document.getElementById("canvas-slot");
+    const canvas = document.getElementById("canvas-slot-"+type);
     if (canvas !== null) {
       const ctx = canvas.getContext('2d');
       ctx.clearRect(0, 0, canvas.width, canvas.height);
     }
   }
 
-  const resizeEventHandler = (event) => {
-    const video = document.getElementById("video-slot");
-    const canvas = document.getElementById("canvas-slot");
+  const resizeLineCanvasEventHandler = (event) => {
+    let video = document.getElementById("video-slot-hurdles");
+    const canvas = document.getElementById("canvas-slot-hurdles");
     if (canvas !== null) {
       if (timerIdentifier != null) clearTimeout(timerIdentifier);
+      let w = video.clientWidth, h = video.clientHeight;
+      if (video.clientWidth === 0) { // In case video is not active
+        video = document.getElementById("video-slot-intrusion_detection");
+        w = video.clientWidth;
+        h = video.clientHeight;
+      }
       timerIdentifier = setTimeout(() => {
-        fromX = video.clientWidth * fromX / canvas.width;
-        fromY = video.clientHeight * fromY / canvas.height;
-        toX = video.clientWidth * toX / canvas.width;
-        toY = video.clientHeight * toY / canvas.height;
-        canvas.width = video.clientWidth;
-        canvas.height = video.clientHeight;
+        fromX = w * fromX / canvas.width;
+        fromY = h * fromY / canvas.height;
+        toX = w * toX / canvas.width;
+        toY = h * toY / canvas.height;
+        canvas.width = w;
+        canvas.height = h;
         drawLine();
       }, 100);
     }
   }
 
+  const resizeRectCanvasEventHandler = (event) => {
+    let video = document.getElementById("video-slot-intrusion_detection");
+    const canvas = document.getElementById("canvas-slot-intrusion_detection");
+    if (canvas !== null) {
+      if (timerIdentifierRect != null) clearTimeout(timerIdentifierRect);
+      let w = video.clientWidth, h = video.clientHeight;
+      if (video.clientWidth === 0) { // In case video is not active
+        video = document.getElementById("video-slot-hurdles");
+        w = video.clientWidth;
+        h = video.clientHeight;
+      }
+      timerIdentifierRect = setTimeout(() => {
+        for (let index = 0; index < coordinates.length; index++) {
+          let x = w * coordinates[index].x / canvas.width;
+          let y = h * coordinates[index].y / canvas.height;
+          coordinates[index] = {...coordinates[index], x: x, y: y};
+        }
+        canvas.width = w;
+        canvas.height = h;
+        drawRect();
+      }, 100);
+    }
+  }
+
   const drawLine = () => {
-    const canvas = document.getElementById("canvas-slot");
+    const canvas = document.getElementById("canvas-slot-"+type);
     if (canvas !== null) {
       const ctx = canvas.getContext('2d');
       ctx.clearRect(0, 0, canvas.width, canvas.height);
@@ -449,7 +537,7 @@ const TabRect = (props) => {
         }
       } else { //fromX == toX
         fRectX = fromX - 2.5;
-        tRectX = toX - 5;
+        tRectX = toX - 2.5;
         if (fromY < toY) {
           fRectY = fromY - 5;
           tRectY = toY;
@@ -537,58 +625,123 @@ const TabRect = (props) => {
   }
 
   const canvasMouseDown = (event) => {
-    const position = canvasRef.current.getBoundingClientRect();
-    const x = event.clientX - position.left;
-    const y = event.clientY - position.top;
-    if (x <= (fromX + 10) && x >= (fromX - 10)
-      && y <= (fromY + 10) && y >= (fromY - 10)) {
-      canvasRef.current.style.cursor = "grabbing";
-      isFromPointMouseDown = true;
-    }
-    if (x <= (toX + 10) && x >= (toX - 10)
-      && y <= (toY + 10) && y >= (toY - 10)) {
-      canvasRef.current.style.cursor = "grabbing";
-      isToPointMouseDown = true;
+    switch (type) {
+      case "hurdles":
+        const position = canvasRef.current.getBoundingClientRect();
+        const x = event.clientX - position.left;
+        const y = event.clientY - position.top;
+        if (x <= (fromX + 10) && x >= (fromX - 10)
+            && y <= (fromY + 10) && y >= (fromY - 10)) {
+          canvasRef.current.style.cursor = "grabbing";
+          isFromPointMouseDown = true;
+        }
+        if (x <= (toX + 10) && x >= (toX - 10)
+            && y <= (toY + 10) && y >= (toY - 10)) {
+          canvasRef.current.style.cursor = "grabbing";
+          isToPointMouseDown = true;
+        }
+        break;
+      case "intrusion_detection":
+        const position_ = canvasRefRect.current.getBoundingClientRect();
+        const x_ = event.clientX - position_.left;
+        const y_ = event.clientY - position_.top;
+
+        for (let index = 0; index < coordinates.length; index++) {
+          if (x_ <= (coordinates[index].x + 10) && x_ >= (coordinates[index].x - 10)
+              && y_ <= (coordinates[index].y + 10) && y_ >= (coordinates[index].y - 10)) {
+            canvasRefRect.current.style.cursor = "grabbing";
+            coordinates[index] = {...coordinates[index], mouseDown: true};
+            break;
+          }
+        }
+        break;
     }
     event.preventDefault();
   }
 
   const canvasMouseUp = (event) => {
-    const position = canvasRef.current.getBoundingClientRect();
-    const x = event.clientX - position.left;
-    const y = event.clientY - position.top;
-    if ((x <= (fromX + 10) && x >= (fromX - 10) && y <= (fromY + 10) && y >= (fromY - 10))
-      || (x <= (toX + 10) && x >= (toX - 10) && y <= (toY + 10) && y >= (toY - 10))) {
-      canvasRef.current.style.cursor = "grab";
-    } else {
-      canvasRef.current.style.cursor = "default";
+    switch (type) {
+      case "hurdles":
+        const position = canvasRef.current.getBoundingClientRect();
+        const x = event.clientX - position.left;
+        const y = event.clientY - position.top;
+        if ((x <= (fromX + 10) && x >= (fromX - 10) && y <= (fromY + 10) && y >= (fromY - 10))
+            || (x <= (toX + 10) && x >= (toX - 10) && y <= (toY + 10) && y >= (toY - 10))) {
+          canvasRef.current.style.cursor = "grab";
+        } else {
+          canvasRef.current.style.cursor = "default";
+        }
+        isFromPointMouseDown = false;
+        isToPointMouseDown = false;
+        break;
+      case "intrusion_detection":
+        const position_ = canvasRefRect.current.getBoundingClientRect();
+        const x_ = event.clientX - position_.left;
+        const y_ = event.clientY - position_.top;
+        for (let index = 0; index < coordinates.length; index++) {
+          coordinates[index] = {...coordinates[index], mouseDown: false};
+          if (x_ <= (coordinates[index].x + 10) && x_ >= (coordinates[index].x - 10)
+              && y_ <= (coordinates[index].y + 10) && y_ >= (coordinates[index].y - 10)) {
+            canvasRefRect.current.style.cursor = "grab";
+            break;
+          }else{
+            canvasRefRect.current.style.cursor = "default";
+          }
+        }
+        break;
     }
-    isFromPointMouseDown = false;
-    isToPointMouseDown = false;
     event.preventDefault();
   }
 
   const canvasMouseMove = (event) => {
-    const position = canvasRef.current.getBoundingClientRect();
-    const x = event.clientX - position.left;
-    const y = event.clientY - position.top;
-    if (!isFromPointMouseDown && !isToPointMouseDown) {
-      if ((x <= (fromX + 10) && x >= (fromX - 10) && y <= (fromY + 10) && y >= (fromY - 10))
-        || (x <= (toX + 10) && x >= (toX - 10) && y <= (toY + 10) && y >= (toY - 10))) {
-        canvasRef.current.style.cursor = "grab";
-      } else {
-        canvasRef.current.style.cursor = "default";
-      }
-    }
-    if (isFromPointMouseDown) {
-      fromX = x;
-      fromY = y;
-      drawLine();
-    }
-    if (isToPointMouseDown) {
-      toX = x;
-      toY = y;
-      drawLine();
+    switch (type) {
+      case "hurdles":
+        const position = canvasRef.current.getBoundingClientRect();
+        const x = event.clientX - position.left;
+        const y = event.clientY - position.top;
+        if (!isFromPointMouseDown && !isToPointMouseDown) {
+          if ((x <= (fromX + 10) && x >= (fromX - 10) && y <= (fromY + 10) && y >= (fromY - 10))
+              || (x <= (toX + 10) && x >= (toX - 10) && y <= (toY + 10) && y >= (toY - 10))) {
+            canvasRef.current.style.cursor = "grab";
+          } else {
+            canvasRef.current.style.cursor = "default";
+          }
+        }
+        if (isFromPointMouseDown) {
+          fromX = x;
+          fromY = y;
+          drawLine();
+        }
+        if (isToPointMouseDown) {
+          toX = x;
+          toY = y;
+          drawLine();
+        }
+        break;
+      case "intrusion_detection":
+        const position_ = canvasRefRect.current.getBoundingClientRect();
+        const x_ = event.clientX - position_.left;
+        const y_ = event.clientY - position_.top;
+        for (let index = 0; index < coordinates.length; index++) {
+          if (!coordinates[index].mouseDown) {
+            if (x_ <= (coordinates[index].x + 10) && x_ >= (coordinates[index].x - 10)
+                && y_ <= (coordinates[index].y + 10) && y_ >= (coordinates[index].y - 10)) {
+              canvasRefRect.current.style.cursor = "grab";
+              break;
+            } else {
+              canvasRefRect.current.style.cursor = "default";
+            }
+          } else {
+            coordinates[index] = {...coordinates[index], x: x_, y: y_};
+          }
+        }
+        for (let index = 0; index < coordinates.length; index++) {
+          if (coordinates[index].mouseDown){
+            drawRect();
+            break;
+          }
+        }
+        break;
     }
     event.preventDefault();
   }
@@ -613,21 +766,21 @@ const TabRect = (props) => {
                 }
                 {cameraUuid && (
                   <div className="camera__monitor">
-                    <canvas id="canvas-slot" className="canvas-slot" ref={canvasRef}
+                    <canvas id={`canvas-slot-${type}`} className="canvas-slot" ref={type==="hurdles"?canvasRef:canvasRefRect}
                       onMouseUp={canvasMouseUp}
                       onMouseDown={canvasMouseDown} onMouseMove={canvasMouseMove}
                       width="100%" style={{ display: "none" }} />
                     <Spin
                       className="video-js"
                       size="large"
-                      id="spin-slot"
+                      id={`spin-slot-${type}`}
                       style={{ display: "none" }}
                     />
                     <video
                       className="video-js"
                       width="100%"
                       autoPlay="1"
-                      id="video-slot"
+                      id={`video-slot-${type}`}
                       style={{ display: "none" }}
                     >
                       Trình duyệt không hỗ trợ thẻ video.
@@ -638,7 +791,11 @@ const TabRect = (props) => {
                   style={{ marginTop: "20px" }}>
                   <Button
                     onClick={() => {
-                      initLine(2);
+                      if (type === "hurdles") {
+                        initLine(2);
+                      }else{
+                        initRect();
+                      }
                     }}
                     type="primary" htmlType="submit ">
                     {t('view.ai_config.draw.' + type)}
@@ -659,7 +816,7 @@ const TabRect = (props) => {
                   onFinish={handleSubmit}
                   initialValues={dataRect}
                 >
-                  {type == "intrusion_detection" ?
+                  {type === "intrusion_detection" ?
                     <Row gutter={24} style={{ marginTop: "20px" }}>
                       <Col span={12} style={{ flex: 'none' }}>
                         <p className="threshold">{t('view.ai_config.time_threshold')}</p>
