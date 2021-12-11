@@ -4,7 +4,7 @@ import exportIcon from '../../../../assets/img/icons/report/file-export 2.png';
 import './ExportReport.scss';
 import { useTranslation } from 'react-i18next';
 import ReportApi from '../../../../actions/api/report/ReportApi';
-import { saveAs } from 'file-saver';
+import fileDownload from 'js-file-download'
 import moment from 'moment';
 
 export default function ExportReport(props) {
@@ -27,17 +27,11 @@ export default function ExportReport(props) {
       typeChart:type
     }
     await ReportApi.getExportData(data).then((value) => {
-      var data = new Blob([value], {type: 'application/json'});
-      var xlsxURL = window.URL.createObjectURL(data);
-      var link = document.createElement("a");
-      document.body.appendChild(link);
-      link.href = xlsxURL;
-      link.download = `Report_${moment().format("DD.MM.YYYY_HH.mm.ss")}.xlsx`;
-      link.click();
+      debugger;
+      const data = new Blob([value], {type: "application/vnd.ms-excel"});
+      fileDownload(data, `Report_${moment().format("DD.MM.YYYY_HH.mm.ss")}.xlsx`);
     })
-    
   }
-
 
   return (
      <div className="Export" onClick={handleExport}>
