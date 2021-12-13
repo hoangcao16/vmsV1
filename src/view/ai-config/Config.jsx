@@ -50,6 +50,7 @@ export const CATEGORY_NAME = {
 
 const {Option} = Select;
 const Config = () => {
+
     const {t} = useTranslation();
     const language = reactLocalStorage.get('language');
     const [selectedHumansId, setSelectedHumansId] = useState(null);

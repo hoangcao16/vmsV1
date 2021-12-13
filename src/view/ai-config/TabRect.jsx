@@ -32,9 +32,10 @@ const TabRect = (props) => {
   const [checkAll, setCheckAll] = React.useState(false);
   const [dataRectList, setDataRectList] = React.useState([]);
   const [dataRect, setDataRect] = React.useState({});
-  const [directionV, setDirectionV] = React.useState("");
   const [threshold, setThreshold] = React.useState(0);
   const [keyActive, setKeyActive] = React.useState(0);
+  const [isActive, setIsActive] = React.useState(false);
+  const [isActiveDetail, setIsActiveDetail] = React.useState(false);
   let coordinates = [];
 
   const canvasRef = useRef(null);
@@ -52,16 +53,132 @@ const TabRect = (props) => {
     labelCol: { span: 24 },
   };
 
+  const handleDoneRenamePreset = async (e, record) => {
+    const value = document
+      .getElementById(`input-name-preset-${record.key}`)
+      .value.trim();
+    if (value.length >= 30 || value.length === 0) {
+      //validate
+      const warnNotyfi = {
+        type: NOTYFY_TYPE.warning,
+        title: "Thất bại",
+        description: "Độ dài tên cần lớn hơn 0 nhỏ hơn 100 kí tự",
+        duration: 2,
+      };
+      Notification(warnNotyfi);
+      return;
+    } else {
+      const body = {
+        cameraUuid: cameraUuid,
+        type: type,
+        name: value,
+        uuid: record.uuid
+      };
+
+      try {
+        AIConfigRectApi.editConfigRectName(body).then((result) => {
+          let dataNew = [...dataRectList]
+          dataNew.map((data, index) => {
+            if (data.key === record.key) {
+              data.uuid = result.uuid;
+            }
+          })
+
+          setDataRectList(dataNew);
+        });
+
+        document.getElementById(
+          `rename__preset-${record.key}`
+        ).style.display = "none";
+        const successNotyfi = {
+          type: NOTYFY_TYPE.success,
+          title: `${t("noti.success")}`,
+          description: "Bạn đã đổi tên preset thành công",
+          duration: 2,
+        };
+        Notification(successNotyfi);
+      } catch (error) {
+        const warnNotyfi = {
+          type: NOTYFY_TYPE.warning,
+          description: "Đã xảy ra lỗi",
+          duration: 2,
+        };
+        Notification(warnNotyfi);
+        console.log(error);
+      }
+    }
+  };
+
   const handleFocusInputNamePreset = (record) => {
     document.getElementById(`rename__preset-${record.key}`).style.display =
       "flex";
   };
 
-  const handleSubmit = () => {
+
+  const handleCloseRenamePreset = (e, record) => {
+    e.stopPropagation();
+    document.getElementById(`input-name-preset-${record.idPreset}`).value =
+      dataRectList[record.key].name;
+    document.getElementById(`rename__preset-${record.idPreset}`).style.display =
+      "none";
+  };
+
+  const handleSubmit = async (value) => {
+    
+    const name = document
+    .getElementById(`input-name-preset-${keyActive}`)
+    .value.trim();
+    const payload = {
+      ...dataRect,
+      type: type,
+      cameraUuid: cameraUuid,
+      peopleDetection: checkedList.includes('human'),
+      vehicleDetection: checkedList.includes('vehicle'),
+      threshold: value.threshold,
+      status: "1",
+      direction: value.direction,
+      name: name,
+      points: [[]]
+
+    };
+    let data = dataRect
+    
+    try {
+      AIConfigRectApi.addConfigRect(payload).then((result) => {
+        setDefaultDataRect(result)
+      });
+
+    } catch (error) {
+      const warnNotyfi = {
+        type: NOTYFY_TYPE.warning,
+        description: "Đã xảy ra lỗi",
+        duration: 2,
+      };
+      Notification(warnNotyfi);
+      console.log(error);
+    }
+    
+    
+  };
+
+  function setDefaultDataRect(data) {
+    setDataRect(data)
+    let checkList = []
+    if (data.peopleDetection) {
+      checkList.push("human")
+    }
+    if (data.vehicleDetection) {
+      checkList.push("vehicle")
+    }
+    setCheckedList(checkList)
+    form.setFieldsValue({
+      threshold: 100,
+      direction: data.direction
+    })
   }
 
   const onChangeTimeTypeTwo = (value) => {
-    setDirectionV(value)
+    // setDirectionV(value)
     // //create data
     // let configCleanFileNew = cleanSettingData.configCleanFile;
     // configCleanFileNew[2].timeType = value;
@@ -86,7 +203,7 @@ const TabRect = (props) => {
   const columnTables = [
     {
       title: 'No',
-      dataIndex: 'no',
+      dataIndex: 'lineNo',
     },
     {
       title: 'Name',
@@ -108,6 +225,20 @@ const TabRect = (props) => {
               id={`rename__preset-${record.key}`}
               style={{ display: "none" }}
             >
+              <CheckOutlined
+                id={`confirm-done-icon-rename-${record.key}`}
+                onClick={(e) => {
+                  e.stopPropagation();
+                  handleDoneRenamePreset(e, record);
+                }}
+              />
+              <CloseOutlined
+                id={`confirm-close-icon-rename-${record.key}`}
+                onClick={(e) => {
+                  e.stopPropagation();
+                  handleCloseRenamePreset(e, record);
+                }}
+              />
             </span>
           </>
         );
@@ -138,18 +269,22 @@ const TabRect = (props) => {
     {
       className: 'action-1',
       title: () => {
-        return (
-          <div style={{ textAlign: 'center' }}>
-            <Button
-              size="small"
-              type="primary"
-              className="ml-2 mr-2"
-              onClick={onPlusConfigRect}
-            >
-              <PlusOutlined className="d-flex justify-content-between align-center" />
-            </Button>
-          </div>
-        );
+        if (isActive) {
+          return (
+            <div style={{ textAlign: 'center' }}>
+              <Button
+                disabled={!isActive}
+                size="small"
+                type="primary"
+                className="ml-2 mr-2"
+                onClick={onPlusConfigRect}
+              >
+                <PlusOutlined className="d-flex justify-content-between align-center" />
+              </Button>
+            </div>
+          );
+        }
+
       },
       dataIndex: 'action',
       render: (_text, record) => {
@@ -157,7 +292,7 @@ const TabRect = (props) => {
           <Space>
             <Popconfirm
               title={t('noti.delete_category', { this: t('this') })}
-              onConfirm={() => handleDelete(record.key)}
+              onConfirm={() => handleDelete(record)}
             >
               <DeleteOutlined style={{ fontSize: '16px', color: '#6E6B7B' }} />
             </Popconfirm>
@@ -180,6 +315,7 @@ const TabRect = (props) => {
   useEffect(() => {
     console.log("(2) >>>>> cameraUuid: ", cameraUuid, ", type: ", type);
     if (cameraUuid != null && cameraUuid !== "") {
+      setIsActive(true)
       const data = {
         type: type,
         cameraUuid: cameraUuid
@@ -189,11 +325,18 @@ const TabRect = (props) => {
         const itemRectList = [];
         let i = 1;
         result?.configRect && result.configRect.map(result => {
+          let date = Date.now();
           itemRectList.push({
-            key: i,
+            key: --date + i,
+            uuid: result.uuid,
             name: result.name,
-            no: result.lineNo,
+            lineNo: i,
             status: result.status,
+            objectDetection: result.objectDetection,
+            vehicleDetection: result.vehicleDetection,
+            peopleDetection: result.peopleDetection,
+            direction: result.direction,
+            threshold: result.threshold
           })
           i++;
         })
@@ -224,42 +367,80 @@ const TabRect = (props) => {
   };
 
   const onCheckAllChange = e => {
-    setCheckedList(e.target.checked ? options : []);
+    const checkList = ["vehicle", "human"];
+    setCheckedList(e.target.checked ? checkList : []);
     setIndeterminate(false);
     setCheckAll(e.target.checked);
+
   };
 
   const onPlusConfigRect = e => {
+    let date = Date.now();
     let dataNew = [...dataRectList]
+    let strType = ""
+    if (type == "intrusion_detection") {
+      strType = "Khu vực "
+    }
+    if (type == "hurdles") {
+      strType = "Đường "
+    }
     dataNew.push({
-      key: dataRectList.length + 1,
-      name: "Khu vực " + (dataRectList.length + 1),
-      no: dataRectList.length + 1,
-      status: "active",
+      key: --date,
+      name: strType + (dataRectList.length + 1),
+      lineNo: dataRectList.length + 1,
+      status: "1",
       threshold: 0,
     })
     setDataRectList(dataNew);
   };
 
-  const handleDelete = async (id) => {
+  const handleDelete = async (record) => {
     let newData = [...dataRectList];
     if (newData.length > 0) {
-      newData = newData.filter(item => item.key !== id);
+      newData = newData.filter(item => item.key !== record.key);
+      if (record.uuid != null) {
+        try {
+          let isPost = await AIConfigRectApi.deleteConfigRect(record.uuid);
+
+          if (isPost) {
+            const notifyMess = {
+              type: 'success',
+              title: `${t('noti.success')}`,
+              description: 'Bạn đã xóa thành công',
+            };
+            Notification(notifyMess);
+          }
+        } catch (error) {
+          console.log(error);
+        }
+      }
+
+      let i = 1
+      newData.map((data, index) => {
+        data.lineNo = i;
+      })
+      i++
+
       setDataRectList(newData);
+
     } else {
       setDataRectList([]);
     }
   };
 
   const handleRowClick = (event, data) => {
-    console.log("data   :", data)
-    setDataRect(data)
-    setThreshold(2)
     setKeyActive(data.key)
-    console.log("dataRect   :", dataRect)
-    form.setFieldsValue({
-      threshold:100
-    })
+    if(data.uuid != null){
+      AIConfigRectApi.getConfigRect(data.uuid).then((result) => {
+        if (result != null) {
+          data = result
+        }
+      });
+    }
+    
+    setDefaultDataRect(data)
+    setIsActiveDetail(true)
+
 
   };
 
@@ -790,6 +971,7 @@ const TabRect = (props) => {
                 <div className="d-flex justify-content-between align-items-center"
                   style={{ marginTop: "20px" }}>
                   <Button
+                    disabled={!isActive}
                     onClick={() => {
                       if (type === "hurdles") {
                         initLine(2);
@@ -801,6 +983,7 @@ const TabRect = (props) => {
                     {t('view.ai_config.draw.' + type)}
                   </Button>
                   <Button
+                    disabled={!isActive}
                     type="primary"
                     onClick={() => {
                       clearEventHandler();
@@ -828,7 +1011,7 @@ const TabRect = (props) => {
                           vale={threshold}
 
                         >
-                          <Input placeholder="Số" type='threshold' value={threshold} />
+                          <Input disabled={!isActiveDetail} placeholder="Số" type='threshold' value={threshold} />
                         </Form.Item>
                       </Col>
                       <Col span={6} style={{ flex: 'none' }}>
@@ -839,29 +1022,49 @@ const TabRect = (props) => {
                         <p className="threshold">{t('view.ai_config.direction.title')}</p>
                       </Col>
                       <Col span={12} style={{ flex: 'none' }}>
-                      <div className="select-direction">
-                        <Select
-                          onChange={onChangeTimeTypeTwo}
-                          value={directionV}
-                        >
-                          <Option value='AB'>{t('view.ai_config.direction.AB')}</Option>
-                          <Option value='BA'>{t('view.ai_config.direction.BA')}</Option>
-                        </Select></div>
-                        
+                        <div className="select-direction">
+                          <Form.Item name={['direction']}>
+                            <Select disabled={!isActiveDetail} onChange={(e) => onChangeTimeTypeTwo(e)}>
+                              <Option value={1}>{t('view.ai_config.direction.AB')}</Option>
+                              <Option value={0}>{t('view.ai_config.direction.BA')}</Option>
+                              <Option value={2}>{t('view.ai_config.direction.All')}</Option>
+                            </Select>
+                          </Form.Item>
+                        </div>
+
                       </Col>
 
                     </Row>
                   }
 
                   <Row gutter={24} style={{ marginTop: "20px" }}>
-                    <div className="">
-                      <Checkbox indeterminate={indeterminate} onChange={onCheckAllChange}
-                        checked={checkAll}>
-                        {t('view.ai_config.object_recognition')}
-                      </Checkbox>
-                      <CheckboxGroup options={options} value={checkedList} onChange={onChange} />
-                    </div>
+                    <Col span={24} style={{ flex: 'none' }}>
+                      <div className="">
+                        <Form.Item
+                          name="checkedList">
+                          <Checkbox disabled={!isActiveDetail} indeterminate={indeterminate} onChange={onCheckAllChange}
+                            checked={checkAll}>
+                            {t('view.ai_config.object_recognition')}
+                          </Checkbox>
+                          <CheckboxGroup disabled={!isActiveDetail} options={options} value={checkedList} onChange={onChange} />
+                        </Form.Item>
+
+                      </div>
+                    </Col>
+
                   </Row>
+
+                  {cameraUuid ?
+                    <div className="footer__modal">
+                      <Button
+                        disabled={!isActiveDetail}
+                        onClick={() => {
+                        }}
+                        type="primary" htmlType="submit ">
+                        {t('view.ai_config.apply')}
+                      </Button>
+                    </div> : null
+                  }
                 </Form>
               </div>
             </Col>
@@ -869,7 +1072,6 @@ const TabRect = (props) => {
               <div style={{ width: '100%', padding: '20px' }}>
                 <Table
                   className="table__config_rect"
-                  rowSelection={rowSelection}
                   columns={columnTables}
                   dataSource={dataRectList}
                   pagination={false}
@@ -884,16 +1086,7 @@ const TabRect = (props) => {
               </div>
             </Col>
           </Row>
-          {cameraUuid ?
-            <div className="footer__modal">
-              <Button
-                onClick={() => {
-                }}
-                type="primary" htmlType="submit ">
-                {t('view.ai_config.apply')}
-              </Button>
-            </div> : null
-          }
+
         </div>
       </Card>
     </div>
@@ -903,7 +1096,7 @@ const TabRect = (props) => {
 function tabRectPropsAreEqual(prevTabRect, nextTabRect) {
   return _.isEqual(prevTabRect.cameraUuid, nextTabRect.cameraUuid) && _.isEqual(prevTabRect.type, nextTabRect.type)
 
-  ;
+    ;
 }
 
 export const MemoizedTabRect = React.memo(TabRect, tabRectPropsAreEqual);
