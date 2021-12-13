@@ -1,9 +1,6 @@
-import { EditOutlined, PlusOutlined, DeleteOutlined, CheckOutlined, CloseOutlined } from '@ant-design/icons';
-import { Button, Card, Checkbox, Tabs, Row, Col, Form, Input, Table, Space, Popconfirm, Spin } from 'antd';
+import { Card, Checkbox, Tabs } from 'antd';
 import 'antd/dist/antd.css';
-import moment from 'moment';
-import React, { useEffect, useState } from 'react';
-import Timeline from "react-calendar-timeline/lib";
+import React, { useState, useEffect } from 'react';
 import 'react-calendar-timeline/lib/Timeline.css';
 import { useTranslation } from 'react-i18next';
 import { withRouter } from 'react-router-dom';
@@ -15,52 +12,40 @@ import CameraApi from '../../actions/api/camera/CameraApi';
 import ModalEditScheduleConfig from './ModalEditScheduleConfig';
 import ModalScheduleConfigCopy from './ModalScheduleConfigCopy';
 import './TabType.scss';
-import imagePoster from "../../assets/event/videoposter.png";
 import { bodyStyleCard, headStyleCard } from './variables';
-import Notification from "../../components/vms/notification/Notification";
-import { NOTYFY_TYPE } from "../common/vms/Constant";
-import getServerCamproxyForPlay from "../../utility/vms/camera";
-import playCamApi from "../../api/camproxy/cameraApi";
 import _ from "lodash";
 import { MemoizedTabSchedule } from './TabSchedule';
 import { MemoizedTabRect } from './TabRect';
 
-
 const { TabPane } = Tabs;
-
-const CheckboxGroup = Checkbox.Group;
-
-
-
-
-
 const TabType = (props) => {
+
   const { cameraUuid, type } = props
   const { t } = useTranslation();
   const [checkStatus, setCheckStatus] = useState(false);
 
 
   useEffect(() => {
-    if(cameraUuid != null && cameraUuid !== ""){
+    if (cameraUuid != null && cameraUuid !== "") {
       const data = {
         type: type,
         cameraUuid: cameraUuid
       };
       setCheckStatus(true)
-  
+
       AIConfigApi.getConfig(data).then((result) => {
-        if(result.status == "1"){
+        if (result.status == "1") {
           setCheckStatus(true)
         }
       });
-  
+
     }
   }, [cameraUuid, type]);
 
 
   const onChangeCheckBox = async (val) => {
     let status = "0"
-    if(val.target.checked){
+    if (val.target.checked) {
       status = "1"
     }
     const body = {
@@ -85,11 +70,11 @@ const TabType = (props) => {
     } catch (error) {
       console.log(error);
     }
-    
-    
+
+
   };
 
-  
+
 
 
   return (
