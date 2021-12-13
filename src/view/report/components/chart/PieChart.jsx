@@ -14,7 +14,6 @@ var randomColor = require("randomcolor");
 
 const RADIAN = Math.PI / 180;
 
-const arr = []
 
 const renderCustomizedLabel = ({
   cx,
@@ -28,9 +27,6 @@ const renderCustomizedLabel = ({
   const radius = innerRadius + (outerRadius - innerRadius) * 0.5;
   const x = cx + radius * Math.cos(-midAngle * RADIAN);
   const y = cy + radius * Math.sin(-midAngle * RADIAN);
-
-  arr.push(percent)
-  console.log("arr: ", arr)
 
   return (
     <text
