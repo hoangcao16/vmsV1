@@ -143,20 +143,9 @@ const TabRect = (props) => {
     };
     let data = dataRect
     
-    try {
-      AIConfigRectApi.addConfigRect(payload).then((result) => {
-        setDefaultDataRect(result)
-      });
-
-    } catch (error) {
-      const warnNotyfi = {
-        type: NOTYFY_TYPE.warning,
-        description: "Đã xảy ra lỗi",
-        duration: 2,
-      };
-      Notification(warnNotyfi);
-      console.log(error);
-    }
+    AIConfigRectApi.addConfigRect(payload).then((result) => {
+      setDefaultDataRect(result)
+    });
     
     
   };
