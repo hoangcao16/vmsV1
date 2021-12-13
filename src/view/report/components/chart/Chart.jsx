@@ -1,29 +1,28 @@
-import { constant, isEmpty } from 'lodash';
-import React, { useEffect } from 'react';
-import { connect } from 'react-redux';
+import { constant, isEmpty } from "lodash";
+import React, { useEffect } from "react";
+import { connect } from "react-redux";
 import { Tooltip as TooltipAnt } from "antd";
 import {
   CartesianGrid,
   Legend,
   Line,
   LineChart,
-  ResponsiveContainer,
   Tooltip,
   XAxis,
-  YAxis
-} from 'recharts';
-import { loadDataChart } from '../../redux/actions';
-import './chart.scss';
-import ExportReport from './ExportReport';
-import { useTranslation } from 'react-i18next';
-import convertDataChartAndPieChart from '../../../../actions/function/MyUltil/ConvertDataChartAndPieChart';
-import { Spin } from 'antd';
-import Loading from '../../../common/element/Loading';
+  YAxis,
+} from "recharts";
+import { loadDataChart } from "../../redux/actions";
+import "./chart.scss";
+import ExportReport from "./ExportReport";
+import { useTranslation } from "react-i18next";
+import convertDataChartAndPieChart from "../../../../actions/function/MyUltil/ConvertDataChartAndPieChart";
+import { Spin } from "antd";
+import Loading from "../../../common/element/Loading";
 
-var randomColor = require('randomcolor');
+var randomColor = require("randomcolor");
 
 function Chart(props) {
-  const data = props.chartData
+  const data = props.chartData;
   const { t } = useTranslation();
   const dataConvert = (dataMap) => {
     const dataNoName = dataMap[0];
@@ -31,10 +30,18 @@ function Chart(props) {
     const keyArr = Object.keys(dataNoName);
     return keyArr.map((k) => {
       return (
-        <Line 
+        <Line
           key={k}
           type="monotone"
-          dataKey={ k.length > 25 ? <TooltipAnt placement="bottomRight" title={k}>{k.slice(0, 25) + "..."}</TooltipAnt> : k}
+          dataKey={
+            k.length > 25 ? (
+              <TooltipAnt placement="bottomRight" title={k}>
+                {k.slice(0, 25) + "..."}
+              </TooltipAnt>
+            ) : (
+              k
+            )
+          }
           stroke={randomColor()}
           activeDot={{ r: 8 }}
         />
@@ -46,7 +53,7 @@ function Chart(props) {
     return null;
   }
 
-  if(props.isLoading){
+  if (props.isLoading) {
     return null;
   }
 
@@ -55,36 +62,33 @@ function Chart(props) {
       {props.isShowLineAndPieChart && (
         <div className="Chart">
           <div className="Chart__title">
-            <h3> {t('view.report.trend_chart')} {props.title.toUpperCase()} </h3>
+            <h3>
+              {" "}
+              {t("view.report.trend_chart")} {props.title.toUpperCase()}{" "}
+            </h3>
 
-            <ExportReport type="rateReport"/>
+            <ExportReport type="rateReport" />
           </div>
 
-          <ResponsiveContainer
-            width="95%"
-            aspect={3 / 1}
-            className="ResponsiveContainer"
+          <LineChart
+            width={870}
+            height={300}
+            data={JSON.parse(JSON.stringify(data))}
+            margin={{
+              top: 5,
+              right: 30,
+              left: 20,
+              bottom: 5,
+            }}
           >
-            <LineChart
-              width={500}
-              height={300}
-              data={JSON.parse(JSON.stringify(data))}
-              margin={{
-                top: 5,
-                right: 30,
-                left: 20,
-                bottom: 5
-              }}
-            >
-              <CartesianGrid strokeDasharray="3 3" />
-              <XAxis dataKey="name" />
-              <YAxis />
-              <Tooltip />
-              <Legend />
+            <CartesianGrid strokeDasharray="3 3" />
+            <XAxis dataKey="name" />
+            <YAxis />
+            <Tooltip />
+            <Legend />
 
-              {dataConvert(JSON.parse(JSON.stringify(data)))}
-            </LineChart>
-          </ResponsiveContainer>
+            {dataConvert(JSON.parse(JSON.stringify(data)))}
+          </LineChart>
         </div>
       )}
     </>
@@ -96,14 +100,14 @@ const mapStateToProps = (state) => ({
   chartData: convertDataChartAndPieChart(state.chart.chartData),
   error: state.chart.error,
   title: state.chart.title,
-  isShowLineAndPieChart: state.chart.isShowLineAndPieChart
+  isShowLineAndPieChart: state.chart.isShowLineAndPieChart,
 });
 
 const mapDispatchToProps = (dispatch) => {
   return {
     callData: (params) => {
       dispatch(loadDataChart(params));
-    }
+    },
   };
 };
 

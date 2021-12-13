@@ -15,7 +15,11 @@ export default function convertDataChartAndPieChart(arrObj) {
       a[d.event3] = d.totalEvent3
     }
 
-    a.name = d.time
+    if (d.time.length > 7) {
+      a.name = d.time.slice(0, 5)
+    } else {
+      a.name = d.time
+    }
     return a
   })
 }
