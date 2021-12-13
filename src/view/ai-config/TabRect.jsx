@@ -75,37 +75,27 @@ const TabRect = (props) => {
         uuid: record.uuid
       };
 
-      try {
-        AIConfigRectApi.editConfigRectName(body).then((result) => {
-          let dataNew = [...dataRectList]
-          dataNew.map((data, index) => {
-            if (data.key === record.key) {
-              data.uuid = result.uuid;
-            }
-          })
+      AIConfigRectApi.editConfigRectName(body).then((result) => {
+        let dataNew = [...dataRectList]
+        dataNew.forEach(data => {
+          if (data.key === record.key) {
+            data.uuid = result.uuid;
+          } 
+        })
 
-          setDataRectList(dataNew);
-        });
+        setDataRectList(dataNew);
+      });
 
-        document.getElementById(
-          `rename__preset-${record.key}`
-        ).style.display = "none";
-        const successNotyfi = {
-          type: NOTYFY_TYPE.success,
-          title: `${t("noti.success")}`,
-          description: "Bạn đã đổi tên preset thành công",
-          duration: 2,
-        };
-        Notification(successNotyfi);
-      } catch (error) {
-        const warnNotyfi = {
-          type: NOTYFY_TYPE.warning,
-          description: "Đã xảy ra lỗi",
-          duration: 2,
-        };
-        Notification(warnNotyfi);
-        console.log(error);
-      }
+      document.getElementById(
+        `rename__preset-${record.key}`
+      ).style.display = "none";
+      const successNotyfi = {
+        type: NOTYFY_TYPE.success,
+        title: `${t("noti.success")}`,
+        description: "Bạn đã đổi tên preset thành công",
+        duration: 2,
+      };
+      Notification(successNotyfi);
     }
   };
 
@@ -141,7 +131,6 @@ const TabRect = (props) => {
       points: [[]]
 
     };
-    let data = dataRect
     
     try {
       AIConfigRectApi.addConfigRect(payload).then((result) => {
@@ -416,10 +405,11 @@ const TabRect = (props) => {
       }
 
       let i = 1
-      newData.map((data, index) => {
+      newData.forEach(data => {
         data.lineNo = i;
+        i++
       })
-      i++
+      
 
       setDataRectList(newData);
 
