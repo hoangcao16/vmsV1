@@ -1,48 +1,11 @@
-.chart {
-  height: 471px;
+.Chart {
   width: 100%;
+  padding-right: 20px;
   background-color: #333333;
-}
-
-.legend {
-  display: flex;
-  color: #D0E5FF;
-  font-size: 12px;
-  margin-bottom: 0;
-  padding-top: 10px;
-  justify-content: space-evenly;
-}
-
-.greenWrapper,
-.redWrapper {
-  display: flex;
-  align-items: center;
-}
-
-.greenLine {
-  height: 1px;
-  width: 40px;
-  margin-right: 5px;
-  background-color: #28C76F;
-}
-
-.redLine {
-  height: 1px;
-  width: 40px;
-  margin-right: 5px;
-  background-color: #EA5455;
 }
 
 .ResponsiveContainer {
   padding-top: 50px;
-}
-
-.fone-size {
-  font-size: 12px;
-}
-
-.recharts-cartesian-axis-ticks {
-  width: 110%;
 }
 
 @import "../../../../assets/scss/core/variables/vms-variable";

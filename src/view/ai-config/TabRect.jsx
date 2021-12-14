@@ -17,6 +17,7 @@ import { NOTYFY_TYPE } from "../common/vms/Constant";
 import getServerCamproxyForPlay from "../../utility/vms/camera";
 import playCamApi from "../../api/camproxy/cameraApi";
 import _ from "lodash";
+import { sortPoints } from "../../utility/vms/sortIntrusionPoints";
 
 const CheckboxGroup = Checkbox.Group;
 const { Option } = Select;
@@ -36,17 +37,19 @@ const TabRect = (props) => {
   const [keyActive, setKeyActive] = React.useState(0);
   const [isActive, setIsActive] = React.useState(false);
   const [isActiveDetail, setIsActiveDetail] = React.useState(false);
-  let coordinates = [];
 
   const canvasRef = useRef(null);
   const canvasRefRect = useRef(null);
   let fromX = 0, fromY = 0, toX = 0, toY = 0, direction = 2;
+  let fromXP = 0, fromYP = 0, toXP = 0, toYP = 0;
   let isFromPointMouseDown = false;
   let isToPointMouseDown = false;
   let timerIdentifier = null;
   let timerIdentifierRect = null;
   let videoSlotSize = {};
   let videoSlotSizeRect = {};
+  let coordinates = [];
+  let coordinatesP = [];
 
   const formItemLayout = {
     wrapperCol: { span: 24 },
@@ -104,7 +107,6 @@ const TabRect = (props) => {
       "flex";
   };
 
-
   const handleCloseRenamePreset = (e, record) => {
     e.stopPropagation();
     document.getElementById(`input-name-preset-${record.idPreset}`).value =
@@ -155,17 +157,9 @@ const TabRect = (props) => {
     })
   }
 
-  const onChangeTimeTypeTwo = (value) => {
-    // setDirectionV(value)
-    // //create data
-    // let configCleanFileNew = cleanSettingData.configCleanFile;
-    // configCleanFileNew[2].timeType = value;
-
-    // //set clean setting data
-    // setCleanSettingData({
-    //   ...cleanSettingData,
-    //   configCleanFile: configCleanFileNew,
-    // });
+  const onChangeDirectionHandler = (value) => {
+    direction = value;
+    drawLine();
   };
 
   const handleUpdateStatus = async (e, uuid) => {
@@ -288,10 +282,7 @@ const TabRect = (props) => {
   useEffect(() => {
   }, []);
 
-  console.log("(1) >>>>> cameraUuid: ", cameraUuid, ", type: ", type);
-
   useEffect(() => {
-    console.log("(2) >>>>> cameraUuid: ", cameraUuid, ", type: ", type);
     if (cameraUuid != null && cameraUuid !== "") {
       setIsActive(true)
       const data = {
@@ -555,6 +546,13 @@ const TabRect = (props) => {
         ctx.fillRect(coordinates[index].x - 2.5, coordinates[index].y - 2.5, 5, 5);
       }
       ctx.closePath();
+
+      // Set output
+      coordinatesP = [];
+      for (let index = 0; index < coordinates.length; index++) {
+        coordinatesP.push({x: coordinates[index].x / canvas.width, y: coordinates[index].y / canvas.height});
+      }
+      console.log("coordinatesP:", coordinatesP);
     }
   }
 
@@ -582,10 +580,26 @@ const TabRect = (props) => {
     if (canvas !== null) {
       const ctx = canvas.getContext('2d');
       ctx.clearRect(0, 0, canvas.width, canvas.height);
+      switch (type) {
+        case "hurdles":
+          fromX = 0;
+          fromY = 0;
+          toX = 0;
+          toY = 0;
+          direction = 2;
+          break;
+        case "intrusion_detection":
+          coordinates = [];
+          break;
+      }
     }
   }
 
   const resizeLineCanvasEventHandler = (event) => {
+    resizeLineCanvas();
+  }
+
+  const resizeLineCanvas = () => {
     let video = document.getElementById("video-slot-hurdles");
     const canvas = document.getElementById("canvas-slot-hurdles");
     if (canvas !== null) {
@@ -596,19 +610,33 @@ const TabRect = (props) => {
         w = video.clientWidth;
         h = video.clientHeight;
       }
-      timerIdentifier = setTimeout(() => {
-        fromX = w * fromX / canvas.width;
-        fromY = h * fromY / canvas.height;
-        toX = w * toX / canvas.width;
-        toY = h * toY / canvas.height;
-        canvas.width = w;
-        canvas.height = h;
-        drawLine();
-      }, 100);
+      if (canvas.width !== w || canvas.height !== h) {
+        timerIdentifier = setTimeout(() => {
+          video = document.getElementById("video-slot-hurdles");
+          w = video.clientWidth;
+          h = video.clientHeight;
+          if (video.clientWidth === 0) { // In case video is not active
+            video = document.getElementById("video-slot-intrusion_detection");
+            w = video.clientWidth;
+            h = video.clientHeight;
+          }
+          fromX = w * fromX / canvas.width;
+          fromY = h * fromY / canvas.height;
+          toX = w * toX / canvas.width;
+          toY = h * toY / canvas.height;
+          canvas.width = w;
+          canvas.height = h;
+          drawLine();
+        }, 100);
+      }
     }
   }
 
   const resizeRectCanvasEventHandler = (event) => {
+    resizeRectCanvas();
+  }
+
+  const resizeRectCanvas = () => {
     let video = document.getElementById("video-slot-intrusion_detection");
     const canvas = document.getElementById("canvas-slot-intrusion_detection");
     if (canvas !== null) {
@@ -619,16 +647,26 @@ const TabRect = (props) => {
         w = video.clientWidth;
         h = video.clientHeight;
       }
-      timerIdentifierRect = setTimeout(() => {
-        for (let index = 0; index < coordinates.length; index++) {
-          let x = w * coordinates[index].x / canvas.width;
-          let y = h * coordinates[index].y / canvas.height;
-          coordinates[index] = {...coordinates[index], x: x, y: y};
-        }
-        canvas.width = w;
-        canvas.height = h;
-        drawRect();
-      }, 100);
+      if (canvas.width !== w || canvas.height !== h) {
+        timerIdentifierRect = setTimeout(() => {
+          video = document.getElementById("video-slot-intrusion_detection");
+          w = video.clientWidth;
+          h = video.clientHeight;
+          if (video.clientWidth === 0) { // In case video is not active
+            video = document.getElementById("video-slot-hurdles");
+            w = video.clientWidth;
+            h = video.clientHeight;
+          }
+          for (let index = 0; index < coordinates.length; index++) {
+            let x = w * coordinates[index].x / canvas.width;
+            let y = h * coordinates[index].y / canvas.height;
+            coordinates[index] = {...coordinates[index], x: x, y: y};
+          }
+          canvas.width = w;
+          canvas.height = h;
+          drawRect();
+        }, 100);
+      }
     }
   }
 
@@ -713,6 +751,14 @@ const TabRect = (props) => {
       drawDirectionLine(ctx);
 
       ctx.stroke(); // this is where the actual drawing happens.
+
+      // Set output
+      fromXP = fromX / canvas.width;
+      fromYP = fromY / canvas.height;
+      toXP = toX / canvas.width;
+      toYP = toY / canvas.height;
+      console.log("fromP:", fromXP, " ", fromYP);
+      console.log("toP:", toXP, " ", toYP);
     }
   }
 
@@ -806,13 +852,20 @@ const TabRect = (props) => {
         const x_ = event.clientX - position_.left;
         const y_ = event.clientY - position_.top;
 
+        let isGrab = false;
         for (let index = 0; index < coordinates.length; index++) {
           if (x_ <= (coordinates[index].x + 10) && x_ >= (coordinates[index].x - 10)
               && y_ <= (coordinates[index].y + 10) && y_ >= (coordinates[index].y - 10)) {
             canvasRefRect.current.style.cursor = "grabbing";
             coordinates[index] = {...coordinates[index], mouseDown: true};
+            isGrab = true;
             break;
           }
+        }
+        if (!isGrab) {
+          coordinates.push({x: x_, y: y_, mouseDown: false});
+          coordinates = sortPoints(coordinates);
+          drawRect();
         }
         break;
     }
@@ -1003,7 +1056,7 @@ const TabRect = (props) => {
                       <Col span={12} style={{ flex: 'none' }}>
                         <div className="select-direction">
                           <Form.Item name={['direction']}>
-                            <Select disabled={!isActiveDetail} onChange={(e) => onChangeTimeTypeTwo(e)}>
+                            <Select disabled={!isActiveDetail} onChange={(e) => onChangeDirectionHandler(e)}>
                               <Option value={1}>{t('view.ai_config.direction.AB')}</Option>
                               <Option value={0}>{t('view.ai_config.direction.BA')}</Option>
                               <Option value={2}>{t('view.ai_config.direction.All')}</Option>
