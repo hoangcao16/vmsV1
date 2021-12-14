@@ -3,14 +3,7 @@ import 'antd/dist/antd.css';
 import React, { useState, useEffect } from 'react';
 import 'react-calendar-timeline/lib/Timeline.css';
 import { useTranslation } from 'react-i18next';
-import { withRouter } from 'react-router-dom';
-import { reactLocalStorage } from "reactjs-localstorage";
-import AIConfigScheduleApi from '../../actions/api/ai-config/AIConfigScheduleApi';
 import AIConfigApi from '../../actions/api/ai-config/AIConfigApi';
-import AIConfigRectApi from '../../actions/api/ai-config/AIConfigRectApi';
-import CameraApi from '../../actions/api/camera/CameraApi';
-import ModalEditScheduleConfig from './ModalEditScheduleConfig';
-import ModalScheduleConfigCopy from './ModalScheduleConfigCopy';
 import './TabType.scss';
 import { bodyStyleCard, headStyleCard } from './variables';
 import _ from "lodash";
@@ -56,15 +49,16 @@ const TabType = (props) => {
 
     try {
       let isPost = await AIConfigApi.editConfigStatus(body);
-
+      
       if (isPost) {
+        setCheckStatus(val.target.checked)
         const notifyMess = {
           type: 'success',
           title: `${t('noti.success')}`,
           description: 'Bạn đã config thành công',
         };
         Notification(notifyMess);
-        setCheckStatus(val.target.checked)
+        
       }
 
     } catch (error) {
