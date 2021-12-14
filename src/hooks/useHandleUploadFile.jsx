@@ -1,10 +1,12 @@
 import { isEmpty } from "lodash";
 import { useEffect, useState } from "react";
+import { useTranslation } from "react-i18next";
 import { v4 as uuidV4 } from "uuid";
 import ExportEventFileApi from "../actions/api/exporteventfile/ExportEventFileApi";
 import { getBase64 } from "../utility/vms/file";
 
 const useHandleUploadFile = (fileName) => {
+  const { t } = useTranslation(); 
   const [imageUrl, setImageUrl] = useState(null);
   const [loading, setLoading] = useState(false);
   const [imgFileName, setImgFileName] = useState(fileName);
@@ -58,7 +60,7 @@ const useHandleUploadFile = (fileName) => {
       Notification({
         type: "error",
         title: "",
-        description: "You can only upload JPG/PNG file",
+        description: `${t('noti.upload_file_desc')}`,
       });
     }
     const isLt2M = file.size / 1024 / 1024 < 2;
@@ -66,7 +68,7 @@ const useHandleUploadFile = (fileName) => {
       Notification({
         type: "error",
         title: "",
-        description: "Image must smaller than 2MB",
+        description: `${t('noti.size_file_desc')}`,
       });
     }
     return isJpgOrPng && isLt2M;

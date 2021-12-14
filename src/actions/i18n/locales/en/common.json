@@ -538,7 +538,24 @@
     "successfully_edit_name": "Successfully edit name of",
     "successfully_add": "Successfully add new",
     "success": "Success",
-    "choose_event" : "You need to choose event"
+    "choose_event" : "You need to choose event",
+    "delete_zone": "Are you sure you want to delete this Zone?",
+    
+    "choose_favorite_screen": "Choose favorite screen",
+    "no_camera_in_screen": "No available Camera in this screen",
+    "default_screen": "Default screen",
+    "camera_not_exist": "This Camera does not exist",
+    "view_screen_list": "View screen list",
+    "delete_screen": "Delete screen",
+    "delete": "Delete ",
+    "screen_success": " screen successfully ",
+    "screen_failed": " failed. Error ",
+    "setting_default_screen": "Setting default screen ",
+    "successfully": " successfully",
+    "setting_default_screen_failed": "Setting default screen failed. Error ",
+    "change_screen_name": "Change screen name",
+    "failed": "Failed. Error: ",
+    "successfully_edit_camera": "Successfully edit Camera"
   },
   "breadcrumd": {
     "report": "Report Management",

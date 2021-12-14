@@ -6,7 +6,7 @@
     background-color: $vms-bg-sub;
 
     &__title {
-        padding: 15px;
+        padding: 40px 15px 15px;
         justify-content: space-between;
         align-items: center;
         display: flex;
@@ -18,5 +18,9 @@
         &__title {
             font-size: 20px;
         }
+    }
+    .ResponsiveContainer {
+        padding-top: 10px;
+        padding-bottom: 20px;
     }
 }

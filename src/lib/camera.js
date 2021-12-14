@@ -6,21 +6,33 @@ import {
   viewCamIsNotPermission,
   updatePlayCamLive,
 } from "../redux/actions/map/camLiveAction";
-const notifyMess = {
-  type: NOTYFY_TYPE.warning,
-  title: "xem trực tiếp",
-  description: "Bạn đã thêm thành công Camera",
-};
+import { reactLocalStorage } from "reactjs-localstorage";
+
+const language = reactLocalStorage.get("language");
+let notifyMess = {};
+if (language == "vn") {
+  notifyMess = {
+    type: NOTYFY_TYPE.warning,
+    title: "Xem trực tiếp",
+    description: "Bạn đã thêm thành công Camera",
+  };
+} else {
+  notifyMess = {
+    type: NOTYFY_TYPE.warning,
+    title: "View online",
+    description: "Successfully add new Camera",
+  };
+}
 class CameraService {
-  constructor() { }
+  constructor() {}
 
   closeCamera = (itemId) => {
     const cell = document.getElementById("video-slot-" + itemId);
     if (document.querySelector(`#cam-loading-${itemId}`)) {
-      document.querySelector(`#cam-loading-${itemId}`).style.display = 'block';
+      document.querySelector(`#cam-loading-${itemId}`).style.display = "block";
     }
     if (document.querySelector(`#icon-pin-cam-${itemId}`)) {
-      document.querySelector(`#icon-pin-cam-${itemId}`).style.display = 'none';
+      document.querySelector(`#icon-pin-cam-${itemId}`).style.display = "none";
     }
     if (cell) {
       cell.srcObject = null;
@@ -30,23 +42,35 @@ class CameraService {
   async playCameraOnline(cam, slotIdx, dispatch) {
     try {
       if (cam.uuid == "" || cam.uuid == null) {
-        notifyMess.description = "caminfo is not empty";
-        Notification(notifyMess);
-        throw new Error("caminfo is not empty");
+        if (language == 'vn') {
+          notifyMess.description = "Thông tin Camera không hợp lệ";
+          Notification(notifyMess);
+          throw new Error("Thông tin Camera không hợp lệ");
+        } else {
+          notifyMess.description = "Invalid Camera infomation";
+          Notification(notifyMess);
+          throw new Error("Invalid Camera infomation");
+        }
       }
       //camproxy controller --> camUuid --> http: camprox
       const data = await getServerCamproxyForPlay(cam.uuid);
       if (data == null) {
-        notifyMess.description = "Không nhận địa chỉ camproxy lỗi";
-        Notification(notifyMess);
-        dispatch && dispatch(viewCamIsNotPermission(cam));
-        throw new Error("Không nhận địa chỉ camproxy lỗi");
+        if (language == 'vn') {
+          notifyMess.description = "Bạn không có quyền để xem trực tiếp Camera này";
+          Notification(notifyMess);
+          dispatch && dispatch(viewCamIsNotPermission(cam));
+          throw new Error("Bạn không có quyền để xem trực tiếp Camera này");
+        } else {
+          notifyMess.description = "You don't have permission to view this Camera in live mode";
+          Notification(notifyMess);
+          dispatch && dispatch(viewCamIsNotPermission(cam));
+          throw new Error("You don't have permission to view this Camera in live mode");
+        }
       }
 
       const pc = new RTCPeerConnection();
       pc.addTransceiver("video");
-      pc.oniceconnectionstatechange = () => {
-      };
+      pc.oniceconnectionstatechange = () => {};
       // const spin = document.getElementById('spin-slot-' + slotIdx)
       pc.ontrack = (event) => {
         //binding and play
@@ -59,16 +83,20 @@ class CameraService {
           cell.controls = false;
           cell.style = "width:100%;height:100%;display:block;object-fit:fill;";
         }
-        const camLoadingElm = document.querySelector(`#cam-loading-${cam.uuid}`);
+        const camLoadingElm = document.querySelector(
+          `#cam-loading-${cam.uuid}`
+        );
         if (camLoadingElm) {
-          camLoadingElm.style.display = 'none';
+          camLoadingElm.style.display = "none";
         }
-        const iconPinCamElm = document.querySelector(`#icon-pin-cam-${cam.uuid}`);
+        const iconPinCamElm = document.querySelector(
+          `#icon-pin-cam-${cam.uuid}`
+        );
         if (iconPinCamElm) {
-          iconPinCamElm.style.display = 'inline-block';
+          iconPinCamElm.style.display = "inline-block";
         }
         // spin.style.display = 'none'
-        return { status: 'success' }
+        return { status: "success" };
       };
       const token = "123";
 
@@ -77,8 +105,7 @@ class CameraService {
         iceRestart: false,
       }).then((offer) => {
         // spin.style.display = 'block'
-        pc.setLocalDescription(offer).then((r) => {
-        });
+        pc.setLocalDescription(offer).then((r) => {});
         //call api
         playCamApi
           .playCamera(API, {
@@ -88,13 +115,19 @@ class CameraService {
           })
           .then((res) => {
             if (res) {
-              pc.setRemoteDescription(res).then((r) => {
-              });
+              pc.setRemoteDescription(res).then((r) => {});
             } else {
-              notifyMess.description = "Nhận offer từ server bị lỗi";
-              Notification(notifyMess);
-              dispatch && dispatch(viewCamIsNotPermission(cam));
-              throw new Error("Nhận offer từ server bị lỗi");
+              if (language == 'vn') {
+                notifyMess.description = "Không thể xem trực tiếp Camera";
+                Notification(notifyMess);
+                dispatch && dispatch(viewCamIsNotPermission(cam));
+                throw new Error("Không thể xem trực tiếp Camera");
+              } else {
+                notifyMess.description = "Cant' view this Camera in live mode";
+                Notification(notifyMess);
+                dispatch && dispatch(viewCamIsNotPermission(cam));
+                throw new Error("Cant' view this Camera in live mode");
+              }
             }
           });
       });
@@ -104,12 +137,12 @@ class CameraService {
       const camLoadingElm = document.querySelector(`#cam-loading-${cam.uuid}`);
       if (camLoadingElm) {
         setTimeout(() => {
-          camLoadingElm.style.display = 'none';
-        }, 1000)
+          camLoadingElm.style.display = "none";
+        }, 1000);
       }
       const iconPinCamElm = document.querySelector(`#icon-pin-cam-${cam.uuid}`);
       if (iconPinCamElm) {
-        iconPinCamElm.style.display = 'none';
+        iconPinCamElm.style.display = "none";
       }
       return { error };
     }
