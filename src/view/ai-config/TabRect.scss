@@ -110,6 +110,10 @@
           }
         }
 
+        .ant-table-tbody > tr.selected > td {
+          background: $vms-bg-sub;
+        }
+
         tr td {
           &:nth-child(2),
           &:nth-child(3),

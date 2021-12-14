@@ -1051,6 +1051,10 @@ const TabRect = (props) => {
               <div style={{ width: '100%', padding: '20px' }}>
                 <Table
                   className="table__config_rect"
+                  rowClassName={(record, rowIndex) => {
+                      if (record.key === keyActive) return 'selected';
+                      return 'not-selected';
+                  }}
                   columns={columnTables}
                   dataSource={dataRectList}
                   pagination={false}
