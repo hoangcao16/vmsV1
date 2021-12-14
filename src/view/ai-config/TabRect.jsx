@@ -64,8 +64,8 @@ const TabRect = (props) => {
       //validate
       const warnNotyfi = {
         type: NOTYFY_TYPE.warning,
-        title: "Thất bại",
-        description: "Độ dài tên cần lớn hơn 0 nhỏ hơn 100 kí tự",
+        title: `${t('noti.faid')}`,
+        description: `${t('noti.0_100')}`,
         duration: 2,
       };
       Notification(warnNotyfi);
@@ -95,7 +95,7 @@ const TabRect = (props) => {
       const successNotyfi = {
         type: NOTYFY_TYPE.success,
         title: `${t("noti.success")}`,
-        description: "Bạn đã đổi tên preset thành công",
+        description: `${t('noti.change_preset_name_success')}`,
         duration: 2,
       };
       Notification(successNotyfi);
@@ -375,7 +375,7 @@ const TabRect = (props) => {
             const notifyMess = {
               type: 'success',
               title: `${t('noti.success')}`,
-              description: 'Bạn đã xóa thành công',
+              description: `${t('noti.delete_successful')}`
             };
             Notification(notifyMess);
           }
@@ -418,8 +418,8 @@ const TabRect = (props) => {
     if (cameraUuid === "" || cameraUuid == null) {
       Notification({
         type: NOTYFY_TYPE.warning,
-        title: "Xem trực tiếp",
-        description: "Camera không xác định",
+        title: `${t('view.user.detail_list.view_online')}`,
+        description: `${t('noti.unidentified_camera')}`
       });
       return;
     }
@@ -427,8 +427,8 @@ const TabRect = (props) => {
     if (data == null) {
       Notification({
         type: NOTYFY_TYPE.warning,
-        title: "Xem trực tiếp",
-        description: "Không nhận địa chỉ camproxy lỗi",
+        title: `${t('view.user.detail_list.view_online')}`,
+        description: `${t('noti.error_camera_address')}`,
       });
       return;
     }
@@ -473,7 +473,7 @@ const TabRect = (props) => {
               spin.style.display = "none";
               Notification({
                 type: NOTYFY_TYPE.warning,
-                title: "Xem trực tiếp",
+                title: `${t('view.user.detail_list.view_online')}`,
                 description: "Nhận offer từ server bị lỗi",
               });
             }
