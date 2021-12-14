@@ -1,22 +1,22 @@
 export const MAP_STYLES = {
-    dark: "vietmap://styles/dark/style.json",
-    normal: "vietmap://styles/default/style.json",
-    basic: "vietmap://styles/basic/style.json"
-  };
-  export const LAT_LNG = [105.77249691, 19.804496782]
-  export const NAVIGATION_CONTROL = "bottom-right";
+  dark: "vietmap://styles/dark/style.json",
+  normal: "vietmap://styles/default/style.json",
+  basic: "vietmap://styles/basic/style.json"
+};
+export const LAT_LNG = [105.77249691, 19.804496782]
+export const NAVIGATION_CONTROL = "bottom-right";
 
 export const STYLE_MODE = {
-    dark: 'dark',
-    normal: 'normal',
-    basic: 'basic'
+  dark: 'dark',
+  normal: 'normal',
+  basic: 'basic'
 }
 
-export const TYPE_CONTEXT_MENU = [1,2,3]
+export const TYPE_CONTEXT_MENU = [1, 2, 3]
 
 export const TYPE_FORM_ACTION_ON_MAP = {
-    cam: 'CAM',
-    ad_unit: 'AD_UNIT',
+  cam: 'CAM',
+  ad_unit: 'AD_UNIT',
 }
 
 export const TRACKING_POINTS = "TRACKING_POINTS"

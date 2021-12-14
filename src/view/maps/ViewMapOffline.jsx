@@ -1,6 +1,5 @@
 import MapboxDraw from "@mapbox/mapbox-gl-draw";
 import "@mapbox/mapbox-gl-draw/dist/mapbox-gl-draw.css";
-import * as turf from "@turf/turf";
 import _ from "lodash";
 import {
   CircleMode,
@@ -14,6 +13,7 @@ import { useTranslation } from "react-i18next";
 import { useDispatch, useSelector } from "react-redux";
 import { reactLocalStorage } from "reactjs-localstorage";
 import mapboxgl from "vietmaps-gl";
+import Notification from "../../components/vms/notification/Notification";
 import CameraService from "../../lib/camera";
 import { updateAdminisUnitOnMap } from "../../redux/actions/map/adminisUnitsAction";
 import { updateCameraOnMapByFilter } from "../../redux/actions/map/cameraActions";
@@ -35,6 +35,7 @@ import {
   TYPE_CONTEXT_MENU,
   TYPE_FORM_ACTION_ON_MAP,
 } from "../common/vms/constans/map";
+import { NOTYFY_TYPE } from "../common/vms/Constant";
 import { cameraGreenIconSvg } from "../map/camera-green.icon";
 import { cameraRedIconSvg } from "../map/camera-red.icon";
 import { svg } from "../map/camera.icon";
@@ -56,7 +57,7 @@ const ViewMapOffline = (props) => {
   const { addTrackingPoint, onContextMenuCallback, updateTrackingPoint } =
     props;
 
-  const liveCameras = useSelector((state) => state.map.camera.listCamera); 
+  const liveCameras = useSelector((state) => state.map.camera.listCamera);
   const adminisUnitList = useSelector(
     (state) => state.map.adminisUnit.listAdminisUnit
   );
@@ -407,9 +408,19 @@ const ViewMapOffline = (props) => {
             .setLngLat([camera.long_, camera.lat_])
             .setPopup(popup)
             .addTo(mapboxRef.current);
-          marker.on("dragend", () =>
-            handleDragEndMarker(marker, camera, TYPE_FORM_ACTION_ON_MAP.cam)
-          );
+
+          marker.on("dragend", () => {
+            if (!props.editMode) {
+              Notification({
+                type: NOTYFY_TYPE.warning,
+                title: "Chế độ xem",
+                description: "Bạn không thể cập nhập trong chế độ này",
+              });
+            } else {
+              handleDragEndMarker(marker, camera, TYPE_FORM_ACTION_ON_MAP.cam);
+            }
+          });
+
           mapCamMarkersRef.current && mapCamMarkersRef.current.push(marker);
           markerRef.current && markerRef.current.push(marker);
           hanldeExposePopup(el, popup, camera);
@@ -434,8 +445,6 @@ const ViewMapOffline = (props) => {
       lat_: lngLat.lat,
     };
     if (type === TYPE_FORM_ACTION_ON_MAP.ad_unit) {
-
-      console.log('===========================================================================')
       dispatch(updateAdminisUnitOnMap(payload));
     } else {
       dispatch(updateCameraOnMapByFilter(payload));
@@ -474,9 +483,23 @@ const ViewMapOffline = (props) => {
             .setLngLat([unit.long_, unit.lat_])
             .setPopup(popup)
             .addTo(mapboxRef.current);
-          // marker.on("dragend", () =>
-          //   handleDragEndMarker(marker, unit, TYPE_FORM_ACTION_ON_MAP.ad_unit)
-          // );
+
+          marker.on("dragend", () => {
+            if (!props.editMode) {
+              Notification({
+                type: NOTYFY_TYPE.warning,
+                title: "Chế độ xem",
+                description: "Bạn không thể cập nhập trong chế độ này",
+              });
+            } else {
+              handleDragEndMarker(
+                marker,
+                unit,
+                TYPE_FORM_ACTION_ON_MAP.ad_unit
+              );
+            }
+          });
+
           popup.on("open", (e) => {
             popupAttachMarkerRef.current = e.target;
           });
@@ -557,7 +580,7 @@ const ViewMapOffline = (props) => {
   useEffect(() => {
     resetMarker(mapMarkersRef.current);
     displayMarkerCamOnMap(liveCameras);
-  }, [liveCameras]);
+  }, [liveCameras, props.editMode]);
 
   useEffect(() => {
     resetMarker(mapMarkerTrackPointsRef.current);
@@ -567,7 +590,7 @@ const ViewMapOffline = (props) => {
   useEffect(() => {
     resetMarker(mapAdUnitMarkersRef.current);
     displayMarkerUnitsOnMap();
-  }, [adminisUnitList]);
+  }, [adminisUnitList, props.editMode]);
 
   useEffect(() => {
     displayTrackingPointsOnMap();
