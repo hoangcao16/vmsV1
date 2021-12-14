@@ -222,7 +222,7 @@ const TableZone = () => {
             </Tooltip>
             <Tooltip placement="rightTop" title={t('delete')}>
               <Popconfirm
-                title="Bạn chắc chắn muốn xóa Zone này?"
+                title={t('noti.delete_zone')}
                 onConfirm={() => handleDelete(record.uuid)}
               >
                 <DeleteOutlined

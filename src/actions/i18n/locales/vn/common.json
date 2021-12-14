@@ -535,7 +535,24 @@
     "successfully_edit_name": "Bạn đã thêm thành công tên của",
     "successfully_add": "Bạn đã thêm thành công",
     "success": "Thành công",
-    "choose_event": "Bạn cần phải chọn sự kiện"
+    "choose_event": "Bạn cần phải chọn sự kiện",
+    "delete_zone": "Bạn chắc chắn muốn xóa Zone này?",
+
+    "choose_favorite_screen": "Chọn màn hình ưa thích",
+    "no_camera_in_screen": "Không tồn tại bất kỳ Camera nào trong màn hình này",
+    "default_screen": "Màn hình mặc định",
+    "camera_not_exist": "Không tồn tại Camera này",
+    "view_screen_list": "Xem danh sách màn hình",
+    "delete_screen": "Xóa màn hình",
+    "delete": "Xóa màn hình ",
+    "screen_success": " thành công",
+    "screen_failed": " thất bại. Lỗi ",
+    "setting_default_screen": "Cài đặt màn hình mặc định ",
+    "successfully": " thành công",
+    "setting_default_screen_failed": "Cài đặt màn hình mặc định thất bại. Lỗi ",
+    "change_screen_name": "Đổi tên màn hình",
+    "failed": "Thất bại. Lỗi: ",
+    "successfully_edit_camera": "Sửa Camera thành công"
   },
   "breadcrumd": {
     "report": "Quản lý báo cáo",
