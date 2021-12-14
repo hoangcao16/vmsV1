@@ -31,7 +31,7 @@ const initialState = {
   errors: null,
 };
 
-const trackinhPointMapReducer = (state = initialState, action) => {
+const trackingPointMapReducer = (state = initialState, action) => {
   switch (action.type) {
     case SET_TRACKING_POINTS_ON_MAP: {
       return { ...state, trackingPoints: action.payload };
@@ -124,4 +124,4 @@ const trackinhPointMapReducer = (state = initialState, action) => {
   }
 };
 
-export default trackinhPointMapReducer;
+export default trackingPointMapReducer;
