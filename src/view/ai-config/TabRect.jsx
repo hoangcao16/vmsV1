@@ -56,9 +56,9 @@ const TabRect = (props) => {
     labelCol: { span: 24 },
   };
 
-  const handleDoneRenamePreset = async (e, record) => {
+  const handleDoneRenameUuid = async (e, record) => {
     const value = document
-      .getElementById(`input-name-preset-${record.key}`)
+      .getElementById(`input-name-uuid-${record.key}`)
       .value.trim();
     if (value.length >= 30 || value.length === 0) {
       //validate
@@ -83,43 +83,64 @@ const TabRect = (props) => {
         dataNew.forEach(data => {
           if (data.key === record.key) {
             data.uuid = result.uuid;
-          } 
+          }
         })
-
         setDataRectList(dataNew);
       });
 
       document.getElementById(
-        `rename__preset-${record.key}`
+        `rename__uuid-${record.key}`
       ).style.display = "none";
       const successNotyfi = {
         type: NOTYFY_TYPE.success,
         title: `${t("noti.success")}`,
+<<<<<<< HEAD
         description: `${t('noti.change_preset_name_success')}`,
+=======
+        description: "Bạn đã đổi tên thành công",
+>>>>>>> 2ceef13b6912ca163920c92b0886371b6052640b
         duration: 2,
       };
       Notification(successNotyfi);
     }
   };
 
-  const handleFocusInputNamePreset = (record) => {
-    document.getElementById(`rename__preset-${record.key}`).style.display =
+  const handleFocusInputNameUuid = (record) => {
+    document.getElementById(`rename__uuid-${record.key}`).style.display =
       "flex";
   };
 
-  const handleCloseRenamePreset = (e, record) => {
+  const handleCloseRenameUuid = (e, record) => {
     e.stopPropagation();
-    document.getElementById(`input-name-preset-${record.idPreset}`).value =
+    document.getElementById(`input-name-uuid-${record.key}`).value =
       dataRectList[record.key].name;
-    document.getElementById(`rename__preset-${record.idPreset}`).style.display =
+    document.getElementById(`rename__uuid-${record.key}`).style.display =
       "none";
   };
 
   const handleSubmit = async (value) => {
-    
+
     const name = document
-    .getElementById(`input-name-preset-${keyActive}`)
-    .value.trim();
+      .getElementById(`input-name-uuid-${keyActive}`)
+      .value.trim();
+    let points = [];
+    let pointsP = [];
+
+    if (type === "hurdles") {
+      points = [[fromX, fromY], [toX, toY]];
+      pointsP = [[fromXP, fromYP], [toXP, toYP]];
+    } else {
+      
+      coordinates.forEach(data => {
+        points.push([data.x, data.y]) 
+      })
+      coordinatesP.forEach(data => {
+        pointsP.push([data.x, data.y])
+      })
+      
+    }
+
+
     const payload = {
       ...dataRect,
       type: type,
@@ -130,15 +151,16 @@ const TabRect = (props) => {
       status: "1",
       direction: value.direction,
       name: name,
-      points: [[]]
+      points: points,
+      pointsP: pointsP
 
     };
-    
+
     AIConfigRectApi.addConfigRect(payload).then((result) => {
       setDefaultDataRect(result)
     });
-    
-    
+
+
   };
 
   function setDefaultDataRect(data) {
@@ -155,6 +177,21 @@ const TabRect = (props) => {
       threshold: 100,
       direction: data.direction
     })
+    
+    if (type === "hurdles") {
+      if(data.points != null && data.points.length > 0){
+        addLine(data.points, data.direction)
+      }
+      
+
+      // drawLine();
+      // window.addEventListener('resize', resizeLineCanvasEventHandler);
+    } else {
+      if(data.points != null && data.points.length > 0){
+        addRect(data.points)
+      }
+      
+    }
   }
 
   const onChangeDirectionHandler = (value) => {
@@ -185,30 +222,30 @@ const TabRect = (props) => {
         return (
           <>
             <input
-              id={`input-name-preset-${record.key}`}
+              id={`input-name-uuid-${record.key}`}
               defaultValue={record?.name}
               maxLength={20}
-              onFocus={(e) => handleFocusInputNamePreset(record)}
+              onFocus={(e) => handleFocusInputNameUuid(record)}
               autoComplete="off"
               style={{ width: '130px' }}
               className="ant-form-item-control-input"
             />
             <span
-              id={`rename__preset-${record.key}`}
+              id={`rename__uuid-${record.key}`}
               style={{ display: "none" }}
             >
               <CheckOutlined
                 id={`confirm-done-icon-rename-${record.key}`}
                 onClick={(e) => {
                   e.stopPropagation();
-                  handleDoneRenamePreset(e, record);
+                  handleDoneRenameUuid(e, record);
                 }}
               />
               <CloseOutlined
                 id={`confirm-close-icon-rename-${record.key}`}
                 onClick={(e) => {
                   e.stopPropagation();
-                  handleCloseRenamePreset(e, record);
+                  handleCloseRenameUuid(e, record);
                 }}
               />
             </span>
@@ -290,6 +327,8 @@ const TabRect = (props) => {
         cameraUuid: cameraUuid
       };
 
+      clearEventHandler()
+
       AIConfigRectApi.getAllConfigRect(data).then((result) => {
         const itemRectList = [];
         let i = 1;
@@ -305,7 +344,9 @@ const TabRect = (props) => {
             vehicleDetection: result.vehicleDetection,
             peopleDetection: result.peopleDetection,
             direction: result.direction,
-            threshold: result.threshold
+            threshold: result.threshold,
+            points: result.points,
+            pointsP: result.pointsP
           })
           i++;
         })
@@ -317,6 +358,7 @@ const TabRect = (props) => {
       return () => {
         closeCamera();
       }
+
     }
   }, [cameraUuid, type]);
 
@@ -389,7 +431,7 @@ const TabRect = (props) => {
         data.lineNo = i;
         i++
       })
-      
+
 
       setDataRectList(newData);
 
@@ -400,14 +442,14 @@ const TabRect = (props) => {
 
   const handleRowClick = (event, data) => {
     setKeyActive(data.key)
-    if(data.uuid != null){
+    if (data.uuid != null) {
       AIConfigRectApi.getConfigRect(data.uuid).then((result) => {
         if (result != null) {
           data = result
         }
       });
     }
-    
+
     setDefaultDataRect(data)
     setIsActiveDetail(true)
 
@@ -437,10 +479,10 @@ const TabRect = (props) => {
     pc.addTransceiver("video");
     pc.oniceconnectionstatechange = () => {
     };
-    const spin = document.getElementById("spin-slot-"+type);
+    const spin = document.getElementById("spin-slot-" + type);
     pc.ontrack = (event) => {
       //binding and play
-      const video = document.getElementById("video-slot-"+type);
+      const video = document.getElementById("video-slot-" + type);
       if (video) {
         video.srcObject = event.streams[0];
         video.autoplay = true;
@@ -488,7 +530,7 @@ const TabRect = (props) => {
   };
 
   const closeCamera = () => {
-    const video = document.getElementById("video-slot-"+type);
+    const video = document.getElementById("video-slot-" + type);
     video.srcObject = null;
     video.style.display = "none";
     if (timerIdentifier != null) clearTimeout(timerIdentifier);
@@ -499,25 +541,44 @@ const TabRect = (props) => {
 
   const initRect = () => {
     if (timerIdentifierRect != null) clearTimeout(timerIdentifierRect);
-    const video = document.getElementById("video-slot-"+type);
-    const canvas = document.getElementById("canvas-slot-"+type);
+    const video = document.getElementById("video-slot-" + type);
+    const canvas = document.getElementById("canvas-slot-" + type);
     if (canvas !== null) {
       canvas.style.display = "block";
       canvas.width = video.clientWidth;
       canvas.height = video.clientHeight;
-      videoSlotSizeRect = {w: video.clientWidth, h: video.clientHeight};
+      videoSlotSizeRect = { w: video.clientWidth, h: video.clientHeight };
       coordinates = [];
-      coordinates.push({x: video.clientWidth / 4, y: video.clientHeight / 4, mouseDown: false});
-      coordinates.push({x: (video.clientWidth / 4) * 3, y: video.clientHeight / 4, mouseDown: false});
-      coordinates.push({x: (video.clientWidth / 4) * 3, y: (video.clientHeight / 4) * 3, mouseDown: false});
-      coordinates.push({x: video.clientWidth / 4, y: (video.clientHeight / 4) * 3, mouseDown: false});
+      coordinates.push({ x: video.clientWidth / 4, y: video.clientHeight / 4, mouseDown: false });
+      coordinates.push({ x: (video.clientWidth / 4) * 3, y: video.clientHeight / 4, mouseDown: false });
+      coordinates.push({ x: (video.clientWidth / 4) * 3, y: (video.clientHeight / 4) * 3, mouseDown: false });
+      coordinates.push({ x: video.clientWidth / 4, y: (video.clientHeight / 4) * 3, mouseDown: false });
+      drawRect();
+      window.addEventListener('resize', resizeRectCanvasEventHandler);
+    }
+  }
+
+  const addRect = (points) => {
+    if (timerIdentifierRect != null) clearTimeout(timerIdentifierRect);
+    const video = document.getElementById("video-slot-" + type);
+    const canvas = document.getElementById("canvas-slot-" + type);
+    if (canvas !== null) {
+      canvas.style.display = "block";
+      canvas.width = video.clientWidth;
+      canvas.height = video.clientHeight;
+      videoSlotSizeRect = { w: video.clientWidth, h: video.clientHeight };
+      coordinates = [];
+      points.forEach(data => {
+        coordinates.push({ x: data[0], y: data[1], mouseDown: false });
+      })
+      
       drawRect();
       window.addEventListener('resize', resizeRectCanvasEventHandler);
     }
   }
 
   const drawRect = () => {
-    const canvas = document.getElementById("canvas-slot-"+type);
+    const canvas = document.getElementById("canvas-slot-" + type);
     if (canvas !== null) {
       const ctx = canvas.getContext('2d');
       ctx.clearRect(0, 0, canvas.width, canvas.height);
@@ -550,7 +611,7 @@ const TabRect = (props) => {
       // Set output
       coordinatesP = [];
       for (let index = 0; index < coordinates.length; index++) {
-        coordinatesP.push({x: coordinates[index].x / canvas.width, y: coordinates[index].y / canvas.height});
+        coordinatesP.push({ x: coordinates[index].x / canvas.width, y: coordinates[index].y / canvas.height });
       }
       console.log("coordinatesP:", coordinatesP);
     }
@@ -558,13 +619,13 @@ const TabRect = (props) => {
 
   const initLine = (initDirection) => {
     if (timerIdentifier != null) clearTimeout(timerIdentifier);
-    const video = document.getElementById("video-slot-"+type);
-    const canvas = document.getElementById("canvas-slot-"+type);
+    const video = document.getElementById("video-slot-" + type);
+    const canvas = document.getElementById("canvas-slot-" + type);
     if (canvas !== null) {
       canvas.style.display = "block";
       canvas.width = video.clientWidth;
       canvas.height = video.clientHeight;
-      videoSlotSize = {w: video.clientWidth, h: video.clientHeight};
+      videoSlotSize = { w: video.clientWidth, h: video.clientHeight };
       fromX = video.clientWidth / 2;
       fromY = video.clientHeight / 4;
       toX = video.clientWidth / 2;
@@ -575,8 +636,27 @@ const TabRect = (props) => {
     }
   }
 
+  const addLine = (points , directionV) => {
+    if (timerIdentifier != null) clearTimeout(timerIdentifier);
+    const video = document.getElementById("video-slot-" + type);
+    const canvas = document.getElementById("canvas-slot-" + type);
+    if (canvas !== null) {
+      canvas.style.display = "block";
+      canvas.width = video.clientWidth;
+      canvas.height = video.clientHeight;
+      videoSlotSize = { w: video.clientWidth, h: video.clientHeight };
+      fromX = points[0][0]
+      fromY = points[0][1]
+      toX = points[1][0]
+      toY = points[1][1]
+      direction = directionV;
+      drawLine();
+      window.addEventListener('resize', resizeLineCanvasEventHandler);
+    }
+  }
+
   const clearEventHandler = () => {
-    const canvas = document.getElementById("canvas-slot-"+type);
+    const canvas = document.getElementById("canvas-slot-" + type);
     if (canvas !== null) {
       const ctx = canvas.getContext('2d');
       ctx.clearRect(0, 0, canvas.width, canvas.height);
@@ -660,7 +740,7 @@ const TabRect = (props) => {
           for (let index = 0; index < coordinates.length; index++) {
             let x = w * coordinates[index].x / canvas.width;
             let y = h * coordinates[index].y / canvas.height;
-            coordinates[index] = {...coordinates[index], x: x, y: y};
+            coordinates[index] = { ...coordinates[index], x: x, y: y };
           }
           canvas.width = w;
           canvas.height = h;
@@ -671,7 +751,7 @@ const TabRect = (props) => {
   }
 
   const drawLine = () => {
-    const canvas = document.getElementById("canvas-slot-"+type);
+    const canvas = document.getElementById("canvas-slot-" + type);
     if (canvas !== null) {
       const ctx = canvas.getContext('2d');
       ctx.clearRect(0, 0, canvas.width, canvas.height);
@@ -837,12 +917,12 @@ const TabRect = (props) => {
         const x = event.clientX - position.left;
         const y = event.clientY - position.top;
         if (x <= (fromX + 10) && x >= (fromX - 10)
-            && y <= (fromY + 10) && y >= (fromY - 10)) {
+          && y <= (fromY + 10) && y >= (fromY - 10)) {
           canvasRef.current.style.cursor = "grabbing";
           isFromPointMouseDown = true;
         }
         if (x <= (toX + 10) && x >= (toX - 10)
-            && y <= (toY + 10) && y >= (toY - 10)) {
+          && y <= (toY + 10) && y >= (toY - 10)) {
           canvasRef.current.style.cursor = "grabbing";
           isToPointMouseDown = true;
         }
@@ -855,15 +935,15 @@ const TabRect = (props) => {
         let isGrab = false;
         for (let index = 0; index < coordinates.length; index++) {
           if (x_ <= (coordinates[index].x + 10) && x_ >= (coordinates[index].x - 10)
-              && y_ <= (coordinates[index].y + 10) && y_ >= (coordinates[index].y - 10)) {
+            && y_ <= (coordinates[index].y + 10) && y_ >= (coordinates[index].y - 10)) {
             canvasRefRect.current.style.cursor = "grabbing";
-            coordinates[index] = {...coordinates[index], mouseDown: true};
+            coordinates[index] = { ...coordinates[index], mouseDown: true };
             isGrab = true;
             break;
           }
         }
         if (!isGrab) {
-          coordinates.push({x: x_, y: y_, mouseDown: false});
+          coordinates.push({ x: x_, y: y_, mouseDown: false });
           coordinates = sortPoints(coordinates);
           drawRect();
         }
@@ -879,7 +959,7 @@ const TabRect = (props) => {
         const x = event.clientX - position.left;
         const y = event.clientY - position.top;
         if ((x <= (fromX + 10) && x >= (fromX - 10) && y <= (fromY + 10) && y >= (fromY - 10))
-            || (x <= (toX + 10) && x >= (toX - 10) && y <= (toY + 10) && y >= (toY - 10))) {
+          || (x <= (toX + 10) && x >= (toX - 10) && y <= (toY + 10) && y >= (toY - 10))) {
           canvasRef.current.style.cursor = "grab";
         } else {
           canvasRef.current.style.cursor = "default";
@@ -892,12 +972,12 @@ const TabRect = (props) => {
         const x_ = event.clientX - position_.left;
         const y_ = event.clientY - position_.top;
         for (let index = 0; index < coordinates.length; index++) {
-          coordinates[index] = {...coordinates[index], mouseDown: false};
+          coordinates[index] = { ...coordinates[index], mouseDown: false };
           if (x_ <= (coordinates[index].x + 10) && x_ >= (coordinates[index].x - 10)
-              && y_ <= (coordinates[index].y + 10) && y_ >= (coordinates[index].y - 10)) {
+            && y_ <= (coordinates[index].y + 10) && y_ >= (coordinates[index].y - 10)) {
             canvasRefRect.current.style.cursor = "grab";
             break;
-          }else{
+          } else {
             canvasRefRect.current.style.cursor = "default";
           }
         }
@@ -914,7 +994,7 @@ const TabRect = (props) => {
         const y = event.clientY - position.top;
         if (!isFromPointMouseDown && !isToPointMouseDown) {
           if ((x <= (fromX + 10) && x >= (fromX - 10) && y <= (fromY + 10) && y >= (fromY - 10))
-              || (x <= (toX + 10) && x >= (toX - 10) && y <= (toY + 10) && y >= (toY - 10))) {
+            || (x <= (toX + 10) && x >= (toX - 10) && y <= (toY + 10) && y >= (toY - 10))) {
             canvasRef.current.style.cursor = "grab";
           } else {
             canvasRef.current.style.cursor = "default";
@@ -938,18 +1018,18 @@ const TabRect = (props) => {
         for (let index = 0; index < coordinates.length; index++) {
           if (!coordinates[index].mouseDown) {
             if (x_ <= (coordinates[index].x + 10) && x_ >= (coordinates[index].x - 10)
-                && y_ <= (coordinates[index].y + 10) && y_ >= (coordinates[index].y - 10)) {
+              && y_ <= (coordinates[index].y + 10) && y_ >= (coordinates[index].y - 10)) {
               canvasRefRect.current.style.cursor = "grab";
               break;
             } else {
               canvasRefRect.current.style.cursor = "default";
             }
           } else {
-            coordinates[index] = {...coordinates[index], x: x_, y: y_};
+            coordinates[index] = { ...coordinates[index], x: x_, y: y_ };
           }
         }
         for (let index = 0; index < coordinates.length; index++) {
-          if (coordinates[index].mouseDown){
+          if (coordinates[index].mouseDown) {
             drawRect();
             break;
           }
@@ -979,7 +1059,7 @@ const TabRect = (props) => {
                 }
                 {cameraUuid && (
                   <div className="camera__monitor">
-                    <canvas id={`canvas-slot-${type}`} className="canvas-slot" ref={type==="hurdles"?canvasRef:canvasRefRect}
+                    <canvas id={`canvas-slot-${type}`} className="canvas-slot" ref={type === "hurdles" ? canvasRef : canvasRefRect}
                       onMouseUp={canvasMouseUp}
                       onMouseDown={canvasMouseDown} onMouseMove={canvasMouseMove}
                       width="100%" style={{ display: "none" }} />
@@ -1007,7 +1087,7 @@ const TabRect = (props) => {
                     onClick={() => {
                       if (type === "hurdles") {
                         initLine(2);
-                      }else{
+                      } else {
                         initRect();
                       }
                     }}
@@ -1104,6 +1184,10 @@ const TabRect = (props) => {
               <div style={{ width: '100%', padding: '20px' }}>
                 <Table
                   className="table__config_rect"
+                  rowClassName={(record, rowIndex) => {
+                    if (record.key === keyActive) return 'selected';
+                    return 'not-selected';
+                  }}
                   columns={columnTables}
                   dataSource={dataRectList}
                   pagination={false}

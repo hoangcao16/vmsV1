@@ -80,6 +80,8 @@ const SideMenuContent = (props) => {
   };
   // Loop over sidebar items
 
+  const refreshPage = ()=>{     window.location.reload();  }
+
   const onChangLanguage = (e) => {
     const value = e.target.value
     setMultilanguageForElement(
@@ -116,6 +118,7 @@ const SideMenuContent = (props) => {
     setLanguage && setLanguage(value);
     reactLocalStorage.set("language", value);
     i18n.changeLanguage(value);
+    refreshPage()
   };
 
   const setMultilanguageForElement = (elm, valVn, valEn, lang) => {

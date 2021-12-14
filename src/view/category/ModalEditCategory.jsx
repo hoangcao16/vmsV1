@@ -52,18 +52,25 @@ const ModalViewEditCategory = (props) => {
     }
   }, [selectedCategoryId]);
 
-  const renderOptionSelectField = () => (
-    (isEmpty(fieldData) ? "" : fieldData?.map((item) => (
-      <option value={item.uuid}>
-        {item.name.length > 40
-          ? `${item.name.slice(0, 19)}...${item.name.slice(
-              item.name.length - 20,
-              item.name.length
-            )}`
-          : `${item.name}`}
-      </option>
-    ))));
-    
+  const renderOptionSelectField = () => {
+    if (fieldData == null || fieldData == undefined) {
+      return "";
+    } else {
+      return fieldData?.map((item) => {
+        return (
+          <option value={item.uuid}>
+          {item.name.length > 40
+            ? `${item.name.slice(0, 19)}...${item.name.slice(
+                item.name.length - 20,
+                item.name.length
+              )}`
+            : `${item.name}`}
+        </option>
+        )
+      });
+    }
+  };
+
   const getAllField = async (params) => {
     const data = await FieldApi.getAllFeild(params);
     setFieldData(data);

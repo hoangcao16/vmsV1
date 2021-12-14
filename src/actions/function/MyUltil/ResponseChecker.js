@@ -2,6 +2,9 @@ import { isEmpty } from "lodash";
 import { handleErrCode } from "../../../api/controller-api/code";
 import Notification from "../../../components/vms/notification/Notification";
 import { handleForbiddenCode } from "../../../api/authz/forbidden";
+import { reactLocalStorage } from "reactjs-localstorage";
+
+const language = reactLocalStorage.get('language')
 
 export function responseCheckerErrorsController(result) {
   return handleErrCode(result);
@@ -40,12 +43,20 @@ export const handleErrCodeAuthZ = (data) => {
       return data;
 
     case AuthZStatusBadRequest:
-      errCode.description = "Vui lòng kiểm tra lại Tài khoản hoặc Mật khẩu";
+      if (language == 'vn') {
+        errCode.description = "Vui lòng kiểm tra lại Tài khoản hoặc Mật khẩu";
+      } else {
+        errCode.description = "123";
+      }
       Notification(errCode);
       return null;
 
     case AuthZStatusUnauthorized:
-      errCode.description = "Vui lòng kiểm tra lại Tài khoản hoặc Mật khẩu";
+      if (language == 'vn') {
+        errCode.description = "Vui lòng kiểm tra lại Tài khoản hoặc Mật khẩu";
+      } else {
+        errCode.description = "123";
+      }
       Notification(errCode);
       return null;
     case AuthZStatusNotFound:
