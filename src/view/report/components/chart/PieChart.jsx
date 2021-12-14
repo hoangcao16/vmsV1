@@ -13,6 +13,8 @@ import { Tooltip as TooltipAnt } from "antd";
 var randomColor = require("randomcolor");
 
 const RADIAN = Math.PI / 180;
+
+
 const renderCustomizedLabel = ({
   cx,
   cy,
@@ -38,6 +40,7 @@ const renderCustomizedLabel = ({
     </text>
   );
 };
+
 
 const total = (data, key) => {
   const dataTotal = data.map((d) => {

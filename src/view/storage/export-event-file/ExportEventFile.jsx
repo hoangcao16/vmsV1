@@ -373,7 +373,7 @@ const ExportEventFile = () => {
         perToCheck.push("view_event_file");
       }
       let per = true;
-      perToCheck.map((p) => {
+      perToCheck.forEach((p) => {
         const res = permissionCheck(p);
         per = res && per;
       });
@@ -719,7 +719,7 @@ const ExportEventFile = () => {
   const editRootFileHandler = async (uuid) => {
     setLoading(true);
     try {
-      ExportEventFileApi.getFileByUuid(uuid).then((data) => {
+      await ExportEventFileApi.getFileByUuid(uuid).then((data) => {
         setIsOpenRootFile(true);
         setViewFileType(0);
         if (data && data.payload) {

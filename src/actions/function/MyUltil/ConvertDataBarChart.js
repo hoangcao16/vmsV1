@@ -7,13 +7,18 @@ export default function convertDataBarChart(arrObj) {
             let object = {};
             let temp = Object.values(d);
             if (!arr1.includes(temp[0])) {
-                object.time = temp[0];
+                if (temp[0].length > 7) {
+                    object.time = temp[0].slice(0, 5);
+                } else {
+                    object.time = temp[0];
+                }
                 object[temp[1]] = d.totalEvent1;
                 arr1.push(object);
             } else {
                 object[temp[1]] = d.totalEvent1;
             }
         });
+        
 
         const result1 = arr1.reduce((acc, o) => {
             const queryResult = acc.find((qr) => qr.time == o.time);
@@ -34,7 +39,11 @@ export default function convertDataBarChart(arrObj) {
             let object = {};
             let temp = Object.values(d);
             if (!arr2.includes(temp[0])) {
-                object.time = temp[0];
+                if (temp[0].length > 7) {
+                    object.time = temp[0].slice(0, 5);
+                } else {
+                    object.time = temp[0];
+                }
                 object[temp[1]] = d.totalEvent2;
                 arr2.push(object);
             } else {
