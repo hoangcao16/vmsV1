@@ -521,11 +521,11 @@ function Sidebar(props) {
       };
       props.callData(clearData(data));
     } else {
-      if (selectedRowKeys.length > 2) {
+      if (selectedRowKeys.length > 3) {
         const notifyMess = {
           type: "error",
           title: "",
-          description: "Số lượng sự kiện không được vượt quá 2",
+          description: "Số lượng sự kiện không được vượt quá 3",
         };
         Notification(notifyMess);
 

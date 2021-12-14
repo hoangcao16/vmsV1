@@ -64,13 +64,46 @@ export default function convertDataBarChart(arrObj) {
             }
             return acc;
         }, []);
+        
+        let arr3 = [];
+        arrObj.map((d) => {
+            let object = {};
+            let temp = Object.values(d);
+            if (!arr3.includes(temp[0])) {
+                if (temp[0].length > 7) {
+                    object.time = temp[0].slice(0, 5);
+                } else {
+                    object.time = temp[0];
+                }
+                object[temp[1]] = d.totalEvent3;
+                arr3.push(object);
+            } else {
+                object[temp[1]] = d.totalEvent3;
+            }
+        });
 
+        const result3 = arr3.reduce((acc, o) => {
+            const queryResult = acc.find((qr) => qr.time == o.time);
+            if (queryResult) {
+                queryResult[Object.keys(o)[1]] = Object.values(o)[1]
+            } else {
+                let newQR = {
+                    time: o.time,
+                    [Object.keys(o)[1]]: Object.values(o)[1]
+                };
+                acc.push(newQR);
+            }
+            return acc;
+        }, []);
         let object = {};
         if (!isEmpty(arrObj[0].event1)) {
             object[arrObj[0].event1] = result1
         }
         if (!isEmpty(arrObj[0].event2)) {
             object[arrObj[0].event2] = result2 
+        }
+        if (!isEmpty(arrObj[0].event3)) {
+            object[arrObj[0].event3] = result3
         }
         return object;
     }

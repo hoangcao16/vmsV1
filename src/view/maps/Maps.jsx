@@ -5,28 +5,28 @@ import { CamType } from "../../@core/common/common";
 import "../../assets/scss/pages/map.scss";
 import mapActions from "../../redux/actions/map";
 import {
-    addAdminisUnitOnMap,
-    updateAdminisUnitOnMap
+  addAdminisUnitOnMap,
+  updateAdminisUnitOnMap
 } from "../../redux/actions/map/adminisUnitsAction";
 import {
-    addCameraOnMap,
-    updateCameraOnMapByFilter
+  addCameraOnMap,
+  updateCameraOnMapByFilter
 } from "../../redux/actions/map/cameraActions";
 import { seekPlaybackOnMap } from "../../redux/actions/map/camLiveAction";
 import {
-    setMapStyle,
-    updateMapObject
+  setMapStyle,
+  updateMapObject
 } from "../../redux/actions/map/formMapActions";
 import {
-    addNewTrackingPoint,
-    updateCurrentLang,
-    updateTrackingPointAction
+  addNewTrackingPoint,
+  updateCurrentLang,
+  updateTrackingPointAction
 } from "../../redux/actions/map/trackingPointActions";
 import {
-    FORM_MAP_ITEM,
-    STYLE_MODE,
-    TRACKING_POINTS,
-    TYPE_FORM_ACTION_ON_MAP
+  FORM_MAP_ITEM,
+  STYLE_MODE,
+  TRACKING_POINTS,
+  TYPE_FORM_ACTION_ON_MAP
 } from "../common/vms/constans/map";
 import { PAGE_SIZE } from "../common/vms/Constant";
 import { buildingIcon } from "../map/adminisUnit.icon";
@@ -37,7 +37,6 @@ import MapCameraAdd from "../map/forms/MapCameraAdd";
 import MapListCamLive from "../map/forms/MapListCamLive";
 import RightSideBarMap from "../map/forms/RightSideBarMap";
 import ControlMapStyles from "./ControlMapStyles";
-import LiveAndPlaybackCam from "./LiveAndPlaybackCam";
 import PlaybackDateTimeSelection from "./PlaybackDateTimeSelection";
 import SearchCamItem from "./SearchCamItem";
 import ToggleMapMode from "./ToggleMapMode";
@@ -78,6 +77,7 @@ const Maps = (props) => {
     isEditForm,
   } = formMapSelector;
 
+
   // dispatch action
   const {
     fetchAllCameraOnMap,
@@ -93,6 +93,7 @@ const Maps = (props) => {
   const [search, setSearch] = useState("");
   const [filter, setFilter] = useState({});
   const [filterType, setFilterType] = useState(CamType);
+  
   const radiusTrackingPoint = 1;
   const metadata = {
     page: 1,
@@ -161,8 +162,6 @@ const Maps = (props) => {
   };
 
   const handleSelectCameraCallback = (cam, _) => {
-    console.log("cam:", cam);
-    console.log("_:", _);
     if (isOpenForm && actionType === TYPE_FORM_ACTION_ON_MAP.cam) {
       const formMapObj = sessionStorage.getItem(FORM_MAP_ITEM)
         ? JSON.parse(sessionStorage.getItem(FORM_MAP_ITEM))
@@ -386,6 +385,7 @@ const Maps = (props) => {
         updateTrackingPoint={updateTrackingPoint}
         onContextMenuCallback={onContextMenuCallback}
         liveMode={liveMode}
+        editMode={editMode}
       />
       {isOpenForm && actionType === TYPE_FORM_ACTION_ON_MAP.cam && (
         <>
