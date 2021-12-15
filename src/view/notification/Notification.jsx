@@ -106,7 +106,7 @@ const Notification = (props) => {
             height={400}
             endMessage={
               <p style={{ textAlign: 'center' }}>
-                <b>Yay! Bạn đã xem hết danh sách thông báo trong tuần</b>
+                <b>Bạn đã xem hết danh sách thông báo</b>
               </p>
             }
           >
