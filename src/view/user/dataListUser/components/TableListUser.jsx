@@ -143,8 +143,8 @@ const TableListUser = (props) => {
     setSearch(value);
     if (value !== null) {
       const data = {
-        page: page,
-        size: size,
+        // page: page,
+        // size: size,
         filter: value.trim(),
         type: unit,
       };

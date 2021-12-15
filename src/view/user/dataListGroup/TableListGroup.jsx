@@ -93,8 +93,8 @@ export default function TableListGroup() {
     if (search !== null) {
       let data = {
         filter: value,
-        page: 1,
-        size: size
+        // page: 1,
+        // size: size
       };
 
       await GroupApi.getAllGroup(data).then((result) => {
