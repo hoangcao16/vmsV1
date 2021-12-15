@@ -48,15 +48,18 @@
             &--header {
               display: flex;
               align-items: center;
+
               .notif__description {
                 flex: 2;
                 display: flex;
                 align-items: center;
+
                 .notif__title {
                   font-weight: 600;
                   font-size: 1.6rem;
                   height: 28px;
                   line-height: 28px;
+
                   .ant-typography {
                     color: $vms-main-blue-primary;
                     width: 12.4vw;
@@ -64,6 +67,7 @@
                     white-space: nowrap;
                     overflow: hidden;
                     text-overflow: ellipsis;
+
                     span {
                       color: $vms-main-blue-primary;
                     }
@@ -92,6 +96,7 @@
                 display: flex;
                 justify-content: end;
               }
+
               .yellow {
                 background-color: #ff9f43 !important;
                 width: 24px;
@@ -104,7 +109,6 @@
                   color: $vms-bg-primary;
                 }
               }
-
               .red {
                 background-color: $vms-red-drak-mode !important;
               }
@@ -129,7 +133,9 @@
     .seen {
       border-bottom: $vms-border-gray !important;
       background-color: $vms-bg-primary;
+
       .notif__title {
+        
         .ant-typography {
           color: $vms-soft-statuts !important;
           span {
@@ -137,6 +143,7 @@
           }
         }
       }
+      
       .notif__day,
       .notif__time {
         color: $vms-status-05 !important;
