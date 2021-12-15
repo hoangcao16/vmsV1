@@ -115,7 +115,7 @@ const TableHardDriveList = () => {
       />
       <div className="tabs__container--device">
         <Card
-          title="Danh sách ổ cứng"
+          title={t('view.user.hard_drive_list')}
           bodyStyle={bodyStyleCard}
           headStyle={headStyleCard}
           className="card--listDevice"

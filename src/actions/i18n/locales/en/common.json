@@ -555,7 +555,14 @@
     "setting_default_screen_failed": "Setting default screen failed. Error ",
     "change_screen_name": "Change screen name",
     "failed": "Failed. Error: ",
-    "successfully_edit_camera": "Successfully edit Camera"
+    "successfully_edit_camera": "Successfully edit Camera",
+    "copy_successful": "Copy successful",
+    "faid": "Failed",
+    "0_100": "Name length must have more than 0 and less than 100 characters",
+    "change_preset_name_success": "Successfully change preset name",
+    "delete_successful": "Delete successful",
+    "unidentified_camera": "Unidentified Camera",
+    "error_camera_address": "Failed to receive error Camproxy address"
   },
   "breadcrumd": {
     "report": "Report Management",

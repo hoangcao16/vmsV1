@@ -85,7 +85,7 @@ const ModalScheduleConfigCopy = (props) => {
         const notifyMess = {
           type: "success",
           title: `${t('noti.success')}`,
-          description: `Bạn đã copy thành công`,
+          description: `${t('noti.copy_successful')}`,
         };
         Notification(notifyMess);
         setShowModalCopy(false)

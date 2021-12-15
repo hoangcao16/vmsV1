@@ -552,7 +552,14 @@
     "setting_default_screen_failed": "Cài đặt màn hình mặc định thất bại. Lỗi ",
     "change_screen_name": "Đổi tên màn hình",
     "failed": "Thất bại. Lỗi: ",
-    "successfully_edit_camera": "Sửa Camera thành công"
+    "successfully_edit_camera": "Sửa Camera thành công",
+    "copy_successful": "Bạn đã sao chép thành công",
+    "faid": "Thất bại",
+    "0_100": "Độ dài tên cần lớn hơn 0 và nhỏ hơn 100 kí tự",
+    "change_preset_name_success": "Bạn đã đổi tên preset thành công",
+    "delete_successful": "Bạn đã xóa thành công",
+    "unidentified_camera": "Camera không xác định",
+    "error_camera_address": "Không nhận địa chỉ Camproxy lỗi"
   },
   "breadcrumd": {
     "report": "Quản lý báo cáo",

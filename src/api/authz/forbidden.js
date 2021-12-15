@@ -6,11 +6,20 @@ const StatusForbidden = 605;
 
 export const handleForbiddenCode = (forbiddenCodes) => {
     const language = reactLocalStorage.get('language')
-    const errCode = {
-        type: 'error',
-        title: 'Code: ' + StatusForbidden,
-        description: ''
-    };
+    let errCode = {};
+    if (language == 'vn') {
+        errCode = {
+            type: 'error',
+            title: 'Mã lỗi: ' + StatusForbidden,
+            description: ''
+        };
+    } else {
+        errCode = {
+            type: 'error',
+            title: 'Code: ' + StatusForbidden,
+            description: ''
+        };
+    }
     let description = `${(language == 'vn' ? 'Bạn không có quyền để thực hiện hành động này' : 'You don\'t have permission to perform this action')}`;
     if (forbiddenCodes) {
         let data = {
