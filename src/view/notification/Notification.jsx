@@ -121,7 +121,7 @@ const Notification = (props) => {
                 alignItems: 'center',
                 fontSize: '1.8rem'
               }}>
-                <b>Lỗi khi load thông báo</b>
+                <b>Lỗi khi tải thông báo</b>
               </p>}
 
           </InfiniteScroll>
