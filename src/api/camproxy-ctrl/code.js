@@ -1,5 +1,8 @@
 import Notification from "../../components/vms/notification/Notification";
 import {handleForbiddenCode} from "../authz/forbidden";
+import { reactLocalStorage } from "reactjs-localstorage";
+
+const language = reactLocalStorage.get('language')
 
 const KPandaSuccess = 12000;
 const KPandaMissingFieldDomainOrUser = 12101
@@ -10,11 +13,20 @@ const KPandaCamNotFound = 12105
 const StatusForbidden = 605;
 
 export const handleErrCode = ({code, message, payload, deny_permission_codes}) => {
-    const errCode = {
+    let errCode = {};
+    if (language == 'vn') {
+        errCode = {
         type: "error",
-        title: "Code:" + code,
-        description: '',
-    };
+        title: "Mã lỗi: " + code,
+        description: "",
+        };
+    } else {
+        errCode = {
+        type: "error",
+        title: "Code: " + code,
+        description: "",
+        };
+    }
     switch (code) {
         case KPandaSuccess:
             return payload
@@ -23,7 +35,11 @@ export const handleErrCode = ({code, message, payload, deny_permission_codes}) =
             Notification(errCode)
             return null
         case KPandaBadRequest:
-            errCode.description = 'Bad request'
+            if (language == 'vn') {
+                errCode.description = "Yêu cầu không hợp lệ";
+            } else {
+                errCode.description = "Bad request";
+            }
             Notification(errCode)
             return null
         case KPandaInternalServer:
@@ -31,18 +47,30 @@ export const handleErrCode = ({code, message, payload, deny_permission_codes}) =
             Notification(errCode)
             return null
         case KPandaCamproxyNotFound:
-            errCode.description = 'Not found any camproxy'
+            if (language == 'vn') {
+                errCode.description = "Không tìm thấy Camproxy";
+            } else {
+                errCode.description = "Not found any Camproxy";
+            }
             Notification(errCode)
             return null
         case KPandaCamNotFound:
-            errCode.description = 'Not found camera'
+            if (language == 'vn') {
+                errCode.description = "Không tìm thấy Camera";
+            } else {
+                errCode.description = "Not found any Camera";
+            }
             Notification(errCode)
             return null
         case StatusForbidden:
             handleForbiddenCode(deny_permission_codes);
             return null;
         default:
-            errCode.description = 'Unknown'
+            if (language == 'vn') {
+                errCode.description = "Không xác định";
+            } else {
+                errCode.description = "Unknown";
+            }
             Notification(errCode)
             return null
     }

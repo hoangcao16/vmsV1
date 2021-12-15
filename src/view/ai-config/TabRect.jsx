@@ -94,11 +94,7 @@ const TabRect = (props) => {
       const successNotyfi = {
         type: NOTYFY_TYPE.success,
         title: `${t("noti.success")}`,
-<<<<<<< HEAD
         description: `${t('noti.change_preset_name_success')}`,
-=======
-        description: "Bạn đã đổi tên thành công",
->>>>>>> 2ceef13b6912ca163920c92b0886371b6052640b
         duration: 2,
       };
       Notification(successNotyfi);
