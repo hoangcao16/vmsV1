@@ -638,14 +638,6 @@ const Preset = (props) => {
         await getAllPreset(params);
         setLoading(false);
       });
-
-      const warnNotyfi = {
-        type: NOTYFY_TYPE.success,
-        title: `${t("noti.success")}`,
-        description: "Bạn đã thiết lập preset thành công",
-        duration: 2,
-      };
-      Notification(warnNotyfi);
     } catch (error) {
       const warnNotyfi = {
         type: NOTYFY_TYPE.warning,

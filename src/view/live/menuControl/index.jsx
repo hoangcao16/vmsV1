@@ -10,6 +10,7 @@ import Preset from "../../preset/Preset";
 import ItemControl from "./ItemControl";
 // import { Modal, Button } from 'antd';
 import ModalControlPanel from "./ModalControlPanel";
+import permissionCheck from "../../../actions/function/MyUltil/PermissionCheck";
 import "./ModalPresetSetting.scss";
 
 const LIST_TYPES = {
@@ -30,7 +31,7 @@ const Index = ({
   setIsOpenModalControlPanel,
 }) => {
   const { t } = useTranslation();
-  const CONTROL_TYPES = [
+  let CONTROL_TYPES = [
     {
       name: "Preset",
       type: 1,
@@ -47,6 +48,22 @@ const Index = ({
     },
     { name: `${t("view.live.open_control_panel")}`, type: 4 },
   ];
+
+  if (!permissionCheck("setup_preset")) {
+    CONTROL_TYPES = [
+      {
+        name: "Preset",
+        type: 1,
+        icon: <ChevronRight />,
+      },
+      {
+        name: "Preset tour",
+        type: 2,
+        icon: <ChevronRight />,
+      },
+      { name: `${t("view.live.open_control_panel")}`, type: 4 },
+    ];
+  }
   const [typeActive, setTypeActive] = useState(1);
   const [openModalPresetSetting, setOpenModalPresetSetting] = useState(false);
   const [listType, setListType] = useState(LIST_TYPES.preset);
