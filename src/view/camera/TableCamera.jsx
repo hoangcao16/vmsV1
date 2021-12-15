@@ -145,8 +145,6 @@ const TableCamera = () => {
       size: size,
     };
 
-    console.log('data:',data)
-
     CameraApi.getAllCameraWidthTotal(data)
       .then((result) => {
         setListCamera(result.payload);

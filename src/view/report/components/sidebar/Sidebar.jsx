@@ -94,29 +94,56 @@ function Sidebar(props) {
     fetchSelectOptions().then((data) => {
       setFilterOptions(data);
 
-      if (
-        !isEmpty(data) &&
-        !isEmpty(data.fields) &&
-        !isEmpty(data?.fields[0]?.eventList) &&
-        !isEmpty(data?.fields[0]?.eventList[0]?.uuid) &&
-        !isEmpty(data?.fields[0]?.eventList[1]?.uuid) &&
-        !isEmpty(data?.fields[0]?.eventList[2]?.uuid)
-      ) {
+      if (!isEmpty(data) && !isEmpty(data?.fields)) {
         // setCheck(data?.)
-        setEventList(data?.fields[0]?.eventList);
-        let arr = [];
-        arr[0] = data?.fields[0]?.eventList[0]?.uuid;
-        arr[1] = data?.fields[0]?.eventList[1]?.uuid;
-        arr[2] = data?.fields[0]?.eventList[2]?.uuid;
-        setSelectedRowKeys(arr);
-
-        props.changeTitle(data?.fields[0]?.name);
-
         form.setFieldsValue({
           fieldId: data?.fields[0]?.uuid,
         });
+        let arr = [];
 
         setFeildIds(data?.fields[0]?.uuid);
+        if (
+          !isEmpty(data) &&
+          !isEmpty(data?.fields) &&
+          isEmpty(data?.fields[0]?.eventList)
+        ) {
+          const language = reactLocalStorage.get("language");
+          if (language == "vn") {
+            const notifyMess = {
+              type: "warning",
+              title: "",
+              description:
+                "Lĩnh vực này chưa có sự kiện, vui lòng chọn lĩnh vực khác",
+            };
+            Notification(notifyMess);
+            setSelectedRowKeys(null);
+            return;
+          } else {
+            const notifyMess = {
+              type: "warning",
+              title: "",
+              description:
+                "This field does not have any event, please choose another field",
+            };
+            Notification(notifyMess);
+            setSelectedRowKeys(null);
+            return;
+          }
+        } else if (
+          !isEmpty(data) &&
+          !isEmpty(data?.fields) &&
+          !isEmpty(data?.fields[0]?.eventList) &&
+          !isEmpty(data?.fields[0]?.eventList[0]?.uuid) &&
+          !isEmpty(data?.fields[0]?.eventList[1]?.uuid) &&
+          !isEmpty(data?.fields[0]?.eventList[2]?.uuid)
+        ) {
+          setEventList(data?.fields[0]?.eventList);
+          arr[0] = data?.fields[0]?.eventList[0]?.uuid;
+          arr[1] = data?.fields[0]?.eventList[1]?.uuid;
+          arr[2] = data?.fields[0]?.eventList[2]?.uuid;
+          setSelectedRowKeys(arr);
+        }
+        props.changeTitle(data?.fields[0]?.name);
         setisShowLineAndPieChart(true);
 
         const dataDefault = {
@@ -567,16 +594,16 @@ function Sidebar(props) {
       setSelectedRowKeys([eventList[0].uuid]);
     }
     let arr = [];
-      arr[0] = filterOptions?.fields[0]?.eventList[0]?.uuid;
-      props.changeCount(arr);
+    arr[0] = filterOptions?.fields[0]?.eventList[0]?.uuid;
+    props.changeCount(arr);
   };
 
   //=================================================================
 
   function onChangeTimeStartDay(value) {
     let arr = [];
-      arr[0] = filterOptions?.fields[0]?.eventList[0]?.uuid;
-      props.changeCount(arr);
+    arr[0] = filterOptions?.fields[0]?.eventList[0]?.uuid;
+    props.changeCount(arr);
     if (!value) {
       form.setFieldsValue({
         timeEndDay: timeEndDay,
@@ -594,8 +621,8 @@ function Sidebar(props) {
 
   function onChangeTimeEndDay(value) {
     let arr = [];
-      arr[0] = filterOptions?.fields[0]?.eventList[0]?.uuid;
-      props.changeCount(arr);
+    arr[0] = filterOptions?.fields[0]?.eventList[0]?.uuid;
+    props.changeCount(arr);
     setTimeStartDay(timeStartDay);
     setTimeEndDay(value);
     const dk = moment(timeStartDay).add(1, "days");
@@ -655,8 +682,8 @@ function Sidebar(props) {
 
   function onChangeTimeStartMonth(value) {
     let arr = [];
-      arr[0] = filterOptions?.fields[0]?.eventList[0]?.uuid;
-      props.changeCount(arr);
+    arr[0] = filterOptions?.fields[0]?.eventList[0]?.uuid;
+    props.changeCount(arr);
     if (!value) {
       form.setFieldsValue({
         timeEndMonth: timeEndMonth,
@@ -669,8 +696,8 @@ function Sidebar(props) {
 
   function onChangeTimeEndMonth(value) {
     let arr = [];
-      arr[0] = filterOptions?.fields[0]?.eventList[0]?.uuid;
-      props.changeCount(arr);
+    arr[0] = filterOptions?.fields[0]?.eventList[0]?.uuid;
+    props.changeCount(arr);
     setTimeEndMonth(value);
 
     const dk = moment(timeStartMonth).add(1, "months");
@@ -726,8 +753,8 @@ function Sidebar(props) {
 
   function onChangeTimeStartYear(value) {
     let arr = [];
-      arr[0] = filterOptions?.fields[0]?.eventList[0]?.uuid;
-      props.changeCount(arr);
+    arr[0] = filterOptions?.fields[0]?.eventList[0]?.uuid;
+    props.changeCount(arr);
     if (!value) {
       form.setFieldsValue({
         timeEndYear: timeEndYear,
@@ -740,8 +767,8 @@ function Sidebar(props) {
 
   function onChangeTimeEndYear(value) {
     let arr = [];
-      arr[0] = filterOptions?.fields[0]?.eventList[0]?.uuid;
-      props.changeCount(arr);
+    arr[0] = filterOptions?.fields[0]?.eventList[0]?.uuid;
+    props.changeCount(arr);
     setTimeEndYear(value);
     const dk = moment(timeStartYear).add(1, "years");
 
