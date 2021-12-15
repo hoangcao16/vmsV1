@@ -204,28 +204,8 @@ function Sidebar(props) {
   ]);
 
   const emptyField = () => {
-    const language = reactLocalStorage.get("language");
-    if (language == "vn") {
-      const notifyMess = {
-        type: "warning",
-        title: "",
-        description:
-          "Lĩnh vực này chưa có sự kiện, vui lòng chọn lĩnh vực khác",
-      };
-      Notification(notifyMess);
-      setSelectedRowKeys(null);
-      return;
-    } else {
-      const notifyMess = {
-        type: "warning",
-        title: "",
-        description:
-          "This field does not have any event, please choose another field",
-      };
-      Notification(notifyMess);
-      setSelectedRowKeys(null);
-      return;
-    }
+    setSelectedRowKeys(null);
+    return;
   };
 
   const onChangeField = (feildId) => {
