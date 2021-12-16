@@ -43,35 +43,67 @@ export const handleErrCode = ({code, message, payload, deny_permission_codes}) =
             Notification(errCode)
             return null
         case KCamproxyMissingToken:
-            errCode.description = 'Missing token'
+            if (language == 'vn') {
+                errCode.description = "Không tìm thấy Token";
+            } else {
+                errCode.description = "Missing token";
+            }
             Notification(errCode)
             return null
         case KCamproxySDPRemoteOfferFailed:
-            errCode.description = 'SDP remote offer failed'
+            if (language == 'vn') {
+                errCode.description = "SDP đề nghị điều khiển từ xa không thành công";
+            } else {
+                errCode.description = "SDP remote offer failed";
+            }
             Notification(errCode)
             return null
         case KCamproxySDPCreateAnswerFailed:
-            errCode.description = 'SDP create answer failed'
+            if (language == 'vn') {
+                errCode.description = "SDP tạo câu trả lời không thành công";
+            } else {
+                errCode.description = "SDP create answer failed";
+            }
             Notification(errCode)
             return null
         case KCamproxySDPLocalOfferFailed:
-            errCode.description = 'SDP local offer failed'
+            if (language == 'vn') {
+                errCode.description = "SDP cục bộ đề nghị không thành công";
+            } else {
+                errCode.description = "SDP local offer failed";
+            }
             Notification(errCode)
             return null
         case KCamproxyAddTrackFailed:
-            errCode.description = 'SDP add track failed'
+            if (language == 'vn') {
+                errCode.description = "SDP thêm theo dõi không thành công";
+            } else {
+                errCode.description = "SDP add track failed";
+            }
             Notification(errCode)
             return null
         case KCamproxyNewLocalStaticFailed:
-            errCode.description = 'New local static failed'
+            if (language == 'vn') {
+                errCode.description = "Cục bộ tĩnh mới không thành công";
+            } else {
+                errCode.description = "New local static failed";
+            }
             Notification(errCode)
             return null
         case KCamproxyCamNotFound:
-            errCode.description = 'Not found camera'
+            if (language == 'vn') {
+                errCode.description = "Không tìm thấy Camera";
+            } else {
+                errCode.description = "Not found Camera";
+            }
             Notification(errCode)
             return null
         case KCamproxyCreatePeerConnFailed:
-            errCode.description = 'Create peer connection'
+            if (language == 'vn') {
+                errCode.description = "Tạo kết nối ngang hàng";
+            } else {
+                errCode.description = "Create peer connection";
+            }
             Notification(errCode)
             return null
         case StatusForbidden:

@@ -1,5 +1,8 @@
 import Notification from "../../components/vms/notification/Notification";
 import { handleForbiddenCode } from "../authz/forbidden";
+import { reactLocalStorage } from "reactjs-localstorage";
+
+const language = reactLocalStorage.get("language");
 
 const OKE = 1000;
 const FAILED = 1001;
@@ -63,11 +66,20 @@ export const handleErrCode = ({
   payload,
   deny_permission_codes,
 }) => {
-  const errCode = {
-    type: "error",
-    title: "Code:" + code,
-    description: "",
-  };
+  let errCode = {};
+  if (language == "vn") {
+    errCode = {
+      type: "error",
+      title: "Mã lỗi: " + code,
+      description: "",
+    };
+  } else {
+    errCode = {
+      type: "error",
+      title: "Code: " + code,
+      description: "",
+    };
+  }
   switch (code) {
     case OKE:
       return payload != null ? payload : [];
@@ -75,41 +87,77 @@ export const handleErrCode = ({
       handleForbiddenCode(deny_permission_codes);
       return null;
     case FAILED:
-      errCode.description = "Thất bại";
+      if (language == "vn") {
+        errCode.description = "Thất bại";
+      } else {
+        errCode.description = "Failed";
+      }
       Notification(errCode);
       return null;
     case COMING_SOON:
-      errCode.description = "Chức năng chưa hoàn thiện";
+      if (language == "vn") {
+        errCode.description = "Chức năng chưa hoàn thiện";
+      } else {
+        errCode.description = "Function not completed";
+      }
       Notification(errCode);
       return null;
     case AUTHZ_NO_RESPONSE:
-      errCode.description =
-        "Không phản hồi hoặc không đọc được phản hồi của Authz";
+      if (language == "vn") {
+        errCode.description =
+          "Không phản hồi hoặc không đọc được phản hồi của Authz";
+      } else {
+        errCode.description = "Authz responses are unresponsive or unreadable";
+      }
       Notification(errCode);
       return null;
     case MISSING_PARAMS:
-      errCode.description = "Thiếu trường dữ liệu";
+      if (language == "vn") {
+        errCode.description = "Thiếu trường dữ liệu";
+      } else {
+        errCode.description = "Missing data feild";
+      }
       Notification(errCode);
       return null;
     case CAMERA_ID_MISSING:
-      errCode.description = "cameraUuid? - Vui lòng chọn camera";
+      if (language == "vn") {
+        errCode.description = "Vui lòng chọn Camera";
+      } else {
+        errCode.description = "Please choose Camera";
+      }
       Notification(errCode);
       return null;
     case DIRECTION_MISSING:
-      errCode.description = "direction? - Vui lòng chọn hướng quay";
+      if (language == "vn") {
+        errCode.description = "Vui lòng chọn hướng quay";
+      } else {
+        errCode.description = "Please choose direction";
+      }
       Notification(errCode);
       return null;
     case ISSTOP_MISSING:
-      errCode.description =
-        "isStop? - Vui lòng chọn kiểu hành động (bắt đầu hay kết thúc)";
+      if (language == "vn") {
+        errCode.description =
+          "Vui lòng chọn kiểu hành động (bắt đầu hoặc kết thúc)";
+      } else {
+        errCode.description = "Please choose action type (start or end)";
+      }
       Notification(errCode);
       return null;
     case SPEED_MISSING:
-      errCode.description = "speed? - Vui lòng chọn tốc độ quay";
+      if (language == "vn") {
+        errCode.description = "Vui lòng chọn tốc độ quay";
+      } else {
+        errCode.description = "Please choose rotation speed";
+      }
       Notification(errCode);
       return null;
     case PRESET_ID_MISSING:
-      errCode.description = "presetId? - Vui lòng chọn điểm quay";
+      if (language == "vn") {
+        errCode.description = "Vui lòng chọn điểm quay";
+      } else {
+        errCode.description = "Please choose rotation point";
+      }
       Notification(errCode);
       return null;
     case PRESET_TOUR_ID_MISSING:
@@ -121,15 +169,27 @@ export const handleErrCode = ({
       Notification(errCode);
       return null;
     case TIME_DELAY_MISSING:
-      errCode.description = "timeDelay? - Vui lòng chọn thời gian nghỉ";
+      if (language == "vn") {
+        errCode.description = "Vui lòng chọn thời gian trì hoãn";
+      } else {
+        errCode.description = "Please choose time delay";
+      }
       Notification(errCode);
       return null;
     case NAME_MISSING:
-      errCode.description = "name? - Vui lòng điền tên";
+      if (language == "vn") {
+        errCode.description = "Vui lòng điền tên";
+      } else {
+        errCode.description = "Please enter name";
+      }
       Notification(errCode);
       return null;
     case IP_STRIP_MISSING:
-      errCode.description = "ipStrip? - Vui lòng chọn dải IP";
+      if (language == "vn") {
+        errCode.description = "Vui lòng chọn dải IP";
+      } else {
+        errCode.description = "Please choose IP range";
+      }
       Notification(errCode);
       return null;
     case PTZ_MISSING:
@@ -141,27 +201,51 @@ export const handleErrCode = ({
       Notification(errCode);
       return null;
     case ZONE_MISSING:
-      errCode.description = "zoneUuid? - Vui lòng chọn zone";
+      if (language == "vn") {
+        errCode.description = "Vui lòng chọn Zone";
+      } else {
+        errCode.description = "Please choose Zone";
+      }
       Notification(errCode);
       return null;
     case VENDOR_MISSING:
-      errCode.description = "vendorUuid? - Vui lòng chọn hãng camera";
+      if (language == "vn") {
+        errCode.description = "Vui lòng chọn hãng Camera";
+      } else {
+        errCode.description = "Please choose Camera vendor";
+      }
       Notification(errCode);
       return null;
     case CAMERA_ID_OUT_OF_RANGE:
-      errCode.description = "cameraUuid? - Không tìm thấy camera";
+      if (language == "vn") {
+        errCode.description = "Không tìm thấy Camera";
+      } else {
+        errCode.description = "No valid Camera found";
+      }
       Notification(errCode);
       return null;
     case DIRECTION_OUT_OF_RANGE:
-      errCode.description = "direction? - Hướng quay không đúng";
+      if (language == "vn") {
+        errCode.description = "Hướng quay không đúng";
+      } else {
+        errCode.description = "The direction is not correct";
+      }
       Notification(errCode);
       return null;
     case ISSTOP_OUT_OF_RANGE:
-      errCode.description = "isStop? - Kiểu hành động không đúng";
+      if (language == "vn") {
+        errCode.description = "Kiểu hành động không đúng";
+      } else {
+        errCode.description = "The action type is not correct";
+      }
       Notification(errCode);
       return null;
     case SPEED_OUT_OF_RANGE:
-      errCode.description = "speed? - Tốc độ không đúng";
+      if (language == "vn") {
+        errCode.description = "Tốc độ quay không đúng";
+      } else {
+        errCode.description = "The rotation speed is not correct";
+      }
       Notification(errCode);
       return null;
     case PRESET_ID_OUT_OF_RANGE:
@@ -178,47 +262,91 @@ export const handleErrCode = ({
       Notification(errCode);
       return null;
     case TIME_DELAY_OUT_OF_RANGE:
-      errCode.description = "timeDelay? - Thời gian nghỉ ngoài khoảng";
+      if (language == "vn") {
+        errCode.description = "Thời gian trì hoãn không đúng";
+      } else {
+        errCode.description = "The time delay is not correct";
+      }
       Notification(errCode);
       return null;
     case NAME_OUT_OF_RANGE:
-      errCode.description = "name? - Tên không đúng";
+      if (language == "vn") {
+        errCode.description = "Tên không đúng";
+      } else {
+        errCode.description = "Name is not correct";
+      }
       Notification(errCode);
       return null;
     case IP_STRIP_OUT_OF_RANGE:
-      errCode.description = "ipStrip? - Dải địa chỉ IP không đúng";
+      if (language == "vn") {
+        errCode.description = "Dải IP không đúng";
+      } else {
+        errCode.description = "The IP range is not correct";
+      }
       Notification(errCode);
       return null;
     case ZONE_OUT_OF_RANGE:
-      errCode.description = "zoneUuid? - Zone không tồn tại";
+      if (language == "vn") {
+        errCode.description = "Zone không tồn tại";
+      } else {
+        errCode.description = "No available Zone found";
+      }
       Notification(errCode);
       return null;
     case PAGE_OUT_OF_RANGE:
-      errCode.description = "page? - Giá trị page không đúng";
+      if (language == "vn") {
+        errCode.description = "Giá trị trang không đúng";
+      } else {
+        errCode.description = "The page value is not correct";
+      }
       Notification(errCode);
       return null;
     case SIZE_OUT_OF_RANGE:
-      errCode.description = "size? - Giá trị size không đúng";
+      if (language == "vn") {
+        errCode.description = "Giá trị kich thước không đúng";
+      } else {
+        errCode.description = "The size value is not correct";
+      }
       Notification(errCode);
       return null;
     case USER_OUT_OF_RANGE:
-      errCode.description = "userUuid? - Không tìm thấy người dùng này";
+      if (language == "vn") {
+        errCode.description = "Không tìm thấy người dùng này";
+      } else {
+        errCode.description = "No valid user found";
+      }
       Notification(errCode);
       return null;
     case PTZ_EXIST:
-      errCode.description = "PTZ Onvif này đã tồn tại";
+      if (language == "vn") {
+        errCode.description = "PTZ Onvif này đã tồn tại";
+      } else {
+        errCode.description = "PTZ Onvif already exist";
+      }
       Notification(errCode);
       return null;
     case PTZ_BUSY:
-      errCode.description = "PTZ Onvif này đang bận";
+      if (language == "vn") {
+        errCode.description = "PTZ Onvif đâng bận";
+      } else {
+        errCode.description = "PTZ Onvif is busy";
+      }
       Notification(errCode);
       return null;
     case SYSTEM_BUSY:
-      errCode.description = "Hệ thống đang bận";
+      if (language == "vn") {
+        errCode.description = "Hệ thống đang bận";
+      } else {
+        errCode.description = "System is busy";
+      }
       Notification(errCode);
       return null;
     case PTZ_FAILSE:
-      errCode.description = "Hành động không thành công";
+      if (language == "vn") {
+        errCode.description = "Hành động không thành công";
+      } else {
+        errCode.description = "Action is not success";
+      }
       Notification(errCode);
       return null;
     case PTZ_CAMERA_NO_CONNECT:
