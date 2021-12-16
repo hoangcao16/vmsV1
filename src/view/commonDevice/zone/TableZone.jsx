@@ -281,6 +281,7 @@ const TableZone = () => {
         className="card--listDevice"
       >
         <Table
+          scroll={{ y: 300 }}
           pagination={false}
           rowKey="id"
           size="medium"
