@@ -1,16 +1,14 @@
-import { NotificationOutlined } from '@ant-design/icons';
 import { Badge, Image, Tooltip } from 'antd';
 import React, { useEffect, useState } from 'react';
+import { useTranslation } from "react-i18next";
 import { connect } from 'react-redux';
-import permissionCheck from '../../../../../actions/function/MyUltil/PermissionCheck';
+import { reactLocalStorage } from 'reactjs-localstorage';
+import notificationActive from '../../../../../assets/img/icons/menu-bar/active/notification.png';
+import notificationInActive from '../../../../../assets/img/icons/menu-bar/inactive/notification.png';
 import { loadMessageUnread } from '../../../../../view/notification/redux/actions/handleMessageUnread';
 import { loadMessageCount } from '../../../../../view/notification/redux/actions/messageCount';
 import { loadPage } from '../../../../../view/notification/redux/actions/page';
 import Notification from './../../../../../../src/view/notification/Notification';
-import notificationInActive from '../../../../../assets/img/icons/menu-bar/inactive/notification.png'
-import notificationActive from '../../../../../assets/img/icons/menu-bar/active/notification.png'
-import { reactLocalStorage } from 'reactjs-localstorage';
-import { useTranslation } from "react-i18next";
 
 const NotificationBadge = (props) => {
   const { t } = useTranslation();
@@ -37,7 +35,7 @@ const NotificationBadge = (props) => {
 
   return (
     <>
-      {permissionCheck('warning_message') ? (
+
         <div>
           <Badge count={props?.messageCount}>
             <Tooltip
@@ -61,7 +59,7 @@ const NotificationBadge = (props) => {
             <Notification onHiddenNotification={onHiddenNotification} />
           )}
         </div>
-      ) : null}
+
     </>
   );
 };
