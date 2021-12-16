@@ -100,31 +100,30 @@ function Sidebar(props) {
           fieldId: data?.fields[0]?.uuid,
         });
         let arr = [];
-
+        
         setFeildIds(data?.fields[0]?.uuid);
         if (
-          !isEmpty(data) &&
-          !isEmpty(data?.fields) &&
           isEmpty(data?.fields[0]?.eventList)
         ) {
           setSelectedRowKeys(null);
           return;
         } else if (
-          !isEmpty(data) &&
-          !isEmpty(data?.fields) &&
           !isEmpty(data?.fields[0]?.eventList) &&
-          !isEmpty(data?.fields[0]?.eventList[0]?.uuid) &&
-          !isEmpty(data?.fields[0]?.eventList[1]?.uuid) &&
-          !isEmpty(data?.fields[0]?.eventList[2]?.uuid)
+          !isEmpty(data?.fields[0]?.eventList[0]?.uuid)
         ) {
           setEventList(data?.fields[0]?.eventList);
           arr[0] = data?.fields[0]?.eventList[0]?.uuid;
-          arr[1] = data?.fields[0]?.eventList[1]?.uuid;
-          arr[2] = data?.fields[0]?.eventList[2]?.uuid;
+          if (!isEmpty(data?.fields[0]?.eventList[1]?.uuid)) {
+            arr[1] = data?.fields[0]?.eventList[1]?.uuid;
+            if (!isEmpty(data?.fields[0]?.eventList[2]?.uuid)) {
+              arr[2] = data?.fields[0]?.eventList[2]?.uuid;
+            }
+          }
           setSelectedRowKeys(arr);
         }
         props.changeTitle(data?.fields[0]?.name);
         setisShowLineAndPieChart(true);
+        
 
         const dataDefault = {
           pickTime: dataTime,
