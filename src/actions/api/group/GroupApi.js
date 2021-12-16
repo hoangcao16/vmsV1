@@ -7,14 +7,23 @@ const GroupApi = {
 
   getAllGroup: async (params) => {
     let result;
+    const queryParams = {
+
+      filter: params?.filter,
+      page: params?.page,
+      size: params?.size
+
+    }
 
     try {
       result = await MyService.getRequestData(
-        `/authz/api/v0/groups?filter=${params?.filter}&page=${params?.page}&size=${params?.size}`
+        `/authz/api/v0/groups`, queryParams
       );
     } catch (error) {
       console.log(error);
     }
+
+    console.log('result: ', result);
     if (handleErrCodeAuthZ(result) === null) {
       return [];
     }

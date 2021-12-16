@@ -73,9 +73,15 @@ const UserApi = {
   getAllRole: async (params) => {
     let result;
 
+    const queryParams = {
+      filter: params?.filter,
+      page: params?.page,
+      size: params?.size
+    }
+
     try {
       result = await MyService.getRequestData(
-        `/authz/api/v0/roles?filter=${params?.filter}&page=${params?.page}&size=${params?.size}`
+        `/authz/api/v0/roles`, queryParams
       );
     } catch (error) {
       console.log(error);
