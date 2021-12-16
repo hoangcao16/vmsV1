@@ -122,7 +122,7 @@ function Sidebar(props) {
           setSelectedRowKeys(arr);
         }
         props.changeTitle(data?.fields[0]?.name);
-        setisShowLineAndPieChart(false);
+        setisShowLineAndPieChart(true);
         
 
         const dataDefault = {
