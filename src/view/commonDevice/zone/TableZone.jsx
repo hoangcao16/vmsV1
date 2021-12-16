@@ -44,7 +44,7 @@ const TableZone = () => {
 
   const [val, setVal] = useState('');
   const [page, setPage] = useState(1);
-  const [size, setSize] = useState(10);
+  const [size, setSize] = useState(16);
   const [total, setTotal] = useState(0);
 
   useEffect(() => {
@@ -121,6 +121,7 @@ const TableZone = () => {
   };
 
   const handleSearch = async (value) => {
+    console.log("listZone", listZone)
     setVal(value);
 
     const data = {
@@ -281,6 +282,7 @@ const TableZone = () => {
         className="card--listDevice"
       >
         <Table
+          scroll={{ y: 300 }}
           pagination={false}
           rowKey="id"
           size="medium"
