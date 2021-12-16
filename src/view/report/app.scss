@@ -1,3 +1,8 @@
+body {
+  background-color: #191919;
+  min-width: 1920px;
+}
+
 .containerReport {
   display: flex;
   background-color: #191919;
@@ -5,4 +10,5 @@
   // height: 90vh;
   width: 1240px;
   overflow: auto;
+  overflow-x: auto;
 }

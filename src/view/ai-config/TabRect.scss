@@ -13,6 +13,78 @@
     }
   }
 
+  .ant-table {
+    background-color: $vms-bg-sub;
+    border: 1px solid rgba(234, 240, 247, 0.1);
+
+    table {
+      border-collapse: collapse;
+    }
+
+    .ant-table-body {
+      @include scrollbar-styling(12px, 12px);
+      background: $vms-black;
+    }
+
+    .ant-table-tbody {
+      background: $vms-black;
+    }
+
+    .ant-table-tbody > tr.ant-table-placeholder:hover > td {
+      background: $vms-black;
+    }
+
+    .ant-empty-description {
+      color: $vms-status-07;
+    }
+
+    .ant-table-thead .ant-table-cell {
+      background-color: $vms-bg-sub;
+      padding: 13px 8px 13px 8px;
+      color: $vms-soft-statuts;
+      border-top: 1px solid rgba(234, 240, 247, 0.1);
+      border-bottom: 1px solid rgba(234, 240, 247, 0.1);
+      font-weight: 600;
+    }
+
+    .ant-table-tbody > tr > td {
+      border-bottom: 1px solid rgba(234, 240, 247, 0.1);
+      box-sizing: border-box;
+      font-style: normal;
+      font-weight: 500;
+      font-size: 14px;
+      line-height: 20px;
+      color: $vms-status-07;
+    }
+
+    .ant-table-tbody .ant-table-cell {
+      padding: 16px 8px 16px 8px;
+    }
+
+    .ant-table-tbody .ant-table-cell > span {
+      color: $vms-status-07;
+    }
+
+    .ant-table-tbody > tr.ant-table-row-level-0:hover > td {
+      background: $vms-bg-sub;
+      cursor: pointer;
+    }
+
+    .ant-table-tbody > tr.selected > td {
+      background: $vms-bg-sub;
+    }
+
+    .ant-table-cell-fix-left,
+    .ant-table-cell-fix-right {
+      background: $vms-black;
+    }
+
+    .ant-col > li {
+      line-break: anywhere;
+    }
+
+  }
+
   .table__config_rect {
     .ant-table {
       background-color: $vms-bg-sub;
@@ -108,6 +180,10 @@
           svg:hover {
             color: $vms-main-blue-primary
           }
+        }
+
+        .ant-table-tbody > tr.selected > td {
+          background: $vms-bg-sub;
         }
 
         tr td {

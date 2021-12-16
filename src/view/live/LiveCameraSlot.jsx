@@ -150,7 +150,13 @@ const LiveCameraSlot = (props) => {
       id={"wrapper-slot-" + slotId}
     >
       <div className="video-info">
-        <span className="video-info__name">{camName}</span>
+        {camName.length > 30 ? (
+          <Tooltip placement="bottom" title={camName}>
+            <span className="video-info__name">{camName.slice(0, 30)}...</span>
+          </Tooltip>
+        ) : (
+          <span className="video-info__name">{camName}</span>
+        )}
       </div>
 
       {recMode && (

@@ -1,20 +1,22 @@
-import { Button, Col, Form, Input, Modal, Row } from 'antd';
-import { isEmpty } from 'lodash-es';
-import React, { useEffect, useState } from 'react';
-import CameraApi from '../../actions/api/camera/CameraApi';
-import { default as Event, default as EventApi } from '../../actions/api/event/EventApi';
-import FieldApi from '../../actions/api/field/FieldApi';
-import VendorApi from '../../actions/api/vendor/VendorApi';
-import Notification from '../../components/vms/notification/Notification';
-import './../commonStyle/commonAuto.scss';
-import './../commonStyle/commonForm.scss';
-import './../commonStyle/commonInput.scss';
-import './../commonStyle/commonModal.scss';
-import './../commonStyle/commonSelect.scss';
-import './ModalEditCategory.scss';
-import { CATEGORY_NAME } from './TableCategory';
-import { useTranslation } from 'react-i18next';
-
+import { Button, Col, Form, Input, Modal, Row } from "antd";
+import { isEmpty } from "lodash-es";
+import React, { useEffect, useState } from "react";
+import CameraApi from "../../actions/api/camera/CameraApi";
+import {
+  default as Event,
+  default as EventApi,
+} from "../../actions/api/event/EventApi";
+import FieldApi from "../../actions/api/field/FieldApi";
+import VendorApi from "../../actions/api/vendor/VendorApi";
+import Notification from "../../components/vms/notification/Notification";
+import "./../commonStyle/commonAuto.scss";
+import "./../commonStyle/commonForm.scss";
+import "./../commonStyle/commonInput.scss";
+import "./../commonStyle/commonModal.scss";
+import "./../commonStyle/commonSelect.scss";
+import "./ModalEditCategory.scss";
+import { CATEGORY_NAME } from "./TableCategory";
+import { useTranslation } from "react-i18next";
 
 const formItemLayout = {
   wrapperCol: { span: 24 },
@@ -24,7 +26,7 @@ const formItemLayout = {
 const ModalViewEditCategory = (props) => {
   const { t } = useTranslation();
   let { setShowModal, selectedCategoryId, dataType } = props;
-  const [fieldData, setFieldData] = useState();
+  const [fieldData, setFieldData] = useState([]);
   const [name, setName] = useState("");
   const [form] = Form.useForm();
   const [selectedCategoryEdit, setSelectedCategoryEdit] = useState(null);
@@ -37,30 +39,33 @@ const ModalViewEditCategory = (props) => {
     }
 
     if (CATEGORY_NAME.CAMERA_TYPE === dataType) {
-      setName(`${t('view.map.camera_type', { cam: t('camera') })}`);
+      setName(`${t("view.map.camera_type", { cam: t("camera") })}`);
     }
     if (CATEGORY_NAME.VENDOR === dataType) {
-      setName(`${t('view.category.camera_vendor', { cam: t('camera') })}`);
+      setName(`${t("view.category.camera_vendor", { cam: t("camera") })}`);
     }
     if (CATEGORY_NAME.FIELD === dataType) {
-      setName(`${t('view.category.field')}`);
+      setName(`${t("view.category.field")}`);
     }
     if (CATEGORY_NAME.EVENT_TYPE === dataType) {
-      setName(`${t('view.category.event_type')}`);
+      setName(`${t("view.category.event_type")}`);
     }
   }, [selectedCategoryId]);
 
-  const renderOptionSelectField = () =>
-    fieldData?.map((item) => (
-      <option value={item.uuid}>
-        {item.name.length > 40
-          ? `${item.name.slice(0, 19)}...${item.name.slice(
-              item.name.length - 20,
-              item.name.length
-            )}`
-          : `${item.name}`}
-      </option>
-    ));
+  const renderOptionSelectField = () => {
+    return fieldData?.map((item) => {
+      return (
+          <option value={item.uuid}>
+            {item.name.length > 40
+                ? `${item.name.slice(0, 19)}...${item.name.slice(
+                    item.name.length - 20,
+                    item.name.length
+                )}`
+                : `${item.name}`}
+          </option>
+      )
+    });
+  };
 
   const getAllField = async (params) => {
     const data = await FieldApi.getAllFeild(params);
@@ -105,8 +110,8 @@ const ModalViewEditCategory = (props) => {
         if (isEdit) {
           const notifyMess = {
             type: "success",
-            title: `${t('noti.success')}`,
-            description: `${t('noti.successfully_edit_name')} ${name}`,
+            title: `${t("noti.success")}`,
+            description: `${t("noti.successfully_edit_name")} ${name}`,
           };
           Notification(notifyMess);
         }
@@ -132,8 +137,8 @@ const ModalViewEditCategory = (props) => {
         if (isPost) {
           const notifyMess = {
             type: "success",
-            title: `${t('noti.success')}`,
-            description: `${t('noti.successfully_add')} ${name}`,
+            title: `${t("noti.success")}`,
+            description: `${t("noti.successfully_add")} ${name}`,
           };
           Notification(notifyMess);
           setShowModal(false);
@@ -153,7 +158,11 @@ const ModalViewEditCategory = (props) => {
   return (
     <>
       <Modal
-        title={selectedCategoryId ? `${t('view.common_device.edit')} ${name}` : `${t('view.camera.add_new')}`}
+        title={
+          selectedCategoryId
+            ? `${t("view.common_device.edit")} ${name}`
+            : `${t("view.camera.add_new")}`
+        }
         visible={true}
         onCancel={() => {
           setShowModal(false);
@@ -177,8 +186,8 @@ const ModalViewEditCategory = (props) => {
                 rules={[
                   {
                     required: true,
-                    message: `${t('view.map.required_field')}`
-                  }
+                    message: `${t("view.map.required_field")}`,
+                  },
                 ]}
               >
                 <Input
@@ -192,18 +201,18 @@ const ModalViewEditCategory = (props) => {
               </Form.Item>
               {dataType === CATEGORY_NAME.EVENT_TYPE ? (
                 <Form.Item
-                  label={t('view.category.field')}
-                  name={['fieldUuid']}
+                  label={t("view.category.field")}
+                  name={["fieldUuid"]}
                   rules={[
                     {
                       required: true,
-                      message: `${t('view.map.required_field')}`
-                    }
+                      message: `${t("view.map.required_field")}`,
+                    },
                   ]}
                 >
                   <select>
                     <option value="" selected hidden disabled>
-                      {t('view.category.choose_field_for_event')}
+                      {t("view.category.choose_field_for_event")}
                     </option>
                     {renderOptionSelectField()}
                   </select>
@@ -219,9 +228,9 @@ const ModalViewEditCategory = (props) => {
                 setShowModal(false);
               }}
             >
-              {t('view.camera.close')}
+              {t("view.camera.close")}
             </Button>
-            <Button htmlType="submit">{t('view.map.button_save')}</Button>
+            <Button htmlType="submit">{t("view.map.button_save")}</Button>
           </div>
         </Form>
       </Modal>

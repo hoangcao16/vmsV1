@@ -565,7 +565,7 @@ const Live = (props) => {
       const des =
         addedCameras[destination.droppableId.replace("droppable-", "")];
       result = [...addedCameras];
-      const camInfoArr = draggableId.split("_");
+      const camInfoArr = draggableId.split("##_");
 
       if (camInfoArr.length < 3) {
         Notification({

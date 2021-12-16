@@ -215,8 +215,8 @@ const BookmarkSetting = ({
     if (cameraUuids.length <= 0) {
       Notification({
         type: "warning",
-        title: "Chọn màn hình ưa thích",
-        description: "Không tồn tại bất kỳ camera trong màn hình này",
+        title: `${t('noti.choose_favorite_screen')}`,
+        description: `${t('noti.no_camera_in_screen')}`,
       });
       return;
     }
@@ -236,8 +236,8 @@ const BookmarkSetting = ({
             if (camFoundIdx < 0) {
               Notification({
                 type: "warning",
-                title: "Màn hình mặc định",
-                description: "Không tồn tại camera này",
+                title: `${t('noti.default_screen')}`,
+                description: `${t('noti.camera_not_exist')}`,
               });
               return it;
             }
@@ -259,7 +259,7 @@ const BookmarkSetting = ({
     } catch (err) {
       Notification({
         type: "warning",
-        title: "Xem danh sách màn hình",
+        title: `${t('noti.view_screen_list')}`,
         description: err.toString(),
       });
     }
@@ -282,16 +282,16 @@ const BookmarkSetting = ({
         setBookmarks(tmp);
         Notification({
           type: "success",
-          title: "Xóa màn hình",
-          description: "Xóa màn hình " + nameScreen + " thành công",
+          title: `${t('noti.delete_screen')}`,
+          description: `${t('noti.delete')}` + nameScreen + `${t('noti.screen_success')}`,
         });
       }
     } catch (err) {
       Notification({
         type: NOTYFY_TYPE.warning,
-        title: "Xóa màn hình",
+        title: `${t('noti.delete_screen')}`,
         description:
-          "Xóa màn hình " + nameScreen + " thất bại.Lỗi " + err.toString(),
+        `${t('noti.delete')}` + nameScreen + `${t('noti.screen_failed')}` + err.toString(),
       });
     } finally {
       setCurrentRecord(null);
@@ -306,9 +306,9 @@ const BookmarkSetting = ({
       if (resData && resData.payload) {
         Notification({
           type: NOTYFY_TYPE.success,
-          title: "Màn hình mặc định",
+          title: `${t('noti.default_screen')}`,
           description:
-            "Cài đặt màn hình  mặc định " + nameScreen + " thành công",
+            `${t('noti.setting_default_screen')}` + nameScreen + `${t('noti.successfully')}`,
         });
 
         setCurrentRecord(screen);
@@ -317,9 +317,9 @@ const BookmarkSetting = ({
     } catch (err) {
       Notification({
         type: NOTYFY_TYPE.warning,
-        title: "Màn hình mặc định",
+        title: `${t('noti.default_screen')}`,
         description:
-          "Cài đặt màn hình  mặc định thất bại.Lỗi:" + err.toString(),
+          `${t('noti.setting_default_screen_failed')}` + err.toString(),
       });
     } finally {
       setCurrentRecord(null);
@@ -367,15 +367,15 @@ const BookmarkSetting = ({
         setBookmarks(tmp);
         Notification({
           type: NOTYFY_TYPE.success,
-          title: "Đổi tên màn hình",
-          description: "Thành công",
+          title: `${t('noti.change_screen_name')}`,
+          description: `${t('noti.success')}`,
         });
       }
     } catch (err) {
       Notification({
         type: NOTYFY_TYPE.warning,
-        title: "Đổi tên màn hình",
-        description: "Thất bại. Lỗi:" + err.toString(),
+        title: `${t('noti.change_screen_name')}`,
+        description: `${t('noti.failed')}` + err.toString(),
       });
     }
   };

@@ -1,5 +1,8 @@
 import Notification from "../../components/vms/notification/Notification";
 import {handleForbiddenCode} from "../authz/forbidden";
+import { reactLocalStorage } from "reactjs-localstorage";
+
+const language = reactLocalStorage.get('language')
 
 const KCamproxySuccess = 15000
 const KCamproxyBadRequest = 15101
@@ -14,16 +17,29 @@ const KCamproxyCreatePeerConnFailed = 15109
 const StatusForbidden = 605;
 
 export const handleErrCode = ({code, message, payload, deny_permission_codes}) => {
-    const errCode = {
+    let errCode = {};
+    if (language == 'vn') {
+        errCode = {
         type: "error",
-        title: "Code:" + code,
-        description: '',
-    };
+        title: "Mã lỗi: " + code,
+        description: "",
+        };
+    } else {
+        errCode = {
+        type: "error",
+        title: "Code: " + code,
+        description: "",
+        };
+    }
     switch (code) {
         case KCamproxySuccess:
             return payload
         case KCamproxyBadRequest:
-            errCode.description = 'Bad request'
+            if (language == 'vn') {
+                errCode.description = "Yêu cầu không hợp lệ";
+            } else {
+                errCode.description = "Bad request";
+            }
             Notification(errCode)
             return null
         case KCamproxyMissingToken:
@@ -62,7 +78,11 @@ export const handleErrCode = ({code, message, payload, deny_permission_codes}) =
             handleForbiddenCode(deny_permission_codes);
             return null;
         default:
-            errCode.description = 'Unknown'
+            if (language == 'vn') {
+                errCode.description = "Không xác định";
+            } else {
+                errCode.description = "Unknown";
+            }
             Notification(errCode)
             return null
     }

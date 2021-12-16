@@ -52,6 +52,11 @@ const TableHardDriveList = () => {
     return <Progress percent={cellValue} />;
   };
 
+  const renderHardDriveCapacity = (cellValue, row) => {
+    const data = Math.round(cellValue/1024)
+    return `${data} GB`
+  }
+
   const hardDriveColumns = [
     {
       title: `${t('view.storage.NO')}`,
@@ -75,7 +80,8 @@ const TableHardDriveList = () => {
       dataIndex: 'diskSpace',
       className: 'headerColums',
       key: 'diskSpace',
-      width: '15%'
+      width: '15%',
+      render: renderHardDriveCapacity
     },
     {
       title: `${t('view.storage.percent_used')}`,
@@ -109,7 +115,7 @@ const TableHardDriveList = () => {
       />
       <div className="tabs__container--device">
         <Card
-          title="Danh sách ổ cứng"
+          title={t('view.user.hard_drive_list')}
           bodyStyle={bodyStyleCard}
           headStyle={headStyleCard}
           className="card--listDevice"

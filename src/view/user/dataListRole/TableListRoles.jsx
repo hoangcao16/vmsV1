@@ -91,8 +91,8 @@ export default function TableListRoles() {
     if (search !== null) {
       let data = {
         filter: value,
-        page: page,
-        size: size
+        // page: page,
+        // size: size
       };
 
       await UserApi.getAllRole(data).then((result) => {

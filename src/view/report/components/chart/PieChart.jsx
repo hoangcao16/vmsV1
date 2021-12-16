@@ -1,17 +1,20 @@
-import { isEmpty } from 'lodash';
-import React, { useEffect, useState } from 'react';
-import { connect } from 'react-redux';
-import { Cell, Pie, PieChart } from 'recharts';
-import { loadDataChart } from '../../redux/actions';
-import ExportReport from './ExportReport';
-import './pieChart.scss';
-import { useTranslation } from 'react-i18next';
-import convertDataChartAndPieChart from '../../../../actions/function/MyUltil/ConvertDataChartAndPieChart';
-import Loading from '../../../common/element/Loading';
+import { isEmpty } from "lodash";
+import React, { useEffect, useState } from "react";
+import { connect } from "react-redux";
+import { Cell, Pie, PieChart } from "recharts";
+import { loadDataChart } from "../../redux/actions";
+import ExportReport from "./ExportReport";
+import "./pieChart.scss";
+import { useTranslation } from "react-i18next";
+import convertDataChartAndPieChart from "../../../../actions/function/MyUltil/ConvertDataChartAndPieChart";
+import Loading from "../../../common/element/Loading";
+import { Tooltip as TooltipAnt } from "antd";
 
-var randomColor = require('randomcolor');
+var randomColor = require("randomcolor");
 
 const RADIAN = Math.PI / 180;
+
+
 const renderCustomizedLabel = ({
   cx,
   cy,
@@ -19,7 +22,7 @@ const renderCustomizedLabel = ({
   innerRadius,
   outerRadius,
   percent,
-  index
+  index,
 }) => {
   const radius = innerRadius + (outerRadius - innerRadius) * 0.5;
   const x = cx + radius * Math.cos(-midAngle * RADIAN);
@@ -30,7 +33,7 @@ const renderCustomizedLabel = ({
       x={x}
       y={y}
       fill="white"
-      textAnchor={x > cx ? 'start' : 'end'}
+      textAnchor={x > cx ? "start" : "end"}
       dominantBaseline="central"
     >
       {`${(percent * 100).toFixed(0)}%`}
@@ -38,10 +41,11 @@ const renderCustomizedLabel = ({
   );
 };
 
+
 const total = (data, key) => {
   const dataTotal = data.map((d) => {
     return {
-      [key]: d[key]
+      [key]: d[key],
     };
   });
 
@@ -63,7 +67,7 @@ const dataConvert = (dataPieChart) => {
     return {
       value: total(dataPieChart, k),
       name: k,
-      color: randomColor()
+      color: randomColor(),
     };
   });
 
@@ -72,7 +76,7 @@ const dataConvert = (dataPieChart) => {
 
 function PieChartComponents(props) {
   const [dataPieChart, setDataPieChart] = useState([]);
-  const { t } = useTranslation()
+  const { t } = useTranslation();
   useEffect(() => {
     const dataPieChart = props.chartData;
     if (!isEmpty(dataPieChart)) {
@@ -85,7 +89,7 @@ function PieChartComponents(props) {
     return null;
   }
 
-  if(props.isLoading){
+  if (props.isLoading) {
     return null;
   }
 
@@ -94,7 +98,12 @@ function PieChartComponents(props) {
       {props.isShowLineAndPieChart && props.changeCount.length > 1 && (
         <div className="PieChart">
           <div className="PieChart__title">
-            <h3> {t('view.report.proportion_chart')} {props.title.toUpperCase()} </h3>
+            <h3>
+              {" "}
+              {t(
+                "view.report.proportion_chart"
+              )} {props.title.toUpperCase()}{" "}
+            </h3>
             <ExportReport currentDataSource={dataPieChart} />
           </div>
           <PieChart width={400} height={400}>
@@ -119,7 +128,7 @@ function PieChartComponents(props) {
             {dataPieChart.map((p, index) => {
               return (
                 <span style={{ color: `${p?.color}`, padding: 10 }}>
-                  {p.name}
+                  {p.name.length > 25 ? <TooltipAnt placement="top" title={p.name}>{p.name.slice(0, 25)}</TooltipAnt> : p.name}
                 </span>
               );
             })}
@@ -136,14 +145,14 @@ const mapStateToProps = (state) => ({
   error: state.chart.error,
   title: state.chart.title,
   isShowLineAndPieChart: state.chart.isShowLineAndPieChart,
-  changeCount: state.chart.changeCount
+  changeCount: state.chart.changeCount,
 });
 
 const mapDispatchToProps = (dispatch) => {
   return {
     callData: (params) => {
       dispatch(loadDataChart(params));
-    }
+    },
   };
 };
 

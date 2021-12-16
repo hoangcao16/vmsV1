@@ -17,6 +17,7 @@ import { NOTYFY_TYPE } from "../common/vms/Constant";
 import getServerCamproxyForPlay from "../../utility/vms/camera";
 import playCamApi from "../../api/camproxy/cameraApi";
 import _ from "lodash";
+import { sortPoints } from "../../utility/vms/sortIntrusionPoints";
 
 const CheckboxGroup = Checkbox.Group;
 const { Option } = Select;
@@ -32,41 +33,166 @@ const TabRect = (props) => {
   const [checkAll, setCheckAll] = React.useState(false);
   const [dataRectList, setDataRectList] = React.useState([]);
   const [dataRect, setDataRect] = React.useState({});
-  const [directionV, setDirectionV] = React.useState("");
   const [threshold, setThreshold] = React.useState(0);
   const [keyActive, setKeyActive] = React.useState(0);
-  
+  const [isActive, setIsActive] = React.useState(false);
+  const [isActiveDetail, setIsActiveDetail] = React.useState(false);
 
   const canvasRef = useRef(null);
+  const canvasRefRect = useRef(null);
   let fromX = 0, fromY = 0, toX = 0, toY = 0, direction = 2;
+  let fromXP = 0, fromYP = 0, toXP = 0, toYP = 0;
   let isFromPointMouseDown = false;
   let isToPointMouseDown = false;
   let timerIdentifier = null;
+  let timerIdentifierRect = null;
+  let videoSlotSize = {};
+  let videoSlotSizeRect = {};
+  let coordinates = [];
+  let coordinatesP = [];
 
   const formItemLayout = {
     wrapperCol: { span: 24 },
     labelCol: { span: 24 },
   };
 
-  const handleFocusInputNamePreset = (record) => {
-    document.getElementById(`rename__preset-${record.key}`).style.display =
+  const handleDoneRenameUuid = async (e, record) => {
+    const value = document
+      .getElementById(`input-name-uuid-${record.key}`)
+      .value.trim();
+    if (value.length >= 30 || value.length === 0) {
+      //validate
+      const warnNotyfi = {
+        type: NOTYFY_TYPE.warning,
+        title: `${t('noti.faid')}`,
+        description: `${t('noti.0_100')}`,
+        duration: 2,
+      };
+      Notification(warnNotyfi);
+      return;
+    } else {
+      const body = {
+        cameraUuid: cameraUuid,
+        type: type,
+        name: value,
+        uuid: record.uuid
+      };
+
+      AIConfigRectApi.editConfigRectName(body).then((result) => {
+        let dataNew = [...dataRectList]
+        dataNew.forEach(data => {
+          if (data.key === record.key) {
+            data.uuid = result.uuid;
+          }
+        })
+        setDataRectList(dataNew);
+      });
+
+      document.getElementById(
+        `rename__uuid-${record.key}`
+      ).style.display = "none";
+      const successNotyfi = {
+        type: NOTYFY_TYPE.success,
+        title: `${t("noti.success")}`,
+        description: `${t('noti.change_preset_name_success')}`,
+        duration: 2,
+      };
+      Notification(successNotyfi);
+    }
+  };
+
+  const handleFocusInputNameUuid = (record) => {
+    document.getElementById(`rename__uuid-${record.key}`).style.display =
       "flex";
   };
 
-  const handleSubmit = () => {
+  const handleCloseRenameUuid = (e, record) => {
+    e.stopPropagation();
+    document.getElementById(`input-name-uuid-${record.key}`).value =
+      dataRectList[record.key].name;
+    document.getElementById(`rename__uuid-${record.key}`).style.display =
+      "none";
+  };
+
+  const handleSubmit = async (value) => {
+
+    const name = document
+      .getElementById(`input-name-uuid-${keyActive}`)
+      .value.trim();
+    let points = [];
+    let pointsP = [];
+
+    if (type === "hurdles") {
+      points = [[fromX, fromY], [toX, toY]];
+      pointsP = [[fromXP, fromYP], [toXP, toYP]];
+    } else {
+      
+      coordinates.forEach(data => {
+        points.push([data.x, data.y]) 
+      })
+      coordinatesP.forEach(data => {
+        pointsP.push([data.x, data.y])
+      })
+      
+    }
+
+
+    const payload = {
+      ...dataRect,
+      type: type,
+      cameraUuid: cameraUuid,
+      peopleDetection: checkedList.includes('human'),
+      vehicleDetection: checkedList.includes('vehicle'),
+      threshold: value.threshold,
+      status: "1",
+      direction: value.direction,
+      name: name,
+      points: points,
+      pointsP: pointsP
+
+    };
+
+    AIConfigRectApi.addConfigRect(payload).then((result) => {
+      setDefaultDataRect(result)
+    });
+
+
+  };
+
+  function setDefaultDataRect(data) {
+    setDataRect(data)
+    let checkList = []
+    if (data.peopleDetection) {
+      checkList.push("human")
+    }
+    if (data.vehicleDetection) {
+      checkList.push("vehicle")
+    }
+    setCheckedList(checkList)
+    form.setFieldsValue({
+      threshold: 100,
+      direction: data.direction
+    })
+    
+    if (type === "hurdles") {
+      if(data.points != null && data.points.length > 0){
+        addLine(data.points, data.direction)
+      }
+      
+
+      // drawLine();
+      // window.addEventListener('resize', resizeLineCanvasEventHandler);
+    } else {
+      if(data.points != null && data.points.length > 0){
+        addRect(data.points)
+      }
+      
+    }
   }
 
-  const onChangeTimeTypeTwo = (value) => {
-    setDirectionV(value)
-    // //create data
-    // let configCleanFileNew = cleanSettingData.configCleanFile;
-    // configCleanFileNew[2].timeType = value;
-
-    // //set clean setting data
-    // setCleanSettingData({
-    //   ...cleanSettingData,
-    //   configCleanFile: configCleanFileNew,
-    // });
+  const onChangeDirectionHandler = (value) => {
+    direction = value;
+    drawLine();
   };
 
   const handleUpdateStatus = async (e, uuid) => {
@@ -82,7 +208,7 @@ const TabRect = (props) => {
   const columnTables = [
     {
       title: 'No',
-      dataIndex: 'no',
+      dataIndex: 'lineNo',
     },
     {
       title: 'Name',
@@ -92,18 +218,32 @@ const TabRect = (props) => {
         return (
           <>
             <input
-              id={`input-name-preset-${record.key}`}
+              id={`input-name-uuid-${record.key}`}
               defaultValue={record?.name}
               maxLength={20}
-              onFocus={(e) => handleFocusInputNamePreset(record)}
+              onFocus={(e) => handleFocusInputNameUuid(record)}
               autoComplete="off"
               style={{ width: '130px' }}
               className="ant-form-item-control-input"
             />
             <span
-              id={`rename__preset-${record.key}`}
+              id={`rename__uuid-${record.key}`}
               style={{ display: "none" }}
             >
+              <CheckOutlined
+                id={`confirm-done-icon-rename-${record.key}`}
+                onClick={(e) => {
+                  e.stopPropagation();
+                  handleDoneRenameUuid(e, record);
+                }}
+              />
+              <CloseOutlined
+                id={`confirm-close-icon-rename-${record.key}`}
+                onClick={(e) => {
+                  e.stopPropagation();
+                  handleCloseRenameUuid(e, record);
+                }}
+              />
             </span>
           </>
         );
@@ -134,18 +274,22 @@ const TabRect = (props) => {
     {
       className: 'action-1',
       title: () => {
-        return (
-          <div style={{ textAlign: 'center' }}>
-            <Button
-              size="small"
-              type="primary"
-              className="ml-2 mr-2"
-              onClick={onPlusConfigRect}
-            >
-              <PlusOutlined className="d-flex justify-content-between align-center" />
-            </Button>
-          </div>
-        );
+        if (isActive) {
+          return (
+            <div style={{ textAlign: 'center' }}>
+              <Button
+                disabled={!isActive}
+                size="small"
+                type="primary"
+                className="ml-2 mr-2"
+                onClick={onPlusConfigRect}
+              >
+                <PlusOutlined className="d-flex justify-content-between align-center" />
+              </Button>
+            </div>
+          );
+        }
+
       },
       dataIndex: 'action',
       render: (_text, record) => {
@@ -153,7 +297,7 @@ const TabRect = (props) => {
           <Space>
             <Popconfirm
               title={t('noti.delete_category', { this: t('this') })}
-              onConfirm={() => handleDelete(record.key)}
+              onConfirm={() => handleDelete(record)}
             >
               <DeleteOutlined style={{ fontSize: '16px', color: '#6E6B7B' }} />
             </Popconfirm>
@@ -162,8 +306,6 @@ const TabRect = (props) => {
       }
     }
   ];
-
-  console.log(">>>>> cameraUuid: ", cameraUuid);
 
   const options = [
     { label: `${t('view.ai_config.human')}`, value: 'human' },
@@ -175,20 +317,32 @@ const TabRect = (props) => {
 
   useEffect(() => {
     if (cameraUuid != null && cameraUuid !== "") {
+      setIsActive(true)
       const data = {
         type: type,
         cameraUuid: cameraUuid
       };
 
+      clearEventHandler()
+
       AIConfigRectApi.getAllConfigRect(data).then((result) => {
         const itemRectList = [];
         let i = 1;
         result?.configRect && result.configRect.map(result => {
+          let date = Date.now();
           itemRectList.push({
-            key: i,
+            key: --date + i,
+            uuid: result.uuid,
             name: result.name,
-            no: result.lineNo,
+            lineNo: i,
             status: result.status,
+            objectDetection: result.objectDetection,
+            vehicleDetection: result.vehicleDetection,
+            peopleDetection: result.peopleDetection,
+            direction: result.direction,
+            threshold: result.threshold,
+            points: result.points,
+            pointsP: result.pointsP
           })
           i++;
         })
@@ -200,10 +354,9 @@ const TabRect = (props) => {
       return () => {
         closeCamera();
       }
+
     }
   }, [cameraUuid, type]);
-
-  
 
   const onSelectChange = (selectedRowKeys) => {
     setSelectedRowKeys(selectedRowKeys);
@@ -221,42 +374,81 @@ const TabRect = (props) => {
   };
 
   const onCheckAllChange = e => {
-    setCheckedList(e.target.checked ? options : []);
+    const checkList = ["vehicle", "human"];
+    setCheckedList(e.target.checked ? checkList : []);
     setIndeterminate(false);
     setCheckAll(e.target.checked);
+
   };
 
   const onPlusConfigRect = e => {
+    let date = Date.now();
     let dataNew = [...dataRectList]
+    let strType = ""
+    if (type == "intrusion_detection") {
+      strType = "Khu vực "
+    }
+    if (type == "hurdles") {
+      strType = "Đường "
+    }
     dataNew.push({
-      key: dataRectList.length + 1,
-      name: "Khu vực " + (dataRectList.length + 1),
-      no: dataRectList.length + 1,
-      status: "active",
+      key: --date,
+      name: strType + (dataRectList.length + 1),
+      lineNo: dataRectList.length + 1,
+      status: "1",
       threshold: 0,
     })
     setDataRectList(dataNew);
   };
 
-  const handleDelete = async (id) => {
+  const handleDelete = async (record) => {
     let newData = [...dataRectList];
     if (newData.length > 0) {
-      newData = newData.filter(item => item.key !== id);
+      newData = newData.filter(item => item.key !== record.key);
+      if (record.uuid != null) {
+        try {
+          let isPost = await AIConfigRectApi.deleteConfigRect(record.uuid);
+
+          if (isPost) {
+            const notifyMess = {
+              type: 'success',
+              title: `${t('noti.success')}`,
+              description: `${t('noti.delete_successful')}`
+            };
+            Notification(notifyMess);
+          }
+        } catch (error) {
+          console.log(error);
+        }
+      }
+
+      let i = 1
+      newData.forEach(data => {
+        data.lineNo = i;
+        i++
+      })
+
+
       setDataRectList(newData);
+
     } else {
       setDataRectList([]);
     }
   };
 
   const handleRowClick = (event, data) => {
-    console.log("data   :", data)
-    setDataRect(data)
-    setThreshold(2)
     setKeyActive(data.key)
-    console.log("dataRect   :", dataRect)
-    form.setFieldsValue({
-      threshold:100
-    })
+    if (data.uuid != null) {
+      AIConfigRectApi.getConfigRect(data.uuid).then((result) => {
+        if (result != null) {
+          data = result
+        }
+      });
+    }
+
+    setDefaultDataRect(data)
+    setIsActiveDetail(true)
+
 
   };
 
@@ -264,8 +456,8 @@ const TabRect = (props) => {
     if (cameraUuid === "" || cameraUuid == null) {
       Notification({
         type: NOTYFY_TYPE.warning,
-        title: "Xem trực tiếp",
-        description: "Camera không xác định",
+        title: `${t('view.user.detail_list.view_online')}`,
+        description: `${t('noti.unidentified_camera')}`
       });
       return;
     }
@@ -273,8 +465,8 @@ const TabRect = (props) => {
     if (data == null) {
       Notification({
         type: NOTYFY_TYPE.warning,
-        title: "Xem trực tiếp",
-        description: "Không nhận địa chỉ camproxy lỗi",
+        title: `${t('view.user.detail_list.view_online')}`,
+        description: `${t('noti.error_camera_address')}`,
       });
       return;
     }
@@ -283,10 +475,10 @@ const TabRect = (props) => {
     pc.addTransceiver("video");
     pc.oniceconnectionstatechange = () => {
     };
-    const spin = document.getElementById("spin-slot");
+    const spin = document.getElementById("spin-slot-" + type);
     pc.ontrack = (event) => {
       //binding and play
-      const video = document.getElementById("video-slot");
+      const video = document.getElementById("video-slot-" + type);
       if (video) {
         video.srcObject = event.streams[0];
         video.autoplay = true;
@@ -319,7 +511,7 @@ const TabRect = (props) => {
               spin.style.display = "none";
               Notification({
                 type: NOTYFY_TYPE.warning,
-                title: "Xem trực tiếp",
+                title: `${t('view.user.detail_list.view_online')}`,
                 description: "Nhận offer từ server bị lỗi",
               });
             }
@@ -334,58 +526,228 @@ const TabRect = (props) => {
   };
 
   const closeCamera = () => {
-    const video = document.getElementById("video-slot");
+    const video = document.getElementById("video-slot-" + type);
     video.srcObject = null;
     video.style.display = "none";
     if (timerIdentifier != null) clearTimeout(timerIdentifier);
-    window.removeEventListener('resize', resizeEventHandler);
+    if (timerIdentifierRect != null) clearTimeout(timerIdentifierRect);
+    window.removeEventListener('resize', resizeLineCanvasEventHandler);
+    window.removeEventListener('resize', resizeRectCanvasEventHandler);
   };
 
-  const initLine = (initDirection) => {
-    if (timerIdentifier != null) clearTimeout(timerIdentifier);
-    const video = document.getElementById("video-slot");
-    const canvas = document.getElementById("canvas-slot");
+  const initRect = () => {
+    if (timerIdentifierRect != null) clearTimeout(timerIdentifierRect);
+    const video = document.getElementById("video-slot-" + type);
+    const canvas = document.getElementById("canvas-slot-" + type);
     if (canvas !== null) {
       canvas.style.display = "block";
       canvas.width = video.clientWidth;
       canvas.height = video.clientHeight;
+      videoSlotSizeRect = { w: video.clientWidth, h: video.clientHeight };
+      coordinates = [];
+      coordinates.push({ x: video.clientWidth / 4, y: video.clientHeight / 4, mouseDown: false });
+      coordinates.push({ x: (video.clientWidth / 4) * 3, y: video.clientHeight / 4, mouseDown: false });
+      coordinates.push({ x: (video.clientWidth / 4) * 3, y: (video.clientHeight / 4) * 3, mouseDown: false });
+      coordinates.push({ x: video.clientWidth / 4, y: (video.clientHeight / 4) * 3, mouseDown: false });
+      drawRect();
+      window.addEventListener('resize', resizeRectCanvasEventHandler);
+    }
+  }
+
+  const addRect = (points) => {
+    if (timerIdentifierRect != null) clearTimeout(timerIdentifierRect);
+    const video = document.getElementById("video-slot-" + type);
+    const canvas = document.getElementById("canvas-slot-" + type);
+    if (canvas !== null) {
+      canvas.style.display = "block";
+      canvas.width = video.clientWidth;
+      canvas.height = video.clientHeight;
+      videoSlotSizeRect = { w: video.clientWidth, h: video.clientHeight };
+      coordinates = [];
+      points.forEach(data => {
+        coordinates.push({ x: data[0], y: data[1], mouseDown: false });
+      })
+      
+      drawRect();
+      window.addEventListener('resize', resizeRectCanvasEventHandler);
+    }
+  }
+
+  const drawRect = () => {
+    const canvas = document.getElementById("canvas-slot-" + type);
+    if (canvas !== null) {
+      const ctx = canvas.getContext('2d');
+      ctx.clearRect(0, 0, canvas.width, canvas.height);
+
+      ctx.lineWidth = '1'; // width of the line
+      ctx.strokeStyle = 'yellow'; // color of the line
+      ctx.fillStyle = "red";
+      ctx.font = "12px Arial";
+      ctx.lineJoin = ctx.lineCap = "round";
+
+      // Draw rect
+      ctx.beginPath();
+      ctx.moveTo(coordinates[0].x, coordinates[0].y);
+      for (let index = 1; index < coordinates.length; index++) {
+        ctx.lineTo(coordinates[index].x, coordinates[index].y);
+      }
+      ctx.closePath();
+      ctx.stroke();
+
+      // Rect number
+      ctx.fillText("#1#", coordinates[0].x - 15, coordinates[0].y - 10);
+
+      // Rect at all points
+      ctx.beginPath();
+      for (let index = 0; index < coordinates.length; index++) {
+        ctx.fillRect(coordinates[index].x - 2.5, coordinates[index].y - 2.5, 5, 5);
+      }
+      ctx.closePath();
+
+      // Set output
+      coordinatesP = [];
+      for (let index = 0; index < coordinates.length; index++) {
+        coordinatesP.push({ x: coordinates[index].x / canvas.width, y: coordinates[index].y / canvas.height });
+      }
+      console.log("coordinatesP:", coordinatesP);
+    }
+  }
+
+  const initLine = (initDirection) => {
+    if (timerIdentifier != null) clearTimeout(timerIdentifier);
+    const video = document.getElementById("video-slot-" + type);
+    const canvas = document.getElementById("canvas-slot-" + type);
+    if (canvas !== null) {
+      canvas.style.display = "block";
+      canvas.width = video.clientWidth;
+      canvas.height = video.clientHeight;
+      videoSlotSize = { w: video.clientWidth, h: video.clientHeight };
       fromX = video.clientWidth / 2;
       fromY = video.clientHeight / 4;
       toX = video.clientWidth / 2;
       toY = (video.clientHeight / 4) * 3;
       direction = initDirection;
       drawLine();
-      window.addEventListener('resize', resizeEventHandler);
+      window.addEventListener('resize', resizeLineCanvasEventHandler);
+    }
+  }
+
+  const addLine = (points , directionV) => {
+    if (timerIdentifier != null) clearTimeout(timerIdentifier);
+    const video = document.getElementById("video-slot-" + type);
+    const canvas = document.getElementById("canvas-slot-" + type);
+    if (canvas !== null) {
+      canvas.style.display = "block";
+      canvas.width = video.clientWidth;
+      canvas.height = video.clientHeight;
+      videoSlotSize = { w: video.clientWidth, h: video.clientHeight };
+      fromX = points[0][0]
+      fromY = points[0][1]
+      toX = points[1][0]
+      toY = points[1][1]
+      direction = directionV;
+      drawLine();
+      window.addEventListener('resize', resizeLineCanvasEventHandler);
     }
   }
 
   const clearEventHandler = () => {
-    const canvas = document.getElementById("canvas-slot");
+    const canvas = document.getElementById("canvas-slot-" + type);
     if (canvas !== null) {
       const ctx = canvas.getContext('2d');
       ctx.clearRect(0, 0, canvas.width, canvas.height);
+      switch (type) {
+        case "hurdles":
+          fromX = 0;
+          fromY = 0;
+          toX = 0;
+          toY = 0;
+          direction = 2;
+          break;
+        case "intrusion_detection":
+          coordinates = [];
+          break;
+      }
     }
   }
 
-  const resizeEventHandler = (event) => {
-    const video = document.getElementById("video-slot");
-    const canvas = document.getElementById("canvas-slot");
+  const resizeLineCanvasEventHandler = (event) => {
+    resizeLineCanvas();
+  }
+
+  const resizeLineCanvas = () => {
+    let video = document.getElementById("video-slot-hurdles");
+    const canvas = document.getElementById("canvas-slot-hurdles");
     if (canvas !== null) {
       if (timerIdentifier != null) clearTimeout(timerIdentifier);
-      timerIdentifier = setTimeout(() => {
-        fromX = video.clientWidth * fromX / canvas.width;
-        fromY = video.clientHeight * fromY / canvas.height;
-        toX = video.clientWidth * toX / canvas.width;
-        toY = video.clientHeight * toY / canvas.height;
-        canvas.width = video.clientWidth;
-        canvas.height = video.clientHeight;
-        drawLine();
-      }, 100);
+      let w = video.clientWidth, h = video.clientHeight;
+      if (video.clientWidth === 0) { // In case video is not active
+        video = document.getElementById("video-slot-intrusion_detection");
+        w = video.clientWidth;
+        h = video.clientHeight;
+      }
+      if (canvas.width !== w || canvas.height !== h) {
+        timerIdentifier = setTimeout(() => {
+          video = document.getElementById("video-slot-hurdles");
+          w = video.clientWidth;
+          h = video.clientHeight;
+          if (video.clientWidth === 0) { // In case video is not active
+            video = document.getElementById("video-slot-intrusion_detection");
+            w = video.clientWidth;
+            h = video.clientHeight;
+          }
+          fromX = w * fromX / canvas.width;
+          fromY = h * fromY / canvas.height;
+          toX = w * toX / canvas.width;
+          toY = h * toY / canvas.height;
+          canvas.width = w;
+          canvas.height = h;
+          drawLine();
+        }, 100);
+      }
+    }
+  }
+
+  const resizeRectCanvasEventHandler = (event) => {
+    resizeRectCanvas();
+  }
+
+  const resizeRectCanvas = () => {
+    let video = document.getElementById("video-slot-intrusion_detection");
+    const canvas = document.getElementById("canvas-slot-intrusion_detection");
+    if (canvas !== null) {
+      if (timerIdentifierRect != null) clearTimeout(timerIdentifierRect);
+      let w = video.clientWidth, h = video.clientHeight;
+      if (video.clientWidth === 0) { // In case video is not active
+        video = document.getElementById("video-slot-hurdles");
+        w = video.clientWidth;
+        h = video.clientHeight;
+      }
+      if (canvas.width !== w || canvas.height !== h) {
+        timerIdentifierRect = setTimeout(() => {
+          video = document.getElementById("video-slot-intrusion_detection");
+          w = video.clientWidth;
+          h = video.clientHeight;
+          if (video.clientWidth === 0) { // In case video is not active
+            video = document.getElementById("video-slot-hurdles");
+            w = video.clientWidth;
+            h = video.clientHeight;
+          }
+          for (let index = 0; index < coordinates.length; index++) {
+            let x = w * coordinates[index].x / canvas.width;
+            let y = h * coordinates[index].y / canvas.height;
+            coordinates[index] = { ...coordinates[index], x: x, y: y };
+          }
+          canvas.width = w;
+          canvas.height = h;
+          drawRect();
+        }, 100);
+      }
     }
   }
 
   const drawLine = () => {
-    const canvas = document.getElementById("canvas-slot");
+    const canvas = document.getElementById("canvas-slot-" + type);
     if (canvas !== null) {
       const ctx = canvas.getContext('2d');
       ctx.clearRect(0, 0, canvas.width, canvas.height);
@@ -449,7 +811,7 @@ const TabRect = (props) => {
         }
       } else { //fromX == toX
         fRectX = fromX - 2.5;
-        tRectX = toX - 5;
+        tRectX = toX - 2.5;
         if (fromY < toY) {
           fRectY = fromY - 5;
           tRectY = toY;
@@ -465,6 +827,14 @@ const TabRect = (props) => {
       drawDirectionLine(ctx);
 
       ctx.stroke(); // this is where the actual drawing happens.
+
+      // Set output
+      fromXP = fromX / canvas.width;
+      fromYP = fromY / canvas.height;
+      toXP = toX / canvas.width;
+      toYP = toY / canvas.height;
+      console.log("fromP:", fromXP, " ", fromYP);
+      console.log("toP:", toXP, " ", toYP);
     }
   }
 
@@ -537,58 +907,130 @@ const TabRect = (props) => {
   }
 
   const canvasMouseDown = (event) => {
-    const position = canvasRef.current.getBoundingClientRect();
-    const x = event.clientX - position.left;
-    const y = event.clientY - position.top;
-    if (x <= (fromX + 10) && x >= (fromX - 10)
-      && y <= (fromY + 10) && y >= (fromY - 10)) {
-      canvasRef.current.style.cursor = "grabbing";
-      isFromPointMouseDown = true;
-    }
-    if (x <= (toX + 10) && x >= (toX - 10)
-      && y <= (toY + 10) && y >= (toY - 10)) {
-      canvasRef.current.style.cursor = "grabbing";
-      isToPointMouseDown = true;
+    switch (type) {
+      case "hurdles":
+        const position = canvasRef.current.getBoundingClientRect();
+        const x = event.clientX - position.left;
+        const y = event.clientY - position.top;
+        if (x <= (fromX + 10) && x >= (fromX - 10)
+          && y <= (fromY + 10) && y >= (fromY - 10)) {
+          canvasRef.current.style.cursor = "grabbing";
+          isFromPointMouseDown = true;
+        }
+        if (x <= (toX + 10) && x >= (toX - 10)
+          && y <= (toY + 10) && y >= (toY - 10)) {
+          canvasRef.current.style.cursor = "grabbing";
+          isToPointMouseDown = true;
+        }
+        break;
+      case "intrusion_detection":
+        const position_ = canvasRefRect.current.getBoundingClientRect();
+        const x_ = event.clientX - position_.left;
+        const y_ = event.clientY - position_.top;
+
+        let isGrab = false;
+        for (let index = 0; index < coordinates.length; index++) {
+          if (x_ <= (coordinates[index].x + 10) && x_ >= (coordinates[index].x - 10)
+            && y_ <= (coordinates[index].y + 10) && y_ >= (coordinates[index].y - 10)) {
+            canvasRefRect.current.style.cursor = "grabbing";
+            coordinates[index] = { ...coordinates[index], mouseDown: true };
+            isGrab = true;
+            break;
+          }
+        }
+        if (!isGrab) {
+          coordinates.push({ x: x_, y: y_, mouseDown: false });
+          coordinates = sortPoints(coordinates);
+          drawRect();
+        }
+        break;
     }
     event.preventDefault();
   }
 
   const canvasMouseUp = (event) => {
-    const position = canvasRef.current.getBoundingClientRect();
-    const x = event.clientX - position.left;
-    const y = event.clientY - position.top;
-    if ((x <= (fromX + 10) && x >= (fromX - 10) && y <= (fromY + 10) && y >= (fromY - 10))
-      || (x <= (toX + 10) && x >= (toX - 10) && y <= (toY + 10) && y >= (toY - 10))) {
-      canvasRef.current.style.cursor = "grab";
-    } else {
-      canvasRef.current.style.cursor = "default";
+    switch (type) {
+      case "hurdles":
+        const position = canvasRef.current.getBoundingClientRect();
+        const x = event.clientX - position.left;
+        const y = event.clientY - position.top;
+        if ((x <= (fromX + 10) && x >= (fromX - 10) && y <= (fromY + 10) && y >= (fromY - 10))
+          || (x <= (toX + 10) && x >= (toX - 10) && y <= (toY + 10) && y >= (toY - 10))) {
+          canvasRef.current.style.cursor = "grab";
+        } else {
+          canvasRef.current.style.cursor = "default";
+        }
+        isFromPointMouseDown = false;
+        isToPointMouseDown = false;
+        break;
+      case "intrusion_detection":
+        const position_ = canvasRefRect.current.getBoundingClientRect();
+        const x_ = event.clientX - position_.left;
+        const y_ = event.clientY - position_.top;
+        for (let index = 0; index < coordinates.length; index++) {
+          coordinates[index] = { ...coordinates[index], mouseDown: false };
+          if (x_ <= (coordinates[index].x + 10) && x_ >= (coordinates[index].x - 10)
+            && y_ <= (coordinates[index].y + 10) && y_ >= (coordinates[index].y - 10)) {
+            canvasRefRect.current.style.cursor = "grab";
+            break;
+          } else {
+            canvasRefRect.current.style.cursor = "default";
+          }
+        }
+        break;
     }
-    isFromPointMouseDown = false;
-    isToPointMouseDown = false;
     event.preventDefault();
   }
 
   const canvasMouseMove = (event) => {
-    const position = canvasRef.current.getBoundingClientRect();
-    const x = event.clientX - position.left;
-    const y = event.clientY - position.top;
-    if (!isFromPointMouseDown && !isToPointMouseDown) {
-      if ((x <= (fromX + 10) && x >= (fromX - 10) && y <= (fromY + 10) && y >= (fromY - 10))
-        || (x <= (toX + 10) && x >= (toX - 10) && y <= (toY + 10) && y >= (toY - 10))) {
-        canvasRef.current.style.cursor = "grab";
-      } else {
-        canvasRef.current.style.cursor = "default";
-      }
-    }
-    if (isFromPointMouseDown) {
-      fromX = x;
-      fromY = y;
-      drawLine();
-    }
-    if (isToPointMouseDown) {
-      toX = x;
-      toY = y;
-      drawLine();
+    switch (type) {
+      case "hurdles":
+        const position = canvasRef.current.getBoundingClientRect();
+        const x = event.clientX - position.left;
+        const y = event.clientY - position.top;
+        if (!isFromPointMouseDown && !isToPointMouseDown) {
+          if ((x <= (fromX + 10) && x >= (fromX - 10) && y <= (fromY + 10) && y >= (fromY - 10))
+            || (x <= (toX + 10) && x >= (toX - 10) && y <= (toY + 10) && y >= (toY - 10))) {
+            canvasRef.current.style.cursor = "grab";
+          } else {
+            canvasRef.current.style.cursor = "default";
+          }
+        }
+        if (isFromPointMouseDown) {
+          fromX = x;
+          fromY = y;
+          drawLine();
+        }
+        if (isToPointMouseDown) {
+          toX = x;
+          toY = y;
+          drawLine();
+        }
+        break;
+      case "intrusion_detection":
+        const position_ = canvasRefRect.current.getBoundingClientRect();
+        const x_ = event.clientX - position_.left;
+        const y_ = event.clientY - position_.top;
+        for (let index = 0; index < coordinates.length; index++) {
+          if (!coordinates[index].mouseDown) {
+            if (x_ <= (coordinates[index].x + 10) && x_ >= (coordinates[index].x - 10)
+              && y_ <= (coordinates[index].y + 10) && y_ >= (coordinates[index].y - 10)) {
+              canvasRefRect.current.style.cursor = "grab";
+              break;
+            } else {
+              canvasRefRect.current.style.cursor = "default";
+            }
+          } else {
+            coordinates[index] = { ...coordinates[index], x: x_, y: y_ };
+          }
+        }
+        for (let index = 0; index < coordinates.length; index++) {
+          if (coordinates[index].mouseDown) {
+            drawRect();
+            break;
+          }
+        }
+        break;
     }
     event.preventDefault();
   }
@@ -613,21 +1055,21 @@ const TabRect = (props) => {
                 }
                 {cameraUuid && (
                   <div className="camera__monitor">
-                    <canvas id="canvas-slot" className="canvas-slot" ref={canvasRef}
+                    <canvas id={`canvas-slot-${type}`} className="canvas-slot" ref={type === "hurdles" ? canvasRef : canvasRefRect}
                       onMouseUp={canvasMouseUp}
                       onMouseDown={canvasMouseDown} onMouseMove={canvasMouseMove}
                       width="100%" style={{ display: "none" }} />
                     <Spin
                       className="video-js"
                       size="large"
-                      id="spin-slot"
+                      id={`spin-slot-${type}`}
                       style={{ display: "none" }}
                     />
                     <video
                       className="video-js"
                       width="100%"
                       autoPlay="1"
-                      id="video-slot"
+                      id={`video-slot-${type}`}
                       style={{ display: "none" }}
                     >
                       Trình duyệt không hỗ trợ thẻ video.
@@ -637,13 +1079,19 @@ const TabRect = (props) => {
                 <div className="d-flex justify-content-between align-items-center"
                   style={{ marginTop: "20px" }}>
                   <Button
+                    disabled={!isActive}
                     onClick={() => {
-                      initLine(2);
+                      if (type === "hurdles") {
+                        initLine(2);
+                      } else {
+                        initRect();
+                      }
                     }}
                     type="primary" htmlType="submit ">
                     {t('view.ai_config.draw.' + type)}
                   </Button>
                   <Button
+                    disabled={!isActive}
                     type="primary"
                     onClick={() => {
                       clearEventHandler();
@@ -659,7 +1107,7 @@ const TabRect = (props) => {
                   onFinish={handleSubmit}
                   initialValues={dataRect}
                 >
-                  {type == "intrusion_detection" ?
+                  {type === "intrusion_detection" ?
                     <Row gutter={24} style={{ marginTop: "20px" }}>
                       <Col span={12} style={{ flex: 'none' }}>
                         <p className="threshold">{t('view.ai_config.time_threshold')}</p>
@@ -671,7 +1119,7 @@ const TabRect = (props) => {
                           vale={threshold}
 
                         >
-                          <Input placeholder="Số" type='threshold' value={threshold} />
+                          <Input disabled={!isActiveDetail} placeholder="Số" type='threshold' value={threshold} />
                         </Form.Item>
                       </Col>
                       <Col span={6} style={{ flex: 'none' }}>
@@ -682,29 +1130,49 @@ const TabRect = (props) => {
                         <p className="threshold">{t('view.ai_config.direction.title')}</p>
                       </Col>
                       <Col span={12} style={{ flex: 'none' }}>
-                      <div className="select-direction">
-                        <Select
-                          onChange={onChangeTimeTypeTwo}
-                          value={directionV}
-                        >
-                          <Option value='AB'>{t('view.ai_config.direction.AB')}</Option>
-                          <Option value='BA'>{t('view.ai_config.direction.BA')}</Option>
-                        </Select></div>
-                        
+                        <div className="select-direction">
+                          <Form.Item name={['direction']}>
+                            <Select disabled={!isActiveDetail} onChange={(e) => onChangeDirectionHandler(e)}>
+                              <Option value={1}>{t('view.ai_config.direction.AB')}</Option>
+                              <Option value={0}>{t('view.ai_config.direction.BA')}</Option>
+                              <Option value={2}>{t('view.ai_config.direction.All')}</Option>
+                            </Select>
+                          </Form.Item>
+                        </div>
+
                       </Col>
 
                     </Row>
                   }
 
                   <Row gutter={24} style={{ marginTop: "20px" }}>
-                    <div className="">
-                      <Checkbox indeterminate={indeterminate} onChange={onCheckAllChange}
-                        checked={checkAll}>
-                        {t('view.ai_config.object_recognition')}
-                      </Checkbox>
-                      <CheckboxGroup options={options} value={checkedList} onChange={onChange} />
-                    </div>
+                    <Col span={24} style={{ flex: 'none' }}>
+                      <div className="">
+                        <Form.Item
+                          name="checkedList">
+                          <Checkbox disabled={!isActiveDetail} indeterminate={indeterminate} onChange={onCheckAllChange}
+                            checked={checkAll}>
+                            {t('view.ai_config.object_recognition')}
+                          </Checkbox>
+                          <CheckboxGroup disabled={!isActiveDetail} options={options} value={checkedList} onChange={onChange} />
+                        </Form.Item>
+
+                      </div>
+                    </Col>
+
                   </Row>
+
+                  {cameraUuid ?
+                    <div className="footer__modal">
+                      <Button
+                        disabled={!isActiveDetail}
+                        onClick={() => {
+                        }}
+                        type="primary" htmlType="submit ">
+                        {t('view.ai_config.apply')}
+                      </Button>
+                    </div> : null
+                  }
                 </Form>
               </div>
             </Col>
@@ -712,7 +1180,10 @@ const TabRect = (props) => {
               <div style={{ width: '100%', padding: '20px' }}>
                 <Table
                   className="table__config_rect"
-                  rowSelection={rowSelection}
+                  rowClassName={(record, rowIndex) => {
+                    if (record.key === keyActive) return 'selected';
+                    return 'not-selected';
+                  }}
                   columns={columnTables}
                   dataSource={dataRectList}
                   pagination={false}
@@ -727,16 +1198,7 @@ const TabRect = (props) => {
               </div>
             </Col>
           </Row>
-          {cameraUuid ?
-            <div className="footer__modal">
-              <Button
-                onClick={() => {
-                }}
-                type="primary" htmlType="submit ">
-                {t('view.ai_config.apply')}
-              </Button>
-            </div> : null
-          }
+
         </div>
       </Card>
     </div>
@@ -746,7 +1208,7 @@ const TabRect = (props) => {
 function tabRectPropsAreEqual(prevTabRect, nextTabRect) {
   return _.isEqual(prevTabRect.cameraUuid, nextTabRect.cameraUuid) && _.isEqual(prevTabRect.type, nextTabRect.type)
 
-  ;
+    ;
 }
 
 export const MemoizedTabRect = React.memo(TabRect, tabRectPropsAreEqual);
