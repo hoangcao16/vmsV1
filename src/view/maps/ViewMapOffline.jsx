@@ -413,8 +413,8 @@ const ViewMapOffline = (props) => {
             if (!props.editMode) {
               Notification({
                 type: NOTYFY_TYPE.warning,
-                title: "Chế độ xem",
-                description: "Bạn không thể cập nhập trong chế độ này",
+                title: `${t('noti.view_mode')}`,
+                description: `${t('noti.cannot_update_in_this_mode')}`,
               });
             } else {
               handleDragEndMarker(marker, camera, TYPE_FORM_ACTION_ON_MAP.cam);
@@ -488,8 +488,8 @@ const ViewMapOffline = (props) => {
             if (!props.editMode) {
               Notification({
                 type: NOTYFY_TYPE.warning,
-                title: "Chế độ xem",
-                description: "Bạn không thể cập nhập trong chế độ này",
+                title: `${t('noti.view_mode')}`,
+                description: `${t('noti.cannot_update_in_this_mode')}`,
               });
             } else {
               handleDragEndMarker(

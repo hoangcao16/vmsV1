@@ -47,9 +47,9 @@ class CameraService {
           Notification(notifyMess);
           throw new Error("Thông tin Camera không hợp lệ");
         } else {
-          notifyMess.description = "Invalid Camera infomation";
+          notifyMess.description = "Invalid Camera information";
           Notification(notifyMess);
-          throw new Error("Invalid Camera infomation");
+          throw new Error("Invalid Camera information");
         }
       }
       //camproxy controller --> camUuid --> http: camprox

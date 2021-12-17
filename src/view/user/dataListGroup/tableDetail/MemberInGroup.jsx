@@ -63,7 +63,7 @@ export default function MemberInGroup(props) {
       const notifyMess = {
         type: 'success',
         title: '',
-        description: 'Xóa thành công thành viên'
+        description: `${t('noti.successfully_delete_menber')}`
       };
       Notification(notifyMess);
       const dataAfterRemove = await UserApi.getUserByGroupUuid(

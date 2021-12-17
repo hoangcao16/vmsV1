@@ -40,7 +40,7 @@ export default function ModalAddCameraGroup(props) {
       const notifyMess = {
         type: 'success',
         title: '',
-        description: 'Thêm nhóm camera thành công'
+        description: `${t('noti.successfully_add_camera_group')}`
       };
       Notification(notifyMess);
     }

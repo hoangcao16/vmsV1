@@ -1,6 +1,6 @@
-import { isEmpty } from 'lodash';
-import React from 'react';
-import { reactLocalStorage } from 'reactjs-localstorage';
+import { isEmpty } from "lodash";
+import React from "react";
+import { reactLocalStorage } from "reactjs-localstorage";
 import {
   Button,
   Card,
@@ -12,30 +12,30 @@ import {
   FormGroup,
   Input,
   Label,
-  Row
-} from 'reactstrap';
-import UserApi from '../../../actions/api/user/UserApi';
-import resetImg from '../../../assets/img/pages/reset-password.png';
-import '../../../assets/scss/pages/authentication.scss';
-import Notification from '../../../components/vms/notification/Notification';
-import { history } from '../../../history';
-import './ResetPassword.scss';
+  Row,
+} from "reactstrap";
+import UserApi from "../../../actions/api/user/UserApi";
+import resetImg from "../../../assets/img/pages/reset-password.png";
+import "../../../assets/scss/pages/authentication.scss";
+import Notification from "../../../components/vms/notification/Notification";
+import { history } from "../../../history";
+import "./ResetPassword.scss";
 import { withTranslation } from "react-i18next";
 // import pageError from '../misc/error/401'
 
 class ResetPassword extends React.Component {
   state = {
-    new_password: ''
+    new_password: "",
     // isTokenExpire: false
   };
 
   async componentDidMount() {
     const authResult = new URLSearchParams(window.location.search);
-    const token = authResult.get('token');
+    const token = authResult.get("token");
 
     const isCheckToken = await UserApi.changePassword({ token });
     if (!isCheckToken) {
-      history.push('/pages/login');
+      history.push("/pages/login");
     }
     return;
   }
@@ -43,14 +43,14 @@ class ResetPassword extends React.Component {
   onChange = (e) => {
     this.setState({
       // ...this.state,
-      new_password: e.target.value
+      new_password: e.target.value,
     });
   };
 
   updatePassword = async () => {
     const { new_password } = this.state;
     const authResult = new URLSearchParams(window.location.search);
-    const token = authResult.get('token');
+    const token = authResult.get("token");
 
     if (token) {
       const isCheckToken = await UserApi.changePassword({ token });
@@ -58,26 +58,46 @@ class ResetPassword extends React.Component {
       if (isCheckToken) {
         const params = {
           token: token,
-          new_password: new_password
+          new_password: new_password,
         };
         const isUpdate = await UserApi.updatePassword(params);
 
         if (isUpdate) {
-          const notifyMess = {
-            type: 'success',
-            title: '',
-            description: 'Mật khẩu đã được cập nhật'
-          };
+          const language = reactLocalStorage.get("language");
+          let notifyMess = {};
+          if (language == "vn") {
+            notifyMess = {
+              type: "success",
+              title: "",
+              description: "Cập nhật mật khẩu thành công",
+            };
+          } else {
+            notifyMess = {
+              type: "success",
+              title: "",
+              description: "Successfully updated password",
+            };
+          }
           Notification(notifyMess);
 
-          reactLocalStorage.setObject('login_info', {});
-          history.push('/pages/login');
+          reactLocalStorage.setObject("login_info", {});
+          history.push("/pages/login");
         } else {
-          const notifyMess = {
-            type: 'error',
-            title: '',
-            description: 't mật khẩu thất bại'
-          };
+          const language = reactLocalStorage.get("language");
+          let notifyMess = {};
+          if (language == "vn") {
+            notifyMess = {
+              type: "error",
+              title: "",
+              description: "Cập nhật mật khẩu thất bại",
+            };
+          } else {
+            notifyMess = {
+              type: "error",
+              title: "",
+              description: "Failed updated password",
+            };
+          }
           Notification(notifyMess);
         }
       }
@@ -85,23 +105,41 @@ class ResetPassword extends React.Component {
   };
   //
   handleSubmit = (e) => {
-    const language = reactLocalStorage.get('language');
-    const value = document.getElementById('input__password').value;
+    const language = reactLocalStorage.get("language");
+    const value = document.getElementById("input__password").value;
 
     if (isEmpty(value)) {
-      const notifi = {
-        type: 'warning',
-        title: 'Thất bại',
-        description: 'Trường mật khẩu không được để trống'
-      };
+      let notifi = {};
+      if (language == "vn") {
+        notifi = {
+          type: "warning",
+          title: "Thất bại",
+          description: "Trường mật khẩu không được để trống",
+        };
+      } else {
+        notifi = {
+          type: "warning",
+          title: "Failed",
+          description: "Password feild can't be empty",
+        };
+      }
       Notification(notifi);
       return;
     } else if (value.length < 8) {
-      const notifi = {
-        type: 'warning',
-        title: 'Thất bại',
-        description: `${(language === 'vn' ? 'Mật khẩu của bạn phải có ít nhất 8 ký tự' : 'Your password must have at least 8 characters')}`
-      };
+      let notifi = {};
+      if (language == "vn") {
+        notifi = {
+          type: "warning",
+          title: "Thất bại",
+          description: "Mật khẩu của bạn phải có ít nhất 8 ký tự",
+        };
+      } else {
+        notifi = {
+          type: "warning",
+          title: "Failed",
+          description: "Your password must have at least 8 characters",
+        };
+      }
       Notification(notifi);
       return;
     } else {
@@ -135,11 +173,15 @@ class ResetPassword extends React.Component {
                 <Card className="rounded-0 mb-0 px-2 py-50 col2_bgColor">
                   <CardHeader className="pb-1 pt-1">
                     <CardTitle>
-                      <h4 className="mb-0 col2_color">{t('view.pages.update_password')}</h4>
+                      <h4 className="mb-0 col2_color">
+                        {t("view.pages.update_password")}
+                      </h4>
                     </CardTitle>
                   </CardHeader>
                   <p className="px-2 col2_auth-titleColor">
-                    {t('view.pages.enter_new_password', { plsEnter: t('please_enter') })}
+                    {t("view.pages.enter_new_password", {
+                      plsEnter: t("please_enter"),
+                    })}
                   </p>
                   <CardBody className="pt-1">
                     <Form>
@@ -147,18 +189,18 @@ class ResetPassword extends React.Component {
                         <Input
                           id="input__password"
                           className="col2_input"
-                          placeholder={t('view.user.new_password')}
+                          placeholder={t("view.user.new_password")}
                           required
                           maxLength={255}
                           minLength={8}
                           onChange={(e) => {
                             this.onChange(e);
-                            document.getElementById('input__password').value =
-                              e.target.value.replace(/\s/g, '');
+                            document.getElementById("input__password").value =
+                              e.target.value.replace(/\s/g, "");
                           }}
                           type="password"
                         />
-                        <Label>{t('view.user.new_password')}</Label>
+                        <Label>{t("view.user.new_password")}</Label>
                       </FormGroup>
 
                       <Button.Ripple
@@ -170,7 +212,7 @@ class ResetPassword extends React.Component {
                           this.handleSubmit(e);
                         }}
                       >
-                        {t('view.pages.update')}
+                        {t("view.pages.update")}
                       </Button.Ripple>
                     </Form>
 
@@ -181,10 +223,10 @@ class ResetPassword extends React.Component {
                       outline
                       onClick={(e) => {
                         e.preventDefault();
-                        history.push('/pages/login');
+                        history.push("/pages/login");
                       }}
                     >
-                      {t('view.pages.return_to_homepage')}
+                      {t("view.pages.return_to_homepage")}
                     </Button.Ripple>
                   </CardBody>
                 </Card>

@@ -242,7 +242,7 @@ const ModalEditCamera = (props) => {
       Notification({
         type: "error",
         title: "",
-        description: "Edit camera failed " + error.toString(),
+        description: `${t('noti.edit_camera_failed')}` + error.toString(),
       });
       console.log(error);
     }

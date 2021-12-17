@@ -55,7 +55,7 @@ const TabType = (props) => {
         const notifyMess = {
           type: 'success',
           title: `${t('noti.success')}`,
-          description: 'Bạn đã config thành công',
+          description: `${t('noti.successfully_config')}`,
         };
         Notification(notifyMess);
         

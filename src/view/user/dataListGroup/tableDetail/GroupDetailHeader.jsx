@@ -24,7 +24,7 @@ export default function GroupDetailHeader(props) {
             const notifyMess = {
               type: 'success',
               title: '',
-              description: 'Xóa nhóm thành công'
+              description: `${t('noti.successfully_delete_group')}`,
             };
             Notification(notifyMess);
             reactLocalStorage.setObject('tabIndex', 2);

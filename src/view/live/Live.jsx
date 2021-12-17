@@ -3,6 +3,7 @@ import Hls from "hls.js";
 import moment from "moment";
 import React, { useEffect, useRef, useState } from "react";
 import { DragDropContext, Draggable, Droppable } from "react-beautiful-dnd";
+import { useTranslation } from "react-i18next";
 import { connect, useDispatch } from "react-redux";
 import { withRouter } from "react-router-dom";
 import { v4 as uuidV4 } from "uuid";
@@ -48,6 +49,7 @@ import MenuTools from "./MenuTools";
 const initialDataGrid = [...Array(16).keys()];
 let currentGridSize = 16;
 const Live = (props) => {
+  const { t } = useTranslation();
   const dispatch = useDispatch();
   const [colClass, setColClass] = useState("col-3");
   const [rowClass, setRowClass] = useState("h-25");
@@ -112,8 +114,8 @@ const Live = (props) => {
     if (cameraUuids.length <= 0) {
       Notification({
         type: "warning",
-        title: "Chọn màn hình ưa thích",
-        description: "Không tồn tại bất kỳ camera trong màn hình này",
+        title: `${t("noti.choose_favorite_screen")}`,
+        description: `${t("noti.no_camera_in_screen")}`,
       });
       return null;
     }
@@ -131,8 +133,8 @@ const Live = (props) => {
             if (camFoundIdx < 0) {
               Notification({
                 type: "warning",
-                title: "Màn hình mặc định",
-                description: "Không tồn tại camera này",
+                title: `${t("noti.default_screen")}`,
+                description: `${t("noti.camera_not_exist")}`,
               });
               return it;
             }
@@ -155,7 +157,7 @@ const Live = (props) => {
     } catch (err) {
       Notification({
         type: "warning",
-        title: "Xem danh sách màn hình",
+        title: `${t("noti.view_screen_list")}`,
         description: err.toString(),
       });
       return null;
@@ -173,8 +175,8 @@ const Live = (props) => {
         if (screen == null) {
           Notification({
             type: "warning",
-            title: "Màn hình mặc định",
-            description: "Không thể lấy thông tin màn hình mặc định",
+            title: `${t("noti.default_screen")}`,
+            description: `${t("noti.cannot_get_default_screen_info")}`,
           });
         }
         handleBookmarkOk(screen);
@@ -199,8 +201,8 @@ const Live = (props) => {
     } catch (e) {
       Notification({
         type: "warning",
-        title: "Màn hình mặc định",
-        description: "Bạn chưa thiết lập màn hình mặc định",
+        title: `${t("noti.default_screen")}`,
+        description: `${t("noti.did_not_configured_default_screen")}`,
       });
     }
   };
@@ -236,8 +238,8 @@ const Live = (props) => {
     if (camUuid == "" || camUuid == null) {
       Notification({
         type: "warning",
-        title: "Xem trực tiếp",
-        description: "Camera không xác định",
+        title: `${t("noti.default_screen")}`,
+        description: `${t("noti.unidentified_camera")}`,
       });
       return;
     }
@@ -245,15 +247,17 @@ const Live = (props) => {
     if (data == null) {
       Notification({
         type: "warning",
-        title: "Xem trực tiếp",
-        description: "Không nhận được địa chỉ camproxy ",
+        title: `${t("noti.default_screen")}`,
+        description: `${t("noti.error_camera_address")}`,
       });
       return;
     }
     var restartConfig = {
-      iceServers: [{
-        urls: "stun:turn.edsolabs.com:3478",
-      }]
+      iceServers: [
+        {
+          urls: "stun:turn.edsolabs.com:3478",
+        },
+      ],
     };
     const pc = new RTCPeerConnection();
     pc.setConfiguration(restartConfig);
@@ -294,8 +298,8 @@ const Live = (props) => {
               spin.style.display = "none";
               Notification({
                 type: "warning",
-                title: "Xem trực tiếp",
-                description: "Nhận offer từ server bị lỗi",
+                title: `${t("noti.default_screen")}`,
+                description: `${t("noti.fail_accept_offer_from_server")}`,
               });
             }
           });
@@ -333,7 +337,7 @@ const Live = (props) => {
       Notification({
         type: "warning",
         title: "Playback",
-        description: "Camera không xác định",
+        description: `${t("noti.unidentified_camera")}`,
       });
       return;
     }
@@ -372,7 +376,7 @@ const Live = (props) => {
       Notification({
         type: "warning",
         title: "Playback",
-        description: "Camera không xác định",
+        description: `${t("noti.unidentified_camera")}`,
       });
       return;
     }
@@ -491,8 +495,8 @@ const Live = (props) => {
     } catch (error) {
       Notification({
         type: "warning",
-        title: "Lọc cameras",
-        description: "Lỗi trong quá trình lọc camera",
+        title: `${t("noti.camera_filter")}`,
+        description: `${t("noti.errors_in_the_process_of_camera_filter")}`,
       });
       console.log(error);
     }
@@ -570,8 +574,8 @@ const Live = (props) => {
       if (camInfoArr.length < 3) {
         Notification({
           type: "error",
-          title: "Xem trực tiếp",
-          description: "Định dạng camera không đúng",
+          title: `${t("noti.default_screen")}`,
+          description: `${t("noti.incorrect_camera_type")}`,
         });
         return;
       }
@@ -685,7 +689,7 @@ const Live = (props) => {
             type: NOTYFY_TYPE.success,
             title: "Playback",
             description:
-              "Bắt đầu quá trình ghi hình cho camera [" + camera.name + "]",
+              `${t("noti.start_record_for_camera")}` + "[" + camera.name + "]",
           });
           camera = { ...camera, isRec: true };
           cameras[slotIdx] = camera;
@@ -700,7 +704,7 @@ const Live = (props) => {
           type: NOTYFY_TYPE.success,
           title: "Playback",
           description:
-            "Bắt đầu quá trình ghi hình cho camera [" + camera.name + "]",
+            `${t("noti.start_record_for_camera")}` + "[" + camera.name + "]",
         });
         camera = { ...camera, isRec: true };
         cameras[slotIdx] = camera;
@@ -747,7 +751,7 @@ const Live = (props) => {
           type: NOTYFY_TYPE.success,
           title: "Playback",
           description:
-            "Dừng quá trình ghi hình cho camera [" + camera.name + "]",
+            `${t('noti.stop_record_for_camera')}` + "[" + camera.name + "]",
         });
         camera = { ...camera, isRec: false };
         cameras[slotIdx] = camera;
@@ -820,7 +824,7 @@ const Live = (props) => {
             type: NOTYFY_TYPE.success,
             title: "Playback",
             description:
-              "Dừng quá trình ghi hình cho camera [" + camera.name + "]",
+            `${t('noti.stop_record_for_camera')}` + "[" + camera.name + "]",
           });
         }
         camera = { ...camera, isRec: false };
@@ -893,7 +897,7 @@ const Live = (props) => {
                 type: NOTYFY_TYPE.success,
                 title: "Playback",
                 description:
-                  "Bạn đã chụp ảnh camera thành công, file được lưu trong danh sách file lưu trữ.",
+                  `${t('noti.successfully_take_photo_and_save')}`,
               });
             }
           });
@@ -901,7 +905,7 @@ const Live = (props) => {
           Notification({
             type: NOTYFY_TYPE.warning,
             title: "Playback",
-            description: "Đã xảy ra lỗi trong quá trình lưu file",
+            description: `${t('noti.error_save_file')}`,
           });
         }
       });
@@ -965,7 +969,6 @@ const Live = (props) => {
   };
 
   const zoomOutByDoubleClick = (originSlotId) => {
-    console.log("zoomOutByDoubleClick:");
     maxMinCamera(originSlotId);
   };
 
@@ -1053,16 +1056,16 @@ const Live = (props) => {
     if (isEmptyGrid) {
       Notification({
         type: "warning",
-        title: "Màn hình ưa thích",
-        description: "Lỗi: Không có camera nào trong lưới",
+        title: `${t('components.bookmark.favorite_screen')}`,
+        description: `${t('noti.error_no_camera_in_grid')}`,
       });
       return;
     }
     if (bookMarkName === "") {
       Notification({
         type: "warning",
-        title: "Màn hình ưa thích",
-        description: "Lỗi: Tên màn hình không được để trống",
+        title: `${t('components.bookmark.favorite_screen')}`,
+        description: `${t('noti.error_empty_screen_name')}`,
       });
       return;
     }
@@ -1076,15 +1079,15 @@ const Live = (props) => {
       if (response && response.payload) {
         Notification({
           type: "success",
-          title: "Màn hình ưa thích",
-          description: "Lưu màn hình ưa thích thành công",
+          title: `${t('components.bookmark.favorite_screen')}`,
+          description: `${t('noti.successfully_save_favorite_screen')}`,
         });
       }
     } catch (err) {
       Notification({
         type: "warning",
-        title: "Màn hình ưa thích",
-        description: "Lưu màn hình ưa thích thất bại. Lỗi:" + err.toString(),
+        title: `${t('components.bookmark.favorite_screen')}`,
+        description: `${t('noti.failed_save_favorite_screen_error')}` + err.toString(),
       });
     }
   };
@@ -1141,9 +1144,9 @@ const Live = (props) => {
     } catch (err) {
       Notification({
         type: "warning",
-        title: "Màn hình ưa thích",
+        title: `${t('components.bookmark.favorite_screen')}`,
         description:
-          "Áp dụng màn hình ưa thích thất bai. Lỗi:" + err.toString(),
+        `${t('noti.failed_apply_favorite_screen_error')}` + err.toString(),
       });
     }
   };
@@ -1186,7 +1189,7 @@ const Live = (props) => {
       Notification({
         type: "warning",
         title: "Playback",
-        description: "Bạn chưa chọn slot trên lưới",
+        description: `${t('noti.have_not_choosen_slot_on_grid')}`,
       });
     }
   };
@@ -1205,7 +1208,7 @@ const Live = (props) => {
       Notification({
         type: "warning",
         title: "Playback",
-        description: "Bạn chưa chọn slot trên lưới",
+        description: `${t('noti.have_not_choosen_slot_on_grid')}`,
       });
     }
   };
@@ -1223,7 +1226,7 @@ const Live = (props) => {
       Notification({
         type: "warning",
         title: "Playback",
-        description: "Bạn chưa chọn slot trên lưới",
+        description: `${t('noti.have_not_choosen_slot_on_grid')}`,
       });
     }
   };
@@ -1246,7 +1249,7 @@ const Live = (props) => {
       Notification({
         type: "warning",
         title: "Playback",
-        description: "Bạn chưa chọn slot trên lưới",
+        description: `${t('noti.have_not_choosen_slot_on_grid')}`,
       });
     }
   };
@@ -1261,7 +1264,7 @@ const Live = (props) => {
       Notification({
         type: "warning",
         title: "Playback",
-        description: "Bạn chưa chọn slot trên lưới",
+        description: `${t('noti.have_not_choosen_slot_on_grid')}`,
       });
     }
   };

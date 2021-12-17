@@ -49,7 +49,7 @@ const EmailConfig = (props) => {
         const notifyMess = {
           type: "error",
           title: "",
-          description: "Đã xóa các email ko hợp lệ",
+          description: `${t('noti.delete_illegal_email')}`
         };
         Notification(notifyMess);
         form.setFieldsValue({ uuid: checkEmail });
@@ -75,7 +75,7 @@ const EmailConfig = (props) => {
       const notifyMess = {
         type: "success",
         title: "",
-        description: "Cập nhật thành công",
+        description: `${t('noti.successfully_update')}`
       };
       Notification(notifyMess);
     } else {

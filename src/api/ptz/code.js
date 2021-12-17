@@ -107,7 +107,7 @@ export const handleErrCode = ({
         errCode.description =
           "Không phản hồi hoặc không đọc được phản hồi của Authz";
       } else {
-        errCode.description = "Authz responses are unresponsive or unreadable";
+        errCode.description = "Not responded or can't read response from Authz";
       }
       Notification(errCode);
       return null;
@@ -154,18 +154,26 @@ export const handleErrCode = ({
       return null;
     case PRESET_ID_MISSING:
       if (language == "vn") {
-        errCode.description = "Vui lòng chọn điểm quay";
+        errCode.description = "Vui lòng chọn preset Id";
       } else {
         errCode.description = "Please choose rotation point";
       }
       Notification(errCode);
       return null;
     case PRESET_TOUR_ID_MISSING:
-      errCode.description = "presetTourId? - Vui lòng chọn hành trình quay";
+      if (language == "vn") {
+        errCode.description = "Vui lòng chọn preset tour Id";
+      } else {
+        errCode.description = "Please choose preset tour Id";
+      }
       Notification(errCode);
       return null;
     case LIST_POINT_MISSING:
-      errCode.description = "listPoint? - Thiếu danh sách điểm quay";
+      if (language == "vn") {
+        errCode.description = "Thiếu danh sách điểm quay";
+      } else {
+        errCode.description = "List point is missing";
+      }
       Notification(errCode);
       return null;
     case TIME_DELAY_MISSING:
@@ -193,11 +201,19 @@ export const handleErrCode = ({
       Notification(errCode);
       return null;
     case PTZ_MISSING:
-      errCode.description = "clientId? - Vui lòng chọn PTZ onvif (biên)";
+      if (language == "vn") {
+        errCode.description = "Vui lòng chọn PTZ Onvif";
+      } else {
+        errCode.description = "Please choose PTZ Onvif";
+      }
       Notification(errCode);
       return null;
     case PTZ_KEY_MISSING:
-      errCode.description = "clientKey? - Thiếu key của PTZ onvif (biên)";
+      if (language == "vn") {
+        errCode.description = "Thiếu khóa của PTZ Onvif";
+      } else {
+        errCode.description = "The key of PTZ Onvif is missing";
+      }
       Notification(errCode);
       return null;
     case ZONE_MISSING:
@@ -249,16 +265,27 @@ export const handleErrCode = ({
       Notification(errCode);
       return null;
     case PRESET_ID_OUT_OF_RANGE:
-      errCode.description = "presetId? - Id ngoài khoảng";
+      if (language == "vn") {
+        errCode.description = "Preset Id ngoài khoảng";
+      } else {
+        errCode.description = "Preset Id out of range";
+      }
       Notification(errCode);
       return null;
     case PRESET_TOUR_ID_OUT_OF_RANGE:
-      errCode.description = "presetTourId? - Id ngoài khoảng";
+      if (language == "vn") {
+        errCode.description = "Preset tour Id ngoài khoảng";
+      } else {
+        errCode.description = "Preset tour Id out of range";
+      }
       Notification(errCode);
       return null;
     case LIST_POINT_OUT_OF_RANGE:
-      errCode.description =
-        "Số lượng điểm quay trên hành trình ngoài khoảng (tối thiểu 2 - tối đa 255)";
+      if (language == "vn") {
+        errCode.description = "Số lượng điểm quay ngoài khoảng 2-255";
+      } else {
+        errCode.description = "Number of rotation points out of range 2 - 255";
+      }
       Notification(errCode);
       return null;
     case TIME_DELAY_OUT_OF_RANGE:
@@ -350,93 +377,176 @@ export const handleErrCode = ({
       Notification(errCode);
       return null;
     case PTZ_CAMERA_NO_CONNECT:
-      errCode.description = "Không gửi được lệnh cho camera";
+      if (language == 'vn') {
+        errCode.description = "Không gửi được lệnh cho Camera";
+      } else {
+        errCode.description = "Can't send command to camera";
+      }
       Notification(errCode);
       return null;
     case PTZ_PRESET_NO_EXIST:
-      errCode.description = "Điểm preset chưa được lưu trên camera";
+      if (language == 'vn') {
+        errCode.description = "Điểm preset chưa được lưu trên Camera";
+      } else {
+        errCode.description = "Preset point did not be saved on Camera";
+      }
       Notification(errCode);
       return null;
     case PTZ_PRESET_OUT_OF_RANGE:
-      errCode.description = "Giới hạn số lượng điểm preset";
+      if (language == 'vn') {
+        errCode.description = "Giới hạn số lượng điểm preset";
+      } else {
+        errCode.description = "Limit of the number of preset points";
+      }
       Notification(errCode);
       return null;
     case PTZ_NO_SUPPORT:
-      errCode.description = "Không hỗ trợ hành động";
+      if (language == 'vn') {
+        errCode.description = "Không hỗ trợ hành động";
+      } else {
+        errCode.description = "This action is not supported";
+      }
       Notification(errCode);
       return null;
     case PTZ_NO_EXIST:
-      errCode.description = "Chưa có PTZ Onvif nào được cấu hình tại zone này";
+      if (language == 'vn') {
+        errCode.description = "Chưa có PTZ Onvif nào được cấu hình tại Zone này";
+      } else {
+        errCode.description = "No PTZ Onvif is configured in this Zone";
+      }
       Notification(errCode);
       return null;
     case PTZ_CONNECTED_NOT_EXIST:
-      errCode.description = "Không có PTZ Onvif nào online tại zone này";
+      if (language == 'vn') {
+        errCode.description = "Không có PTZ Onvif nào trực tuyến tại Zone này";
+      } else {
+        errCode.description = "No online PTZ Onvif in this Zone";
+      }
       Notification(errCode);
       return null;
     case PTZ_NOT_RESPONSE:
-      errCode.description = "Module PTZ Onvif(biên) không phải hồi";
+      if (language == 'vn') {
+        errCode.description = "PTZ Onvif không phải hồi";
+      } else {
+        errCode.description = "PTZ Onvif is not responding";
+      }
       Notification(errCode);
       return null;
     case PTZ_CANT_READ_RESPONSE:
-      errCode.description = "Không đọc được phản hồi từ Module PTZ Onvif(biên)";
+      if (language == 'vn') {
+        errCode.description = "Không đọc được phản hồi từ PTZ Onvif";
+      } else {
+        errCode.description = "Can't read response from";
+      }
       Notification(errCode);
       return null;
     case PTZ_LOGIN_FAILSE:
-      errCode.description = "Đăng nhập để điều khiển camera không thành công";
+      if (language == 'vn') {
+        errCode.description = "Đăng nhập để điều khiển Camera không thành công";
+      } else {
+        errCode.description = "Login to control Camera failed";
+      }
       Notification(errCode);
       return null;
     case PTZ_PARAM_MISSING:
-      errCode.description =
-        "Thiếu thông tin về camera (IP, port, user name, pass word)";
+      if (language == 'vn') {
+        errCode.description = "Thiếu thông tin về Camera";
+      } else {
+        errCode.description = "Camera information is missing";
+      }
       Notification(errCode);
       return null;
     case PTZ_ACTION_MISSING:
-      errCode.description =
-        "action? Không tìm được hành động phù hợp (PTZ Onvif). Liên hệ admin";
+      if (language == 'vn') {
+        errCode.description = "Không tìm được hành động phù hợp (PTZ Onvif). Liên hệ quản trị viên";
+      } else {
+        errCode.description = "No appropriate action was found (PTZ Onvif). Please contact administrator";
+      }
       Notification(errCode);
       return null;
     case CANT_INSERT_DATABASE:
-      errCode.description = "Không insert được vào database";
+      if (language == 'vn') {
+        errCode.description = "Không thêm được vào cơ sở dữ liệu";
+      } else {
+        errCode.description = "Can't insert to database";
+      }
       Notification(errCode);
       return null;
     case CANT_UPDATE_DATABASE:
-      errCode.description = "Không update được vào database";
+      if (language == 'vn') {
+        errCode.description = "Không cập nhật được vào cơ sở dữ liệu";
+      } else {
+        errCode.description = "Can't update to database";
+      }
       Notification(errCode);
       return null;
     case CANT_DELETE_DATABASE:
-      errCode.description = "Không delete được database";
+      if (language == 'vn') {
+        errCode.description = "Không xóa được cơ sở dữ liệu";
+      } else {
+        errCode.description = "Can't delete database";
+      }
       Notification(errCode);
       return null;
     case ISAPI_CANT_FIND_CHANEL:
-      errCode.description = "Không tìm được chanel của camera";
+      if (language == 'vn') {
+        errCode.description = "Không tìm được kênh của Camera";
+      } else {
+        errCode.description = "Can't find Camera's channel";
+      }
       Notification(errCode);
       return null;
     case SCAN_EMPTY:
-      errCode.description = "Không tìm thấy thiết bị nào";
+      if (language == 'vn') {
+        errCode.description = "Không tìm thấy thiết bị nào";
+      } else {
+        errCode.description = "Can't find any device";
+      }
       Notification(errCode);
       return null;
     case SCAN_FAILED:
-      errCode.description = "Không quét được";
+      if (language == 'vn') {
+        errCode.description = "Không quét được";
+      } else {
+        errCode.description = "Can't scan";
+      }
       Notification(errCode);
       return null;
     default:
-      errCode.description = "Unknown";
+      if (language == 'vn') {
+        errCode.description = "Không xác định";
+      } else {
+        errCode.description = "Unknown";
+      }
       Notification(errCode);
       return null;
   }
 };
 
 export const handleDeleteErrCode = ({ code, message, payload }) => {
-  const errCode = {
-    type: "error",
-    title: "Code:" + code,
-    description: "",
-  };
+  let errCode = {};
+  if (language == 'vn') {
+    errCode = {
+      type: "error",
+      title: "Mã lỗi: " + code,
+      description: "",
+    };
+  } else {
+    errCode = {
+      type: "error",
+      title: "Code: " + code,
+      description: "",
+    };
+  }
   switch (code) {
     case OKE:
       return { code, message, payload };
     default:
-      errCode.description = "Unknown";
+      if (language == 'vn') {
+        errCode.description = "Không xác định";
+      } else {
+        errCode.description = "Unknown";
+      }
       Notification(errCode);
       return null;
   }

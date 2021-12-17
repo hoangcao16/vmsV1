@@ -46,7 +46,7 @@ export const handleErrCode = ({code, message, payload, deny_permission_codes}) =
             if (language == 'vn') {
                 errCode.description = "Không tìm thấy Token";
             } else {
-                errCode.description = "Missing token";
+                errCode.description = "Missing Token";
             }
             Notification(errCode)
             return null

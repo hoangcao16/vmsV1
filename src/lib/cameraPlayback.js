@@ -3,6 +3,9 @@ import lionSvcApi from "../api/lion/cameraApi";
 import playbackApi from "../api/playback/cameraApi";
 import Notification from "../components/vms/notification/Notification";
 import { setPlaybackHls, viewCamIsNotOperation } from "../redux/actions/map/camLiveAction";
+import { reactLocalStorage } from "reactjs-localstorage";
+
+const language = reactLocalStorage.get('language')
 
 class CameraPlaybackService {
     constructor() {
@@ -18,11 +21,19 @@ class CameraPlaybackService {
         dispatch
     ) {
         if (camId === "" || camId === null) {
-            Notification({
-                type: "warning",
-                title: "Playback",
-                description: "Camera không xác định",
-            });
+            if (language == 'vn') {
+                Notification({
+                    type: "warning",
+                    title: "Playback",
+                    description: "Camera không xác định",
+                });
+            } else {
+                Notification({
+                    type: "warning",
+                    title: "Playback",
+                    description: "Unknown Camera",
+                });
+            }
             // dispatch(viewCamIsNotOperation(camLive))
             return;
         }
