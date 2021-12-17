@@ -165,6 +165,7 @@ const TableNVR = () => {
         className="card--listDevice"
       >
         <Table
+          scroll={{ y: 300 }}
           pagination={false}
           rowKey="id"
           columns={NVRColumns}
