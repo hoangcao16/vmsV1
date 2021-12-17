@@ -44,7 +44,7 @@ export default function PermisionOther(props) {
       const notifyMess = {
         type: 'success',
         title: '',
-        description: 'Xóa quyền thành công'
+        description: `${t('noti.successfully_delete_permission')}`,
       };
       Notification(notifyMess);
 

@@ -31,7 +31,11 @@ export const handleErrCode = ({code, message, payload, deny_permission_codes}) =
         case KPandaSuccess:
             return payload
         case KPandaMissingFieldDomainOrUser:
-            errCode.description = 'Missing domain or user'
+            if (language == 'vn') {
+                errCode.description = "Mất miền hoặc người dùng";
+            } else {
+                errCode.description = "Missing domain or user";
+            }
             Notification(errCode)
             return null
         case KPandaBadRequest:
@@ -43,7 +47,11 @@ export const handleErrCode = ({code, message, payload, deny_permission_codes}) =
             Notification(errCode)
             return null
         case KPandaInternalServer:
-            errCode.description = 'Internal server'
+            if (language == 'vn') {
+                errCode.description = "Lỗi máy chủ nội bộ";
+            } else {
+                errCode.description = "Internal server";
+            }
             Notification(errCode)
             return null
         case KPandaCamproxyNotFound:

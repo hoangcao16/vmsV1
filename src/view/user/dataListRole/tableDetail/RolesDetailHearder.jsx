@@ -25,7 +25,7 @@ export default function RolesDetailHearder(props) {
             const notifyMess = {
               type: 'success',
               title: '',
-              description: 'Xóa vai trò thành công'
+              description: `${t('noti.successfully_delete_role')}`,
             };
             Notification(notifyMess);
             reactLocalStorage.setObject('tabIndex', 3);

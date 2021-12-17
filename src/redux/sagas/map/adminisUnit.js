@@ -1,11 +1,24 @@
-import { call, put, takeLatest, all } from 'redux-saga/effects';
-import { ADD_ADMINIS_UNIT_ON_MAP, FETCH_ALL_ADMINIS_UNITS_ON_MAP, UPDATE_ADMINIS_UNIT_ON_MAP, UPDATE_ADMINIS_UNIT_ON_MAP_FAILED } from '../../types/map'
-import { NOTYFY_TYPE, STATUS_CODE } from '../../../view/common/vms/Constant';
-import mapActions from '../../actions/map';
-import adDivisioneApi from '../../../api/controller-api/adDivisionApi';
-import Notification from "../../../components/vms/notification/Notification"
-import { addAdminisUnitOnMapFailed, addAdminisUnitOnMapSuccess, updateAdminisUnitOnMapFailed, updateAdminisUnitOnMapSuccess } from '../../actions/map/adminisUnitsAction';
-import { updateFormMapObject } from './index';
+import { call, put, takeLatest, all } from "redux-saga/effects";
+import {
+  ADD_ADMINIS_UNIT_ON_MAP,
+  FETCH_ALL_ADMINIS_UNITS_ON_MAP,
+  UPDATE_ADMINIS_UNIT_ON_MAP,
+  UPDATE_ADMINIS_UNIT_ON_MAP_FAILED,
+} from "../../types/map";
+import { NOTYFY_TYPE, STATUS_CODE } from "../../../view/common/vms/Constant";
+import mapActions from "../../actions/map";
+import adDivisioneApi from "../../../api/controller-api/adDivisionApi";
+import Notification from "../../../components/vms/notification/Notification";
+import {
+  addAdminisUnitOnMapFailed,
+  addAdminisUnitOnMapSuccess,
+  updateAdminisUnitOnMapFailed,
+  updateAdminisUnitOnMapSuccess,
+} from "../../actions/map/adminisUnitsAction";
+import { updateFormMapObject } from "./index";
+import { reactLocalStorage } from "reactjs-localstorage";
+
+const language = reactLocalStorage.get("language");
 
 const { fetchAllAdminisUnitsSuccess, fetchAllAdminisUnitsFailed } = mapActions;
 
@@ -20,14 +33,16 @@ export function* fetchListAdminisUnitAction(action) {
     const resp = yield call(adDivisioneApi.getAll, params);
     if (resp && resp.payload) {
       const { payload, metadata } = resp;
-      yield put(fetchAllAdminisUnitsSuccess({ listAdminisUnit: payload, metadata }))
+      yield put(
+        fetchAllAdminisUnitsSuccess({ listAdminisUnit: payload, metadata })
+      );
       // Notification(notifyMess);
     } else {
-      yield put(fetchAllAdminisUnitsFailed(null))
+      yield put(fetchAllAdminisUnitsFailed(null));
     }
   } catch (error) {
     if (error.response && error.response.data && error.response.data.errors) {
-      yield put(fetchAllAdminisUnitsFailed(null))
+      yield put(fetchAllAdminisUnitsFailed(null));
       // notifyMess.type = NOTYFY_TYPE.warning;
       // notifyMess.description = error.response.data.errors.message || 'something is wrong from server side'
       // Notification(notifyMess);
@@ -36,14 +51,27 @@ export function* fetchListAdminisUnitAction(action) {
 }
 
 export function* updateAdminisUnitAction(action) {
-  const notifyMess = {
-    type: NOTYFY_TYPE.success,
-    title: 'Đơn vị hành chính',
-    description: 'Bạn đã cập nhật công đơn vị hành chính'
+  let notifyMess = {};
+  if (language == "vn") {
+    notifyMess = {
+      type: NOTYFY_TYPE.success,
+      title: "Đơn vị hành chính",
+      description: "Bạn đã cập nhật thành công đơn vị hành chính",
+    };
+  } else {
+    notifyMess = {
+      type: NOTYFY_TYPE.success,
+      title: "Administrative unit",
+      description: "Successfully updated administrative unit",
+    };
   }
   try {
     const bodyAdUnitInfo = action.payload;
-    const resp = yield call(adDivisioneApi.update, bodyAdUnitInfo, bodyAdUnitInfo.uuid);
+    const resp = yield call(
+      adDivisioneApi.update,
+      bodyAdUnitInfo,
+      bodyAdUnitInfo.uuid
+    );
     if (resp && resp.payload) {
       yield put(updateAdminisUnitOnMapSuccess(resp.payload));
       yield call(updateFormMapObject);
@@ -55,17 +83,33 @@ export function* updateAdminisUnitAction(action) {
     if (error.response && error.response.data && error.response.data.errors) {
       yield put(updateAdminisUnitOnMapFailed(null));
       notifyMess.type = NOTYFY_TYPE.warning;
-      notifyMess.description = error.response.data.errors.message || 'something is wrong from server side'
+      if (language == "vn") {
+        notifyMess.description =
+          error.response.data.errors.message || "Có lỗi sai từ phía máy chủ";
+      } else {
+        notifyMess.description =
+          error.response.data.errors.message ||
+          "Something is wrong from server side";
+      }
       Notification(notifyMess);
     }
   }
 }
 
 export function* addNewAdUnitction(action) {
-  const notifyMess = {
-    type: NOTYFY_TYPE.success,
-    title: 'Đơn vị hành chính',
-    description: 'Bạn đã thêm thành công đơn vị hành chính'
+  let notifyMess = {};
+  if (language == "vn") {
+    notifyMess = {
+      type: NOTYFY_TYPE.success,
+      title: "Đơn vị hành chính",
+      description: "Bạn đã thêm thành công đơn vị hành chính",
+    };
+  } else {
+    notifyMess = {
+      type: NOTYFY_TYPE.success,
+      title: "Administrative unit",
+      description: "Successfully added administrative unit",
+    };
   }
   try {
     const bodyAdUnitInfo = action.payload;
@@ -81,7 +125,14 @@ export function* addNewAdUnitction(action) {
     if (error.response && error.response.data && error.response.data.errors) {
       yield put(addAdminisUnitOnMapFailed(null));
       notifyMess.type = NOTYFY_TYPE.warning;
-      notifyMess.description = error.response.data.errors.message || 'something is wrong from server side'
+      if (language == "vn") {
+        notifyMess.description =
+          error.response.data.errors.message || "Có lỗi sai từ phía máy chủ";
+      } else {
+        notifyMess.description =
+          error.response.data.errors.message ||
+          "Something is wrong from server side";
+      }
       Notification(notifyMess);
     }
   }
@@ -89,8 +140,11 @@ export function* addNewAdUnitction(action) {
 
 export default function* watchAdminisUnitSaga() {
   yield all([
-    yield takeLatest(FETCH_ALL_ADMINIS_UNITS_ON_MAP, fetchListAdminisUnitAction),
+    yield takeLatest(
+      FETCH_ALL_ADMINIS_UNITS_ON_MAP,
+      fetchListAdminisUnitAction
+    ),
     yield takeLatest(UPDATE_ADMINIS_UNIT_ON_MAP, updateAdminisUnitAction),
     yield takeLatest(ADD_ADMINIS_UNIT_ON_MAP, addNewAdUnitction),
-  ])
+  ]);
 }

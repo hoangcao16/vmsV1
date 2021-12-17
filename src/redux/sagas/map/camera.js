@@ -16,7 +16,11 @@ import {
 import { updateMapObject } from "../../actions/map/formMapActions";
 import { FORM_MAP_ITEM } from "../../../view/common/vms/constans/map";
 import Notification from "../../../components/vms/notification/Notification";
+import { reactLocalStorage } from "reactjs-localstorage";
+
+const language = reactLocalStorage.get('language')
 const { fetchAllCameraOnMapFailed, fetchAllCameraOnMapSuccess } = mapActions;
+
 
 export function* fetchListCameraAction(action) {
   // const notifyMess = {
@@ -26,12 +30,6 @@ export function* fetchListCameraAction(action) {
   // }
   try {
     const { params } = action.payload;
-
-
-console.log('params:',params)
-
-
-
     
     const resp = yield call(cameraApi.getAll, params);
     if (resp && resp.payload) {
@@ -52,11 +50,20 @@ console.log('params:',params)
 }
 
 export function* updateListCameraByFilterAction(action) {
-  const notifyMess = {
-    type: NOTYFY_TYPE.success,
-    title: "",
-    description: "Bạn đã cập nhật thành công Camera",
-  };
+  let notifyMess = {};
+  if (language == "vn") {
+    notifyMess = {
+      type: NOTYFY_TYPE.success,
+      title: "Đơn vị hành chính",
+      description: "Bạn đã cập nhật thành công Camera",
+    };
+  } else {
+    notifyMess = {
+      type: NOTYFY_TYPE.success,
+      title: "Administrative unit",
+      description: "Successfully updated Camera",
+    };
+  }
   try {
     const formMapObject = {
       selectedPos: false,
@@ -88,20 +95,34 @@ export function* updateListCameraByFilterAction(action) {
     if (error.response && error.response.data && error.response.data.errors) {
       yield put(updateCameraOnMapByFilterFailed(null));
       notifyMess.type = NOTYFY_TYPE.warning;
-      notifyMess.description =
-        error.response.data.errors.message ||
-        "something is wrong from server side";
+      if (language == "vn") {
+        notifyMess.description =
+          error.response.data.errors.message || "Có lỗi sai từ phía máy chủ";
+      } else {
+        notifyMess.description =
+          error.response.data.errors.message ||
+          "Something is wrong from server side";
+      }
       Notification(notifyMess);
     }
   }
 }
 
 export function* addNewCamAction(action) {
-  const notifyMess = {
-    type: NOTYFY_TYPE.success,
-    title: "",
-    description: "Bạn đã thêm thành công Camera",
-  };
+  let notifyMess = {};
+  if (language == "vn") {
+    notifyMess = {
+      type: NOTYFY_TYPE.success,
+      title: "Đơn vị hành chính",
+      description: "Bạn đã thêm thành công Camera",
+    };
+  } else {
+    notifyMess = {
+      type: NOTYFY_TYPE.success,
+      title: "Administrative unit",
+      description: "Successfully added Camera",
+    };
+  }
   try {
     const formMapObject = {
       selectedPos: false,
@@ -133,9 +154,14 @@ export function* addNewCamAction(action) {
     if (error.response && error.response.data && error.response.data.errors) {
       yield put(addCameraOnMapFailed(null));
       notifyMess.type = NOTYFY_TYPE.warning;
-      notifyMess.description =
-        error.response.data.errors.message ||
-        "something is wrong from server side";
+      if (language == "vn") {
+        notifyMess.description =
+          error.response.data.errors.message || "Có lỗi sai từ phía máy chủ";
+      } else {
+        notifyMess.description =
+          error.response.data.errors.message ||
+          "Something is wrong from server side";
+      }
       Notification(notifyMess);
     }
   }

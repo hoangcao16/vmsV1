@@ -210,7 +210,7 @@ export default function TableAddCamInCamGroup(props) {
       const notifyMess = {
         type: 'success',
         title: '',
-        description: 'Thêm thành công các Cam vào nhóm'
+        description: `${t('noti.successfully_add_camera_to_group')}`
       };
       Notification(notifyMess);
       handleAdddCamera(false);

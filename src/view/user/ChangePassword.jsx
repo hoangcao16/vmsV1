@@ -39,7 +39,7 @@ function ChangePassword(props) {
       const notifyMess = {
         type: 'success',
         title: '',
-        description: 'Cập nhật mật khẩu thành công '
+        description: `${t('noti.successfully_update_password')}`
       };
       Notification(notifyMess);
 

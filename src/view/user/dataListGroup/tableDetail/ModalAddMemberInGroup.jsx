@@ -82,7 +82,7 @@ const ModalAddMemberInGroup = (props) => {
       const notifyMess = {
         type: 'success',
         title: '',
-        description: 'Bạn đã thêm thành công thành viên'
+        description: `${t('noti.successfully_add_menber')}`
       };
       Notification(notifyMess);
     }

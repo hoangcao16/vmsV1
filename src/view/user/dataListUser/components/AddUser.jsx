@@ -166,7 +166,7 @@ function AddUser(props) {
     if (!pattern.test(value) && value.length >= 10) {
       const notifyMess = {
         type: NOTYFY_TYPE.error,
-        description: 'Định dạng số điện thoại chưa đúng'
+        description: `${t('noti.phone_number_format_is_not_correct')}`,
       };
       Notification(notifyMess);
       return false;
@@ -383,7 +383,7 @@ function AddUser(props) {
                           {
                             required: true,
                             message: `${t(
-                              'view.user.detail_list.gmail_address_required'
+                              'view.user.detail_list.email_address_required'
                             )}`,
                             type: 'email'
                           },

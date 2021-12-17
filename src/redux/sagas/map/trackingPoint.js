@@ -4,12 +4,24 @@ import cameraApi from '../../../api/controller-api/cameraApi';
 import { NOTYFY_TYPE, STATUS_CODE } from '../../../view/common/vms/Constant';
 import Notification from "../../../components/vms/notification/Notification"
 import { updateCameraOnMapByTrackingPointFailed, updateCameraOnMapByTrackingPointSuccess } from '../../actions/map/trackingPointActions';
+import { reactLocalStorage } from "reactjs-localstorage";
+
+const language = reactLocalStorage.get("language");
 
 export function* updateListCameraByTrackingPointAction(action) {
-  const notifyMess = {
-    type: NOTYFY_TYPE.success,
-    title: '',
-    description: 'Bạn đã cập nhật thành công Camera theo tracking point thành công'
+  let notifyMess = {};
+  if (language == "vn") {
+    notifyMess = {
+      type: NOTYFY_TYPE.success,
+      title: "",
+      description: "Bạn đã cập nhật thành công Camera theo điểm theo dõi thành công",
+    };
+  } else {
+    notifyMess = {
+      type: NOTYFY_TYPE.success,
+      title: "",
+      description: "Successfully updated Camera by tracking point",
+    };
   }
   try {
     const {body, id, type} = action.payload;
@@ -41,7 +53,14 @@ export function* updateListCameraByTrackingPointAction(action) {
     if (error.response && error.response.data && error.response.data.errors) {
       yield put(updateCameraOnMapByTrackingPointFailed(null))
       notifyMess.type = NOTYFY_TYPE.warning;
-      notifyMess.description = error.response.data.errors.message || 'something is wrong from server side'
+      if (language == "vn") {
+        notifyMess.description =
+          error.response.data.errors.message || "Có lỗi sai từ phía máy chủ";
+      } else {
+        notifyMess.description =
+          error.response.data.errors.message ||
+          "Something is wrong from server side";
+      }
       Notification(notifyMess); 
     } 
   }

@@ -19,6 +19,9 @@ import {
   SAVE_LIST_CAM_LIVE,
   UPDATE_LIST_CAM_LIVE,
 } from "../../types/map";
+import { reactLocalStorage } from "reactjs-localstorage";
+
+const language = reactLocalStorage.get("language");
 
 export const setPlayLiveCamByDefault = (payload = []) => {
   const camLiveObject = payload[0] || {};
@@ -51,9 +54,14 @@ export function* fetchListCamLiveAction(action) {
     if (error.response && error.response.data && error.response.data.errors) {
       yield put(getListCamLiveError(null));
       notifyMess.type = NOTYFY_TYPE.warning;
-      notifyMess.description =
-        error.response.data.errors.message ||
-        "something is wrong from server side";
+      if (language == "vn") {
+        notifyMess.description =
+          error.response.data.errors.message || "Có lỗi sai từ phía máy chủ";
+      } else {
+        notifyMess.description =
+          error.response.data.errors.message ||
+          "Something is wrong from server side";
+      }
       Notification(notifyMess);
     }
   }
@@ -72,7 +80,11 @@ export function* saveListCamLiveAction(action) {
     if (resp && resp.code === STATUS_CODE.SUCCESS) {
       yield put(saveListCamLiveSuccess(resp.payload));
       notifyMess.type = NOTYFY_TYPE.success;
-      notifyMess.description = "Lưu camera trực tuyến thành công";
+      if (language == "vn") { 
+        notifyMess.description = "Lưu Camera trực tuyến thành công";
+      } else {
+        notifyMess.description = "Successfully saved online Camera"
+      }
       Notification(notifyMess);
     } else {
       yield put(saveListCamLiveError(null));
@@ -81,16 +93,20 @@ export function* saveListCamLiveAction(action) {
     if (error.response && error.response.data && error.response.data.errors) {
       yield put(getListCamLiveError(null));
       notifyMess.type = NOTYFY_TYPE.warning;
-      notifyMess.description =
-        error.response.data.errors.message ||
-        "something is wrong from server side";
+      if (language == "vn") {
+        notifyMess.description =
+          error.response.data.errors.message || "Có lỗi sai từ phía máy chủ";
+      } else {
+        notifyMess.description =
+          error.response.data.errors.message ||
+          "Something is wrong from server side";
+      }
       Notification(notifyMess);
     }
   }
 }
 
 export function* updateListCamLiveAction(action) {
-
   const notifyMess = {
     type: NOTYFY_TYPE.success,
     title: "",
@@ -103,7 +119,11 @@ export function* updateListCamLiveAction(action) {
     if (resp && resp.code === STATUS_CODE.SUCCESS) {
       yield put(updateListCamLiveSuccess(resp.payload));
       notifyMess.type = NOTYFY_TYPE.success;
-      notifyMess.description = "Cập nhật thông tin camra trực tuyến thành công";
+      if (language == "vn") { 
+        notifyMess.description = "Cập nhật thông tin Camra trực tuyến thành công";
+      } else {
+        notifyMess.description = "Successfully updated online Camera information"
+      }
       Notification(notifyMess);
     } else {
       yield put(updateListCamLiveError(null));
@@ -112,9 +132,14 @@ export function* updateListCamLiveAction(action) {
     if (error.response && error.response.data && error.response.data.errors) {
       yield put(updateListCamLiveError(null));
       notifyMess.type = NOTYFY_TYPE.warning;
-      notifyMess.description =
-        error.response.data.errors.message ||
-        "something is wrong from server side";
+      if (language == "vn") {
+        notifyMess.description =
+          error.response.data.errors.message || "Có lỗi sai từ phía máy chủ";
+      } else {
+        notifyMess.description =
+          error.response.data.errors.message ||
+          "Something is wrong from server side";
+      }
       Notification(notifyMess);
     }
   }
@@ -133,7 +158,11 @@ export function* deleteListCamLiveAction(action) {
     if (code === STATUS_CODE.SUCCESS) {
       yield put(deleteListCamLiveSuccess({}));
       notifyMess.type = NOTYFY_TYPE.success;
-      notifyMess.description = "Xóa thông tin camera trực tuyến thành công";
+      if (language == "vn") { 
+        notifyMess.description = "Xóa thông tin Camera trực tuyến thành công";
+      } else {
+        notifyMess.description = "Successfully delete online Camera information"
+      }
       Notification(notifyMess);
     } else {
       yield put(deleteListCamLiveError(null));
@@ -142,9 +171,14 @@ export function* deleteListCamLiveAction(action) {
     if (error.response && error.response.data && error.response.data.errors) {
       yield put(deleteListCamLiveError(null));
       notifyMess.type = NOTYFY_TYPE.warning;
-      notifyMess.description =
-        error.response.data.errors.message ||
-        "something is wrong from server side";
+      if (language == "vn") {
+        notifyMess.description =
+          error.response.data.errors.message || "Có lỗi sai từ phía máy chủ";
+      } else {
+        notifyMess.description =
+          error.response.data.errors.message ||
+          "Something is wrong from server side";
+      }
       Notification(notifyMess);
     }
   }

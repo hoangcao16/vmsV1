@@ -207,7 +207,7 @@ const TableCamera = () => {
       const notifyMess = {
         type: "success",
         title: "",
-        description: "Xóa thành công camera",
+        description: `${t('noti.successfully_delete_camera')}`,
       };
       Notification(notifyMess);
     }

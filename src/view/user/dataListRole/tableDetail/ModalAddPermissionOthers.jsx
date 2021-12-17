@@ -101,7 +101,7 @@ const ModalAddPermissionOthers = (props) => {
       const notifyMess = {
         type: 'success',
         title: '',
-        description: 'Sửa quyền thành công'
+        description: `${t('noti.successfully_edit_permission')}`,
       };
       Notification(notifyMess);
     }

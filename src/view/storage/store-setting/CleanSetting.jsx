@@ -237,15 +237,15 @@ export default function CleanSetting(props) {
         const noti = {
           type: NOTYFY_TYPE.success,
           title: `${t('noti.success')}`,
-          description: "Bạn đã cài đặt thành công",
+          description: `${t('noti.successful_setting')}`,
         };
         Notification(noti);
       }
     } catch (error) {
       const noti = {
         type: NOTYFY_TYPE.warning,
-        title: "Thất bại",
-        description: "Đã xảy ra lỗi trong quá trình cài đặt",
+        title: `${t('noti.faid')}`,
+        description: `${t('noti.suerror_settingccess')}`,
       };
       Notification(noti);
       console.log(error);
