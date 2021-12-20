@@ -347,7 +347,6 @@ const UserApi = {
     } catch (error) {
       console.log(error);
     }
-
     if (handleErrCodeAuthZ(result) === null) {
       return false;
     }
@@ -365,7 +364,6 @@ const UserApi = {
     } catch (error) {
       console.log(error);
     }
-
     if (handleErrCodeAuthZ(result) === null) {
       return false;
     }

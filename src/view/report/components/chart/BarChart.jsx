@@ -119,7 +119,7 @@ function BarChartComponent(props) {
                         {Object.keys(data)[i].toUpperCase()}{" "}
                       </h3>
                     )}
-                    <ExportReport type="rateReport" />
+                    <ExportReport type="comparativeReport" />
                   </div>
                   <div>
                     <ResponsiveContainer

@@ -67,7 +67,7 @@ function Chart(props) {
               {t("view.report.trend_chart")} {props.title.toUpperCase()}{" "}
             </h3>
 
-            <ExportReport type="rateReport" />
+            <ExportReport type="trendReport" />
           </div>
 
           <LineChart

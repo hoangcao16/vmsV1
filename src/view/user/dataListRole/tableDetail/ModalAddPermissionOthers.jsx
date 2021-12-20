@@ -34,7 +34,6 @@ const ModalAddPermissionOthers = (props) => {
       const dataRemoveMonitoring = result.payload.filter(
         (r) => r.code !== 'monitoring'
       );
-
       const newData = dataRemoveMonitoring.map((p) => {
         return {
           code: p.code,
