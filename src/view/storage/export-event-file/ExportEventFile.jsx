@@ -697,9 +697,8 @@ const ExportEventFile = () => {
           } catch (e) {
             Notification({
               type: NOTYFY_TYPE.warning,
-              title: "File lưu trữ",
-              description:
-                "Đã xảy ra lỗi trong quá trình download file, hãy kiểm tra lại",
+              title: `${t('noti.archived_file')}`,
+              description: `${t('noti.error_download_file')}`,
             });
           } finally {
             setLoading(false);

@@ -35,11 +35,7 @@ const Login = () => {
               className="d-lg-block d-none text-center align-self-center px-1 py-0 h-w"
             >
               <img src={loginImg} alt="loginImg" className="loginImg" />
-              {language == "vn" ? (
-                <span className="loginTitleVN">{t("VMS")}</span>
-              ) : (
-                <span className="loginTitleEN">{t("VMS")}</span>
-              )}
+              <span className="loginTitle">{t("VMS")}</span>
             </Col>
             <Col lg="6" md="12" className="p-0 bg-color">
               <Card

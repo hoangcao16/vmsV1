@@ -613,7 +613,8 @@
     "email_field_cannot_empty": "Trường email không được để trống",
     "have_sent_email": "Một email đã được gửi cho bạn. Hãy kiểm tra",
     "full_account_password": "Vui lòng điền đầy đủ tài khoản và mật khẩu",
-    "logged_in_successfully": "Đăng nhập thành công"
+    "logged_in_successfully": "Đăng nhập thành công",
+    "error_download_file": "Đã xảy ra lỗi trong quá trình tải tệp, hãy kiểm tra lại"
   },
   "breadcrumd": {
     "report": "Quản lý báo cáo",

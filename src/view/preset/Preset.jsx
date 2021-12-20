@@ -706,7 +706,7 @@ const Preset = (props) => {
       } catch (error) {
         const warnNotyfi = {
           type: NOTYFY_TYPE.warning,
-          title: "Thất bại",
+          title: `${t('noti.faid')}`,
           description: `${t('noti.ERROR')}`,
           duration: 2,
         };
@@ -754,7 +754,7 @@ const Preset = (props) => {
       } catch (error) {
         const warnNotyfi = {
           type: NOTYFY_TYPE.warning,
-          title: "Thất bại",
+          title: `${t('noti.faid')}`,
           description: `${t('noti.ERROR')}`,
           duration: 2,
         };
@@ -772,7 +772,7 @@ const Preset = (props) => {
       //validate
       const warnNotyfi = {
         type: NOTYFY_TYPE.warning,
-        title: "Thất bại",
+        title: `${t('noti.faid')}`,
         description: "Độ dài tên cần lớn hơn 0 nhỏ hơn 100 kí tự",
         duration: 2,
       };

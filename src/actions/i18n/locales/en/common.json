@@ -616,7 +616,8 @@
     "email_field_cannot_empty": "Email field can't be empty",
     "have_sent_email": "An email has been sent to you",
     "full_account_password": "Please enter account and password",
-    "logged_in_successfully": "Logged in successfully"
+    "logged_in_successfully": "Logged in successfully",
+    "error_download_file": "Errors occur while downloading the file, please check again"
   },
   "breadcrumd": {
     "report": "Report Management",
