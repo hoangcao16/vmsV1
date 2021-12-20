@@ -213,14 +213,15 @@ function Sidebar(props) {
       setEventList(dataFilter.eventList);
       props.changeCount(dataFilter?.eventList[0]);
     } else {
-      let arr = [""];
+      let arr = [];
       props.changeCount(arr);
       setEventList(dataFilter.eventList);
       setSelectedRowKeys(null);
       return;
     }
 
-    setSelectedRowKeys(selectedRowKeys);
+    // if (selectedRowKeys)
+    setSelectedRowKeys([dataFilter?.eventList[0]?.uuid]);
   };
 
   //const blurCity = async (cityIdArr) => {
