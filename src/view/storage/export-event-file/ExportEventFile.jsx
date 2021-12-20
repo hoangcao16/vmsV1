@@ -460,7 +460,7 @@ const ExportEventFile = () => {
         Notification({
           type: NOTYFY_TYPE.warning,
           title: `${t("noti.archived_file")}`,
-          description: `${t("noti.do_not_have_permission_to_action1111111")}`,
+          description: `${t("noti.do_not_have_permission_to_action")}`,
         });
         setListFiles([]);
         setTotal(0);
