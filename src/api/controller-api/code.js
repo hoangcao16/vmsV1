@@ -23,7 +23,7 @@ const StatusInternalServerError = 606;
 
 //USER-->controller-->authz
 
-export const handleErrCode = (data) => {
+export const handleErrCode = (data,type) => {
   if (isEmpty(data)) {
     let errCode = {};
     if (language == "vn") {
@@ -131,8 +131,12 @@ export const handleErrCode = (data) => {
       Notification(errCode);
       return null;
     case StatusForbidden:
-      handleForbiddenCode(deny_permission_codes);
-      return null;
+      if (type == 'noMessage') {
+        return;
+      } else {
+        handleForbiddenCode(deny_permission_codes);
+        return null;
+      }
     default:
       if (language == "vn") {
         errCode.description = "Không xác định";

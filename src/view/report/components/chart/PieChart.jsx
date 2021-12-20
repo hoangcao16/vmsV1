@@ -104,7 +104,7 @@ function PieChartComponents(props) {
                 "view.report.proportion_chart"
               )} {props.title.toUpperCase()}{" "}
             </h3>
-            <ExportReport type="compareReport" />
+            <ExportReport type="rateReport" />
           </div>
           <PieChart width={400} height={400}>
             <Pie

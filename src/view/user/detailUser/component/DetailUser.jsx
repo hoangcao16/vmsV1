@@ -190,7 +190,7 @@ const DetailUser = (props) => {
     if (name_data === "email") {
       rules.push(
         {
-          message: "Chưa đúng định dạng Email",
+          message: `${t('view.user.detail_list.email_address_required')}`,
           type: "email",
         },
         {
