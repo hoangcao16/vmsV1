@@ -41,7 +41,7 @@ const ForgotPassword = () => {
     if (isEmpty(email)) {
       const notifyMess = {
         type: "warning",
-        title: "Thất bại",
+        title: `${t('noti.faid')}`,
         description: `${t('noti.email_field_cannot_empty')}`,
       };
       Notification(notifyMess);
@@ -54,7 +54,7 @@ const ForgotPassword = () => {
     if (!check.test(String(email).toLowerCase())) {
       const notifyMess = {
         type: "warning",
-        title: "Thất bại",
+        title: `${t('noti.faid')}`,
         description: `${t('view.user.detail_list.email_address_required')}`,
       };
       Notification(notifyMess);
