@@ -52,7 +52,6 @@ export default function ExportReport(props) {
         }
       }
     );
-    console.log("checkPermissionUserByOthers", checkPermissionUserByOthers)
 
     if (checkPermissionUserByRoles.length > 0 || checkPermissionUserByOthers.length > 0) {
       return (
