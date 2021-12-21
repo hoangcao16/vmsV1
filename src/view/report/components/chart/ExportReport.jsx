@@ -39,6 +39,7 @@ export default function ExportReport(props) {
   if (!isEmpty(permissionUser?.roles)) {
     const checkPermissionUserByRoles = permissionUser?.roles.filter(
       (r) =>
+        r.role_code === "superadmin" ||
         r.role_code === "admin" ||
         r.role_code === "chuyen_vien" ||
         r.role_code === "lanh_dao_chuyen_mon" ||
