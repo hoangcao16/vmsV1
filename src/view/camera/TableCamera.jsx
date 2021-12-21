@@ -221,6 +221,7 @@ const TableCamera = () => {
 
   const handleSearch = async (value) => {
     setSearch(value);
+    setPage(1)
     // setLoading(true);
     let data = {
       searchType: unit,
@@ -232,7 +233,6 @@ const TableCamera = () => {
       administrativeUnitUuid: administrativeUnitUuid,
       vendorUuid: vendorUuid,
       recordingStatus: status,
-      page: page,
       size: size,
     };
     const result = await CameraApi.getAllCameraWidthTotal(data);
