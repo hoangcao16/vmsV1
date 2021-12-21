@@ -92,7 +92,7 @@ const TableCamera = () => {
   const [filterOptions, setFilterOptions] = useState(DATA_FAKE_CAMERA);
   const [total, setTotal] = useState(0);
   const [page, setPage] = useState(1);
-  const [size, setSize] = useState(3);
+  const [size, setSize] = useState(10);
   const [search, setSearch] = useState("");
   const [unit, setUnit] = useState(UNIT.ALL);
   const [isModalVisible, setIsModalVisible] = useState(false);
@@ -221,7 +221,6 @@ const TableCamera = () => {
 
   const handleSearch = async (value) => {
     setSearch(value);
-    setPage(1)
     // setLoading(true);
     let data = {
       searchType: unit,
@@ -233,6 +232,7 @@ const TableCamera = () => {
       administrativeUnitUuid: administrativeUnitUuid,
       vendorUuid: vendorUuid,
       recordingStatus: status,
+      page: page,
       size: size,
     };
     const result = await CameraApi.getAllCameraWidthTotal(data);
