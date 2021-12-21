@@ -93,7 +93,6 @@ const MyService = {
             }
         )
         .then((response) => {
-          debugger;
           if (response && response?.data) {
             let check = this._checkResponse(response);
             if (!check) {
