@@ -751,7 +751,7 @@ const Live = (props) => {
           type: NOTYFY_TYPE.success,
           title: "Playback",
           description:
-            `${t('noti.stop_record_for_camera')}` + "[" + camera.name + "]",
+            `${t("noti.stop_record_for_camera")}` + "[" + camera.name + "]",
         });
         camera = { ...camera, isRec: false };
         cameras[slotIdx] = camera;
@@ -824,7 +824,7 @@ const Live = (props) => {
             type: NOTYFY_TYPE.success,
             title: "Playback",
             description:
-            `${t('noti.stop_record_for_camera')}` + "[" + camera.name + "]",
+              `${t("noti.stop_record_for_camera")}` + "[" + camera.name + "]",
           });
         }
         camera = { ...camera, isRec: false };
@@ -896,8 +896,7 @@ const Live = (props) => {
               Notification({
                 type: NOTYFY_TYPE.success,
                 title: "Playback",
-                description:
-                  `${t('noti.successfully_take_photo_and_save')}`,
+                description: `${t("noti.successfully_take_photo_and_save")}`,
               });
             }
           });
@@ -905,7 +904,7 @@ const Live = (props) => {
           Notification({
             type: NOTYFY_TYPE.warning,
             title: "Playback",
-            description: `${t('noti.error_save_file')}`,
+            description: `${t("noti.error_save_file")}`,
           });
         }
       });
@@ -977,6 +976,7 @@ const Live = (props) => {
    * slotIdx: Là chỉ số thứ tự của slot trên lưới
    */
   const closeCamera = (originSlotId) => {
+    setIsMaximize(false)
     const slotIdx = findCameraIndexInGrid(originSlotId);
     let result = [...addedCameras];
     if (result[slotIdx]) {
@@ -1056,16 +1056,16 @@ const Live = (props) => {
     if (isEmptyGrid) {
       Notification({
         type: "warning",
-        title: `${t('components.bookmark.favorite_screen')}`,
-        description: `${t('noti.error_no_camera_in_grid')}`,
+        title: `${t("components.bookmark.favorite_screen")}`,
+        description: `${t("noti.error_no_camera_in_grid")}`,
       });
       return;
     }
     if (bookMarkName === "") {
       Notification({
         type: "warning",
-        title: `${t('components.bookmark.favorite_screen')}`,
-        description: `${t('noti.error_empty_screen_name')}`,
+        title: `${t("components.bookmark.favorite_screen")}`,
+        description: `${t("noti.error_empty_screen_name")}`,
       });
       return;
     }
@@ -1079,15 +1079,16 @@ const Live = (props) => {
       if (response && response.payload) {
         Notification({
           type: "success",
-          title: `${t('components.bookmark.favorite_screen')}`,
-          description: `${t('noti.successfully_save_favorite_screen')}`,
+          title: `${t("components.bookmark.favorite_screen")}`,
+          description: `${t("noti.successfully_save_favorite_screen")}`,
         });
       }
     } catch (err) {
       Notification({
         type: "warning",
-        title: `${t('components.bookmark.favorite_screen')}`,
-        description: `${t('noti.failed_save_favorite_screen_error')}` + err.toString(),
+        title: `${t("components.bookmark.favorite_screen")}`,
+        description:
+          `${t("noti.failed_save_favorite_screen_error")}` + err.toString(),
       });
     }
   };
@@ -1144,9 +1145,9 @@ const Live = (props) => {
     } catch (err) {
       Notification({
         type: "warning",
-        title: `${t('components.bookmark.favorite_screen')}`,
+        title: `${t("components.bookmark.favorite_screen")}`,
         description:
-        `${t('noti.failed_apply_favorite_screen_error')}` + err.toString(),
+          `${t("noti.failed_apply_favorite_screen_error")}` + err.toString(),
       });
     }
   };
@@ -1189,7 +1190,7 @@ const Live = (props) => {
       Notification({
         type: "warning",
         title: "Playback",
-        description: `${t('noti.have_not_choosen_slot_on_grid')}`,
+        description: `${t("noti.have_not_choosen_slot_on_grid")}`,
       });
     }
   };
@@ -1208,7 +1209,7 @@ const Live = (props) => {
       Notification({
         type: "warning",
         title: "Playback",
-        description: `${t('noti.have_not_choosen_slot_on_grid')}`,
+        description: `${t("noti.have_not_choosen_slot_on_grid")}`,
       });
     }
   };
@@ -1226,7 +1227,7 @@ const Live = (props) => {
       Notification({
         type: "warning",
         title: "Playback",
-        description: `${t('noti.have_not_choosen_slot_on_grid')}`,
+        description: `${t("noti.have_not_choosen_slot_on_grid")}`,
       });
     }
   };
@@ -1249,7 +1250,7 @@ const Live = (props) => {
       Notification({
         type: "warning",
         title: "Playback",
-        description: `${t('noti.have_not_choosen_slot_on_grid')}`,
+        description: `${t("noti.have_not_choosen_slot_on_grid")}`,
       });
     }
   };
@@ -1264,7 +1265,7 @@ const Live = (props) => {
       Notification({
         type: "warning",
         title: "Playback",
-        description: `${t('noti.have_not_choosen_slot_on_grid')}`,
+        description: `${t("noti.have_not_choosen_slot_on_grid")}`,
       });
     }
   };
@@ -1383,17 +1384,20 @@ const Live = (props) => {
               />
             </div>
           </div>
-
-          <DraggableCameraList
-            cameras={cameras}
-            totalCameras={totalCameras}
-            filter={filter}
-            search={search}
-            handleSearch={handleSearch}
-            handleApplyFilterCallback={handleApplyFilterCallback}
-            handleSelectCameraCallback={handleSelectCameraCallback}
-            handleNextPage={handleNextPageCallback}
-          />
+          {isMaximize ? (
+            ""
+          ) : (
+            <DraggableCameraList
+              cameras={cameras}
+              totalCameras={totalCameras}
+              filter={filter}
+              search={search}
+              handleSearch={handleSearch}
+              handleApplyFilterCallback={handleApplyFilterCallback}
+              handleSelectCameraCallback={handleSelectCameraCallback}
+              handleNextPage={handleNextPageCallback}
+            />
+          )}
         </div>
       </DragDropContext>
     </div>

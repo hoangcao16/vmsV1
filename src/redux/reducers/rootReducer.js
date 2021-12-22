@@ -36,7 +36,7 @@ const rootReducer = combineReducers({
   email: email,
   chart: chartData,
   live: liveReducer,
-  quickSearch:quickSearch
+  quickSearch:quickSearch,
 });
 
 export default rootReducer;
