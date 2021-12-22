@@ -24,10 +24,10 @@ const TabType = (props) => {
         type: type,
         cameraUuid: cameraUuid
       };
-      setCheckStatus(true)
+      setCheckStatus(false)
 
       AIConfigApi.getConfig(data).then((result) => {
-        if (result.status == "1") {
+        if (result.status === "1") {
           setCheckStatus(true)
         }
       });
@@ -91,7 +91,7 @@ const TabType = (props) => {
               </TabPane>
               : null}
             <TabPane tab={t('view.ai_config.schedule_config')} key="1">
-              <MemoizedTabSchedule cameraUuid={cameraUuid} type={type}></MemoizedTabSchedule>
+              <MemoizedTabSchedule cameraUuid={cameraUuid} type={type} status={checkStatus}></MemoizedTabSchedule>
             </TabPane>
 
           </Tabs>

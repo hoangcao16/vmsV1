@@ -40,8 +40,12 @@ const TabRect = (props) => {
 
   const canvasRef = useRef(null);
   const canvasRefRect = useRef(null);
-  let fromX = 0, fromY = 0, toX = 0, toY = 0, direction = 2;
-  let fromXP = 0, fromYP = 0, toXP = 0, toYP = 0;
+
+  let fromX = localStorage.getItem("fromX"), fromY = localStorage.getItem("fromY"),
+    toX = localStorage.getItem("toX"), toY = localStorage.getItem("toY"), direction = localStorage.getItem("direction");
+
+  let fromXP = localStorage.getItem("fromXP"), fromYP = localStorage.getItem("fromYP"),
+    toXP = localStorage.getItem("toXP"), toYP = localStorage.getItem("toYP");
   let isFromPointMouseDown = false;
   let isToPointMouseDown = false;
   let timerIdentifier = null;
@@ -126,16 +130,15 @@ const TabRect = (props) => {
       points = [[fromX, fromY], [toX, toY]];
       pointsP = [[fromXP, fromYP], [toXP, toYP]];
     } else {
-      
+
       coordinates.forEach(data => {
-        points.push([data.x, data.y]) 
+        points.push([data.x, data.y])
       })
       coordinatesP.forEach(data => {
         pointsP.push([data.x, data.y])
       })
-      
-    }
 
+    }
 
     const payload = {
       ...dataRect,
@@ -153,13 +156,24 @@ const TabRect = (props) => {
     };
 
     AIConfigRectApi.addConfigRect(payload).then((result) => {
-      setDefaultDataRect(result)
+
+      let dataNew = [...dataRectList]
+
+      dataNew.forEach(data => {
+        if (data.key === keyActive) {
+          data.uuid = result.uuid;
+          setDefaultDataRect(result)
+        }
+      })
+      setDataRectList(dataNew)
+
     });
 
 
   };
 
   function setDefaultDataRect(data) {
+    clearEventHandler()
     setDataRect(data)
     let checkList = []
     if (data.peopleDetection) {
@@ -170,23 +184,20 @@ const TabRect = (props) => {
     }
     setCheckedList(checkList)
     form.setFieldsValue({
-      threshold: 100,
+      threshold: data.threshold,
       direction: data.direction
     })
-    
-    if (type === "hurdles") {
-      if(data.points != null && data.points.length > 0){
-        addLine(data.points, data.direction)
-      }
-      
 
-      // drawLine();
-      // window.addEventListener('resize', resizeLineCanvasEventHandler);
-    } else {
-      if(data.points != null && data.points.length > 0){
-        addRect(data.points)
+    if (type === "hurdles") {
+      if (data.points != null && data.points.length > 0) {
+        addLine(data.points, data.pointsP, data.direction)
       }
-      
+
+    } else {
+      if (data.points != null && data.points.length > 0) {
+        addRect(data.points, data.pointsP)
+      }
+
     }
   }
 
@@ -202,6 +213,33 @@ const TabRect = (props) => {
     } else {
       status = 0;
     }
+
+    const payload = {
+      type: type,
+      cameraUuid: cameraUuid,
+      status: status,
+      uuid: uuid
+
+    };
+
+
+
+    try {
+      let isPost = await AIConfigRectApi.updateStausConfigRect(payload);
+
+      if (isPost) {
+        const notifyMess = {
+          type: 'success',
+          title: `${t('noti.success')}`,
+          description: `${t('noti.update_status_successful')}`
+        };
+        Notification(notifyMess);
+      }
+    } catch (error) {
+      console.log(error);
+    }
+
+
     // await UserApi.update({ uuid: uuid, status: status });
   };
 
@@ -260,7 +298,7 @@ const TabRect = (props) => {
               title={t('view.user.detail_list.change_status')}
             >
               <Switch
-                defaultChecked={record.status === 1}
+                defaultChecked={record.status === "1"}
                 onChange={(e) => handleUpdateStatus(e, record.uuid)}
                 checkedChildren={<CheckOutlined />}
                 unCheckedChildren={<CloseOutlined />}
@@ -313,9 +351,28 @@ const TabRect = (props) => {
   ];
 
   useEffect(() => {
-  }, []);
+    localStorage.removeItem('fromXP');
+    localStorage.removeItem('fromYP');
+    localStorage.removeItem('fromX');
+    localStorage.removeItem('fromY');
 
-  useEffect(() => {
+    localStorage.removeItem('toXP');
+    localStorage.removeItem('toYP');
+    localStorage.removeItem('toX');
+    localStorage.removeItem('toY');
+
+    localStorage.setItem('fromXP', 0);
+    localStorage.setItem('fromYP', 0);
+    localStorage.setItem('fromX', 0);
+    localStorage.setItem('fromY', 0);
+
+    localStorage.setItem('toXP', 0);
+    localStorage.setItem('toYP', 0);
+    localStorage.setItem('toX', 0);
+    localStorage.setItem('toY', 0);
+
+    clearEventHandler()
+
     if (cameraUuid != null && cameraUuid !== "") {
       setIsActive(true)
       const data = {
@@ -323,7 +380,7 @@ const TabRect = (props) => {
         cameraUuid: cameraUuid
       };
 
-      clearEventHandler()
+
 
       AIConfigRectApi.getAllConfigRect(data).then((result) => {
         const itemRectList = [];
@@ -442,12 +499,13 @@ const TabRect = (props) => {
       AIConfigRectApi.getConfigRect(data.uuid).then((result) => {
         if (result != null) {
           data = result
+          setIsActiveDetail(true)
         }
       });
     }
 
+
     setDefaultDataRect(data)
-    setIsActiveDetail(true)
 
 
   };
@@ -554,7 +612,7 @@ const TabRect = (props) => {
     }
   }
 
-  const addRect = (points) => {
+  const addRect = (points, pointsP) => {
     if (timerIdentifierRect != null) clearTimeout(timerIdentifierRect);
     const video = document.getElementById("video-slot-" + type);
     const canvas = document.getElementById("canvas-slot-" + type);
@@ -563,11 +621,17 @@ const TabRect = (props) => {
       canvas.width = video.clientWidth;
       canvas.height = video.clientHeight;
       videoSlotSizeRect = { w: video.clientWidth, h: video.clientHeight };
-      coordinates = [];
-      points.forEach(data => {
-        coordinates.push({ x: data[0], y: data[1], mouseDown: false });
+
+      coordinatesP = [];
+      pointsP.forEach(data => {
+        coordinatesP.push({ x: data[0], y: data[1], mouseDown: false });
       })
-      
+
+      coordinates = [];
+      for (let index = 0; index < coordinatesP.length; index++) {
+        coordinates.push({ x: coordinatesP[index].x * canvas.width, y: coordinatesP[index].y * canvas.height, mouseDown: false });
+      }
+
       drawRect();
       window.addEventListener('resize', resizeRectCanvasEventHandler);
     }
@@ -632,7 +696,8 @@ const TabRect = (props) => {
     }
   }
 
-  const addLine = (points , directionV) => {
+  const addLine = (points, pointsP, directionV) => {
+
     if (timerIdentifier != null) clearTimeout(timerIdentifier);
     const video = document.getElementById("video-slot-" + type);
     const canvas = document.getElementById("canvas-slot-" + type);
@@ -641,13 +706,45 @@ const TabRect = (props) => {
       canvas.width = video.clientWidth;
       canvas.height = video.clientHeight;
       videoSlotSize = { w: video.clientWidth, h: video.clientHeight };
-      fromX = points[0][0]
-      fromY = points[0][1]
-      toX = points[1][0]
-      toY = points[1][1]
+
+      fromXP = pointsP[0][0]
+      fromYP = pointsP[0][1]
+      fromX = fromXP * canvas.width
+      fromY = fromYP * canvas.height
+
+      localStorage.setItem('fromXP', fromXP);
+      localStorage.setItem('fromYP', fromYP);
+      localStorage.setItem('fromX', fromX);
+      localStorage.setItem('fromY', fromY);
+
+      toXP = pointsP[1][0]
+      toYP = pointsP[1][1]
+      toX = toXP * canvas.width
+      toY = toYP * canvas.height
+
+      localStorage.setItem('toXP', toXP);
+      localStorage.setItem('toYP', toYP);
+      localStorage.setItem('toX', toX);
+      localStorage.setItem('toY', toY);
+
+      // fromXP = fromX / canvas.width;
+      // fromYP = fromY / canvas.height;
+      // toXP = toX / canvas.width;
+      // toYP = toY / canvas.height;
+
+      // fromX = points[0][0]
+      // fromY = points[0][1]
+      // toX = points[1][0]
+      // toY = points[1][1]
+
+      // toXP = pointsP[1][0]
+      // toYP = pointsP[1][1]
       direction = directionV;
+      localStorage.setItem('direction', direction);
       drawLine();
       window.addEventListener('resize', resizeLineCanvasEventHandler);
+
+
     }
   }
 
@@ -671,11 +768,15 @@ const TabRect = (props) => {
     }
   }
 
+
+
   const resizeLineCanvasEventHandler = (event) => {
+
     resizeLineCanvas();
   }
 
   const resizeLineCanvas = () => {
+
     let video = document.getElementById("video-slot-hurdles");
     const canvas = document.getElementById("canvas-slot-hurdles");
     if (canvas !== null) {
@@ -696,6 +797,7 @@ const TabRect = (props) => {
             w = video.clientWidth;
             h = video.clientHeight;
           }
+
           fromX = w * fromX / canvas.width;
           fromY = h * fromY / canvas.height;
           toX = w * toX / canvas.width;
@@ -745,8 +847,10 @@ const TabRect = (props) => {
       }
     }
   }
-
+  
   const drawLine = () => {
+
+
     const canvas = document.getElementById("canvas-slot-" + type);
     if (canvas !== null) {
       const ctx = canvas.getContext('2d');
@@ -758,6 +862,7 @@ const TabRect = (props) => {
       ctx.fillStyle = "red";
       ctx.font = "12px Arial";
       ctx.lineJoin = ctx.lineCap = "round";
+
 
       // Base line
       ctx.moveTo(fromX, fromY); // begins a new sub-path based on the given x and y values.
@@ -833,8 +938,9 @@ const TabRect = (props) => {
       fromYP = fromY / canvas.height;
       toXP = toX / canvas.width;
       toYP = toY / canvas.height;
-      console.log("fromP:", fromXP, " ", fromYP);
-      console.log("toP:", toXP, " ", toYP);
+
+      
+
     }
   }
 
@@ -845,6 +951,10 @@ const TabRect = (props) => {
     const len = dirLineLen / Math.hypot(px, py);
     px *= len;  // make length 50 pixels
     py *= len;
+
+    console.log("______________fromX_____________ ", fromX)
+      console.log("______________fromY_____________ ", fromY)
+      console.log("______________direction____________ ", direction)
 
     // Get middle point of base line
     const middleX = (fromX + toX) / 2;
@@ -883,6 +993,7 @@ const TabRect = (props) => {
     let angle = Math.atan2(dy, dx);
 
     ctx.moveTo(fX, fY);
+    
     if (direction === 2) { // B <-> A
       ctx.lineTo(fX - headLen * Math.cos(angle - Math.PI / 6), fY - headLen * Math.sin(angle - Math.PI / 6));
       ctx.moveTo(fX, fY);
@@ -1079,7 +1190,7 @@ const TabRect = (props) => {
                 <div className="d-flex justify-content-between align-items-center"
                   style={{ marginTop: "20px" }}>
                   <Button
-                    disabled={!isActive}
+                    disabled={!isActiveDetail}
                     onClick={() => {
                       if (type === "hurdles") {
                         initLine(2);
@@ -1091,7 +1202,7 @@ const TabRect = (props) => {
                     {t('view.ai_config.draw.' + type)}
                   </Button>
                   <Button
-                    disabled={!isActive}
+                    disabled={!isActiveDetail}
                     type="primary"
                     onClick={() => {
                       clearEventHandler();
@@ -1206,9 +1317,7 @@ const TabRect = (props) => {
 };
 
 function tabRectPropsAreEqual(prevTabRect, nextTabRect) {
-  return _.isEqual(prevTabRect.cameraUuid, nextTabRect.cameraUuid) && _.isEqual(prevTabRect.type, nextTabRect.type)
-
-    ;
+  return _.isEqual(prevTabRect.cameraUuid, nextTabRect.cameraUuid) && _.isEqual(prevTabRect.type, nextTabRect.type);
 }
 
 export const MemoizedTabRect = React.memo(TabRect, tabRectPropsAreEqual);

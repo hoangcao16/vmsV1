@@ -559,7 +559,8 @@
     "change_preset_name_success": "Bạn đã đổi tên preset thành công",
     "delete_successful": "Bạn đã xóa thành công",
     "unidentified_camera": "Camera không xác định",
-    "error_camera_address": "Không nhận địa chỉ Camproxy lỗi"
+    "error_camera_address": "Không nhận địa chỉ Camproxy lỗi",
+    "update_status_successful": "Update trạng thái thành công"
   },
   "breadcrumd": {
     "report": "Quản lý báo cáo",

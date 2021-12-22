@@ -121,7 +121,21 @@ const TableHumans = () => {
 
   const handleSearch = async (value) => {
     const data = {
+      page: page,
+      pageSize: pageSize,
       name: value
+    };
+    AIHumansApi.getAllHumans(data).then((result) => {
+      let dataResult = result[Object.keys(result)[0]];
+      setListHumans(result.payload);
+      setTotal(result?.metadata.total);
+    });
+  };
+
+  const loadList = async () => {
+    const data = {
+      page: page,
+      pageSize: pageSize
     };
     AIHumansApi.getAllHumans(data).then((result) => {
       let dataResult = result[Object.keys(result)[0]];
@@ -168,6 +182,8 @@ const TableHumans = () => {
       <Tag color={haveImg ? '#1380FF' : '#FF4646'} style={{ color: '#ffffff' }}>{str}</Tag>
     );
   };
+
+  
 
 
   const categoryColumns = [
@@ -322,6 +338,7 @@ const TableHumans = () => {
         <ModalEditHumans
           selectedHumansId={selectedHumansId}
           setShowModal={setShowModal}
+          loadList={loadList}
         />
 
       }

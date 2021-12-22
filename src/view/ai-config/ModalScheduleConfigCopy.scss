@@ -90,9 +90,9 @@
 
     .ant-form-item-control-input {
       border-radius: 6px;
-
+      background-color: $vms-bg-sub !important;
       input {
-        // background-color: $vms-bg-sub !important;
+        
 
         // background-color: $vms-bg-primary !important;
         &::placeholder {
@@ -106,7 +106,7 @@
       select {
         height: 100%;
         width: 100%;
-        // background-color: $vms-bg-sub;
+        background-color: $vms-bg-sub !important;
         border-radius: 6px;
         padding: 8px;
         color: $vms-status;

@@ -1,5 +1,6 @@
 import { EditOutlined} from '@ant-design/icons';
-import { Button, Card} from 'antd';
+import { Button, Card, Table, Space,Popconfirm} from 'antd';
+import { PlusOutlined, DeleteOutlined, CheckOutlined, CloseOutlined } from '@ant-design/icons';
 import 'antd/dist/antd.css';
 import moment from 'moment';
 import React, { useEffect, useState } from 'react';
@@ -13,12 +14,15 @@ import './TabSchedule.scss';
 import { bodyStyleCard, headStyleCard } from './variables';
 import Notification from "../../components/vms/notification/Notification";
 import _ from "lodash";
+import TimelineHeaders from 'react-calendar-timeline/lib/lib/headers/TimelineHeaders';
+import SidebarHeader from 'react-calendar-timeline/lib/lib/headers/SidebarHeader';
+import DateHeader from 'react-calendar-timeline/lib/lib/headers/DateHeader';
 
 
 
 
 const TabSchedule = (props) => {
-  const { cameraUuid, type } = props
+  const { cameraUuid, type, status } = props
   const { t } = useTranslation();
   const [showModal, setShowModal] = useState(false);
   const [showModalCopy, setShowModalCopy] = useState(false);
@@ -34,6 +38,7 @@ const TabSchedule = (props) => {
   const [listTimes7, setListTimes7] = useState([]);
   const [data, setData] = useState({});
   const [selectDay, setSelectDay] = useState("");
+  const [dataScheduleList, setDataScheduleList] = React.useState([]);
 
 
   useEffect(() => {
@@ -44,12 +49,15 @@ const TabSchedule = (props) => {
       };
   
       AIConfigScheduleApi.getAllConfigSchedule(data).then((result) => {
+
         setData(result)
         setDefaultData(result)
+
+
       });
   
     }
-  }, [cameraUuid, type]);
+  }, [cameraUuid, type, status]);
 
 
   function setDefaultData(data) {
@@ -409,18 +417,30 @@ const TabSchedule = (props) => {
         className="card--category"
       // headStyle={{ padding: 30 }}
       >
-        <div className="" >
-          <Timeline
-            style={{ color: 'white', marginTop: '20px', marginBottom: '20px' }}
-            groups={groups}
-            items={listDetail}
-            defaultTimeStart={moment([2021, 1, 1, 0, 0, 0, 0])}
-            defaultTimeEnd={moment([2021, 1, 1, 23, 59, 59, 999])}
-            rightSidebarWidth={30}
-            sidebarWidth={80}
-            useResizeHandle={false}
-          />
-          {cameraUuid ?
+        <div className="timeline_table" >
+           <Timeline
+                        style={{ color: 'white', marginTop: '20px', marginBottom: '20px' }}
+                        groups={groups}
+                        items={listDetail}
+                        defaultTimeStart={moment([2021, 1, 1, 0, 0, 0, 0])}
+                        defaultTimeEnd={moment([2021, 1, 1, 23, 59, 59, 999])}
+                        rightSidebarWidth={30}
+                        sidebarWidth={80}
+                        useResizeHandle={false}
+                        minZoom={60 * 60 * 1000}
+                        minResizeWidth={10}
+                    >
+                        <TimelineHeaders >
+                            <DateHeader labelFormat='HH' />
+                        </TimelineHeaders>
+                    </Timeline>
+          {/* <Timeline
+            
+          /> */}
+          
+        </div>
+
+        {cameraUuid ?
             <div className="footer__modal">
 
               <Button
@@ -440,7 +460,6 @@ const TabSchedule = (props) => {
               </Button>
             </div> : null
           }
-        </div>
 
       </Card>
       {showModal &&
@@ -463,7 +482,8 @@ const TabSchedule = (props) => {
 };
 
 function tabSchedulePropsAreEqual(prevTabSchedule, nextTabSchedule) {
-  return _.isEqual(prevTabSchedule.cameraUuid, nextTabSchedule.cameraUuid) && _.isEqual(prevTabSchedule.type, nextTabSchedule.type);
+  return _.isEqual(prevTabSchedule.cameraUuid, nextTabSchedule.cameraUuid) && _.isEqual(prevTabSchedule.type, nextTabSchedule.type)
+  && _.isEqual(prevTabSchedule.status, nextTabSchedule.status);
 }
 
 export const MemoizedTabSchedule = React.memo(TabSchedule, tabSchedulePropsAreEqual);
