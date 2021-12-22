@@ -560,6 +560,7 @@
     "change_preset_name_success": "Bạn đã đổi tên preset thành công",
     "delete_successful": "Bạn đã xóa thành công",
     "unidentified_camera": "Camera không xác định",
+    "update_status_successful": "Update trạng thái thành công",
     "error_camera_address": "Lỗi không nhận địa chỉ Camproxy",
     "successfully_config": "Cấu hình thành công",
     "successfully_add_camera_group": "Thêm nhóm Camera thàng công",

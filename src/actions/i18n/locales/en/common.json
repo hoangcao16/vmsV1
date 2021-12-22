@@ -564,6 +564,7 @@
     "delete_successful": "Delete successful",
     "unidentified_camera": "Unidentified Camera",
     "error_camera_address": "Failed to receive error Camproxy address",
+    "update_status_successful": "Update Status Successful",
     "successfully_config": "Successfully Configure",
     "successfully_add_camera_group": "Successfully added Camera group",
     "edit_camera_failed": "Edit Camera failed ",

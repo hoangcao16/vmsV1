@@ -28,7 +28,7 @@ const formItemLayout = {
 const ModalEditHumans = (props) => {
 
   const { t } = useTranslation();
-  let { setShowModal, selectedHumansId } = props;
+  let { setShowModal, selectedHumansId, loadList } = props;
   const [fieldData, setFieldData] = useState();
   const [name, setName] = useState("");
   const [form] = Form.useForm();
@@ -116,6 +116,7 @@ const ModalEditHumans = (props) => {
             description: `${t('noti.successfully_edit_name')} ${name}`,
           };
           setShowModal(false)
+          loadList()
           Notification(notifyMess);
         }
 
@@ -129,6 +130,7 @@ const ModalEditHumans = (props) => {
             description: `${t('noti.successfully_add')} ${name}`,
           };
           Notification(notifyMess);
+          loadList()
           setShowModal(false)
         }
       }

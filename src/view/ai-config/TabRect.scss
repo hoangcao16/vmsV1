@@ -3,6 +3,8 @@
 
 .tabs__container--config_rect {
 
+  &.disabled { opacity: 0.5; }
+
   .ant-form-item-control-input-content {
     background-color: transparent;
   }
@@ -71,7 +73,7 @@
     }
 
     .ant-table-tbody > tr.selected > td {
-      background: $vms-bg-sub;
+      background: $vms-bg-sub !important;
     }
 
     .ant-table-cell-fix-left,

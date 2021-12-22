@@ -72,6 +72,23 @@ const AIConfigRectApi = {
     }
     return true;
   },
+
+  updateStausConfigRect: async (payload) => {
+    let result;
+    try {
+      result = await AIService.putRequestData(
+        "/api/v1/config_rect/status",
+        payload
+      );
+    } catch (error) {
+      console.log(error);
+    }
+
+    if (handleErrCodeAI(result) === null) {
+      return false;
+    }
+    return true;
+  },
   editConfigRectName: async (payload) => {
     let result;
 

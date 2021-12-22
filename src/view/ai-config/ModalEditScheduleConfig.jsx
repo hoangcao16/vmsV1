@@ -56,7 +56,7 @@ const ModalEditScheduleConfig = (props) => {
       detail['end_' + i] = endTime
       i++
     })
-    
+
     setTimeDetails(detail)
   }, [listTimes]);
 
@@ -99,75 +99,78 @@ const ModalEditScheduleConfig = (props) => {
           initialValues={timeDetails}
         >
 
-          
-          <Row gutter={24}>
+
+          <Row gutter={24} className="row_time">
             <Col span={8}>
-              <label className="optionTitle">{t('view.report.date_range')} </label>
+              <label className="optionTitleTime">{t('view.report.date_range')} </label>
             </Col>
-            <Col >
-              <Row gutter={24}>
-                <Form.Item name={['start_1']}>
-                  <TimePicker ></TimePicker>
-                </Form.Item>
-                <Form.Item name={['end_1']}>
-                  <TimePicker ></TimePicker>
-                </Form.Item>
-              </Row>
-            </Col>
-          </Row>
-          <Row gutter={24}>
             <Col span={8}>
-              <label className="optionTitle">{t('view.report.date_range')} </label>
-            </Col>
-            <Col >
-              <Row gutter={24}>
-                <Form.Item name={['start_2']}>
-                  <TimePicker ></TimePicker>
-                </Form.Item>
-                <Form.Item name={['end_2']}>
-                  <TimePicker ></TimePicker>
-                </Form.Item>
-              </Row>
-            </Col>
-          </Row>
-          <Row gutter={24}>
-            <Col span={8}>
-              <label className="optionTitle">{t('view.report.date_range')} </label>
-            </Col>
-            <Col >
-              <Row gutter={24}>
-                <Form.Item name={['start_3']}>
-                  <TimePicker ></TimePicker>
-                </Form.Item>
-                <Form.Item name={['end_3']}>
-                  <TimePicker ></TimePicker>
-                </Form.Item>
-              </Row>
-            </Col>
-          </Row>
-          <Row gutter={24}>
-            <Col span={8}>
-              <label className="optionTitle">{t('view.report.date_range')} </label>
-            </Col>
-            <Col >
-              <Row gutter={24}>
-                <Form.Item name={['start_4']}>
-                  <TimePicker ></TimePicker>
-                </Form.Item>
-                <Form.Item name={['end_4']}>
-                  <TimePicker ></TimePicker>
-                </Form.Item>
-              </Row>
-            </Col>
-          </Row>
-          <Row gutter={24} className="bg-grey">
-              <Form.Item name={['all_day']}>
-                <Checkbox
-                  checked={checkAll}
-                  color="primary"
-                  onChange={onChangeCheckBox}
-                >{t('view.ai_config.all_day')}</Checkbox>
+              <Form.Item name={['start_1']}>
+                <TimePicker ></TimePicker>
               </Form.Item>
+            </Col>
+            <Col span={8}>
+              <Form.Item name={['end_1']}>
+                <TimePicker ></TimePicker>
+              </Form.Item>
+            </Col>
+          </Row>
+          <Row gutter={24} className="row_time">
+            <Col span={8}>
+              <label className="optionTitleTime">{t('view.report.date_range')} </label>
+            </Col>
+            <Col span={8}>
+              <Form.Item name={['start_2']}>
+                <TimePicker ></TimePicker>
+              </Form.Item>
+            </Col>
+            <Col span={8}>
+              <Form.Item name={['end_2']}>
+                <TimePicker ></TimePicker>
+              </Form.Item>
+            </Col>
+          </Row>
+          <Row gutter={24} className="row_time">
+            <Col span={8}>
+              <label className="optionTitleTime">{t('view.report.date_range')} </label>
+            </Col>
+            <Col span={8}>
+              <Form.Item name={['start_3']}>
+                <TimePicker ></TimePicker>
+              </Form.Item>
+            </Col>
+            <Col span={8}>
+            <Form.Item name={['end_3']}>
+                <TimePicker ></TimePicker>
+              </Form.Item>
+            </Col>
+
+          </Row>
+          <Row gutter={24} className="row_time">
+            <Col span={8}>
+              <label className="optionTitleTime">{t('view.report.date_range')} </label>
+            </Col>
+            <Col span={8}>
+              <Form.Item name={['start_4']}>
+                <TimePicker ></TimePicker>
+              </Form.Item>
+            </Col>
+            <Col span={8}>
+              <Form.Item name={['end_4']}>
+                <TimePicker ></TimePicker>
+              </Form.Item>
+            </Col>
+            <Col >
+            </Col>
+          </Row>
+          <Row gutter={24} >
+            <Form.Item name={['all_day']}>
+              <Checkbox
+                checked={checkAll}
+                color="primary"
+                onChange={onChangeCheckBox}
+              >{t('view.ai_config.all_day')}</Checkbox>
+            </Form.Item>
           </Row>
 
           <div className="footer__modal">

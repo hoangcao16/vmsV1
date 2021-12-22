@@ -5,14 +5,39 @@
 
     .react-calendar-timeline{
         width: 941px;
+        border: 1px solid $vms-main-bg;
     }
     .ant-form-item-control-input-content{
-        background-color: none;
+        background-color: $vms-bg-sub;
+        
     }
 
     .footer__modal {
         .ant-btn{
             margin: 15px;
+        }
+    }
+
+    .timeline_table {
+        margin: 30px;
+        width: 941px;
+        background-color: $vms-bg-sub;
+        
+
+        .rct-header-root{
+            background-color: $vms-bg-sub;
+        }
+
+        .rct-sidebar{
+            background-color: $vms-bg-sub;
+        }
+
+        .rct-calendar-header{
+            background-color: $vms-bg-sub !important;
+        }
+
+        .rct-dateHeader{
+            background-color: $vms-bg-sub !important;
         }
     }
 
