@@ -35,7 +35,6 @@ export function* handleDataChartLoad(action) {
     eventId: params.eventList
   }
 
-  console.log("payloadDataChart: ", payloadDataChart)
   localStorage.setItem('payloadDataChart', JSON.stringify(payloadDataChart));
   try {
     if (!isEmpty(payloadDataChart.eventId)) {

@@ -65,9 +65,8 @@ function BarChartComponent(props) {
     }
     const dataNoName = Object.values(data)[0];
     
-    delete dataNoName.time;
-    
     const keyArr = Object.keys(dataNoName);
+    keyArr.shift();
     return keyArr.map((k) => {
       if (k.length > 25) {
         k = k.slice(0, 26) + "..."
