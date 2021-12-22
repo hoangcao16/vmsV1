@@ -44,8 +44,8 @@ const LoginDefault = () => {
 
     if (isEmpty(email) || isEmpty(password)) {
       notification.error({
-        message: 'Thất bại',
-        description: 'Vui lòng điền đầy đủ thông tin tài khoản mật khẩu.',
+        message: `${t('noti.faid')}`,
+        description: `${t('noti.full_account_password')}`,
         duration: 2
       });
       return;
@@ -86,8 +86,8 @@ const LoginDefault = () => {
           }
 
           notification.success({
-            message: 'Thành công',
-            description: 'Đăng nhập thành công.',
+            message: `${t('noti.success')}`,
+            description: `${t('noti.logged_in_successfully')}`,
             duration: 2
           });
           history.push('/');

@@ -44,7 +44,7 @@ const TableZone = () => {
 
   const [val, setVal] = useState('');
   const [page, setPage] = useState(1);
-  const [size, setSize] = useState(10);
+  const [size, setSize] = useState(100000);
   const [total, setTotal] = useState(0);
 
   useEffect(() => {
@@ -88,7 +88,6 @@ const TableZone = () => {
     };
     ZoneApi.getAllZonesWithTotal(data).then((result) => {
       setListZone(result.payload);
-
       setTotal(result?.metadata?.total);
     });
   }, [selectedAdd]);
@@ -281,36 +280,14 @@ const TableZone = () => {
         className="card--listDevice"
       >
         <Table
+          scroll={{ y: 300 }}
+          pagination={false}
           rowKey="id"
           size="medium"
           columns={zoneColumns}
           dataSource={listZone}
           locale={{
             emptyText: `${t('view.user.detail_list.no_valid_results_found')}`
-          }}
-          pagination={{
-            showSizeChanger: true,
-            onShowSizeChange: (current, size) => {
-              onShowSizeChange(current, size);
-            },
-
-            hideOnSinglePage: false,
-            current: page,
-            total: total,
-            pageSize: size,
-            onChange: (value) => {
-              setPage(value);
-            },
-            showTotal: (total, range) => {
-              return (
-                <ShowTotal className="show--total">
-                  {t('view.user.detail_list.viewing')} {range[0]}{' '}
-                  {t('view.user.detail_list.to')} {range[1]}{' '}
-                  {t('view.user.detail_list.out_of')} {total}{' '}
-                  {t('view.user.detail_list.indexes')}
-                </ShowTotal>
-              );
-            }
           }}
         />
       </Card>

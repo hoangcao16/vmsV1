@@ -251,14 +251,14 @@ const Preset = (props) => {
         const warnNotyfi = {
           type: NOTYFY_TYPE.success,
           title: `${t("noti.success")}`,
-          description: "Bạn đã thay đổi thứ tự preset thành công",
+          description: `${t("noti.successfully_permute_preset")}`,
           duration: 2,
         };
         Notification(warnNotyfi);
       } catch (error) {
         const warnNotyfi = {
           type: NOTYFY_TYPE.warning,
-          description: "Đã xảy ra lỗi",
+          description: `${t("noti.ERROR")}`,
           duration: 2,
         };
         Notification(warnNotyfi);
@@ -287,8 +287,8 @@ const Preset = (props) => {
     if (camUuid === "" || camUuid == null) {
       Notification({
         type: NOTYFY_TYPE.warning,
-        title: "Xem trực tiếp",
-        description: "Camera không xác định",
+        title: `${t('view.user.detail_list.view_online')}`,
+        description: `${t('noti.unidentified_camera')}`,
       });
       return;
     }
@@ -296,8 +296,8 @@ const Preset = (props) => {
     if (data == null) {
       Notification({
         type: NOTYFY_TYPE.warning,
-        title: "Xem trực tiếp",
-        description: "Không nhận địa chỉ camproxy lỗi",
+        title: `${t('view.user.detail_list.view_online')}`,
+        description: `${t('noti.error_camera_address')}`,
       });
       return;
     }
@@ -340,8 +340,8 @@ const Preset = (props) => {
               spin.style.display = "none";
               Notification({
                 type: NOTYFY_TYPE.warning,
-                title: "Xem trực tiếp",
-                description: "Nhận offer từ server bị lỗi",
+                title: `${t('view.user.detail_list.view_online')}`,
+                description: `${t('noti.fail_accept_offer_from_server')}`,
               });
             }
           });
@@ -605,14 +605,14 @@ const Preset = (props) => {
         const warnNotyfi = {
           type: NOTYFY_TYPE.success,
           title: `${t("noti.success")}`,
-          description: "Bạn đã xoá preset thành công ",
+          description: `${t("noti.successfully_delete_preset")}`,
           duration: 2,
         };
         Notification(warnNotyfi);
       } else {
         const warnNotyfi = {
           type: NOTYFY_TYPE.warning,
-          title: "Thất bại",
+          title: `${t("noti.faid")}`,
           description: data.message,
           duration: 2,
         };
@@ -641,7 +641,7 @@ const Preset = (props) => {
     } catch (error) {
       const warnNotyfi = {
         type: NOTYFY_TYPE.warning,
-        description: "Đã xảy ra lỗi",
+        description: `${t("noti.ERROR")}`,
         duration: 2,
       };
       Notification(warnNotyfi);
@@ -699,15 +699,15 @@ const Preset = (props) => {
         const warnNotyfi = {
           type: NOTYFY_TYPE.success,
           title: `${t("noti.success")}`,
-          description: "Bạn đã thêm mới một preset thành công",
+          description: `${t('noti.successfully_add_preset')}`,
           duration: 2,
         };
         Notification(warnNotyfi);
       } catch (error) {
         const warnNotyfi = {
           type: NOTYFY_TYPE.warning,
-          title: "Thất bại",
-          description: "Đã xảy ra lỗi",
+          title: `${t('noti.faid')}`,
+          description: `${t('noti.ERROR')}`,
           duration: 2,
         };
         Notification(warnNotyfi);
@@ -747,15 +747,15 @@ const Preset = (props) => {
         const warnNotyfi = {
           type: NOTYFY_TYPE.success,
           title: `${t("noti.success")}`,
-          description: "Bạn đã thêm preset thành công",
+          description: `${t("noti.successfully_add_preset")}`,
           duration: 2,
         };
         Notification(warnNotyfi);
       } catch (error) {
         const warnNotyfi = {
           type: NOTYFY_TYPE.warning,
-          title: "Thất bại",
-          description: "Đã xảy ra lỗi",
+          title: `${t('noti.faid')}`,
+          description: `${t('noti.ERROR')}`,
           duration: 2,
         };
         Notification(warnNotyfi);
@@ -772,7 +772,7 @@ const Preset = (props) => {
       //validate
       const warnNotyfi = {
         type: NOTYFY_TYPE.warning,
-        title: "Thất bại",
+        title: `${t('noti.faid')}`,
         description: "Độ dài tên cần lớn hơn 0 nhỏ hơn 100 kí tự",
         duration: 2,
       };
@@ -816,14 +816,14 @@ const Preset = (props) => {
         const successNotyfi = {
           type: NOTYFY_TYPE.success,
           title: `${t("noti.success")}`,
-          description: "Bạn đã đổi tên preset thành công",
+          description: `${t("noti.successfully_change_preset_name")}`,
           duration: 2,
         };
         Notification(successNotyfi);
       } catch (error) {
         const warnNotyfi = {
           type: NOTYFY_TYPE.warning,
-          description: "Đã xảy ra lỗi",
+          description: `${t('noti.ERROR')}`,
           duration: 2,
         };
         Notification(warnNotyfi);
@@ -914,7 +914,7 @@ const Preset = (props) => {
       const warnNotyfi = {
         type: NOTYFY_TYPE.warning,
         description:
-          "Cập nhập tên không thành công, vui lòng kiểm tra lại tên Preset Tour",
+          `${t('noti.fail_change_preset_tour_name')}`,
         duration: 2,
       };
       Notification(warnNotyfi);
@@ -938,7 +938,7 @@ const Preset = (props) => {
       const successNotyfi = {
         type: NOTYFY_TYPE.success,
         title: `${t("noti.success")}`,
-        description: "Bạn đã đổi tên preset tour thành công",
+        description: `${t("noti.successfully_change_preset_tour_name")}`,
         duration: 2,
       };
       Notification(successNotyfi);
@@ -977,7 +977,7 @@ const Preset = (props) => {
       const warnNotyfi = {
         type: NOTYFY_TYPE.success,
         title: `${t("noti.success")}`,
-        description: "Bạn đã đổi xoá preset thành công",
+        description: `${t("noti.successfully_change_preset")}`,
         duration: 2,
       };
       Notification(warnNotyfi);
@@ -1007,7 +1007,7 @@ const Preset = (props) => {
       const warnNotyfi = {
         type: NOTYFY_TYPE.success,
         title: `${t("noti.success")}`,
-        description: "Bạn đã xoá preset tour thành công",
+        description: `${t("noti.successfully_delete_preset_tour")}`,
         duration: 2,
       };
       Notification(warnNotyfi);
@@ -1155,7 +1155,7 @@ const Preset = (props) => {
               <option value={20}>20</option>
               <option value={30}>30</option>
             </select>
-            <span>giây</span>
+            <span>{t('ai_config.second')}</span>
           </div>
         );
       },

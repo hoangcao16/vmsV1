@@ -548,7 +548,7 @@ const ModalAddCamera = (props) => {
       className: "headerUserColums",
     },
     {
-      title: "Phường xã",
+      title: `${t("view.map.ward_id")}`,
       dataIndex: "wardName",
       key: "wardName",
       className: "headerUserColums",

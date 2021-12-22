@@ -41,8 +41,8 @@ const ForgotPassword = () => {
     if (isEmpty(email)) {
       const notifyMess = {
         type: "warning",
-        title: "Thất bại",
-        description: "Bạn không được để trống trường email ",
+        title: `${t('noti.faid')}`,
+        description: `${t('noti.email_field_cannot_empty')}`,
       };
       Notification(notifyMess);
       return;
@@ -54,8 +54,8 @@ const ForgotPassword = () => {
     if (!check.test(String(email).toLowerCase())) {
       const notifyMess = {
         type: "warning",
-        title: "Thất bại",
-        description: "Định dạng email không đúng",
+        title: `${t('noti.faid')}`,
+        description: `${t('view.user.detail_list.email_address_required')}`,
       };
       Notification(notifyMess);
       return;
@@ -68,7 +68,7 @@ const ForgotPassword = () => {
       const notifyMess = {
         type: "success",
         title: "",
-        description: "Một email đã được gửi cho bạn, hãy kiểm tra ",
+        description: `${t('noti.have_sent_email')}`,
       };
       Notification(notifyMess);
     }

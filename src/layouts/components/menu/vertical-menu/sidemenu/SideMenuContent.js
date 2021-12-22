@@ -7,6 +7,7 @@ import { connect } from "react-redux";
 import { Link } from "react-router-dom";
 import { reactLocalStorage } from "reactjs-localstorage";
 import ExportEventFileApi from "../../../../../actions/api/exporteventfile/ExportEventFileApi";
+import permissionCheck from "../../../../../actions/function/MyUltil/PermissionCheck";
 import eventActive from "../../../../../assets/img/icons/menu-bar/active/event.png";
 import { default as presetActive } from "../../../../../assets/img/icons/menu-bar/active/infor.png";
 import {
@@ -80,7 +81,7 @@ const SideMenuContent = (props) => {
   };
   // Loop over sidebar items
 
-  const refreshPage = ()=>{     window.location.reload();  }
+  const refreshPage = () => { window.location.reload(); }
 
   const onChangLanguage = (e) => {
     const value = e.target.value
@@ -176,7 +177,8 @@ const SideMenuContent = (props) => {
         <li className={classnames('nav-item', `${item.id}`)} key={item.id}>
           {item.id === 'notification' ? (
             <div>
-              <NotificationBadge />
+              {permissionCheck('warning_message') ? (
+                <NotificationBadge />) : null}
             </div>
           ) : (
             <Link to={item.navLink} key={item.id}>

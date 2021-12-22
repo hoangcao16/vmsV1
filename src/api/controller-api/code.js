@@ -2,6 +2,10 @@ import { isEmpty } from "lodash";
 import Notification from "../../components/vms/notification/Notification";
 import { handleForbiddenCode } from "../authz/forbidden";
 
+import { reactLocalStorage } from "reactjs-localstorage";
+
+const language = reactLocalStorage.get("language");
+
 export const KControllerOk = 700;
 const KControllerBadRequest = 701;
 const KControllerForbidden = 702;
@@ -19,23 +23,42 @@ const StatusInternalServerError = 606;
 
 //USER-->controller-->authz
 
-export const handleErrCode = (data) => {
+export const handleErrCode = (data,type) => {
   if (isEmpty(data)) {
-    const errCode = {
-      type: "error",
-      title: "Code: Unknown",
-      description: "Unknown",
-    };
+    let errCode = {};
+    if (language == "vn") {
+      errCode = {
+        type: "error",
+        title: "Mã lỗi: Không xác định",
+        description: "Không xác định",
+      };
+    } else {
+      errCode = {
+        type: "error",
+        title: "Code: Unknown",
+        description: "Unknown",
+      };
+    }
+
     Notification(errCode);
     return null;
   }
   // const { code, message, payload } = data;
   const { code, message, payload, deny_permission_codes } = data;
-  const errCode = {
-    type: "error",
-    title: "Code:" + code,
-    description: "",
-  };
+  let errCode = {};
+  if (language == "vn") {
+    errCode = {
+      type: "error",
+      title: "Mã lỗi: " + code,
+      description: "",
+    };
+  } else {
+    errCode = {
+      type: "error",
+      title: "Code: " + code,
+      description: "",
+    };
+  }
   switch (+code) {
     case KMonitorControllerOk:
       return data;
@@ -54,7 +77,8 @@ export const handleErrCode = (data) => {
       Notification(errCode);
       return null;
     case KControllerDuplicate:
-      errCode.description = "Dữ liệu bạn nhập đã tồn tại hoặc không hợp lệ, vui lòng kiểm tra lại";
+      errCode.description =
+        "Dữ liệu bạn nhập đã tồn tại hoặc không hợp lệ, vui lòng kiểm tra lại";
       Notification(errCode);
       return null;
     case KControllerCannotDelete:
@@ -67,30 +91,58 @@ export const handleErrCode = (data) => {
       Notification(errCode);
       return null;
     case StatusBadRequest:
-      errCode.description = "Bad request";
+      if (language == "vn") {
+        errCode.description = "Yêu cầu không hợp lệ";
+      } else {
+        errCode.description = "Bad request";
+      }
       Notification(errCode);
       return null;
     case StatusInternalServerError:
-      errCode.description = "Internal server error";
+      if (language == "vn") {
+        errCode.description = "Lỗi máy chủ nội bộ";
+      } else {
+        errCode.description = "Internal server error";
+      }
       Notification(errCode);
       return null;
     case StatusUnauthorized:
-      errCode.description = "Unauthorized";
+      if (language == "vn") {
+        errCode.description = "Không được phép truy cập";
+      } else {
+        errCode.description = "Unauthorized";
+      }
       Notification(errCode);
       return null;
     case StatusNotFound:
-      errCode.description = "Not found";
+      if (language == "vn") {
+        errCode.description = "Không tìm thấy";
+      } else {
+        errCode.description = "Not found";
+      }
       Notification(errCode);
       return null;
     case StatusConflict:
-      errCode.description = "Conflict";
+      if (language == "vn") {
+        errCode.description = "Yêu cầu không hợp lệ";
+      } else {
+        errCode.description = "Conflict";
+      }
       Notification(errCode);
       return null;
     case StatusForbidden:
-      handleForbiddenCode(deny_permission_codes);
-      return null;
+      if (type == 'noMessage') {
+        return;
+      } else {
+        handleForbiddenCode(deny_permission_codes);
+        return null;
+      }
     default:
-      errCode.description = "Unknown";
+      if (language == "vn") {
+        errCode.description = "Không xác định";
+      } else {
+        errCode.description = "Unknown";
+      }
       Notification(errCode);
       return null;
   }

@@ -65,7 +65,7 @@ const DetailUser = (props) => {
     if (
       language === "vn"
         ? (document.title = "CCTV | Thông tin cá nhân")
-        : (document.title = "CCTV | Infomation")
+        : (document.title = "CCTV | Information")
     );
   }, [t]);
 
@@ -122,7 +122,7 @@ const DetailUser = (props) => {
       const notifyMess = {
         type: "error",
         title: "",
-        description: "Chỉ được phép upload file loại JPG/PNG!",
+        description: `${t('noti.upload_file_desc')}`,
       };
       Notification(notifyMess);
     }
@@ -131,7 +131,7 @@ const DetailUser = (props) => {
       const notifyMess = {
         type: "error",
         title: "",
-        description: "File phải nhỏ hơn 2MB!",
+        description: `${t('noti.size_file_desc')}`,
       };
       Notification(notifyMess);
     }
@@ -190,7 +190,7 @@ const DetailUser = (props) => {
     if (name_data === "email") {
       rules.push(
         {
-          message: "Chưa đúng định dạng Email",
+          message: `${t('view.user.detail_list.email_address_required')}`,
           type: "email",
         },
         {
@@ -547,7 +547,7 @@ const DetailUser = (props) => {
       const notifyMess = {
         type: "success",
         title: "",
-        description: "Thay đổi dữ liệu thành công",
+        description: `${t('noti.successfully_change_data')}`,
       };
       Notification(notifyMess);
       setLoading(!isLoading);
@@ -563,7 +563,7 @@ const DetailUser = (props) => {
     if (!pattern.test(value) && value.length >= 10) {
       const notifyMess = {
         type: NOTYFY_TYPE.error,
-        description: "Định dạng số điện thoại chưa đúng",
+        description: `${t('noti.phone_number_format_is_not_correct')}`,
       };
       Notification(notifyMess);
       return false;

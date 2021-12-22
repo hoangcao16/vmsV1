@@ -12,7 +12,7 @@ const EventApi = {
       console.log(error);
     }
 
-    if (responseCheckerErrorsController(result) === null) {
+    if (responseCheckerErrorsController(result, 'noMessage') === null) {
       return [];
     }
     return result.payload;

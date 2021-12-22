@@ -81,7 +81,7 @@ const RoleUser = (props) => {
       const notifyMess = {
         type: 'success',
         title: '',
-        description: 'Cập nhật thành công'
+        description: `${t('noti.successfully_update')}`,
       };
       Notification(notifyMess);
     }

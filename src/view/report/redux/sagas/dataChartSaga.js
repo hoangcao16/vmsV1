@@ -8,21 +8,17 @@ import { DATA_CHART } from '../constants';
 
 export function* handleDataChartLoad(action) {
   const { params } = action;
-  let timeStart = moment(params.timeStartDay._d).format("DD/MM/YYYY")
-  let timeEnd = moment(params.timeEndDay._d).format("DD/MM/YYYY")
+  let timeStart;
+  let timeEnd;
 
   switch (params.pickTime.toUpperCase()) {
-    case "DAY":
-      timeStart = moment(params.timeStartDay._d).format("DD/MM/YYYY");
-      timeEnd = moment(params.timeEndDay._d).format("DD/MM/YYYY");
-      break;
     case "MONTH":
-      timeStart = moment(params.timeStartDay._d).format("MM/YYYY");
-      timeEnd = moment(params.timeEndDay._d).format("MM/YYYY");
+      timeStart = moment(params.timeStartMonth._d).format("MM/YYYY");
+      timeEnd = moment(params.timeEndMonth._d).format("MM/YYYY");
       break;
     case "YEAR":
-      timeStart = moment(params.timeStartDay._d).format("YYYY");
-      timeEnd = moment(params.timeEndDay._d).format("YYYY");
+      timeStart = moment(params.timeStartYear._d).format("YYYY");
+      timeEnd = moment(params.timeEndYear._d).format("YYYY");
       break;
     default:
       timeStart = moment(params.timeStartDay._d).format("DD/MM/YYYY");
@@ -38,6 +34,8 @@ export function* handleDataChartLoad(action) {
     wardId: !isEmpty(params.wardId) ? params?.wardId : [],
     eventId: params.eventList
   }
+
+  console.log("payloadDataChart: ", payloadDataChart)
   localStorage.setItem('payloadDataChart', JSON.stringify(payloadDataChart));
   try {
     if (!isEmpty(payloadDataChart.eventId)) {

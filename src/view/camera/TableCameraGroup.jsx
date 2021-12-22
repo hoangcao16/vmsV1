@@ -327,7 +327,7 @@ function CameraGroup(props) {
       const notifyMess = {
         type: "success",
         title: "",
-        description: "Xóa thành công nhóm Camera",
+        description: `${t('noti.successfully_delete_camera_group')}`,
       };
       Notification(notifyMess);
       props.handleFetchData({ name: "", parent: "all" });

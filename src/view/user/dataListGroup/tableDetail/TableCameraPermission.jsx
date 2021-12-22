@@ -146,7 +146,7 @@ export default function TableCameraPermission(props) {
         const notifyMess = {
           type: 'success',
           title: '',
-          description: 'Thêm quyền thành công'
+          description: `${t('noti.successfully_add_permission')}`,
         };
         Notification(notifyMess);
       }
@@ -164,14 +164,14 @@ export default function TableCameraPermission(props) {
       const notifyMess = {
         type: 'success',
         title: '',
-        description: 'Xóa quyền thành công'
+        description: `${t('noti.successfully_delete_permission')}`,
       };
       Notification(notifyMess);
     } else {
       const notifyMess = {
         type: 'error',
         title: '',
-        description: 'Xóa quyền thất bại'
+        description:  `${t('noti.fail_delete_permission')}`,
       };
       Notification(notifyMess);
     }
@@ -196,7 +196,7 @@ export default function TableCameraPermission(props) {
       const notifyMess = {
         type: 'success',
         title: '',
-        description: 'Đã xóa dữ liệu thành công !'
+        description: `${t('noti.successfully_delete_data')}`,
       };
       Notification(notifyMess);
       let dataRemove = [];
@@ -259,7 +259,7 @@ export default function TableCameraPermission(props) {
       const notifyMess = {
         type: 'success',
         title: '',
-        description: 'Đã xóa dữ liệu thành công !'
+        description: `${t('noti.successfully_delete_data')}`,
       };
       Notification(notifyMess);
       setReload(!reload);
@@ -268,7 +268,7 @@ export default function TableCameraPermission(props) {
       const notifyMess = {
         type: 'error',
         title: '',
-        description: 'Xóa quyền thất bại'
+        description: `${t('noti.fail_delete_permission')}`,
       };
       Notification(notifyMess);
     }

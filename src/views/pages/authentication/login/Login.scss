@@ -1,6 +1,25 @@
 @import '../../../../assets/scss/core/variables/vms-variable';
 
 .login {
+    .h-w{
+        height: 100%;
+        width: 100%;
+        padding: 0 !important;
+        .loginImg {
+            height: 100%;
+            width: 100%;
+            object-fit: cover;
+        }
+        .loginTitle {
+            font-size: 30px;
+            color: white;
+            position: absolute;
+            top: 20%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            font-weight: bold;
+        }
+    }
     .login-tabs-container {
         .card-body{
             input {
@@ -21,6 +40,8 @@
                 margin-top: -1px;
             }
         }
-
+    }
+    .bg-color {
+        background-color: rgb(16, 22, 58) !important;
     }
 }

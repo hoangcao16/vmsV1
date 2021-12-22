@@ -37,23 +37,27 @@ const TabRect = (props) => {
   const [keyActive, setKeyActive] = React.useState(0);
   const [isActive, setIsActive] = React.useState(false);
   const [isActiveDetail, setIsActiveDetail] = React.useState(false);
+  const [coordinatesPS, setCoordinatesPS] = React.useState(false);
+  const [coordinatesS, setCoordinatesS] = React.useState(false);
+
+
 
   const canvasRef = useRef(null);
   const canvasRefRect = useRef(null);
 
-  let fromX = localStorage.getItem("fromX"), fromY = localStorage.getItem("fromY"),
-    toX = localStorage.getItem("toX"), toY = localStorage.getItem("toY"), direction = localStorage.getItem("direction");
+  let fromX = parseFloat(localStorage.getItem("fromX")), fromY = parseFloat(localStorage.getItem("fromY")),
+    toX = parseFloat(localStorage.getItem("toX")), toY = parseFloat(localStorage.getItem("toY")), direction = parseFloat(localStorage.getItem("direction"));
 
-  let fromXP = localStorage.getItem("fromXP"), fromYP = localStorage.getItem("fromYP"),
-    toXP = localStorage.getItem("toXP"), toYP = localStorage.getItem("toYP");
+  let fromXP = parseFloat(localStorage.getItem("fromXP")), fromYP = parseFloat(localStorage.getItem("fromYP")),
+    toXP = parseFloat(localStorage.getItem("toXP")), toYP = parseFloat(localStorage.getItem("toYP"));
   let isFromPointMouseDown = false;
   let isToPointMouseDown = false;
   let timerIdentifier = null;
   let timerIdentifierRect = null;
   let videoSlotSize = {};
   let videoSlotSizeRect = {};
-  let coordinates = [];
-  let coordinatesP = [];
+  let coordinates = coordinatesS;
+  let coordinatesP = coordinatesPS;
 
   const formItemLayout = {
     wrapperCol: { span: 24 },
@@ -189,12 +193,12 @@ const TabRect = (props) => {
     })
 
     if (type === "hurdles") {
-      if (data.points != null && data.points.length > 0) {
+      if (data.pointsP != null && data.pointsP.length > 0) {
         addLine(data.points, data.pointsP, data.direction)
       }
 
     } else {
-      if (data.points != null && data.points.length > 0) {
+      if (data.pointsP != null && data.pointsP.length > 0) {
         addRect(data.points, data.pointsP)
       }
 
@@ -361,15 +365,7 @@ const TabRect = (props) => {
     localStorage.removeItem('toX');
     localStorage.removeItem('toY');
 
-    localStorage.setItem('fromXP', 0);
-    localStorage.setItem('fromYP', 0);
-    localStorage.setItem('fromX', 0);
-    localStorage.setItem('fromY', 0);
-
-    localStorage.setItem('toXP', 0);
-    localStorage.setItem('toYP', 0);
-    localStorage.setItem('toX', 0);
-    localStorage.setItem('toY', 0);
+    localStorage.removeItem('direction');
 
     clearEventHandler()
 
@@ -626,11 +622,14 @@ const TabRect = (props) => {
       pointsP.forEach(data => {
         coordinatesP.push({ x: data[0], y: data[1], mouseDown: false });
       })
+      setCoordinatesPS(coordinatesP)
+      
 
       coordinates = [];
       for (let index = 0; index < coordinatesP.length; index++) {
         coordinates.push({ x: coordinatesP[index].x * canvas.width, y: coordinatesP[index].y * canvas.height, mouseDown: false });
       }
+      setCoordinatesS(coordinates)
 
       drawRect();
       window.addEventListener('resize', resizeRectCanvasEventHandler);
@@ -952,9 +951,6 @@ const TabRect = (props) => {
     px *= len;  // make length 50 pixels
     py *= len;
 
-    console.log("______________fromX_____________ ", fromX)
-      console.log("______________fromY_____________ ", fromY)
-      console.log("______________direction____________ ", direction)
 
     // Get middle point of base line
     const middleX = (fromX + toX) / 2;
@@ -993,6 +989,9 @@ const TabRect = (props) => {
     let angle = Math.atan2(dy, dx);
 
     ctx.moveTo(fX, fY);
+
+    
+    
     
     if (direction === 2) { // B <-> A
       ctx.lineTo(fX - headLen * Math.cos(angle - Math.PI / 6), fY - headLen * Math.sin(angle - Math.PI / 6));
@@ -1272,8 +1271,9 @@ const TabRect = (props) => {
                     </Col>
 
                   </Row>
-
-                  {cameraUuid ?
+                  <Row gutter={24} style={{ marginTop: "20px" }}>
+                    <Col span={24} style={{ flex: 'none' }}>
+                    {cameraUuid ?
                     <div className="footer__modal">
                       <Button
                         disabled={!isActiveDetail}
@@ -1284,6 +1284,11 @@ const TabRect = (props) => {
                       </Button>
                     </div> : null
                   }
+                    </Col>
+
+                  </Row>
+
+                  
                 </Form>
               </div>
             </Col>

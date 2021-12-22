@@ -114,7 +114,7 @@ const Index = ({
     } catch (error) {
       const warnNotyfi = {
         type: NOTYFY_TYPE.warning,
-        description: "Đã xảy ra lỗi",
+        description: `${t('noti.ERROR')}`,
         duration: 2,
       };
       Notification(warnNotyfi);
@@ -132,7 +132,7 @@ const Index = ({
     } catch (error) {
       const warnNotyfi = {
         type: NOTYFY_TYPE.warning,
-        description: "Đã xảy ra lỗi",
+        description: `${t('noti.ERROR')}`,
         duration: 2,
       };
       Notification(warnNotyfi);

@@ -3,7 +3,7 @@ import { handleDeleteErrCode, handleErrCode } from "./code";
 
 const PTZCONTROLLER_ENDPOINT = "ptz-ctrl/api/v1";
 const ptzControllerApi = {
-  async postPan(body) {
+  async postPan(body, isStop) {
     const response = await new Promise((resolve, reject) => {
       try {
         controllerApi.axiosIns
@@ -15,6 +15,9 @@ const ptzControllerApi = {
       }
     });
     if (response && response.data) {
+      if (isStop === 1) {
+        return response.data.payload;
+      }
       const payload = handleErrCode(response.data);
       if (payload) {
         return payload;
@@ -22,7 +25,7 @@ const ptzControllerApi = {
     }
     return null;
   },
-  async postTilt(body) {
+  async postTilt(body, isStop) {
     const response = await new Promise((resolve, reject) => {
       try {
         controllerApi.axiosIns
@@ -35,6 +38,9 @@ const ptzControllerApi = {
     });
 
     if (response && response.data) {
+      if (isStop === 1) {
+        return response.data.payload;
+      }
       const payload = handleErrCode(response.data);
       if (payload) {
         return payload;
@@ -42,7 +48,7 @@ const ptzControllerApi = {
     }
     return null;
   },
-  async postZoom(body) {
+  async postZoom(body, isStop) {
     const response = await new Promise((resolve, reject) => {
       try {
         controllerApi.axiosIns
@@ -54,6 +60,9 @@ const ptzControllerApi = {
       }
     });
     if (response && response.data) {
+      if (isStop === 1) {
+        return response.data.payload;
+      }
       const payload = handleErrCode(response.data);
       if (payload) {
         return payload;

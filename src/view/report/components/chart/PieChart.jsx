@@ -36,7 +36,7 @@ const renderCustomizedLabel = ({
       textAnchor={x > cx ? "start" : "end"}
       dominantBaseline="central"
     >
-      {`${(percent * 100).toFixed(0)}%`}
+      {`${(percent * 100).toFixed(2)}%`}
     </text>
   );
 };
@@ -104,7 +104,7 @@ function PieChartComponents(props) {
                 "view.report.proportion_chart"
               )} {props.title.toUpperCase()}{" "}
             </h3>
-            <ExportReport currentDataSource={dataPieChart} />
+            <ExportReport type="rateReport" />
           </div>
           <PieChart width={400} height={400}>
             <Pie

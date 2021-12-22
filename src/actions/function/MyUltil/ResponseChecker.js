@@ -6,8 +6,8 @@ import { reactLocalStorage } from "reactjs-localstorage";
 
 const language = reactLocalStorage.get('language')
 
-export function responseCheckerErrorsController(result) {
-  return handleErrCode(result);
+export function responseCheckerErrorsController(result,type) {
+  return handleErrCode(result,type);
 }
 
 export function responseCheckerErrors(result) {
@@ -30,7 +30,7 @@ const AuthZAccountNotExists = 608;
 const AuthZAccountAlreadyExists = 609;
 
 export const handleErrCodeAuthZ = (data) => {
-  const { code, message, deny_permission_codes } = data || {};
+  const { code, message, deny_permission_codes, error } = data || {};
   let errCode = {};
   if (language == 'vn') {
     errCode = {
@@ -82,7 +82,7 @@ export const handleErrCodeAuthZ = (data) => {
       Notification(errCode);
       return null;
     case AuthZStatusForbidden:
-      handleForbiddenCode(deny_permission_codes);
+      handleForbiddenCode(deny_permission_codes, error);
       return null;
     case AuthZStatusInternalServerError:
       errCode.description = message;

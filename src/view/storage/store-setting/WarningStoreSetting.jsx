@@ -244,23 +244,23 @@ const WarningStoreSetting = (props) => {
       if (isPost) {
         const noti = {
           type: NOTYFY_TYPE.success,
-          title: 'Thành công',
-          description: 'Bạn đã cài đặt thành công'
+          title: `${t('noti.success')}`,
+          description: `${t('noti.successful_setting')}`,
         };
         Notification(noti);
       } else {
         const noti = {
           type: NOTYFY_TYPE.warning,
-          title: 'Thất bại',
-          description: 'Đã xảy ra lỗi trong quá trình cài đặt'
+          title: `${t('noti.faid')}`,
+          description: `${t('noti.error_setting')}`,
         };
         Notification(noti);
       }
     } catch (error) {
       const noti = {
         type: NOTYFY_TYPE.warning,
-        title: 'Thất bại',
-        description: 'Đã xảy ra lỗi trong quá trình cài đặt'
+        title: `${t('noti.faid')}`,
+        description: `${t('noti.error_setting')}`,
       };
       Notification(noti);
       console.log(error);

@@ -4,7 +4,8 @@
   max-width: 960px;
 
   .ant-checkbox-wrapper{
-    margin: 30px;
+    background-color: $vms-bg-primary !important;
+    padding: 30px;
    }
 
   .ant-modal-content {
@@ -107,6 +108,10 @@
     }
     .ant-picker{
       width: 100%;
+    }
+
+    .row_time {
+      margin-bottom: 30px;
     }
   }
 }
