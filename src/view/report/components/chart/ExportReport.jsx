@@ -48,7 +48,7 @@ export default function ExportReport(props) {
 
     const checkPermissionUserByOthers = permissionUser?.p_others.map(
       (r) => {
-        if (Object.values(r) === "export_report") {
+        if (Object.values(r) == "export_report") {
           checkPermissionUserByOthers.length = 1;
         }
       }
