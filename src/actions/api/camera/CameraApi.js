@@ -1,3 +1,4 @@
+import { reactLocalStorage } from 'reactjs-localstorage';
 import {
   handleErrCodeAuthZ,
   handleErrCodeReport,
@@ -403,12 +404,21 @@ const CameraApi = {
     if (responseCheckerErrorsController(result) === null) {
       return false;
     }
-
-    const notifyMess = {
-      type: 'success',
-      title: '',
-      description: 'Sửa camera thành công'
-    };
+    const language = reactLocalStorage.get('language')
+    let notifyMess = {};
+    if (language == 'vn') {
+      notifyMess = {
+        type: 'success',
+        title: '',
+        description: 'Sửa Camera thành công'
+      };
+    } else {
+      notifyMess = {
+        type: 'success',
+        title: '',
+        description: 'Successfully edit Camera'
+      };
+    }
     Notification(notifyMess);
     return true;
   }
