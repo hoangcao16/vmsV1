@@ -3,6 +3,7 @@ import { AutoComplete, Modal, Tree } from 'antd';
 import { isEmpty } from 'lodash-es';
 import React, { useEffect, useState } from 'react';
 import { useTranslation } from 'react-i18next';
+import { reactLocalStorage } from 'reactjs-localstorage';
 import CameraApi from '../../../../actions/api/camera/CameraApi';
 import UserApi from '../../../../actions/api/user/UserApi';
 import Notification from '../../../../components/vms/notification/Notification';
@@ -19,7 +20,7 @@ const ModalAddPermissionOthers = (props) => {
   const [menuListCode, setMenuListCode] = useState([]);
   const [treeData, setTreeData] = useState([]);
   const [treeNodeCamList, setTreeNodeCamList] = useState([]);
-
+  const language = reactLocalStorage.get('language')
   const [isEmpt, setIsEmpty] = useState(false);
   const [option, setOption] = useState({
     expandedKeys: [],
@@ -31,7 +32,10 @@ const ModalAddPermissionOthers = (props) => {
   const { expandedKeys, autoExpandParent, defaultExpandAll } = option;
 
   useEffect(() => {
-    UserApi.getAllPermissionGroup().then((result) => {
+    const data = {
+      lang: language,
+    }
+    UserApi.getAllPermissionGroup(data).then((result) => {
       const dataRemoveMonitoring = result.payload.filter(
         (r) => r.code !== 'monitoring'
       );
