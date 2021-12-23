@@ -16,8 +16,8 @@ import {
 import convertDataBarChart from "../../../../actions/function/MyUltil/ConvertDataBarChart";
 import Loading from "../../../common/element/Loading";
 import { loadDataChart } from "../../redux/actions";
-import "./barChart.scss";
 import ExportReport from "./ExportReport";
+import "./barChart.scss";
 
 var randomColor = require("randomcolor");
 
@@ -64,12 +64,12 @@ function BarChartComponent(props) {
       return;
     }
     const dataNoName = Object.values(data)[0];
-    
+
     const keyArr = Object.keys(dataNoName);
     keyArr.shift();
     return keyArr.map((k) => {
       if (k.length > 25) {
-        k = k.slice(0, 26) + "..."
+        k = k.slice(0, 26) + "...";
       }
       return <Bar key={k} dataKey={k} fill={randomColor()} />;
     });
@@ -97,28 +97,34 @@ function BarChartComponent(props) {
             </>
           ) : (
             <>
+              {" "}
+              <ExportReport type="comparativeReport" />
               {Object.keys(data).map((item, i) => (
                 <>
                   <div className="BarChart__title">
                     {Object.keys(data)[i].length > 25 ? (
-                      <TooltipAnt placement="bottomRight" title={Object.keys(data)[i]}>
+                      <TooltipAnt
+                        placement="bottomRight"
+                        title={Object.keys(data)[i]}
+                      >
                         <h3>
                           {" "}
                           {t("view.report.compare_chart")}{" "}
-                          {props.title.toUpperCase()} {"-"} {" "}
-                          {`${Object.keys(data)[i].slice(0, 26).toUpperCase()}...
-                          `} {" "}
+                          {props.title.toUpperCase()} {"-"}{" "}
+                          {`${Object.keys(data)
+                            [i].slice(0, 26)
+                            .toUpperCase()}...
+                          `}{" "}
                         </h3>
                       </TooltipAnt>
                     ) : (
                       <h3>
                         {" "}
                         {t("view.report.compare_chart")}{" "}
-                        {props.title.toUpperCase()} {"-"} {" "}
+                        {props.title.toUpperCase()} {"-"}{" "}
                         {Object.keys(data)[i].toUpperCase()}{" "}
                       </h3>
                     )}
-                    <ExportReport type="comparativeReport" />
                   </div>
                   <div>
                     <ResponsiveContainer
