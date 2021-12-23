@@ -3,7 +3,6 @@ import MyService from '../service';
 
 const HardDriveListApi = {
   getAllHardDrive: async (params) => {
-    console.log(params)
     let result;
 
     try {
