@@ -38,6 +38,7 @@ export const handleForbiddenCode = (forbiddenCodes, error) => {
       page: 0,
       size: 1000000,
       filter: "",
+      lang: language
     };
     let forbiddenNames = [];
     UserApi.getAllPermission(data).then((result) => {
