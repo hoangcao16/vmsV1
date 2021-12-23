@@ -81,7 +81,6 @@ export default function RecordSetting(props) {
           type: NOTYFY_TYPE.success,
           title: `${t('noti.success')}`,
           description: `${t('noti.successful_setting')}`,
-          duration: 10000,
         };
         Notification(noti);
       } else {
