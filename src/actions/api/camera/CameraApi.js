@@ -26,8 +26,6 @@ const CameraApi = {
   },
   getCameraByTagName: async (dataSearch) => {
 
-    console.log('dataSearch:',dataSearch)
-
     let result;
 
     try {
