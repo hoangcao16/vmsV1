@@ -148,8 +148,6 @@ const CameraApi = {
       console.log(error);
     }
 
-    console.log(result);
-
     if (responseCheckerErrorsController(result) === null) {
       return false;
     }
