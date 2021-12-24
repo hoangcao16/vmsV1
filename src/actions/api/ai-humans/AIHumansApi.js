@@ -8,7 +8,7 @@ const AIHumansApi = {
 
     try {
       result = await AIService.getRequestData(
-        `/api/v1/humans?page=${params?.page}&size=${params?.pageSize}`
+        `/api/v1/humans?page=${params?.page}&size=${params?.pageSize}&name=${params?.name}`
       );
 
     } catch (error) {
