@@ -9,6 +9,7 @@ import { debounce, isEmpty } from "lodash";
 import React, { useCallback, useEffect, useState } from "react";
 import { useTranslation } from "react-i18next";
 import InfiniteScroll from "react-infinite-scroller";
+import { reactLocalStorage } from "reactjs-localstorage";
 import bookmarkApi from "../../../api/controller-api/bookmarkApi";
 import cameraApi from "../../../api/controller-api/cameraApi";
 import { KControllerOk } from "../../../api/controller-api/code";
@@ -28,28 +29,57 @@ import { NOTYFY_TYPE } from "../../../view/common/vms/Constant";
 import Notification from "../notification/Notification";
 import "./BookmarkSetting.scss";
 
-const gridTypes = [
-  {
-    name: "Tất cả",
-    id: GRIDALL,
-  },
-  {
-    name: GRID1X1,
-    id: GRID1X1,
-  },
-  {
-    name: GRID2X2,
-    id: GRID2X2,
-  },
-  {
-    name: GRID3X3,
-    id: GRID3X3,
-  },
-  {
-    name: GRID4X4,
-    id: GRID4X4,
-  },
-];
+const language = reactLocalStorage.get("language");
+
+let gridTypes = {};
+
+if (language == "vn") {
+  gridTypes = [
+    {
+      name: "Tất cả",
+      id: GRIDALL,
+    },
+    {
+      name: GRID1X1,
+      id: GRID1X1,
+    },
+    {
+      name: GRID2X2,
+      id: GRID2X2,
+    },
+    {
+      name: GRID3X3,
+      id: GRID3X3,
+    },
+    {
+      name: GRID4X4,
+      id: GRID4X4,
+    },
+  ];
+} else {
+  gridTypes = [
+    {
+      name: "All",
+      id: GRIDALL,
+    },
+    {
+      name: GRID1X1,
+      id: GRID1X1,
+    },
+    {
+      name: GRID2X2,
+      id: GRID2X2,
+    },
+    {
+      name: GRID3X3,
+      id: GRID3X3,
+    },
+    {
+      name: GRID4X4,
+      id: GRID4X4,
+    },
+  ];
+}
 const initialDataGrid = [...Array(16).keys()];
 const BookmarkSetting = ({
   reloadBookmark,
@@ -200,7 +230,7 @@ const BookmarkSetting = ({
   };
 
   const handleSelectScreen = async (item) => {
-    setNewName(null)
+    setNewName(null);
     setActiveRow(item.id);
 
     if (!item && item.cameraUuids) {
@@ -356,7 +386,7 @@ const BookmarkSetting = ({
   };
 
   const handleEditMode = (e, item, idx) => {
-    setNewName(null)
+    setNewName(null);
     e.stopPropagation();
     changeEditModeState(true, idx, item);
   };
@@ -364,7 +394,7 @@ const BookmarkSetting = ({
   const onRenameCompleted = async (e, item, idx) => {
     e.stopPropagation();
     changeEditModeState(false, idx, item);
-    
+
     //API
     const updateItem = { ...item, name: newName };
     const resData = await bookmarkApi.update(updateItem, item.id);
@@ -466,7 +496,7 @@ const BookmarkSetting = ({
               <span>{t("components.bookmark.grid")}</span>
               <span>{t("components.bookmark.action")}</span>
             </div>
-            <div className="bookmarks__list-items" >
+            <div className="bookmarks__list-items">
               <InfiniteScroll
                 initialLoad={false}
                 pageStart={1}
@@ -495,8 +525,7 @@ const BookmarkSetting = ({
                       </span>
                       <div
                         className=" bookmarks__list-item--edit-input"
-                        id={`screenEditInput-${idx}`
-                        }
+                        id={`screenEditInput-${idx}`}
                       >
                         <input
                           id={`screenIdInput-${idx}`}

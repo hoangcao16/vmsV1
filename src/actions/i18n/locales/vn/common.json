@@ -121,6 +121,7 @@
       "address_id": "Tên đường",
       "administrative_unit_uuid": "Đơn vị",
       "location_onmap": "Định vị",
+      "not_located_yet": "Chưa định vị",
       "btn_apply": "Áp dụng",
       "btn_remove_filter": "Xóa bộ lọc",
       "add_image": "Thêm ảnh",
@@ -470,6 +471,11 @@
       }
     }
   },
+
+  "preset": {
+    "choose_one_preset_tour": "Chọn một preset tour"
+  },
+
   "noti": {
     "successfully_update_tag_category": "Cập nhập nhãn thành công",
     "fail_update_tag_category": "Cập nhập nhãn thất bại",
@@ -616,7 +622,8 @@
     "full_account_password": "Vui lòng điền đầy đủ tài khoản và mật khẩu",
     "logged_in_successfully": "Đăng nhập thành công",
     "error_download_file": "Đã xảy ra lỗi trong quá trình tải tệp, hãy kiểm tra lại",
-    "error_2_digits": "Sai số đến chữ số thập phân thứ 2"
+    "error_2_digits": "Sai số đến chữ số thập phân thứ 2",
+    "successfully_edit_camera_group": "Sửa nhóm Camera thành công"
   },
   "breadcrumd": {
     "report": "Quản lý báo cáo",

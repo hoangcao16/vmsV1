@@ -667,5 +667,12 @@
 
     }
   }
+}
+.ant-select-dropdown {
+  background-color: #333333
+}
 
+.ant-select-item-option-active:not(.ant-select-item-option-disabled) {
+  background-color: $vms-main-blue-primary;
+  color: white
 }
