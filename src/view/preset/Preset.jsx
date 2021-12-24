@@ -1382,7 +1382,7 @@ const Preset = (props) => {
 
             <Option value="none">{t("view.live.add_new_preset_tour")}</Option>
             <Option value="@@" disabled style={{ color: "#191919", margin: 0 }}>
-              Chọn một preset tour
+              {t('preset.choose_one_preset_tour')}
             </Option>
             {presetTourSelect}
           </Select>

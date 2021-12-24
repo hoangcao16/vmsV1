@@ -121,6 +121,7 @@
       "address_id": "Street",
       "administrative_unit_uuid": "Unit",
       "location_onmap": "Locate",
+      "not_located_yet": "Not located yet",
       "btn_apply": "Apply",
       "btn_remove_filter": "Remove Filter",
       "add_image": "Add Image",
@@ -472,6 +473,11 @@
 
     }
   },
+
+  "preset": {
+    "choose_one_preset_tour": "Choose one preset tour"
+  },
+  
   "noti": {
     "successfully_update_tag_category": "Successfully imported label type",
     "fail_update_tag_category": "Label type update failed",
@@ -619,7 +625,8 @@
     "full_account_password": "Please enter account and password",
     "logged_in_successfully": "Logged in successfully",
     "error_download_file": "Errors occur while downloading the file, please check again",
-    "error_2_digits": "Error intervals to 2 decimal places"
+    "error_2_digits": "Error intervals to 2 decimal places",
+    "successfully_edit_camera_group": "Successfully edit Camera group"
   },
   "breadcrumd": {
     "report": "Report Management",

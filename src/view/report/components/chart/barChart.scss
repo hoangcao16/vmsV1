@@ -2,11 +2,12 @@
 @import "../../../../assets//scss/core//mixins/vms-mixins";
 
 .BarChart {
+    padding-top: 25px;
     width: 100%;
     background-color: $vms-bg-sub;
 
     &__title {
-        padding: 40px 15px 15px;
+        padding: 0px 15px 15px;
         justify-content: space-between;
         align-items: center;
         display: flex;
@@ -19,6 +20,11 @@
             font-size: 20px;
         }
     }
+
+    .ExportBarChartReport {
+        display: flex;
+    }
+
     .ResponsiveContainer {
         padding-top: 10px;
         padding-bottom: 20px;
