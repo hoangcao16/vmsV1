@@ -109,7 +109,10 @@
       "time": "Time",
       "add_new_or_edit_preset_tour": "Add new or edit preset tour",
       "add_new_preset_tour": "Add new preset tour",
-      "choose_preset_tour": "Choose preset tour"
+      "choose_preset_tour": "Choose preset tour",
+      "zoom": "Zoom in/Zoom out",
+      "menu_preset": "Preset menu",
+      "close_camera": "Close Camera"
     },
     "map": {
       "search": "Search",
@@ -626,7 +629,8 @@
     "logged_in_successfully": "Logged in successfully",
     "error_download_file": "Errors occur while downloading the file, please check again",
     "error_2_digits": "Error intervals to 2 decimal places",
-    "successfully_edit_camera_group": "Successfully edit Camera group"
+    "successfully_edit_camera_group": "Successfully edit Camera group",
+    "browser_not_support_video": "Your browser does not support the video tag"
   },
   "breadcrumd": {
     "report": "Report Management",

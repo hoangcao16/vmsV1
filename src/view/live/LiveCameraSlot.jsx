@@ -1,7 +1,9 @@
 import { Popover, Space, Spin, Tooltip } from "antd";
 import React, { useEffect, useRef, useState } from "react";
 import { Camera, Maximize2, Menu, Minimize2, Video, X } from "react-feather";
+import { useTranslation } from "react-i18next";
 import { v4 as uuidV4 } from "uuid";
+import permissionCheck from "../../actions/function/MyUltil/PermissionCheck";
 import { formatWithMilliseconds } from "../../utility/vms/duration";
 import MenuControl from "./menuControl";
 
@@ -25,7 +27,7 @@ const LiveCameraSlot = (props) => {
     reloadLiveMenuTool,
     curSpeed,
   } = props;
-
+  const { t } = useTranslation()
   const [showMenus, setShowMenus] = useState({});
   const [openMenuControl, setOpenMenuControl] = useState(false);
   const [oldRecState, setOldRecState] = useState(false);
@@ -143,7 +145,7 @@ const LiveCameraSlot = (props) => {
 
   return (
     <div
-      // onDoubleClick={() => onDoubleClick()}                                                                         
+      // onDoubleClick={() => onDoubleClick()}
       onMouseEnter={() => onSelectedVideoSlot()}
       onMouseLeave={() => onUnSelectedVideoSlot()}
       onClick={() => onSelectVideoSlot(slotId)}
@@ -175,7 +177,7 @@ const LiveCameraSlot = (props) => {
         {
           <div className={`video-toolbar__control ${toolbarCss}`}>
             {/*{recMode && <label className='video-toolbar__status'>{`REC ${formatWithMilliseconds(countInMinis)}`}</label>}*/}
-            <Tooltip title='Ghi hình'>
+            <Tooltip title={t('view.user.record')}>
               <a
                 className={
                   recMode ? "video-toolbar__capture" : "video-toolbar__link"
@@ -186,18 +188,21 @@ const LiveCameraSlot = (props) => {
                 <Video className="video-toolbar__icon" size={12} />
               </a>
             </Tooltip>
-            <Tooltip title='Chụp ảnh'>
+            {!permissionCheck("capture_img_cam") ? (
+              <></>
+            ) : (
+              <Tooltip title={t('view.storage.capture_snapshot')}>
+                <a
+                  className="video-toolbar__link"
+                  size="small"
+                  onClick={() => startSnapshotCamera(slotId)}
+                >
+                  <Camera className="video-toolbar__icon" size={12} />
+                </a>
+              </Tooltip>
+            )}
 
-              <a
-                className="video-toolbar__link"
-                size="small"
-                onClick={() => startSnapshotCamera(slotId)}
-              >
-                <Camera className="video-toolbar__icon" size={12} />
-              </a>
-            </Tooltip>
-            <Tooltip title='Phóng to/Thu nhỏ'>
-
+            <Tooltip title={t('view.live.zoom')}>
               <a
                 className="video-toolbar__link"
                 size="small"
@@ -231,7 +236,7 @@ const LiveCameraSlot = (props) => {
               overlayClassName="control-panel-popover"
               trigger="click"
             >
-              <Tooltip title='Menu Preset'>
+              <Tooltip title={t('view.live.menu_preset')}>
                 <a
                   className="video-toolbar__link"
                   size="small"
@@ -242,10 +247,8 @@ const LiveCameraSlot = (props) => {
                   <Menu className="video-toolbar__icon" size={12} />
                 </a>
               </Tooltip>
-
             </Popover>
-            <Tooltip title='Tắt Camera'>
-
+            <Tooltip title={t('view.live.close_camera')}>
               <a
                 className="video-toolbar__link"
                 size="small"
@@ -280,7 +283,7 @@ const LiveCameraSlot = (props) => {
         {/*    src={addedCameras[item].streamUrl}*/}
         {/*    type="video/mp4"*/}
         {/*/>*/}
-        Your browser does not support the video tag.
+        {t('noti.browser_not_support_video')}
       </video>
     </div>
   );
