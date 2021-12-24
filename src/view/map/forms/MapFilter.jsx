@@ -60,15 +60,15 @@ const MapFilter = (props) => {
   };
   const points = [
     {
-      name: "Tất cả",
+      name: `${t('view.storage.all')}`,
       id: 1,
     },
     {
-      name: "Định vị",
+      name: `${t('view.map.location_onmap')}`,
       id: 2,
     },
     {
-      name: "Chưa Định vị",
+      name: `${t('view.map.not_located_yet')}`,
       id: 3,
     },
   ];
