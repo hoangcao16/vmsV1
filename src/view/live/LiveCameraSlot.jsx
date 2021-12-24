@@ -27,7 +27,7 @@ const LiveCameraSlot = (props) => {
     reloadLiveMenuTool,
     curSpeed,
   } = props;
-  const { t } = useTranslation()
+  const { t } = useTranslation();
   const [showMenus, setShowMenus] = useState({});
   const [openMenuControl, setOpenMenuControl] = useState(false);
   const [oldRecState, setOldRecState] = useState(false);
@@ -177,21 +177,26 @@ const LiveCameraSlot = (props) => {
         {
           <div className={`video-toolbar__control ${toolbarCss}`}>
             {/*{recMode && <label className='video-toolbar__status'>{`REC ${formatWithMilliseconds(countInMinis)}`}</label>}*/}
-            <Tooltip title={t('view.user.record')}>
-              <a
-                className={
-                  recMode ? "video-toolbar__capture" : "video-toolbar__link"
-                }
-                size="small"
-                onClick={() => captureCameraHandler(slotId)}
-              >
-                <Video className="video-toolbar__icon" size={12} />
-              </a>
-            </Tooltip>
+            {!permissionCheck("capture_video_cam") ? (
+              <></>
+            ) : (
+              <Tooltip title={t("view.user.record")}>
+                <a
+                  className={
+                    recMode ? "video-toolbar__capture" : "video-toolbar__link"
+                  }
+                  size="small"
+                  onClick={() => captureCameraHandler(slotId)}
+                >
+                  <Video className="video-toolbar__icon" size={12} />
+                </a>
+              </Tooltip>
+            )}
+
             {!permissionCheck("capture_img_cam") ? (
               <></>
             ) : (
-              <Tooltip title={t('view.storage.capture_snapshot')}>
+              <Tooltip title={t("view.storage.capture_snapshot")}>
                 <a
                   className="video-toolbar__link"
                   size="small"
@@ -202,7 +207,7 @@ const LiveCameraSlot = (props) => {
               </Tooltip>
             )}
 
-            <Tooltip title={t('view.live.zoom')}>
+            <Tooltip title={t("view.live.zoom")}>
               <a
                 className="video-toolbar__link"
                 size="small"
@@ -236,7 +241,7 @@ const LiveCameraSlot = (props) => {
               overlayClassName="control-panel-popover"
               trigger="click"
             >
-              <Tooltip title={t('view.live.menu_preset')}>
+              <Tooltip title={t("view.live.menu_preset")}>
                 <a
                   className="video-toolbar__link"
                   size="small"
@@ -248,7 +253,7 @@ const LiveCameraSlot = (props) => {
                 </a>
               </Tooltip>
             </Popover>
-            <Tooltip title={t('view.live.close_camera')}>
+            <Tooltip title={t("view.live.close_camera")}>
               <a
                 className="video-toolbar__link"
                 size="small"
@@ -283,7 +288,7 @@ const LiveCameraSlot = (props) => {
         {/*    src={addedCameras[item].streamUrl}*/}
         {/*    type="video/mp4"*/}
         {/*/>*/}
-        {t('noti.browser_not_support_video')}
+        {t("noti.browser_not_support_video")}
       </video>
     </div>
   );
