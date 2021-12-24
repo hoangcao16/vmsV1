@@ -200,6 +200,7 @@ const BookmarkSetting = ({
   };
 
   const handleSelectScreen = async (item) => {
+    setNewName(null)
     setActiveRow(item.id);
 
     if (!item && item.cameraUuids) {
@@ -215,8 +216,8 @@ const BookmarkSetting = ({
     if (cameraUuids.length <= 0) {
       Notification({
         type: "warning",
-        title: `${t('noti.choose_favorite_screen')}`,
-        description: `${t('noti.no_camera_in_screen')}`,
+        title: `${t("noti.choose_favorite_screen")}`,
+        description: `${t("noti.no_camera_in_screen")}`,
       });
       return;
     }
@@ -236,8 +237,8 @@ const BookmarkSetting = ({
             if (camFoundIdx < 0) {
               Notification({
                 type: "warning",
-                title: `${t('noti.default_screen')}`,
-                description: `${t('noti.camera_not_exist')}`,
+                title: `${t("noti.default_screen")}`,
+                description: `${t("noti.camera_not_exist")}`,
               });
               return it;
             }
@@ -259,7 +260,7 @@ const BookmarkSetting = ({
     } catch (err) {
       Notification({
         type: "warning",
-        title: `${t('noti.view_screen_list')}`,
+        title: `${t("noti.view_screen_list")}`,
         description: err.toString(),
       });
     }
@@ -282,16 +283,20 @@ const BookmarkSetting = ({
         setBookmarks(tmp);
         Notification({
           type: "success",
-          title: `${t('noti.delete_screen')}`,
-          description: `${t('noti.delete')}` + nameScreen + `${t('noti.screen_success')}`,
+          title: `${t("noti.delete_screen")}`,
+          description:
+            `${t("noti.delete")}` + nameScreen + `${t("noti.screen_success")}`,
         });
       }
     } catch (err) {
       Notification({
         type: NOTYFY_TYPE.warning,
-        title: `${t('noti.delete_screen')}`,
+        title: `${t("noti.delete_screen")}`,
         description:
-        `${t('noti.delete')}` + nameScreen + `${t('noti.screen_failed')}` + err.toString(),
+          `${t("noti.delete")}` +
+          nameScreen +
+          `${t("noti.screen_failed")}` +
+          err.toString(),
       });
     } finally {
       setCurrentRecord(null);
@@ -306,9 +311,11 @@ const BookmarkSetting = ({
       if (resData && resData.payload) {
         Notification({
           type: NOTYFY_TYPE.success,
-          title: `${t('noti.default_screen')}`,
+          title: `${t("noti.default_screen")}`,
           description:
-            `${t('noti.setting_default_screen')}` + nameScreen + `${t('noti.successfully')}`,
+            `${t("noti.setting_default_screen")}` +
+            nameScreen +
+            `${t("noti.successfully")}`,
         });
 
         setCurrentRecord(screen);
@@ -317,9 +324,9 @@ const BookmarkSetting = ({
     } catch (err) {
       Notification({
         type: NOTYFY_TYPE.warning,
-        title: `${t('noti.default_screen')}`,
+        title: `${t("noti.default_screen")}`,
         description:
-          `${t('noti.setting_default_screen_failed')}` + err.toString(),
+          `${t("noti.setting_default_screen_failed")}` + err.toString(),
       });
     } finally {
       setCurrentRecord(null);
@@ -334,9 +341,9 @@ const BookmarkSetting = ({
     searchFunc(value, gridType);
   };
 
-  const handleBlur = (e)=>{
+  const handleBlur = (e) => {
     setSearchName(e.target.value.trim());
-  }
+  };
 
   const handleSelectGridType = (gType) => {
     setCurrentPage(1);
@@ -349,6 +356,7 @@ const BookmarkSetting = ({
   };
 
   const handleEditMode = (e, item, idx) => {
+    setNewName(null)
     e.stopPropagation();
     changeEditModeState(true, idx, item);
   };
@@ -356,27 +364,27 @@ const BookmarkSetting = ({
   const onRenameCompleted = async (e, item, idx) => {
     e.stopPropagation();
     changeEditModeState(false, idx, item);
-
+    
     //API
     const updateItem = { ...item, name: newName };
-    try {
-      const resData = await bookmarkApi.update(updateItem, item.id);
-      if (resData) {
-        let tmp = [...bookmarks];
+    const resData = await bookmarkApi.update(updateItem, item.id);
+    if (resData) {
+      let tmp = [...bookmarks];
+      if (!isEmpty(newName)) {
         tmp[idx].name = newName.trim();
         setBookmarks(tmp);
         Notification({
           type: NOTYFY_TYPE.success,
-          title: `${t('noti.change_screen_name')}`,
-          description: `${t('noti.success')}`,
+          title: `${t("noti.change_screen_name")}`,
+          description: `${t("noti.success")}`,
+        });
+      } else {
+        Notification({
+          type: NOTYFY_TYPE.success,
+          title: `${t("noti.change_screen_name")}`,
+          description: `${t("noti.success")}`,
         });
       }
-    } catch (err) {
-      Notification({
-        type: NOTYFY_TYPE.warning,
-        title: `${t('noti.change_screen_name')}`,
-        description: `${t('noti.failed')}` + err.toString(),
-      });
     }
   };
 
@@ -438,7 +446,7 @@ const BookmarkSetting = ({
             onChange={(e) => {
               handleInputOnchange(e);
             }}
-            onBlur={(e)=>handleBlur(e)}
+            onBlur={(e) => handleBlur(e)}
           />
           <Select
             className="bookmarks__filter-gridType"
@@ -458,7 +466,7 @@ const BookmarkSetting = ({
               <span>{t("components.bookmark.grid")}</span>
               <span>{t("components.bookmark.action")}</span>
             </div>
-            <div className="bookmarks__list-items">
+            <div className="bookmarks__list-items" >
               <InfiniteScroll
                 initialLoad={false}
                 pageStart={1}
@@ -487,7 +495,8 @@ const BookmarkSetting = ({
                       </span>
                       <div
                         className=" bookmarks__list-item--edit-input"
-                        id={`screenEditInput-${idx}`}
+                        id={`screenEditInput-${idx}`
+                        }
                       >
                         <input
                           id={`screenIdInput-${idx}`}
@@ -499,6 +508,7 @@ const BookmarkSetting = ({
                           defaultValue={item.name.slice(0, 20)}
                           onClick={(e) => {
                             e.stopPropagation();
+                            setNewName(e.target.value);
                           }}
                           onBlur={(e) => {
                             setNewName(e.target.value.trim());

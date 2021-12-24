@@ -38,6 +38,7 @@ const   UserApi = {
   },
   getAllPermissionGroup: async (params) => {
     let result;
+    console.log("params", params)
     try {
       result = await MyService.getRequestData(
         `/authz/api/v0/permission_groups`, params
@@ -45,6 +46,7 @@ const   UserApi = {
     } catch (error) {
       console.log(error);
     }
+    console.log("result", result)
     if (handleErrCodeAuthZ(result) === null) {
       return [];
     }
