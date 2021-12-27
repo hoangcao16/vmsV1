@@ -18,10 +18,10 @@ export default function FeatureInfo(props) {
         };
       });
       const sortData = [];
-      sortData[0] = convertData[3]
-      sortData[1] = convertData[2]
-      sortData[2] = convertData[0]
-      sortData[3] = convertData[1]
+      sortData[0] = convertData[3];
+      sortData[1] = convertData[2];
+      sortData[2] = convertData[0];
+      sortData[3] = convertData[1];
       setCamera(sortData);
     });
   }, []);
@@ -38,16 +38,15 @@ export default function FeatureInfo(props) {
     }
     return "red";
   };
-
   return (
     <div className="featureInfo">
       {camera.map((c) => {
         return (
           <CardCameraInfo
-            key={c.cameraName}
-            name={t(`view.report.${c.cameraName}`)}
-            total={c.totalCamera}
-            color={c.color}
+            key={c?.cameraName}
+            name={t(`view.report.${c?.cameraName}`)}
+            total={c?.totalCamera}
+            color={c?.color}
           />
         );
       })}
