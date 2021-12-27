@@ -76,7 +76,7 @@ const TableEventFile = (props) => {
                         />
                     )}
                     <Popconfirm
-                        title='Bạn có chắc chắn muốn xóa file này?'
+                        title={t('noti.delete_category', { this: t('this') })}
                         onConfirm={() => {
                             deleteEventFileHandler(row?.uuid);
                         }}
