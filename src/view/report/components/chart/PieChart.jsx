@@ -69,12 +69,6 @@ const dataConvert = (dataPieChart) => {
     };
   });
 
-  // let dataFinal = [
-  //   { value: 40.5, name: "Vượt đèn đỏ", color: "#09f29c" },
-  //   { value: 50.5, name: "Không đội mũ bảo hiểm", color: "#f4c413" },
-  //   { value: 9, name: "Chạy quá tốc độ", color: "#bc1058" },
-  // ];
-
   let sum = 0;
   for (let i = 0; i < dataFinal.length; i++) {
     sum += dataFinal[i].value;
