@@ -14,7 +14,6 @@ var randomColor = require("randomcolor");
 
 const RADIAN = Math.PI / 180;
 
-
 const renderCustomizedLabel = ({
   cx,
   cy,
@@ -36,11 +35,10 @@ const renderCustomizedLabel = ({
       textAnchor={x > cx ? "start" : "end"}
       dominantBaseline="central"
     >
-      {`${(percent * 100).toFixed(2)}%`}
+      {`${(percent * 100).toFixed(0)}%`}
     </text>
   );
 };
-
 
 const total = (data, key) => {
   const dataTotal = data.map((d) => {
@@ -63,13 +61,28 @@ const dataConvert = (dataPieChart) => {
 
   const keyArr = Object.keys(dataNoName);
 
-  const dataFinal = keyArr.map((k) => {
+  let dataFinal = keyArr.map((k) => {
     return {
       value: total(dataPieChart, k),
       name: k,
       color: randomColor(),
     };
   });
+
+  let sum = 0;
+  for (let i = 0; i < dataFinal.length; i++) {
+    sum += dataFinal[i].value;
+  }
+  
+  var subSum = 0;
+
+  for (let i = 0; i < dataFinal.length - 1; i++) {
+    let item = ((dataFinal[i].value * 100) / sum).toFixed(0);
+    subSum += Number(item);
+    dataFinal[i].value = Number(item)
+  }
+
+  dataFinal[dataFinal.length - 1].value = (100 - subSum);
 
   return dataFinal;
 };
@@ -128,7 +141,13 @@ function PieChartComponents(props) {
             {dataPieChart.map((p, index) => {
               return (
                 <span style={{ color: `${p?.color}`, padding: 10 }}>
-                  {p.name.length > 25 ? <TooltipAnt placement="top" title={p.name}>{p.name.slice(0, 25)}</TooltipAnt> : p.name}
+                  {p.name.length > 25 ? (
+                    <TooltipAnt placement="top" title={p.name}>
+                      {p.name.slice(0, 25)}
+                    </TooltipAnt>
+                  ) : (
+                    p.name
+                  )}
                 </span>
               );
             })}
