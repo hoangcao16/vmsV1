@@ -83,7 +83,6 @@ const dataConvert = (dataPieChart) => {
   }
 
   dataFinal[dataFinal.length - 1].value = (100 - subSum);
-  console.log("dataFinal-last", dataFinal);
 
   return dataFinal;
 };
