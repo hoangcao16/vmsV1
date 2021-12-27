@@ -76,7 +76,7 @@ const TableEventFile = (props) => {
                         />
                     )}
                     <Popconfirm
-                        title={t('noti.delete_category', { this: t('this') })}
+                        title={t('noti.delete_file', { this: t('this') })}
                         onConfirm={() => {
                             deleteEventFileHandler(row?.uuid);
                         }}
@@ -162,7 +162,7 @@ const TableEventFile = (props) => {
             onChange={(uuid) => onChangeEventHandler(uuid, row)}
             filterOption={filterOption}
             options={normalizeOptions('name', 'uuid', eventList)}
-            placeholder="Loại sự kiện"
+            placeholder={t('view.category.event_type')}
             defaultValue={defaultVal}
         />
     }
@@ -182,7 +182,7 @@ const TableEventFile = (props) => {
         return (
             <Input
                 defaultValue={row.note}
-                placeholder='Ghi chú'
+                placeholder={t('view.storage.note')}
                 onChange={(event) => onChangeNoteHandler(event, row)}
             />
         );
