@@ -483,6 +483,7 @@
     "successfully_update_tag_category": "Cập nhập nhãn thành công",
     "fail_update_tag_category": "Cập nhập nhãn thất bại",
     "successfully_add_tag_category": "Thêm mới nhãn thành công",
+    "successfully_edit_tag_category": "Sửa nhãn thành công",
     "fail_add_tag_category": "Thêm mới nhãn thất bại",
     "logged_out_successfully": "Đăng xuất thành công",
     "logged_out_failed": "Đăng xuất thất bại",

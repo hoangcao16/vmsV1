@@ -484,7 +484,8 @@
   "noti": {
     "successfully_update_tag_category": "Successfully imported label type",
     "fail_update_tag_category": "Label type update failed",
-    "successfully_add_tag_category": "Add new success label",
+    "successfully_add_tag_category": "Successfully add new label",
+    "successfully_edit_tag_category": "Successfully edit label",
     "fail_add_tag_category": "Add new failure label",
 
     "logged_out_successfully": "Logged out successfully",
