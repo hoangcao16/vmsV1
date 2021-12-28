@@ -30,7 +30,7 @@ const ModalUpdateTag = (props) => {
   }, [selectedCategoryId]);
   const showMessage = (selectedCategoryId, response) => {
     if (
-      permissionCheck("add_administrative_unit") && !selectedCategoryId
+      permissionCheck("add_category") && !selectedCategoryId
     ) {
       const notifyMess = {
         type: "success",
@@ -42,7 +42,7 @@ const ModalUpdateTag = (props) => {
       Notification(notifyMess);
     } 
     
-    if (permissionCheck("edit_administrative_unit") && selectedCategoryId) {
+    if (permissionCheck("edit_category") && selectedCategoryId) {
       const notifyMess = {
         type: "success",
         title: "",
