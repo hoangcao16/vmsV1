@@ -11,7 +11,9 @@ import ItemControl from "./ItemControl";
 // import { Modal, Button } from 'antd';
 import ModalControlPanel from "./ModalControlPanel";
 import permissionCheck from "../../../actions/function/MyUltil/PermissionCheck";
+
 import "./ModalPresetSetting.scss";
+import permissionCheckByCamera from "../../../actions/function/MyUltil/PermissionCheckByCamera";
 
 const LIST_TYPES = {
   preset: "preset",
@@ -31,25 +33,31 @@ const Index = ({
   setIsOpenModalControlPanel,
 }) => {
   const { t } = useTranslation();
-  let CONTROL_TYPES = [
-    {
-      name: "Preset",
-      type: 1,
-      icon: <ChevronRight />,
-    },
-    {
-      name: "Preset tour",
-      type: 2,
-      icon: <ChevronRight />,
-    },
-    {
-      name: `${t("view.live.preset_setting")}`,
-      type: 3,
-    },
-    { name: `${t("view.live.open_control_panel")}`, type: 4 },
-  ];
+  let CONTROL_TYPES = [];
+  if (
+    permissionCheckByCamera("setup_preset", idCamera) &&
+    permissionCheckByCamera("ptz_control", idCamera)
+  ) {
+    CONTROL_TYPES = [
+      {
+        name: "Preset",
+        type: 1,
+        icon: <ChevronRight />,
+      },
+      {
+        name: "Preset tour",
+        type: 2,
+        icon: <ChevronRight />,
+      },
+      {
+        name: `${t("view.live.preset_setting")}`,
+        type: 3,
+      },
+      { name: `${t("view.live.open_control_panel")}`, type: 4 },
+    ];
+  }
 
-  if (!permissionCheck("setup_preset")) {
+  else if (!permissionCheckByCamera("setup_preset", idCamera)) {
     CONTROL_TYPES = [
       {
         name: "Preset",
@@ -62,6 +70,25 @@ const Index = ({
         icon: <ChevronRight />,
       },
       { name: `${t("view.live.open_control_panel")}`, type: 4 },
+    ];
+  }
+
+  else if (!permissionCheckByCamera("ptz_control", idCamera)) {
+    CONTROL_TYPES = [
+      {
+        name: "Preset",
+        type: 1,
+        icon: <ChevronRight />,
+      },
+      {
+        name: "Preset tour",
+        type: 2,
+        icon: <ChevronRight />,
+      },
+      {
+        name: `${t("view.live.preset_setting")}`,
+        type: 3,
+      },
     ];
   }
   const [typeActive, setTypeActive] = useState(1);
@@ -114,7 +141,7 @@ const Index = ({
     } catch (error) {
       const warnNotyfi = {
         type: NOTYFY_TYPE.warning,
-        description: `${t('noti.ERROR')}`,
+        description: `${t("noti.ERROR")}`,
         duration: 2,
       };
       Notification(warnNotyfi);
@@ -132,7 +159,7 @@ const Index = ({
     } catch (error) {
       const warnNotyfi = {
         type: NOTYFY_TYPE.warning,
-        description: `${t('noti.ERROR')}`,
+        description: `${t("noti.ERROR")}`,
         duration: 2,
       };
       Notification(warnNotyfi);
