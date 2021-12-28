@@ -480,11 +480,24 @@
   },
 
   "noti": {
+    "no_information": "Không có thông tin",
+    "warning_hard_drive_is_full": "Cảnh báo: Đầy ổ cứng",
+    "warning_camera": "Cảnh báo: Camera",
+    "hard_drive": "Ổ cứng",
+    "donot_have": "chưa có",
+    "is_used": "đã được sử dụng",
+    "estimated_remaining_usable_time_is": "Thời gian sử dụng còn lại dự kiến là",
+    "active": "hoạt động",
+    "inactive": "không hoạt động",
+    "watched_all_notifications": "Bạn đã xem hết danh sách thông báo",
+    "error_loading_notifications": "Lỗi khi tải thông báo",
+
     "successfully_update_tag_category": "Cập nhập nhãn thành công",
     "fail_update_tag_category": "Cập nhập nhãn thất bại",
     "successfully_add_tag_category": "Thêm mới nhãn thành công",
     "successfully_edit_tag_category": "Sửa nhãn thành công",
     "fail_add_tag_category": "Thêm mới nhãn thất bại",
+
     "logged_out_successfully": "Đăng xuất thành công",
     "logged_out_failed": "Đăng xuất thất bại",
     "delete_camera": "Bạn chắc chắn muốn xóa {{cam}} {{this}}?",

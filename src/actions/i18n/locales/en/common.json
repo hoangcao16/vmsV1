@@ -482,6 +482,18 @@
   },
   
   "noti": {
+    "no_information": "No information",
+    "warning_hard_drive_is_full": "Warning: Hard drive is full",
+    "warning_camera": "Warning: Camera",
+    "hard_drive": "Hard drive",
+    "donot_have": "don't have",
+    "is_used": "is used",
+    "estimated_remaining_usable_time_is": "Estimated remaining usable time is",
+    "active": "active",
+    "inactive": "inactive",
+    "watched_all_notifications": "You've already watched all notifications",
+    "error_loading_notifications": "Error loading notifications",
+
     "successfully_update_tag_category": "Successfully imported label type",
     "fail_update_tag_category": "Label type update failed",
     "successfully_add_tag_category": "Successfully add new label",
