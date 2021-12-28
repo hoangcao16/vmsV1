@@ -7,7 +7,7 @@ const HardDriveListApi = {
 
     try {
       result = await MyService.getRequestData(
-        `/cctv-monitor-ctrl-svc/api/v1/config/disk-info?page=${params?.page}&pageSize=${params?.pageSize}`
+        `/cctv-monitor-ctrl-svc/api/v1/config/disk-info?page=${params?.page}&pageSize=${params?.pageSize}&lang=${params?.lang}`
       );
     } catch (error) {
       console.log(JSON.stringify(error));

@@ -2,14 +2,17 @@ import { ExclamationOutlined } from '@ant-design/icons';
 import { Typography } from 'antd';
 import { isEmpty } from 'lodash';
 import React, { useEffect, useState } from 'react';
+import { useTranslation } from 'react-i18next';
 import InfiniteScroll from 'react-infinite-scroll-component';
 import { connect } from 'react-redux';
 // import { renderText } from "../user/dataListUser/components/TableListUser";
 import './Notification.scss';
 import { loadNotification } from './redux/actions';
+
 const { Text } = Typography;
 
 const Notification = (props) => {
+  const { t } = useTranslation();
   const [hasMore, setHasMore] = useState(true);
 
   useEffect(() => {
@@ -32,7 +35,7 @@ const Notification = (props) => {
 
   const renderText = (cellValue) => {
     if (isEmpty(cellValue)) {
-      return <Text type="warning">Không có thông tin</Text>;
+      return <Text type="warning">{t('noti.no_information')}</Text>;
     }
     return (
       <Text style={{ maxWidth: '100%' }}>
@@ -46,18 +49,18 @@ const Notification = (props) => {
         <div className='notif__description'>
           <div className="notif__title">
             {n?.type === 'WARNING_DISK'
-              ? renderText('Cảnh báo đầy ổ cứng')
-              : renderText(`Cảnh báo camera `)}
+              ? renderText(`${t('noti.warning_hard_drive_is_full')}`)
+              : renderText(`${t('noti.warning_camera')}`)}
           </div>
           <div className="notif__day">
             {isEmpty(n.createdTime)
               ? formatDate(new Date(n?.createdTime))
-              : 'chưa có'}
+              : `${t('noti.donot_have')}`}
           </div>
           <div className="notif__time">
             {isEmpty(n.createdTime)
               ? new Date(n?.createdTime).toLocaleTimeString()
-              : 'chưa có'}
+              : `${t('noti.donot_have')}`}
           </div>
         </div>
 
@@ -70,12 +73,11 @@ const Notification = (props) => {
 
       <div className="notif_list__content--body">
         {n?.type === 'WARNING_DISK'
-          ? `  Ổ cứng ${!isEmpty(n?.name) ? n?.name : 'chưa có'} đã được sử dụng
-        ${!isEmpty(n?.percentUsed) ? `${n?.percentUsed} %` : 'chưa có'
-          }. Thời gian sử
-        dụng còn lại dự kiến là
-        ${!isEmpty(n?.estimatedTime) ? n?.estimatedTime : 'chưa có'}.`
-          : `Camera ${n?.name} ${n?.status ? 'hoạt động' : 'không hoạt động'} `}
+          ? `  ${t('noti.hard_drive')} ${!isEmpty(n?.name) ? n?.name : `${t('noti.donot_have')}`} ${t('noti.is_used')}
+        ${!isEmpty(n?.percentUsed) ? `${n?.percentUsed}%` : `${t('noti.donot_have')}`
+          }. ${t('noti.estimated_remaining_usable_time_is')}
+        ${!isEmpty(n?.estimatedTime) ? n?.estimatedTime : `${t('noti.donot_have')}`}.`
+          : `Camera ${n?.name} ${n?.status ? `${t('noti.active')}` : `${t('noti.inactive')}`} `}
       </div>
     </li>
   ));
@@ -106,7 +108,7 @@ const Notification = (props) => {
             height={400}
             endMessage={
               <p style={{ textAlign: 'center' }}>
-                <b>Bạn đã xem hết danh sách thông báo</b>
+                <b>{t('noti.watched_all_notifications')}</b>
               </p>
             }
           >
@@ -121,7 +123,7 @@ const Notification = (props) => {
                 alignItems: 'center',
                 fontSize: '1.8rem'
               }}>
-                <b>Lỗi khi tải thông báo</b>
+                <b>{t('noti.error_loading_notifications')}</b>
               </p>}
 
           </InfiniteScroll>
