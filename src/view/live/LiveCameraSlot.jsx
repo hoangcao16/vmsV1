@@ -146,6 +146,10 @@ const LiveCameraSlot = (props) => {
     setOpenMenuControl(false)
   }, [idCamera]);
 
+  useEffect(() => {
+    setOpenMenuControl(false)
+  }, [isMaximize])
+
   return (
     <div
       // onDoubleClick={() => onDoubleClick()}
