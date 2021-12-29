@@ -14,15 +14,17 @@ import { useTranslation } from "react-i18next";
 import { reactLocalStorage } from "reactjs-localstorage";
 import ptzControllerApi from "../../api/ptz/ptzController";
 import "./LiveMenuTool.scss";
-
+import permissionCheck from "../../actions/function/MyUltil/PermissionCheck";
 const LiveMenuTool = (props) => {
-
-  const { t } = useTranslation()
+  const { t } = useTranslation();
   const { idCamera, reloadLiveMenuTool } = props;
   const [presetLists, setPresetLists] = useState([]);
   const [presetTourLists, setPresetTourLists] = useState([]);
   const { Option } = Select;
   const getPreset = async (params) => {
+    if (!permissionCheck("setup_preser")) {
+      return;
+    }
     if (idCamera) {
       const payload = await ptzControllerApi.getPreset(params);
       if (payload == null) {
@@ -34,6 +36,9 @@ const LiveMenuTool = (props) => {
     }
   };
   const getPresetTour = async (params) => {
+    if (!permissionCheck("setup_preser")) {
+      return;
+    }
     if (idCamera) {
       const payload = await ptzControllerApi.getPresetTour(params);
       if (payload == null) {
@@ -49,8 +54,8 @@ const LiveMenuTool = (props) => {
     if (checkPermissionViewCamera(idCamera)) {
       let params = {
         cameraUuid: idCamera,
-        sortType:'asc',
-        sortField:'name'
+        sortType: "asc",
+        sortField: "name",
       };
       getPreset(params);
     }
@@ -61,8 +66,8 @@ const LiveMenuTool = (props) => {
     if (checkPermissionViewCamera(idCamera)) {
       let params = {
         cameraUuid: idCamera,
-        sortType:'asc',
-        sortField:'name'
+        sortType: "asc",
+        sortField: "name",
       };
       getPresetTour(params);
     }
@@ -412,9 +417,8 @@ const LiveMenuTool = (props) => {
             onSelect={(e, option) => {
               onChangeSelectPreset(e, option);
             }}
-            placeholder='Preset'
-            notFoundContent='Không tìm thấy kết quả hợp lệ'
-
+            placeholder="Preset"
+            notFoundContent={<p color="white">Không tìm thấy kết quả hợp lệ</p>}
           >
             {renderOptionPreset()}
           </Select>
@@ -433,13 +437,13 @@ const LiveMenuTool = (props) => {
               onChangeSelectPresetTour(e, option);
             }}
             placeholder="Preset Tour"
-            notFoundContent='Không tìm thấy kết quả hợp lệ'
+            notFoundContent={<p color="white">Không tìm thấy kết quả hợp lệ</p>}
           >
             {renderOptionPresetTour()}
           </Select>
         </div>
       </div>
-    </div >
+    </div>
   );
 };
 
