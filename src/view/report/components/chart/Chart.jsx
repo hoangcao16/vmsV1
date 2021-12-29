@@ -10,9 +10,9 @@ import {
   LineChart,
   Tooltip,
   XAxis,
-  YAxis
+  YAxis,
 } from "recharts";
-import permissionCheck from "../../../../../../actions/function/MyUltil/PermissionCheck";
+import permissionCheck from "../../../../actions/function/MyUltil/PermissionCheck";
 import convertDataChartAndPieChart from "../../../../actions/function/MyUltil/ConvertDataChartAndPieChart";
 import { loadDataChart } from "../../redux/actions";
 import "./chart.scss";
