@@ -304,7 +304,7 @@ function CameraGroup(props) {
             }}
             className="confirm--delete"
             icon={<ExclamationCircleOutlined />}
-            okText="Xoá"
+            okText={t("delete")}
           >
             <Tooltip placement="top" title={t("delete")}>
               <DeleteOutlined
