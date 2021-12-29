@@ -1,15 +1,14 @@
+import { Tooltip as TooltipAnt } from "antd";
 import { isEmpty } from "lodash";
 import React, { useEffect, useState } from "react";
+import { useTranslation } from "react-i18next";
 import { connect } from "react-redux";
 import { Cell, Pie, PieChart } from "recharts";
+import permissionCheck from "../../../../../../actions/function/MyUltil/PermissionCheck";
+import convertDataChartAndPieChart from "../../../../actions/function/MyUltil/ConvertDataChartAndPieChart";
 import { loadDataChart } from "../../redux/actions";
 import ExportReport from "./ExportReport";
 import "./pieChart.scss";
-import { useTranslation } from "react-i18next";
-import convertDataChartAndPieChart from "../../../../actions/function/MyUltil/ConvertDataChartAndPieChart";
-import Loading from "../../../common/element/Loading";
-import { Tooltip as TooltipAnt } from "antd";
-
 var randomColor = require("randomcolor");
 
 const RADIAN = Math.PI / 180;
@@ -73,16 +72,16 @@ const dataConvert = (dataPieChart) => {
   for (let i = 0; i < dataFinal.length; i++) {
     sum += dataFinal[i].value;
   }
-  
+
   var subSum = 0;
 
   for (let i = 0; i < dataFinal.length - 1; i++) {
     let item = ((dataFinal[i].value * 100) / sum).toFixed(0);
     subSum += Number(item);
-    dataFinal[i].value = Number(item)
+    dataFinal[i].value = Number(item);
   }
 
-  dataFinal[dataFinal.length - 1].value = (100 - subSum);
+  dataFinal[dataFinal.length - 1].value = 100 - subSum;
 
   return dataFinal;
 };
@@ -117,7 +116,9 @@ function PieChartComponents(props) {
                 "view.report.proportion_chart"
               )} {props.title.toUpperCase()}{" "}
             </h3>
-            <ExportReport type="rateReport" />
+            {permissionCheck("export_report") && (
+              <ExportReport type="rateReport" />
+            )}
           </div>
           <PieChart width={400} height={400}>
             <Pie
