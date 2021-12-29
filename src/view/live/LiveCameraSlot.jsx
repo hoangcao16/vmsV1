@@ -25,7 +25,6 @@ const LiveCameraSlot = (props) => {
     zoomOutByDoubleClick,
     setReloadLiveMenuTool,
     reloadLiveMenuTool,
-    curSpeed,
   } = props;
   const { t } = useTranslation();
   const [showMenus, setShowMenus] = useState({});
@@ -66,7 +65,7 @@ const LiveCameraSlot = (props) => {
       setStartTime(currTime);
       setStopTime(0);
       setCurrLiveMode(liveMode);
-
+      
       timer.current = setInterval(() => {
         if (startRef.current > 0) {
           const currTime = new Date().getTime();
@@ -79,69 +78,73 @@ const LiveCameraSlot = (props) => {
               requestId.current,
               currLiveMode,
               addedCamerasRef.current
-            );
-            setStartTime(0);
-            setStopTime(currTime);
+              );
+              setStartTime(0);
+              setStopTime(currTime);
+            }
           }
-        }
-      }, 1000);
-
-      startCaptureCamera(slotId, currTime, requestId.current, liveMode);
-    } else {
+        }, 1000);
+        
+        startCaptureCamera(slotId, currTime, requestId.current, liveMode);
+      } else {
+        stopCaptureHandler();
+      }
+      setOldRecState(!recMode);
+    };
+    const closeCameraHandler = (slotId) => {
       stopCaptureHandler();
-    }
-    setOldRecState(!recMode);
-  };
-  const closeCameraHandler = (slotId) => {
-    stopCaptureHandler();
-    closeCamera(slotId);
-  };
-  const stopCaptureHandler = () => {
-    const currTime = new Date().getTime();
-    if (recMode) {
-      stopCaptureCamera(
-        slotId,
-        startRef.current,
-        currTime,
-        requestId.current,
-        currLiveMode,
-        addedCamerasRef.current
-      );
-    }
-    setStartTime(0);
-    setStopTime(0);
-    setCountInMinis(0);
-    clearTimeout(timer.current);
-  };
-  const clearWhenError = () => {
-    setStartTime(0);
-    setStopTime(0);
-    setCountInMinis(0);
-    clearTimeout(timer.current);
-  };
-
-  const slotIdx = findCameraIndexInGrid(slotId);
-  const toolbarCss = showMenus === true ? "video-toolbar__control-0" : "";
-  const camName = addedCameras[slotIdx]?.name ? addedCameras[slotIdx].name : "";
-  const liveCss = addedCameras[slotIdx]?.name ? "video__label--active" : "";
-  const recMode = !!addedCameras[slotIdx]?.isRec;
-  const hasError = !!addedCameras[slotIdx]?.hasError;
-  const maxCount = 10 * 60 * 1000;
-
-  useEffect(() => {
+      closeCamera(slotId);
+    };
+    const stopCaptureHandler = () => {
+      const currTime = new Date().getTime();
+      if (recMode) {
+        stopCaptureCamera(
+          slotId,
+          startRef.current,
+          currTime,
+          requestId.current,
+          currLiveMode,
+          addedCamerasRef.current
+          );
+        }
+        setStartTime(0);
+        setStopTime(0);
+        setCountInMinis(0);
+        clearTimeout(timer.current);
+      };
+      const clearWhenError = () => {
+        setStartTime(0);
+        setStopTime(0);
+        setCountInMinis(0);
+        clearTimeout(timer.current);
+      };
+      
+      const slotIdx = findCameraIndexInGrid(slotId);
+      const toolbarCss = showMenus === true ? "video-toolbar__control-0" : "";
+      const camName = addedCameras[slotIdx]?.name ? addedCameras[slotIdx].name : "";
+      const liveCss = addedCameras[slotIdx]?.name ? "video__label--active" : "";
+      const recMode = !!addedCameras[slotIdx]?.isRec;
+      const hasError = !!addedCameras[slotIdx]?.hasError;
+      const maxCount = 10 * 60 * 1000;
+      
+      useEffect(() => {
     if (oldRecState && !recMode) {
       //Change from recording state to stop
       stopCaptureHandler();
     }
   }, [recMode]);
-
+  
   useEffect(() => {
     if (hasError) clearWhenError();
   }, [hasError]);
-
+  
   useEffect(() => {
     return () => clearTimeout(timer.current);
   }, []);
+  
+  useEffect(() => {
+    setOpenMenuControl(false)
+  }, [idCamera]);
 
   return (
     <div
