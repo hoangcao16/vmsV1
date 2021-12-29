@@ -86,7 +86,7 @@ const ModalAddEditTagBindCam = (props) => {
                           rules={[
                             {
                               required: true,
-                              message: 'Trường này là bắt buộc.'
+                                 message: `${t("view.map.required_field")}`,
                             }
                           ]}
                         >
@@ -109,7 +109,7 @@ const ModalAddEditTagBindCam = (props) => {
                           rules={[
                             {
                               required: true,
-                              message: 'Trường này là bắt buộc.'
+                                 message: `${t("view.map.required_field")}`,
                             }
                           ]}
                         >
