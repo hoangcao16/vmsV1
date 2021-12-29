@@ -4,7 +4,7 @@ import React, { useEffect, useState } from "react";
 import { useTranslation } from "react-i18next";
 import { connect } from "react-redux";
 import { Cell, Pie, PieChart } from "recharts";
-import permissionCheck from "../../../../../../actions/function/MyUltil/PermissionCheck";
+import permissionCheck from "../../../../actions/function/MyUltil/PermissionCheck";
 import convertDataChartAndPieChart from "../../../../actions/function/MyUltil/ConvertDataChartAndPieChart";
 import { loadDataChart } from "../../redux/actions";
 import ExportReport from "./ExportReport";

@@ -13,7 +13,7 @@ import {
   XAxis,
   YAxis
 } from "recharts";
-import permissionCheck from "../../../../../actions/function/MyUltil/PermissionCheck";
+import permissionCheck from "../../../../actions/function/MyUltil/PermissionCheck";
 import convertDataBarChart from "../../../../actions/function/MyUltil/ConvertDataBarChart";
 import { loadDataChart } from "../../redux/actions";
 import "./barChart.scss";
