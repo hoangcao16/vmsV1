@@ -418,7 +418,7 @@ const LiveMenuTool = (props) => {
               onChangeSelectPreset(e, option);
             }}
             placeholder="Preset"
-            notFoundContent={<p color="white">Không tìm thấy kết quả hợp lệ</p>}
+            notFoundContent={<p color="white"> {t("view.user.detail_list.no_valid_results_found")}</p>}
           >
             {renderOptionPreset()}
           </Select>
@@ -437,7 +437,7 @@ const LiveMenuTool = (props) => {
               onChangeSelectPresetTour(e, option);
             }}
             placeholder="Preset Tour"
-            notFoundContent={<p color="white">Không tìm thấy kết quả hợp lệ</p>}
+            notFoundContent={<p color="white"> {t("view.user.detail_list.no_valid_results_found")}</p>}
           >
             {renderOptionPresetTour()}
           </Select>
