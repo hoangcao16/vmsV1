@@ -76,7 +76,7 @@ const dataConvert = (dataPieChart) => {
   var subSum = 0;
 
   for (let i = 0; i < dataFinal.length - 1; i++) {
-    let item = ((dataFinal[i].value * 100) / sum).toFixed(0);
+    let item = ((dataFinal[i].value * 100) / sum).toFixed(2);
     subSum += Number(item);
     dataFinal[i].value = Number(item);
   }
