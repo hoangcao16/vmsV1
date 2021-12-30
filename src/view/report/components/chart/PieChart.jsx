@@ -51,7 +51,7 @@ const total = (data, key) => {
   }, 0);
 };
 
-const dataConvert = (dataPieChart) => {
+const dataConvert = (dataPieChart, dataApi) => {
   const dataNoName = dataPieChart[0];
 
   if (dataNoName.name) {
@@ -68,21 +68,9 @@ const dataConvert = (dataPieChart) => {
     };
   });
 
-  let sum = 0;
   for (let i = 0; i < dataFinal.length; i++) {
-    sum += dataFinal[i].value;
+    dataFinal[i].value = dataApi[i]
   }
-
-  var subSum = 0;
-
-  for (let i = 0; i < dataFinal.length - 1; i++) {
-    let item = ((dataFinal[i].value * 100) / sum).toFixed(2);
-    subSum += Number(item);
-    dataFinal[i].value = Number(item);
-  }
-
-  dataFinal[dataFinal.length - 1].value = 100 - subSum;
-
   return dataFinal;
 };
 
@@ -91,8 +79,9 @@ function PieChartComponents(props) {
   const { t } = useTranslation();
   useEffect(() => {
     const dataPieChart = props.chartData;
+    const dataApi = props.per;
     if (!isEmpty(dataPieChart)) {
-      const dataPieChartConvert = dataConvert(dataPieChart);
+      const dataPieChartConvert = dataConvert(dataPieChart, dataApi);
       setDataPieChart(dataPieChartConvert);
     }
   }, [props.chartData]);
@@ -161,7 +150,8 @@ function PieChartComponents(props) {
 
 const mapStateToProps = (state) => ({
   isLoading: state.chart.isLoading,
-  chartData: convertDataChartAndPieChart(state.chart.chartData),
+  chartData: convertDataChartAndPieChart(state.chart.chartData.data),
+  per: state.chart.chartData.dataPieChart,
   error: state.chart.error,
   title: state.chart.title,
   isShowLineAndPieChart: state.chart.isShowLineAndPieChart,

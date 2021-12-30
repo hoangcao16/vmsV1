@@ -139,7 +139,7 @@ function BarChartComponent(props) {
 
 const mapStateToProps = (state) => ({
   isLoading: state.chart.isLoading,
-  chartData: convertDataBarChart(state.chart.chartData),
+  chartData: convertDataBarChart(state.chart.chartData.data),
   error: state.chart.error,
   title: state.chart.title,
   isShowLineAndPieChart: state.chart.isShowLineAndPieChart,

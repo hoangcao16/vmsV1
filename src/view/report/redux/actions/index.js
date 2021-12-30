@@ -1,18 +1,20 @@
-import { DATA_CHART } from '../constants';
+import { DATA_CHART } from "../constants";
 
 const loadDataChart = (params) => ({
   params: params,
-  type: DATA_CHART.LOAD
+  type: DATA_CHART.LOAD,
 });
 
-const setDataChart = (dataChart) => ({
-  type: DATA_CHART.LOAD_SUCCESS,
-  dataChart
-});
+const setDataChart = (payload) => {
+  return {
+    type: DATA_CHART.LOAD_SUCCESS,
+    dataChart: payload,
+  };
+};
 
 const setError = (error) => ({
   type: DATA_CHART.LOAD_FAIL,
-  error
+  error,
 });
 
 export { setDataChart, loadDataChart, setError };
