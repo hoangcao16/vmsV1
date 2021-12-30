@@ -14,7 +14,6 @@ const ReportApi = {
         } catch (error) {
             console.log(JSON.stringify(error));
         }
-
         if (handleErrCodeReport(result) === null) {
             return [];
         }

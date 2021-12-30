@@ -68,12 +68,11 @@ const CameraApi = {
     } catch (error) {
       console.log(JSON.stringify(error));
     }
-
     if (result === undefined || handleErrCodeReport(result) === null) {
       return [];
     }
 
-    return result.responseList;
+    return result.payload;
   },
 
   getAllCameraWidthTotal: async (dataSearch) => {
