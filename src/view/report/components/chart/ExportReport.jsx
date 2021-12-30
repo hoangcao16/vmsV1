@@ -11,7 +11,7 @@ import { isEmpty } from "lodash";
 
 export default function ExportReport(props) {
   const permissionUser = reactLocalStorage.getObject("permissionUser");
-  const language = reactLocalStorage.getObject("language");
+  const language = reactLocalStorage.get("language");
   const { type } = props;
   const { t } = useTranslation();
 
