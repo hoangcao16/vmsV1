@@ -77,13 +77,19 @@ export const handleErrCode = (data,type) => {
       Notification(errCode);
       return null;
     case KControllerDuplicate:
-      errCode.description =
-        "Dữ liệu bạn nhập đã tồn tại hoặc không hợp lệ, vui lòng kiểm tra lại";
+      if (language == "vn") {
+        errCode.description = "Dữ liệu bạn nhập đã tồn tại hoặc không hợp lệ, vui lòng kiểm tra lại";
+      } else {
+        errCode.description = "The data you entered already exists or is not valid. Please check again";
+      }
       Notification(errCode);
       return null;
     case KControllerCannotDelete:
-      errCode.description =
-        "Lĩnh vực đã được gán sự kiện. Xóa không thành công";
+      if (language == "vn") {
+        errCode.description = "Lĩnh vực đã được gán sự kiện. Xóa không thành công";
+      } else {
+        errCode.description = "The field has been assigned an event. Delete failed";
+      }
       Notification(errCode);
       return null;
     case KControllerInternalServerError:
