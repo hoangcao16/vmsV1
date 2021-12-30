@@ -25,7 +25,6 @@ import "./../commonStyle/commonInput.scss";
 import "./../commonStyle/commonModal.scss";
 import "./../commonStyle/commonSelect.scss";
 import "./ModalEditAdministrativeUnit.scss";
-import "./UploadFile.scss";
 import { NOTYFY_TYPE } from "../common/vms/Constant";
 
 const formItemLayout = {

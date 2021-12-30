@@ -23,7 +23,6 @@ const LiveMenuTool = (props) => {
   const [presetTourLists, setPresetTourLists] = useState([]);
   const { Option } = Select;
   const getPreset = async (params) => {
-    console.log("params", params)
     if (!permissionCheckByCamera("setup_preset", params.cameraUuid)) {
       return;
     }
