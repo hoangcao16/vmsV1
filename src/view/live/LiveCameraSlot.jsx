@@ -4,6 +4,7 @@ import { Camera, Maximize2, Menu, Minimize2, Video, X } from "react-feather";
 import { useTranslation } from "react-i18next";
 import { v4 as uuidV4 } from "uuid";
 import permissionCheck from "../../actions/function/MyUltil/PermissionCheck";
+import permissionCheckByCamera from "../../actions/function/MyUltil/PermissionCheckByCamera";
 import { formatWithMilliseconds } from "../../utility/vms/duration";
 import MenuControl from "./menuControl";
 
@@ -143,6 +144,7 @@ const LiveCameraSlot = (props) => {
   }, []);
   
   useEffect(() => {
+    
     setOpenMenuControl(false)
   }, [idCamera]);
 
@@ -188,7 +190,7 @@ const LiveCameraSlot = (props) => {
               <></>
             ) : (
               <Tooltip title={t("view.user.record")}>
-                <div
+                <a
                   className={
                     recMode ? "video-toolbar__capture" : "video-toolbar__link"
                   }
@@ -196,7 +198,7 @@ const LiveCameraSlot = (props) => {
                   onClick={() => captureCameraHandler(slotId)}
                 >
                   <Video className="video-toolbar__icon" size={12} />
-                </div>
+                </a>
               </Tooltip>
             )}
 
@@ -204,18 +206,18 @@ const LiveCameraSlot = (props) => {
               <></>
             ) : (
               <Tooltip title={t("view.storage.capture_snapshot")}>
-                <div
+                <a
                   className="video-toolbar__link"
                   size="small"
                   onClick={() => startSnapshotCamera(slotId)}
                 >
                   <Camera className="video-toolbar__icon" size={12} />
-                </div>
+                </a>
               </Tooltip>
             )}
 
             <Tooltip title={t("view.live.zoom")}>
-              <div
+              <a
                 className="video-toolbar__link"
                 size="small"
                 onClick={() => maxMinCamera(slotId)}
@@ -226,7 +228,7 @@ const LiveCameraSlot = (props) => {
                 {!isMaximize && (
                   <Maximize2 className="video-toolbar__icon" size={12} />
                 )}
-              </div>
+              </a>
             </Tooltip>
 
             <Popover
@@ -248,28 +250,23 @@ const LiveCameraSlot = (props) => {
               overlayClassName="control-panel-popover"
               trigger="click"
             >
-
-
-   {
-
-     permissionCheck('setup_preset')&& (
-      <Tooltip title={t("view.live.menu_preset")}>
-      <div
-        className="video-toolbar__link"
-        size="small"
-        onClick={() => {
-          setOpenMenuControl(!openMenuControl);
-        }}
-      >
-        <Menu className="video-toolbar__icon" size={12} />
-      </div>
-    </Tooltip>
-     )
-   }
+              {!permissionCheckByCamera("setup_preset", idCamera) && !permissionCheckByCamera("ptz_control", idCamera)? (
+              <></>
+            ) : (
+              <Tooltip title={t("view.live.menu_preset")}>
+                <a
+                  className="video-toolbar__link"
+                  size="small"
+                  onClick={() => {
+                    setOpenMenuControl(!openMenuControl);
+                  }}
+                >
+                  <Menu className="video-toolbar__icon" size={12} />
+                </a>
+              </Tooltip>)}
             </Popover>
-            
             <Tooltip title={t("view.live.close_camera")}>
-              <div
+              <a
                 className="video-toolbar__link"
                 size="small"
                 onClick={() => {
@@ -279,7 +276,7 @@ const LiveCameraSlot = (props) => {
                 }}
               >
                 <X className="video-toolbar__icon" size={12} />
-              </div>
+              </a>
             </Tooltip>
           </div>
         }

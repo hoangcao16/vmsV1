@@ -15,6 +15,7 @@ import { reactLocalStorage } from "reactjs-localstorage";
 import ptzControllerApi from "../../api/ptz/ptzController";
 import "./LiveMenuTool.scss";
 import permissionCheck from "../../actions/function/MyUltil/PermissionCheck";
+import permissionCheckByCamera from "../../actions/function/MyUltil/PermissionCheckByCamera";
 const LiveMenuTool = (props) => {
   const { t } = useTranslation();
   const { idCamera, reloadLiveMenuTool } = props;
@@ -22,7 +23,8 @@ const LiveMenuTool = (props) => {
   const [presetTourLists, setPresetTourLists] = useState([]);
   const { Option } = Select;
   const getPreset = async (params) => {
-    if (!permissionCheck("setup_preser")) {
+    console.log("params", params)
+    if (!permissionCheckByCamera("setup_preset", params.cameraUuid)) {
       return;
     }
     if (idCamera) {
@@ -36,7 +38,7 @@ const LiveMenuTool = (props) => {
     }
   };
   const getPresetTour = async (params) => {
-    if (!permissionCheck("setup_preser")) {
+    if (!permissionCheckByCamera("setup_preset", params.cameraUuid)) {
       return;
     }
     if (idCamera) {
