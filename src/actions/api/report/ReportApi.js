@@ -21,11 +21,11 @@ const ReportApi = {
         return result.payload;
     },
 
-    getExportData: async (body) => {
+    getExportData: async (data) => {
         let result;
         try {
             result = await MyService.postRequestDataBlob(
-            "/owl/api/v1/export-excel", body
+            `/owl/api/v1/export-excel`, data
             );
         } catch (error) {
             console.log(JSON.stringify(error));
