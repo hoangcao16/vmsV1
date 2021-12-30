@@ -528,15 +528,15 @@ const ModalEditAdministrativeUnit = (props) => {
             </Col>
           </Row>
           <div className="footer__modal">
-            <Button type="primary" htmlType="submit ">
-              {t("view.user.detail_list.confirm")}
-            </Button>
             <Button
               onClick={() => {
                 setShowModal(false);
               }}
             >
               {t("view.camera.close")}
+            </Button>
+            <Button type="primary" htmlType="submit ">
+              {t("view.user.detail_list.confirm")}
             </Button>
           </div>
         </Form>
