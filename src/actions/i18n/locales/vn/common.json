@@ -71,7 +71,8 @@
       "plsEnter_administrative_unit_name": "{{plsEnter}} tên đơn vị hành chính",
       "enter_key": "Nhập khóa",
       "choose_field_for_event": "Chọn lĩnh vực cho sự kiện",
-      "administrative_unit_detail": "Chi tiết đơn vị hành chính"
+      "administrative_unit_detail": "Chi tiết đơn vị hành chính",
+      "department": "Phòng ban"
     },
     "common_device": {
       "camproxy_name": "Tên Camproxy",
@@ -469,7 +470,39 @@
         "BA" : "B --> A",
         "All" : "Tất cả"
       }
+    },
+    "ai_events": {
+      "event_files_list": "Danh sách sự kiện AI",
+      "attendance": "Điểm danh",
+      "intruding": "Xâm nhập",
+      "daudo": "Đậu đỗ sai quy định",
+      "nhandienbienso" : "Nhận diện biển số",
+      "damdong" : "Phát hiện đám đông",
+      "line_crossing": "Vượt rào ảo",
+      "edit_info": "Chỉnh sửa thông tin đối tượng",
+      "info": "Thông tin đối tượng",
+      "edit_note": "Chỉnh sửa ghi chú",
+      "err_image" : "Hình ảnh vi phạm",
+      "type_object" : {
+        "xemay": "Xe máy",
+        "human": "Người",
+        "unknow" :"Không xác định"
+      },
+      "choose_obj": "Chọn đối tượng",
+      "plateNumber" :"Biển số",
+      "code" : "Mã",
+      "name": "Tên",
+      "position": "Chức vụ",
+      "department" :"Phòng ban",
+      "type" :"Loại đối tượng "
+    },
+    "department" : {
+      "administrative": "Đơn vị hành chính",
+      "edit_department" : "Chỉnh sửa thông tin phòng ban",
+      "add_department" : "Thêm phòng ban",
+      "name_department" : "Tên phòng ban"
     }
+
   },
 
   "preset": {
