@@ -28,6 +28,7 @@
   },
   "view": {
     "camera": {
+      "export_camera":"Xuất dữ liệu Camera",
       "active": "Đang hoạt động",
       "inactive": "Dừng hoạt động",
       "camera_list": "Danh sách {{cam}}",

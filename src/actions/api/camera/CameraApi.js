@@ -416,7 +416,26 @@ const CameraApi = {
     }
     Notification(notifyMess);
     return true;
-  }
+  },
+
+
+  getExportData: async (params) => {
+    let result;
+
+    try {
+      result = await MyService.getRequestData(
+        '/owl/api/v1/report-camera',
+        params
+      );
+    } catch (error) {
+      console.log(error);
+    }
+    if (responseCheckerErrorsController(result) === null) {
+      return [];
+    }
+    return result.payload;
+  },
+
 };
 
 export default CameraApi;

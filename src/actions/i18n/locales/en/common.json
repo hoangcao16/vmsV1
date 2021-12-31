@@ -28,6 +28,7 @@
   },
   "view": {
     "camera": {
+      "export_camera":"Export Camera Info",
       "active": "Active",
       "inactive": "Inactive",
       "camera_list": "{{cam}} List",
