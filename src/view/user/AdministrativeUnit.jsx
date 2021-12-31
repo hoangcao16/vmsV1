@@ -167,7 +167,7 @@ const AdministrativeUnit = () => {
     },
 
     {
-      title: `${t("view.category.category_name")}`,
+      title: `${t("view.category.administrative_unit_name")}`,
       dataIndex: "name",
       key: "name",
       ellipsis: true,
@@ -238,7 +238,7 @@ const AdministrativeUnit = () => {
       <Breadcrumds
         url="/app/setting"
         nameParent={t("breadcrumd.setting")}
-        nameChild={t("view.user.category_management")}
+        nameChild={t("view.map.administrative_unit")}
       />
 
       <Card
