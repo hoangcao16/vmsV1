@@ -165,7 +165,6 @@ const MapAdministrativeUnitAdd = (props) => {
   };
 
   const validatePhoneNumber = (value) => {
-    console.log("value:", value);
     const pattern = /^[+]*[(]{0,1}[0-9]{1,3}[)]{0,1}[-\s\./0-9]*$/g;
 
     if (pattern.test(value) && value.length >= 10 && value.length <= 13) {

@@ -18,6 +18,7 @@ import chartData from './../../view/report/redux/reduders/index';
 
 import email from './../../view/storage/store-setting/redux/reducers/index';
 import quickSearch from './../../view/maps/redux/reducers/index';
+import openModalPresetSetting from './live/OpenModalPresetSettingReducers';
 
 const rootReducer = combineReducers({
   calendar: calenderReducer,
@@ -37,6 +38,7 @@ const rootReducer = combineReducers({
   chart: chartData,
   live: liveReducer,
   quickSearch:quickSearch,
+  openModalPresetSetting: openModalPresetSetting
 });
 
 export default rootReducer;

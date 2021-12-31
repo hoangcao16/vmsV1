@@ -654,8 +654,6 @@ const Preset = (props) => {
     const newPresetTourDatas = JSON.parse(JSON.stringify(presetTourDatas));
     // const valueSelect = document.getElementById("choose__preset-tour").value;
 
-    // console.log("valueSelect:", valueSelect);
-
     //neu chua chon preset tour thi tao preset tour moi
 
     if (selectPresetTour == "none") {
