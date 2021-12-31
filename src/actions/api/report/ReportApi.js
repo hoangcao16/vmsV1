@@ -26,7 +26,6 @@ const ReportApi = {
     } catch (error) {
       console.log(JSON.stringify(error));
     }
-
     return result;
   },
 };

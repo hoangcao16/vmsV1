@@ -98,10 +98,6 @@ const MapFilter = (props) => {
 
   const handleSubmit = async (value) => {
 
-console.log('value:',value)
-console.log('administrativeUnitUuid:',administrativeUnitUuid)
-
-
     const location = form.getFieldValue("locationOnMap");
     const address = form.getFieldValue("address");
     const filter = {

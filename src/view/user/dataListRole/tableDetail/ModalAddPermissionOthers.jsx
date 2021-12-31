@@ -227,8 +227,6 @@ const ModalAddPermissionOthers = (props) => {
 
   const loop = (data) =>
     data.map((item) => {
-      console.log("item:", item);
-
       const index = item.name.indexOf(option.searchValue);
       const beforeStr = item.name.substr(0, index);
       const afterStr = item.name.substr(index + option.searchValue.length);

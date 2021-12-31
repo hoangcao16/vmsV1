@@ -2,6 +2,7 @@ import { Popover, Space, Spin, Tooltip } from "antd";
 import React, { useEffect, useRef, useState } from "react";
 import { Camera, Maximize2, Menu, Minimize2, Video, X } from "react-feather";
 import { useTranslation } from "react-i18next";
+import { connect } from "react-redux";
 import { v4 as uuidV4 } from "uuid";
 import permissionCheck from "../../actions/function/MyUltil/PermissionCheck";
 import permissionCheckByCamera from "../../actions/function/MyUltil/PermissionCheckByCamera";
@@ -144,7 +145,6 @@ const LiveCameraSlot = (props) => {
   }, []);
   
   useEffect(() => {
-    
     setOpenMenuControl(false)
   }, [idCamera]);
 
@@ -306,4 +306,12 @@ const LiveCameraSlot = (props) => {
   );
 };
 
-export default LiveCameraSlot;
+const mapStateToProps = (state) => ({
+  openModalPresetSetting: state.openModalPresetSetting
+});
+
+const mapDispatchToProps = (dispatch) => {
+  return {};
+};
+
+export default connect(mapStateToProps, mapDispatchToProps)(LiveCameraSlot);

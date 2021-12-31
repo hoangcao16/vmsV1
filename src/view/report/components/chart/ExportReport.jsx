@@ -30,7 +30,7 @@ export default function ExportReport(props) {
       lang: language
     };
     await ReportApi.getExportData(data).then((value) => {
-      const data = new Blob([value], { type: "application/vnd.ms-excel" });
+      const data = new Blob([value], { type: "application/octet-stream" });
       fileDownload(
         data,
         `Report_${moment().format("DD.MM.YYYY_HH.mm.ss")}.xlsx`

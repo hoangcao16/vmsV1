@@ -46,7 +46,7 @@ const SELECTED_TIME = {
 
 function Sidebar(props) {
   const { t } = useTranslation();
-
+  
   const [filterOptions, setFilterOptions] = useState(DATA_FAKE_CAMERA);
 
   const [provinceId, setProvinceId] = useState(["2"]);
