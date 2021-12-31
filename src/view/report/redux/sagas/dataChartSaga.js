@@ -32,7 +32,7 @@ export function* handleDataChartLoad(action) {
     provinceId: params.provinceId,
     districtId: !isEmpty(params.districtId) ? params?.districtId : [],
     wardId: !isEmpty(params.wardId) ? params?.wardId : [],
-    eventId: params.eventList,
+    eventId: params?.eventList,
   };
 
   localStorage.setItem("payloadDataChart", JSON.stringify(payloadDataChart));
@@ -43,7 +43,11 @@ export function* handleDataChartLoad(action) {
           return result;
         })
       );
+      console.log("res", res)
       yield put(setDataChart(res));
+    } else {
+      const fakeData = {chartEvents: [], percents: []}
+      yield put(setDataChart(fakeData));
     }
   } catch (error) {
     yield put(setError(error.toString()));
