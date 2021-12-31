@@ -1,5 +1,4 @@
 import { DATA_CHART } from "../constants";
-import { isEmpty } from "lodash-es";
 
 const loadDataChart = (params) => ({
   params: params,

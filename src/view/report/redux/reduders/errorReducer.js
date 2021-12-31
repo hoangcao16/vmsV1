@@ -5,7 +5,6 @@ const errorReducer = (state = null, action) => {
     case DATA_CHART.LOAD_FAIL:
       return action.error;
     case DATA_CHART.LOAD:
-      return null;
     case DATA_CHART.LOAD_SUCCESS:
       return null;
 
