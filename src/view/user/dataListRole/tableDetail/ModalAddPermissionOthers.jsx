@@ -229,7 +229,7 @@ const ModalAddPermissionOthers = (props) => {
     data.map((item) => {
       console.log("item:", item);
 
-      const index = item.name.indexOf(option.searchValue);
+      const index = item.name.toLowerCase().indexOf(option.searchValue.toLowerCase());
       const beforeStr = item.name.substr(0, index);
       const afterStr = item.name.substr(index + option.searchValue.length);
       const title =
