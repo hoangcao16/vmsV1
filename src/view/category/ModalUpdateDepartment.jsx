@@ -75,8 +75,8 @@ const ModalUpdateDepartment = (props) => {
       }
       if (response) {
         setShowModal(false);
+        showMessage(selectedCategoryId, response);
       }
-      showMessage(selectedCategoryId, response);
     } catch (error) {
     } finally {
       setLoading(false);
