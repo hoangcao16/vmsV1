@@ -175,7 +175,6 @@ const TabRect = (props) => {
 
 
   };
-  console.log(">>>>>>>>>>>>>>>>>>>>>>>>>         "     ,coordinates)
 
   function setDefaultDataRect(data) {
     clearEventHandler()
