@@ -28,6 +28,7 @@
   },
   "view": {
     "camera": {
+      "export_camera":"Export Camera Info",
       "active": "Active",
       "inactive": "Inactive",
       "camera_list": "{{cam}} List",
@@ -110,7 +111,10 @@
       "time": "Time",
       "add_new_or_edit_preset_tour": "Add new or edit preset tour",
       "add_new_preset_tour": "Add new preset tour",
-      "choose_preset_tour": "Choose preset tour"
+      "choose_preset_tour": "Choose preset tour",
+      "zoom": "Zoom in/Zoom out",
+      "menu_preset": "Preset menu",
+      "close_camera": "Close Camera"
     },
     "map": {
       "search": "Search",
@@ -510,9 +514,22 @@
   },
   
   "noti": {
+    "no_information": "No information",
+    "warning_hard_drive_is_full": "Warning: Hard drive is full",
+    "warning_camera": "Warning: Camera",
+    "hard_drive": "Hard drive",
+    "donot_have": "don't have",
+    "is_used": "is used",
+    "estimated_remaining_usable_time_is": "Estimated remaining usable time is",
+    "active": "active",
+    "inactive": "inactive",
+    "watched_all_notifications": "You've already watched all notifications",
+    "error_loading_notifications": "Error loading notifications",
+
     "successfully_update_tag_category": "Successfully imported label type",
     "fail_update_tag_category": "Label type update failed",
-    "successfully_add_tag_category": "Add new success label",
+    "successfully_add_tag_category": "Successfully add new label",
+    "successfully_edit_tag_category": "Successfully edit label",
     "fail_add_tag_category": "Add new failure label",
 
     "logged_out_successfully": "Logged out successfully",
@@ -657,7 +674,9 @@
     "logged_in_successfully": "Logged in successfully",
     "error_download_file": "Errors occur while downloading the file, please check again",
     "error_2_digits": "Error intervals to 2 decimal places",
-    "successfully_edit_camera_group": "Successfully edit Camera group"
+    "successfully_edit_camera_group": "Successfully edit Camera group",
+    "browser_not_support_video": "Your browser does not support the video tag",
+    "field_no_data": "This feild has no events"
   },
   "breadcrumd": {
     "report": "Report Management",

@@ -26,8 +26,6 @@ const CameraApi = {
   },
   getCameraByTagName: async (dataSearch) => {
 
-    console.log('dataSearch:',dataSearch)
-
     let result;
 
     try {
@@ -70,12 +68,11 @@ const CameraApi = {
     } catch (error) {
       console.log(JSON.stringify(error));
     }
-
     if (result === undefined || handleErrCodeReport(result) === null) {
       return [];
     }
 
-    return result.responseList;
+    return result.payload;
   },
 
   getAllCameraWidthTotal: async (dataSearch) => {
@@ -147,8 +144,6 @@ const CameraApi = {
     } catch (error) {
       console.log(error);
     }
-
-    console.log(result);
 
     if (responseCheckerErrorsController(result) === null) {
       return false;
@@ -421,7 +416,26 @@ const CameraApi = {
     }
     Notification(notifyMess);
     return true;
-  }
+  },
+
+
+  getExportData: async (params) => {
+    let result;
+
+    try {
+      result = await MyService.getRequestData(
+        '/owl/api/v1/report-camera',
+        params
+      );
+    } catch (error) {
+      console.log(error);
+    }
+    if (responseCheckerErrorsController(result) === null) {
+      return [];
+    }
+    return result.payload;
+  },
+
 };
 
 export default CameraApi;

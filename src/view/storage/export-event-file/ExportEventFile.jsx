@@ -7,6 +7,9 @@ import React, { useEffect, useRef, useState } from "react";
 import { useTranslation } from "react-i18next";
 import { AiOutlineInfoCircle, MdCenterFocusWeak, AiFillEdit } from "react-icons/all";
 import {
+  AiFillVideoCamera, AiOutlineCheck, AiOutlineClose, AiOutlineEdit
+} from "react-icons/ai";
+import {
   FiBookmark,
   FiCamera,
   FiDatabase,
@@ -21,9 +24,6 @@ import {
   FiRewind,
   FiScissors
 } from "react-icons/fi";
-import {
-  AiFillVideoCamera, AiOutlineCheck, AiOutlineClose, AiOutlineEdit
-} from "react-icons/ai";
 import { RiCalendarTodoLine, RiDeleteBinLine } from "react-icons/ri";
 import { reactLocalStorage } from "reactjs-localstorage";
 import { v4 as uuidV4 } from "uuid";
@@ -31,8 +31,6 @@ import {
   default as deleteExportEventFileApi,
   default as ExportEventFileApi
 } from "../../../actions/api/exporteventfile/ExportEventFileApi";
-import
-AIEventsApi from "../../../actions/api/ai-events/AIEventsApi";
 import permissionCheck from "../../../actions/function/MyUltil/PermissionCheck";
 import cheetahSvcApi from "../../../api/cheetah/fileApi";
 import eventApi from "../../../api/controller-api/eventApi";
@@ -56,9 +54,12 @@ import { MemoizedHlsPlayer } from "./PlayerHls";
 import { MemoizedTableEventFile } from "./TableEventFile";
 import { MemoizedTableFile } from "./TableFile";
 import { MemoizedThumbnailVideo } from "./ThumbnailVideo";
-import { MemoizedInfoObjectPopoverContent } from "./InfoObjectPopoverContent";
+import AIEventsApi from "../../../actions/api/ai-events/AIEventsApi";
 import debounce from "lodash/debounce";
+import { MemoizedInfoObjectPopoverContent } from "./InfoObjectPopoverContent";
 const AI_SOURCE = process.env.REACT_APP_AI_SOURCE;
+const { TextArea } = Input;
+
 
 const ExportEventFile = () => {
   let defaultEventFile = {
@@ -113,8 +114,6 @@ const ExportEventFile = () => {
   const [currNode, setCurrNode] = useState('');
   const [editMode, setEditMode] = useState(false);
 
-  const { TextArea } = Input;
-
   const zoom = ((window.outerWidth - 10) / window.innerWidth) * 100;
 
   useEffect(() => {
@@ -124,51 +123,38 @@ const ExportEventFile = () => {
   }, [t]);
 
   useEffect(() => {
-    let perStr = "view_event_list";
-    const per = permissionCheck(perStr);
-
-    if (per) {
-      eventApi
-        .getAll({ page: 0, size: 1000000, sort_by: "name", order_by: "asc" })
-        .then((data) => {
-          if (data && data.payload) {
-            setEventList(data.payload);
-          }
-        });
-
-    } else {
-      Notification({
-        type: NOTYFY_TYPE.warning,
-        title: `${t("noti.archived_file")}`,
-        description: `${t("noti.do_not_have_permission_to_view_list_event")}`,
+    eventApi
+      .getAll({ page: 0, size: 1000000, sort_by: "name", order_by: "asc" })
+      .then((data) => {
+        if (data && data.payload) {
+          setEventList(data.payload);
+        }
       });
-    }
+
+      if (viewFileType && viewFileType === 4) {
+        const dataEventList = [
+          {
+            id: 0,
+            type: "attendance",
+            name: `${t('view.ai_events.attendance')}`,
+          },
+          {
+            id: 0,
+            type: "line_crossing",
+            name: `${t('view.ai_events.line_crossing')}`,
+          },
+          {
+            id: 0,
+            type: "intruding",
+            name: `${t('view.ai_events.intruding')}`,
+          },
+        ];
+        setEventListAI(dataEventList);
+      }
   }, []);
 
   useEffect(() => {
-
     refresh();
-
-    if (viewFileType && viewFileType === 4) {
-      const dataEventList = [
-        {
-          id: 0,
-          type: "attendance",
-          name: `${t('view.ai_events.attendance')}`,
-        },
-        {
-          id: 0,
-          type: "line_crossing",
-          name: `${t('view.ai_events.line_crossing')}`,
-        },
-        {
-          id: 0,
-          type: "intruding",
-          name: `${t('view.ai_events.intruding')}`,
-        },
-      ];
-      setEventListAI(dataEventList);
-    }
   }, [viewFileType]);
 
   const refresh = () => {
@@ -184,7 +170,6 @@ const ExportEventFile = () => {
 
   const onClickTableFileHandler = async (row) => {
     if (row) {
-
       setCaptureMode(false);
       setUrlVideoTimeline(null);
       setUrlSnapshot("");
@@ -572,6 +557,7 @@ const ExportEventFile = () => {
         rootFileUuid: row.uuid,
         type: 0,
       };
+      
       if (value) setEventFileCurrent(value);
     } else {
       let data = {
@@ -595,9 +581,9 @@ const ExportEventFile = () => {
           imageOther: imageOther
         }
       }
+
       setEventFileCurrent({ ...data, blob: null, isSaved: false });
     }
-    console.log("_________eventFileCurrent____________   ", eventFileCurrent)
   };
 
   const captureSnapshotHandler = () => {
@@ -1019,65 +1005,6 @@ const ExportEventFile = () => {
     }
   };
 
-  const editNoteHandler = async (note) => {
-    console.log("               :", fileCurrent)
-    if (eventFileCurrent) {
-      let perStr = "";
-      if (note !== null) perStr = "edit_file_note";
-      const per = permissionCheck(perStr);
-      
-      if (per) {
-        console.log("               :", per)
-        let requestObject = Object.assign({ ...eventFileCurrent });
-        if (note !== null) {
-          requestObject = Object.assign({ ...eventFileCurrent, note: note });
-        }
-        let response = null;
-        response = await AIEventsApi.editInforOfEvent(
-          requestObject.uuid,
-          requestObject
-        );
-
-        if (response) {
-          Notification({
-            type: NOTYFY_TYPE.success,
-            title: `${t("noti.archived_file")}`,
-            description: `${t("noti.successfully_edit_file")}`,
-          });
-          const dataList = [...listFiles];
-          if (viewFileType === 3 && !requestObject.isImportant) {
-            refresh();
-            const updatedListFile = dataList.filter(
-              (item) => item.uuid !== requestObject.uuid
-            );
-            setListFiles([...updatedListFile]);
-          } else {
-            const index = findIndex(
-              dataList,
-              (item) => item.uuid === requestObject.uuid
-            );
-            dataList[index] = requestObject;
-            setListFiles([...dataList]);
-            setFileCurrent({ ...requestObject });
-            setEventFileCurrent((preSate) => {
-              return {
-                ...preSate,
-                isImportant: requestObject.isImportant,
-                note: requestObject.note,
-              };
-            });
-          }
-        }
-      } else {
-        Notification({
-          type: NOTYFY_TYPE.warning,
-          title: `${t("noti.archived_file")}`,
-          description: `${t("noti.do_not_have_permission_to_action")}`,
-        });
-      }
-    }
-  };
-
   const originalHandler = async () => {
     // In case play capture file
     if (urlSnapshot === "") {
@@ -1238,6 +1165,7 @@ const ExportEventFile = () => {
   const checkDisabled = () => {
     if (captureMode) return "disabled";
     if (urlSnapshot) return "disabled";
+    if (viewFileType === 4) return "disabled";
     if (!fileCurrent) return "disabled";
     if (fileCurrent.uuid === "") return "disabled";
     return "";
@@ -1245,6 +1173,7 @@ const ExportEventFile = () => {
 
   const checkBtnCaptureDisabled = () => {
     if (viewFileType > 0) return false;
+    if (viewFileType === 4) return false;
     if (captureMode) return false;
     if (urlSnapshot) return false;
     if (!fileCurrent) return false;
@@ -1268,14 +1197,14 @@ const ExportEventFile = () => {
 
   const checkBtnEditRootFileDisabled = () => {
     if (viewFileType === 0) return false;
-    if (viewFileType === 4) return false;
+    if (viewFileType === 4) return "disabled";
     if (!fileCurrent) return false;
     return !(fileCurrent.uuid === "" || fileCurrent.rootFileUuid === "");
   };
 
   const checkBtnInfoDisabled = () => {
-    if (viewFileType === 4) return "disabled";
     if (captureMode) return "disabled";
+    if (viewFileType === 4) return "disabled";
     if (!fileCurrent) return "disabled";
     if (fileCurrent.uuid === "") return "disabled";
     return "";
@@ -1293,15 +1222,74 @@ const ExportEventFile = () => {
   };
 
   const cancelChangeNoteHandler = () => {
-      setCurrNode(eventFileCurrent.note);
-      setEditMode(false);
+    setCurrNode(eventFileCurrent.note);
+    setEditMode(false);
   };
 
   const saveFileHandler = (isImportant, note) => {
     console.log("______________  ", note)
-      // props.onEditFile(isImportant, note);
-      editNoteHandler(note)
-      setEditMode(false);
+    // props.onEditFile(isImportant, note);
+    editNoteHandler(note)
+    setEditMode(false);
+  };
+
+  const editNoteHandler = async (note) => {
+    console.log("               :", fileCurrent)
+    if (eventFileCurrent) {
+      let perStr = "";
+      if (note !== null) perStr = "edit_file_note";
+      const per = permissionCheck(perStr);
+
+      if (per) {
+        console.log("               :", per)
+        let requestObject = Object.assign({ ...eventFileCurrent });
+        if (note !== null) {
+          requestObject = Object.assign({ ...eventFileCurrent, note: note });
+        }
+        let response = null;
+        response = await AIEventsApi.editInforOfEvent(
+          requestObject.uuid,
+          requestObject
+        );
+
+        if (response) {
+          Notification({
+            type: NOTYFY_TYPE.success,
+            title: `${t("noti.archived_file")}`,
+            description: `${t("noti.successfully_edit_file")}`,
+          });
+          const dataList = [...listFiles];
+          if (viewFileType === 3 && !requestObject.isImportant) {
+            refresh();
+            const updatedListFile = dataList.filter(
+              (item) => item.uuid !== requestObject.uuid
+            );
+            setListFiles([...updatedListFile]);
+          } else {
+            const index = findIndex(
+              dataList,
+              (item) => item.uuid === requestObject.uuid
+            );
+            dataList[index] = requestObject;
+            setListFiles([...dataList]);
+            setFileCurrent({ ...requestObject });
+            setEventFileCurrent((preSate) => {
+              return {
+                ...preSate,
+                isImportant: requestObject.isImportant,
+                note: requestObject.note,
+              };
+            });
+          }
+        }
+      } else {
+        Notification({
+          type: NOTYFY_TYPE.warning,
+          title: `${t("noti.archived_file")}`,
+          description: `${t("noti.do_not_have_permission_to_action")}`,
+        });
+      }
+    }
   };
 
   const renderEventFileDetail = () => {
@@ -1359,7 +1347,7 @@ const ExportEventFile = () => {
                 </Tooltip>
               </div>
               <div>
-               {t('view.ai_events.type')} : {eventFileCurrent.vehicleType}
+                {t('view.ai_events.type')} : {eventFileCurrent.vehicleType}
               </div>
               <div>{t('view.ai_events.plateNumber')} : {eventFileCurrent.plateNumber}</div>
             </Col>
@@ -1376,7 +1364,6 @@ const ExportEventFile = () => {
               <div>
                 <ul >
                   {
-
                     eventFileCurrent.imageOther ? eventFileCurrent.imageOther.map((item, index) =>
                       <li style={{ listStyleType: 'none', display: 'inline-block', marginRight: '20px' }}><div style={{ width: '90%', paddingBottom: '10px' }}
                       >
@@ -1478,7 +1465,6 @@ const ExportEventFile = () => {
         </>
       );
     }
-
   };
 
   const renderInfoPopoverContent = () => {
@@ -1545,7 +1531,6 @@ const ExportEventFile = () => {
                   />
                 </div>
               </Tooltip>
-
               <Tooltip
                 placement="bottomLeft"
                 title={t("view.storage.important_files_list")}
@@ -1591,7 +1576,6 @@ const ExportEventFile = () => {
           <MemoizedTableFile
             listFiles={listFiles || []}
             eventList={eventList || []}
-            eventListAI={eventListAI || []}
             total={total}
             viewFileType={viewFileType}
             isTableView={isTableView}
@@ -1798,7 +1782,8 @@ const ExportEventFile = () => {
                   title={t("noti.delete_file", { this: t("this") })}
                   onConfirm={() => {
                     if (checkBtnDeleteDisabled()) return;
-                    deleteFileHandler().then((r) => { });
+                    deleteFileHandler().then((r) => {
+                    });
                   }}
                 >
                   <RiDeleteBinLine

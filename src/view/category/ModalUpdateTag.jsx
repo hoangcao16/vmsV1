@@ -2,6 +2,7 @@ import { Button, Col, Form, Input, Modal, Row, Spin } from "antd";
 import React, { useEffect, useState } from "react";
 import { useTranslation } from "react-i18next";
 import TagApi from "../../actions/api/tag";
+import permissionCheck from "../../actions/function/MyUltil/PermissionCheck";
 import Notification from "../../components/vms/notification/Notification";
 const formItemLayout = {
   wrapperCol: { span: 24 },
@@ -28,23 +29,27 @@ const ModalUpdateTag = (props) => {
     getTagById();
   }, [selectedCategoryId]);
   const showMessage = (selectedCategoryId, response) => {
-    const notifyMess = {
-      type: "success",
-      title: "",
-      description: `${t("noti.successfully_add_tag_category", {
-        add: t("add"),
-      })}`,
-    };
-    if (selectedCategoryId) {
-      notifyMess.description = response
-        ? `${t("noti.successfully_update_tag_category")}`
-        : `${t("noti.fail_update_tag_category")}`;
-    } else {
-      notifyMess.description = response
-        ? `${t("noti.successfully_add_tag_category")}`
-        : `${t("noti.fail_add_tag_category")}`;
+    if (
+      permissionCheck("add_category") && !selectedCategoryId
+    ) {
+      const notifyMess = {
+        type: "success",
+        title: "",
+        description: `${t("noti.successfully_add_tag_category", {
+          add: t("add"),
+        })}`,
+      };
+      Notification(notifyMess);
+    } 
+    
+    if (permissionCheck("edit_category") && selectedCategoryId) {
+      const notifyMess = {
+        type: "success",
+        title: "",
+        description: `${t("noti.successfully_edit_tag_category")}`,
+      };
+      Notification(notifyMess);
     }
-    Notification(notifyMess);
   };
   const handleSubmit = async (values) => {
     try {
@@ -67,7 +72,11 @@ const ModalUpdateTag = (props) => {
   return (
     <>
       <Modal
-        title={selectedCategoryId ? `${t('view.camera.edit_tag')}` : `${t('view.camera.add_new')}`}
+        title={
+          selectedCategoryId
+            ? `${t("view.camera.edit_tag")}`
+            : `${t("view.camera.add_new")}`
+        }
         visible={true}
         // onOk={handleSubmit}
         onCancel={() => {
@@ -87,12 +96,12 @@ const ModalUpdateTag = (props) => {
             <Row gutter={24}>
               <Col span={24}>
                 <Form.Item
-                  label={t('view.category.enter_key')}
+                  label={t("view.category.enter_key")}
                   name={["key"]}
                   rules={[
                     {
                       required: true,
-                      message: `${t('view.map.required_field')}`,
+                      message: `${t("view.map.required_field")}`,
                     },
                   ]}
                 >
@@ -113,9 +122,9 @@ const ModalUpdateTag = (props) => {
                   setShowModal(false);
                 }}
               >
-                {t('view.camera.close')}
+                {t("view.camera.close")}
               </Button>
-              <Button htmlType="submit">{t('view.map.button_save')}</Button>
+              <Button htmlType="submit">{t("view.map.button_save")}</Button>
             </div>
           </Form>
         </Spin>

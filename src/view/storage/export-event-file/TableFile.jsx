@@ -164,7 +164,7 @@ const TableFile = (props) => {
                 }}
                 filterOption={filterOption}
                 // options={normalizeOptions("name", "uuid", eventList)}
-                placeholder='Loại sự kiện'
+                placeholder={t('view.category.event_type')}
                 defaultValue={row?.eventUuid ? row?.eventUuid : null}
                 options={eventList.map((e) => ({
                     value: e.uuid,

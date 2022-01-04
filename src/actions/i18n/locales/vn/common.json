@@ -28,6 +28,7 @@
   },
   "view": {
     "camera": {
+      "export_camera":"Xuất dữ liệu Camera",
       "active": "Đang hoạt động",
       "inactive": "Dừng hoạt động",
       "camera_list": "Danh sách {{cam}}",
@@ -110,7 +111,10 @@
       "time": "Thời gian",
       "add_new_or_edit_preset_tour": "Thêm mới hoặc sửa một preset tour",
       "add_new_preset_tour": "Thêm mới preset tour",
-      "choose_preset_tour": "Chọn một preset tour"
+      "choose_preset_tour": "Chọn một preset tour",
+      "zoom": "Phóng to/Thu nhỏ",
+      "menu_preset": "Danh sách preset",
+      "close_camera": "Tắt Camera"
     },
     "map": {
       "search": "Tìm kiếm",
@@ -331,8 +335,8 @@
         "right": "Di chuyển sang phải",
         "up": "Di chuyển lên trên",
         "down": "Di chuyển xuống dưới",
-        "zoom_in": "Thu nhỏ",
-        "zoom_out": "Phóng to",
+        "zoom_in": "Phóng to",
+        "zoom_out": "Thu nhỏ",
         "hight_filter": "Bộ lọc nâng cao",
         "save_preset_tour": "Lưu preset tour",
         "save_preset": "Lưu preset",
@@ -510,10 +514,24 @@
   },
 
   "noti": {
+    "no_information": "Không có thông tin",
+    "warning_hard_drive_is_full": "Cảnh báo: Đầy ổ cứng",
+    "warning_camera": "Cảnh báo: Camera",
+    "hard_drive": "Ổ cứng",
+    "donot_have": "chưa có",
+    "is_used": "đã được sử dụng",
+    "estimated_remaining_usable_time_is": "Thời gian sử dụng còn lại dự kiến là",
+    "active": "hoạt động",
+    "inactive": "không hoạt động",
+    "watched_all_notifications": "Bạn đã xem hết danh sách thông báo",
+    "error_loading_notifications": "Lỗi khi tải thông báo",
+
     "successfully_update_tag_category": "Cập nhập nhãn thành công",
     "fail_update_tag_category": "Cập nhập nhãn thất bại",
     "successfully_add_tag_category": "Thêm mới nhãn thành công",
+    "successfully_edit_tag_category": "Sửa nhãn thành công",
     "fail_add_tag_category": "Thêm mới nhãn thất bại",
+
     "logged_out_successfully": "Đăng xuất thành công",
     "logged_out_failed": "Đăng xuất thất bại",
     "delete_camera": "Bạn chắc chắn muốn xóa {{cam}} {{this}}?",
@@ -656,7 +674,9 @@
     "logged_in_successfully": "Đăng nhập thành công",
     "error_download_file": "Đã xảy ra lỗi trong quá trình tải tệp, hãy kiểm tra lại",
     "error_2_digits": "Sai số đến chữ số thập phân thứ 2",
-    "successfully_edit_camera_group": "Sửa nhóm Camera thành công"
+    "successfully_edit_camera_group": "Sửa nhóm Camera thành công",
+    "browser_not_support_video": "Trình duyệt của bạn không hỗ trợ thẻ video",
+    "field_no_data": "Lĩnh vực này không có sự kiện"
   },
   "breadcrumd": {
     "report": "Quản lý báo cáo",

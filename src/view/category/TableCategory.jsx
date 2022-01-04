@@ -21,7 +21,6 @@ import React, { useEffect, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { withRouter } from 'react-router-dom';
 import { reactLocalStorage } from 'reactjs-localstorage';
-import AdDivisionApi from '../../actions/api/advision/AdDivision';
 import CameraApi from '../../actions/api/camera/CameraApi';
 import DepartmentApi from '../../actions/api/department/DepartmentApi';
 import EventApi from '../../actions/api/event/EventApi';
@@ -33,7 +32,6 @@ import Breadcrumds from '../breadcrumds/Breadcrumds';
 import './../commonStyle/commonInput.scss';
 import './../commonStyle/commonSelect.scss';
 import './../commonStyle/commonTable.scss';
-import ModalEditAdministrativeUnit from './ModalEditAdministrativeUnit';
 import ModalEditCategory from './ModalEditCategory';
 import ModalUpdateTag from './ModalUpdateTag';
 import ModalUpdateDepartment from './ModalUpdateDepartment';
@@ -45,7 +43,6 @@ export const CATEGORY_NAME = {
   EVENT_TYPE: 'EVENT_TYPE',
   VENDOR: 'VENDOR',
   CAMERA_TYPE: 'CAMERA_TYPE',
-  AD_DIVISIONS: 'AD_DIVISIONS',
   FIELD: 'FIELD',
   TAGS: 'TAGS',
   DEPARTMENTS: 'DEPARTMENTS'
@@ -56,7 +53,7 @@ const TableCategory = () => {
   const { t } = useTranslation();
   const language = reactLocalStorage.get('language');
   const [dataOptions, setDataOptions] = useState({});
-  const [dataType, setDataType] = useState(CATEGORY_NAME.AD_DIVISIONS);
+  const [dataType, setDataType] = useState(CATEGORY_NAME.VENDOR);
   const [selectedCategoryId, setSelectedCategoryId] = useState(null);
   const [selectedUnitId, setSelectedUnitId] = useState(null);
   const [showModal, setShowModal] = useState(false);
@@ -88,10 +85,6 @@ const TableCategory = () => {
       return [];
     }
     let dataSource;
-
-    if (dataType === CATEGORY_NAME.AD_DIVISIONS) {
-      dataSource = adDivisions;
-    }
 
     if (dataType === CATEGORY_NAME.CAMERA_TYPE) {
       dataSource = cameraTypes;
@@ -125,10 +118,6 @@ const TableCategory = () => {
     }
 
     let name;
-
-    if (dataType === CATEGORY_NAME.AD_DIVISIONS) {
-      name = `${t('view.map.administrative_unit')}`;
-    }
 
     if (dataType === CATEGORY_NAME.CAMERA_TYPE) {
       name = `${t('view.map.camera_type', { cam: t('camera') })}`;
@@ -171,12 +160,9 @@ const TableCategory = () => {
             }
           ></AutoComplete>
           <Select
-            defaultValue={CATEGORY_NAME.AD_DIVISIONS}
+            defaultValue={CATEGORY_NAME.VENDOR}
             onChange={handleChange}
           >
-            <Option value={CATEGORY_NAME.AD_DIVISIONS}>
-              {t('view.map.administrative_unit')}
-            </Option>
             <Option value={CATEGORY_NAME.VENDOR}>
               {t('view.category.camera_vendor', { cam: t('camera') })}
             </Option>
@@ -235,18 +221,6 @@ const TableCategory = () => {
     }
 
     let isDelete = false;
-
-    if (dataType === CATEGORY_NAME.AD_DIVISIONS) {
-      isDelete = await AdDivisionApi.delete(id);
-      const notifyMess = {
-        type: 'success',
-        title: '',
-        description: `${t('noti.successfully_delete_administrative_category', {
-          delete: t('delete')
-        })}`
-      };
-      isDelete && Notification(notifyMess);
-    }
 
     if (dataType === CATEGORY_NAME.CAMERA_TYPE) {
       isDelete = await CameraApi.deleteCameraType(id);
@@ -332,8 +306,7 @@ const TableCategory = () => {
     setSelectedUnitId(null);
   };
 
-  const { vendors, cameraTypes, adDivisions, field, eventTypes, tags, departments } =
-    dataOptions;
+  const { vendors, cameraTypes, adDivisions, field, eventTypes, tags, departments } = dataOptions;
 
   const categoryColumns = [
     {
@@ -425,14 +398,7 @@ const TableCategory = () => {
   const handleShowModalUpdateCategory = () => {
     let modalHtml = null;
     if (showModal) {
-      if (dataType === CATEGORY_NAME.AD_DIVISIONS) {
-        modalHtml = (
-          <ModalEditAdministrativeUnit
-            selectedCategoryId={selectedCategoryId}
-            setShowModal={setShowModal}
-          />
-        );
-      } else if (dataType === CATEGORY_NAME.TAGS) {
+      if (dataType === CATEGORY_NAME.TAGS) {
         modalHtml = (
           <ModalUpdateTag
             selectedCategoryId={selectedCategoryId}
@@ -499,7 +465,6 @@ const TableCategory = () => {
 
 async function fetchOptionsData(data) {
   const payload = await Promise.all([
-    AdDivisionApi.getAllAdDivision(data),
     CameraApi.getAllCameraTypes(data),
     VendorApi.getAllVendor(data),
     FieldApi.getAllFeild(data),
@@ -510,13 +475,12 @@ async function fetchOptionsData(data) {
   ]);
 
   return {
-    adDivisions: payload[0],
-    cameraTypes: payload[1],
-    vendors: payload[2],
-    field: payload[3],
-    eventTypes: payload[4],
-    tags: payload[5],
-    departments: payload[6]
+    cameraTypes: payload[0],
+    vendors: payload[1],
+    field: payload[2],
+    eventTypes: payload[3],
+    tags: payload[4],
+    departments: payload[5]
   };
 }
 

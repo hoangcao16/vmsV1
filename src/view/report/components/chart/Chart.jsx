@@ -1,7 +1,8 @@
-import { constant, isEmpty } from "lodash";
-import React, { useEffect } from "react";
-import { connect } from "react-redux";
 import { Tooltip as TooltipAnt } from "antd";
+import { isEmpty } from "lodash";
+import React from "react";
+import { useTranslation } from "react-i18next";
+import { connect } from "react-redux";
 import {
   CartesianGrid,
   Legend,
@@ -11,13 +12,11 @@ import {
   XAxis,
   YAxis,
 } from "recharts";
+import permissionCheck from "../../../../actions/function/MyUltil/PermissionCheck";
+import convertDataChartAndPieChart from "../../../../actions/function/MyUltil/ConvertDataChartAndPieChart";
 import { loadDataChart } from "../../redux/actions";
 import "./chart.scss";
 import ExportReport from "./ExportReport";
-import { useTranslation } from "react-i18next";
-import convertDataChartAndPieChart from "../../../../actions/function/MyUltil/ConvertDataChartAndPieChart";
-import { Spin } from "antd";
-import Loading from "../../../common/element/Loading";
 
 var randomColor = require("randomcolor");
 
@@ -67,7 +66,9 @@ function Chart(props) {
               {t("view.report.trend_chart")} {props.title.toUpperCase()}{" "}
             </h3>
 
-            <ExportReport type="trendReport" />
+            {permissionCheck("export_report") && (
+              <ExportReport type="trendReport" />
+            )}
           </div>
 
           <LineChart
@@ -97,7 +98,7 @@ function Chart(props) {
 
 const mapStateToProps = (state) => ({
   isLoading: state.chart.isLoading,
-  chartData: convertDataChartAndPieChart(state.chart.chartData),
+  chartData: convertDataChartAndPieChart(state.chart.chartData.data),
   error: state.chart.error,
   title: state.chart.title,
   isShowLineAndPieChart: state.chart.isShowLineAndPieChart,

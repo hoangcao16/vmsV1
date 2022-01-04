@@ -1,8 +1,8 @@
+import { Tooltip as TooltipAnt } from "antd";
 import { isEmpty } from "lodash";
 import React from "react";
 import { useTranslation } from "react-i18next";
 import { connect } from "react-redux";
-import { Spin, Tooltip as TooltipAnt } from "antd";
 import {
   Bar,
   BarChart,
@@ -11,42 +11,15 @@ import {
   ResponsiveContainer,
   Tooltip,
   XAxis,
-  YAxis,
+  YAxis
 } from "recharts";
+import permissionCheck from "../../../../actions/function/MyUltil/PermissionCheck";
 import convertDataBarChart from "../../../../actions/function/MyUltil/ConvertDataBarChart";
-import Loading from "../../../common/element/Loading";
 import { loadDataChart } from "../../redux/actions";
-import ExportReport from "./ExportReport";
 import "./barChart.scss";
+import ExportReport from "./ExportReport";
 
 var randomColor = require("randomcolor");
-
-// const monthTickFormatter = (tick) => {
-//   const date = new Date(tick);
-
-//   return date.getMonth() + 1;
-// };
-
-const renderQuarterTick = (tickProps) => {
-  const { x, y, payload } = tickProps;
-  const { value, offset } = payload;
-  const date = new Date(value);
-  const month = date.getMonth();
-  const quarterNo = Math.floor(month / 3) + 1;
-
-  if (month % 3 === 1) {
-    return <text x={x} y={y - 4} textAnchor="middle">{`Q${quarterNo}`}</text>;
-  }
-
-  const isLast = month === 11;
-
-  if (month % 3 === 0 || isLast) {
-    const pathX = Math.floor(isLast ? x + offset : x - offset) + 0.5;
-
-    return <path d={`M${pathX},${y - 4}v${-35}`} stroke="red" />;
-  }
-  return null;
-};
 
 function BarChartComponent(props) {
   const data = props.chartData;
@@ -98,7 +71,9 @@ function BarChartComponent(props) {
           ) : (
             <>
               {" "}
-              <ExportReport type="comparativeReport" />
+              {permissionCheck("export_report") && (
+                <ExportReport type="comparativeReport" />
+              )}
               {Object.keys(data).map((item, i) => (
                 <>
                   <div className="BarChart__title">
@@ -164,7 +139,7 @@ function BarChartComponent(props) {
 
 const mapStateToProps = (state) => ({
   isLoading: state.chart.isLoading,
-  chartData: convertDataBarChart(state.chart.chartData),
+  chartData: convertDataBarChart(state.chart.chartData.data),
   error: state.chart.error,
   title: state.chart.title,
   isShowLineAndPieChart: state.chart.isShowLineAndPieChart,
