@@ -67,11 +67,9 @@ import MyService from "../service";
           "/cctv-controller-svc/api/v1/tags_key",
           payload
         );
-        console.log("result", result)
       if (responseCheckerErrorsController(result) === null) {
         return false;
       }
-      console.log("aaaaaaa")
       return true;
     } catch (error) {
         console.log(error);
