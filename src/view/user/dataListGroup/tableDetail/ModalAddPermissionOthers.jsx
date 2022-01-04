@@ -237,15 +237,53 @@ const ModalAddPermissionOthers = (props) => {
 
   const loop = (data) =>
     data.map((item) => {
+      const index = item.name.toLowerCase().indexOf(option.searchValue.toLowerCase());
+      const beforeStr = item.name.substr(0, index);
+      const afterStr = item.name.substr(index + option.searchValue.length);
+      const title =
+        index > -1 ? (
+          <span>
+            {beforeStr}
+            <span
+              style={{
+                color: "#1380ff",
+              }}
+            >
+              {option.searchValue}
+            </span>
+            {afterStr}
+          </span>
+        ) : (
+          <span>{item.name}</span>
+        );
+
       if (item.children) {
         return (
-          <TreeNode key={item.code} title={renderTitle(item.code, item.name)}>
+          <TreeNode
+            key={item.code}
+            title={
+              <div className="full-width d-flex justify-content-between">
+                <div className="titleGroup" title={title}>
+                  {title}
+                </div>
+              </div>
+            }
+          >
             {loop(item.children)}
           </TreeNode>
         );
       }
       return (
-        <TreeNode key={item.code} title={renderTitle(item.code, item.name)} />
+        <TreeNode
+          key={item.code}
+          title={
+            <div className="full-width d-flex justify-content-between">
+              <div className="titleGroup" title={title}>
+                {title}
+              </div>
+            </div>
+          }
+        />
       );
     });
 
