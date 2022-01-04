@@ -109,7 +109,6 @@ const TableCategory = () => {
       dataSource = departments;
     }
 
-    console.log("        dataSource    ", dataSource)
     return dataSource;
   };
   const getNameByCategory = (dataType) => {
