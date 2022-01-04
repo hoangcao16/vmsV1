@@ -22,6 +22,7 @@ import { useTranslation } from 'react-i18next';
 import { withRouter } from 'react-router-dom';
 import { reactLocalStorage } from 'reactjs-localstorage';
 import CameraApi from '../../actions/api/camera/CameraApi';
+import DepartmentApi from '../../actions/api/department/DepartmentApi';
 import EventApi from '../../actions/api/event/EventApi';
 import FieldApi from '../../actions/api/field/FieldApi';
 import TagApi from '../../actions/api/tag';
@@ -33,6 +34,7 @@ import './../commonStyle/commonSelect.scss';
 import './../commonStyle/commonTable.scss';
 import ModalEditCategory from './ModalEditCategory';
 import ModalUpdateTag from './ModalUpdateTag';
+import ModalUpdateDepartment from './ModalUpdateDepartment';
 import ModalViewDetail from './ModalViewDetail';
 import './TableCategory.scss';
 import { bodyStyleCard, headStyleCard } from './variables';
@@ -42,7 +44,8 @@ export const CATEGORY_NAME = {
   VENDOR: 'VENDOR',
   CAMERA_TYPE: 'CAMERA_TYPE',
   FIELD: 'FIELD',
-  TAGS: 'TAGS'
+  TAGS: 'TAGS',
+  DEPARTMENTS: 'DEPARTMENTS'
 };
 
 const { Option } = Select;
@@ -81,7 +84,6 @@ const TableCategory = () => {
     if (isEmpty(dataType)) {
       return [];
     }
-
     let dataSource;
 
     if (dataType === CATEGORY_NAME.CAMERA_TYPE) {
@@ -103,6 +105,11 @@ const TableCategory = () => {
       dataSource = tags;
     }
 
+    if (dataType === CATEGORY_NAME.DEPARTMENTS) {
+      dataSource = departments;
+    }
+
+    console.log("        dataSource    ", dataSource)
     return dataSource;
   };
   const getNameByCategory = (dataType) => {
@@ -129,6 +136,9 @@ const TableCategory = () => {
     }
     if (dataType === CATEGORY_NAME.TAGS) {
       name = `${t('view.category.tags')}`;
+    }
+    if (dataType === CATEGORY_NAME.DEPARTMENTS) {
+      name = `${t('view.category.department')}`;
     }
 
     return (
@@ -168,6 +178,9 @@ const TableCategory = () => {
             </Option>
             <Option value={CATEGORY_NAME.TAGS}>
               {t('view.category.tags')}
+            </Option>
+            <Option value={CATEGORY_NAME.DEPARTMENTS}>
+              {t('view.category.department')}
             </Option>
           </Select>
 
@@ -271,6 +284,18 @@ const TableCategory = () => {
       };
       isDelete && Notification(notifyMess);
     }
+
+    if (dataType === CATEGORY_NAME.DEPARTMENTS) {
+      isDelete = await DepartmentApi.delete(id);
+      const notifyMess = {
+        type: 'success',
+        title: '',
+        description: `${t('noti.successfully_delete_tag_type', {
+          delete: t('delete')
+        })}`
+      };
+      isDelete && Notification(notifyMess);
+    }
     const data = {
       name: ''
     };
@@ -281,8 +306,7 @@ const TableCategory = () => {
     setSelectedUnitId(null);
   };
 
-  const { vendors, cameraTypes, field, eventTypes, tags } =
-    dataOptions;
+  const { vendors, cameraTypes, adDivisions, field, eventTypes, tags, departments } = dataOptions;
 
   const categoryColumns = [
     {
@@ -381,6 +405,13 @@ const TableCategory = () => {
             setShowModal={setShowModal}
           />
         );
+      }else if (dataType === CATEGORY_NAME.DEPARTMENTS) {
+        modalHtml = (
+          <ModalUpdateDepartment
+            selectedCategoryId={selectedCategoryId}
+            setShowModal={setShowModal}
+          />
+        );
       } else {
         modalHtml = (
           <ModalEditCategory
@@ -438,7 +469,9 @@ async function fetchOptionsData(data) {
     VendorApi.getAllVendor(data),
     FieldApi.getAllFeild(data),
     EventApi.getAllEvent(data),
-    TagApi.getAllTags(data)
+    TagApi.getAllTags(data),
+    DepartmentApi.getAllDepartment(data)
+    
   ]);
 
   return {
@@ -446,7 +479,8 @@ async function fetchOptionsData(data) {
     vendors: payload[1],
     field: payload[2],
     eventTypes: payload[3],
-    tags: payload[4]
+    tags: payload[4],
+    departments: payload[5]
   };
 }
 

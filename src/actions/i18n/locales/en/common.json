@@ -72,7 +72,8 @@
       "plsEnter_administrative_unit_name": "{{plsEnter}} administrative unit name",
       "enter_key": "Please enter key",
       "choose_field_for_event": "Please choose field for event",
-      "administrative_unit_detail": "Administrative unit detail"
+      "administrative_unit_detail": "Administrative unit detail",
+      "department": "Department"
     },
     "common_device": {
       "camproxy_name": "Camproxy name",
@@ -473,8 +474,38 @@
         "BA" : "B --> A",
         "All" : "All"
       }
+    },
+    "ai_events": {
+      "event_files_list": "Event AI files list",
+      "attendance": "Attendance",
+      "intruding": "Intrusion",
+      "daudo": "Wrong parking",
+      "nhandienbienso": "Number plate recognition",
+      "damdong" : "Phát hiện đám đông",
+      "line_crossing": "Line crossing",
+      "info": "Info",
+      "edit_info": "Edit Info",
+      "edit_note": "Edit Note",
+      "err_image" : "Offending images",
+      "type_object" : {
+        "xemay": "Motorcycle",
+        "human": "Human",
+          "unknow" :"nknow"
 
-
+      },
+      "choose_obj": "Choose object",
+      "plateNumber":"Plate number",
+      "code" : "Code",
+      "name": "Name",
+      "position": "Position",
+      "department" :"Department"
+      
+    },
+    "department" : {
+      "administrative": "Aministrative Unit",
+      "edit_department" : "Update department",
+      "add_department" : "Add new department",
+      "name_department" : "Department"
     }
   },
 

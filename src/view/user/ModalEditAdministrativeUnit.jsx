@@ -547,7 +547,7 @@ const ModalEditAdministrativeUnit = (props) => {
 
 async function fetchSelectOptions() {
   const provinces = await AddressApi.getAllProvinces();
-
+  
   return {
     provinces,
   };
