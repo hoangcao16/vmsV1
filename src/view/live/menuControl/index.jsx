@@ -14,6 +14,8 @@ import permissionCheck from "../../../actions/function/MyUltil/PermissionCheck";
 
 import "./ModalPresetSetting.scss";
 import permissionCheckByCamera from "../../../actions/function/MyUltil/PermissionCheckByCamera";
+import { connect } from "react-redux";
+import { openModalPresetSetting } from "../../../redux/actions/live/openModalPresetSetting";
 
 const LIST_TYPES = {
   preset: "preset",
@@ -21,17 +23,18 @@ const LIST_TYPES = {
   other: "other",
 };
 
-const Index = ({
-  setOpenMenuControl,
-  isOpenModal,
-  setCurrentMenuControl,
-  slotId,
-  idCamera,
-  setReloadLiveMenuTool,
-  reloadLiveMenuTool,
-  isOpenModalControlPanel,
-  setIsOpenModalControlPanel,
-}) => {
+const Index = (props) => {
+  const {
+    setOpenMenuControl,
+    isOpenModal,
+    setCurrentMenuControl,
+    slotId,
+    idCamera,
+    setReloadLiveMenuTool,
+    reloadLiveMenuTool,
+    isOpenModalControlPanel,
+    setIsOpenModalControlPanel,
+  } = props;
   const { t } = useTranslation();
   let CONTROL_TYPES = [];
   if (
@@ -55,9 +58,7 @@ const Index = ({
       },
       { name: `${t("view.live.open_control_panel")}`, type: 4 },
     ];
-  }
-
-  else if (!permissionCheckByCamera("setup_preset", idCamera)) {
+  } else if (!permissionCheckByCamera("setup_preset", idCamera)) {
     CONTROL_TYPES = [
       {
         name: "Preset",
@@ -71,9 +72,7 @@ const Index = ({
       },
       { name: `${t("view.live.open_control_panel")}`, type: 4 },
     ];
-  }
-
-  else if (!permissionCheckByCamera("ptz_control", idCamera)) {
+  } else if (!permissionCheckByCamera("ptz_control", idCamera)) {
     CONTROL_TYPES = [
       {
         name: "Preset",
@@ -178,6 +177,7 @@ const Index = ({
     if (type === 3) {
       setIsOpenModalControlPanel(false);
       setOpenModalPresetSetting(true);
+      props.openModalPresetSetting(true)
       setOpenMenuControl(false);
       setListType(LIST_TYPES.other);
     }
@@ -211,6 +211,7 @@ const Index = ({
     setReloadLiveMenuTool(!reloadLiveMenuTool);
     setRecallPresetAndPresetTourList(!recallPresetAndPresetTourList);
     setOpenModalPresetSetting(false);
+    props.openModalPresetSetting(false);
     setTypeActive(1);
     setListType(LIST_TYPES.preset);
   };
@@ -323,4 +324,14 @@ const Index = ({
     </>
   );
 };
-export default Index;
+
+const mapStateToProps = (state) => ({});
+
+const mapDispatchToProps = (dispatch) => {
+  return {
+    openModalPresetSetting: (states) => {
+      dispatch(openModalPresetSetting(states));
+    },
+  };
+};
+export default connect(mapStateToProps, mapDispatchToProps)(Index);

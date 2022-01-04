@@ -43,7 +43,6 @@ export function* handleDataChartLoad(action) {
           return result;
         })
       );
-      console.log("res", res)
       yield put(setDataChart(res));
     } else {
       const fakeData = {chartEvents: [], percents: []}

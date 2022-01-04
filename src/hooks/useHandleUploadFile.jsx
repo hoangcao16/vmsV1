@@ -13,7 +13,6 @@ const useHandleUploadFile = (fileName) => {
   useEffect(() => {
     setImgFileName(fileName);
     const loadImageFileHanleler = (fileName) => {
-      console.log("fileName:", fileName);
       if (!isEmpty(fileName)) {
         ExportEventFileApi.getAvatar(fileName).then((result) => {
           if (result.data) {
