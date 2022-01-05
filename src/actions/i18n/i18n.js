@@ -5,6 +5,11 @@ import commonEN from '../i18n/locales/en/common.json';
 import { reactLocalStorage } from 'reactjs-localstorage';
 import { isEmpty } from 'lodash';
 
+const checkLanguage = reactLocalStorage.get('language')
+if (isEmpty(checkLanguage)) {
+  reactLocalStorage.set('language', 'vn')
+}
+
 i18next.init({
   interpolation: { escapeValue: false }, // React already does escaping
   ns: ['common'],

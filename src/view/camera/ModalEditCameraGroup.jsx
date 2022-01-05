@@ -43,7 +43,7 @@ export default function ModalEditCameraGroup(props) {
       const notifyMess = {
         type: 'success',
         title: '',
-        description: 'Sửa nhóm Camera thành công'
+        description: `${t('noti.successfully_edit_camera_group')}`
       };
       Notification(notifyMess);
       setIsModalVisible(false);

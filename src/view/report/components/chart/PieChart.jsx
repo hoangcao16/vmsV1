@@ -1,19 +1,17 @@
+import { Tooltip as TooltipAnt } from "antd";
 import { isEmpty } from "lodash";
 import React, { useEffect, useState } from "react";
+import { useTranslation } from "react-i18next";
 import { connect } from "react-redux";
 import { Cell, Pie, PieChart } from "recharts";
+import permissionCheck from "../../../../actions/function/MyUltil/PermissionCheck";
+import convertDataChartAndPieChart from "../../../../actions/function/MyUltil/ConvertDataChartAndPieChart";
 import { loadDataChart } from "../../redux/actions";
 import ExportReport from "./ExportReport";
 import "./pieChart.scss";
-import { useTranslation } from "react-i18next";
-import convertDataChartAndPieChart from "../../../../actions/function/MyUltil/ConvertDataChartAndPieChart";
-import Loading from "../../../common/element/Loading";
-import { Tooltip as TooltipAnt } from "antd";
-
 var randomColor = require("randomcolor");
 
 const RADIAN = Math.PI / 180;
-
 
 const renderCustomizedLabel = ({
   cx,
@@ -41,7 +39,6 @@ const renderCustomizedLabel = ({
   );
 };
 
-
 const total = (data, key) => {
   const dataTotal = data.map((d) => {
     return {
@@ -54,7 +51,7 @@ const total = (data, key) => {
   }, 0);
 };
 
-const dataConvert = (dataPieChart) => {
+const dataConvert = (dataPieChart, dataApi) => {
   const dataNoName = dataPieChart[0];
 
   if (dataNoName.name) {
@@ -63,7 +60,7 @@ const dataConvert = (dataPieChart) => {
 
   const keyArr = Object.keys(dataNoName);
 
-  const dataFinal = keyArr.map((k) => {
+  let dataFinal = keyArr.map((k) => {
     return {
       value: total(dataPieChart, k),
       name: k,
@@ -71,6 +68,9 @@ const dataConvert = (dataPieChart) => {
     };
   });
 
+  for (let i = 0; i < dataFinal.length; i++) {
+    dataFinal[i].value = dataApi[i]
+  }
   return dataFinal;
 };
 
@@ -79,8 +79,9 @@ function PieChartComponents(props) {
   const { t } = useTranslation();
   useEffect(() => {
     const dataPieChart = props.chartData;
+    const dataApi = props.per;
     if (!isEmpty(dataPieChart)) {
-      const dataPieChartConvert = dataConvert(dataPieChart);
+      const dataPieChartConvert = dataConvert(dataPieChart, dataApi);
       setDataPieChart(dataPieChartConvert);
     }
   }, [props.chartData]);
@@ -104,7 +105,9 @@ function PieChartComponents(props) {
                 "view.report.proportion_chart"
               )} {props.title.toUpperCase()}{" "}
             </h3>
-            <ExportReport type="rateReport" />
+            {permissionCheck("export_report") && (
+              <ExportReport type="rateReport" />
+            )}
           </div>
           <PieChart width={400} height={400}>
             <Pie
@@ -128,7 +131,13 @@ function PieChartComponents(props) {
             {dataPieChart.map((p, index) => {
               return (
                 <span style={{ color: `${p?.color}`, padding: 10 }}>
-                  {p.name.length > 25 ? <TooltipAnt placement="top" title={p.name}>{p.name.slice(0, 25)}</TooltipAnt> : p.name}
+                  {p.name.length > 25 ? (
+                    <TooltipAnt placement="top" title={p.name}>
+                      {p.name.slice(0, 25)}
+                    </TooltipAnt>
+                  ) : (
+                    p.name
+                  )}
                 </span>
               );
             })}
@@ -141,7 +150,8 @@ function PieChartComponents(props) {
 
 const mapStateToProps = (state) => ({
   isLoading: state.chart.isLoading,
-  chartData: convertDataChartAndPieChart(state.chart.chartData),
+  chartData: convertDataChartAndPieChart(state.chart.chartData.data),
+  per: state.chart.chartData.dataPieChart,
   error: state.chart.error,
   title: state.chart.title,
   isShowLineAndPieChart: state.chart.isShowLineAndPieChart,

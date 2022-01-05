@@ -34,7 +34,8 @@ const TableHardDriveList = () => {
   useEffect(() => {
     const data = {
       page: page - 1,
-      pageSize: pageSize
+      pageSize: pageSize,
+      lang: language
     };
     HardDriveListApi.getAllHardDrive(data).then((result) => {
       let dataResult = result[Object.keys(result)[0]];

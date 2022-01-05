@@ -67,7 +67,8 @@ const TableHumans = () => {
   useEffect(() => {
     const data = {
       page: page,
-      pageSize: pageSize
+      pageSize: pageSize,
+      name: ''
     };
     AIHumansApi.getAllHumans(data).then((result) => {
       setListHumans(result.payload);
@@ -135,7 +136,8 @@ const TableHumans = () => {
   const loadList = async () => {
     const data = {
       page: page,
-      pageSize: pageSize
+      pageSize: pageSize,
+      name: ''
     };
     AIHumansApi.getAllHumans(data).then((result) => {
       let dataResult = result[Object.keys(result)[0]];
@@ -201,8 +203,7 @@ const TableHumans = () => {
       key: 'name',
       className: 'headerColums',
       fixed: 'left',
-      width: '15%',
-      // ...TableUtils.getColumnSearchProps('name')
+      width: '15%'
     },
     {
       title: `${t('view.ai_humans.code')}`,

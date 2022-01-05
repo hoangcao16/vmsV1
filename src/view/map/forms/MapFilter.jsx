@@ -60,15 +60,15 @@ const MapFilter = (props) => {
   };
   const points = [
     {
-      name: "Tất cả",
+      name: `${t('view.storage.all')}`,
       id: 1,
     },
     {
-      name: "Định vị",
+      name: `${t('view.map.location_onmap')}`,
       id: 2,
     },
     {
-      name: "Chưa Định vị",
+      name: `${t('view.map.not_located_yet')}`,
       id: 3,
     },
   ];
@@ -97,10 +97,6 @@ const MapFilter = (props) => {
   }
 
   const handleSubmit = async (value) => {
-
-console.log('value:',value)
-console.log('administrativeUnitUuid:',administrativeUnitUuid)
-
 
     const location = form.getFieldValue("locationOnMap");
     const address = form.getFieldValue("address");

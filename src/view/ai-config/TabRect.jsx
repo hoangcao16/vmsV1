@@ -37,8 +37,6 @@ const TabRect = (props) => {
   const [keyActive, setKeyActive] = React.useState(0);
   const [isActive, setIsActive] = React.useState(false);
   const [isActiveDetail, setIsActiveDetail] = React.useState(false);
-  const [coordinatesPS, setCoordinatesPS] = React.useState(false);
-  const [coordinatesS, setCoordinatesS] = React.useState(false);
 
 
 
@@ -56,8 +54,8 @@ const TabRect = (props) => {
   let timerIdentifierRect = null;
   let videoSlotSize = {};
   let videoSlotSizeRect = {};
-  let coordinates = coordinatesS;
-  let coordinatesP = coordinatesPS;
+  let coordinates = JSON.parse(localStorage.getItem("coordinates"));
+  let coordinatesP = JSON.parse(localStorage.getItem("coordinatesP"));
 
   const formItemLayout = {
     wrapperCol: { span: 24 },
@@ -166,10 +164,12 @@ const TabRect = (props) => {
       dataNew.forEach(data => {
         if (data.key === keyActive) {
           data.uuid = result.uuid;
-          setDefaultDataRect(result)
+          
         }
       })
       setDataRectList(dataNew)
+
+      setDefaultDataRect(result)
 
     });
 
@@ -366,6 +366,9 @@ const TabRect = (props) => {
     localStorage.removeItem('toY');
 
     localStorage.removeItem('direction');
+    localStorage.removeItem('coordinates');
+    localStorage.removeItem('coordinatesP');
+    
 
     clearEventHandler()
 
@@ -622,14 +625,14 @@ const TabRect = (props) => {
       pointsP.forEach(data => {
         coordinatesP.push({ x: data[0], y: data[1], mouseDown: false });
       })
-      setCoordinatesPS(coordinatesP)
+      localStorage.setItem("coordinatesP", JSON.stringify(coordinatesP));
       
 
       coordinates = [];
       for (let index = 0; index < coordinatesP.length; index++) {
         coordinates.push({ x: coordinatesP[index].x * canvas.width, y: coordinatesP[index].y * canvas.height, mouseDown: false });
       }
-      setCoordinatesS(coordinates)
+      localStorage.setItem("coordinates", JSON.stringify(coordinates));
 
       drawRect();
       window.addEventListener('resize', resizeRectCanvasEventHandler);

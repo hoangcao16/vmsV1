@@ -24,6 +24,7 @@ import StoreSetting from '../storage/store-setting/StoreSetting';
 import './../../assets/scss/pages/account-settings.scss';
 import ChangePassword from './ChangePassword';
 import './Setting.scss';
+import AdministrativeUnit from './AdministrativeUnit';
 
 const Account = React.lazy(() => import('./Account'));
 
@@ -63,6 +64,11 @@ function AccountSettings() {
           <li>
             <NavLink exact to={`${path}`}>
               <span>{t('camera')}</span>
+            </NavLink>
+          </li>
+          <li>
+            <NavLink exact to={`${path}/administrative-unit`}>
+              <span>{t('view.map.administrative_unit')}</span>
             </NavLink>
           </li>
 
@@ -172,6 +178,20 @@ function AccountSettings() {
               );
             }}
           ></Route>
+          <Route
+            path={`${path}/administrative-unit`}
+            render={() => {
+              return (
+                <Card className="content">
+                  <CardBody>
+                    <TabContent>
+                      <AdministrativeUnit />
+                    </TabContent>
+                  </CardBody>
+                </Card>
+              );
+            }}
+          />
 
           <Route
             path={`${path}/set`}

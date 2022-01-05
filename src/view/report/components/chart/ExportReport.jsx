@@ -11,6 +11,7 @@ import { isEmpty } from "lodash";
 
 export default function ExportReport(props) {
   const permissionUser = reactLocalStorage.getObject("permissionUser");
+  const language = reactLocalStorage.get("language");
   const { type } = props;
   const { t } = useTranslation();
 
@@ -26,9 +27,10 @@ export default function ExportReport(props) {
     const data = {
       ...params,
       typeChart: type,
+      lang: language
     };
     await ReportApi.getExportData(data).then((value) => {
-      const data = new Blob([value], { type: "application/vnd.ms-excel" });
+      const data = new Blob([value], { type: "application/octet-stream" });
       fileDownload(
         data,
         `Report_${moment().format("DD.MM.YYYY_HH.mm.ss")}.xlsx`

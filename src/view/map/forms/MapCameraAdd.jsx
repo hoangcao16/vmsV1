@@ -185,8 +185,6 @@ const MapCameraAdd = (props) => {
 
   const { provinces, zones, vendors, cameraTypes, adDivisions } = filterOptions;
 
-  console.log("adDivisions:", adDivisions);
-
   const uploadButton = (
     <div>
       {loading ? <LoadingOutlined /> : <PlusOutlined />}

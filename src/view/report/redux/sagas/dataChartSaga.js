@@ -1,10 +1,10 @@
-import { isEmpty } from 'lodash';
-import moment from 'moment';
-import { call, put, takeLatest } from 'redux-saga/effects';
+import { isEmpty } from "lodash";
+import moment from "moment";
+import { call, put, takeLatest } from "redux-saga/effects";
 // import CameraApi from '../../../../actions/api/camera/CameraApi';
-import ReportApi from '../../../../actions/api/report/ReportApi';
-import { setDataChart, setError } from '../actions';
-import { DATA_CHART } from '../constants';
+import ReportApi from "../../../../actions/api/report/ReportApi";
+import { setDataChart, setError } from "../actions";
+import { DATA_CHART } from "../constants";
 
 export function* handleDataChartLoad(action) {
   const { params } = action;
@@ -32,18 +32,21 @@ export function* handleDataChartLoad(action) {
     provinceId: params.provinceId,
     districtId: !isEmpty(params.districtId) ? params?.districtId : [],
     wardId: !isEmpty(params.wardId) ? params?.wardId : [],
-    eventId: params.eventList
-  }
+    eventId: params?.eventList,
+  };
 
-  localStorage.setItem('payloadDataChart', JSON.stringify(payloadDataChart));
+  localStorage.setItem("payloadDataChart", JSON.stringify(payloadDataChart));
   try {
     if (!isEmpty(payloadDataChart.eventId)) {
-      const data = yield call(() => ReportApi.getChartData(payloadDataChart).then((data)=>{
-        return data
-      }));
-      yield put(setDataChart(data));
+      const res = yield call(() =>
+        ReportApi.getChartData(payloadDataChart).then((result) => {
+          return result;
+        })
+      );
+      yield put(setDataChart(res));
     } else {
-      yield put(setDataChart([]));
+      const fakeData = {chartEvents: [], percents: []}
+      yield put(setDataChart(fakeData));
     }
   } catch (error) {
     yield put(setError(error.toString()));

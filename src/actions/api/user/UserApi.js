@@ -2,7 +2,7 @@ import { reactLocalStorage } from 'reactjs-localstorage';
 import { handleErrCodeAuthZ, responseCheckerErrors } from '../../function/MyUltil/ResponseChecker';
 import MyService from '../service';
 
-const UserApi = {
+const   UserApi = {
   getAllUser: async (params) => {
     let result;
 
@@ -36,12 +36,11 @@ const UserApi = {
 
     return result;
   },
-  getAllPermissionGroup: async () => {
+  getAllPermissionGroup: async (params) => {
     let result;
-
     try {
       result = await MyService.getRequestData(
-        `/authz/api/v0/permission_groups`
+        `/authz/api/v0/permission_groups`, params
       );
     } catch (error) {
       console.log(error);

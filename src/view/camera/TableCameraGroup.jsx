@@ -304,7 +304,7 @@ function CameraGroup(props) {
             }}
             className="confirm--delete"
             icon={<ExclamationCircleOutlined />}
-            okText="Xoá"
+            okText={t("delete")}
           >
             <Tooltip placement="top" title={t("delete")}>
               <DeleteOutlined
@@ -412,7 +412,7 @@ function CameraGroup(props) {
                 </Tree>
               ) : !props?.isLoading ? (
                 <div style={{ textAlign: "center", color: "#ffffff" }}>
-                  Không tìm thấy kết quả hợp lệ
+                  {t("view.user.detail_list.no_valid_results_found")}
                 </div>
               ) : (
                 <Spin />
