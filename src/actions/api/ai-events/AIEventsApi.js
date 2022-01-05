@@ -30,6 +30,26 @@ const AIEventsApi = {
     return result;
   },
 
+  getEventsByTrackingId: async (trackingId) => {
+    let result;
+
+    try {
+      result = await AIService.getRequestData(
+        `/api/v1/ai-events/by-tracking/${trackingId}`
+      );
+
+    } catch (error) {
+      console.log(JSON.stringify(error));
+    }
+
+    if (handleErrCodeAI(result) === null) {
+      return [];
+    }
+
+    console.log(result)
+    return result;
+  },
+
   editInforOfEvent: async (uuid, payload) => {
     let url = '/api/v1/ai-events/'
     // let url = '/api/v1/integration-ai-events'
