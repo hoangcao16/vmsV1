@@ -22,6 +22,10 @@ export default function TableListCamInCamGroup(props) {
   const [selectedCameraId, setSelectedCameraId] = useState(null);
 
   useEffect(() => {
+    setSearch('')
+  }, [camGroupUuid])
+
+  useEffect(() => {
     if (isEmpty(camGroupUuid)) {
       setCamInGroup([]);
       return;
