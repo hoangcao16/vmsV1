@@ -421,7 +421,8 @@
         "add_camera_choose_permission": "Thêm Camera và chọn quyền",
         "image": "Hình ảnh",
         "enter_alternative_data": "{{plsEnter}} dữ liệu thay thế",
-        "scan": "Quét"
+        "scan": "Quét",
+        "search_to_select": "Tìm kiếm để chọn"
       }
     },
     "ai_humans": {

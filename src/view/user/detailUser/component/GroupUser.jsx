@@ -124,7 +124,7 @@ const GroupUser = (props) => {
                 showSearch
                 style={{ width: "100%" }}
                 bordered={false}
-                placeholder="Search to Select"
+                placeholder={t('view.user.detail_list.search_to_select')}
                 mode="multiple"
                 optionFilterProp="children"
                 filterOption={(input, option) =>

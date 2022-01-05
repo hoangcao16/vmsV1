@@ -421,7 +421,8 @@
         "add_camera_choose_permission": "Add Camera and choose permission",
         "image": "Image",
         "enter_alternative_data": "{{plsEnter}} alternative data",
-        "scan": "Scan"
+        "scan": "Scan",
+        "search_to_select": "Search to select"
       }
     },
     "ai_humans": {
