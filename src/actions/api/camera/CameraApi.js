@@ -419,21 +419,20 @@ const CameraApi = {
   },
 
 
-  getExportData: async (params) => {
+  getExportData: async (body) => {
     let result;
-
     try {
-      result = await MyService.getRequestData(
+      result = await MyService.postRequestDataBlob(
         '/owl/api/v1/report-camera',
-        params
+        body
       );
     } catch (error) {
       console.log(error);
     }
-    if (responseCheckerErrorsController(result) === null) {
-      return [];
-    }
-    return result.payload;
+    // if (responseCheckerErrorsController(result) === null) {
+    //   return [];
+    // }
+    return result;
   },
 
 };
