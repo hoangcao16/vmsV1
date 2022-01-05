@@ -64,7 +64,7 @@ export default {
         }
       })
       .catch((error) => {
-
+        console.log("error", error)
         let msg = 'Thao tác không thành công';
         let rs = {
           code: -1000,
