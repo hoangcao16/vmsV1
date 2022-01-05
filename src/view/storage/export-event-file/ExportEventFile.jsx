@@ -308,6 +308,19 @@ const ExportEventFile = () => {
       if (AI_SOURCE === 'philong') {
         setUrlSnapshot(file.overViewUrl);
       } else {
+        await AIEventsApi.getEventsByTrackingId(file.trackingId).then(
+          (data) => {
+            if (data && data.payload) {
+              if (data.payload.length >= 0) {
+                console.log("________________")
+                console.log(data.payload)
+                data.payload.map((f) => {
+                  
+                })
+              }
+            }
+          }
+        );
         setUrlSnapshot("data:image/jpeg;base64," + file.thumbnailData);
       }
 
