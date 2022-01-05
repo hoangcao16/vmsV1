@@ -4,7 +4,7 @@ import {
   CloseOutlined,
   LoadingOutlined,
   PlusOutlined,
-  UserOutlined,
+  UserOutlined
 } from "@ant-design/icons";
 import {
   Avatar,
@@ -17,7 +17,7 @@ import {
   Select,
   Tooltip,
   Typography,
-  Upload,
+  Upload
 } from "antd";
 import { isEmpty } from "lodash-es";
 import moment from "moment";
@@ -29,17 +29,15 @@ import { reactLocalStorage } from "reactjs-localstorage";
 import { v4 as uuidV4 } from "uuid";
 import ExportEventFileApi from "../../../../actions/api/exporteventfile/ExportEventFileApi";
 import UserApi from "../../../../actions/api/user/UserApi";
-import clearData from "../../../../actions/function/MyUltil/CheckData";
 import permissionCheck from "../../../../actions/function/MyUltil/PermissionCheck";
 import Notification from "../../../../components/vms/notification/Notification";
-import { NOTYFY_TYPE } from "../../../common/vms/Constant";
 import { changeAvatar } from "../../../../redux/actions/customizer/index";
+import { NOTYFY_TYPE } from "../../../common/vms/Constant";
 import Camera from "./Camera";
 import CameraGroup from "./CameraGroup";
 import "./DetailUser.scss";
 import GroupUser from "./GroupUser";
 import RoleUser from "./RoleUser";
-import MuiPhoneNumber from "material-ui-phone-number";
 
 const { Panel } = Collapse;
 const { Option } = Select;
@@ -122,7 +120,7 @@ const DetailUser = (props) => {
       const notifyMess = {
         type: "error",
         title: "",
-        description: `${t('noti.upload_file_desc')}`,
+        description: `${t("noti.upload_file_desc")}`,
       };
       Notification(notifyMess);
     }
@@ -131,7 +129,7 @@ const DetailUser = (props) => {
       const notifyMess = {
         type: "error",
         title: "",
-        description: `${t('noti.size_file_desc')}`,
+        description: `${t("noti.size_file_desc")}`,
       };
       Notification(notifyMess);
     }
@@ -190,7 +188,7 @@ const DetailUser = (props) => {
     if (name_data === "email") {
       rules.push(
         {
-          message: `${t('view.user.detail_list.email_address_required')}`,
+          message: `${t("view.user.detail_list.email_address_required")}`,
           type: "email",
         },
         {
@@ -369,7 +367,7 @@ const DetailUser = (props) => {
                       <Input
                         type="text"
                         maxLength={13}
-                        placeholder={t('view.map.phone_number')}
+                        placeholder={t("view.map.phone_number")}
                       />
                     )}
                   </Form.Item>
@@ -547,7 +545,7 @@ const DetailUser = (props) => {
       const notifyMess = {
         type: "success",
         title: "",
-        description: `${t('noti.successfully_change_data')}`,
+        description: `${t("noti.successfully_change_data")}`,
       };
       Notification(notifyMess);
       setLoading(!isLoading);
@@ -563,7 +561,7 @@ const DetailUser = (props) => {
     if (!pattern.test(value) && value.length >= 10) {
       const notifyMess = {
         type: NOTYFY_TYPE.error,
-        description: `${t('noti.phone_number_format_is_not_correct')}`,
+        description: `${t("noti.phone_number_format_is_not_correct")}`,
       };
       Notification(notifyMess);
       return false;
@@ -742,25 +740,19 @@ const DetailUser = (props) => {
         <GroupUser id={userUuid} handleReload={handleReload} reload={reload} />
       </div>
 
-      <div
-        className={
-          permissionCheck("assign_user_permission") && !props?.isMyInfor
-            ? ""
-            : "disableCard"
-        }
-      >
-        <CameraGroup
-          id={userUuid}
-          handleRefreshCameraPage={handleRefreshCameraPage}
-          reload={reload}
-        ></CameraGroup>
+      <CameraGroup
+        id={userUuid}
+        handleRefreshCameraPage={handleRefreshCameraPage}
+        reload={reload}
+        isMyInfor={props?.isMyInfor}
+      ></CameraGroup>
 
-        <Camera
-          id={userUuid}
-          reloadCameraPage={reloadCameraPage}
-          reload={reload}
-        />
-      </div>
+      <Camera
+        id={userUuid}
+        reloadCameraPage={reloadCameraPage}
+        reload={reload}
+        isMyInfor={props?.isMyInfor}
+      />
     </div>
   );
 };
