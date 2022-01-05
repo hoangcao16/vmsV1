@@ -1480,7 +1480,6 @@ const ExportEventFile = () => {
   };
 
   const renderInfoObjectPopoverContent = () => {
-    console.log(">>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>")
     return (
       <MemoizedInfoObjectPopoverContent
         viewFileType={viewFileType}
