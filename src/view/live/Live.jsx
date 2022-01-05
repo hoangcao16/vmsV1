@@ -99,8 +99,10 @@ const Live = (props) => {
 
   useEffect(() => {
     if (props.openModalPresetSetting.state) {
-      maxMinCamera(reactLocalStorage.getObject('originSlotId'))
-      setIsMaximize(false)
+      if (isMaximize == true) {
+        maxMinCamera(reactLocalStorage.getObject('originSlotId'))
+        setIsMaximize(false)
+      }
     }
   }, [props.openModalPresetSetting.state]);
 

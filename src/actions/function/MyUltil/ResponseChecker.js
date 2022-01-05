@@ -114,9 +114,9 @@ export const handleErrCodeAuthZ = (data) => {
       return null;
     default:
       if (language == 'vn') {
-        errCode.description = "Không xác định";
+        errCode.description = "Server không phản hồi";
       } else {
-        errCode.description = "Unknown";
+        errCode.description = "Server not responding";
       }
       Notification(errCode);
       return null;
