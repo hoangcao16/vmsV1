@@ -258,7 +258,7 @@ const LiveCameraSlot = (props) => {
               overlayClassName="control-panel-popover"
               trigger="click"
             >
-              {!permissionCheckByCamera("setup_preset", idCamera) &&
+              {!permissionCheckByCamera("setup_preset", idCamera) ||
               !permissionCheckByCamera("ptz_control", idCamera) ? (
                 <></>
               ) : (
