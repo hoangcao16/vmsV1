@@ -224,9 +224,6 @@ const LiveCameraSlot = (props) => {
                 {isMaximize && (
                   <Minimize2 className="video-toolbar__icon" size={12} />
                 )}
-                {/* {!isMaximize && (
-                  <Maximize2 className="video-toolbar__icon" size={12} />
-                )} */}
               </a>
             ) : (
               <Tooltip title={t("view.live.zoom")}>
@@ -235,9 +232,6 @@ const LiveCameraSlot = (props) => {
                   size="small"
                   onClick={() => maxMinCamera(slotId)}
                 >
-                  {/* {isMaximize && (
-                    <Minimize2 className="video-toolbar__icon" size={12} />
-                  )} */}
                   {!isMaximize && (
                     <Maximize2 className="video-toolbar__icon" size={12} />
                   )}
