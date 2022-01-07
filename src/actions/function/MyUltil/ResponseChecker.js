@@ -106,9 +106,9 @@ export const handleErrCodeAuthZ = (data) => {
       return null;
     case AuthZAccountAlreadyExists:
       if (language == 'vn') {
-        errCode.description = "Email đã tồn tại trong hệ thống";
+        errCode.description = "Email này hiện đang không hoạt động";
       } else {
-        errCode.description = "Email already exist in the system database";
+        errCode.description = "This email is currently inactive";
       }
       Notification(errCode);
       return null;
