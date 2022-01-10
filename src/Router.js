@@ -69,9 +69,6 @@ const Spinners = lazy(() =>
 );
 const Toasts = lazy(() => import('./components/reactstrap/toasts/Toasts'));
 
-const chips = lazy(() => import('./components/@vuexy/chips/Chips'));
-const divider = lazy(() => import('./components/@vuexy/divider/Divider'));
-const vuexyWizard = lazy(() => import('./components/@vuexy/wizard/Wizard'));
 
 
 
@@ -241,9 +238,6 @@ class AppRouter extends React.Component {
           <AppRoute path="/components/toasts" component={Toasts} />
 
 
-          <AppRoute path="/extra-components/chips" component={chips} />
-          <AppRoute path="/extra-components/divider" component={divider} />
-          <AppRoute path="/forms/wizard" component={vuexyWizard} />
 
 
 
