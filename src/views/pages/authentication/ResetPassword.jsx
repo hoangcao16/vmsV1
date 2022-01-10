@@ -65,7 +65,7 @@ class ResetPassword extends React.Component {
         if (isUpdate) {
           const language = reactLocalStorage.get("language");
           let notifyMess = {};
-          if (language == "vn") {
+          if (language === "vn") {
             notifyMess = {
               type: "success",
               title: "",
@@ -85,7 +85,7 @@ class ResetPassword extends React.Component {
         } else {
           const language = reactLocalStorage.get("language");
           let notifyMess = {};
-          if (language == "vn") {
+          if (language === "vn") {
             notifyMess = {
               type: "error",
               title: "",
@@ -110,7 +110,7 @@ class ResetPassword extends React.Component {
 
     if (isEmpty(value)) {
       let notifi = {};
-      if (language == "vn") {
+      if (language === "vn") {
         notifi = {
           type: "warning",
           title: "Thất bại",
@@ -127,7 +127,7 @@ class ResetPassword extends React.Component {
       return;
     } else if (value.length < 8) {
       let notifi = {};
-      if (language == "vn") {
+      if (language === "vn") {
         notifi = {
           type: "warning",
           title: "Thất bại",

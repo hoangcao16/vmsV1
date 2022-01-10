@@ -1,23 +1,21 @@
-import { PlusOutlined, DeleteOutlined, CheckOutlined, CloseOutlined } from '@ant-design/icons';
+import { CheckOutlined, CloseOutlined, DeleteOutlined, PlusOutlined } from '@ant-design/icons';
 import {
-  Button, Card, Checkbox, Row, Col, Form, Input, Table, Space,
-  Popconfirm, Spin, Tooltip, Switch, Select
+  Button, Card, Checkbox, Col, Form, Input, Popconfirm, Row, Select, Space, Spin, Switch, Table, Tooltip
 } from 'antd';
 import 'antd/dist/antd.css';
-import React, { useEffect, useRef, useState } from 'react';
+import _ from "lodash";
+import React, { useEffect, useRef } from 'react';
 import 'react-calendar-timeline/lib/Timeline.css';
 import { useTranslation } from 'react-i18next';
-import { reactLocalStorage } from "reactjs-localstorage";
 import AIConfigRectApi from '../../actions/api/ai-config/AIConfigRectApi';
-import './TabRect.scss';
-import imagePoster from "../../assets/event/videoposter.png";
-import { bodyStyleCard, headStyleCard } from './variables';
-import Notification from "../../components/vms/notification/Notification";
-import { NOTYFY_TYPE } from "../common/vms/Constant";
-import getServerCamproxyForPlay from "../../utility/vms/camera";
 import playCamApi from "../../api/camproxy/cameraApi";
-import _ from "lodash";
+import imagePoster from "../../assets/event/videoposter.png";
+import Notification from "../../components/vms/notification/Notification";
+import getServerCamproxyForPlay from "../../utility/vms/camera";
 import { sortPoints } from "../../utility/vms/sortIntrusionPoints";
+import { NOTYFY_TYPE } from "../common/vms/Constant";
+import './TabRect.scss';
+import { bodyStyleCard, headStyleCard } from './variables';
 
 const CheckboxGroup = Checkbox.Group;
 const { Option } = Select;
@@ -25,15 +23,15 @@ const { Option } = Select;
 const TabRect = (props) => {
   const { cameraUuid, type } = props
   const { t } = useTranslation();
-  const language = reactLocalStorage.get('language');
+
   const [form] = Form.useForm();
-  const [selectedRowKeys, setSelectedRowKeys] = useState([]);
+
   const [checkedList, setCheckedList] = React.useState([]);
   const [indeterminate, setIndeterminate] = React.useState(true);
   const [checkAll, setCheckAll] = React.useState(false);
   const [dataRectList, setDataRectList] = React.useState([]);
   const [dataRect, setDataRect] = React.useState({});
-  const [threshold, setThreshold] = React.useState(0);
+  const threshold=0;
   const [keyActive, setKeyActive] = React.useState(0);
   const [isActive, setIsActive] = React.useState(false);
   const [isActiveDetail, setIsActiveDetail] = React.useState(false);
@@ -414,14 +412,8 @@ const TabRect = (props) => {
     }
   }, [cameraUuid, type]);
 
-  const onSelectChange = (selectedRowKeys) => {
-    setSelectedRowKeys(selectedRowKeys);
-  };
 
-  const rowSelection = {
-    selectedRowKeys,
-    onChange: onSelectChange
-  };
+
 
   const onChange = list => {
     setCheckedList(list);
@@ -441,10 +433,10 @@ const TabRect = (props) => {
     let date = Date.now();
     let dataNew = [...dataRectList]
     let strType = ""
-    if (type == "intrusion_detection") {
+    if (type === "intrusion_detection") {
       strType = "Khu vực "
     }
-    if (type == "hurdles") {
+    if (type === "hurdles") {
       strType = "Đường "
     }
     dataNew.push({

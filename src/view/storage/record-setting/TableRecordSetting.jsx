@@ -127,7 +127,7 @@ const TableRecordSetting = () => {
 
     const payloadConverted = {
       recordingVideoSizeSave:
-        valueTime == -1 ? payload.recordingVideoSizeSaveInput : valueTime,
+        valueTime === -1 ? payload.recordingVideoSizeSaveInput : valueTime,
       recordingVideoFullTime:
         typeRecording === TYPE_RECORD.recordingVideoFullTime ? true : false,
       recordingVideosSchedule:

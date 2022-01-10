@@ -1,14 +1,15 @@
-import { Col, Popconfirm, Popover, Row, Tooltip, Input } from "antd";
+import { Col, Input, Popconfirm, Popover, Row, Tooltip } from "antd";
 import "antd/dist/antd.css";
 import { saveAs } from "file-saver";
 import { findIndex } from "lodash-es";
+import debounce from "lodash/debounce";
 import moment from "moment";
 import React, { useEffect, useRef, useState } from "react";
 import { useTranslation } from "react-i18next";
-import { AiOutlineInfoCircle, MdCenterFocusWeak, AiFillEdit } from "react-icons/all";
 import {
   AiFillVideoCamera, AiOutlineCheck, AiOutlineClose, AiOutlineEdit
 } from "react-icons/ai";
+import { AiFillEdit, AiOutlineInfoCircle, MdCenterFocusWeak } from "react-icons/all";
 import {
   FiBookmark,
   FiCamera,
@@ -27,6 +28,7 @@ import {
 import { RiCalendarTodoLine, RiDeleteBinLine } from "react-icons/ri";
 import { reactLocalStorage } from "reactjs-localstorage";
 import { v4 as uuidV4 } from "uuid";
+import AIEventsApi from "../../../actions/api/ai-events/AIEventsApi";
 import {
   default as deleteExportEventFileApi,
   default as ExportEventFileApi
@@ -49,14 +51,12 @@ import "./../../commonStyle/commonPopconfirm.scss";
 import "./../../commonStyle/commonSelect.scss";
 import "./../../commonStyle/commonTable.scss";
 import "./export-event-file.scss";
+import { MemoizedInfoObjectPopoverContent } from "./InfoObjectPopoverContent";
 import { MemoizedInfoPopoverContent } from "./InfoPopoverContent";
 import { MemoizedHlsPlayer } from "./PlayerHls";
 import { MemoizedTableEventFile } from "./TableEventFile";
 import { MemoizedTableFile } from "./TableFile";
 import { MemoizedThumbnailVideo } from "./ThumbnailVideo";
-import AIEventsApi from "../../../actions/api/ai-events/AIEventsApi";
-import debounce from "lodash/debounce";
-import { MemoizedInfoObjectPopoverContent } from "./InfoObjectPopoverContent";
 const AI_SOURCE = process.env.REACT_APP_AI_SOURCE;
 const { TextArea } = Input;
 

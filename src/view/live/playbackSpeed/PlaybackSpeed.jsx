@@ -6,7 +6,7 @@ import "./PlaybackSpeed.scss";
 
 const PlaybackSpeed = (props) => {
   const { t } = useTranslation();
-  const { resetSpeed, playbackChangeSpeedCallback, curSpeed } = props;
+  const { playbackChangeSpeedCallback, curSpeed } = props;
   // const [speed, setSpeed] = useState(NORMAL_SPEED);
   // useEffect(() => {
   // setSpeed(NORMAL_SPEED)
