@@ -1,160 +1,98 @@
-import React, { lazy, Suspense } from 'react';
-import { connect } from 'react-redux';
-import { Redirect, Route, Router, Switch } from 'react-router-dom';
-import Spinner from './components/@vuexy/spinner/Loading-spinner';
-import { history } from './history';
-import { ContextLayout } from './utility/context/Layout';
-import { FORM_MAP_ITEM } from './view/common/vms/constans/map';
-
+import React, { lazy, Suspense } from "react";
+import { connect } from "react-redux";
+import { Redirect, Route, Router, Switch } from "react-router-dom";
+import Spinner from "./components/@vuexy/spinner/Loading-spinner";
+import { history } from "./history";
+import { ContextLayout } from "./utility/context/Layout";
+import { FORM_MAP_ITEM } from "./view/common/vms/constans/map";
 
 // Route-based code splitting
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-const Alerts = lazy(() => import('./components/reactstrap/alerts/Alerts'));
-const Buttons = lazy(() => import('./components/reactstrap/buttons/Buttons'));
+const Buttons = lazy(() => import("./components/reactstrap/buttons/Buttons"));
 const Breadcrumbs = lazy(() =>
-  import('./components/reactstrap/breadcrumbs/Breadcrumbs')
+  import("./components/reactstrap/breadcrumbs/Breadcrumbs")
 );
 
-const Carousel = lazy(() =>
-  import('./components/reactstrap/carousel/Carousel')
-);
-const Collapse = lazy(() =>
-  import('./components/reactstrap/collapse/Collapse')
-);
-const Dropdowns = lazy(() =>
-  import('./components/reactstrap/dropdowns/Dropdown')
-);
-const ListGroup = lazy(() =>
-  import('./components/reactstrap/listGroup/ListGroup')
-);
-const Modals = lazy(() => import('./components/reactstrap/modal/Modal'));
+const Modals = lazy(() => import("./components/reactstrap/modal/Modal"));
 
-const NavComponent = lazy(() =>
-  import('./components/reactstrap/navComponent/NavComponent')
-);
-const Navbar = lazy(() => import('./components/reactstrap/navbar/Navbar'));
-const Tabs = lazy(() => import('./components/reactstrap/tabs/Tabs'));
-const TabPills = lazy(() =>
-  import('./components/reactstrap/tabPills/TabPills')
-);
-const Tooltips = lazy(() =>
-  import('./components/reactstrap/tooltips/Tooltips')
-);
-const Popovers = lazy(() =>
-  import('./components/reactstrap/popovers/Popovers')
-);
-const Badge = lazy(() => import('./components/reactstrap/badge/Badge'));
-const BadgePill = lazy(() =>
-  import('./components/reactstrap/badgePills/BadgePill')
-);
-const Progress = lazy(() =>
-  import('./components/reactstrap/progress/Progress')
-);
-const Media = lazy(() => import('./components/reactstrap/media/MediaObject'));
+const Tabs = lazy(() => import("./components/reactstrap/tabs/Tabs"));
+
 const Spinners = lazy(() =>
-  import('./components/reactstrap/spinners/Spinners')
+  import("./components/reactstrap/spinners/Spinners")
 );
-const Toasts = lazy(() => import('./components/reactstrap/toasts/Toasts'));
-
-
-
-
-
-
-
-
-
-
 
 // const accountSettings = lazy(() =>
 //   import('./views/pages/account-settings/AccountSettings')
 // );
 
-
-
-
-const Import = lazy(() => import('./extensions/import-export/Import'));
-const Export = lazy(() => import('./extensions/import-export/Export'));
+const Import = lazy(() => import("./extensions/import-export/Import"));
+const Export = lazy(() => import("./extensions/import-export/Export"));
 const ExportSelected = lazy(() =>
-  import('./extensions/import-export/ExportSelected')
+  import("./extensions/import-export/ExportSelected")
 );
-const Camera = lazy(() => import('./view/camera/index'));
-const CameraGroup = lazy(() => import('./view/camera/TableCameraGroup'));
+const Camera = lazy(() => import("./view/camera/index"));
+const CameraGroup = lazy(() => import("./view/camera/TableCameraGroup"));
 
-const Files = lazy(() => import('./view/storage/files/TableStorage'));
+const Files = lazy(() => import("./view/storage/files/TableStorage"));
 const ClearSetting = lazy(() =>
-  import('./view/storage/clear-setting/TableClearSetting')
+  import("./view/storage/clear-setting/TableClearSetting")
 );
 const ExportEventFile = lazy(() =>
-  import('./view/storage/export-event-file/ExportEventFile')
+  import("./view/storage/export-event-file/ExportEventFile")
 );
 const HardDriveList = lazy(() =>
-  import('./view/storage/hard-drive-list/TableHardDriveList')
+  import("./view/storage/hard-drive-list/TableHardDriveList")
 );
 const RecordSetting = lazy(() =>
-  import('./view/storage/record-setting/TableRecordSetting')
+  import("./view/storage/record-setting/TableRecordSetting")
 );
 // const ThreshSaveSetting = lazy(() =>
 //   import('./view/storage/store-setting/StoreSetting')
 // );
 const StoreSetting = lazy(() =>
-  import('./view/storage/store-setting/StoreSetting')
+  import("./view/storage/store-setting/StoreSetting")
 );
-const Scan = lazy(() => import('./view/camera/TableCameraScan'));
+const Scan = lazy(() => import("./view/camera/TableCameraScan"));
 
-const NVR = lazy(() => import('./view/commonDevice/nvr/TableNVR'));
+const NVR = lazy(() => import("./view/commonDevice/nvr/TableNVR"));
 const Playback = lazy(() =>
-  import('./view/commonDevice/playback/TablePlayback')
+  import("./view/commonDevice/playback/TablePlayback")
 );
 const Camproxy = lazy(() =>
-  import('./view/commonDevice/camproxy/TableCamproxy')
+  import("./view/commonDevice/camproxy/TableCamproxy")
 );
-const Setting = lazy(() => import('./view/setting/TableSetting'));
-const ptzMan = lazy(() => import('./view/ptz-man/TablePtzManager'));
+const Setting = lazy(() => import("./view/setting/TableSetting"));
+const ptzMan = lazy(() => import("./view/ptz-man/TablePtzManager"));
 
-const Monitoring = lazy(() => import('./view/monitoring/TableMonitoring'));
-const Event = lazy(() => import('./view/event/TableEvent'));
-const Alert = lazy(() => import('./view/alert/TableAlert'));
-const Zone = lazy(() => import('./view/commonDevice/zone/TableZone'));
-const DeviceManage = lazy(() => import('./view/commonDevice/DeviceManage'));
-const Category = lazy(() => import('./view/category/TableCategory'));
-const SettingAccount = lazy(() => import('./view/user/Setting'));
-const TableHumans = lazy(() => import('./view/ai-humans/TableHumans'));
-const Config = lazy(() => import('./view/ai-config/Config'));
+const Monitoring = lazy(() => import("./view/monitoring/TableMonitoring"));
+const Event = lazy(() => import("./view/event/TableEvent"));
+const Alert = lazy(() => import("./view/alert/TableAlert"));
+const Zone = lazy(() => import("./view/commonDevice/zone/TableZone"));
+const DeviceManage = lazy(() => import("./view/commonDevice/DeviceManage"));
+const Category = lazy(() => import("./view/category/TableCategory"));
+const SettingAccount = lazy(() => import("./view/user/Setting"));
+const TableHumans = lazy(() => import("./view/ai-humans/TableHumans"));
+const Config = lazy(() => import("./view/ai-config/Config"));
 
-const Login = lazy(() => import('./views/pages/authentication/login/Login'));
+const Login = lazy(() => import("./views/pages/authentication/login/Login"));
 const forgotPassword = lazy(() =>
-  import('./views/pages/authentication/ForgotPassword')
+  import("./views/pages/authentication/ForgotPassword")
 );
 const lockScreen = lazy(() =>
-  import('./views/pages/authentication/LockScreen')
+  import("./views/pages/authentication/LockScreen")
 );
 const resetPassword = lazy(() =>
-  import('./views/pages/authentication/ResetPassword')
+  import("./views/pages/authentication/ResetPassword")
 );
 const register = lazy(() =>
-  import('./views/pages/authentication/register/Register')
+  import("./views/pages/authentication/register/Register")
 );
 
-
-const Live = lazy(() => import('./view/live/Live'));
-const Maps = lazy(() => import('./view/maps/Maps'));
-const Preset = lazy(() => import('./view/preset/Preset'));
-const Report = lazy(() => import('./view/report/Report'));
-const Infor = lazy(() => import('./view/infor/InforUserDetails'));
+const Live = lazy(() => import("./view/live/Live"));
+const Maps = lazy(() => import("./view/maps/Maps"));
+const Preset = lazy(() => import("./view/preset/Preset"));
+const Report = lazy(() => import("./view/report/Report"));
+const Infor = lazy(() => import("./view/infor/InforUserDetails"));
 // const Notification = lazy(() => import('./view/notification/Notification'));
 
 // Set Layout and Component Using App Route
@@ -168,9 +106,9 @@ const RouteConfig = ({ component: Component, fullLayout, ...rest }) => (
             let LayoutTag =
               fullLayout === true
                 ? context.fullLayout
-                : context.state.activeLayout === 'horizontal'
-                  ? context.horizontalLayout
-                  : context.VerticalLayout;
+                : context.state.activeLayout === "horizontal"
+                ? context.horizontalLayout
+                : context.VerticalLayout;
             return (
               <LayoutTag {...props} permission={props.user}>
                 <Suspense fallback={<Spinner />}>
@@ -186,16 +124,13 @@ const RouteConfig = ({ component: Component, fullLayout, ...rest }) => (
 );
 const mapStateToProps = (state) => {
   return {
-    user: state.auth.login.userRole
+    user: state.auth.login.userRole,
   };
 };
 
 const AppRoute = connect(mapStateToProps)(RouteConfig);
 
 class AppRouter extends React.Component {
-  constructor(props) {
-    super(props);
-  }
   render() {
     sessionStorage.removeItem(FORM_MAP_ITEM);
     return (
@@ -215,32 +150,14 @@ class AppRouter extends React.Component {
             component={() => <Redirect to="/todo/all" />}
           />
 
-
-          <AppRoute path="/components/alerts" component={Alerts} />
           <AppRoute path="/components/buttons" component={Buttons} />
           <AppRoute path="/components/breadcrumbs" component={Breadcrumbs} />
-          <AppRoute path="/components/carousel" component={Carousel} />
-          <AppRoute path="/components/collapse" component={Collapse} />
-          <AppRoute path="/components/dropdowns" component={Dropdowns} />
-          <AppRoute path="/components/list-group" component={ListGroup} />
+
           <AppRoute path="/components/modals" component={Modals} />
-          <AppRoute path="/components/nav-component" component={NavComponent} />
-          <AppRoute path="/components/navbar" component={Navbar} />
+
           <AppRoute path="/components/tabs-component" component={Tabs} />
-          <AppRoute path="/components/pills-component" component={TabPills} />
-          <AppRoute path="/components/tooltips" component={Tooltips} />
-          <AppRoute path="/components/popovers" component={Popovers} />
-          <AppRoute path="/components/badges" component={Badge} />
-          <AppRoute path="/components/pill-badges" component={BadgePill} />
-          <AppRoute path="/components/progress" component={Progress} />
-          <AppRoute path="/components/media-objects" component={Media} />
+
           <AppRoute path="/components/spinners" component={Spinners} />
-          <AppRoute path="/components/toasts" component={Toasts} />
-
-
-
-
-
 
           {/*<AppRoute*/}
           {/*  path="/pages/account-settings"*/}
@@ -264,7 +181,6 @@ class AppRouter extends React.Component {
             component={resetPassword}
             fullLayout
           />
-
 
           <AppRoute path="/app/camera/list" component={Camera} />
           <AppRoute path="/app/camera_group/list" component={CameraGroup} />
