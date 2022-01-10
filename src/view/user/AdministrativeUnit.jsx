@@ -3,17 +3,15 @@ import {
   EditOutlined,
   InfoCircleOutlined,
   PlusOutlined,
-  SearchOutlined,
+  SearchOutlined
 } from "@ant-design/icons";
 import {
   AutoComplete,
   Button,
   Card,
-  Popconfirm,
-  Select,
-  Space,
+  Popconfirm, Space,
   Table,
-  Tooltip,
+  Tooltip
 } from "antd";
 import "antd/dist/antd.css";
 import { isEmpty } from "lodash-es";
@@ -22,16 +20,16 @@ import { useTranslation } from "react-i18next";
 import { withRouter } from "react-router-dom";
 import { reactLocalStorage } from "reactjs-localstorage";
 import AdDivisionApi from "../../actions/api/advision/AdDivision";
-
 import Notification from "../../components/vms/notification/Notification";
 import Breadcrumds from "../breadcrumds/Breadcrumds";
 import "./../commonStyle/commonInput.scss";
 import "./../commonStyle/commonSelect.scss";
 import "./../commonStyle/commonTable.scss";
+import "./AdministrativeUnit.scss";
 import ModalEditAdministrativeUnit from "./ModalEditAdministrativeUnit";
 import ModalViewDetail from "./ModalViewDetail";
-import "./AdministrativeUnit.scss";
 import { bodyStyleCard, headStyleCard } from "./variables";
+
 
 export const CATEGORY_NAME = {
   AD_DIVISIONS: "AD_DIVISIONS",
@@ -41,7 +39,7 @@ const AdministrativeUnit = () => {
   const { t } = useTranslation();
   const language = reactLocalStorage.get("language");
   const [dataOptions, setDataOptions] = useState({});
-  const [dataType, setDataType] = useState(CATEGORY_NAME.AD_DIVISIONS);
+  const dataType =CATEGORY_NAME.AD_DIVISIONS
   const [selectedCategoryId, setSelectedCategoryId] = useState(null);
   const [selectedUnitId, setSelectedUnitId] = useState(null);
   const [showModal, setShowModal] = useState(false);
@@ -49,7 +47,7 @@ const AdministrativeUnit = () => {
 
   useEffect(() => {
     if (
-      language == "vn"
+      language === "vn"
         ? (document.title = "CCTV | Administrative unit")
         : (document.title = "CCTV | Đơn vị hành chính")
     );

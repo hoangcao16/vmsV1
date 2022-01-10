@@ -6,7 +6,7 @@ const HeaderRightSideBar = ({ toggleCollapsedCameraList }) => {
 
   return (
     <div className="camera-list__header">
-      <a className="toggle-collapse" onClick={toggleCollapsedCameraList} />
+      <div className="toggle-collapse" onClick={toggleCollapsedCameraList} />
       <h5>
         <i className="app-icon icon-camera-list" /> {t('view.map.camera_list', { cam: t('camera') })}
       </h5>
