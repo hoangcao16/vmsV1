@@ -5,6 +5,8 @@ import Spinner from "./components/@vuexy/spinner/Loading-spinner";
 import { history } from "./history";
 import { ContextLayout } from "./utility/context/Layout";
 import { FORM_MAP_ITEM } from "./view/common/vms/constans/map";
+import { isEmpty } from "lodash-es";
+import { reactLocalStorage } from "reactjs-localstorage";
 
 // Route-based code splitting
 
@@ -75,6 +77,7 @@ const TableHumans = lazy(() => import("./view/ai-humans/TableHumans"));
 const Config = lazy(() => import("./view/ai-config/Config"));
 
 const Login = lazy(() => import("./views/pages/authentication/login/Login"));
+// const LoginDefault = lazy(() => import("./views/pages/authentication/login/LoginDefault"));
 const forgotPassword = lazy(() =>
   import("./views/pages/authentication/ForgotPassword")
 );
@@ -110,11 +113,17 @@ const RouteConfig = ({ component: Component, fullLayout, ...rest }) => (
                 ? context.horizontalLayout
                 : context.VerticalLayout;
             return (
-              <LayoutTag {...props} permission={props.user}>
-                <Suspense fallback={<Spinner />}>
-                  <Component {...props} />
-                </Suspense>
-              </LayoutTag>
+              <>
+                {!isEmpty(reactLocalStorage.getObject("permissionUser")) ? (
+                  <LayoutTag {...props} permission={props.user}>
+                    <Suspense fallback={<Spinner />}>
+                      <Component {...props} />
+                    </Suspense>
+                  </LayoutTag>
+                ) : (
+                  <Login />
+                )}
+              </>
             );
           }}
         </ContextLayout.Consumer>
