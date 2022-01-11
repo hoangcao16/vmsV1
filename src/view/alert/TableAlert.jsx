@@ -11,7 +11,7 @@ const TableAlert = () => {
 
   useEffect(() => {
     if (
-      language == "vn"
+      language === "vn"
         ? (document.title = "CCTV | Quản lý cảnh báo")
         : (document.title = "CCTV | Alert Management")
     );

@@ -2,11 +2,10 @@ import {
   DownOutlined,
   LeftOutlined,
   RightOutlined,
-  UpOutlined,
+  UpOutlined
 } from "@ant-design/icons";
 import { Button } from "antd";
 import React from "react";
-import controlIcon from "../../../assets/img/icons/preset/control.png";
 import Slider from "../../../components/vms/Slider";
 import "./ControlPanel.scss";
 const controlPanel = ({

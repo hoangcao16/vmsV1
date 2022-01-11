@@ -10,7 +10,7 @@ const KCheetahNvrNotFound = 902
 const StatusForbidden = 605;
 
 export const handleErrCode = (data) => {
-    const { code, message, payload, deny_permission_codes } = data;
+    const { code, message, deny_permission_codes } = data;
     switch (code) {
         case KCheetahSuccess:
             return data;

@@ -61,7 +61,7 @@ const TableCategory = () => {
 
   useEffect(() => {
     if (
-      language == 'vn'
+      language === 'vn'
         ? (document.title = 'CCTV | Quản lý danh mục')
         : (document.title = 'CCTV | Category Management')
     );
@@ -305,7 +305,7 @@ const TableCategory = () => {
     setSelectedUnitId(null);
   };
 
-  const { vendors, cameraTypes, adDivisions, field, eventTypes, tags, departments } = dataOptions;
+  const { vendors, cameraTypes, field, eventTypes, tags, departments } = dataOptions;
 
   const categoryColumns = [
     {

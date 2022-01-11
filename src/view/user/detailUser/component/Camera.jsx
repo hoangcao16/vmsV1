@@ -1,19 +1,17 @@
-import {
-  CloseOutlined,
-  PlusOutlined
-} from '@ant-design/icons';
-import { Button, Checkbox, Popconfirm, Space, Table, Tag, Tooltip } from 'antd';
-import { isEmpty } from 'lodash-es';
-import React, { useEffect, useState } from 'react';
-import { useTranslation } from 'react-i18next';
-import CameraApi from '../../../../actions/api/camera/CameraApi';
-import UserApi from '../../../../actions/api/user/UserApi';
-import { ShowTotal } from '../../../../styled/showTotal';
-import '../../../commonStyle/commonAuto.scss';
-import '../../../commonStyle/commonSelect.scss';
-import Notification from './../../../../components/vms/notification/Notification';
-import './Camera.scss';
-import ModalAddCamera from './ModalAddCamera';
+import { CloseOutlined, PlusOutlined } from "@ant-design/icons";
+import { Button, Checkbox, Popconfirm, Space, Table, Tag, Tooltip } from "antd";
+import { isEmpty } from "lodash-es";
+import React, { useEffect, useState } from "react";
+import { useTranslation } from "react-i18next";
+import CameraApi from "../../../../actions/api/camera/CameraApi";
+import UserApi from "../../../../actions/api/user/UserApi";
+import permissionCheck from "../../../../actions/function/MyUltil/PermissionCheck";
+import { ShowTotal } from "../../../../styled/showTotal";
+import "../../../commonStyle/commonAuto.scss";
+import "../../../commonStyle/commonSelect.scss";
+import Notification from "./../../../../components/vms/notification/Notification";
+import "./Camera.scss";
+import ModalAddCamera from "./ModalAddCamera";
 
 export default function Camera(props) {
   const [data, setData] = useState([]);
@@ -31,13 +29,13 @@ export default function Camera(props) {
 
   useEffect(() => {
     let data = {
-      name: '',
-      provinceId: '',
-      districtId: '',
-      id: '',
-      administrativeUnitUuid: '',
-      vendorUuid: '',
-      status: ''
+      name: "",
+      provinceId: "",
+      districtId: "",
+      id: "",
+      administrativeUnitUuid: "",
+      vendorUuid: "",
+      status: "",
     };
 
     setReloadCameraPage(props?.reloadCameraPage);
@@ -45,7 +43,7 @@ export default function Camera(props) {
 
     CameraApi.getAllCamera(data).then(setCamera);
 
-    CameraApi.getAllGroupCamera({ name: '' }).then(setCameraGroup);
+    CameraApi.getAllGroupCamera({ name: "" }).then(setCameraGroup);
 
     UserApi.getGroupByUser({ uuid: props?.id }).then(async (result) => {
       setData(result);
@@ -60,19 +58,19 @@ export default function Camera(props) {
     });
   }, [props?.reloadCameraPage, reload, props?.reload]);
 
-  useEffect(() => { }, [selectedAdd]);
+  useEffect(() => {}, [selectedAdd]);
 
   const convertData = (data) => {
     //Nhóm tất cả các bản ghi có cùng cam_uuid sau dó merge role name trong p_role_camera_groups
     var arr = [];
     var group_to_values1 = data.p_role_cameras.reduce(function (obj, item) {
       var data = {
-        uuid: '',
+        uuid: "",
         name_role: [],
         code_role: [],
-        cam_uuid: '',
-        cam_name: '',
-        permissions: []
+        cam_uuid: "",
+        cam_name: "",
+        permissions: [],
       };
 
       obj[item.cam_uuid] = obj[item.cam_uuid] || data;
@@ -97,7 +95,7 @@ export default function Camera(props) {
         code_role: value.code_role,
         name_role: value.name_role,
         cam_name: value.cam_name,
-        permissions: value.permissions
+        permissions: value.permissions,
       })
     );
 
@@ -106,12 +104,12 @@ export default function Camera(props) {
 
     var group_to_values2 = data.p_user_g_cameras.reduce(function (obj, item) {
       var data = {
-        uuid: '',
+        uuid: "",
         name_group: [],
         code_group: [],
-        cam_uuid: '',
-        cam_name: '',
-        permissions: []
+        cam_uuid: "",
+        cam_name: "",
+        permissions: [],
       };
 
       obj[item.cam_uuid] = obj[item.cam_uuid] || data;
@@ -136,7 +134,7 @@ export default function Camera(props) {
         name_group: value.name_group,
         code_group: value.code_group,
         cam_name: value.cam_name,
-        permissions: value.permissions
+        permissions: value.permissions,
       })
     );
 
@@ -156,14 +154,14 @@ export default function Camera(props) {
 
         var group_to_values3 = arrayData.reduce(function (obj, item) {
           var data = {
-            uuid: '',
+            uuid: "",
             code_role: [],
             name_role: [],
             name_group: [],
             code_group: [],
-            cam_uuid: '',
-            cam_name: '',
-            permissions: []
+            cam_uuid: "",
+            cam_name: "",
+            permissions: [],
           };
 
           obj[item.cam_uuid] = obj[item.cam_uuid] || data;
@@ -199,9 +197,9 @@ export default function Camera(props) {
             cam_name: value.cam_name,
             permissions: [...new Set([...value.permissions])].map((p) => {
               return {
-                [p]: 1
+                [p]: 1,
               };
-            })
+            }),
           })
         );
       }
@@ -214,9 +212,9 @@ export default function Camera(props) {
           ...a2,
           permissions: [...new Set([...a2.permissions])].map((p) => {
             return {
-              [p]: 1
+              [p]: 1,
             };
-          })
+          }),
         };
       });
     }
@@ -228,9 +226,9 @@ export default function Camera(props) {
           ...a2,
           permissions: [...new Set([...a2.permissions])].map((p) => {
             return {
-              [p]: 1
+              [p]: 1,
             };
-          })
+          }),
         };
       });
     }
@@ -251,7 +249,7 @@ export default function Camera(props) {
         user_cam_group: camG.name_group,
         role_cam_group: camG.name_role,
 
-        isDisableRow: true
+        isDisableRow: true,
       };
       return t;
     });
@@ -261,7 +259,7 @@ export default function Camera(props) {
     return data.p_cameras.map((pc) => {
       const permision = pc.permissions.map((p) => {
         return {
-          [p]: 1
+          [p]: 1,
         };
       });
 
@@ -271,7 +269,7 @@ export default function Camera(props) {
         ...permisionConvert,
         cam_name: pc?.cam_name,
         cam_uuid: pc?.cam_uuid,
-        isDisableRow: checkDisable(pc.cam_group_uuid, data?.p_camera_groups) // đk để hiển thị là
+        isDisableRow: checkDisable(pc.cam_group_uuid, data?.p_camera_groups), // đk để hiển thị là
       };
     });
   };
@@ -318,14 +316,14 @@ export default function Camera(props) {
         ...cam2,
         cam_name: cam2?.name,
         cam_uuid: cam2?.uuid,
-        permissions: ['view_online'],
-        isDisableRow: false
+        permissions: ["view_online"],
+        isDisableRow: false,
       };
     });
 
     const dataAfter = {
       ...data,
-      p_cameras: cameraAdd
+      p_cameras: cameraAdd,
     };
 
     setData(dataAfter);
@@ -367,7 +365,7 @@ export default function Camera(props) {
     const data = {
       subject: `user@${props.id}`,
       object: `cam@${id}`,
-      action: name
+      action: name,
     };
 
     if (e.target.checked) {
@@ -376,9 +374,9 @@ export default function Camera(props) {
       if (isAdd) {
         setReload(!reload);
         const notifyMess = {
-          type: 'success',
-          title: '',
-          description: `${t('noti.successfully_add_permission')}`,
+          type: "success",
+          title: "",
+          description: `${t("noti.successfully_add_permission")}`,
         };
         Notification(notifyMess);
       }
@@ -387,7 +385,7 @@ export default function Camera(props) {
     }
 
     const dataRemove = {
-      policies: [data]
+      policies: [data],
     };
 
     const isRemove = await CameraApi.removePermisionCamGroup(dataRemove);
@@ -396,16 +394,16 @@ export default function Camera(props) {
     if (isRemove) {
       setReload(!reload);
       const notifyMess = {
-        type: 'success',
-        title: '',
-        description: `${t('noti.successfully_delete_permission')}`,
+        type: "success",
+        title: "",
+        description: `${t("noti.successfully_delete_permission")}`,
       };
       Notification(notifyMess);
     } else {
       const notifyMess = {
-        type: 'error',
-        title: '',
-        description: `${t('noti.fail_delete_permission')}`,
+        type: "error",
+        title: "",
+        description: `${t("noti.fail_delete_permission")}`,
       };
       Notification(notifyMess);
     }
@@ -429,9 +427,9 @@ export default function Camera(props) {
       !record?.ptz_control
     ) {
       const notifyMess = {
-        type: 'success',
-        title: '',
-        description: `${t('noti.successfully_delete_data')}`,
+        type: "success",
+        title: "",
+        description: `${t("noti.successfully_delete_data")}`,
       };
       Notification(notifyMess);
 
@@ -440,11 +438,11 @@ export default function Camera(props) {
       dataRemove.push({
         subject: `user@${props.id}`,
         object: `cam@${record.cam_uuid}`,
-        action: 'view_online'
+        action: "view_online",
       });
 
       await CameraApi.removePermisionCamGroup({
-        policies: dataRemove
+        policies: dataRemove,
       });
 
       removeItem(record);
@@ -457,50 +455,50 @@ export default function Camera(props) {
       data.push({
         subject: `user@${props.id}`,
         object: `cam@${record.cam_uuid}`,
-        action: 'view_online'
+        action: "view_online",
       });
     }
     if (record?.view_offline) {
       data.push({
         subject: `user@${props.id}`,
         object: `cam@${record.cam_uuid}`,
-        action: 'view_offline'
+        action: "view_offline",
       });
     }
     if (record?.setup_preset) {
       data.push({
         subject: `user@${props.id}`,
         object: `cam@${record.cam_uuid}`,
-        action: 'setup_preset'
+        action: "setup_preset",
       });
     }
     if (record?.ptz_control) {
       data.push({
         subject: `user@${props.id}`,
         object: `cam@${record.cam_uuid}`,
-        action: 'ptz_control'
+        action: "ptz_control",
       });
     }
 
     const dataRemove = {
-      policies: data
+      policies: data,
     };
 
     const isRemove = await CameraApi.removePermisionCamGroup(dataRemove);
 
     if (isRemove) {
       const notifyMess = {
-        type: 'success',
-        title: '',
-        description: `${t('noti.successfully_delete_permission')}`,
+        type: "success",
+        title: "",
+        description: `${t("noti.successfully_delete_permission")}`,
       };
       Notification(notifyMess);
       setReload(!reload);
     } else {
       const notifyMess = {
-        type: 'error',
-        title: '',
-        description: `${t('noti.fail_delete_permission')}`,
+        type: "error",
+        title: "",
+        description: `${t("noti.fail_delete_permission")}`,
       };
       Notification(notifyMess);
     }
@@ -515,7 +513,7 @@ export default function Camera(props) {
 
     return (
       <Checkbox
-        onChange={(e) => onChange(e, 'view_online', record.cam_uuid)}
+        onChange={(e) => onChange(e, "view_online", record.cam_uuid)}
         checked={defaultChecked}
         disabled={record.isDisableRow}
       ></Checkbox>
@@ -531,7 +529,7 @@ export default function Camera(props) {
 
     return (
       <Checkbox
-        onChange={(e) => onChange(e, 'view_offline', record.cam_uuid)}
+        onChange={(e) => onChange(e, "view_offline", record.cam_uuid)}
         checked={defaultChecked}
         disabled={record.isDisableRow}
       ></Checkbox>
@@ -547,7 +545,7 @@ export default function Camera(props) {
 
     return (
       <Checkbox
-        onChange={(e) => onChange(e, 'setup_preset', record.cam_uuid)}
+        onChange={(e) => onChange(e, "setup_preset", record.cam_uuid)}
         checked={defaultChecked}
         disabled={record.isDisableRow}
       ></Checkbox>
@@ -563,7 +561,7 @@ export default function Camera(props) {
 
     return (
       <Checkbox
-        onChange={(e) => onChange(e, 'ptz_control', record.cam_uuid)}
+        onChange={(e) => onChange(e, "ptz_control", record.cam_uuid)}
         checked={defaultChecked}
         disabled={record.isDisableRow}
       ></Checkbox>
@@ -573,22 +571,23 @@ export default function Camera(props) {
   const renderHeader = () => {
     return (
       <>
-        <h4>{t('view.user.detail_list.grant_permission_by_camera')}</h4>
-        <div className="d-flex">
-          <Tooltip
-            placement="topRight"
-            title={t('view.user.detail_list.add_camera_choose_permission')}
-          >
-            <Button
-              type="primary"
-              className="btnAdd "
-              style={{ borderRadius: '6px' }}
-              onClick={showModalAdd}
+        <h4>{t("view.user.detail_list.grant_permission_by_camera")}</h4>
+        {permissionCheck("assign_user_permission") && !props?.isMyInfor && (
+          <div className="d-flex">
+            <Tooltip
+              placement="topRight"
+              title={t("view.user.detail_list.add_camera_choose_permission")}
             >
-              <PlusOutlined />
-            </Button>
-          </Tooltip>
-          {/* <Tooltip placement="topRight" title="Chi tiết">
+              <Button
+                type="primary"
+                className="btnAdd "
+                style={{ borderRadius: "6px" }}
+                onClick={showModalAdd}
+              >
+                <PlusOutlined />
+              </Button>
+            </Tooltip>
+            {/* <Tooltip placement="topRight" title="Chi tiết">
           <Button
             className="btnInfo height-40"
             style={{ borderRadius: '6px' }}
@@ -596,83 +595,83 @@ export default function Camera(props) {
             <QuestionCircleOutlined className="d-flex justify-content-between align-center" />
           </Button>
         </Tooltip> */}
-        </div>
+          </div>
+        )}
       </>
     );
   };
 
   const columns = [
     {
-      title: 'Camera',
-      className: 'headerUserColums',
-      dataIndex: 'cam_name',
-      fixed: 'left'
+      title: "Camera",
+      className: "headerUserColums",
+      dataIndex: "cam_name",
+      fixed: "left",
     },
     {
-      title: `${t('view.map.camera_group', { cam: t('camera') })}`,
-      className: 'headerUserColums',
-      dataIndex: 'cam_name_group',
-
+      title: `${t("view.map.camera_group", { cam: t("camera") })}`,
+      className: "headerUserColums",
+      dataIndex: "cam_name_group",
     },
     {
-      title: `${t('R')}`,
-      className: 'headerUserColums',
-      dataIndex: 'role_cam_group',
-      render: renderRole
+      title: `${t("R")}`,
+      className: "headerUserColums",
+      dataIndex: "role_cam_group",
+      render: renderRole,
     },
     {
-      title: `${t('G')}`,
-      className: 'headerUserColums',
-      dataIndex: 'user_cam_group',
-      render: userGroup
+      title: `${t("G")}`,
+      className: "headerUserColums",
+      dataIndex: "user_cam_group",
+      render: userGroup,
     },
     {
-      title: `${t('view.user.detail_list.view_online')}`,
-      className: 'headerUserColums',
-      dataIndex: 'view_online',
+      title: `${t("view.user.detail_list.view_online")}`,
+      className: "headerUserColums",
+      dataIndex: "view_online",
 
       render: (text, record) => {
         return <Space>{viewOnline(record)}</Space>;
-      }
+      },
     },
     {
-      title: `${t('view.user.detail_list.view_offline')}`,
-      className: 'headerUserColums',
-      dataIndex: 'view_offline',
+      title: `${t("view.user.detail_list.view_offline")}`,
+      className: "headerUserColums",
+      dataIndex: "view_offline",
 
       render: (text, record) => {
         return <Space>{viewOffline(record)}</Space>;
-      }
+      },
     },
     {
-      title: `${t('view.user.detail_list.preset_setting')}`,
-      className: 'headerUserColums',
-      dataIndex: 'setup_preset',
+      title: `${t("view.user.detail_list.preset_setting")}`,
+      className: "headerUserColums",
+      dataIndex: "setup_preset",
 
       render: (text, record) => {
         return <Space>{setupPreset(record)}</Space>;
-      }
+      },
     },
     {
-      title: `${t('view.user.detail_list.control')}`,
-      className: 'headerUserColums',
-      dataIndex: 'ptz_control',
+      title: `${t("view.user.detail_list.control")}`,
+      className: "headerUserColums",
+      dataIndex: "ptz_control",
 
       render: (text, record) => {
         return <Space>{ptzControl(record)}</Space>;
-      }
+      },
     },
 
     {
-      title: `${t('view.user.detail_list.action')}`,
-      className: 'headerUserColums',
-      fixed: 'right',
+      title: `${t("view.user.detail_list.action")}`,
+      className: "headerUserColums",
+      fixed: "right",
       render: (text, record) => {
         return (
           <Space>
             {!record.isDisableRow && (
               <Popconfirm
-                title={t('noti.delete_all_permission')}
+                title={t("noti.delete_all_permission")}
                 onConfirm={() => removeAllPermmision(record)}
               >
                 <CloseOutlined />
@@ -680,8 +679,8 @@ export default function Camera(props) {
             )}
           </Space>
         );
-      }
-    }
+      },
+    },
   ];
   const onShowSizeChange = (current, pageSize) => {
     setPage(current);
@@ -696,7 +695,18 @@ export default function Camera(props) {
         columns={columns}
         dataSource={dataCameras}
         title={renderHeader}
-        rowClassName={(record) => record.isDisableRow && 'disabled-row'}
+        // rowClassName={(record) => record.isDisableRow && 'disabled-row'}
+        rowClassName={(record) => {
+          let classAdd = [];
+          if (record.isDisableRow) {
+            classAdd.push("disabled-row");
+          }
+          if (permissionCheck("assign_user_permission") && props?.isMyInfor) {
+            classAdd.push("disableCard");
+          }
+          let finalClassAdd = classAdd.join(" ");
+          return finalClassAdd;
+        }}
         scroll={{ x: 1500 }}
         pagination={{
           showSizeChanger: true,
@@ -714,13 +724,13 @@ export default function Camera(props) {
           showTotal: (total, range) => {
             return (
               <ShowTotal className="show--total">
-                {t('view.user.detail_list.viewing')} {range[0]}{' '}
-                {t('view.user.detail_list.to')} {range[1]}{' '}
-                {t('view.user.detail_list.out_of')} {total}{' '}
-                {t('view.user.detail_list.indexes')}
+                {t("view.user.detail_list.viewing")} {range[0]}{" "}
+                {t("view.user.detail_list.to")} {range[1]}{" "}
+                {t("view.user.detail_list.out_of")} {total}{" "}
+                {t("view.user.detail_list.indexes")}
               </ShowTotal>
             );
-          }
+          },
         }}
       />
       {selectedAdd && (

@@ -58,9 +58,7 @@ const LiveCameraSlot = (props) => {
     setShowMenus(false);
   };
 
-  const onDoubleClick = () => {
-    zoomOutByDoubleClick(slotId);
-  };
+
   const captureCameraHandler = (slotId) => {
     if (!recMode) {
       const currTime = new Date().getTime();
@@ -190,7 +188,7 @@ const LiveCameraSlot = (props) => {
               <></>
             ) : (
               <Tooltip title={t("view.user.record")}>
-                <a
+                <div
                   className={
                     recMode ? "video-toolbar__capture" : "video-toolbar__link"
                   }
@@ -198,7 +196,7 @@ const LiveCameraSlot = (props) => {
                   onClick={() => captureCameraHandler(slotId)}
                 >
                   <Video className="video-toolbar__icon" size={12} />
-                </a>
+                </div>
               </Tooltip>
             )}
 
@@ -206,17 +204,17 @@ const LiveCameraSlot = (props) => {
               <></>
             ) : (
               <Tooltip title={t("view.storage.capture_snapshot")}>
-                <a
+                <div
                   className="video-toolbar__link"
                   size="small"
                   onClick={() => startSnapshotCamera(slotId)}
                 >
                   <Camera className="video-toolbar__icon" size={12} />
-                </a>
+                </div>
               </Tooltip>
             )}
             {isMaximize ? (
-              <a
+              <div
                 className="video-toolbar__link"
                 size="small"
                 onClick={() => maxMinCamera(slotId)}
@@ -224,10 +222,10 @@ const LiveCameraSlot = (props) => {
                 {isMaximize && (
                   <Minimize2 className="video-toolbar__icon" size={12} />
                 )}
-              </a>
+              </div>
             ) : (
               <Tooltip title={t("view.live.zoom")}>
-                <a
+                <div
                   className="video-toolbar__link"
                   size="small"
                   onClick={() => maxMinCamera(slotId)}
@@ -235,7 +233,7 @@ const LiveCameraSlot = (props) => {
                   {!isMaximize && (
                     <Maximize2 className="video-toolbar__icon" size={12} />
                   )}
-                </a>
+                </div>
               </Tooltip>
             )}
 
@@ -258,12 +256,12 @@ const LiveCameraSlot = (props) => {
               overlayClassName="control-panel-popover"
               trigger="click"
             >
-              {!permissionCheckByCamera("setup_preset", idCamera) &&
+              {!permissionCheckByCamera("setup_preset", idCamera) ||
               !permissionCheckByCamera("ptz_control", idCamera) ? (
                 <></>
               ) : (
                 <Tooltip title={t("view.live.menu_preset")}>
-                  <a
+                  <div
                     className="video-toolbar__link"
                     size="small"
                     onClick={() => {
@@ -271,12 +269,12 @@ const LiveCameraSlot = (props) => {
                     }}
                   >
                     <Menu className="video-toolbar__icon" size={12} />
-                  </a>
+                  </div>
                 </Tooltip>
               )}
             </Popover>
             <Tooltip title={t("view.live.close_camera")}>
-              <a
+              <div
                 className="video-toolbar__link"
                 size="small"
                 onClick={() => {
@@ -286,7 +284,7 @@ const LiveCameraSlot = (props) => {
                 }}
               >
                 <X className="video-toolbar__icon" size={12} />
-              </a>
+              </div>
             </Tooltip>
           </div>
         }

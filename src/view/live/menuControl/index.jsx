@@ -3,19 +3,18 @@ import { isEmpty } from "lodash";
 import React, { useEffect, useState } from "react";
 import { ChevronRight } from "react-feather";
 import { useTranslation } from "react-i18next";
+import { connect } from "react-redux";
+import permissionCheckByCamera from "../../../actions/function/MyUltil/PermissionCheckByCamera";
 import ptzControllerApi from "../../../api/ptz/ptzController";
 import Notification from "../../../components/vms/notification/Notification";
+import { openModalPresetSetting } from "../../../redux/actions/live/openModalPresetSetting";
 import { NOTYFY_TYPE } from "../../common/vms/Constant";
 import Preset from "../../preset/Preset";
 import ItemControl from "./ItemControl";
 // import { Modal, Button } from 'antd';
 import ModalControlPanel from "./ModalControlPanel";
-import permissionCheck from "../../../actions/function/MyUltil/PermissionCheck";
-
 import "./ModalPresetSetting.scss";
-import permissionCheckByCamera from "../../../actions/function/MyUltil/PermissionCheckByCamera";
-import { connect } from "react-redux";
-import { openModalPresetSetting } from "../../../redux/actions/live/openModalPresetSetting";
+
 
 const LIST_TYPES = {
   preset: "preset",

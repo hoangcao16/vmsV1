@@ -210,14 +210,7 @@ const horizontalMenuConfig = [
           }
         ]
       },
-      {
-        id: "colors",
-        title: "Colors",
-        type: "item",
-        icon: <Icon.Droplet size={16} />,
-        navLink: "/colors/colors",
-        permissions: ["admin", "editor"]
-      },
+
       {
         id: "icons",
         title: "Icons",
@@ -810,18 +803,7 @@ const horizontalMenuConfig = [
         navLink: "/pages/faq",
         permissions: ["admin", "editor"]
       },
-      {
-        id: "knowledgeBase",
-        title: "Knowledge Base",
-        type: "item",
-        icon: <Icon.Info size={16} />,
-        navLink: "/pages/knowledge-base",
-        permissions: ["admin", "editor"],
-        parentOf: [
-          "/pages/knowledge-base/category/questions",
-          "/pages/knowledge-base/category"
-        ]
-      },
+
       {
         id: "search",
         title: "Search",
@@ -906,22 +888,8 @@ const horizontalMenuConfig = [
             type: "dropdown",
             icon: <Icon.Circle size={10} />,
             children: [
-              {
-                id: "404",
-                title: "404",
-                type: "item",
-                icon: <Icon.Circle size={10} />,
-                navLink: "/misc/error/404",
-                permissions: ["admin", "editor"]
-              },
-              {
-                id: "500",
-                title: "500",
-                type: "item",
-                icon: <Icon.Circle size={10} />,
-                navLink: "/misc/error/500",
-                permissions: ["admin", "editor"]
-              }
+
+
             ]
           },
           {
@@ -932,14 +900,7 @@ const horizontalMenuConfig = [
             navLink: "/misc/not-authorized",
             permissions: ["admin", "editor"]
           },
-          {
-            id: "maintenance",
-            title: "Maintenance",
-            type: "item",
-            icon: <Icon.Circle size={10} />,
-            navLink: "/misc/maintenance",
-            permissions: ["admin", "editor"]
-          }
+
         ]
       }
     ]
