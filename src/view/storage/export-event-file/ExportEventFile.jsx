@@ -131,26 +131,24 @@ const ExportEventFile = () => {
         }
       });
 
-      if (viewFileType && viewFileType === 4) {
-        const dataEventList = [
-          {
-            id: 0,
-            type: "attendance",
-            name: `${t('view.ai_events.attendance')}`,
-          },
-          {
-            id: 0,
-            type: "line_crossing",
-            name: `${t('view.ai_events.line_crossing')}`,
-          },
-          {
-            id: 0,
-            type: "intruding",
-            name: `${t('view.ai_events.intruding')}`,
-          },
-        ];
-        setEventListAI(dataEventList);
-      }
+      const dataEventList = [
+        {
+          id: 0,
+          type: "attendance",
+          name: `${t('view.ai_events.attendance')}`,
+        },
+        {
+          id: 0,
+          type: "line_crossing",
+          name: `${t('view.ai_events.line_crossing')}`,
+        },
+        {
+          id: 0,
+          type: "intruding",
+          name: `${t('view.ai_events.intruding')}`,
+        },
+      ];
+      setEventListAI(dataEventList);
   }, []);
 
   useEffect(() => {
@@ -287,10 +285,13 @@ const ExportEventFile = () => {
   };
 
   const openEventFile = async (file) => {
-    if (viewFileType === 1 || viewFileType === 2 || viewFileType === 4) {
+    if (viewFileType === 1 || viewFileType === 2) {
       setFileCurrent({ ...file, tableName: "event_file" });
     } else if (viewFileType === 3) {
       setFileCurrent({ ...file });
+    } else if (viewFileType === 4) {
+      
+      setFileCurrent({ ...file});
     }
     if (file.type === 1) {
       //setUrlSnapshot("data:image/jpeg;base64," + file.thumbnailData[0]);
@@ -308,19 +309,6 @@ const ExportEventFile = () => {
       if (AI_SOURCE === 'philong') {
         setUrlSnapshot(file.overViewUrl);
       } else {
-        await AIEventsApi.getEventsByTrackingId(file.trackingId).then(
-          (data) => {
-            if (data && data.payload) {
-              if (data.payload.length >= 0) {
-                console.log("________________")
-                console.log(data.payload)
-                data.payload.map((f) => {
-                  
-                })
-              }
-            }
-          }
-        );
         setUrlSnapshot("data:image/jpeg;base64," + file.thumbnailData);
       }
 
@@ -576,9 +564,10 @@ const ExportEventFile = () => {
       let data = {
         ...row,
       }
+      
       if (viewFileType === 4) {
-        setCurrNode(row.note)
         let imageOther = []
+        setCurrNode(row.note)
         if (AI_SOURCE === "philong") {
           if (row.plateNumberUrl) {
             imageOther.push(row.plateNumberUrl)
@@ -586,7 +575,21 @@ const ExportEventFile = () => {
           if (row.vehicleUrl) {
             imageOther.push(row.vehicleUrl)
           }
+        } else {
+          // await AIEventsApi.getEventsByTrackingId(file.trackingId).then(
+        //     (data) => {
+        //       if (data && data.payload) {
+        //         if (data.payload.length >= 0) {
+        //           data.payload.map((f) => {
+        //             imageOther.push(f.thumbnailData)
+        //           })
+        //         }
+        //       }
+        //     }
+        //   );
         }
+
+        
         data = {
           ...data,
           vehicleType: row?.vehicleType,
@@ -1588,6 +1591,7 @@ const ExportEventFile = () => {
           <MemoizedTableFile
             listFiles={listFiles || []}
             eventList={eventList || []}
+            eventListAI={eventListAI || []}
             total={total}
             viewFileType={viewFileType}
             isTableView={isTableView}

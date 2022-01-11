@@ -126,11 +126,12 @@ const TabRect = (props) => {
     let points = [];
     let pointsP = [];
 
+    
     if (type === "hurdles") {
+      
       points = [[fromX, fromY], [toX, toY]];
       pointsP = [[fromXP, fromYP], [toXP, toYP]];
     } else {
-
       coordinates.forEach(data => {
         points.push([data.x, data.y])
       })
