@@ -635,6 +635,11 @@ const TableFile = (props) => {
         setSearchParam(dataParam);
     };
 
+    const onChangeSubEventType = (type) => {
+        const dataParam = Object.assign({ ...searchParam, subEventType: type });
+        setSearchParam(dataParam);
+    };
+
     const onChangeCamera = (cameraUuid) => {
         const dataParam = Object.assign({ ...searchParam, cameraUuid: cameraUuid });
         setSearchParam(dataParam);
@@ -1226,7 +1231,7 @@ const TableFile = (props) => {
                                 )}
                             </Col>
                             <Col span={8}>
-                                {props.viewFileType >= 2 && (
+                                {props.viewFileType >= 2 && props.viewFileType != 4 && (
                                     <Form.Item name={["eventType"]}>
                                         <Select
                                             allowClear
@@ -1234,6 +1239,18 @@ const TableFile = (props) => {
                                             onChange={(uuid) => onChangeEventType(uuid)}
                                             filterOption={filterOption}
                                             options={normalizeOptions("name", "uuid", eventList)}
+                                            placeholder={t('view.storage.event_type')}
+                                        />
+                                    </Form.Item>
+                                )}
+                                {props.viewFileType === 4 && (
+                                    <Form.Item name={["eventType"]}>
+                                        <Select
+                                            allowClear
+                                            showSearch
+                                            onChange={(type) => onChangeSubEventType(type)}
+                                            filterOption={filterOption}
+                                            options={normalizeOptions("name", "type", eventListAI)}
                                             placeholder={t('view.storage.event_type')}
                                         />
                                     </Form.Item>
