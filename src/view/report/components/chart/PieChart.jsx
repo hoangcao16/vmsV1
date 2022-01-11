@@ -9,7 +9,8 @@ import convertDataChartAndPieChart from "../../../../actions/function/MyUltil/Co
 import { loadDataChart } from "../../redux/actions";
 import ExportReport from "./ExportReport";
 import "./pieChart.scss";
-var randomColor = require("randomcolor");
+import { COLOR } from "./BarChart";
+
 
 const RADIAN = Math.PI / 180;
 
@@ -60,11 +61,11 @@ const dataConvert = (dataPieChart, dataApi) => {
 
   const keyArr = Object.keys(dataNoName);
 
-  let dataFinal = keyArr.map((k) => {
+  let dataFinal = keyArr.map((k,index) => {
     return {
       value: total(dataPieChart, k),
       name: k,
-      color: randomColor(),
+      color: COLOR[index],
     };
   });
 
