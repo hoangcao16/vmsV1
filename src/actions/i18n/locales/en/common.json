@@ -461,6 +461,7 @@
       "time_threshold" : "Time Threshold",
       "second": "second",
       "object_recognition": "Object Recognition",
+      "choose":"Choose",
       "vehicle": "Vehicle",
       "human" : "human",
       "draw" :  {
