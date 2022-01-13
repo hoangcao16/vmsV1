@@ -577,24 +577,20 @@ const ExportEventFile = () => {
             imageOther.push(row.vehicleUrl)
           }
         } else {
-          try {
-             AIEventsApi.getEventsByTrackingId(row.trackingId).then(
-              (data) => {
-                if (data && data.payload) {
-                  if (data.payload.length >= 0) {
-                    data.payload.map((f) => {
-                      if(f.thumbnailData != null){
-                        imageOther.push("data:image/jpeg;base64," + f.thumbnailData)
-                      }
-                      
-                    })
-                  }
+          AIEventsApi.getEventsByTrackingId(row.trackingId).then(
+            (data) => {
+              if (data && data.payload) {
+                if (data.payload.length >= 0) {
+                  data.payload.map((f) => {
+                    if(f.thumbnailData != null){
+                      imageOther.push("data:image/jpeg;base64," + f.thumbnailData)
+                    }
+                    
+                  })
                 }
               }
-            );
-          } catch (error) {
-            console.log(error);
-          }
+            }
+          );
           
         }
 
