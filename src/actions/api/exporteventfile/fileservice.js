@@ -169,7 +169,7 @@ const FileService = {
   async putRequestData(url, data, token) {
     return await axios
       .put(BASE_URL + url, data, {
-        headers: getHeaders(token),
+        headers: getHeaders(),
       })
       .then((response) => {
         let check = this._checkResponse(response);

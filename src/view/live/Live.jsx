@@ -244,7 +244,7 @@ const Live = (props) => {
   };
 
   // LIVE
-  const liveCamera = async (camUuid, slotIdx) => {
+  const liveCamera = async (camUuid, slotIdx,id) => {
     if (camUuid === "" || camUuid == null) {
       Notification({
         type: "warning",
@@ -549,7 +549,7 @@ const Live = (props) => {
     const cellDes = addedCameras[destinationIndex];
     const divDes = document.getElementById("wrapper-slot-" + cellDes.id);
     const divSrc = document.getElementById("wrapper-slot-" + cellSrc.id);
-    if (divDes == null || divDes === "undefined") {
+    if (divDes == null || divDes == "undefined") {
       const divDes = document.getElementById(
         "wrapper-slot-" + destinationIndex
       );
