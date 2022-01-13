@@ -17,8 +17,9 @@ import convertDataChartAndPieChart from "../../../../actions/function/MyUltil/Co
 import { loadDataChart } from "../../redux/actions";
 import "./chart.scss";
 import ExportReport from "./ExportReport";
+import { COLOR } from "./BarChart";
 
-var randomColor = require("randomcolor");
+
 
 function Chart(props) {
   const data = props.chartData;
@@ -27,7 +28,7 @@ function Chart(props) {
     const dataNoName = dataMap[0];
     delete dataNoName.name;
     const keyArr = Object.keys(dataNoName);
-    return keyArr.map((k) => {
+    return keyArr.map((k,index) => {
       return (
         <Line
           key={k}
@@ -41,7 +42,7 @@ function Chart(props) {
               k
             )
           }
-          stroke={randomColor()}
+          stroke={COLOR[index]}
           activeDot={{ r: 8 }}
         />
       );
