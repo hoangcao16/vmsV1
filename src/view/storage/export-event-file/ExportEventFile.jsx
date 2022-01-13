@@ -546,6 +546,7 @@ const ExportEventFile = () => {
   };
 
   let addDataToEvent = (row, vFileType) => {
+    console.log("+++++++++++ vFileType", vFileType)
     if (vFileType === 0) {
       let value = {
         ...defaultEventFile,
@@ -576,28 +577,36 @@ const ExportEventFile = () => {
             imageOther.push(row.vehicleUrl)
           }
         } else {
-          // await AIEventsApi.getEventsByTrackingId(file.trackingId).then(
-        //     (data) => {
-        //       if (data && data.payload) {
-        //         if (data.payload.length >= 0) {
-        //           data.payload.map((f) => {
-        //             imageOther.push(f.thumbnailData)
-        //           })
-        //         }
-        //       }
-        //     }
-        //   );
+          try {
+             AIEventsApi.getEventsByTrackingId(row.trackingId).then(
+              (data) => {
+                if (data && data.payload) {
+                  if (data.payload.length >= 0) {
+                    data.payload.map((f) => {
+                      if(f.thumbnailData != null){
+                        imageOther.push("data:image/jpeg;base64," + f.thumbnailData)
+                      }
+                      
+                    })
+                  }
+                }
+              }
+            );
+          } catch (error) {
+            console.log(error);
+          }
+          
         }
 
-        
         data = {
           ...data,
           vehicleType: row?.vehicleType,
           plateNumber: row?.plateNumber,
           imageOther: imageOther
         }
+        
       }
-
+      console.log("+++++++++++ data", data)
       setEventFileCurrent({ ...data, blob: null, isSaved: false });
     }
   };
@@ -1307,7 +1316,8 @@ const ExportEventFile = () => {
       }
     }
   };
-
+  console.log("++++++++++++++++++++++++++++")
+  console.log(eventFileCurrent)
   const renderEventFileDetail = () => {
     if (viewFileType === 4) {
       return (
@@ -1380,13 +1390,13 @@ const ExportEventFile = () => {
               <div>
                 <ul >
                   {
+                   
                     eventFileCurrent.imageOther ? eventFileCurrent.imageOther.map((item, index) =>
                       <li style={{ listStyleType: 'none', display: 'inline-block', marginRight: '20px' }}><div style={{ width: '90%', paddingBottom: '10px' }}
                       >
                         <div className='img__item' style={{ position: "relative" }}>
                           <img style={{ width: '120px', height: "120px" }} className="cursor-pointer" src={item} alt="Avatar" />
                         </div>
-
                       </div></li>
                     ) : null
 
