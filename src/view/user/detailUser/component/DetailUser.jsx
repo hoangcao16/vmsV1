@@ -143,7 +143,7 @@ const DetailUser = (props) => {
   };
 
   const uploadImage = async (options) => {
-    const { onSuccess, onError, file, onProgress } = options;
+    const {  file} = options;
     await ExportEventFileApi.uploadAvatar(uuidV4(), file).then((result) => {
       if (
         result.data &&
@@ -356,7 +356,7 @@ const DetailUser = (props) => {
                           "view.user.detail_list.enter_alternative_data",
                           { plsEnter: t("please_enter") }
                         )}
-                        type={name_data == "password" ? "password" : ""}
+                        type={name_data === "password" ? "password" : ""}
                         onBlur={(e) => {
                           form.setFieldsValue({
                             [name_data]: e.target.value.trim(),

@@ -58,13 +58,11 @@ const AIEventsApi = {
       url = '/api/v1/integration-ai-events/'
     }
     let result;
-    console.log("????????????????   url " ,url )
     try {
       result = await AIService.putRequestData(
         url + uuid,
         payload
       );
-      console.log("????????????????    " ,result )
     } catch (error) {
       console.log(error);
     }

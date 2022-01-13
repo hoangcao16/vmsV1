@@ -1,14 +1,15 @@
-import { Col, Popconfirm, Popover, Row, Tooltip, Input } from "antd";
+import { Col, Input, Popconfirm, Popover, Row, Tooltip } from "antd";
 import "antd/dist/antd.css";
 import { saveAs } from "file-saver";
 import { findIndex } from "lodash-es";
+import debounce from "lodash/debounce";
 import moment from "moment";
 import React, { useEffect, useRef, useState } from "react";
 import { useTranslation } from "react-i18next";
-import { AiOutlineInfoCircle, MdCenterFocusWeak, AiFillEdit } from "react-icons/all";
 import {
   AiFillVideoCamera, AiOutlineCheck, AiOutlineClose, AiOutlineEdit
 } from "react-icons/ai";
+import { AiFillEdit, AiOutlineInfoCircle, MdCenterFocusWeak } from "react-icons/all";
 import {
   FiBookmark,
   FiCamera,
@@ -27,6 +28,7 @@ import {
 import { RiCalendarTodoLine, RiDeleteBinLine } from "react-icons/ri";
 import { reactLocalStorage } from "reactjs-localstorage";
 import { v4 as uuidV4 } from "uuid";
+import AIEventsApi from "../../../actions/api/ai-events/AIEventsApi";
 import {
   default as deleteExportEventFileApi,
   default as ExportEventFileApi
@@ -49,14 +51,12 @@ import "./../../commonStyle/commonPopconfirm.scss";
 import "./../../commonStyle/commonSelect.scss";
 import "./../../commonStyle/commonTable.scss";
 import "./export-event-file.scss";
+import { MemoizedInfoObjectPopoverContent } from "./InfoObjectPopoverContent";
 import { MemoizedInfoPopoverContent } from "./InfoPopoverContent";
 import { MemoizedHlsPlayer } from "./PlayerHls";
 import { MemoizedTableEventFile } from "./TableEventFile";
 import { MemoizedTableFile } from "./TableFile";
 import { MemoizedThumbnailVideo } from "./ThumbnailVideo";
-import AIEventsApi from "../../../actions/api/ai-events/AIEventsApi";
-import debounce from "lodash/debounce";
-import { MemoizedInfoObjectPopoverContent } from "./InfoObjectPopoverContent";
 const AI_SOURCE = process.env.REACT_APP_AI_SOURCE;
 const { TextArea } = Input;
 
@@ -131,26 +131,24 @@ const ExportEventFile = () => {
         }
       });
 
-      if (viewFileType && viewFileType === 4) {
-        const dataEventList = [
-          {
-            id: 0,
-            type: "attendance",
-            name: `${t('view.ai_events.attendance')}`,
-          },
-          {
-            id: 0,
-            type: "line_crossing",
-            name: `${t('view.ai_events.line_crossing')}`,
-          },
-          {
-            id: 0,
-            type: "intruding",
-            name: `${t('view.ai_events.intruding')}`,
-          },
-        ];
-        setEventListAI(dataEventList);
-      }
+      const dataEventList = [
+        {
+          id: 0,
+          type: "attendance",
+          name: `${t('view.ai_events.attendance')}`,
+        },
+        {
+          id: 0,
+          type: "line_crossing",
+          name: `${t('view.ai_events.line_crossing')}`,
+        },
+        {
+          id: 0,
+          type: "intruding",
+          name: `${t('view.ai_events.intruding')}`,
+        },
+      ];
+      setEventListAI(dataEventList);
   }, []);
 
   useEffect(() => {
@@ -287,10 +285,13 @@ const ExportEventFile = () => {
   };
 
   const openEventFile = async (file) => {
-    if (viewFileType === 1 || viewFileType === 2 || viewFileType === 4) {
+    if (viewFileType === 1 || viewFileType === 2) {
       setFileCurrent({ ...file, tableName: "event_file" });
     } else if (viewFileType === 3) {
       setFileCurrent({ ...file });
+    } else if (viewFileType === 4) {
+      
+      setFileCurrent({ ...file});
     }
     if (file.type === 1) {
       //setUrlSnapshot("data:image/jpeg;base64," + file.thumbnailData[0]);
@@ -308,19 +309,6 @@ const ExportEventFile = () => {
       if (AI_SOURCE === 'philong') {
         setUrlSnapshot(file.overViewUrl);
       } else {
-        await AIEventsApi.getEventsByTrackingId(file.trackingId).then(
-          (data) => {
-            if (data && data.payload) {
-              if (data.payload.length >= 0) {
-                console.log("________________")
-                console.log(data.payload)
-                data.payload.map((f) => {
-                  
-                })
-              }
-            }
-          }
-        );
         setUrlSnapshot("data:image/jpeg;base64," + file.thumbnailData);
       }
 
@@ -558,6 +546,7 @@ const ExportEventFile = () => {
   };
 
   let addDataToEvent = (row, vFileType) => {
+    console.log("+++++++++++ vFileType", vFileType)
     if (vFileType === 0) {
       let value = {
         ...defaultEventFile,
@@ -576,9 +565,10 @@ const ExportEventFile = () => {
       let data = {
         ...row,
       }
+      
       if (viewFileType === 4) {
-        setCurrNode(row.note)
         let imageOther = []
+        setCurrNode(row.note)
         if (AI_SOURCE === "philong") {
           if (row.plateNumberUrl) {
             imageOther.push(row.plateNumberUrl)
@@ -586,15 +576,37 @@ const ExportEventFile = () => {
           if (row.vehicleUrl) {
             imageOther.push(row.vehicleUrl)
           }
+        } else {
+          try {
+             AIEventsApi.getEventsByTrackingId(row.trackingId).then(
+              (data) => {
+                if (data && data.payload) {
+                  if (data.payload.length >= 0) {
+                    data.payload.map((f) => {
+                      if(f.thumbnailData != null){
+                        imageOther.push("data:image/jpeg;base64," + f.thumbnailData)
+                      }
+                      
+                    })
+                  }
+                }
+              }
+            );
+          } catch (error) {
+            console.log(error);
+          }
+          
         }
+
         data = {
           ...data,
           vehicleType: row?.vehicleType,
           plateNumber: row?.plateNumber,
           imageOther: imageOther
         }
+        
       }
-
+      console.log("+++++++++++ data", data)
       setEventFileCurrent({ ...data, blob: null, isSaved: false });
     }
   };
@@ -1304,7 +1316,8 @@ const ExportEventFile = () => {
       }
     }
   };
-
+  console.log("++++++++++++++++++++++++++++")
+  console.log(eventFileCurrent)
   const renderEventFileDetail = () => {
     if (viewFileType === 4) {
       return (
@@ -1377,13 +1390,13 @@ const ExportEventFile = () => {
               <div>
                 <ul >
                   {
+                   
                     eventFileCurrent.imageOther ? eventFileCurrent.imageOther.map((item, index) =>
                       <li style={{ listStyleType: 'none', display: 'inline-block', marginRight: '20px' }}><div style={{ width: '90%', paddingBottom: '10px' }}
                       >
                         <div className='img__item' style={{ position: "relative" }}>
                           <img style={{ width: '120px', height: "120px" }} className="cursor-pointer" src={item} alt="Avatar" />
                         </div>
-
                       </div></li>
                     ) : null
 
@@ -1588,6 +1601,7 @@ const ExportEventFile = () => {
           <MemoizedTableFile
             listFiles={listFiles || []}
             eventList={eventList || []}
+            eventListAI={eventListAI || []}
             total={total}
             viewFileType={viewFileType}
             isTableView={isTableView}

@@ -4,7 +4,8 @@ import { connect } from "react-redux";
 import { loadTags } from "./redux/actions/tagsActions";
 
 const SelectTag = (props) => {
-  const [selectedItems, setSelectedItems] = useState([]);
+  // const [selectedItems, setSelectedItems] = useState([]);
+  const selectedItems = []
   const [options, setOptions] = useState([]);
 
   useEffect(() => {

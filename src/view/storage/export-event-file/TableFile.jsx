@@ -1,39 +1,28 @@
+import { SearchOutlined } from "@ant-design/icons";
 import {
-    Table,
-    Form,
-    Row,
-    Col,
-    Select,
-    DatePicker,
-    Tooltip,
-    Input,
-    AutoComplete,
-    Popover,
-    Pagination,
+    AutoComplete, Col, DatePicker, Form, Input, Pagination, Popover, Row, Select, Table, Tooltip
 } from "antd";
-import AddressApi from "../../../actions/api/address/AddressApi";
-import {
-    filterOption,
-    normalizeOptions,
-} from "../../common/select/CustomSelect";
-import React, { useEffect, useState } from "react";
-import moment from "moment";
-import { FiBookmark, FiFilm, FiImage, FiSearch } from "react-icons/fi";
-import adDivisionApi from "../../../api/controller-api/adDivisionApi";
-import cameraApi from "../../../api/controller-api/cameraApi";
-import cameraGroupApi from "../../../api/controller-api/cameraGroupApi";
+import _ from "lodash";
+import { findIndex } from "lodash-es";
 import debounce from "lodash/debounce";
-import { LinkOutlined, SearchOutlined } from "@ant-design/icons";
+import moment from "moment";
+import React, { useEffect, useState } from "react";
+import { useTranslation } from 'react-i18next';
 import {
     BsThreeDotsVertical,
     IoChevronDownOutline,
     IoChevronUpOutline,
-    MdClear,
+    MdClear
 } from "react-icons/all";
-import { findIndex } from "lodash-es";
-import _ from "lodash";
-import { useTranslation } from 'react-i18next';
-import { reactLocalStorage } from "reactjs-localstorage";
+import { FiBookmark, FiFilm, FiImage, FiSearch } from "react-icons/fi";
+import AddressApi from "../../../actions/api/address/AddressApi";
+import adDivisionApi from "../../../api/controller-api/adDivisionApi";
+import cameraApi from "../../../api/controller-api/cameraApi";
+import cameraGroupApi from "../../../api/controller-api/cameraGroupApi";
+import {
+    filterOption,
+    normalizeOptions
+} from "../../common/select/CustomSelect";
 const AI_SOURCE = process.env.REACT_APP_AI_SOURCE;
 
 const TableFile = (props) => {
@@ -635,6 +624,11 @@ const TableFile = (props) => {
         setSearchParam(dataParam);
     };
 
+    const onChangeSubEventType = (type) => {
+        const dataParam = Object.assign({ ...searchParam, subEventType: type });
+        setSearchParam(dataParam);
+    };
+
     const onChangeCamera = (cameraUuid) => {
         const dataParam = Object.assign({ ...searchParam, cameraUuid: cameraUuid });
         setSearchParam(dataParam);
@@ -1226,7 +1220,7 @@ const TableFile = (props) => {
                                 )}
                             </Col>
                             <Col span={8}>
-                                {props.viewFileType >= 2 && (
+                                {props.viewFileType >= 2 && props.viewFileType != 4 && (
                                     <Form.Item name={["eventType"]}>
                                         <Select
                                             allowClear
@@ -1234,6 +1228,18 @@ const TableFile = (props) => {
                                             onChange={(uuid) => onChangeEventType(uuid)}
                                             filterOption={filterOption}
                                             options={normalizeOptions("name", "uuid", eventList)}
+                                            placeholder={t('view.storage.event_type')}
+                                        />
+                                    </Form.Item>
+                                )}
+                                {props.viewFileType === 4 && (
+                                    <Form.Item name={["eventType"]}>
+                                        <Select
+                                            allowClear
+                                            showSearch
+                                            onChange={(type) => onChangeSubEventType(type)}
+                                            filterOption={filterOption}
+                                            options={normalizeOptions("name", "type", eventListAI)}
                                             placeholder={t('view.storage.event_type')}
                                         />
                                     </Form.Item>

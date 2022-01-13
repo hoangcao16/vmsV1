@@ -235,7 +235,7 @@ function Sidebar(props) {
       });
     }
 
-    if (cityIdArr.length == 1) {
+    if (cityIdArr.length === 1) {
       let arr = [];
       arr = selectedRowKeys;
       props.changeCount(arr);
@@ -267,7 +267,7 @@ function Sidebar(props) {
       return;
     } else if (cityIdArr.length > 5) {
       const language = reactLocalStorage.get("language");
-      if (language == "vn") {
+      if (language === "vn") {
         const notifyMess = {
           type: "error",
           title: "",
@@ -323,7 +323,7 @@ function Sidebar(props) {
       return;
     } else if (districtIdArr.length > 5) {
       const language = reactLocalStorage.get("language");
-      if (language == "vn") {
+      if (language === "vn") {
         const notifyMess = {
           type: "error",
           title: "",
@@ -386,7 +386,7 @@ function Sidebar(props) {
       return;
     } else if (wardIdArr.length > 5) {
       const language = reactLocalStorage.get("language");
-      if (language == "vn") {
+      if (language === "vn") {
         const notifyMess = {
           type: "error",
           title: "",
@@ -447,7 +447,7 @@ function Sidebar(props) {
     if (isShowLineAndPieChart === true) {
       if (selectedRowKeys.length < 1 || selectedRowKeys.length > 3) {
         const language = reactLocalStorage.get("language");
-        if (language == "vn") {
+        if (language === "vn") {
           const notifyMess = {
             type: "error",
             title: "",
@@ -535,7 +535,7 @@ function Sidebar(props) {
     props.changeCount(arr);
   };
 
-  //=================================================================
+  //==================================================================
 
   function onChangeTimeStartDay(value) {
     let arr = [];
@@ -576,7 +576,7 @@ function Sidebar(props) {
       });
 
       const language = reactLocalStorage.get("language");
-      if (language == "vn") {
+      if (language === "vn") {
         const notifyMess = {
           type: "error",
           title: "",
@@ -615,7 +615,7 @@ function Sidebar(props) {
     return current > end || current > moment() + 1 || current < start;
   }
 
-  //=================================================================
+  //==================================================================
 
   function onChangeTimeStartMonth(value) {
     let arr = [];
@@ -652,7 +652,7 @@ function Sidebar(props) {
       });
 
       const language = reactLocalStorage.get("language");
-      if (language == "vn") {
+      if (language === "vn") {
         const notifyMess = {
           type: "error",
           title: "",
@@ -686,7 +686,7 @@ function Sidebar(props) {
     return current > moment() + 1 || current < start || current > end + 1;
   }
 
-  //=================================================================
+  //==================================================================
 
   function onChangeTimeStartYear(value) {
     let arr = [];
@@ -722,7 +722,7 @@ function Sidebar(props) {
       });
 
       const language = reactLocalStorage.get("language");
-      if (language == "vn") {
+      if (language === "vn") {
         const notifyMess = {
           type: "error",
           title: "",
