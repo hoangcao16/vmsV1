@@ -589,6 +589,7 @@
     "enter_this_field": "Please enter this field!",
     "input_number": "Please enter number only",
     "at_least_10_characters": "At least 10 characters",
+    "up_to_20_characters": "Up to 20 characters",
     "at_least_8_characters": "At least 8 characters",
     "no_valid_results_found": "No valid results found",
 

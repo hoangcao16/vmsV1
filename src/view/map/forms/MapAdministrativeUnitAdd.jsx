@@ -13,6 +13,9 @@ import {
   filterOption,
   normalizeOptions
 } from "../../common/select/CustomSelect";
+import "react-phone-number-input/style.css";
+import PhoneInput from "react-phone-number-input";
+import "./MapAdministrativeUnitAdd.scss"
 
 const { Dragger } = Upload;
 async function fetchSelectOptions() {
@@ -279,11 +282,14 @@ const MapAdministrativeUnitAdd = (props) => {
                 }),
               ]}
             >
-              <Input
-                placeholder={t("view.map.please_enter_your_phone_number", {
-                  plsEnter: t("please_enter"),
-                })}
-              ></Input>
+              <PhoneInput
+                        international={false}
+                        defaultCountry="VN"
+                        placeholder={t(
+                          "view.map.please_enter_your_phone_number",
+                          { plsEnter: t("please_enter") }
+                        )}
+                      />
             </Form.Item>
           </Col>
         </Row>

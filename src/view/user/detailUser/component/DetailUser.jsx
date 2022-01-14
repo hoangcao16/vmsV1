@@ -233,7 +233,7 @@ const DetailUser = (props) => {
         },
         {
           max: 22,
-          message: `${t("noti.at_least_10_characters")}`,
+          message: `${t("noti.up_to_20_characters")}`,
         }
       );
     }
@@ -376,7 +376,7 @@ const DetailUser = (props) => {
                         defaultCountry="VN"
                         placeholder={t(
                           "view.map.please_enter_your_phone_number",
-                          { plsEnter: t("please") }
+                          { plsEnter: t("please_enter") }
                         )}
                       />
                     )}
