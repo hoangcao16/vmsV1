@@ -4,7 +4,13 @@ import { handleForbiddenCode } from "../authz/forbidden";
 
 import { reactLocalStorage } from "reactjs-localstorage";
 
-const language = reactLocalStorage.get("language");
+let language
+if (isEmpty(reactLocalStorage.get("language"))) {
+  reactLocalStorage.set("language","vn")
+  language = reactLocalStorage.get("language")
+} else {
+  language = reactLocalStorage.get("language")
+}
 
 export const KControllerOk = 700;
 const KControllerBadRequest = 701;
