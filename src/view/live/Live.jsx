@@ -99,7 +99,7 @@ const Live = (props) => {
 
   useEffect(() => {
     if (props.openModalPresetSetting.state) {
-      if (isMaximize === true) {
+      if (isMaximize == true) {
         maxMinCamera(reactLocalStorage.getObject('originSlotId'))
         setIsMaximize(false)
       }
@@ -117,7 +117,7 @@ const Live = (props) => {
     }
     let cameraUuids = [];
     defaultScreen.cameraUuids.forEach((it) => {
-      if (it !== "") {
+      if (it != "") {
         cameraUuids.push(it);
       }
     });
@@ -137,9 +137,9 @@ const Live = (props) => {
       if (resData && resData.payload) {
         const camList = resData.payload;
         const tmp = initialDataGrid.map((it, idx) => {
-          if (defaultScreen.cameraUuids[idx] !== "") {
+          if (defaultScreen.cameraUuids[idx] != "") {
             const camUuid = defaultScreen.cameraUuids[idx];
-            const camFoundIdx = camList.findIndex((ite) => ite.uuid === camUuid);
+            const camFoundIdx = camList.findIndex((ite) => ite.uuid == camUuid);
             if (camFoundIdx < 0) {
               Notification({
                 type: "warning",
@@ -222,7 +222,7 @@ const Live = (props) => {
    * Cần hàm này vì việc đổi chỗ 2 lưới cho nhau ảnh hưởng đến video thực sự ở dưới mỗi slot này
    */
   const findCameraIndexInGrid = (slotId) => {
-    return addedCameras.findIndex((item) => item.id === slotId);
+    return addedCameras.findIndex((item) => item.id == slotId);
   };
 
   /**  Change mode
@@ -244,8 +244,8 @@ const Live = (props) => {
   };
 
   // LIVE
-  const liveCamera = async (camUuid, slotIdx,id) => {
-    if (camUuid === "" || camUuid == null) {
+  const liveCamera = async (camUuid, camId, slotIdx) => {
+    if (camUuid == "" || camUuid == null) {
       Notification({
         type: "warning",
         title: `${t("noti.default_screen")}`,
@@ -254,7 +254,7 @@ const Live = (props) => {
       return;
     }
     const data = await getServerCamproxyForPlay(camUuid);
-    if (data === null) {
+    if (data == null) {
       Notification({
         type: "warning",
         title: `${t("noti.default_screen")}`,
@@ -343,7 +343,7 @@ const Live = (props) => {
     originSlotId,
     seekType
   ) => {
-    if (camId === "" || camId == null) {
+    if (camId == "" || camId == null) {
       Notification({
         type: "warning",
         title: "Playback",
@@ -382,7 +382,7 @@ const Live = (props) => {
     originSlotId,
     seekTime
   ) => {
-    if (camId === "" || camId == null) {
+    if (camId == "" || camId == null) {
       Notification({
         type: "warning",
         title: "Playback",
@@ -478,7 +478,7 @@ const Live = (props) => {
       // });
     }
   };
-  const handleSelectCameraCallback = () => {};
+  const handleSelectCameraCallback = (cam, idx) => {};
 
   const fetchCameras = async (
     filter,
@@ -487,7 +487,7 @@ const Live = (props) => {
     currentPage = 1
   ) => {
     try {
-      if (filter !== null) {
+      if (filter != null) {
         filter.name = search;
         filter.size = pageSize;
         filter.page = currentPage;
@@ -614,8 +614,6 @@ const Live = (props) => {
             des.id
           ).then();
           break;
-          default:
-            break;
       }
     } else if (source.droppableId !== destination.droppableId) {
       const result = move(source, destination, draggableId);
@@ -629,7 +627,7 @@ const Live = (props) => {
     updateGridSize();
   };
   const updateGridSize = () => {
-   
+    const tmp = initialDataGrid;
     let rowHeightClass;
     let videoColumnClass;
     switch (currentGridSize) {
@@ -1189,7 +1187,7 @@ const Live = (props) => {
   };
 
   const playbackCameraSeekTypeCallback = (seekType) => {
-    if (currentSelectSlotRef.current !== -1) {
+    if (currentSelectSlotRef.current != -1) {
       const slotIdx = findCameraIndexInGrid(currentSelectSlotRef.current);
       const selectedCam = addedCameras[slotIdx];
       playbackCameraWithSeekType(
@@ -1208,7 +1206,7 @@ const Live = (props) => {
     }
   };
   const playbackCameraSeekTimeCallback = (seekTime) => {
-    if (currentSelectSlotRef.current !== -1) {
+    if (currentSelectSlotRef.current != -1) {
       const slotIdx = findCameraIndexInGrid(currentSelectSlotRef.current);
       const selectedCam = addedCameras[slotIdx];
       playbackCameraWithSeekTime(
@@ -1227,7 +1225,7 @@ const Live = (props) => {
     }
   };
   const pauseOrPlayCallback = (isPlaying) => {
-    if (currentSelectSlotRef.current !== -1) {
+    if (currentSelectSlotRef.current != -1) {
       const slotIdx = findCameraIndexInGrid(currentSelectSlotRef.current);
       const selectedCam = addedCameras[slotIdx];
       const cell = document.getElementById("video-slot-" + selectedCam.id);
@@ -1249,7 +1247,7 @@ const Live = (props) => {
   };
 
   const playbackByDragSlideTime = (seekTime) => {
-    if (currentSelectSlotRef.current !== -1) {
+    if (currentSelectSlotRef.current != -1) {
       const slotIdx = findCameraIndexInGrid(currentSelectSlotRef.current);
       const selectedCam = addedCameras[slotIdx];
       playbackCameraWithSeekTime(
@@ -1268,7 +1266,7 @@ const Live = (props) => {
     }
   };
   const playbackChangeSpeedCallback = (speed) => {
-    if (currentSelectSlotRef.current !== -1) {
+    if (currentSelectSlotRef.current != -1) {
       const slotIdx = findCameraIndexInGrid(currentSelectSlotRef.current);
       const selectedCam = addedCameras[slotIdx];
       const cell = document.getElementById("video-slot-" + selectedCam.id);
