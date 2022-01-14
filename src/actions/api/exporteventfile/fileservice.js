@@ -97,7 +97,7 @@ const FileService = {
             Notification({
               type: NOTYFY_TYPE.warning,
               title: `Lỗi ${response.data.code.toString()}`,
-              description: "Upload file không thành công"
+              description: "Tải tệp không thành công"
             });
           } else {
             Notification({
