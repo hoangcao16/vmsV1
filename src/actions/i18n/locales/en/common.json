@@ -28,6 +28,7 @@
   },
   "view": {
     "camera": {
+      "export_camera":"Export Camera Info",
       "active": "Active",
       "inactive": "Inactive",
       "camera_list": "{{cam}} List",
@@ -71,7 +72,8 @@
       "plsEnter_administrative_unit_name": "{{plsEnter}} administrative unit name",
       "enter_key": "Please enter key",
       "choose_field_for_event": "Please choose field for event",
-      "administrative_unit_detail": "Administrative unit detail"
+      "administrative_unit_detail": "Administrative unit detail",
+      "department": "Department"
     },
     "common_device": {
       "camproxy_name": "Camproxy name",
@@ -172,7 +174,9 @@
       "please_enter_ip": "{{plsEnter}} IP",
       "original_url": "Original URL",
       "please_enter_original_url": "{{plsEnter}} Original URL",
-      "save_live_camera": "Save Live {{cam}}"
+      "save_live_camera": "Save Live {{cam}}",
+      "hls_url": "HLS URL",
+      "please_enter_hls_url": "{{plsEnter}} HLS URL"
     },
     "maps": {
       "not_provide": "Not provide",
@@ -417,7 +421,8 @@
         "add_camera_choose_permission": "Add Camera and choose permission",
         "image": "Image",
         "enter_alternative_data": "{{plsEnter}} alternative data",
-        "scan": "Scan"
+        "scan": "Scan",
+        "search_to_select": "Search to select"
       }
     },
     "ai_humans": {
@@ -456,6 +461,7 @@
       "time_threshold" : "Time Threshold",
       "second": "second",
       "object_recognition": "Object Recognition",
+      "choose":"Choose",
       "vehicle": "Vehicle",
       "human" : "human",
       "draw" :  {
@@ -472,8 +478,39 @@
         "BA" : "B --> A",
         "All" : "All"
       }
+    },
+    "ai_events": {
+      "event_files_list": "Event AI files list",
+      "attendance": "Attendance",
+      "intruding": "Intrusion",
+      "just_crossed" :"Just crossed",
+      "daudo": "Wrong parking",
+      "nhandienbienso": "Number plate recognition",
+      "damdong" : "Phát hiện đám đông",
+      "line_crossing": "Line crossing",
+      "info": "Info",
+      "edit_info": "Edit Info",
+      "edit_note": "Edit Note",
+      "err_image" : "Offending images",
+      "type_object" : {
+        "xemay": "Motorcycle",
+        "human": "Human",
+          "unknow" :"nknow"
 
-
+      },
+      "choose_obj": "Choose object",
+      "plateNumber":"Plate number",
+      "code" : "Code",
+      "name": "Name",
+      "position": "Position",
+      "department" :"Department"
+      
+    },
+    "department" : {
+      "administrative": "Aministrative Unit",
+      "edit_department" : "Update department",
+      "add_department" : "Add new department",
+      "name_department" : "Department"
     }
   },
 
@@ -643,7 +680,8 @@
     "error_download_file": "Errors occur while downloading the file, please check again",
     "error_2_digits": "Error intervals to 2 decimal places",
     "successfully_edit_camera_group": "Successfully edit Camera group",
-    "browser_not_support_video": "Your browser does not support the video tag"
+    "browser_not_support_video": "Your browser does not support the video tag",
+    "field_no_data": "This feild has no events"
   },
   "breadcrumd": {
     "report": "Report Management",

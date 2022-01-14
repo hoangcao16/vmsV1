@@ -29,17 +29,17 @@ import { reactLocalStorage } from "reactjs-localstorage";
 import { v4 as uuidV4 } from "uuid";
 import ExportEventFileApi from "../../../../actions/api/exporteventfile/ExportEventFileApi";
 import UserApi from "../../../../actions/api/user/UserApi";
-import clearData from "../../../../actions/function/MyUltil/CheckData";
 import permissionCheck from "../../../../actions/function/MyUltil/PermissionCheck";
 import Notification from "../../../../components/vms/notification/Notification";
-import { NOTYFY_TYPE } from "../../../common/vms/Constant";
 import { changeAvatar } from "../../../../redux/actions/customizer/index";
+import { NOTYFY_TYPE } from "../../../common/vms/Constant";
 import Camera from "./Camera";
 import CameraGroup from "./CameraGroup";
 import "./DetailUser.scss";
 import GroupUser from "./GroupUser";
 import RoleUser from "./RoleUser";
-import MuiPhoneNumber from "material-ui-phone-number";
+import "react-phone-number-input/style.css";
+import PhoneInput from "react-phone-number-input";
 
 const { Panel } = Collapse;
 const { Option } = Select;
@@ -53,6 +53,7 @@ const DetailUser = (props) => {
     userUuid = reactLocalStorage.getObject("user")?.userUuid;
   }
   const [form] = Form.useForm();
+  const [value, setValue] = useState();
   const [userDetail, setUserDetail] = useState({});
   const [isLoading, setLoading] = useState(false);
   const [reload, setReload] = useState(false);
@@ -122,7 +123,7 @@ const DetailUser = (props) => {
       const notifyMess = {
         type: "error",
         title: "",
-        description: `${t('noti.upload_file_desc')}`,
+        description: `${t("noti.upload_file_desc")}`,
       };
       Notification(notifyMess);
     }
@@ -131,7 +132,7 @@ const DetailUser = (props) => {
       const notifyMess = {
         type: "error",
         title: "",
-        description: `${t('noti.size_file_desc')}`,
+        description: `${t("noti.size_file_desc")}`,
       };
       Notification(notifyMess);
     }
@@ -145,7 +146,7 @@ const DetailUser = (props) => {
   };
 
   const uploadImage = async (options) => {
-    const { onSuccess, onError, file, onProgress } = options;
+    const { file } = options;
     await ExportEventFileApi.uploadAvatar(uuidV4(), file).then((result) => {
       if (
         result.data &&
@@ -190,7 +191,7 @@ const DetailUser = (props) => {
     if (name_data === "email") {
       rules.push(
         {
-          message: `${t('view.user.detail_list.email_address_required')}`,
+          message: `${t("view.user.detail_list.email_address_required")}`,
           type: "email",
         },
         {
@@ -227,7 +228,11 @@ const DetailUser = (props) => {
           message: `${t("view.map.required_field")}`,
         },
         {
-          min: 10,
+          min: 12,
+          message: `${t("noti.at_least_10_characters")}`,
+        },
+        {
+          max: 22,
           message: `${t("noti.at_least_10_characters")}`,
         }
       );
@@ -358,7 +363,7 @@ const DetailUser = (props) => {
                           "view.user.detail_list.enter_alternative_data",
                           { plsEnter: t("please_enter") }
                         )}
-                        type={name_data == "password" ? "password" : ""}
+                        type={name_data === "password" ? "password" : ""}
                         onBlur={(e) => {
                           form.setFieldsValue({
                             [name_data]: e.target.value.trim(),
@@ -366,10 +371,13 @@ const DetailUser = (props) => {
                         }}
                       />
                     ) : (
-                      <Input
-                        type="text"
-                        maxLength={13}
-                        placeholder={t('view.map.phone_number')}
+                      <PhoneInput
+                        international={false}
+                        defaultCountry="VN"
+                        placeholder={t(
+                          "view.map.please_enter_your_phone_number",
+                          { plsEnter: t("please") }
+                        )}
                       />
                     )}
                   </Form.Item>
@@ -547,7 +555,7 @@ const DetailUser = (props) => {
       const notifyMess = {
         type: "success",
         title: "",
-        description: `${t('noti.successfully_change_data')}`,
+        description: `${t("noti.successfully_change_data")}`,
       };
       Notification(notifyMess);
       setLoading(!isLoading);
@@ -558,17 +566,9 @@ const DetailUser = (props) => {
     if (isEmpty(value)) {
       return false;
     }
-
-    const pattern = /^[+]*[(]{0,1}[0-9]{1,3}[)]{0,1}[-\s\./0-9]*$/g;
-    if (!pattern.test(value) && value.length >= 10) {
-      const notifyMess = {
-        type: NOTYFY_TYPE.error,
-        description: `${t('noti.phone_number_format_is_not_correct')}`,
-      };
-      Notification(notifyMess);
-      return false;
+    if (value[3] === 0) {
+      value.splice(3, 1);
     }
-    return true;
   };
 
   const goBack = () => {
@@ -742,25 +742,19 @@ const DetailUser = (props) => {
         <GroupUser id={userUuid} handleReload={handleReload} reload={reload} />
       </div>
 
-      <div
-        className={
-          permissionCheck("assign_user_permission") && !props?.isMyInfor
-            ? ""
-            : "disableCard"
-        }
-      >
-        <CameraGroup
-          id={userUuid}
-          handleRefreshCameraPage={handleRefreshCameraPage}
-          reload={reload}
-        ></CameraGroup>
+      <CameraGroup
+        id={userUuid}
+        handleRefreshCameraPage={handleRefreshCameraPage}
+        reload={reload}
+        isMyInfor={props?.isMyInfor}
+      ></CameraGroup>
 
-        <Camera
-          id={userUuid}
-          reloadCameraPage={reloadCameraPage}
-          reload={reload}
-        />
-      </div>
+      <Camera
+        id={userUuid}
+        reloadCameraPage={reloadCameraPage}
+        reload={reload}
+        isMyInfor={props?.isMyInfor}
+      />
     </div>
   );
 };

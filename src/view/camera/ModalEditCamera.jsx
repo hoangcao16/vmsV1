@@ -610,7 +610,7 @@ const ModalEditCamera = (props) => {
                   onBlur={(e) =>
                     form.setFieldsValue({ port: e.target.value.trim() })
                   }
-                ></Input>
+                />
               </Form.Item>
             </Col>
             <Col span={12}>
@@ -680,6 +680,22 @@ const ModalEditCamera = (props) => {
                   <Input type="hidden" />
                 </Form.Item>
               </Col>
+            </Col>
+            <Col span={24}>
+              <Form.Item
+                  label={t("view.map.hls_url")}
+                  name={["hlsUrl"]}
+              >
+                <Input
+                    placeholder={t("view.map.please_enter_hls_url", {
+                      plsEnter: t("please_enter"),
+                    })}
+                    maxLength={2000}
+                    onBlur={(e) =>
+                        form.setFieldsValue({ hlsUrl: e.target.value.trim() })
+                    }
+                />
+              </Form.Item>
             </Col>
             <Col span={24} className="mt-1">
               <span className="edit-tag-item" onClick={showModalEditTag}>

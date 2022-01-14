@@ -23,7 +23,6 @@ const GroupApi = {
       console.log(error);
     }
 
-    console.log('result: ', result);
     if (handleErrCodeAuthZ(result) === null) {
       return [];
     }

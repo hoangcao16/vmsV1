@@ -131,18 +131,10 @@ class Sidebar extends Component {
       setLanguage
     } = this.props;
 
-    let { menuShadow, activeIndex, hoveredMenuItem, activeItem, ScrollbarTag } =
+    let {  activeIndex, hoveredMenuItem, activeItem } =
       this.state;
 
-    let scrollShadow = (container, dir) => {
-      if (container && dir === 'up' && container.scrollTop >= 100) {
-        this.setState({ menuShadow: true });
-      } else if (container && dir === 'down' && container.scrollTop < 100) {
-        this.setState({ menuShadow: false });
-      } else {
-        return;
-      }
-    };
+
     return (
       <ContextLayout.Consumer>
         {(context) => {

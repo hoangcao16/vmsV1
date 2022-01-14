@@ -2,6 +2,7 @@ import { Popover, Space, Spin, Tooltip } from "antd";
 import React, { useEffect, useRef, useState } from "react";
 import { Camera, Maximize2, Menu, Minimize2, Video, X } from "react-feather";
 import { useTranslation } from "react-i18next";
+import { connect } from "react-redux";
 import { v4 as uuidV4 } from "uuid";
 import permissionCheck from "../../actions/function/MyUltil/PermissionCheck";
 import permissionCheckByCamera from "../../actions/function/MyUltil/PermissionCheckByCamera";
@@ -57,16 +58,14 @@ const LiveCameraSlot = (props) => {
     setShowMenus(false);
   };
 
-  const onDoubleClick = () => {
-    zoomOutByDoubleClick(slotId);
-  };
+
   const captureCameraHandler = (slotId) => {
     if (!recMode) {
       const currTime = new Date().getTime();
       setStartTime(currTime);
       setStopTime(0);
       setCurrLiveMode(liveMode);
-      
+
       timer.current = setInterval(() => {
         if (startRef.current > 0) {
           const currTime = new Date().getTime();
@@ -79,78 +78,77 @@ const LiveCameraSlot = (props) => {
               requestId.current,
               currLiveMode,
               addedCamerasRef.current
-              );
-              setStartTime(0);
-              setStopTime(currTime);
-            }
+            );
+            setStartTime(0);
+            setStopTime(currTime);
           }
-        }, 1000);
-        
-        startCaptureCamera(slotId, currTime, requestId.current, liveMode);
-      } else {
-        stopCaptureHandler();
-      }
-      setOldRecState(!recMode);
-    };
-    const closeCameraHandler = (slotId) => {
-      stopCaptureHandler();
-      closeCamera(slotId);
-    };
-    const stopCaptureHandler = () => {
-      const currTime = new Date().getTime();
-      if (recMode) {
-        stopCaptureCamera(
-          slotId,
-          startRef.current,
-          currTime,
-          requestId.current,
-          currLiveMode,
-          addedCamerasRef.current
-          );
         }
-        setStartTime(0);
-        setStopTime(0);
-        setCountInMinis(0);
-        clearTimeout(timer.current);
-      };
-      const clearWhenError = () => {
-        setStartTime(0);
-        setStopTime(0);
-        setCountInMinis(0);
-        clearTimeout(timer.current);
-      };
-      
-      const slotIdx = findCameraIndexInGrid(slotId);
-      const toolbarCss = showMenus === true ? "video-toolbar__control-0" : "";
-      const camName = addedCameras[slotIdx]?.name ? addedCameras[slotIdx].name : "";
-      const liveCss = addedCameras[slotIdx]?.name ? "video__label--active" : "";
-      const recMode = !!addedCameras[slotIdx]?.isRec;
-      const hasError = !!addedCameras[slotIdx]?.hasError;
-      const maxCount = 10 * 60 * 1000;
-      
-      useEffect(() => {
+      }, 1000);
+
+      startCaptureCamera(slotId, currTime, requestId.current, liveMode);
+    } else {
+      stopCaptureHandler();
+    }
+    setOldRecState(!recMode);
+  };
+  const closeCameraHandler = (slotId) => {
+    stopCaptureHandler();
+    closeCamera(slotId);
+  };
+  const stopCaptureHandler = () => {
+    const currTime = new Date().getTime();
+    if (recMode) {
+      stopCaptureCamera(
+        slotId,
+        startRef.current,
+        currTime,
+        requestId.current,
+        currLiveMode,
+        addedCamerasRef.current
+      );
+    }
+    setStartTime(0);
+    setStopTime(0);
+    setCountInMinis(0);
+    clearTimeout(timer.current);
+  };
+  const clearWhenError = () => {
+    setStartTime(0);
+    setStopTime(0);
+    setCountInMinis(0);
+    clearTimeout(timer.current);
+  };
+
+  const slotIdx = findCameraIndexInGrid(slotId);
+  const toolbarCss = showMenus === true ? "video-toolbar__control-0" : "";
+  const camName = addedCameras[slotIdx]?.name ? addedCameras[slotIdx].name : "";
+  const liveCss = addedCameras[slotIdx]?.name ? "video__label--active" : "";
+  const recMode = !!addedCameras[slotIdx]?.isRec;
+  const hasError = !!addedCameras[slotIdx]?.hasError;
+  const maxCount = 10 * 60 * 1000;
+
+  useEffect(() => {
     if (oldRecState && !recMode) {
       //Change from recording state to stop
       stopCaptureHandler();
     }
   }, [recMode]);
-  
+
   useEffect(() => {
     if (hasError) clearWhenError();
   }, [hasError]);
-  
+
   useEffect(() => {
     return () => clearTimeout(timer.current);
   }, []);
-  
+
   useEffect(() => {
-    
-    setOpenMenuControl(false)
+    setOpenMenuControl(false);
   }, [idCamera]);
 
   useEffect(() => {
-    setOpenMenuControl(false)
-  }, [isMaximize])
+    setOpenMenuControl(false);
+  }, [isMaximize]);
 
   return (
     <div
@@ -190,7 +188,7 @@ const LiveCameraSlot = (props) => {
               <></>
             ) : (
               <Tooltip title={t("view.user.record")}>
-                <a
+                <div
                   className={
                     recMode ? "video-toolbar__capture" : "video-toolbar__link"
                   }
@@ -198,7 +196,7 @@ const LiveCameraSlot = (props) => {
                   onClick={() => captureCameraHandler(slotId)}
                 >
                   <Video className="video-toolbar__icon" size={12} />
-                </a>
+                </div>
               </Tooltip>
             )}
 
@@ -206,18 +204,17 @@ const LiveCameraSlot = (props) => {
               <></>
             ) : (
               <Tooltip title={t("view.storage.capture_snapshot")}>
-                <a
+                <div
                   className="video-toolbar__link"
                   size="small"
                   onClick={() => startSnapshotCamera(slotId)}
                 >
                   <Camera className="video-toolbar__icon" size={12} />
-                </a>
+                </div>
               </Tooltip>
             )}
-
-            <Tooltip title={t("view.live.zoom")}>
-              <a
+            {isMaximize ? (
+              <div
                 className="video-toolbar__link"
                 size="small"
                 onClick={() => maxMinCamera(slotId)}
@@ -225,11 +222,20 @@ const LiveCameraSlot = (props) => {
                 {isMaximize && (
                   <Minimize2 className="video-toolbar__icon" size={12} />
                 )}
-                {!isMaximize && (
-                  <Maximize2 className="video-toolbar__icon" size={12} />
-                )}
-              </a>
-            </Tooltip>
+              </div>
+            ) : (
+              <Tooltip title={t("view.live.zoom")}>
+                <div
+                  className="video-toolbar__link"
+                  size="small"
+                  onClick={() => maxMinCamera(slotId)}
+                >
+                  {!isMaximize && (
+                    <Maximize2 className="video-toolbar__icon" size={12} />
+                  )}
+                </div>
+              </Tooltip>
+            )}
 
             <Popover
               placement="top"
@@ -250,23 +256,25 @@ const LiveCameraSlot = (props) => {
               overlayClassName="control-panel-popover"
               trigger="click"
             >
-              {!permissionCheckByCamera("setup_preset", idCamera) && !permissionCheckByCamera("ptz_control", idCamera)? (
-              <></>
-            ) : (
-              <Tooltip title={t("view.live.menu_preset")}>
-                <a
-                  className="video-toolbar__link"
-                  size="small"
-                  onClick={() => {
-                    setOpenMenuControl(!openMenuControl);
-                  }}
-                >
-                  <Menu className="video-toolbar__icon" size={12} />
-                </a>
-              </Tooltip>)}
+              {!permissionCheckByCamera("setup_preset", idCamera) ||
+              !permissionCheckByCamera("ptz_control", idCamera) ? (
+                <></>
+              ) : (
+                <Tooltip title={t("view.live.menu_preset")}>
+                  <div
+                    className="video-toolbar__link"
+                    size="small"
+                    onClick={() => {
+                      setOpenMenuControl(!openMenuControl);
+                    }}
+                  >
+                    <Menu className="video-toolbar__icon" size={12} />
+                  </div>
+                </Tooltip>
+              )}
             </Popover>
             <Tooltip title={t("view.live.close_camera")}>
-              <a
+              <div
                 className="video-toolbar__link"
                 size="small"
                 onClick={() => {
@@ -276,7 +284,7 @@ const LiveCameraSlot = (props) => {
                 }}
               >
                 <X className="video-toolbar__icon" size={12} />
-              </a>
+              </div>
             </Tooltip>
           </div>
         }
@@ -306,4 +314,12 @@ const LiveCameraSlot = (props) => {
   );
 };
 
-export default LiveCameraSlot;
+const mapStateToProps = (state) => ({
+  openModalPresetSetting: state.openModalPresetSetting,
+});
+
+const mapDispatchToProps = (dispatch) => {
+  return {};
+};
+
+export default connect(mapStateToProps, mapDispatchToProps)(LiveCameraSlot);

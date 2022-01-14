@@ -19,7 +19,7 @@ const TabType = (props) => {
 
 
   useEffect(() => {
-    if (cameraUuid != null && cameraUuid !== "") {
+    if (cameraUuid !== null && cameraUuid !== "") {
       const data = {
         type: type,
         cameraUuid: cameraUuid
@@ -85,7 +85,7 @@ const TabType = (props) => {
       >
         <div className="" >
           <Tabs type="card" >
-            {type != "attendance" ?
+            {type !== "attendance" ?
               <TabPane tab={t('view.ai_config.area_config')} key="2">
                 <MemoizedTabRect cameraUuid={cameraUuid} type={type}></MemoizedTabRect>
               </TabPane>

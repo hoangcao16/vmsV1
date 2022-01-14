@@ -68,12 +68,11 @@ const CameraApi = {
     } catch (error) {
       console.log(JSON.stringify(error));
     }
-
     if (result === undefined || handleErrCodeReport(result) === null) {
       return [];
     }
 
-    return result.responseList;
+    return result.payload;
   },
 
   getAllCameraWidthTotal: async (dataSearch) => {
@@ -417,7 +416,25 @@ const CameraApi = {
     }
     Notification(notifyMess);
     return true;
-  }
+  },
+
+
+  getExportData: async (body) => {
+    let result;
+    try {
+      result = await MyService.postRequestDataBlob(
+        '/owl/api/v1/report-camera',
+        body
+      );
+    } catch (error) {
+      console.log(error);
+    }
+    // if (responseCheckerErrorsController(result) === null) {
+    //   return [];
+    // }
+    return result;
+  },
+
 };
 
 export default CameraApi;

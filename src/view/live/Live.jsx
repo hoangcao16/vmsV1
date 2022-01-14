@@ -6,6 +6,7 @@ import { DragDropContext, Draggable, Droppable } from "react-beautiful-dnd";
 import { useTranslation } from "react-i18next";
 import { connect, useDispatch } from "react-redux";
 import { withRouter } from "react-router-dom";
+import { reactLocalStorage } from "reactjs-localstorage";
 import { v4 as uuidV4 } from "uuid";
 import ExportEventFileApi from "../../actions/api/exporteventfile/ExportEventFileApi";
 import tokenApi from "../../api/authz/token";
@@ -95,6 +96,15 @@ const Live = (props) => {
   useEffect(() => {
     fetchCameras(filter, search);
   }, [filter, search]);
+
+  useEffect(() => {
+    if (props.openModalPresetSetting.state) {
+      if (isMaximize == true) {
+        maxMinCamera(reactLocalStorage.getObject('originSlotId'))
+        setIsMaximize(false)
+      }
+    }
+  }, [props.openModalPresetSetting.state]);
 
   /**
    * Hàm này tạo screen với dầy đủ thông tin của từng  camera trên lưới: Ví dụ: tên cam, uuid, id
@@ -942,6 +952,7 @@ const Live = (props) => {
     }
   };
   const maxMinCamera = (originSlotId) => {
+    reactLocalStorage.setObject('originSlotId', originSlotId)
     if (!isMaximize) {
       maximumCamera(originSlotId);
     } else {
@@ -1406,6 +1417,7 @@ const Live = (props) => {
 const mapStateToProps = (state) => {
   return {
     isZoom: state.customizer.customizer.zoom,
+    openModalPresetSetting: state.openModalPresetSetting
   };
 };
 

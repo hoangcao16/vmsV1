@@ -1,9 +1,9 @@
+import { reactLocalStorage } from "reactjs-localstorage";
 import controllerApi from "../../../api/controller-api/api";
 import { handleErrCode } from "../../../api/controller-api/code";
 import Notification from "../../../components/vms/notification/Notification";
 import { NOTYFY_TYPE } from "../../../view/common/vms/Constant";
 import FileService from "./fileservice";
-import { reactLocalStorage } from "reactjs-localstorage";
 
 const FILE_ENDPOINT = "/cctv-controller-svc/api/v1/files";
 const EVENT_FILE_ENDPOINT = "/cctv-controller-svc/api/v1/event-files";

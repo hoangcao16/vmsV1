@@ -23,7 +23,6 @@ const LiveMenuTool = (props) => {
   const [presetTourLists, setPresetTourLists] = useState([]);
   const { Option } = Select;
   const getPreset = async (params) => {
-    console.log("params", params)
     if (!permissionCheckByCamera("setup_preset", params.cameraUuid)) {
       return;
     }
@@ -376,7 +375,7 @@ const LiveMenuTool = (props) => {
         <div className="toolbar__ptz toolbar__ptz-zoom">
           <Tooltip
             placement="top"
-            title={t("view.user.detail_list.zoom_out")}
+            title={t("view.user.detail_list.zoom_in")}
             arrowPointAtCenter={true}
           >
             <Button
@@ -391,7 +390,7 @@ const LiveMenuTool = (props) => {
 
           <Tooltip
             placement="top"
-            title={t("view.user.detail_list.zoom_in")}
+            title={t("view.user.detail_list.zoom_out")}
             arrowPointAtCenter={true}
           >
             <Button

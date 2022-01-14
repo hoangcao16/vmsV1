@@ -137,7 +137,7 @@ const ModalAddCamera = (props) => {
   };
 
   const uploadImage = async (options) => {
-    const { onSuccess, onError, file, onProgress } = options;
+    const { file } = options;
     await ExportEventFileApi.uploadAvatar(uuidV4(), file).then((result) => {
       if (
         result.data &&
@@ -194,7 +194,6 @@ const ModalAddCamera = (props) => {
       lat_: +value?.lat_,
       long_: +value?.long_,
     };
-
     const clearPayload = clearData(payload);
 
     const isAdd = await CameraApi.addCamera(clearPayload);
@@ -636,6 +635,24 @@ const ModalAddCamera = (props) => {
                     });
                   }}
                   maxLength={2000}
+                />
+              </Form.Item>
+            </Col>
+            <Col span={24}>
+              <Form.Item
+                  label={t("view.map.hls_url")}
+                  name={["hlsUrl"]}
+              >
+                <Input
+                    placeholder={t("view.map.please_enter_hls_url", {
+                      plsEnter: t("please_enter"),
+                    })}
+                    onBlur={(e) => {
+                      form.setFieldsValue({
+                        hlsUrl: e.target.value.trim(),
+                      });
+                    }}
+                    maxLength={2000}
                 />
               </Form.Item>
             </Col>

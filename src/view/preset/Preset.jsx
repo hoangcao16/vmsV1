@@ -654,8 +654,6 @@ const Preset = (props) => {
     const newPresetTourDatas = JSON.parse(JSON.stringify(presetTourDatas));
     // const valueSelect = document.getElementById("choose__preset-tour").value;
 
-    // console.log("valueSelect:", valueSelect);
-
     //neu chua chon preset tour thi tao preset tour moi
 
     if (selectPresetTour == "none") {
@@ -1276,7 +1274,7 @@ const Preset = (props) => {
           <div className="camera__zoom">
             <Tooltip
               placement="top"
-              title={t("view.user.detail_list.zoom_out")}
+              title={t("view.user.detail_list.zoom_in")}
               arrowPointAtCenter={true}
             >
               <Button
@@ -1290,7 +1288,7 @@ const Preset = (props) => {
 
             <Tooltip
               placement="top"
-              title={t("view.user.detail_list.zoom_in")}
+              title={t("view.user.detail_list.zoom_out")}
               arrowPointAtCenter={true}
             >
               <Button

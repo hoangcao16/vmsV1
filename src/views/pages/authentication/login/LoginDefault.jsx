@@ -1,28 +1,24 @@
 import { notification } from 'antd';
 import 'antd/dist/antd.css';
+import { isEmpty } from 'lodash';
 import React, { useEffect, useState } from 'react';
 import { Check, Lock, Mail } from 'react-feather';
+import { useTranslation } from 'react-i18next';
 import { Link } from 'react-router-dom';
 import { reactLocalStorage } from 'reactjs-localstorage';
 import { Button, CardBody, Form, FormGroup, Input, Label } from 'reactstrap';
 import UserApi from '../../../../actions/api/user/UserApi';
+import { handleErrCodeAuthZ } from '../../../../actions/function/MyUltil/ResponseChecker';
 import rest_api from '../../../../actions/rest_api';
 import Checkbox from '../../../../components/@vuexy/checkbox/CheckboxesVuexy';
 import { history } from '../../../../history';
 import './LoginDefault.scss';
-import { Tooltip } from 'antd';
-import { handleErrCodeAuthZ } from '../../../../actions/function/MyUltil/ResponseChecker';
-import { isEmpty } from 'lodash';
-import { useTranslation } from 'react-i18next';
 
 const LoginDefault = () => {
   const { t } = useTranslation();
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [remember, setRemember] = useState(false);
-  const [isVisibleTooltipPassword, setIssVisibleTooltipPassword] =
-    useState(true);
-  const [isVisibleTooltipEmail, setIssVisibleTooltipEmail] = useState(true);
 
   useEffect(() => {
     let loginInfo = reactLocalStorage.getObject('login_info', null);
@@ -116,7 +112,7 @@ const LoginDefault = () => {
                 onChange={(e) => {
                   const value = e.target.value.trim();
                   setEmail(value);
-                  setIssVisibleTooltipEmail(value);
+
                 }}
               // required
               />
@@ -141,9 +137,6 @@ const LoginDefault = () => {
                 value={password}
                 onChange={(e) => {
                   setPassword(e.target.value.replace(/\s/g, ''));
-                  setIssVisibleTooltipPassword(
-                    e.target.value.replace(/\s/g, '')
-                  );
                 }}
               // required
               />

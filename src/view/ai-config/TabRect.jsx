@@ -1,23 +1,21 @@
-import { PlusOutlined, DeleteOutlined, CheckOutlined, CloseOutlined } from '@ant-design/icons';
+import { CheckOutlined, CloseOutlined, DeleteOutlined, PlusOutlined } from '@ant-design/icons';
 import {
-  Button, Card, Checkbox, Row, Col, Form, Input, Table, Space,
-  Popconfirm, Spin, Tooltip, Switch, Select
+  Button, Card, Checkbox, Col, Form, Input, Popconfirm, Row, Select, Space, Spin, Switch, Table, Tooltip
 } from 'antd';
 import 'antd/dist/antd.css';
-import React, { useEffect, useRef, useState } from 'react';
+import _ from "lodash";
+import React, { useEffect, useRef } from 'react';
 import 'react-calendar-timeline/lib/Timeline.css';
 import { useTranslation } from 'react-i18next';
-import { reactLocalStorage } from "reactjs-localstorage";
 import AIConfigRectApi from '../../actions/api/ai-config/AIConfigRectApi';
-import './TabRect.scss';
-import imagePoster from "../../assets/event/videoposter.png";
-import { bodyStyleCard, headStyleCard } from './variables';
-import Notification from "../../components/vms/notification/Notification";
-import { NOTYFY_TYPE } from "../common/vms/Constant";
-import getServerCamproxyForPlay from "../../utility/vms/camera";
 import playCamApi from "../../api/camproxy/cameraApi";
-import _ from "lodash";
+import imagePoster from "../../assets/event/videoposter.png";
+import Notification from "../../components/vms/notification/Notification";
+import getServerCamproxyForPlay from "../../utility/vms/camera";
 import { sortPoints } from "../../utility/vms/sortIntrusionPoints";
+import { NOTYFY_TYPE } from "../common/vms/Constant";
+import './TabRect.scss';
+import { bodyStyleCard, headStyleCard } from './variables';
 
 const CheckboxGroup = Checkbox.Group;
 const { Option } = Select;
@@ -25,15 +23,15 @@ const { Option } = Select;
 const TabRect = (props) => {
   const { cameraUuid, type } = props
   const { t } = useTranslation();
-  const language = reactLocalStorage.get('language');
+
   const [form] = Form.useForm();
-  const [selectedRowKeys, setSelectedRowKeys] = useState([]);
+
   const [checkedList, setCheckedList] = React.useState([]);
   const [indeterminate, setIndeterminate] = React.useState(true);
   const [checkAll, setCheckAll] = React.useState(false);
   const [dataRectList, setDataRectList] = React.useState([]);
   const [dataRect, setDataRect] = React.useState({});
-  const [threshold, setThreshold] = React.useState(0);
+  const threshold = 0;
   const [keyActive, setKeyActive] = React.useState(0);
   const [isActive, setIsActive] = React.useState(false);
   const [isActiveDetail, setIsActiveDetail] = React.useState(false);
@@ -128,11 +126,12 @@ const TabRect = (props) => {
     let points = [];
     let pointsP = [];
 
+
     if (type === "hurdles") {
+
       points = [[fromX, fromY], [toX, toY]];
       pointsP = [[fromXP, fromYP], [toXP, toYP]];
     } else {
-
       coordinates.forEach(data => {
         points.push([data.x, data.y])
       })
@@ -142,12 +141,14 @@ const TabRect = (props) => {
 
     }
 
+    console.log("+++++++++value ", value)
+
     const payload = {
       ...dataRect,
       type: type,
       cameraUuid: cameraUuid,
-      peopleDetection: checkedList.includes('human'),
-      vehicleDetection: checkedList.includes('vehicle'),
+      peopleDetection: value.human,
+      vehicleDetection: value.vehicle,
       threshold: value.threshold,
       status: "1",
       direction: value.direction,
@@ -164,7 +165,7 @@ const TabRect = (props) => {
       dataNew.forEach(data => {
         if (data.key === keyActive) {
           data.uuid = result.uuid;
-          
+
         }
       })
       setDataRectList(dataNew)
@@ -175,7 +176,6 @@ const TabRect = (props) => {
 
 
   };
-  console.log(">>>>>>>>>>>>>>>>>>>>>>>>>         "     ,coordinates)
 
   function setDefaultDataRect(data) {
     clearEventHandler()
@@ -190,7 +190,9 @@ const TabRect = (props) => {
     setCheckedList(checkList)
     form.setFieldsValue({
       threshold: data.threshold,
-      direction: data.direction
+      direction: data.direction,
+      vehicle: data.vehicleDetection,
+      human: data.peopleDetection
     })
 
     if (type === "hurdles") {
@@ -205,6 +207,7 @@ const TabRect = (props) => {
 
     }
   }
+
 
   const onChangeDirectionHandler = (value) => {
     direction = value;
@@ -369,7 +372,7 @@ const TabRect = (props) => {
     localStorage.removeItem('direction');
     localStorage.removeItem('coordinates');
     localStorage.removeItem('coordinatesP');
-    
+
 
     clearEventHandler()
 
@@ -415,14 +418,8 @@ const TabRect = (props) => {
     }
   }, [cameraUuid, type]);
 
-  const onSelectChange = (selectedRowKeys) => {
-    setSelectedRowKeys(selectedRowKeys);
-  };
 
-  const rowSelection = {
-    selectedRowKeys,
-    onChange: onSelectChange
-  };
+
 
   const onChange = list => {
     setCheckedList(list);
@@ -438,14 +435,26 @@ const TabRect = (props) => {
 
   };
 
+  const onCheckAllChangeVehicle = e => {
+    form.setFieldsValue({
+      vehicle: e.target.checked
+    })
+  };
+
+  const onCheckAllChangeHuman = e => {
+    form.setFieldsValue({
+      human: e.target.checked
+    })
+  };
+
   const onPlusConfigRect = e => {
     let date = Date.now();
     let dataNew = [...dataRectList]
     let strType = ""
-    if (type == "intrusion_detection") {
+    if (type === "intrusion_detection") {
       strType = "Khu vực "
     }
-    if (type == "hurdles") {
+    if (type === "hurdles") {
       strType = "Đường "
     }
     dataNew.push({
@@ -492,20 +501,23 @@ const TabRect = (props) => {
       setDataRectList([]);
     }
   };
+  console.log("+++++++++++++++++++++++render")
 
   const handleRowClick = (event, data) => {
+    setIsActiveDetail(true)
     setKeyActive(data.key)
     if (data.uuid != null) {
       AIConfigRectApi.getConfigRect(data.uuid).then((result) => {
         if (result != null) {
           data = result
-          setIsActiveDetail(true)
+
         }
       });
     }
 
 
-    setDefaultDataRect(data)
+    setDefaultDataRect({...data, vehicle: data.vehicleDetection,
+      human: data.peopleDetection})
 
 
   };
@@ -627,7 +639,7 @@ const TabRect = (props) => {
         coordinatesP.push({ x: data[0], y: data[1], mouseDown: false });
       })
       localStorage.setItem("coordinatesP", JSON.stringify(coordinatesP));
-      
+
 
       coordinates = [];
       for (let index = 0; index < coordinatesP.length; index++) {
@@ -850,7 +862,7 @@ const TabRect = (props) => {
       }
     }
   }
-  
+
   const drawLine = () => {
 
 
@@ -942,7 +954,7 @@ const TabRect = (props) => {
       toXP = toX / canvas.width;
       toYP = toY / canvas.height;
 
-      
+
 
     }
   }
@@ -994,9 +1006,9 @@ const TabRect = (props) => {
 
     ctx.moveTo(fX, fY);
 
-    
-    
-    
+
+
+
     if (direction === 2) { // B <-> A
       ctx.lineTo(fX - headLen * Math.cos(angle - Math.PI / 6), fY - headLen * Math.sin(angle - Math.PI / 6));
       ctx.moveTo(fX, fY);
@@ -1260,7 +1272,7 @@ const TabRect = (props) => {
                   }
 
                   <Row gutter={24} style={{ marginTop: "20px" }}>
-                    <Col span={24} style={{ flex: 'none' }}>
+                    {/* <Col span={24} style={{ flex: 'none' }}>
                       <div className="">
                         <Form.Item
                           name="checkedList">
@@ -1272,27 +1284,41 @@ const TabRect = (props) => {
                         </Form.Item>
 
                       </div>
+                    </Col> */}
+                    {/* ["vehicle", "human"] */}
+                    <Col span={8} style={{ flex: 'none' }}>
+                      <p className="checkedList">{t('view.ai_config.choose')}</p>
+                    </Col>
+                    <Col span={8} style={{ flex: 'none' }}>
+                      <Form.Item name={['human']}>
+                        <Checkbox value="human" name="human" onChange={onCheckAllChangeHuman}>{t('view.ai_config.human')}</Checkbox>
+                      </Form.Item>
+                    </Col>
+                    <Col span={8} style={{ flex: 'none' }}>
+                      <Form.Item name={['vehicle']}>
+                        <Checkbox value="vehicle"  name="vehicle"  onChange={onCheckAllChangeVehicle}>{t('view.ai_config.vehicle')}</Checkbox>
+                      </Form.Item>
                     </Col>
 
                   </Row>
                   <Row gutter={24} style={{ marginTop: "20px" }}>
                     <Col span={24} style={{ flex: 'none' }}>
-                    {cameraUuid ?
-                    <div className="footer__modal">
-                      <Button
-                        disabled={!isActiveDetail}
-                        onClick={() => {
-                        }}
-                        type="primary" htmlType="submit ">
-                        {t('view.ai_config.apply')}
-                      </Button>
-                    </div> : null
-                  }
+                      {cameraUuid ?
+                        <div className="footer__modal">
+                          <Button
+                            disabled={!isActiveDetail}
+                            onClick={() => {
+                            }}
+                            type="primary" htmlType="submit ">
+                            {t('view.ai_config.apply')}
+                          </Button>
+                        </div> : null
+                      }
                     </Col>
 
                   </Row>
 
-                  
+
                 </Form>
               </div>
             </Col>

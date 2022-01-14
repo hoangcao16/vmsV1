@@ -11,7 +11,7 @@ import {
   ResponsiveContainer,
   Tooltip,
   XAxis,
-  YAxis
+  YAxis,
 } from "recharts";
 import permissionCheck from "../../../../actions/function/MyUltil/PermissionCheck";
 import convertDataBarChart from "../../../../actions/function/MyUltil/ConvertDataBarChart";
@@ -19,7 +19,7 @@ import { loadDataChart } from "../../redux/actions";
 import "./barChart.scss";
 import ExportReport from "./ExportReport";
 
-var randomColor = require("randomcolor");
+export const COLOR = ["#eb4034", "#7ccc47", "#425fd4"];
 
 function BarChartComponent(props) {
   const data = props.chartData;
@@ -40,11 +40,11 @@ function BarChartComponent(props) {
 
     const keyArr = Object.keys(dataNoName);
     keyArr.shift();
-    return keyArr.map((k) => {
+    return keyArr.map((k, index) => {
       if (k.length > 25) {
         k = k.slice(0, 26) + "...";
       }
-      return <Bar key={k} dataKey={k} fill={randomColor()} />;
+      return <Bar key={k} dataKey={k} fill={COLOR[index]} />;
     });
   };
 
@@ -139,7 +139,7 @@ function BarChartComponent(props) {
 
 const mapStateToProps = (state) => ({
   isLoading: state.chart.isLoading,
-  chartData: convertDataBarChart(state.chart.chartData),
+  chartData: convertDataBarChart(state.chart.chartData.data),
   error: state.chart.error,
   title: state.chart.title,
   isShowLineAndPieChart: state.chart.isShowLineAndPieChart,

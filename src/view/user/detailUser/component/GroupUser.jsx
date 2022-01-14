@@ -1,20 +1,20 @@
-import { LinkOutlined } from '@ant-design/icons';
-import { Card, Form, Select } from 'antd';
-import { isEmpty } from 'lodash-es';
-import React, { useEffect, useState } from 'react';
-import { useHistory, useLocation, useRouteMatch } from 'react-router-dom';
-import { reactLocalStorage } from 'reactjs-localstorage';
-import UserApi from '../../../../actions/api/user/UserApi';
-import Notification from '../../../../components/vms/notification/Notification';
-import '../../../commonStyle/commonAuto.scss';
-import '../../../commonStyle/commonSelect.scss';
-import './GroupUser.scss';
+import { LinkOutlined } from "@ant-design/icons";
+import { Card, Form, Select } from "antd";
+import { isEmpty } from "lodash-es";
+import React, { useEffect, useState } from "react";
 import { useTranslation } from "react-i18next";
+import { useHistory, useLocation, useRouteMatch } from "react-router-dom";
+import { reactLocalStorage } from "reactjs-localstorage";
+import UserApi from "../../../../actions/api/user/UserApi";
+import Notification from "../../../../components/vms/notification/Notification";
+import "../../../commonStyle/commonAuto.scss";
+import "../../../commonStyle/commonSelect.scss";
+import "./GroupUser.scss";
 
-
+const { Option } = Select;
 const formItemLayout = {
   wrapperCol: { span: 24 },
-  labelCol: { span: 24 }
+  labelCol: { span: 24 },
 };
 
 const GroupUser = (props) => {
@@ -44,7 +44,7 @@ const GroupUser = (props) => {
   const onChange = async (value) => {
     const payload = {
       user_uuid: props?.id,
-      group_uuids: value
+      group_uuids: value,
     };
 
     const update = await UserApi.setGroupForUser(payload);
@@ -52,9 +52,9 @@ const GroupUser = (props) => {
     if (update) {
       handleReload();
       const notifyMess = {
-        type: 'success',
-        title: '',
-        description: `${t('noti.successfully_update')}`,
+        type: "success",
+        title: "",
+        description: `${t("noti.successfully_update")}`,
       };
       Notification(notifyMess);
     }
@@ -65,7 +65,7 @@ const GroupUser = (props) => {
   };
 
   const render = (name, id) => {
-    reactLocalStorage.setObject('tabIndex', 3);
+    reactLocalStorage.setObject("tabIndex", 3);
     return (
       <div className="group-user__item">
         <span className="group-user__item--name">{name}</span>
@@ -104,7 +104,14 @@ const GroupUser = (props) => {
   return (
     <div className="detail-user--group-user">
       <Card className="cardRole">
-        <h4>{t('view.user.user_group', { U: t('U'), g: t('g'), u: t('u'), G: t('G') })}</h4>
+        <h4>
+          {t("view.user.user_group", {
+            U: t("U"),
+            g: t("g"),
+            u: t("u"),
+            G: t("G"),
+          })}
+        </h4>
         {!isEmpty(allGroup) ? (
           <Form
             className="bg-grey"
@@ -112,18 +119,30 @@ const GroupUser = (props) => {
             {...formItemLayout}
             initialValues={groupUuidArr}
           >
-            <Form.Item name={['group_uuid']}>
+            <Form.Item name={["group_uuid"]}>
               <Select
-                mode="multiple"
-                style={{ width: '100%' }}
-                options={allGroup.map((g) => ({
-                  value: g.uuid,
-                  label: render(g.name, g.uuid)
-                }))}
-                onChange={(e) => onChange(e)}
+                showSearch
+                style={{ width: "100%" }}
                 bordered={false}
-                showSearch={true}
-              />
+                placeholder={t('view.user.detail_list.search_to_select')}
+                mode="multiple"
+                optionFilterProp="children"
+                filterOption={(input, option) =>
+                  option.key.toLowerCase().indexOf(input.toLowerCase()) >= 0
+                }
+                onChange={(e) => onChange(e)}
+                filterSort={(optionA, optionB) =>
+                  optionA.key
+                    .toLowerCase()
+                    .localeCompare(optionB.key.toLowerCase())
+                }
+              >
+                {allGroup.map((item) => (
+                  <Option key={item.name} value={item.uuid}>
+                    {render(item.name, item.uuid)}
+                  </Option>
+                ))}
+              </Select>
             </Form.Item>
           </Form>
         ) : null}

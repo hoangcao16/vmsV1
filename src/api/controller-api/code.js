@@ -23,7 +23,7 @@ const StatusInternalServerError = 606;
 
 //USER-->controller-->authz
 
-export const handleErrCode = (data,type) => {
+export const handleErrCode = (data, type) => {
   if (isEmpty(data)) {
     let errCode = {};
     if (language == "vn") {
@@ -77,13 +77,21 @@ export const handleErrCode = (data,type) => {
       Notification(errCode);
       return null;
     case KControllerDuplicate:
-      errCode.description =
-        "Dữ liệu bạn nhập đã tồn tại hoặc không hợp lệ, vui lòng kiểm tra lại";
+      if (language == "vn") {
+        errCode.description =
+          "Dữ liệu bạn nhập đã tồn tại hoặc không hợp lệ, vui lòng kiểm tra lại";
+      } else {
+        errCode.description =
+          "The data you entered already exists or is not valid. Please check again";
+      }
       Notification(errCode);
       return null;
     case KControllerCannotDelete:
-      errCode.description =
-        "Lĩnh vực đã được gán sự kiện. Xóa không thành công";
+      if (language == "vn") {
+        errCode.description = " Xóa không thành công";
+      } else {
+        errCode.description = " Delete failed";
+      }
       Notification(errCode);
       return null;
     case KControllerInternalServerError:
@@ -131,7 +139,7 @@ export const handleErrCode = (data,type) => {
       Notification(errCode);
       return null;
     case StatusForbidden:
-      if (type == 'noMessage') {
+      if (type == "noMessage") {
         return;
       } else {
         handleForbiddenCode(deny_permission_codes);

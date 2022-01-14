@@ -10,7 +10,7 @@ import { reactLocalStorage } from "reactjs-localstorage";
 
 const language = reactLocalStorage.get("language");
 let notifyMess = {};
-if (language == "vn") {
+if (language === "vn") {
   notifyMess = {
     type: NOTYFY_TYPE.warning,
     title: "Xem trực tiếp",
@@ -24,7 +24,6 @@ if (language == "vn") {
   };
 }
 class CameraService {
-  constructor() {}
 
   closeCamera = (itemId) => {
     const cell = document.getElementById("video-slot-" + itemId);
@@ -41,8 +40,8 @@ class CameraService {
   };
   async playCameraOnline(cam, slotIdx, dispatch) {
     try {
-      if (cam.uuid == "" || cam.uuid == null) {
-        if (language == 'vn') {
+      if (cam.uuid === "" || cam.uuid == null) {
+        if (language === 'vn') {
           notifyMess.description = "Thông tin Camera không hợp lệ";
           Notification(notifyMess);
           throw new Error("Thông tin Camera không hợp lệ");
@@ -54,8 +53,8 @@ class CameraService {
       }
       //camproxy controller --> camUuid --> http: camprox
       const data = await getServerCamproxyForPlay(cam.uuid);
-      if (data == null) {
-        if (language == 'vn') {
+      if (data === null) {
+        if (language === 'vn') {
           notifyMess.description = "Bạn không có quyền để xem trực tiếp Camera này";
           Notification(notifyMess);
           dispatch && dispatch(viewCamIsNotPermission(cam));
@@ -117,7 +116,7 @@ class CameraService {
             if (res) {
               pc.setRemoteDescription(res).then((r) => {});
             } else {
-              if (language == 'vn') {
+              if (language === 'vn') {
                 notifyMess.description = "Không thể xem trực tiếp Camera";
                 Notification(notifyMess);
                 dispatch && dispatch(viewCamIsNotPermission(cam));
