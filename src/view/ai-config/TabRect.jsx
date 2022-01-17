@@ -141,8 +141,6 @@ const TabRect = (props) => {
 
     }
 
-    console.log("+++++++++value ", value)
-
     const payload = {
       ...dataRect,
       type: type,
@@ -1290,13 +1288,13 @@ const TabRect = (props) => {
                       <p className="checkedList">{t('view.ai_config.choose')}</p>
                     </Col>
                     <Col span={8} style={{ flex: 'none' }}>
-                      <Form.Item name={['human']}>
-                        <Checkbox value="human" name="human" onChange={onCheckAllChangeHuman}>{t('view.ai_config.human')}</Checkbox>
+                      <Form.Item name='human' valuePropName="checked" >
+                        <Checkbox >{t('view.ai_config.human')}</Checkbox>
                       </Form.Item>
                     </Col>
                     <Col span={8} style={{ flex: 'none' }}>
-                      <Form.Item name={['vehicle']}>
-                        <Checkbox value="vehicle"  name="vehicle"  onChange={onCheckAllChangeVehicle}>{t('view.ai_config.vehicle')}</Checkbox>
+                      <Form.Item name='vehicle' valuePropName="checked">
+                        <Checkbox >{t('view.ai_config.vehicle')}</Checkbox>
                       </Form.Item>
                     </Col>
 
