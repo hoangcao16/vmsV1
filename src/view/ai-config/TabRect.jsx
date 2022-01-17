@@ -501,7 +501,7 @@ const TabRect = (props) => {
       setDataRectList([]);
     }
   };
-  console.log("+++++++++++++++++++++++render")
+
 
   const handleRowClick = (event, data) => {
     setIsActiveDetail(true)

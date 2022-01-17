@@ -3,6 +3,7 @@ import Notification from "../../components/vms/notification/Notification";
 import { handleErrCode } from "../camproxy/code";
 
 const CAMPROXY_ENDPOINT = '/camproxy/v1/play'
+const CAMPROXY_ENDPOINT_HLS= '/camproxy/v1/play/hls'
 const playCamApi = {
     async playCamera(baseUrl, queryParams) {
         try {
@@ -34,6 +35,37 @@ const playCamApi = {
                 description: e.message,
             });
             return null
+        }
+    },
+    async playCameraHls(baseUrl, queryParams) {
+        try {
+            const response = await new Promise((resolve, reject) => {
+                const axiosInstance = axios.create({
+                    baseURL: baseUrl
+                })
+                axiosInstance.interceptors.response.use(
+                    response => response,
+                    error => {
+                        return Promise.reject(error)
+                    },
+                )
+                axiosInstance.post(CAMPROXY_ENDPOINT_HLS, queryParams)
+                    .then(response => resolve(response))
+                    .catch(error => reject(error))
+            })
+
+            console.log('response: ' + JSON.stringify(response))
+            if (response && response.data.code == '15000') {
+    return response
+            }
+          
+        } catch (e) {
+            Notification({
+                type: "error",
+                title: "",
+                description: e.message,
+            });
+            return false
         }
     },
 }

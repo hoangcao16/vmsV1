@@ -304,11 +304,8 @@ const LiveCameraSlot = (props) => {
         id={"video-slot-" + slotId}
         style={{ display: "none" }}
       >
-        {/*<source*/}
-        {/*    src={addedCameras[item].streamUrl}*/}
-        {/*    type="video/mp4"*/}
-        {/*/>*/}
-        {t("noti.browser_not_support_video")}
+
+        {/* {t("noti.browser_not_support_video")} */}
       </video>
     </div>
   );

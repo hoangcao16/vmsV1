@@ -546,7 +546,7 @@ const ExportEventFile = () => {
   };
 
   let addDataToEvent = (row, vFileType) => {
-    console.log("+++++++++++ vFileType", vFileType)
+
     if (vFileType === 0) {
       let value = {
         ...defaultEventFile,
@@ -602,7 +602,7 @@ const ExportEventFile = () => {
         }
         
       }
-      console.log("+++++++++++ data", data)
+
       setEventFileCurrent({ ...data, blob: null, isSaved: false });
     }
   };
@@ -1312,8 +1312,7 @@ const ExportEventFile = () => {
       }
     }
   };
-  console.log("++++++++++++++++++++++++++++")
-  console.log(eventFileCurrent)
+
   const renderEventFileDetail = () => {
     if (viewFileType === 4) {
       return (
