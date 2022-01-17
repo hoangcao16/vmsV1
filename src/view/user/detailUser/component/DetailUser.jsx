@@ -4,7 +4,7 @@ import {
   CloseOutlined,
   LoadingOutlined,
   PlusOutlined,
-  UserOutlined
+  UserOutlined,
 } from "@ant-design/icons";
 import {
   Avatar,
@@ -17,7 +17,7 @@ import {
   Select,
   Tooltip,
   Typography,
-  Upload
+  Upload,
 } from "antd";
 import { isEmpty } from "lodash-es";
 import moment from "moment";
@@ -38,6 +38,8 @@ import CameraGroup from "./CameraGroup";
 import "./DetailUser.scss";
 import GroupUser from "./GroupUser";
 import RoleUser from "./RoleUser";
+import "react-phone-number-input/style.css";
+import PhoneInput from "react-phone-number-input";
 
 const { Panel } = Collapse;
 const { Option } = Select;
@@ -51,6 +53,7 @@ const DetailUser = (props) => {
     userUuid = reactLocalStorage.getObject("user")?.userUuid;
   }
   const [form] = Form.useForm();
+  const [value, setValue] = useState();
   const [userDetail, setUserDetail] = useState({});
   const [isLoading, setLoading] = useState(false);
   const [reload, setReload] = useState(false);
@@ -143,7 +146,7 @@ const DetailUser = (props) => {
   };
 
   const uploadImage = async (options) => {
-    const {  file} = options;
+    const { file } = options;
     await ExportEventFileApi.uploadAvatar(uuidV4(), file).then((result) => {
       if (
         result.data &&
@@ -225,8 +228,12 @@ const DetailUser = (props) => {
           message: `${t("view.map.required_field")}`,
         },
         {
-          min: 10,
+          min: 12,
           message: `${t("noti.at_least_10_characters")}`,
+        },
+        {
+          max: 23,
+          message: `${t("noti.up_to_20_characters")}`,
         }
       );
     }
@@ -364,10 +371,13 @@ const DetailUser = (props) => {
                         }}
                       />
                     ) : (
-                      <Input
-                        type="text"
-                        maxLength={13}
-                        placeholder={t("view.map.phone_number")}
+                      <PhoneInput
+                        international={false}
+                        defaultCountry="VN"
+                        placeholder={t(
+                          "view.map.please_enter_your_phone_number",
+                          { plsEnter: t("please_enter") }
+                        )}
                       />
                     )}
                   </Form.Item>
@@ -556,17 +566,9 @@ const DetailUser = (props) => {
     if (isEmpty(value)) {
       return false;
     }
-
-    const pattern = /^[+]*[(]{0,1}[0-9]{1,3}[)]{0,1}[-\s\./0-9]*$/g;
-    if (!pattern.test(value) && value.length >= 10) {
-      const notifyMess = {
-        type: NOTYFY_TYPE.error,
-        description: `${t("noti.phone_number_format_is_not_correct")}`,
-      };
-      Notification(notifyMess);
-      return false;
+    if (value[3] === 0) {
+      value.splice(3, 1);
     }
-    return true;
   };
 
   const goBack = () => {

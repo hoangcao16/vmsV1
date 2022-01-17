@@ -3,8 +3,8 @@ import {
   ExclamationCircleOutlined,
   LoadingOutlined,
   PlusOutlined,
-  UserOutlined
-} from '@ant-design/icons';
+  UserOutlined,
+} from "@ant-design/icons";
 import {
   Avatar,
   Button,
@@ -16,37 +16,39 @@ import {
   Modal,
   Row,
   Select,
-  Upload
-} from 'antd';
-import MuiPhoneNumber from 'material-ui-phone-number';
-import moment from 'moment';
-import React, { useState } from 'react';
-import { useTranslation } from 'react-i18next';
-import { useHistory, withRouter } from 'react-router-dom';
-import { v4 as uuidV4 } from 'uuid';
-import ExportEventFileApi from '../../../../actions/api/exporteventfile/ExportEventFileApi';
-import UserApi from '../../../../actions/api/user/UserApi';
-import Notification from '../../../../components/vms/notification/Notification';
-import { NOTYFY_TYPE } from '../../../common/vms/Constant';
-import './../../../commonStyle/commonDatePicker.scss';
-import './../../../commonStyle/commonForm.scss';
-import './../../../commonStyle/commonInput.scss';
-import './AddUser.scss';
+  Upload,
+} from "antd";
+import MuiPhoneNumber from "material-ui-phone-number";
+import moment from "moment";
+import React, { useState } from "react";
+import { useTranslation } from "react-i18next";
+import { useHistory, withRouter } from "react-router-dom";
+import { v4 as uuidV4 } from "uuid";
+import ExportEventFileApi from "../../../../actions/api/exporteventfile/ExportEventFileApi";
+import UserApi from "../../../../actions/api/user/UserApi";
+import Notification from "../../../../components/vms/notification/Notification";
+import { NOTYFY_TYPE } from "../../../common/vms/Constant";
+import "./../../../commonStyle/commonDatePicker.scss";
+import "./../../../commonStyle/commonForm.scss";
+import "./../../../commonStyle/commonInput.scss";
+import "./AddUser.scss";
+import "react-phone-number-input/style.css";
+import PhoneInput from "react-phone-number-input";
 
 const { Option } = Select;
 
 function getBase64(img, callback) {
   const reader = new FileReader();
-  reader.addEventListener('load', () => callback(reader.result));
+  reader.addEventListener("load", () => callback(reader.result));
   reader.readAsDataURL(img);
 }
 
 function beforeUpload(file) {
-  const isJpgOrPng = file.type === 'image/jpeg' || file.type === 'image/png';
+  const isJpgOrPng = file.type === "image/jpeg" || file.type === "image/png";
   if (!isJpgOrPng) {
     const notifyMess = {
       type: NOTYFY_TYPE.danger,
-      title: ''
+      title: "",
       // description: `${t('noti.upload_file_desc')}`
     };
     Notification(notifyMess);
@@ -55,7 +57,7 @@ function beforeUpload(file) {
   if (!isLt2M) {
     const notifyMess = {
       type: NOTYFY_TYPE.danger,
-      title: ''
+      title: "",
       // description: `${t('noti.size_file_desc')}`
     };
     Notification(notifyMess);
@@ -65,18 +67,18 @@ function beforeUpload(file) {
 
 const formItemLayout = {
   wrapperCol: { span: 24 },
-  labelCol: { span: 24 }
+  labelCol: { span: 24 },
 };
 
 function AddUser(props) {
   const { t } = useTranslation();
   const [loading, setLoading] = useState(false);
-  const [imageUrl, setImageUrl] = useState('');
+  const [imageUrl, setImageUrl] = useState("");
   const [form] = Form.useForm();
   const history = useHistory();
 
   const handleChange = (info) => {
-    if (info.file.status === 'uploading') {
+    if (info.file.status === "uploading") {
       setLoading(true);
     }
   };
@@ -93,7 +95,7 @@ function AddUser(props) {
           setImageUrl(imageUrl);
           let fileName = result.data.payload.fileUploadInfoList[0].name;
           form.setFieldsValue({
-            avatar_file_name: fileName
+            avatar_file_name: fileName,
           });
         });
       }
@@ -105,37 +107,40 @@ function AddUser(props) {
       const payload = {
         ...value,
         phone: value?.phone,
-        date_of_birth: moment(value?.date_of_birth).format('DD-MM-YYYY')
+        date_of_birth: moment(value?.date_of_birth).format("DD-MM-YYYY"),
       };
 
       const createdUser = await UserApi.createdUser(payload);
 
       if (createdUser?.uuid) {
         const notifyMess = {
-          type: 'success',
-          title: `${t('view.user.detail_list.success')}`,
-          description: `${t('noti.successfully_added_data', { add: t('add') })}`
+          type: "success",
+          title: `${t("view.user.detail_list.success")}`,
+          description: `${t("noti.successfully_added_data", {
+            add: t("add"),
+          })}`,
         };
         Notification(notifyMess);
 
         history.replace(`detail/${createdUser?.uuid}`);
       } else {
         const notifyMess = {
-          type: 'warning',
-          title: `${t('view.user.detail_list.fail')}`,
-          description: `${t('noti.unsuccessfully_add_data', { add: t('add') })}`
+          type: "warning",
+          title: `${t("view.user.detail_list.fail")}`,
+          description: `${t("noti.unsuccessfully_add_data", {
+            add: t("add"),
+          })}`,
         };
         Notification(notifyMess);
       }
     }
-
   };
 
   const uploadButton = (
     <div>
       {loading ? <LoadingOutlined /> : <PlusOutlined />}
       <div style={{ marginTop: 8 }}>
-        {t('view.user.detail_list.add_image', { add: t('add') })}
+        {t("view.user.detail_list.add_image", { add: t("add") })}
       </div>
     </div>
   );
@@ -146,33 +151,32 @@ function AddUser(props) {
 
   function disabledDate(current) {
     // Can not select days before today and today
-    return current && current > moment().endOf('day');
+    return current && current > moment().endOf("day");
   }
 
   function confirm() {
     Modal.confirm({
-      title: `${t('view.user.detail_list.confirm')}`,
+      title: `${t("view.user.detail_list.confirm")}`,
       icon: <ExclamationCircleOutlined />,
-      content: `${t('noti.cancel')}`,
-      okText: `${t('view.user.detail_list.cancel')}`,
-      cancelText: `${t('view.user.detail_list.back')}`,
-      onOk: test
+      content: `${t("noti.cancel")}`,
+      okText: `${t("view.user.detail_list.cancel")}`,
+      cancelText: `${t("view.user.detail_list.back")}`,
+      onOk: test,
     });
   }
 
   const validatePhoneNumber = (value) => {
-
-    const pattern = /^[+]*[(]{0,1}[0-9]{1,3}[)]{0,1}[-\s\./0-9]*$/g
+    const pattern = /^[+]*[(]{0,1}[0-9]{1,3}[)]{0,1}[-\s\./0-9]*$/g;
     if (!pattern.test(value) && value.length >= 10) {
       const notifyMess = {
         type: NOTYFY_TYPE.error,
-        description: `${t('noti.phone_number_format_is_not_correct')}`,
+        description: `${t("noti.phone_number_format_is_not_correct")}`,
       };
       Notification(notifyMess);
       return false;
     }
     return true;
-  }
+  };
 
   const test = () => {
     props.history.goBack();
@@ -185,10 +189,10 @@ function AddUser(props) {
           <div className="d-flex align-items-center">
             <ArrowLeftOutlined className="mr-1" onClick={goBack} />
             <h4 className="font-weight-700">
-              {t('view.user.detail_list.add_new_user', {
-                add: t('add'),
-                u: t('u'),
-                U: t('U')
+              {t("view.user.detail_list.add_new_user", {
+                add: t("add"),
+                u: t("u"),
+                U: t("U"),
               })}
             </h4>
           </div>
@@ -216,7 +220,7 @@ function AddUser(props) {
                         md: 40,
                         lg: 64,
                         xl: 80,
-                        xxl: 130
+                        xxl: 130,
                       }}
                     />
                   </div>
@@ -238,12 +242,12 @@ function AddUser(props) {
               <Row gutter={24}>
                 <Col span={3}></Col>
                 <Col span={18}>
-                  <Row gutter={24} style={{ width: '100%' }} className="mt-1">
+                  <Row gutter={24} style={{ width: "100%" }} className="mt-1">
                     <Col span={7}>
                       <p>
-                        {t('view.user.detail_list.name')}
-                        <span style={{ color: 'red', fontSize: '18px' }}>
-                          {' '}
+                        {t("view.user.detail_list.name")}
+                        <span style={{ color: "red", fontSize: "18px" }}>
+                          {" "}
                           *
                         </span>
                       </p>
@@ -251,32 +255,32 @@ function AddUser(props) {
 
                     <Col span={17}>
                       <Form.Item
-                        name={['name']}
+                        name={["name"]}
                         rules={[
                           {
                             required: true,
-                            message: `${t('view.map.required_field')}`
-                          }
+                            message: `${t("view.map.required_field")}`,
+                          },
                         ]}
                       >
                         <Input
                           id="input__name"
                           placeholder={t(
-                            'view.user.detail_list.please_enter_name',
-                            { plsEnter: t('please_enter') }
+                            "view.user.detail_list.please_enter_name",
+                            { plsEnter: t("please_enter") }
                           )}
                           autocomplete="off"
                           maxLength={255}
                           onBlur={(e) => {
                             form.setFieldsValue({
-                              name: e.target.value.trim()
+                              name: e.target.value.trim(),
                             });
                           }}
                         />
                       </Form.Item>
                       <Form.Item
                         hidden={true}
-                        name={['avatar_file_name']}
+                        name={["avatar_file_name"]}
                         rules={[{ required: false }]}
                       >
                         <Input type="hidden" />
@@ -284,12 +288,12 @@ function AddUser(props) {
                     </Col>
                   </Row>
 
-                  <Row gutter={24} style={{ width: '100%' }} className="mt-1">
+                  <Row gutter={24} style={{ width: "100%" }} className="mt-1">
                     <Col span={7}>
                       <p>
-                        {t('view.user.detail_list.gender')}
-                        <span style={{ color: 'red', fontSize: '18px' }}>
-                          {' '}
+                        {t("view.user.detail_list.gender")}
+                        <span style={{ color: "red", fontSize: "18px" }}>
+                          {" "}
                           *
                         </span>
                       </p>
@@ -301,32 +305,32 @@ function AddUser(props) {
                         rules={[
                           {
                             required: true,
-                            message: `${t('view.map.required_field')}`
-                          }
+                            message: `${t("view.map.required_field")}`,
+                          },
                         ]}
                       >
                         <Select
-                          placeholder={t('view.user.detail_list.choose_gender')}
+                          placeholder={t("view.user.detail_list.choose_gender")}
                         >
                           <Option value={0}>
-                            {t('view.user.detail_list.male')}
+                            {t("view.user.detail_list.male")}
                           </Option>
                           <Option value={1}>
-                            {t('view.user.detail_list.female')}
+                            {t("view.user.detail_list.female")}
                           </Option>
                         </Select>
                       </Form.Item>
                     </Col>
                   </Row>
-                  <Row gutter={24} style={{ width: '100%' }} className="mt-1">
+                  <Row gutter={24} style={{ width: "100%" }} className="mt-1">
                     <Col span={7}>
-                      <p>{t('view.user.detail_list.dob')}</p>
+                      <p>{t("view.user.detail_list.dob")}</p>
                     </Col>
 
                     <Col span={17}>
                       <Form.Item name="date_of_birth">
                         <DatePicker
-                          placeholder={t('view.user.detail_list.dob')}
+                          placeholder={t("view.user.detail_list.dob")}
                           disabledDate={disabledDate}
                           inputReadOnly={true}
                           format="DD-MM-YYYY"
@@ -334,43 +338,50 @@ function AddUser(props) {
                       </Form.Item>
                     </Col>
                   </Row>
-                  <Row gutter={24} style={{ width: '100%' }} className="mt-1">
+                  <Row gutter={24} style={{ width: "100%" }} className="mt-1">
                     <Col span={7}>
-                      <p style={{ display: 'inline-block' }}>
-                        {t('view.user.detail_list.phone_number')}
+                      <p style={{ display: "inline-block" }}>
+                        {t("view.user.detail_list.phone_number")}
                       </p>
-                      <span style={{ color: 'red', fontSize: '18px' }}> *</span>
+                      <span style={{ color: "red", fontSize: "18px" }}> *</span>
                     </Col>
 
                     <Col span={17}>
                       <Form.Item
-                        name={['phone']}
+                        name={["phone"]}
                         rules={[
                           {
                             required: true,
-                            message: `${t('view.map.required_field')}`
+                            message: `${t("view.map.required_field")}`,
                           },
                           {
-                            min: 10,
-                            message: `${t('noti.at_least_10_characters')}`
-                          }
+                            min: 12,
+                            message: `${t("noti.at_least_10_characters")}`,
+                          },
+                          {
+                            max: 23,
+                            message: `${t("noti.up_to_20_characters")}`,
+                          },
                         ]}
                       >
-                        <Input
-                          type="text"
-                          maxLength={13}
-                          placeholder={t('view.map.phone_number')}
+                        <PhoneInput
+                          international={false}
+                          defaultCountry="VN"
+                          placeholder={t(
+                            "view.map.please_enter_your_phone_number",
+                            { plsEnter: t("please_enter") }
+                          )}
                         />
                       </Form.Item>
                     </Col>
                   </Row>
 
-                  <Row gutter={24} style={{ width: '100%' }} className="mt-1">
+                  <Row gutter={24} style={{ width: "100%" }} className="mt-1">
                     <Col span={7}>
                       <p>
-                        {t('view.user.detail_list.email')}
-                        <span style={{ color: 'red', fontSize: '18px' }}>
-                          {' '}
+                        {t("view.user.detail_list.email")}
+                        <span style={{ color: "red", fontSize: "18px" }}>
+                          {" "}
                           *
                         </span>
                       </p>
@@ -378,19 +389,19 @@ function AddUser(props) {
 
                     <Col span={17}>
                       <Form.Item
-                        name={['email']}
+                        name={["email"]}
                         rules={[
                           {
                             required: true,
                             message: `${t(
-                              'view.user.detail_list.email_address_required'
+                              "view.user.detail_list.email_address_required"
                             )}`,
-                            type: 'email'
+                            type: "email",
                           },
                           {
                             max: 255,
-                            message: `${t('noti.255_characters_limit')}`
-                          }
+                            message: `${t("noti.255_characters_limit")}`,
+                          },
                         ]}
                       >
                         <Input placeholder="Email" autocomplete="off" />
@@ -398,12 +409,12 @@ function AddUser(props) {
                     </Col>
                   </Row>
 
-                  <Row gutter={24} style={{ width: '100%' }} className="mt-1">
+                  <Row gutter={24} style={{ width: "100%" }} className="mt-1">
                     <Col span={7}>
                       <p>
-                        {t('view.user.detail_list.password')}
-                        <span style={{ color: 'red', fontSize: '18px' }}>
-                          {' '}
+                        {t("view.user.detail_list.password")}
+                        <span style={{ color: "red", fontSize: "18px" }}>
+                          {" "}
                           *
                         </span>
                       </p>
@@ -411,32 +422,32 @@ function AddUser(props) {
 
                     <Col span={17}>
                       <Form.Item
-                        name={['password']}
+                        name={["password"]}
                         rules={[
                           {
                             required: true,
-                            message: `${t('view.map.required_field')}`
+                            message: `${t("view.map.required_field")}`,
                           },
                           {
                             min: 8,
                             message: `${t(
-                              'view.user.detail_list.password_length'
-                            )}`
+                              "view.user.detail_list.password_length"
+                            )}`,
                           },
                           {
                             max: 255,
-                            message: `${t('noti.255_characters_limit')}`
-                          }
+                            message: `${t("noti.255_characters_limit")}`,
+                          },
                         ]}
                       >
                         <Input
                           id="input__password"
-                          placeholder={t('view.user.detail_list.password')}
+                          placeholder={t("view.user.detail_list.password")}
                           autocomplete="off"
                           type="password"
                           onChange={(e) => {
                             form.setFieldsValue({
-                              password: e.target.value.replace(/\s/g, '')
+                              password: e.target.value.replace(/\s/g, ""),
                             });
                           }}
                         />
@@ -449,11 +460,11 @@ function AddUser(props) {
               <div
                 className="submit pt-2"
                 style={{
-                  textAlign: 'center'
+                  textAlign: "center",
                 }}
               >
                 <Button className="mr-1" onClick={confirm}>
-                  {t('view.map.button_cancel')}
+                  {t("view.map.button_cancel")}
                 </Button>
 
                 <Button
@@ -461,7 +472,7 @@ function AddUser(props) {
                   htmlType="submit "
                   className="buttonAddUser"
                 >
-                  {t('view.map.button_save')}
+                  {t("view.map.button_save")}
                 </Button>
               </div>
             </Form>

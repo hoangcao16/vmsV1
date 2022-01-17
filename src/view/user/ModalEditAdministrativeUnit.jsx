@@ -26,6 +26,8 @@ import "./../commonStyle/commonModal.scss";
 import "./../commonStyle/commonSelect.scss";
 import "./ModalEditAdministrativeUnit.scss";
 import { NOTYFY_TYPE } from "../common/vms/Constant";
+import "react-phone-number-input/style.css";
+import PhoneInput from "react-phone-number-input";
 
 const formItemLayout = {
   wrapperCol: { span: 24 },
@@ -353,15 +355,22 @@ const ModalEditAdministrativeUnit = (props) => {
                         message: `${t("view.map.required_field")}`,
                       },
                       {
-                        min: 10,
+                        min: 12,
+                        message: `${t("noti.at_least_10_characters")}`,
+                      },
+                      {
+                        max: 23,
                         message: `${t("noti.at_least_10_characters")}`,
                       },
                     ]}
                   >
-                    <Input
-                      type="text"
-                      maxLength={13}
-                      placeholder={t('view.map.phone_number')}
+                    <PhoneInput
+                      international={false}
+                      defaultCountry="VN"
+                      placeholder={t(
+                        "view.map.please_enter_your_phone_number",
+                        { plsEnter: t("please_enter") }
+                      )}
                     />
                   </Form.Item>
                 </Col>
@@ -547,7 +556,7 @@ const ModalEditAdministrativeUnit = (props) => {
 
 async function fetchSelectOptions() {
   const provinces = await AddressApi.getAllProvinces();
-  
+
   return {
     provinces,
   };
