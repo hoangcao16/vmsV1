@@ -487,6 +487,8 @@ const ExportEventFile = () => {
             }
           );
         } else if (viewFileType === 4) {
+          setListFiles([]);
+          setTotal(0);
           await AIEventsApi.getEvents(dataParam).then(
             (data) => {
               if (data && data.payload) {
@@ -1218,7 +1220,7 @@ const ExportEventFile = () => {
 
   const checkBtnEditRootFileDisabled = () => {
     if (viewFileType === 0) return false;
-    if (viewFileType === 4) return "disabled";
+    if (viewFileType === 4) return false;
     if (!fileCurrent) return false;
     return !(fileCurrent.uuid === "" || fileCurrent.rootFileUuid === "");
   };
@@ -1312,8 +1314,6 @@ const ExportEventFile = () => {
       }
     }
   };
-  console.log("++++++++++++++++++++++++++++")
-  console.log(eventFileCurrent)
   const renderEventFileDetail = () => {
     if (viewFileType === 4) {
       return (
