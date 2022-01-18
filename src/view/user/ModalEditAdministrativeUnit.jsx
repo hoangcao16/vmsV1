@@ -359,8 +359,8 @@ const ModalEditAdministrativeUnit = (props) => {
                         message: `${t("noti.at_least_10_characters")}`,
                       },
                       {
-                        max: 23,
-                        message: `${t("noti.at_least_10_characters")}`,
+                        max: 22,
+                        message: `${t("noti.up_to_20_characters")}`,
                       },
                     ]}
                   >

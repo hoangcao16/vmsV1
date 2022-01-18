@@ -232,7 +232,7 @@ const DetailUser = (props) => {
           message: `${t("noti.at_least_10_characters")}`,
         },
         {
-          max: 23,
+          max: 22,
           message: `${t("noti.up_to_20_characters")}`,
         }
       );
