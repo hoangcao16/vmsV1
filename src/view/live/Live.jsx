@@ -46,6 +46,8 @@ import { changeZoom } from "./../../redux/actions/customizer/index";
 import DraggableCameraList from "./DraggableCameraList";
 import LiveCameraSlot from "./LiveCameraSlot";
 import MenuTools from "./MenuTools";
+
+import videojs from 'video.js'
 const mode = process.env.REACT_APP_MODE_VIEW;
 
 const initialDataGrid = [...Array(16).keys()];
@@ -256,7 +258,7 @@ const Live = (props) => {
     }
 
     console.log("mode:", mode);
-    const data = await getServerCamproxyForPlay(camUuid, "hls");
+    const data = await getServerCamproxyForPlay(camUuid, mode);
 
     console.log("data:", data);
 
@@ -271,7 +273,7 @@ const Live = (props) => {
 
     //Chỗ này check mode HLS or WebRTC: Xử lí trên giao diện khác nhau.
 
-    if (mode !== "webrtc") {
+    if (mode === "webrtc") {
       var restartConfig = {
         iceServers: [
           {
@@ -336,6 +338,7 @@ const Live = (props) => {
       const { token, camproxyApi } = data;
 
       const spin = document.getElementById("spin-slot-" + slotIdx);
+      spin.style.display = "block";
 
       playCamApi
         .playCameraHls(API, {
@@ -353,22 +356,31 @@ const Live = (props) => {
           //     description: `${t("noti.fail_accept_offer_from_server")}`,
           //   });
           // }
-          spin.style.display = "display";
-      
 
           if (res.data.code == "15000") {
             const cell = document.getElementById("video-slot-" + slotIdx);
             if (cell) {
-              cell.src = 'http://commondatastorage.googleapis.com/gtv-videos-bucket/sample/BigBuckBunny.mp4';
-              // cell.src = `${camproxyApi}/camproxy/v1/play/hls/${camUuid}/index.m3u8`;
-              cell.autoplay = true;
-              cell.controls = false;
-              cell.style = "width:100%;height:100%;display:block;object-fit:fill;";
-              cell.type="application/x-mpegURL"
-              cell.muted="muted"
+              // cell.src =
+              //   "https://bitdash-a.akamaihd.net/content/sintel/hls/playlist.m3u8";
+              // // cell.src = `${camproxyApi}/camproxy/v1/play/hls/${camUuid}/index.m3u8`;
+              // cell.autoplay = true;
+              cell.controls = true;
+              cell.preload = "none";
+              // cell.crossOrigin = "true";
+              // cell.style =
+              //   "width:100%;height:100%;display:block;object-fit:fill;";
+              // cell.type = "application/x-mpegURL";
+              // cell.muted = "muted";
+              cell.innerHTML =(`<source src='https://bitdash-a.akamaihd.net/content/sintel/hls/playlist.m3u8' type='application/x-mpegURL'>`)
               spin.style.display = "none";
+              console.log("cell:", cell);
             }
-            cell.play()
+
+            var ply = videojs("video-slot-" + slotIdx);
+
+            console.log("ply:",ply)
+
+            ply.play()
           }
         });
     }
@@ -665,6 +677,8 @@ const Live = (props) => {
             camInfoArr[2],
             des.id
           ).then();
+          break;
+        default:
           break;
       }
     } else if (source.droppableId !== destination.droppableId) {

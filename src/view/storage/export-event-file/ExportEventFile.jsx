@@ -763,6 +763,7 @@ const ExportEventFile = () => {
             perStr = "download_capture_file";
           }
           break;
+          default: 
       }
       if (perStr !== "") {
         per = permissionCheck(perStr);

@@ -305,7 +305,7 @@ const LiveCameraSlot = (props) => {
         style={{ display: "none" }}
       >
 
-        {/* {t("noti.browser_not_support_video")} */}
+        {t("noti.browser_not_support_video")}
       </video>
     </div>
   );
