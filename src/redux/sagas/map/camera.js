@@ -73,6 +73,7 @@ export function* updateListCameraByFilterAction(action) {
       isEditForm: false,
     };
     const bodyCamInfo = action.payload;
+    bodyCamInfo.createdFromMap = true
     const resp = yield call(cameraApi.update, bodyCamInfo, bodyCamInfo.uuid);
     const formMapSelector = yield select((state) => state.map.form);
     if (resp && resp.payload) {
@@ -97,7 +98,7 @@ export function* updateListCameraByFilterAction(action) {
       notifyMess.type = NOTYFY_TYPE.warning;
       if (language === "vn") {
         notifyMess.description =
-          error.response.data.errors.message || "Có lỗi sai từ phía máy chủ";
+          error.response.data.errors.message || "Có lỗi xẩy ra từ phía máy chủ";
       } else {
         notifyMess.description =
           error.response.data.errors.message ||
@@ -132,6 +133,7 @@ export function* addNewCamAction(action) {
       isEditForm: false,
     };
     const bodyCamInfo = action.payload;
+    bodyCamInfo.createdFromMap = true
     const resp = yield call(cameraApi.createNew, bodyCamInfo);
     const formMapSelector = yield select((state) => state.map.form);
     if (resp && resp.payload) {
@@ -156,7 +158,7 @@ export function* addNewCamAction(action) {
       notifyMess.type = NOTYFY_TYPE.warning;
       if (language === "vn") {
         notifyMess.description =
-          error.response.data.errors.message || "Có lỗi sai từ phía máy chủ";
+          error.response.data.errors.message || "Có lỗi xảy ra từ phía máy chủ";
       } else {
         notifyMess.description =
           error.response.data.errors.message ||

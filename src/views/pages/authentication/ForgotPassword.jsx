@@ -83,7 +83,7 @@ const ForgotPassword = () => {
   };
 
   return (
-    <Row className='m-0 justify-content-center'>
+    <Row className='m-0 justify-content-center pd-top-bottom'>
       <Col
         sm='8'
         xl='7'

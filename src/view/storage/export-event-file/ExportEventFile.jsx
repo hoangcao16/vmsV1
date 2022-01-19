@@ -7,9 +7,16 @@ import moment from "moment";
 import React, { useEffect, useRef, useState } from "react";
 import { useTranslation } from "react-i18next";
 import {
-  AiFillVideoCamera, AiOutlineCheck, AiOutlineClose, AiOutlineEdit
+  AiFillVideoCamera,
+  AiOutlineCheck,
+  AiOutlineClose,
+  AiOutlineEdit,
 } from "react-icons/ai";
-import { AiFillEdit, AiOutlineInfoCircle, MdCenterFocusWeak } from "react-icons/all";
+import {
+  AiFillEdit,
+  AiOutlineInfoCircle,
+  MdCenterFocusWeak,
+} from "react-icons/all";
 import {
   FiBookmark,
   FiCamera,
@@ -23,7 +30,7 @@ import {
   FiPause,
   FiPlay,
   FiRewind,
-  FiScissors
+  FiScissors,
 } from "react-icons/fi";
 import { RiCalendarTodoLine, RiDeleteBinLine } from "react-icons/ri";
 import { reactLocalStorage } from "reactjs-localstorage";
@@ -31,7 +38,7 @@ import { v4 as uuidV4 } from "uuid";
 import AIEventsApi from "../../../actions/api/ai-events/AIEventsApi";
 import {
   default as deleteExportEventFileApi,
-  default as ExportEventFileApi
+  default as ExportEventFileApi,
 } from "../../../actions/api/exporteventfile/ExportEventFileApi";
 import permissionCheck from "../../../actions/function/MyUltil/PermissionCheck";
 import cheetahSvcApi from "../../../api/cheetah/fileApi";
@@ -59,7 +66,6 @@ import { MemoizedTableFile } from "./TableFile";
 import { MemoizedThumbnailVideo } from "./ThumbnailVideo";
 const AI_SOURCE = process.env.REACT_APP_AI_SOURCE;
 const { TextArea } = Input;
-
 
 const ExportEventFile = () => {
   let defaultEventFile = {
@@ -111,7 +117,7 @@ const ExportEventFile = () => {
   const [total, setTotal] = useState(0);
   const [eventList, setEventList] = useState([]);
   const [eventListAI, setEventListAI] = useState([]);
-  const [currNode, setCurrNode] = useState('');
+  const [currNode, setCurrNode] = useState("");
   const [editMode, setEditMode] = useState(false);
 
   const zoom = ((window.outerWidth - 10) / window.innerWidth) * 100;
@@ -140,12 +146,12 @@ const ExportEventFile = () => {
       {
         id: 0,
         type: "line_crossing",
-        name: `${t('view.ai_events.line_crossing')}`,
+        name: `${t("view.ai_events.line_crossing")}`,
       },
       {
         id: 0,
         type: "intruding",
-        name: `${t('view.ai_events.intruding')}`,
+        name: `${t("view.ai_events.intruding")}`,
       },
     ];
     setEventListAI(dataEventList);
@@ -342,7 +348,7 @@ const ExportEventFile = () => {
       });
 
     } else if (viewFileType === 4) {
-      if (AI_SOURCE === 'philong') {
+      if (AI_SOURCE === "philong") {
         setUrlSnapshot(file.overViewUrl);
       } else {
         await ExportEventFileApi.downloadFileAI(
@@ -359,7 +365,6 @@ const ExportEventFile = () => {
         });
         // setUrlSnapshot("data:image/jpeg;base64," + file.thumbnailData);
       }
-
     } else {
       if (file.tableName === "file") {
         // Play file
@@ -537,33 +542,31 @@ const ExportEventFile = () => {
         } else if (viewFileType === 4) {
           setListFiles([]);
           setTotal(0);
-          await AIEventsApi.getEvents(dataParam).then(
-            (data) => {
-              if (data && data.payload) {
-                if (data.payload.length === 0) {
-                  Notification({
-                    type: NOTYFY_TYPE.warning,
-                    title: `${t("noti.archived_file")}`,
-                    description: `${t("noti.no_valid_results_found")}`,
-                  });
-                  setListFiles([]);
-                  setTotal(0);
-                  return;
-                }
-                setListFiles(
-                  data.payload.map((f) => {
-                    const { important, ...file } = f;
-                    return {
-                      ...file,
-                      subEventType: f.eventType,
-                      isImportant: f.important,
-                    };
-                  })
-                );
-                setTotal(data.metadata.total);
+          await AIEventsApi.getEvents(dataParam).then((data) => {
+            if (data && data.payload) {
+              if (data.payload.length === 0) {
+                Notification({
+                  type: NOTYFY_TYPE.warning,
+                  title: `${t("noti.archived_file")}`,
+                  description: `${t("noti.no_valid_results_found")}`,
+                });
+                setListFiles([]);
+                setTotal(0);
+                return;
               }
+              setListFiles(
+                data.payload.map((f) => {
+                  const { important, ...file } = f;
+                  return {
+                    ...file,
+                    subEventType: f.eventType,
+                    isImportant: f.important,
+                  };
+                })
+              );
+              setTotal(data.metadata.total);
             }
-          );
+          });
         }
       } else {
         Notification({
@@ -596,7 +599,6 @@ const ExportEventFile = () => {
   };
 
   let addDataToEvent = (row, vFileType) => {
-    console.log("+++++++++++ vFileType", vFileType)
     if (vFileType === 0) {
       let value = {
         ...defaultEventFile,
@@ -772,6 +774,7 @@ const ExportEventFile = () => {
             perStr = "download_capture_file";
           }
           break;
+          default: 
       }
       if (perStr !== "") {
         per = permissionCheck(perStr);
@@ -808,8 +811,8 @@ const ExportEventFile = () => {
           } catch (e) {
             Notification({
               type: NOTYFY_TYPE.warning,
-              title: `${t('noti.archived_file')}`,
-              description: `${t('noti.error_download_file')}`,
+              title: `${t("noti.archived_file")}`,
+              description: `${t("noti.error_download_file")}`,
             });
           } finally {
             setLoading(false);
@@ -1257,21 +1260,21 @@ const ExportEventFile = () => {
   };
 
   const saveFileHandler = (isImportant, note) => {
-    console.log("______________  ", note)
+    console.log("______________  ", note);
     // props.onEditFile(isImportant, note);
-    editNoteHandler(note)
+    editNoteHandler(note);
     setEditMode(false);
   };
 
   const editNoteHandler = async (note) => {
-    console.log("               :", fileCurrent)
+    console.log("               :", fileCurrent);
     if (eventFileCurrent) {
       let perStr = "";
       if (note !== null) perStr = "edit_file_note";
       const per = permissionCheck(perStr);
 
       if (per) {
-        console.log("               :", per)
+        console.log("               :", per);
         let requestObject = Object.assign({ ...eventFileCurrent });
         if (note !== null) {
           requestObject = Object.assign({ ...eventFileCurrent, note: note });
@@ -1321,6 +1324,7 @@ const ExportEventFile = () => {
       }
     }
   };
+
   const renderEventFileDetail = () => {
     if (viewFileType === 4) {
       return (
@@ -1338,35 +1342,42 @@ const ExportEventFile = () => {
                 {eventFileCurrent.createdTime === -1
                   ? ""
                   : moment(eventFileCurrent.createdTime).format(
-                    "HH:mm DD/MM/YYYY"
-                  )}
+                      "HH:mm DD/MM/YYYY"
+                    )}
               </div>
             </Col>
             <Col span={6}>
               <div className="title">{t("view.storage.type")}</div>
-              <div>{t('view.ai_events.' + eventFileCurrent.subEventType)}</div>
+              <div>{t("view.ai_events." + eventFileCurrent.subEventType)}</div>
             </Col>
             <Col span={6}>
-              <div className="title">{t('view.ai_events.info')}
+              <div className="title">
+                {t("view.ai_events.info")}
                 <Tooltip
                   placement="bottomLeft"
                   title={t("view.ai_events.edit_info")}
                 >
                   <Popover
-                    overlayClassName={`${checkBtnInfoObjectDisabled()
-                      ? "fileInfoPopoverHidden"
-                      : "fileInfoPopover"
-                      }`}
+                    overlayClassName={`${
+                      checkBtnInfoObjectDisabled()
+                        ? "fileInfoPopoverHidden"
+                        : "fileInfoPopover"
+                    }`}
                     placement="topRight"
                     title=""
                     content={
-                      checkBtnInfoObjectDisabled() ? "" : renderInfoObjectPopoverContent
+                      checkBtnInfoObjectDisabled()
+                        ? ""
+                        : renderInfoObjectPopoverContent
                     }
                     trigger={`${checkBtnInfoObjectDisabled() ? "" : "click"}`}
                   >
                     <AiFillEdit
-                      className={`${checkBtnInfoObjectDisabled() ? "action__disabled" : "action"
-                        }`}
+                      className={`${
+                        checkBtnInfoObjectDisabled()
+                          ? "action__disabled"
+                          : "action"
+                      }`}
                       onClick={(e) => {
                         if (checkBtnInfoObjectDisabled()) return;
                         e.stopPropagation();
@@ -1376,9 +1387,11 @@ const ExportEventFile = () => {
                 </Tooltip>
               </div>
               <div>
-                {t('view.ai_events.type')} : {eventFileCurrent.vehicleType}
+                {t("view.ai_events.type")} : {eventFileCurrent.vehicleType}
               </div>
-              <div>{t('view.ai_events.plateNumber')} : {eventFileCurrent.plateNumber}</div>
+              <div>
+                {t("view.ai_events.plateNumber")} : {eventFileCurrent.plateNumber}
+              </div>
             </Col>
             <Col span={6}>
               <div className="title">{t("view.storage.file_name")}</div>
@@ -1406,25 +1419,46 @@ const ExportEventFile = () => {
                   }
 
                 </ul>
-
               </div>
             </Col>
             <Col span={12}>
               <div className="title">
-                <span>{t('view.common_device.note')}</span>
-                {!editMode && <AiOutlineEdit className="iconEdit" onClick={() => { setEditMode(true) }} />}
-                {editMode && <AiOutlineCheck className="iconEdit" onClick={() => saveFileHandler(null, currNode)} />}
-                {editMode && <AiOutlineClose className="iconEdit" onClick={() => cancelChangeNoteHandler()} />}
+                <span>{t("view.common_device.note")}</span>
+                {!editMode && (
+                  <AiOutlineEdit
+                    className="iconEdit"
+                    onClick={() => {
+                      setEditMode(true);
+                    }}
+                  />
+                )}
+                {editMode && (
+                  <AiOutlineCheck
+                    className="iconEdit"
+                    onClick={() => saveFileHandler(null, currNode)}
+                  />
+                )}
+                {editMode && (
+                  <AiOutlineClose
+                    className="iconEdit"
+                    onClick={() => cancelChangeNoteHandler()}
+                  />
+                )}
               </div>
               <div>
                 {!editMode && <span>{eventFileCurrent.note}</span>}
-                {editMode && <TextArea defaultValue={currNode} rows={4} onChange={debounce(changeNoteHandler, 500)} />}
+                {editMode && (
+                  <TextArea
+                    defaultValue={currNode}
+                    rows={4}
+                    onChange={debounce(changeNoteHandler, 500)}
+                  />
+                )}
               </div>
             </Col>
           </Row>
         </>
       );
-
     } else {
       return (
         <>
@@ -1447,8 +1481,8 @@ const ExportEventFile = () => {
                 {eventFileCurrent.violationTime === -1
                   ? ""
                   : moment(eventFileCurrent.violationTime * 1000).format(
-                    "HH:mm DD/MM/YYYY"
-                  )}
+                      "HH:mm DD/MM/YYYY"
+                    )}
               </div>
             </Col>
             <Col span={6}>
@@ -1457,8 +1491,8 @@ const ExportEventFile = () => {
                 {eventFileCurrent.createdTime === -1
                   ? ""
                   : moment(eventFileCurrent.createdTime).format(
-                    "HH:mm DD/MM/YYYY"
-                  )}
+                      "HH:mm DD/MM/YYYY"
+                    )}
               </div>
             </Col>
             <Col span={12}>
@@ -1471,7 +1505,9 @@ const ExportEventFile = () => {
               <div className="title">{t("view.storage.type")}</div>
               <div>
                 {eventFileCurrent.type === 0 && <FiFilm className="iconType" />}
-                {eventFileCurrent.type === 1 && <FiImage className="iconType" />}
+                {eventFileCurrent.type === 1 && (
+                  <FiImage className="iconType" />
+                )}
               </div>
             </Col>
             <Col span={6}>
@@ -1619,8 +1655,9 @@ const ExportEventFile = () => {
             <Col span={24}>
               <div className="displayScreen">
                 <div
-                  className={`iconPoster ${playerReady && !urlSnapshot ? "" : "hidden"
-                    }`}
+                  className={`iconPoster ${
+                    playerReady && !urlSnapshot ? "" : "hidden"
+                  }`}
                 >
                   <MemoizedHlsPlayer
                     playerReady={playerReady}
@@ -1631,8 +1668,9 @@ const ExportEventFile = () => {
                   />
                 </div>
                 <img
-                  className={`iconPoster ${!playerReady && !urlSnapshot ? "" : "hidden"
-                    }`}
+                  className={`iconPoster ${
+                    !playerReady && !urlSnapshot ? "" : "hidden"
+                  }`}
                   src={imagePoster}
                   alt=""
                 />
@@ -1648,10 +1686,11 @@ const ExportEventFile = () => {
             <Col span={7} />
             <Col className="actionControl" span={10}>
               <div
-                className={`disable-select ${checkDisabled()
-                  ? "playIconContainer__disabled"
-                  : "playIconContainer"
-                  }`}
+                className={`disable-select ${
+                  checkDisabled()
+                    ? "playIconContainer__disabled"
+                    : "playIconContainer"
+                }`}
               >
                 <FiRewind
                   className="playIcon"
@@ -1665,10 +1704,11 @@ const ExportEventFile = () => {
               {/*    <FiSkipBack className="playIcon"/>*/}
               {/*</div>*/}
               <div
-                className={`disable-select ${checkDisabled()
-                  ? "playIcon2Container__disabled"
-                  : "playIcon2Container"
-                  }`}
+                className={`disable-select ${
+                  checkDisabled()
+                    ? "playIcon2Container__disabled"
+                    : "playIcon2Container"
+                }`}
                 onClick={() => {
                   if (checkDisabled()) return;
                   const playEle = document.getElementById("video-control-play");
@@ -1683,28 +1723,29 @@ const ExportEventFile = () => {
                   id="video-control-pause"
                   className="playIcon2"
                   style={{ display: "none" }}
-                // onClick={() => {
-                //   if (checkDisabled()) return;
-                //   playHandler("pause");
-                // }}
+                  // onClick={() => {
+                  //   if (checkDisabled()) return;
+                  //   playHandler("pause");
+                  // }}
                 />
                 <FiPlay
                   id="video-control-play"
                   className="playIcon2"
-                // onClick={() => {
-                //   if (checkDisabled()) return;
-                //   playHandler("play");
-                // }}
+                  // onClick={() => {
+                  //   if (checkDisabled()) return;
+                  //   playHandler("play");
+                  // }}
                 />
               </div>
               {/*<div className={`${checkDisabled()?'playIconContainer__disabled':'playIconContainer'}`}>*/}
               {/*    <FiSkipForward className="playIcon"/>*/}
               {/*</div>*/}
               <div
-                className={`disable-select ${checkDisabled()
-                  ? "playIconContainer__disabled"
-                  : "playIconContainer"
-                  }`}
+                className={`disable-select ${
+                  checkDisabled()
+                    ? "playIconContainer__disabled"
+                    : "playIconContainer"
+                }`}
               >
                 <FiFastForward
                   className="playIcon"
@@ -1746,10 +1787,11 @@ const ExportEventFile = () => {
                 title={t("view.storage.view_information")}
               >
                 <Popover
-                  overlayClassName={`${checkBtnInfoDisabled()
-                    ? "fileInfoPopoverHidden"
-                    : "fileInfoPopover"
-                    }`}
+                  overlayClassName={`${
+                    checkBtnInfoDisabled()
+                      ? "fileInfoPopoverHidden"
+                      : "fileInfoPopover"
+                  }`}
                   placement="topRight"
                   title=""
                   content={
@@ -1758,8 +1800,9 @@ const ExportEventFile = () => {
                   trigger={`${checkBtnInfoDisabled() ? "" : "click"}`}
                 >
                   <AiOutlineInfoCircle
-                    className={`${checkBtnInfoDisabled() ? "action__disabled" : "action"
-                      }`}
+                    className={`${
+                      checkBtnInfoDisabled() ? "action__disabled" : "action"
+                    }`}
                     onClick={(e) => {
                       if (checkBtnInfoDisabled()) return;
                       e.stopPropagation();
@@ -1772,8 +1815,9 @@ const ExportEventFile = () => {
                 title={t("view.storage.download_file")}
               >
                 <FiDownload
-                  className={`${checkBtnDownloadDisabled() ? "action__disabled" : "action"
-                    }`}
+                  className={`${
+                    checkBtnDownloadDisabled() ? "action__disabled" : "action"
+                  }`}
                   onClick={() => {
                     if (checkBtnDownloadDisabled()) return;
                     downloadFileHandler();
@@ -1809,15 +1853,17 @@ const ExportEventFile = () => {
               <Tooltip placement="bottomLeft" title={t("view.storage.delete")}>
                 <Popconfirm
                   title={t("noti.delete_file", { this: t("this") })}
+                  cancelText={t("view.user.detail_list.cancel")}
+                  okText={t("view.user.detail_list.confirm")}
                   onConfirm={() => {
                     if (checkBtnDeleteDisabled()) return;
-                    deleteFileHandler().then((r) => {
-                    });
+                    deleteFileHandler().then((r) => {});
                   }}
                 >
                   <RiDeleteBinLine
-                    className={`${checkBtnDeleteDisabled() ? "action__disabled" : "action"
-                      }`}
+                    className={`${
+                      checkBtnDeleteDisabled() ? "action__disabled" : "action"
+                    }`}
                   />
                 </Popconfirm>
               </Tooltip>

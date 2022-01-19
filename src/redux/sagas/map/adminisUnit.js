@@ -66,6 +66,7 @@ export function* updateAdminisUnitAction(action) {
   }
   try {
     const bodyAdUnitInfo = action.payload;
+    bodyAdUnitInfo.createdFromMap = true
     const resp = yield call(
       adDivisioneApi.update,
       bodyAdUnitInfo,
@@ -84,7 +85,7 @@ export function* updateAdminisUnitAction(action) {
       notifyMess.type = NOTYFY_TYPE.warning;
       if (language === "vn") {
         notifyMess.description =
-          error.response.data.errors.message || "Có lỗi sai từ phía máy chủ";
+          error.response.data.errors.message || "Có lỗi xảy ra từ phía máy chủ";
       } else {
         notifyMess.description =
           error.response.data.errors.message ||
@@ -112,6 +113,7 @@ export function* addNewAdUnitction(action) {
   }
   try {
     const bodyAdUnitInfo = action.payload;
+    bodyAdUnitInfo.createdFromMap = true
     const resp = yield call(adDivisioneApi.createNew, bodyAdUnitInfo);
     if (resp && resp.payload) {
       yield put(addAdminisUnitOnMapSuccess(resp.payload));
@@ -126,7 +128,7 @@ export function* addNewAdUnitction(action) {
       notifyMess.type = NOTYFY_TYPE.warning;
       if (language === "vn") {
         notifyMess.description =
-          error.response.data.errors.message || "Có lỗi sai từ phía máy chủ";
+          error.response.data.errors.message || "Có lỗi xảy ra từ phía máy chủ";
       } else {
         notifyMess.description =
           error.response.data.errors.message ||
