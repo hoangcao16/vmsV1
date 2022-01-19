@@ -8,6 +8,7 @@ import { connect, useDispatch } from "react-redux";
 import { withRouter } from "react-router-dom";
 import { reactLocalStorage } from "reactjs-localstorage";
 import { v4 as uuidV4 } from "uuid";
+import videojs from "video.js";
 import ExportEventFileApi from "../../actions/api/exporteventfile/ExportEventFileApi";
 import tokenApi from "../../api/authz/token";
 import playCamApi from "../../api/camproxy/cameraApi";
@@ -46,6 +47,8 @@ import { changeZoom } from "./../../redux/actions/customizer/index";
 import DraggableCameraList from "./DraggableCameraList";
 import LiveCameraSlot from "./LiveCameraSlot";
 import MenuTools from "./MenuTools";
+
+const mode = process.env.REACT_APP_MODE_VIEW;
 
 const initialDataGrid = [...Array(16).keys()];
 let currentGridSize = 16;
@@ -100,8 +103,8 @@ const Live = (props) => {
   useEffect(() => {
     if (props.openModalPresetSetting.state) {
       if (isMaximize == true) {
-        maxMinCamera(reactLocalStorage.getObject('originSlotId'))
-        setIsMaximize(false)
+        maxMinCamera(reactLocalStorage.getObject("originSlotId"));
+        setIsMaximize(false);
       }
     }
   }, [props.openModalPresetSetting.state]);
@@ -253,7 +256,7 @@ const Live = (props) => {
       });
       return;
     }
-    const data = await getServerCamproxyForPlay(camUuid);
+    const data = await getServerCamproxyForPlay(camUuid, mode);
     if (data == null) {
       Notification({
         type: "warning",
@@ -262,64 +265,99 @@ const Live = (props) => {
       });
       return;
     }
-    var restartConfig = {
-      iceServers: [
-        {
-          urls: "stun:turn.edsolabs.com:3478",
-        },
-      ],
-    };
-    const pc = new RTCPeerConnection();
-    pc.setConfiguration(restartConfig);
-    pc.addTransceiver("video");
-    pc.oniceconnectionstatechange = () => {};
-    const spin = document.getElementById("spin-slot-" + slotIdx);
-    pc.ontrack = (event) => {
-      //binding and play
-      const cell = document.getElementById("video-slot-" + slotIdx);
-      if (cell) {
-        cell.srcObject = event.streams[0];
-        cell.autoplay = true;
-        cell.controls = false;
-        cell.style = "width:100%;height:100%;display:block;object-fit:fill;";
-        spin.style.display = "none";
-      }
-    };
 
-    const token = "123";
-    const API = data.camproxyApi;
-    pc.createOffer({
-      iceRestart: true,
-    })
-      .then((offer) => {
-        spin.style.display = "block";
-        pc.setLocalDescription(offer).then((r) => {});
-        //call camproxy
-        playCamApi
-          .playCamera(API, {
-            token: token,
-            camUuid: camUuid,
-            offer: offer,
-          })
-          .then((res) => {
-            if (res) {
-              pc.setRemoteDescription(res).then((r) => {});
-            } else {
+    //Chỗ này check mode HLS or WebRTC: Xử lí trên giao diện khác nhau.
+
+    if (mode === "webrtc") {
+      var restartConfig = {
+        iceServers: [
+          {
+            urls: "stun:turn.edsolabs.com:3478",
+          },
+        ],
+      };
+      const pc = new RTCPeerConnection();
+      pc.setConfiguration(restartConfig);
+      pc.addTransceiver("video");
+      pc.oniceconnectionstatechange = () => {};
+      const spin = document.getElementById("spin-slot-" + slotIdx);
+      pc.ontrack = (event) => {
+        //binding and play
+        const cell = document.getElementById("video-slot-" + slotIdx);
+        if (cell) {
+          cell.srcObject = event.streams[0];
+          cell.autoplay = true;
+          cell.controls = false;
+          cell.style = "width:100%;height:100%;display:block;object-fit:fill;";
+          spin.style.display = "none";
+        }
+      };
+
+      const token = "123";
+      const API = data.camproxyApi;
+      pc.createOffer({
+        iceRestart: true,
+      })
+        .then((offer) => {
+          spin.style.display = "block";
+          pc.setLocalDescription(offer).then((r) => {});
+          //call camproxy
+          playCamApi
+            .playCamera(API, {
+              token: token,
+              camUuid: camUuid,
+              offer: offer,
+            })
+            .then((res) => {
+              if (res) {
+                pc.setRemoteDescription(res).then((r) => {});
+              } else {
+                spin.style.display = "none";
+                Notification({
+                  type: "warning",
+                  title: `${t("noti.default_screen")}`,
+                  description: `${t("noti.fail_accept_offer_from_server")}`,
+                });
+              }
+            });
+        })
+        .catch((error) => {
+          console.log("error:", error);
+          spin.style.display = "none";
+        })
+        .catch((e) => console.log(e))
+        .finally(() => {});
+    } else {
+      const API = data.camproxyApi;
+      const { token } = data;
+      const spin = document.getElementById("spin-slot-" + slotIdx);
+      spin.style.display = "block";
+      playCamApi
+        .playCameraHls(API, {
+          token: token,
+          cameraUuid: camUuid,
+        })
+        .then(async (res) => {
+          if (res.data.code == "15000") {
+            const cell = document.getElementById("video-slot-" + slotIdx);
+            if (cell) {
+              cell.autoplay = true;
+              cell.controls = true;
+              cell.preload = "none";
+              cell.crossOrigin = "anonymous";
+              cell.style =
+                "width:100%;height:100%;display:block;object-fit:fill;position:absolute;top:0";
+              cell.type = "application/x-mpegURL";
+              cell.muted = "muted";
+              // cell.innerHTML = `<source src='${camproxyApi}/camproxy/v1/play/hls/${camUuid}/index.m3u8' type='application/x-mpegURL'>`;
+              cell.innerHTML = `<source src='http://cctv-uat.edsolabs.com:8094/camproxy/v1/play/hls/b2bb2802-51e9-4395-bb16-fced5f036302/index.m3u8' type='application/x-mpegURL'>`;
               spin.style.display = "none";
-              Notification({
-                type: "warning",
-                title: `${t("noti.default_screen")}`,
-                description: `${t("noti.fail_accept_offer_from_server")}`,
-              });
+              var ply = await videojs("video-slot-" + slotIdx);
+              ply.play();
             }
-          });
-      })
-      .catch((error) => {
-        console.log("error:", error);
-        spin.style.display = "none";
-      })
-      .catch((e) => console.log(e))
-      .finally(() => {});
+          }
+        });
+    }
   };
 
   const playbackCamera = async (name, camUuid, camId, originSlotId) => {
@@ -613,6 +651,8 @@ const Live = (props) => {
             camInfoArr[2],
             des.id
           ).then();
+          break;
+        default:
           break;
       }
     } else if (source.droppableId !== destination.droppableId) {
@@ -952,7 +992,7 @@ const Live = (props) => {
     }
   };
   const maxMinCamera = (originSlotId) => {
-    reactLocalStorage.setObject('originSlotId', originSlotId)
+    reactLocalStorage.setObject("originSlotId", originSlotId);
     if (!isMaximize) {
       maximumCamera(originSlotId);
     } else {
@@ -987,7 +1027,7 @@ const Live = (props) => {
    * slotIdx: Là chỉ số thứ tự của slot trên lưới
    */
   const closeCamera = (originSlotId) => {
-    setIsMaximize(false)
+    setIsMaximize(false);
     const slotIdx = findCameraIndexInGrid(originSlotId);
     let result = [...addedCameras];
     if (result[slotIdx]) {
@@ -1147,10 +1187,11 @@ const Live = (props) => {
           case GRID3X3:
             size = 9;
             break;
-          case GRID4X4:
+
+          default:
             size = 16;
-            break;
         }
+
         updateGridSize2(size);
       }
     } catch (err) {
@@ -1417,7 +1458,7 @@ const Live = (props) => {
 const mapStateToProps = (state) => {
   return {
     isZoom: state.customizer.customizer.zoom,
-    openModalPresetSetting: state.openModalPresetSetting
+    openModalPresetSetting: state.openModalPresetSetting,
   };
 };
 
