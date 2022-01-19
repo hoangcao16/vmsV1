@@ -141,7 +141,7 @@ const ExportEventFile = () => {
       {
         id: 0,
         type: "attendance",
-        name: `${t("view.ai_events.attendance")}`,
+        name: `${t('view.ai_events.attendance')}`,
       },
       {
         id: 0,
@@ -174,9 +174,44 @@ const ExportEventFile = () => {
 
   const onClickTableFileHandler = async (row) => {
     if (row) {
+
+      if (viewFileType === 4) {
+        let imageOther = []
+        setCurrNode(row.note)
+        if (AI_SOURCE === "philong") {
+          if (row.plateNumberUrl) {
+            imageOther.push(row.plateNumberUrl)
+          }
+          if (row.vehicleUrl) {
+            imageOther.push(row.vehicleUrl)
+          }
+        } else {
+          AIEventsApi.getEventsByTrackingId(row.trackingId).then(
+            (data) => {
+              if (data && data.payload) {
+                if (data.payload.length >= 0) {
+                  data.payload.map((f) => {
+                    if (f.thumbnailData != null) {
+                      imageOther.push("data:image/jpeg;base64," + f.thumbnailData)
+                    }
+
+                  })
+                }
+              }
+            }
+          );
+        }
+        row = {
+          ...row,
+          imageOther: imageOther
+        }
+      }
+      console.log("______row   ", row)
+
       setCaptureMode(false);
       setUrlVideoTimeline(null);
       setUrlSnapshot("");
+
 
       if (viewFileType === 0) {
         await openFile(row);
@@ -298,7 +333,8 @@ const ExportEventFile = () => {
     } else if (viewFileType === 4) {
       setFileCurrent({ ...file });
     }
-    if (file.type === 1) {
+    
+    if (file.type === 1 ) {
       //setUrlSnapshot("data:image/jpeg;base64," + file.thumbnailData[0]);
       // Call Nginx to get blob data of file
       await ExportEventFileApi.downloadFile(
@@ -310,11 +346,24 @@ const ExportEventFile = () => {
           setUrlSnapshot(image);
         });
       });
+
     } else if (viewFileType === 4) {
       if (AI_SOURCE === "philong") {
         setUrlSnapshot(file.overViewUrl);
       } else {
-        setUrlSnapshot("data:image/jpeg;base64," + file.thumbnailData);
+        await ExportEventFileApi.downloadFileAI(
+          file.cameraUuid,
+          file.trackingId,
+          file.uuid,
+          file.fileName,
+          4
+        ).then(async (result) => {
+          const blob = new Blob([result.data], { type: "octet/stream" });
+          getBase64Text(blob, async (image) => {
+            setUrlSnapshot(image);
+          });
+        });
+        // setUrlSnapshot("data:image/jpeg;base64," + file.thumbnailData);
       }
     } else {
       if (file.tableName === "file") {
@@ -565,44 +614,7 @@ const ExportEventFile = () => {
 
       if (value) setEventFileCurrent(value);
     } else {
-      let data = {
-        ...row,
-      };
-
-      if (viewFileType === 4) {
-        let imageOther = [];
-        setCurrNode(row.note);
-        if (AI_SOURCE === "philong") {
-          if (row.plateNumberUrl) {
-            imageOther.push(row.plateNumberUrl);
-          }
-          if (row.vehicleUrl) {
-            imageOther.push(row.vehicleUrl);
-          }
-        } else {
-          AIEventsApi.getEventsByTrackingId(row.trackingId).then((data) => {
-            if (data && data.payload) {
-              if (data.payload.length >= 0) {
-                data.payload.map((f) => {
-                  if (f.thumbnailData != null) {
-                    imageOther.push(
-                      "data:image/jpeg;base64," + f.thumbnailData
-                    );
-                  }
-                });
-              }
-            }
-          });
-        }
-
-        data = {
-          ...data,
-          vehicleType: row?.vehicleType,
-          plateNumber: row?.plateNumber,
-          imageOther: imageOther,
-        };
-      }
-      setEventFileCurrent({ ...data, blob: null, isSaved: false });
+      setEventFileCurrent({ ...row, blob: null, isSaved: false });
     }
   };
 
@@ -1378,8 +1390,7 @@ const ExportEventFile = () => {
                 {t("view.ai_events.type")} : {eventFileCurrent.vehicleType}
               </div>
               <div>
-                {t("view.ai_events.plateNumber")} :{" "}
-                {eventFileCurrent.plateNumber}
+                {t("view.ai_events.plateNumber")} : {eventFileCurrent.plateNumber}
               </div>
             </Col>
             <Col span={6}>
@@ -1393,32 +1404,20 @@ const ExportEventFile = () => {
             <Col span={24}>
               <div className="title">{t("view.ai_events.err_image")}</div>
               <div>
-                <ul>
-                  {eventFileCurrent.imageOther
-                    ? eventFileCurrent.imageOther.map((item, index) => (
-                        <li
-                          style={{
-                            listStyleType: "none",
-                            display: "inline-block",
-                            marginRight: "20px",
-                          }}
-                        >
-                          <div style={{ width: "90%", paddingBottom: "10px" }}>
-                            <div
-                              className="img__item"
-                              style={{ position: "relative" }}
-                            >
-                              <img
-                                style={{ width: "120px", height: "120px" }}
-                                className="cursor-pointer"
-                                src={item}
-                                alt="Avatar"
-                              />
-                            </div>
-                          </div>
-                        </li>
-                      ))
-                    : null}
+                <ul >
+                  {
+
+                    eventFileCurrent.imageOther ? eventFileCurrent.imageOther.map((item, index) =>
+                      <li style={{ listStyleType: 'none', display: 'inline-block', marginRight: '20px' }}><div style={{ width: '90%', paddingBottom: '10px' }}
+                      >
+                        <div className='img__item' style={{ position: "relative" }}>
+                          <img style={{ width: '120px', height: "120px" }} className="cursor-pointer" src={item} alt="Avatar" />
+                        </div>
+                      </div></li>
+                    ) : null
+
+                  }
+
                 </ul>
               </div>
             </Col>
