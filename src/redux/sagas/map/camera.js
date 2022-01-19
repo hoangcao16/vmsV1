@@ -73,6 +73,7 @@ export function* updateListCameraByFilterAction(action) {
       isEditForm: false,
     };
     const bodyCamInfo = action.payload;
+    bodyCamInfo.createdFromMap = true
     const resp = yield call(cameraApi.update, bodyCamInfo, bodyCamInfo.uuid);
     const formMapSelector = yield select((state) => state.map.form);
     if (resp && resp.payload) {
@@ -132,6 +133,7 @@ export function* addNewCamAction(action) {
       isEditForm: false,
     };
     const bodyCamInfo = action.payload;
+    bodyCamInfo.createdFromMap = true
     const resp = yield call(cameraApi.createNew, bodyCamInfo);
     const formMapSelector = yield select((state) => state.map.form);
     if (resp && resp.payload) {
