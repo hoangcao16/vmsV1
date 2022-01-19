@@ -5,9 +5,9 @@ import { handleForbiddenCode } from "../authz/forbidden";
 
 const KCheetahSuccess = 900;
 const KCheetahBadRequest = 901;
-const KCheetahInternalServerError = 904;
-const KCheetahSendReqFailed = 903;
 const KCheetahNvrNotFound = 902;
+const KCheetahSendReqFailed = 903;
+const KCheetahInternalServerError = 904;
 const StatusForbidden = 605;
 
 const language = reactLocalStorage.get("language");
@@ -18,49 +18,64 @@ export const handleErrCode = (data) => {
     case KCheetahSuccess:
       return data;
     case KCheetahBadRequest:
-      // Notification({
-      //     type: NOTYFY_TYPE.warning,
-      //     title: code.toString(),
-      //     description: message
-      // });
-      // return null
-
       if (language === "vn") {
         Notification({
           type: NOTYFY_TYPE.warning,
           title: code.toString(),
-          description: "Không thể ghi hình camera này",
+          description: "Không thể ghi hình Camera này",
         });
       } else {
         Notification({
           type: NOTYFY_TYPE.warning,
           title: code.toString(),
-          description: "Could not find camera to capture",
+          description: "Could not find Camera to capture",
         });
       }
-
-      return null;
-
-    case KCheetahInternalServerError:
-      Notification({
-        type: NOTYFY_TYPE.warning,
-        title: code.toString(),
-        description: message,
-      });
-      return null;
-    case KCheetahSendReqFailed:
-      Notification({
-        type: NOTYFY_TYPE.warning,
-        title: code.toString(),
-        description: message,
-      });
       return null;
     case KCheetahNvrNotFound:
-      Notification({
-        type: NOTYFY_TYPE.warning,
-        title: code.toString(),
-        description: message,
-      });
+      if (language === "vn") {
+        Notification({
+          type: NOTYFY_TYPE.warning,
+          title: code.toString(),
+          description: "Không tìm thấy địa chỉ NVR",
+        });
+      } else {
+        Notification({
+          type: NOTYFY_TYPE.warning,
+          title: code.toString(),
+          description: "Could not get NVR address",
+        });
+      }
+      return null;
+    case KCheetahSendReqFailed:
+      if (language === "vn") {
+        Notification({
+          type: NOTYFY_TYPE.warning,
+          title: code.toString(),
+          description: "Xảy ra lỗi khi gửi yêu cầu tới NVR",
+        });
+      } else {
+        Notification({
+          type: NOTYFY_TYPE.warning,
+          title: code.toString(),
+          description: "Send request to NVR failed",
+        });
+      }
+      return null;
+    case KCheetahInternalServerError:
+      if (language === "vn") {
+        Notification({
+          type: NOTYFY_TYPE.warning,
+          title: code.toString(),
+          description: "Xảy ra lỗi từ máy chủ",
+        });
+      } else {
+        Notification({
+          type: NOTYFY_TYPE.warning,
+          title: code.toString(),
+          description: "Got an internal error from server",
+        });
+      }
       return null;
     case StatusForbidden:
       handleForbiddenCode(deny_permission_codes);
