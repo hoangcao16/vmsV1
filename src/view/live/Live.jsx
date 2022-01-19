@@ -8,6 +8,7 @@ import { connect, useDispatch } from "react-redux";
 import { withRouter } from "react-router-dom";
 import { reactLocalStorage } from "reactjs-localstorage";
 import { v4 as uuidV4 } from "uuid";
+import videojs from "video.js";
 import ExportEventFileApi from "../../actions/api/exporteventfile/ExportEventFileApi";
 import tokenApi from "../../api/authz/token";
 import playCamApi from "../../api/camproxy/cameraApi";
@@ -47,7 +48,6 @@ import DraggableCameraList from "./DraggableCameraList";
 import LiveCameraSlot from "./LiveCameraSlot";
 import MenuTools from "./MenuTools";
 
-import videojs from 'video.js'
 const mode = process.env.REACT_APP_MODE_VIEW;
 
 const initialDataGrid = [...Array(16).keys()];
@@ -256,12 +256,7 @@ const Live = (props) => {
       });
       return;
     }
-
-    console.log("mode:", mode);
     const data = await getServerCamproxyForPlay(camUuid, mode);
-
-    console.log("data:", data);
-
     if (data == null) {
       Notification({
         type: "warning",
@@ -334,53 +329,32 @@ const Live = (props) => {
         .finally(() => {});
     } else {
       const API = data.camproxyApi;
-
-      const { token, camproxyApi } = data;
-
+      const { token } = data;
       const spin = document.getElementById("spin-slot-" + slotIdx);
       spin.style.display = "block";
-
       playCamApi
         .playCameraHls(API, {
           token: token,
           cameraUuid: camUuid,
         })
-        .then((res) => {
-          // if (res) {
-          //   pc.setRemoteDescription(res).then((r) => {});
-          // } else {
-          //   spin.style.display = "none";
-          //   Notification({
-          //     type: "warning",
-          //     title: `${t("noti.default_screen")}`,
-          //     description: `${t("noti.fail_accept_offer_from_server")}`,
-          //   });
-          // }
-
+        .then(async (res) => {
           if (res.data.code == "15000") {
             const cell = document.getElementById("video-slot-" + slotIdx);
             if (cell) {
-              // cell.src =
-              //   "https://bitdash-a.akamaihd.net/content/sintel/hls/playlist.m3u8";
-              // // cell.src = `${camproxyApi}/camproxy/v1/play/hls/${camUuid}/index.m3u8`;
-              // cell.autoplay = true;
+              cell.autoplay = true;
               cell.controls = true;
               cell.preload = "none";
-              // cell.crossOrigin = "true";
-              // cell.style =
-              //   "width:100%;height:100%;display:block;object-fit:fill;";
-              // cell.type = "application/x-mpegURL";
-              // cell.muted = "muted";
-              cell.innerHTML =(`<source src='https://bitdash-a.akamaihd.net/content/sintel/hls/playlist.m3u8' type='application/x-mpegURL'>`)
+              cell.crossOrigin = "anonymous";
+              cell.style =
+                "width:100%;height:100%;display:block;object-fit:fill;position:absolute;top:0";
+              cell.type = "application/x-mpegURL";
+              cell.muted = "muted";
+              // cell.innerHTML = `<source src='${camproxyApi}/camproxy/v1/play/hls/${camUuid}/index.m3u8' type='application/x-mpegURL'>`;
+              cell.innerHTML = `<source src='http://cctv-uat.edsolabs.com:8094/camproxy/v1/play/hls/b2bb2802-51e9-4395-bb16-fced5f036302/index.m3u8' type='application/x-mpegURL'>`;
               spin.style.display = "none";
-              console.log("cell:", cell);
+              var ply = await videojs("video-slot-" + slotIdx);
+              ply.play();
             }
-
-            var ply = videojs("video-slot-" + slotIdx);
-
-            console.log("ply:",ply)
-
-            ply.play()
           }
         });
     }
