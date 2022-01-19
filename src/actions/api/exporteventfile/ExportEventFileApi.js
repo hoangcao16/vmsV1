@@ -66,6 +66,34 @@ const ExportEventFileApi = {
     return result;
   },
 
+  downloadFileAI: async (cameraUuid, trackingId, uuid, fileName, fileType) => {
+    let result;
+    try {
+      result = await FileService.getRequestData("/api/v1/downloadAIFile", {
+        cameraUuid: cameraUuid,
+        trackingId: trackingId,
+        uuid: uuid,
+        fileName: fileName
+      });
+    } catch (e) {
+      if (language == "vn") {
+        Notification({
+          type: NOTYFY_TYPE.warning,
+          title: "Tệp lưu trữ",
+          description: e.toString(),
+        });
+      } else {
+        Notification({
+          type: NOTYFY_TYPE.warning,
+          title: "Archived file",
+          description: e.toString(),
+        });
+      }
+      return null;
+    }
+    return result;
+  },
+
   getAvatar: async (avatarFileName) => {
     let result;
     try {

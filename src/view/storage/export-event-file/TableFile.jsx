@@ -803,7 +803,7 @@ const TableFile = (props) => {
                                                         {value.eventName ? (
                                                             <li className='eventName'>{value.eventName}</li>
                                                         ) : (
-                                                            <li className='eventName'>${t('view.ai_events.' + value.subEventType)}</li>
+                                                            <li className='eventName'>{t('view.ai_events.' + value.subEventType)}</li>
                                                         )}
                                                         {value.fileName ? (<li className='name'>{value.fileName}</li>) : (null)}
                                                         {value.pathFile ? (<li className='pathFile'>{value.pathFile}</li>) : (null)}
