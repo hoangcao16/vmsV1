@@ -56,6 +56,8 @@ class CameraPlaybackService {
                 if (payload === null) return;
                 const videoCellName = "video-slot-" + originSlotId;
                 const video = document.getElementById(videoCellName);
+
+                console.log('data',video);
                 const videoSrc =
                     data.playbackUrl +
                     "/play/hls/" +
