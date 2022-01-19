@@ -113,13 +113,13 @@ export function* addNewCamAction(action) {
   if (language === "vn") {
     notifyMess = {
       type: NOTYFY_TYPE.success,
-      title: "",
+      title: "Đơn vị hành chính",
       description: "Bạn đã thêm thành công Camera",
     };
   } else {
     notifyMess = {
       type: NOTYFY_TYPE.success,
-      title: "",
+      title: "Administrative unit",
       description: "Successfully added Camera",
     };
   }
