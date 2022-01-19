@@ -602,11 +602,6 @@ const ExportEventFile = () => {
           imageOther: imageOther,
         };
       }
-<<<<<<< HEAD
-      console.log("+++++++++++ data", data);
-=======
-
->>>>>>> 113db1b45f6e7210ef8c703a1349515bbfbd830d
       setEventFileCurrent({ ...data, blob: null, isSaved: false });
     }
   };
