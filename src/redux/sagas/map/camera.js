@@ -156,7 +156,7 @@ export function* addNewCamAction(action) {
       notifyMess.type = NOTYFY_TYPE.warning;
       if (language === "vn") {
         notifyMess.description =
-          error.response.data.errors.message || "Có lỗi xỷ ra từ phía máy chủ";
+          error.response.data.errors.message || "Có lỗi sai từ phía máy chủ";
       } else {
         notifyMess.description =
           error.response.data.errors.message ||
