@@ -78,13 +78,13 @@ const Config = lazy(() => import("./view/ai-config/Config"));
 
 const Login = lazy(() => import("./views/pages/authentication/login/Login"));
 // const LoginDefault = lazy(() => import("./views/pages/authentication/login/LoginDefault"));
-const forgotPassword = lazy(() =>
+const ForgotPassword = lazy(() =>
   import("./views/pages/authentication/ForgotPassword")
 );
 const lockScreen = lazy(() =>
   import("./views/pages/authentication/LockScreen")
 );
-const resetPassword = lazy(() =>
+const ResetPassword = lazy(() =>
   import("./views/pages/authentication/ResetPassword")
 );
 const register = lazy(() =>
@@ -120,6 +120,10 @@ const RouteConfig = ({ component: Component, fullLayout, ...rest }) => (
                       <Component {...props} />
                     </Suspense>
                   </LayoutTag>
+                ) : props.match.path == "/pages/reset-password" ? (
+                  <ResetPassword />
+                ) : props.match.path == "/pages/forgot-password" ? (
+                  <ForgotPassword />
                 ) : (
                   <Login />
                 )}
@@ -178,7 +182,7 @@ class AppRouter extends React.Component {
           <AppRoute path="/pages/register" component={register} fullLayout />
           <AppRoute
             path="/pages/forgot-password"
-            component={forgotPassword}
+            component={ForgotPassword}
             fullLayout
           />
           <AppRoute
@@ -188,7 +192,7 @@ class AppRouter extends React.Component {
           />
           <AppRoute
             path="/pages/reset-password"
-            component={resetPassword}
+            component={ResetPassword}
             fullLayout
           />
 
