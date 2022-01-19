@@ -113,13 +113,13 @@ export function* addNewCamAction(action) {
   if (language === "vn") {
     notifyMess = {
       type: NOTYFY_TYPE.success,
-      title: "Đơn vị hành chính",
+      title: "",
       description: "Bạn đã thêm thành công Camera",
     };
   } else {
     notifyMess = {
       type: NOTYFY_TYPE.success,
-      title: "Administrative unit",
+      title: "",
       description: "Successfully added Camera",
     };
   }
@@ -156,7 +156,7 @@ export function* addNewCamAction(action) {
       notifyMess.type = NOTYFY_TYPE.warning;
       if (language === "vn") {
         notifyMess.description =
-          error.response.data.errors.message || "Có lỗi sai từ phía máy chủ";
+          error.response.data.errors.message || "Có lỗi xỷ ra từ phía máy chủ";
       } else {
         notifyMess.description =
           error.response.data.errors.message ||
