@@ -532,6 +532,7 @@ const MapCameraAdd = (props) => {
                 onBlur={(e) =>
                   form.setFieldsValue({ port: e.target.value.trim() })
                 }
+                type={"number"}
               ></Input>
             </Form.Item>
           </Col>
