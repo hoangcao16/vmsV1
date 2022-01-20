@@ -242,7 +242,7 @@ const ModalEditCamera = (props) => {
       Notification({
         type: "error",
         title: "",
-        description: `${t('noti.edit_camera_failed')}` + error.toString(),
+        description: `${t("noti.edit_camera_failed")}` + error.toString(),
       });
       console.log(error);
     }
@@ -596,22 +596,35 @@ const ModalEditCamera = (props) => {
                 label={t("view.map.port")}
                 name={["port"]}
                 rules={[
-                  {
-                    required: true,
-                    message: `${t("view.map.required_field")}`,
-                  },
+                  ({ getFieldValue }) => ({
+                    validator(rule, value) {
+                      const data = getFieldValue(["port"]);
+                      if (data) {
+                        if (isFinite(data)) {
+                          return Promise.resolve();
+                        } else {
+                          return Promise.reject(`${t("noti.just_number")}`);
+                        }
+                      } else {
+                        return Promise.resolve(
+                          `${t("view.map.required_field")}`
+                        );
+                      }
+                    },
+                  }),
                 ]}
               >
                 <Input
                   placeholder={t("view.map.please_enter_port", {
                     plsEnter: t("please_enter"),
                   })}
+                  onBlur={(e) => {
+                    form.setFieldsValue({
+                      port: e.target.value.trim(),
+                    });
+                  }}
                   maxLength={255}
-                  onBlur={(e) =>
-                    form.setFieldsValue({ port: e.target.value.trim() })
-                  }
-                  type={"number"}
-                />
+                ></Input>
               </Form.Item>
             </Col>
             <Col span={12}>
@@ -683,18 +696,15 @@ const ModalEditCamera = (props) => {
               </Col>
             </Col>
             <Col span={24}>
-              <Form.Item
-                  label={t("view.map.hls_url")}
-                  name={["hlsUrl"]}
-              >
+              <Form.Item label={t("view.map.hls_url")} name={["hlsUrl"]}>
                 <Input
-                    placeholder={t("view.map.please_enter_hls_url", {
-                      plsEnter: t("please_enter"),
-                    })}
-                    maxLength={2000}
-                    onBlur={(e) =>
-                        form.setFieldsValue({ hlsUrl: e.target.value.trim() })
-                    }
+                  placeholder={t("view.map.please_enter_hls_url", {
+                    plsEnter: t("please_enter"),
+                  })}
+                  maxLength={2000}
+                  onBlur={(e) =>
+                    form.setFieldsValue({ hlsUrl: e.target.value.trim() })
+                  }
                 />
               </Form.Item>
             </Col>

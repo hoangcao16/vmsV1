@@ -682,7 +682,8 @@
     "error_2_digits": "Error intervals to 2 decimal places",
     "successfully_edit_camera_group": "Successfully edit Camera group",
     "browser_not_support_video": "Your browser does not support the video tag",
-    "field_no_data": "This feild has no events"
+    "field_no_data": "This feild has no events",
+    "just_number": "This field only allowed numbers"
   },
   "breadcrumd": {
     "report": "Report Management",
