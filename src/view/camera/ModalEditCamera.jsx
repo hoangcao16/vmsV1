@@ -595,7 +595,7 @@ const ModalEditCamera = (props) => {
               <Form.Item
                 label={t("view.map.port")}
                 name={["port"]}
-                rules={[
+                rules={[{required: true},
                   ({ getFieldValue }) => ({
                     validator(rule, value) {
                       const data = getFieldValue(["port"]);
