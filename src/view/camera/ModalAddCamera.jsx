@@ -564,6 +564,7 @@ const ModalAddCamera = (props) => {
                     });
                   }}
                   maxLength={255}
+                  type={"number"}
                 ></Input>
               </Form.Item>
             </Col>
@@ -671,7 +672,7 @@ const ModalAddCamera = (props) => {
             <Button type="primary" htmlType="submit">
               {t("view.user.detail_list.confirm")}
             </Button>
-            <Button onClick={handleShowModalAdd}>Huỷ</Button>
+            <Button onClick={handleShowModalAdd}>{t("view.map.button_cancel")}</Button>
           </div>
         </Form>
       </Modal>

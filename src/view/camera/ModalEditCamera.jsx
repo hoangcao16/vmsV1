@@ -610,6 +610,7 @@ const ModalEditCamera = (props) => {
                   onBlur={(e) =>
                     form.setFieldsValue({ port: e.target.value.trim() })
                   }
+                  type={"number"}
                 />
               </Form.Item>
             </Col>
