@@ -655,6 +655,8 @@ export default function CameraGroup(props) {
           <Space>
             {!record.isDisableRow && (
               <Popconfirm
+                cancelText={t("view.user.detail_list.cancel")}
+                okText={t("view.user.detail_list.confirm")}
                 title={t("noti.delete_all_permission")}
                 onConfirm={() => removeAllPermmision(record)}
               >

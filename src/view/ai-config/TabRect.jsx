@@ -1,27 +1,45 @@
-import { CheckOutlined, CloseOutlined, DeleteOutlined, PlusOutlined } from '@ant-design/icons';
 import {
-  Button, Card, Checkbox, Col, Form, Input, Popconfirm, Row, Select, Space, Spin, Switch, Table, Tooltip
-} from 'antd';
-import 'antd/dist/antd.css';
+  CheckOutlined,
+  CloseOutlined,
+  DeleteOutlined,
+  PlusOutlined,
+} from "@ant-design/icons";
+import {
+  Button,
+  Card,
+  Checkbox,
+  Col,
+  Form,
+  Input,
+  Popconfirm,
+  Row,
+  Select,
+  Space,
+  Spin,
+  Switch,
+  Table,
+  Tooltip,
+} from "antd";
+import "antd/dist/antd.css";
 import _ from "lodash";
-import React, { useEffect, useRef } from 'react';
-import 'react-calendar-timeline/lib/Timeline.css';
-import { useTranslation } from 'react-i18next';
-import AIConfigRectApi from '../../actions/api/ai-config/AIConfigRectApi';
+import React, { useEffect, useRef } from "react";
+import "react-calendar-timeline/lib/Timeline.css";
+import { useTranslation } from "react-i18next";
+import AIConfigRectApi from "../../actions/api/ai-config/AIConfigRectApi";
 import playCamApi from "../../api/camproxy/cameraApi";
 import imagePoster from "../../assets/event/videoposter.png";
 import Notification from "../../components/vms/notification/Notification";
 import getServerCamproxyForPlay from "../../utility/vms/camera";
 import { sortPoints } from "../../utility/vms/sortIntrusionPoints";
 import { NOTYFY_TYPE } from "../common/vms/Constant";
-import './TabRect.scss';
-import { bodyStyleCard, headStyleCard } from './variables';
+import "./TabRect.scss";
+import { bodyStyleCard, headStyleCard } from "./variables";
 
 const CheckboxGroup = Checkbox.Group;
 const { Option } = Select;
 
 const TabRect = (props) => {
-  const { cameraUuid, type } = props
+  const { cameraUuid, type } = props;
   const { t } = useTranslation();
 
   const [form] = Form.useForm();
@@ -36,16 +54,19 @@ const TabRect = (props) => {
   const [isActive, setIsActive] = React.useState(false);
   const [isActiveDetail, setIsActiveDetail] = React.useState(false);
 
-
-
   const canvasRef = useRef(null);
   const canvasRefRect = useRef(null);
 
-  let fromX = parseFloat(localStorage.getItem("fromX")), fromY = parseFloat(localStorage.getItem("fromY")),
-    toX = parseFloat(localStorage.getItem("toX")), toY = parseFloat(localStorage.getItem("toY")), direction = parseFloat(localStorage.getItem("direction"));
+  let fromX = parseFloat(localStorage.getItem("fromX")),
+    fromY = parseFloat(localStorage.getItem("fromY")),
+    toX = parseFloat(localStorage.getItem("toX")),
+    toY = parseFloat(localStorage.getItem("toY")),
+    direction = parseFloat(localStorage.getItem("direction"));
 
-  let fromXP = parseFloat(localStorage.getItem("fromXP")), fromYP = parseFloat(localStorage.getItem("fromYP")),
-    toXP = parseFloat(localStorage.getItem("toXP")), toYP = parseFloat(localStorage.getItem("toYP"));
+  let fromXP = parseFloat(localStorage.getItem("fromXP")),
+    fromYP = parseFloat(localStorage.getItem("fromYP")),
+    toXP = parseFloat(localStorage.getItem("toXP")),
+    toYP = parseFloat(localStorage.getItem("toYP"));
   let isFromPointMouseDown = false;
   let isToPointMouseDown = false;
   let timerIdentifier = null;
@@ -68,8 +89,8 @@ const TabRect = (props) => {
       //validate
       const warnNotyfi = {
         type: NOTYFY_TYPE.warning,
-        title: `${t('noti.faid')}`,
-        description: `${t('noti.0_100')}`,
+        title: `${t("noti.faid")}`,
+        description: `${t("noti.0_100")}`,
         duration: 2,
       };
       Notification(warnNotyfi);
@@ -79,26 +100,25 @@ const TabRect = (props) => {
         cameraUuid: cameraUuid,
         type: type,
         name: value,
-        uuid: record.uuid
+        uuid: record.uuid,
       };
 
       AIConfigRectApi.editConfigRectName(body).then((result) => {
-        let dataNew = [...dataRectList]
-        dataNew.forEach(data => {
+        let dataNew = [...dataRectList];
+        dataNew.forEach((data) => {
           if (data.key === record.key) {
             data.uuid = result.uuid;
           }
-        })
+        });
         setDataRectList(dataNew);
       });
 
-      document.getElementById(
-        `rename__uuid-${record.key}`
-      ).style.display = "none";
+      document.getElementById(`rename__uuid-${record.key}`).style.display =
+        "none";
       const successNotyfi = {
         type: NOTYFY_TYPE.success,
         title: `${t("noti.success")}`,
-        description: `${t('noti.change_preset_name_success')}`,
+        description: `${t("noti.change_preset_name_success")}`,
         duration: 2,
       };
       Notification(successNotyfi);
@@ -119,26 +139,28 @@ const TabRect = (props) => {
   };
 
   const handleSubmit = async (value) => {
-
     const name = document
       .getElementById(`input-name-uuid-${keyActive}`)
       .value.trim();
     let points = [];
     let pointsP = [];
 
-
     if (type === "hurdles") {
-
-      points = [[fromX, fromY], [toX, toY]];
-      pointsP = [[fromXP, fromYP], [toXP, toYP]];
+      points = [
+        [fromX, fromY],
+        [toX, toY],
+      ];
+      pointsP = [
+        [fromXP, fromYP],
+        [toXP, toYP],
+      ];
     } else {
-      coordinates.forEach(data => {
-        points.push([data.x, data.y])
-      })
-      coordinatesP.forEach(data => {
-        pointsP.push([data.x, data.y])
-      })
-
+      coordinates.forEach((data) => {
+        points.push([data.x, data.y]);
+      });
+      coordinatesP.forEach((data) => {
+        pointsP.push([data.x, data.y]);
+      });
     }
 
     const payload = {
@@ -152,60 +174,51 @@ const TabRect = (props) => {
       direction: value.direction,
       name: name,
       points: points,
-      pointsP: pointsP
-
+      pointsP: pointsP,
     };
 
     AIConfigRectApi.addConfigRect(payload).then((result) => {
+      let dataNew = [...dataRectList];
 
-      let dataNew = [...dataRectList]
-
-      dataNew.forEach(data => {
+      dataNew.forEach((data) => {
         if (data.key === keyActive) {
           data.uuid = result.uuid;
-
         }
-      })
-      setDataRectList(dataNew)
+      });
+      setDataRectList(dataNew);
 
-      setDefaultDataRect(result)
-
+      setDefaultDataRect(result);
     });
-
-
   };
 
   function setDefaultDataRect(data) {
-    clearEventHandler()
-    setDataRect(data)
-    let checkList = []
+    clearEventHandler();
+    setDataRect(data);
+    let checkList = [];
     if (data.peopleDetection) {
-      checkList.push("human")
+      checkList.push("human");
     }
     if (data.vehicleDetection) {
-      checkList.push("vehicle")
+      checkList.push("vehicle");
     }
-    setCheckedList(checkList)
+    setCheckedList(checkList);
     form.setFieldsValue({
       threshold: data.threshold,
       direction: data.direction,
       vehicle: data.vehicleDetection,
-      human: data.peopleDetection
-    })
+      human: data.peopleDetection,
+    });
 
     if (type === "hurdles") {
       if (data.pointsP != null && data.pointsP.length > 0) {
-        addLine(data.points, data.pointsP, data.direction)
+        addLine(data.points, data.pointsP, data.direction);
       }
-
     } else {
       if (data.pointsP != null && data.pointsP.length > 0) {
-        addRect(data.points, data.pointsP)
+        addRect(data.points, data.pointsP);
       }
-
     }
   }
-
 
   const onChangeDirectionHandler = (value) => {
     direction = value;
@@ -224,20 +237,17 @@ const TabRect = (props) => {
       type: type,
       cameraUuid: cameraUuid,
       status: status,
-      uuid: uuid
-
+      uuid: uuid,
     };
-
-
 
     try {
       let isPost = await AIConfigRectApi.updateStausConfigRect(payload);
 
       if (isPost) {
         const notifyMess = {
-          type: 'success',
-          title: `${t('noti.success')}`,
-          description: `${t('noti.update_status_successful')}`
+          type: "success",
+          title: `${t("noti.success")}`,
+          description: `${t("noti.update_status_successful")}`,
         };
         Notification(notifyMess);
       }
@@ -245,18 +255,17 @@ const TabRect = (props) => {
       console.log(error);
     }
 
-
     // await UserApi.update({ uuid: uuid, status: status });
   };
 
   const columnTables = [
     {
-      title: 'No',
-      dataIndex: 'lineNo',
+      title: "No",
+      dataIndex: "lineNo",
     },
     {
-      title: 'Name',
-      dataIndex: 'name',
+      title: "Name",
+      dataIndex: "name",
       editable: true,
       render: (text, record) => {
         return (
@@ -267,13 +276,10 @@ const TabRect = (props) => {
               maxLength={20}
               onFocus={(e) => handleFocusInputNameUuid(record)}
               autoComplete="off"
-              style={{ width: '130px' }}
+              style={{ width: "130px" }}
               className="ant-form-item-control-input"
             />
-            <span
-              id={`rename__uuid-${record.key}`}
-              style={{ display: "none" }}
-            >
+            <span id={`rename__uuid-${record.key}`} style={{ display: "none" }}>
               <CheckOutlined
                 id={`confirm-done-icon-rename-${record.key}`}
                 onClick={(e) => {
@@ -294,33 +300,33 @@ const TabRect = (props) => {
       },
     },
     {
-      title: `${t('view.user.detail_list.user_status')}`,
-      dataIndex: 'status',
+      title: `${t("view.user.detail_list.user_status")}`,
+      dataIndex: "status",
       render: (text, record) => {
         return (
           <Space>
             <Tooltip
               placement="top"
-              title={t('view.user.detail_list.change_status')}
+              title={t("view.user.detail_list.change_status")}
             >
               <Switch
                 defaultChecked={record.status === "1"}
                 onChange={(e) => handleUpdateStatus(e, record.uuid)}
                 checkedChildren={<CheckOutlined />}
                 unCheckedChildren={<CloseOutlined />}
-              // disabled={!permissionCheck('deactivate_user')}
+                // disabled={!permissionCheck('deactivate_user')}
               />
             </Tooltip>
           </Space>
         );
-      }
+      },
     },
     {
-      className: 'action-1',
+      className: "action-1",
       title: () => {
         if (isActive) {
           return (
-            <div style={{ textAlign: 'center' }}>
+            <div style={{ textAlign: "center" }}>
               <Button
                 disabled={!isActive}
                 size="small"
@@ -333,127 +339,120 @@ const TabRect = (props) => {
             </div>
           );
         }
-
       },
-      dataIndex: 'action',
+      dataIndex: "action",
       render: (_text, record) => {
         return (
           <Space>
             <Popconfirm
-              title={t('noti.delete_category', { this: t('this') })}
+              cancelText={t("view.user.detail_list.cancel")}
+              okText={t("view.user.detail_list.confirm")}
+              title={t("noti.delete_category", { this: t("this") })}
               onConfirm={() => handleDelete(record)}
             >
-              <DeleteOutlined style={{ fontSize: '16px', color: '#6E6B7B' }} />
+              <DeleteOutlined style={{ fontSize: "16px", color: "#6E6B7B" }} />
             </Popconfirm>
           </Space>
         );
-      }
-    }
+      },
+    },
   ];
 
   const options = [
-    { label: `${t('view.ai_config.human')}`, value: 'human' },
-    { label: `${t('view.ai_config.vehicle')}`, value: 'vehicle' },
+    { label: `${t("view.ai_config.human")}`, value: "human" },
+    { label: `${t("view.ai_config.vehicle")}`, value: "vehicle" },
   ];
 
   useEffect(() => {
-    localStorage.removeItem('fromXP');
-    localStorage.removeItem('fromYP');
-    localStorage.removeItem('fromX');
-    localStorage.removeItem('fromY');
+    localStorage.removeItem("fromXP");
+    localStorage.removeItem("fromYP");
+    localStorage.removeItem("fromX");
+    localStorage.removeItem("fromY");
 
-    localStorage.removeItem('toXP');
-    localStorage.removeItem('toYP');
-    localStorage.removeItem('toX');
-    localStorage.removeItem('toY');
+    localStorage.removeItem("toXP");
+    localStorage.removeItem("toYP");
+    localStorage.removeItem("toX");
+    localStorage.removeItem("toY");
 
-    localStorage.removeItem('direction');
-    localStorage.removeItem('coordinates');
-    localStorage.removeItem('coordinatesP');
+    localStorage.removeItem("direction");
+    localStorage.removeItem("coordinates");
+    localStorage.removeItem("coordinatesP");
 
-
-    clearEventHandler()
+    clearEventHandler();
 
     if (cameraUuid != null && cameraUuid !== "") {
-      setIsActive(true)
+      setIsActive(true);
       const data = {
         type: type,
-        cameraUuid: cameraUuid
+        cameraUuid: cameraUuid,
       };
-
-
 
       AIConfigRectApi.getAllConfigRect(data).then((result) => {
         const itemRectList = [];
         let i = 1;
-        result?.configRect && result.configRect.map(result => {
-          let date = Date.now();
-          itemRectList.push({
-            key: --date + i,
-            uuid: result.uuid,
-            name: result.name,
-            lineNo: i,
-            status: result.status,
-            objectDetection: result.objectDetection,
-            vehicleDetection: result.vehicleDetection,
-            peopleDetection: result.peopleDetection,
-            direction: result.direction,
-            threshold: result.threshold,
-            points: result.points,
-            pointsP: result.pointsP
-          })
-          i++;
-        })
-        setDataRectList(itemRectList)
+        result?.configRect &&
+          result.configRect.map((result) => {
+            let date = Date.now();
+            itemRectList.push({
+              key: --date + i,
+              uuid: result.uuid,
+              name: result.name,
+              lineNo: i,
+              status: result.status,
+              objectDetection: result.objectDetection,
+              vehicleDetection: result.vehicleDetection,
+              peopleDetection: result.peopleDetection,
+              direction: result.direction,
+              threshold: result.threshold,
+              points: result.points,
+              pointsP: result.pointsP,
+            });
+            i++;
+          });
+        setDataRectList(itemRectList);
       });
 
-      playCameraOnline(cameraUuid).then(r => {
-      });
+      playCameraOnline(cameraUuid).then((r) => {});
       return () => {
         closeCamera();
-      }
-
+      };
     }
   }, [cameraUuid, type]);
 
-
-
-
-  const onChange = list => {
+  const onChange = (list) => {
     setCheckedList(list);
     setIndeterminate(!!list.length && list.length < options.length);
     setCheckAll(list.length === options.length);
   };
 
-  const onCheckAllChange = e => {
+  const onCheckAllChange = (e) => {
     const checkList = ["vehicle", "human"];
     setCheckedList(e.target.checked ? checkList : []);
     setIndeterminate(false);
     setCheckAll(e.target.checked);
-
   };
 
-  const onCheckAllChangeVehicle = e => {
+  const onCheckAllChangeVehicle = (e) => {
     form.setFieldsValue({
-      vehicle: e.target.checked
-    })
+      vehicle: e.target.checked,
+    });
   };
 
-  const onCheckAllChangeHuman = e => {
+  const onCheckAllChangeHuman = (e) => {
     form.setFieldsValue({
-      human: e.target.checked
-    })
+      human: e.target.checked,
+    });
   };
 
-  const onPlusConfigRect = e => {
+  const onPlusConfigRect = (e) => {
     let date = Date.now();
-    let dataNew = [...dataRectList]
-    let strType = ""
+    let dataNew = [...dataRectList];
+    let strType = "";
     if (type === "intrusion_detection") {
-      strType = "Khu vực "
+      strType = "Khu vực ";
     }
     if (type === "hurdles") {
-      strType = "Đường "
+      strType = "Đường ";
     }
     dataNew.push({
       key: --date,
@@ -461,23 +460,23 @@ const TabRect = (props) => {
       lineNo: dataRectList.length + 1,
       status: "1",
       threshold: 0,
-    })
+    });
     setDataRectList(dataNew);
   };
 
   const handleDelete = async (record) => {
     let newData = [...dataRectList];
     if (newData.length > 0) {
-      newData = newData.filter(item => item.key !== record.key);
+      newData = newData.filter((item) => item.key !== record.key);
       if (record.uuid != null) {
         try {
           let isPost = await AIConfigRectApi.deleteConfigRect(record.uuid);
 
           if (isPost) {
             const notifyMess = {
-              type: 'success',
-              title: `${t('noti.success')}`,
-              description: `${t('noti.delete_successful')}`
+              type: "success",
+              title: `${t("noti.success")}`,
+              description: `${t("noti.delete_successful")}`,
             };
             Notification(notifyMess);
           }
@@ -486,46 +485,42 @@ const TabRect = (props) => {
         }
       }
 
-      let i = 1
-      newData.forEach(data => {
+      let i = 1;
+      newData.forEach((data) => {
         data.lineNo = i;
-        i++
-      })
-
+        i++;
+      });
 
       setDataRectList(newData);
-
     } else {
       setDataRectList([]);
     }
   };
 
-
   const handleRowClick = (event, data) => {
-    setIsActiveDetail(true)
-    setKeyActive(data.key)
+    setIsActiveDetail(true);
+    setKeyActive(data.key);
     if (data.uuid != null) {
       AIConfigRectApi.getConfigRect(data.uuid).then((result) => {
         if (result != null) {
-          data = result
-
+          data = result;
         }
       });
     }
 
-
-    setDefaultDataRect({...data, vehicle: data.vehicleDetection,
-      human: data.peopleDetection})
-
-
+    setDefaultDataRect({
+      ...data,
+      vehicle: data.vehicleDetection,
+      human: data.peopleDetection,
+    });
   };
 
   const playCameraOnline = async (cameraUuid) => {
     if (cameraUuid === "" || cameraUuid == null) {
       Notification({
         type: NOTYFY_TYPE.warning,
-        title: `${t('view.user.detail_list.view_online')}`,
-        description: `${t('noti.unidentified_camera')}`
+        title: `${t("view.user.detail_list.view_online")}`,
+        description: `${t("noti.unidentified_camera")}`,
       });
       return;
     }
@@ -533,16 +528,15 @@ const TabRect = (props) => {
     if (data == null) {
       Notification({
         type: NOTYFY_TYPE.warning,
-        title: `${t('view.user.detail_list.view_online')}`,
-        description: `${t('noti.error_camera_address')}`,
+        title: `${t("view.user.detail_list.view_online")}`,
+        description: `${t("noti.error_camera_address")}`,
       });
       return;
     }
 
     const pc = new RTCPeerConnection();
     pc.addTransceiver("video");
-    pc.oniceconnectionstatechange = () => {
-    };
+    pc.oniceconnectionstatechange = () => {};
     const spin = document.getElementById("spin-slot-" + type);
     pc.ontrack = (event) => {
       //binding and play
@@ -573,13 +567,12 @@ const TabRect = (props) => {
           })
           .then((res) => {
             if (res) {
-              pc.setRemoteDescription(res).then((r) => {
-              });
+              pc.setRemoteDescription(res).then((r) => {});
             } else {
               spin.style.display = "none";
               Notification({
                 type: NOTYFY_TYPE.warning,
-                title: `${t('view.user.detail_list.view_online')}`,
+                title: `${t("view.user.detail_list.view_online")}`,
                 description: "Nhận offer từ server bị lỗi",
               });
             }
@@ -589,8 +582,7 @@ const TabRect = (props) => {
         spin.style.display = "none";
       })
       .catch(alert)
-      .finally(() => {
-      });
+      .finally(() => {});
   };
 
   const closeCamera = () => {
@@ -599,8 +591,8 @@ const TabRect = (props) => {
     video.style.display = "none";
     if (timerIdentifier != null) clearTimeout(timerIdentifier);
     if (timerIdentifierRect != null) clearTimeout(timerIdentifierRect);
-    window.removeEventListener('resize', resizeLineCanvasEventHandler);
-    window.removeEventListener('resize', resizeRectCanvasEventHandler);
+    window.removeEventListener("resize", resizeLineCanvasEventHandler);
+    window.removeEventListener("resize", resizeRectCanvasEventHandler);
   };
 
   const initRect = () => {
@@ -613,14 +605,30 @@ const TabRect = (props) => {
       canvas.height = video.clientHeight;
       videoSlotSizeRect = { w: video.clientWidth, h: video.clientHeight };
       coordinates = [];
-      coordinates.push({ x: video.clientWidth / 4, y: video.clientHeight / 4, mouseDown: false });
-      coordinates.push({ x: (video.clientWidth / 4) * 3, y: video.clientHeight / 4, mouseDown: false });
-      coordinates.push({ x: (video.clientWidth / 4) * 3, y: (video.clientHeight / 4) * 3, mouseDown: false });
-      coordinates.push({ x: video.clientWidth / 4, y: (video.clientHeight / 4) * 3, mouseDown: false });
+      coordinates.push({
+        x: video.clientWidth / 4,
+        y: video.clientHeight / 4,
+        mouseDown: false,
+      });
+      coordinates.push({
+        x: (video.clientWidth / 4) * 3,
+        y: video.clientHeight / 4,
+        mouseDown: false,
+      });
+      coordinates.push({
+        x: (video.clientWidth / 4) * 3,
+        y: (video.clientHeight / 4) * 3,
+        mouseDown: false,
+      });
+      coordinates.push({
+        x: video.clientWidth / 4,
+        y: (video.clientHeight / 4) * 3,
+        mouseDown: false,
+      });
       drawRect();
-      window.addEventListener('resize', resizeRectCanvasEventHandler);
+      window.addEventListener("resize", resizeRectCanvasEventHandler);
     }
-  }
+  };
 
   const addRect = (points, pointsP) => {
     if (timerIdentifierRect != null) clearTimeout(timerIdentifierRect);
@@ -633,31 +641,34 @@ const TabRect = (props) => {
       videoSlotSizeRect = { w: video.clientWidth, h: video.clientHeight };
 
       coordinatesP = [];
-      pointsP.forEach(data => {
+      pointsP.forEach((data) => {
         coordinatesP.push({ x: data[0], y: data[1], mouseDown: false });
-      })
+      });
       localStorage.setItem("coordinatesP", JSON.stringify(coordinatesP));
-
 
       coordinates = [];
       for (let index = 0; index < coordinatesP.length; index++) {
-        coordinates.push({ x: coordinatesP[index].x * canvas.width, y: coordinatesP[index].y * canvas.height, mouseDown: false });
+        coordinates.push({
+          x: coordinatesP[index].x * canvas.width,
+          y: coordinatesP[index].y * canvas.height,
+          mouseDown: false,
+        });
       }
       localStorage.setItem("coordinates", JSON.stringify(coordinates));
 
       drawRect();
-      window.addEventListener('resize', resizeRectCanvasEventHandler);
+      window.addEventListener("resize", resizeRectCanvasEventHandler);
     }
-  }
+  };
 
   const drawRect = () => {
     const canvas = document.getElementById("canvas-slot-" + type);
     if (canvas !== null) {
-      const ctx = canvas.getContext('2d');
+      const ctx = canvas.getContext("2d");
       ctx.clearRect(0, 0, canvas.width, canvas.height);
 
-      ctx.lineWidth = '1'; // width of the line
-      ctx.strokeStyle = 'yellow'; // color of the line
+      ctx.lineWidth = "1"; // width of the line
+      ctx.strokeStyle = "yellow"; // color of the line
       ctx.fillStyle = "red";
       ctx.font = "12px Arial";
       ctx.lineJoin = ctx.lineCap = "round";
@@ -677,18 +688,26 @@ const TabRect = (props) => {
       // Rect at all points
       ctx.beginPath();
       for (let index = 0; index < coordinates.length; index++) {
-        ctx.fillRect(coordinates[index].x - 2.5, coordinates[index].y - 2.5, 5, 5);
+        ctx.fillRect(
+          coordinates[index].x - 2.5,
+          coordinates[index].y - 2.5,
+          5,
+          5
+        );
       }
       ctx.closePath();
 
       // Set output
       coordinatesP = [];
       for (let index = 0; index < coordinates.length; index++) {
-        coordinatesP.push({ x: coordinates[index].x / canvas.width, y: coordinates[index].y / canvas.height });
+        coordinatesP.push({
+          x: coordinates[index].x / canvas.width,
+          y: coordinates[index].y / canvas.height,
+        });
       }
       console.log("coordinatesP:", coordinatesP);
     }
-  }
+  };
 
   const initLine = (initDirection) => {
     if (timerIdentifier != null) clearTimeout(timerIdentifier);
@@ -705,12 +724,11 @@ const TabRect = (props) => {
       toY = (video.clientHeight / 4) * 3;
       direction = initDirection;
       drawLine();
-      window.addEventListener('resize', resizeLineCanvasEventHandler);
+      window.addEventListener("resize", resizeLineCanvasEventHandler);
     }
-  }
+  };
 
   const addLine = (points, pointsP, directionV) => {
-
     if (timerIdentifier != null) clearTimeout(timerIdentifier);
     const video = document.getElementById("video-slot-" + type);
     const canvas = document.getElementById("canvas-slot-" + type);
@@ -720,25 +738,25 @@ const TabRect = (props) => {
       canvas.height = video.clientHeight;
       videoSlotSize = { w: video.clientWidth, h: video.clientHeight };
 
-      fromXP = pointsP[0][0]
-      fromYP = pointsP[0][1]
-      fromX = fromXP * canvas.width
-      fromY = fromYP * canvas.height
+      fromXP = pointsP[0][0];
+      fromYP = pointsP[0][1];
+      fromX = fromXP * canvas.width;
+      fromY = fromYP * canvas.height;
 
-      localStorage.setItem('fromXP', fromXP);
-      localStorage.setItem('fromYP', fromYP);
-      localStorage.setItem('fromX', fromX);
-      localStorage.setItem('fromY', fromY);
+      localStorage.setItem("fromXP", fromXP);
+      localStorage.setItem("fromYP", fromYP);
+      localStorage.setItem("fromX", fromX);
+      localStorage.setItem("fromY", fromY);
 
-      toXP = pointsP[1][0]
-      toYP = pointsP[1][1]
-      toX = toXP * canvas.width
-      toY = toYP * canvas.height
+      toXP = pointsP[1][0];
+      toYP = pointsP[1][1];
+      toX = toXP * canvas.width;
+      toY = toYP * canvas.height;
 
-      localStorage.setItem('toXP', toXP);
-      localStorage.setItem('toYP', toYP);
-      localStorage.setItem('toX', toX);
-      localStorage.setItem('toY', toY);
+      localStorage.setItem("toXP", toXP);
+      localStorage.setItem("toYP", toYP);
+      localStorage.setItem("toX", toX);
+      localStorage.setItem("toY", toY);
 
       // fromXP = fromX / canvas.width;
       // fromYP = fromY / canvas.height;
@@ -753,18 +771,16 @@ const TabRect = (props) => {
       // toXP = pointsP[1][0]
       // toYP = pointsP[1][1]
       direction = directionV;
-      localStorage.setItem('direction', direction);
+      localStorage.setItem("direction", direction);
       drawLine();
-      window.addEventListener('resize', resizeLineCanvasEventHandler);
-
-
+      window.addEventListener("resize", resizeLineCanvasEventHandler);
     }
-  }
+  };
 
   const clearEventHandler = () => {
     const canvas = document.getElementById("canvas-slot-" + type);
     if (canvas !== null) {
-      const ctx = canvas.getContext('2d');
+      const ctx = canvas.getContext("2d");
       ctx.clearRect(0, 0, canvas.width, canvas.height);
       switch (type) {
         case "hurdles":
@@ -779,23 +795,21 @@ const TabRect = (props) => {
           break;
       }
     }
-  }
-
-
+  };
 
   const resizeLineCanvasEventHandler = (event) => {
-
     resizeLineCanvas();
-  }
+  };
 
   const resizeLineCanvas = () => {
-
     let video = document.getElementById("video-slot-hurdles");
     const canvas = document.getElementById("canvas-slot-hurdles");
     if (canvas !== null) {
       if (timerIdentifier != null) clearTimeout(timerIdentifier);
-      let w = video.clientWidth, h = video.clientHeight;
-      if (video.clientWidth === 0) { // In case video is not active
+      let w = video.clientWidth,
+        h = video.clientHeight;
+      if (video.clientWidth === 0) {
+        // In case video is not active
         video = document.getElementById("video-slot-intrusion_detection");
         w = video.clientWidth;
         h = video.clientHeight;
@@ -805,35 +819,38 @@ const TabRect = (props) => {
           video = document.getElementById("video-slot-hurdles");
           w = video.clientWidth;
           h = video.clientHeight;
-          if (video.clientWidth === 0) { // In case video is not active
+          if (video.clientWidth === 0) {
+            // In case video is not active
             video = document.getElementById("video-slot-intrusion_detection");
             w = video.clientWidth;
             h = video.clientHeight;
           }
 
-          fromX = w * fromX / canvas.width;
-          fromY = h * fromY / canvas.height;
-          toX = w * toX / canvas.width;
-          toY = h * toY / canvas.height;
+          fromX = (w * fromX) / canvas.width;
+          fromY = (h * fromY) / canvas.height;
+          toX = (w * toX) / canvas.width;
+          toY = (h * toY) / canvas.height;
           canvas.width = w;
           canvas.height = h;
           drawLine();
         }, 100);
       }
     }
-  }
+  };
 
   const resizeRectCanvasEventHandler = (event) => {
     resizeRectCanvas();
-  }
+  };
 
   const resizeRectCanvas = () => {
     let video = document.getElementById("video-slot-intrusion_detection");
     const canvas = document.getElementById("canvas-slot-intrusion_detection");
     if (canvas !== null) {
       if (timerIdentifierRect != null) clearTimeout(timerIdentifierRect);
-      let w = video.clientWidth, h = video.clientHeight;
-      if (video.clientWidth === 0) { // In case video is not active
+      let w = video.clientWidth,
+        h = video.clientHeight;
+      if (video.clientWidth === 0) {
+        // In case video is not active
         video = document.getElementById("video-slot-hurdles");
         w = video.clientWidth;
         h = video.clientHeight;
@@ -843,14 +860,15 @@ const TabRect = (props) => {
           video = document.getElementById("video-slot-intrusion_detection");
           w = video.clientWidth;
           h = video.clientHeight;
-          if (video.clientWidth === 0) { // In case video is not active
+          if (video.clientWidth === 0) {
+            // In case video is not active
             video = document.getElementById("video-slot-hurdles");
             w = video.clientWidth;
             h = video.clientHeight;
           }
           for (let index = 0; index < coordinates.length; index++) {
-            let x = w * coordinates[index].x / canvas.width;
-            let y = h * coordinates[index].y / canvas.height;
+            let x = (w * coordinates[index].x) / canvas.width;
+            let y = (h * coordinates[index].y) / canvas.height;
             coordinates[index] = { ...coordinates[index], x: x, y: y };
           }
           canvas.width = w;
@@ -859,23 +877,20 @@ const TabRect = (props) => {
         }, 100);
       }
     }
-  }
+  };
 
   const drawLine = () => {
-
-
     const canvas = document.getElementById("canvas-slot-" + type);
     if (canvas !== null) {
-      const ctx = canvas.getContext('2d');
+      const ctx = canvas.getContext("2d");
       ctx.clearRect(0, 0, canvas.width, canvas.height);
 
       ctx.beginPath();
-      ctx.lineWidth = '1'; // width of the line
-      ctx.strokeStyle = 'yellow'; // color of the line
+      ctx.lineWidth = "1"; // width of the line
+      ctx.strokeStyle = "yellow"; // color of the line
       ctx.fillStyle = "red";
       ctx.font = "12px Arial";
       ctx.lineJoin = ctx.lineCap = "round";
-
 
       // Base line
       ctx.moveTo(fromX, fromY); // begins a new sub-path based on the given x and y values.
@@ -927,7 +942,8 @@ const TabRect = (props) => {
           fRectY = fromY - 2.5;
           tRectY = toY - 2.5;
         }
-      } else { //fromX == toX
+      } else {
+        //fromX == toX
         fRectX = fromX - 2.5;
         tRectX = toX - 2.5;
         if (fromY < toY) {
@@ -951,20 +967,16 @@ const TabRect = (props) => {
       fromYP = fromY / canvas.height;
       toXP = toX / canvas.width;
       toYP = toY / canvas.height;
-
-
-
     }
-  }
+  };
 
   const drawDirectionLine = (ctx) => {
     const dirLineLen = 30; // length of direction line
     let px = fromY - toY; // as vector at 90 deg to the line
     let py = toX - fromX;
     const len = dirLineLen / Math.hypot(px, py);
-    px *= len;  // make length 50 pixels
+    px *= len; // make length 50 pixels
     py *= len;
-
 
     // Get middle point of base line
     const middleX = (fromX + toX) / 2;
@@ -975,7 +987,10 @@ const TabRect = (props) => {
     ctx.lineTo(middleX - px, middleY - py);
 
     // Draw arrow at headers of line
-    let fX = 0, fY = 0, tX = 0, tY = 0;
+    let fX = 0,
+      fY = 0,
+      tX = 0,
+      tY = 0;
     switch (direction) {
       case 0: // B -> A
         fX = middleX + px;
@@ -1004,22 +1019,32 @@ const TabRect = (props) => {
 
     ctx.moveTo(fX, fY);
 
-
-
-
-    if (direction === 2) { // B <-> A
-      ctx.lineTo(fX - headLen * Math.cos(angle - Math.PI / 6), fY - headLen * Math.sin(angle - Math.PI / 6));
+    if (direction === 2) {
+      // B <-> A
+      ctx.lineTo(
+        fX - headLen * Math.cos(angle - Math.PI / 6),
+        fY - headLen * Math.sin(angle - Math.PI / 6)
+      );
       ctx.moveTo(fX, fY);
-      ctx.lineTo(fX - headLen * Math.cos(angle + Math.PI / 6), fY - headLen * Math.sin(angle + Math.PI / 6));
+      ctx.lineTo(
+        fX - headLen * Math.cos(angle + Math.PI / 6),
+        fY - headLen * Math.sin(angle + Math.PI / 6)
+      );
       ctx.moveTo(fX, fY);
     }
     ctx.moveTo(tX, tY);
     dx = tX - fX;
     dy = tY - fY;
     angle = Math.atan2(dy, dx);
-    ctx.lineTo(tX - headLen * Math.cos(angle - Math.PI / 6), tY - headLen * Math.sin(angle - Math.PI / 6));
+    ctx.lineTo(
+      tX - headLen * Math.cos(angle - Math.PI / 6),
+      tY - headLen * Math.sin(angle - Math.PI / 6)
+    );
     ctx.moveTo(tX, tY);
-    ctx.lineTo(tX - headLen * Math.cos(angle + Math.PI / 6), tY - headLen * Math.sin(angle + Math.PI / 6));
+    ctx.lineTo(
+      tX - headLen * Math.cos(angle + Math.PI / 6),
+      tY - headLen * Math.sin(angle + Math.PI / 6)
+    );
 
     if (fX < tX) {
       ctx.fillText("B", fX - 15, fY);
@@ -1028,7 +1053,7 @@ const TabRect = (props) => {
       ctx.fillText("B", fX + 5, fY);
       ctx.fillText("A", tX - 15, tY);
     }
-  }
+  };
 
   const canvasMouseDown = (event) => {
     switch (type) {
@@ -1036,13 +1061,16 @@ const TabRect = (props) => {
         const position = canvasRef.current.getBoundingClientRect();
         const x = event.clientX - position.left;
         const y = event.clientY - position.top;
-        if (x <= (fromX + 10) && x >= (fromX - 10)
-          && y <= (fromY + 10) && y >= (fromY - 10)) {
+        if (
+          x <= fromX + 10 &&
+          x >= fromX - 10 &&
+          y <= fromY + 10 &&
+          y >= fromY - 10
+        ) {
           canvasRef.current.style.cursor = "grabbing";
           isFromPointMouseDown = true;
         }
-        if (x <= (toX + 10) && x >= (toX - 10)
-          && y <= (toY + 10) && y >= (toY - 10)) {
+        if (x <= toX + 10 && x >= toX - 10 && y <= toY + 10 && y >= toY - 10) {
           canvasRef.current.style.cursor = "grabbing";
           isToPointMouseDown = true;
         }
@@ -1054,8 +1082,12 @@ const TabRect = (props) => {
 
         let isGrab = false;
         for (let index = 0; index < coordinates.length; index++) {
-          if (x_ <= (coordinates[index].x + 10) && x_ >= (coordinates[index].x - 10)
-            && y_ <= (coordinates[index].y + 10) && y_ >= (coordinates[index].y - 10)) {
+          if (
+            x_ <= coordinates[index].x + 10 &&
+            x_ >= coordinates[index].x - 10 &&
+            y_ <= coordinates[index].y + 10 &&
+            y_ >= coordinates[index].y - 10
+          ) {
             canvasRefRect.current.style.cursor = "grabbing";
             coordinates[index] = { ...coordinates[index], mouseDown: true };
             isGrab = true;
@@ -1070,7 +1102,7 @@ const TabRect = (props) => {
         break;
     }
     event.preventDefault();
-  }
+  };
 
   const canvasMouseUp = (event) => {
     switch (type) {
@@ -1078,8 +1110,13 @@ const TabRect = (props) => {
         const position = canvasRef.current.getBoundingClientRect();
         const x = event.clientX - position.left;
         const y = event.clientY - position.top;
-        if ((x <= (fromX + 10) && x >= (fromX - 10) && y <= (fromY + 10) && y >= (fromY - 10))
-          || (x <= (toX + 10) && x >= (toX - 10) && y <= (toY + 10) && y >= (toY - 10))) {
+        if (
+          (x <= fromX + 10 &&
+            x >= fromX - 10 &&
+            y <= fromY + 10 &&
+            y >= fromY - 10) ||
+          (x <= toX + 10 && x >= toX - 10 && y <= toY + 10 && y >= toY - 10)
+        ) {
           canvasRef.current.style.cursor = "grab";
         } else {
           canvasRef.current.style.cursor = "default";
@@ -1093,8 +1130,12 @@ const TabRect = (props) => {
         const y_ = event.clientY - position_.top;
         for (let index = 0; index < coordinates.length; index++) {
           coordinates[index] = { ...coordinates[index], mouseDown: false };
-          if (x_ <= (coordinates[index].x + 10) && x_ >= (coordinates[index].x - 10)
-            && y_ <= (coordinates[index].y + 10) && y_ >= (coordinates[index].y - 10)) {
+          if (
+            x_ <= coordinates[index].x + 10 &&
+            x_ >= coordinates[index].x - 10 &&
+            y_ <= coordinates[index].y + 10 &&
+            y_ >= coordinates[index].y - 10
+          ) {
             canvasRefRect.current.style.cursor = "grab";
             break;
           } else {
@@ -1104,7 +1145,7 @@ const TabRect = (props) => {
         break;
     }
     event.preventDefault();
-  }
+  };
 
   const canvasMouseMove = (event) => {
     switch (type) {
@@ -1113,8 +1154,13 @@ const TabRect = (props) => {
         const x = event.clientX - position.left;
         const y = event.clientY - position.top;
         if (!isFromPointMouseDown && !isToPointMouseDown) {
-          if ((x <= (fromX + 10) && x >= (fromX - 10) && y <= (fromY + 10) && y >= (fromY - 10))
-            || (x <= (toX + 10) && x >= (toX - 10) && y <= (toY + 10) && y >= (toY - 10))) {
+          if (
+            (x <= fromX + 10 &&
+              x >= fromX - 10 &&
+              y <= fromY + 10 &&
+              y >= fromY - 10) ||
+            (x <= toX + 10 && x >= toX - 10 && y <= toY + 10 && y >= toY - 10)
+          ) {
             canvasRef.current.style.cursor = "grab";
           } else {
             canvasRef.current.style.cursor = "default";
@@ -1137,8 +1183,12 @@ const TabRect = (props) => {
         const y_ = event.clientY - position_.top;
         for (let index = 0; index < coordinates.length; index++) {
           if (!coordinates[index].mouseDown) {
-            if (x_ <= (coordinates[index].x + 10) && x_ >= (coordinates[index].x - 10)
-              && y_ <= (coordinates[index].y + 10) && y_ >= (coordinates[index].y - 10)) {
+            if (
+              x_ <= coordinates[index].x + 10 &&
+              x_ >= coordinates[index].x - 10 &&
+              y_ <= coordinates[index].y + 10 &&
+              y_ >= coordinates[index].y - 10
+            ) {
               canvasRefRect.current.style.cursor = "grab";
               break;
             } else {
@@ -1157,7 +1207,7 @@ const TabRect = (props) => {
         break;
     }
     event.preventDefault();
-  }
+  };
 
   return (
     <div className="tabs__container--config_rect">
@@ -1165,24 +1215,32 @@ const TabRect = (props) => {
         bodyStyle={bodyStyleCard}
         headStyle={headStyleCard}
         className="card--category"
-      // headStyle={{ padding: 30 }}
+        // headStyle={{ padding: 30 }}
       >
         <div className="">
           <Row gutter={24}>
             <Col span={12}>
-              <div style={{ width: '90%', padding: '20px' }}>
-                {!cameraUuid && (<img
-                  style={{ width: '100%' }}
-                  className='iconPoster'
-                  src={`${imagePoster}`}
-                  alt="" />)
-                }
+              <div style={{ width: "90%", padding: "20px" }}>
+                {!cameraUuid && (
+                  <img
+                    style={{ width: "100%" }}
+                    className="iconPoster"
+                    src={`${imagePoster}`}
+                    alt=""
+                  />
+                )}
                 {cameraUuid && (
                   <div className="camera__monitor">
-                    <canvas id={`canvas-slot-${type}`} className="canvas-slot" ref={type === "hurdles" ? canvasRef : canvasRefRect}
+                    <canvas
+                      id={`canvas-slot-${type}`}
+                      className="canvas-slot"
+                      ref={type === "hurdles" ? canvasRef : canvasRefRect}
                       onMouseUp={canvasMouseUp}
-                      onMouseDown={canvasMouseDown} onMouseMove={canvasMouseMove}
-                      width="100%" style={{ display: "none" }} />
+                      onMouseDown={canvasMouseDown}
+                      onMouseMove={canvasMouseMove}
+                      width="100%"
+                      style={{ display: "none" }}
+                    />
                     <Spin
                       className="video-js"
                       size="large"
@@ -1200,8 +1258,10 @@ const TabRect = (props) => {
                     </video>
                   </div>
                 )}
-                <div className="d-flex justify-content-between align-items-center"
-                  style={{ marginTop: "20px" }}>
+                <div
+                  className="d-flex justify-content-between align-items-center"
+                  style={{ marginTop: "20px" }}
+                >
                   <Button
                     disabled={!isActiveDetail}
                     onClick={() => {
@@ -1211,8 +1271,10 @@ const TabRect = (props) => {
                         initRect();
                       }
                     }}
-                    type="primary" htmlType="submit ">
-                    {t('view.ai_config.draw.' + type)}
+                    type="primary"
+                    htmlType="submit "
+                  >
+                    {t("view.ai_config.draw." + type)}
                   </Button>
                   <Button
                     disabled={!isActiveDetail}
@@ -1221,53 +1283,72 @@ const TabRect = (props) => {
                       clearEventHandler();
                     }}
                   >
-                    {t('view.ai_config.delete.' + type)}
+                    {t("view.ai_config.delete." + type)}
                   </Button>
                 </div>
                 <Form
-                  className='bg-grey'
+                  className="bg-grey"
                   form={form}
                   {...formItemLayout}
                   onFinish={handleSubmit}
                   initialValues={dataRect}
                 >
-                  {type === "intrusion_detection" ?
+                  {type === "intrusion_detection" ? (
                     <Row gutter={24} style={{ marginTop: "20px" }}>
-                      <Col span={12} style={{ flex: 'none' }}>
-                        <p className="threshold">{t('view.ai_config.time_threshold')}</p>
+                      <Col span={12} style={{ flex: "none" }}>
+                        <p className="threshold">
+                          {t("view.ai_config.time_threshold")}
+                        </p>
                       </Col>
-                      <Col span={6} style={{ flex: 'none' }}>
+                      <Col span={6} style={{ flex: "none" }}>
                         <Form.Item
                           name={["threshold"]}
                           rules={[]}
                           vale={threshold}
-
                         >
-                          <Input disabled={!isActiveDetail} placeholder="Số" type='threshold' value={threshold} />
+                          <Input
+                            disabled={!isActiveDetail}
+                            placeholder="Số"
+                            type="threshold"
+                            value={threshold}
+                          />
                         </Form.Item>
                       </Col>
-                      <Col span={6} style={{ flex: 'none' }}>
-                        <p className="threshold">{t('view.ai_config.second')}</p>
+                      <Col span={6} style={{ flex: "none" }}>
+                        <p className="threshold">
+                          {t("view.ai_config.second")}
+                        </p>
                       </Col>
-                    </Row> : <Row gutter={24} style={{ marginTop: "20px" }}>
-                      <Col span={12} style={{ flex: 'none' }}>
-                        <p className="threshold">{t('view.ai_config.direction.title')}</p>
+                    </Row>
+                  ) : (
+                    <Row gutter={24} style={{ marginTop: "20px" }}>
+                      <Col span={12} style={{ flex: "none" }}>
+                        <p className="threshold">
+                          {t("view.ai_config.direction.title")}
+                        </p>
                       </Col>
-                      <Col span={12} style={{ flex: 'none' }}>
+                      <Col span={12} style={{ flex: "none" }}>
                         <div className="select-direction">
-                          <Form.Item name={['direction']}>
-                            <Select disabled={!isActiveDetail} onChange={(e) => onChangeDirectionHandler(e)}>
-                              <Option value={1}>{t('view.ai_config.direction.AB')}</Option>
-                              <Option value={0}>{t('view.ai_config.direction.BA')}</Option>
-                              <Option value={2}>{t('view.ai_config.direction.All')}</Option>
+                          <Form.Item name={["direction"]}>
+                            <Select
+                              disabled={!isActiveDetail}
+                              onChange={(e) => onChangeDirectionHandler(e)}
+                            >
+                              <Option value={1}>
+                                {t("view.ai_config.direction.AB")}
+                              </Option>
+                              <Option value={0}>
+                                {t("view.ai_config.direction.BA")}
+                              </Option>
+                              <Option value={2}>
+                                {t("view.ai_config.direction.All")}
+                              </Option>
                             </Select>
                           </Form.Item>
                         </div>
-
                       </Col>
-
                     </Row>
-                  }
+                  )}
 
                   <Row gutter={24} style={{ marginTop: "20px" }}>
                     {/* <Col span={24} style={{ flex: 'none' }}>
@@ -1284,65 +1365,64 @@ const TabRect = (props) => {
                       </div>
                     </Col> */}
                     {/* ["vehicle", "human"] */}
-                    <Col span={8} style={{ flex: 'none' }}>
-                      <p className="checkedList">{t('view.ai_config.choose')}</p>
+                    <Col span={8} style={{ flex: "none" }}>
+                      <p className="checkedList">
+                        {t("view.ai_config.choose")}
+                      </p>
                     </Col>
-                    <Col span={8} style={{ flex: 'none' }}>
-                      <Form.Item name='human' valuePropName="checked" >
-                        <Checkbox >{t('view.ai_config.human')}</Checkbox>
+                    <Col span={8} style={{ flex: "none" }}>
+                      <Form.Item name="human" valuePropName="checked">
+                        <Checkbox>{t("view.ai_config.human")}</Checkbox>
                       </Form.Item>
                     </Col>
-                    <Col span={8} style={{ flex: 'none' }}>
-                      <Form.Item name='vehicle' valuePropName="checked">
-                        <Checkbox >{t('view.ai_config.vehicle')}</Checkbox>
+                    <Col span={8} style={{ flex: "none" }}>
+                      <Form.Item name="vehicle" valuePropName="checked">
+                        <Checkbox>{t("view.ai_config.vehicle")}</Checkbox>
                       </Form.Item>
                     </Col>
-
                   </Row>
                   <Row gutter={24} style={{ marginTop: "20px" }}>
-                    <Col span={24} style={{ flex: 'none' }}>
-                      {cameraUuid ?
+                    <Col span={24} style={{ flex: "none" }}>
+                      {cameraUuid ? (
                         <div className="footer__modal">
                           <Button
                             disabled={!isActiveDetail}
-                            onClick={() => {
-                            }}
-                            type="primary" htmlType="submit ">
-                            {t('view.ai_config.apply')}
+                            onClick={() => {}}
+                            type="primary"
+                            htmlType="submit "
+                          >
+                            {t("view.ai_config.apply")}
                           </Button>
-                        </div> : null
-                      }
+                        </div>
+                      ) : null}
                     </Col>
-
                   </Row>
-
-
                 </Form>
               </div>
             </Col>
             <Col span={12}>
-              <div style={{ width: '100%', padding: '20px' }}>
+              <div style={{ width: "100%", padding: "20px" }}>
                 <Table
                   className="table__config_rect"
                   rowClassName={(record, rowIndex) => {
-                    if (record.key === keyActive) return 'selected';
-                    return 'not-selected';
+                    if (record.key === keyActive) return "selected";
+                    return "not-selected";
                   }}
                   columns={columnTables}
                   dataSource={dataRectList}
                   pagination={false}
                   onRow={(record, recordIndex) => {
                     return {
-                      onClick: event => {
+                      onClick: (event) => {
                         handleRowClick(event, record);
                       },
                     };
                   }}
-                />;
+                />
+                ;
               </div>
             </Col>
           </Row>
-
         </div>
       </Card>
     </div>
@@ -1350,7 +1430,10 @@ const TabRect = (props) => {
 };
 
 function tabRectPropsAreEqual(prevTabRect, nextTabRect) {
-  return _.isEqual(prevTabRect.cameraUuid, nextTabRect.cameraUuid) && _.isEqual(prevTabRect.type, nextTabRect.type);
+  return (
+    _.isEqual(prevTabRect.cameraUuid, nextTabRect.cameraUuid) &&
+    _.isEqual(prevTabRect.type, nextTabRect.type)
+  );
 }
 
 export const MemoizedTabRect = React.memo(TabRect, tabRectPropsAreEqual);
