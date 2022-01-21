@@ -2,8 +2,8 @@ import {
   DeleteOutlined,
   EditOutlined,
   PlusOutlined,
-  SearchOutlined
-} from '@ant-design/icons';
+  SearchOutlined,
+} from "@ant-design/icons";
 import {
   AutoComplete,
   Button,
@@ -12,24 +12,24 @@ import {
   Popconfirm,
   Row,
   Table,
-  Tooltip
-} from 'antd';
-import React, { useEffect, useState } from 'react';
-import { useTranslation } from 'react-i18next';
-import { useHistory, useRouteMatch } from 'react-router-dom';
-import GroupApi from '../../../actions/api/group/GroupApi';
-import UserApi from '../../../actions/api/user/UserApi';
-import permissionCheck from '../../../actions/function/MyUltil/PermissionCheck';
-import Notification from '../../../components/vms/notification/Notification';
-import { ShowTotal } from '../../../styled/showTotal';
-import '../../commonStyle/commonAuto.scss';
-import '../../commonStyle/commonSelect.scss';
-import { renderText } from '../dataListUser/components/TableListUser';
-import './TableListGroup.scss';
+  Tooltip,
+} from "antd";
+import React, { useEffect, useState } from "react";
+import { useTranslation } from "react-i18next";
+import { useHistory, useRouteMatch } from "react-router-dom";
+import GroupApi from "../../../actions/api/group/GroupApi";
+import UserApi from "../../../actions/api/user/UserApi";
+import permissionCheck from "../../../actions/function/MyUltil/PermissionCheck";
+import Notification from "../../../components/vms/notification/Notification";
+import { ShowTotal } from "../../../styled/showTotal";
+import "../../commonStyle/commonAuto.scss";
+import "../../commonStyle/commonSelect.scss";
+import { renderText } from "../dataListUser/components/TableListUser";
+import "./TableListGroup.scss";
 
 export default function TableListGroup() {
   const { t } = useTranslation();
-  const [search, setSearch] = useState('');
+  const [search, setSearch] = useState("");
   const [form] = Form.useForm();
   const history = useHistory();
   let { path } = useRouteMatch();
@@ -42,9 +42,9 @@ export default function TableListGroup() {
 
   useEffect(() => {
     let data = {
-      filter: '',
+      filter: "",
       page: page,
-      size: size
+      size: size,
     };
 
     GroupApi.getAllGroup(data).then((result) => {
@@ -57,29 +57,29 @@ export default function TableListGroup() {
     return (
       <div className="d-flex justify-content-between align-items-center">
         <h4 className="font-weight-700">
-          {t('view.user.detail_list.group_user_list', {
-            u: t('u'),
-            U: t('U'),
-            g: t('g'),
-            G: t('G')
+          {t("view.user.detail_list.group_user_list", {
+            u: t("u"),
+            U: t("U"),
+            g: t("g"),
+            G: t("G"),
           })}
         </h4>
         <Tooltip
           placement="rightTop"
-          title={t('view.user.detail_list.add_group', {
-            add: t('add'),
-            g: t('g'),
-            G: t('G')
+          title={t("view.user.detail_list.add_group", {
+            add: t("add"),
+            g: t("g"),
+            G: t("G"),
           })}
         >
           <Button
             type="primary"
             className="btnAddGroup height-40 mr-1"
-            style={{ borderRadius: '6px', border: '0' }}
+            style={{ borderRadius: "6px", border: "0" }}
             onClick={() => {
               history.push(`${path}/add-group`);
             }}
-            disabled={!permissionCheck('add_user_group')}
+            disabled={!permissionCheck("add_user_group")}
           >
             <PlusOutlined className="d-flex justify-content-between align-center" />
           </Button>
@@ -109,9 +109,9 @@ export default function TableListGroup() {
 
     if (isDelete) {
       const notifyMess = {
-        type: 'success',
-        title: '',
-        description: `${t('noti.successfully_deleted_group')}`
+        type: "success",
+        title: "",
+        description: `${t("noti.successfully_deleted_group")}`,
       };
       Notification(notifyMess);
     }
@@ -126,49 +126,51 @@ export default function TableListGroup() {
 
   const columns = [
     {
-      title: `${t('view.user.detail_list.group_user_name', {
-        g: t('g'),
-        G: t('G'),
-        u: t('u')
+      title: `${t("view.user.detail_list.group_user_name", {
+        g: t("g"),
+        G: t("G"),
+        u: t("u"),
       })}`,
-      dataIndex: 'name',
-      width: '40%',
-      render: renderText
+      dataIndex: "name",
+      width: "40%",
+      render: renderText,
     },
     {
-      title: `${t('view.user.detail_list.desc')}`,
-      dataIndex: 'description',
-      width: '45%',
-      render: renderText
+      title: `${t("view.user.detail_list.desc")}`,
+      dataIndex: "description",
+      width: "45%",
+      render: renderText,
     },
     {
-      title: `${t('view.user.detail_list.action')}`,
-      fixed: 'top',
-      width: '15%',
+      title: `${t("view.user.detail_list.action")}`,
+      fixed: "top",
+      width: "15%",
       render: (text, record) => {
         return (
           <div className="item--toolbar">
-            <Tooltip placement="top" title={t('view.user.detail_list.edit')}>
+            <Tooltip placement="top" title={t("view.user.detail_list.edit")}>
               <EditOutlined
                 onClick={() => {
                   history.push(`${path}/group/detail/${record.uuid}`);
                 }}
               />
             </Tooltip>
-            {permissionCheck('delete_user_group') ? (
+            {permissionCheck("delete_user_group") ? (
               <Popconfirm
-                title={t('noti.delete_group', { g: t('g'), this: t('this') })}
+                title={t("noti.delete_group", { g: t("g"), this: t("this") })}
                 onConfirm={() => removePermmision(record)}
+                cancelText={t("view.user.detail_list.cancel")}
+                okText={t("view.user.detail_list.confirm")}
               >
-                <Tooltip placement="top" title={t('delete')}>
+                <Tooltip placement="top" title={t("delete")}>
                   <DeleteOutlined />
                 </Tooltip>
               </Popconfirm>
             ) : null}
           </div>
         );
-      }
-    }
+      },
+    },
   ];
   const handleBlur = (event) => {
     const value = event.target.value.trim();
@@ -187,13 +189,13 @@ export default function TableListGroup() {
             maxLength={255}
             placeholder={
               <div className="placehoder height-40 justify-content-between d-flex align-items-center">
-                <span style={{ opacity: '0.5' }}>
-                  {' '}
-                  &nbsp;{' '}
-                  {t('view.user.detail_list.please_enter_search_keyword', {
-                    plsEnter: t('please_enter')
-                  })}{' '}
-                </span>{' '}
+                <span style={{ opacity: "0.5" }}>
+                  {" "}
+                  &nbsp;{" "}
+                  {t("view.user.detail_list.please_enter_search_keyword", {
+                    plsEnter: t("please_enter"),
+                  })}{" "}
+                </span>{" "}
                 <SearchOutlined style={{ fontSize: 22 }} />
               </div>
             }
@@ -222,16 +224,16 @@ export default function TableListGroup() {
           showTotal: (total, range) => {
             return (
               <ShowTotal className="show--total">
-                {t('view.user.detail_list.viewing')} {range[0]}{' '}
-                {t('view.user.detail_list.to')} {range[1]}{' '}
-                {t('view.user.detail_list.out_of')} {total}{' '}
-                {t('view.user.detail_list.indexes')}
+                {t("view.user.detail_list.viewing")} {range[0]}{" "}
+                {t("view.user.detail_list.to")} {range[1]}{" "}
+                {t("view.user.detail_list.out_of")} {total}{" "}
+                {t("view.user.detail_list.indexes")}
               </ShowTotal>
             );
-          }
+          },
         }}
         locale={{
-          emptyText: `${t('view.user.detail_list.no_valid_results_found')}`
+          emptyText: `${t("view.user.detail_list.no_valid_results_found")}`,
         }}
       />
     </div>
