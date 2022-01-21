@@ -1,33 +1,34 @@
-import { CheckOutlined, CloseOutlined } from '@ant-design/icons';
+import { CheckOutlined, CloseOutlined } from "@ant-design/icons";
 import {
   Button,
   Card,
   Image,
   Popconfirm,
   Radio,
-  Select, Switch,
-  Tooltip
-} from 'antd';
-import 'antd/dist/antd.css';
-import { isEmpty } from 'lodash-es';
-import React, { useEffect, useState } from 'react';
-import { useTranslation } from 'react-i18next';
-import { withRouter } from 'react-router-dom';
-import SettingApi from '../../../actions/api/setting/SettingApi';
-import warnLogo from '../../../assets/img/pages/store-setting/warn-logo.png';
-import Notification from '../../../components/vms/notification/Notification';
-import { NOTYFY_TYPE } from '../../common/vms/Constant';
-import './../../commonStyle/commonCard.scss';
-import './../../commonStyle/commonForm.scss';
-import './../../commonStyle/commonInput.scss';
-import './../../commonStyle/commonModal.scss';
-import './../../commonStyle/commonSelect.scss';
+  Select,
+  Switch,
+  Tooltip,
+} from "antd";
+import "antd/dist/antd.css";
+import { isEmpty } from "lodash-es";
+import React, { useEffect, useState } from "react";
+import { useTranslation } from "react-i18next";
+import { withRouter } from "react-router-dom";
+import SettingApi from "../../../actions/api/setting/SettingApi";
+import warnLogo from "../../../assets/img/pages/store-setting/warn-logo.png";
+import Notification from "../../../components/vms/notification/Notification";
+import { NOTYFY_TYPE } from "../../common/vms/Constant";
+import "./../../commonStyle/commonCard.scss";
+import "./../../commonStyle/commonForm.scss";
+import "./../../commonStyle/commonInput.scss";
+import "./../../commonStyle/commonModal.scss";
+import "./../../commonStyle/commonSelect.scss";
 import {
   bodyStyleCard,
   dropdownStyle,
   errorColor,
-  headStyleCard
-} from './variables';
+  headStyleCard,
+} from "./variables";
 
 //for select
 const { Option } = Select;
@@ -40,7 +41,7 @@ const DEFAULT_DATA = {
   timeTwo: 0,
   isActiveTwo: false,
   autoRemovePerFile: false,
-  autoRemoveFreeSpaceFile: false
+  autoRemoveFreeSpaceFile: false,
 };
 
 //convertData
@@ -53,14 +54,17 @@ const convertWarningDiskData = (data) => {
     percentUsedOne:
       data?.configWarningDisk?.percentUsedOne || DEFAULT_DATA.percentUsedOne,
     timeOne: data?.configWarningDisk?.timeOne || DEFAULT_DATA.timeOne,
-    isActiveOne: data?.configWarningDisk?.isActiveOne || DEFAULT_DATA.isActiveOne,
+    isActiveOne:
+      data?.configWarningDisk?.isActiveOne || DEFAULT_DATA.isActiveOne,
     percentUsedTwo:
       data?.configWarningDisk?.percentUsedTwo || DEFAULT_DATA.percentUsedTwo,
     timeTwo: data?.configWarningDisk?.timeTwo || DEFAULT_DATA.timeTwo,
-    isActiveTwo: data?.configWarningDisk?.isActiveTwo || DEFAULT_DATA.isActiveTwo,
-    autoRemovePerFile: data?.autoRemovePerFile || DEFAULT_DATA.autoRemovePerFile,
+    isActiveTwo:
+      data?.configWarningDisk?.isActiveTwo || DEFAULT_DATA.isActiveTwo,
+    autoRemovePerFile:
+      data?.autoRemovePerFile || DEFAULT_DATA.autoRemovePerFile,
     autoRemoveFreeSpaceFile:
-      data?.autoRemoveFreeSpaceFile || DEFAULT_DATA.autoRemoveFreeSpaceFile
+      data?.autoRemoveFreeSpaceFile || DEFAULT_DATA.autoRemoveFreeSpaceFile,
   };
   return result;
 };
@@ -102,7 +106,7 @@ const WarningStoreSetting = (props) => {
       setWarningDiskData({
         ...warningDiskData,
         isActiveOne: checked,
-        percentUsedOne: percentUsedOne
+        percentUsedOne: percentUsedOne,
       });
       if (isSwitchTwoTurnOn) {
         if (percentUsedOne < warningDiskData?.percentUsedTwo) {
@@ -133,7 +137,7 @@ const WarningStoreSetting = (props) => {
       setWarningDiskData({
         ...warningDiskData,
         isActiveTwo: checked,
-        percentUsedTwo: percentUsedTwo
+        percentUsedTwo: percentUsedTwo,
       });
       if (isSwitchOneTurnOn) {
         if (percentUsedTwo > warningDiskData?.percentUsedOne) {
@@ -161,7 +165,7 @@ const WarningStoreSetting = (props) => {
     setPercentUsedOne(value);
     setWarningDiskData({
       ...warningDiskData,
-      percentUsedOne: value
+      percentUsedOne: value,
     });
     if (isSwitchTwoTurnOn) {
       if (value < warningDiskData?.percentUsedTwo) {
@@ -180,7 +184,7 @@ const WarningStoreSetting = (props) => {
     setPercentUsedTwo(value);
     setWarningDiskData({
       ...warningDiskData,
-      percentUsedTwo: value
+      percentUsedTwo: value,
     });
     if (isSwitchOneTurnOn) {
       if (value > warningDiskData?.percentUsedOne) {
@@ -198,14 +202,14 @@ const WarningStoreSetting = (props) => {
   const onChangeSelectHourOne = (value) => {
     setWarningDiskData({
       ...warningDiskData,
-      timeOne: value
+      timeOne: value,
     });
   };
 
   const onChangeSelectHourTwo = (value) => {
     setWarningDiskData({
       ...warningDiskData,
-      timeTwo: value
+      timeTwo: value,
     });
   };
 
@@ -215,18 +219,20 @@ const WarningStoreSetting = (props) => {
     setWarningDiskData({
       ...warningDiskData,
       autoRemovePerFile: autoRemovePerFile,
-      autoRemoveFreeSpaceFile: autoRemoveFreeSpaceFile
+      autoRemoveFreeSpaceFile: autoRemoveFreeSpaceFile,
     });
   };
 
   const handleSubmit = async () => {
     let payload = JSON.parse(JSON.stringify(warningDiskData));
-    if (isEmpty(payload?.autoRemoveFreeSpaceFile) && isEmpty(payload?.autoRemovePerFile)) {
+    if (
+      isEmpty(payload?.autoRemoveFreeSpaceFile) &&
+      isEmpty(payload?.autoRemovePerFile)
+    ) {
       payload.autoRemoveFreeSpaceFile = false;
-      payload.autoRemovePerFile = true
+      payload.autoRemovePerFile = true;
     }
     const payloadConverted = {
-
       autoRemoveFreeSpaceFile: payload?.autoRemoveFreeSpaceFile,
       autoRemovePerFile: payload?.autoRemovePerFile,
       configWarningDisk: {
@@ -236,7 +242,7 @@ const WarningStoreSetting = (props) => {
         percentUsedTwo: payload?.percentUsedTwo || 0,
         timeTwo: payload?.timeTwo || 0,
         isActiveTwo: payload?.isActiveTwo || false,
-      }
+      },
     };
     //post data
     try {
@@ -244,23 +250,23 @@ const WarningStoreSetting = (props) => {
       if (isPost) {
         const noti = {
           type: NOTYFY_TYPE.success,
-          title: `${t('noti.success')}`,
-          description: `${t('noti.successful_setting')}`,
+          title: `${t("noti.success")}`,
+          description: `${t("noti.successful_setting")}`,
         };
         Notification(noti);
       } else {
         const noti = {
           type: NOTYFY_TYPE.warning,
-          title: `${t('noti.faid')}`,
-          description: `${t('noti.error_setting')}`,
+          title: `${t("noti.faid")}`,
+          description: `${t("noti.error_setting")}`,
         };
         Notification(noti);
       }
     } catch (error) {
       const noti = {
         type: NOTYFY_TYPE.warning,
-        title: `${t('noti.faid')}`,
-        description: `${t('noti.error_setting')}`,
+        title: `${t("noti.faid")}`,
+        description: `${t("noti.error_setting")}`,
       };
       Notification(noti);
       console.log(error);
@@ -270,63 +276,68 @@ const WarningStoreSetting = (props) => {
   //create option: hour
   const hourOption = [];
   for (let i = 1; i <= 24; i++) {
-    hourOption.push(<Option key={i} value={i}>{i}</Option>);
+    hourOption.push(
+      <Option key={i} value={i}>
+        {i}
+      </Option>
+    );
   }
 
   //create option: percent
   const percentOption = [];
   for (let i = 1; i <= 99; i++) {
-    percentOption.push(<Option key={i} value={i}>{i}</Option>);
+    percentOption.push(
+      <Option key={i} value={i}>
+        {i}
+      </Option>
+    );
   }
 
   return (
     <>
       <Card
-        title={t('view.storage.storage_threshold_setting')}
+        title={t("view.storage.storage_threshold_setting")}
         extra={
           <Popconfirm
-            title={t('noti.save_change')}
+            cancelText={t("view.user.detail_list.cancel")}
+            okText={t("view.user.detail_list.confirm")}
+            title={t("noti.save_change")}
             placement="right"
             disabled={isError}
             onConfirm={handleSubmit}
             className="popconfirm--warning"
 
-          // onConfirm={handleSubmit}
+            // onConfirm={handleSubmit}
           >
             <Button
               className="btn--save"
               // onClick={handleSubmit}
               disabled={isError}
             >
-              {t('view.map.button_save')}
+              {t("view.map.button_save")}
             </Button>
           </Popconfirm>
         }
         headStyle={headStyleCard}
         bodyStyle={bodyStyleCard}
         className="setting__warning"
-
       >
         <div className="content">
           <div className="content--left">
             <Image width={160} src={warnLogo} preview={false} />
           </div>
           <div className="content--right">
-            <p className="content__title">
-              {t('view.storage.what_is_sts')}
-            </p>
-            <p className="content__description">
-              {t('view.storage.sts_desc')}
-            </p>
+            <p className="content__title">{t("view.storage.what_is_sts")}</p>
+            <p className="content__description">{t("view.storage.sts_desc")}</p>
           </div>
         </div>
         <div className="setting--warn">
           <div className="warning-store">
-            <div className="title">{t('view.storage.level_1')}</div>
+            <div className="title">{t("view.storage.level_1")}</div>
             <div>
-              <span className="des">{t('view.storage.from')}</span>
+              <span className="des">{t("view.storage.from")}</span>
               <Tooltip
-                title={t('view.storage.greater_than_level_2')}
+                title={t("view.storage.greater_than_level_2")}
                 visible={isVisibleOne && !props?.callOff ? true : false}
                 color={errorColor}
               >
@@ -345,9 +356,10 @@ const WarningStoreSetting = (props) => {
           </div>
           <div className="frequence-warning">
             <div className="title">
-              {t('view.storage.alarm_frequency')} <br /> ({t('view.storage.time_execution')})
+              {t("view.storage.alarm_frequency")} <br /> (
+              {t("view.storage.time_execution")})
             </div>
-            <div style={{ lineHeight: '36px' }}>
+            <div style={{ lineHeight: "36px" }}>
               <Select
                 onChange={onChangeSelectHourOne}
                 value={warningDiskData?.timeOne}
@@ -356,10 +368,10 @@ const WarningStoreSetting = (props) => {
               >
                 {hourOption}
               </Select>
-              <span className="des">{t('view.storage.hour')}</span>
+              <span className="des">{t("view.storage.hour")}</span>
             </div>
             <Tooltip
-              title={t('view.storage.not_be_warned')}
+              title={t("view.storage.not_be_warned")}
               visible={!isSwitchOneTurnOn && !props?.callOff ? true : false}
               color={errorColor}
               className="tooltip--wanring"
@@ -376,12 +388,13 @@ const WarningStoreSetting = (props) => {
         <div className="setting--warn">
           <div className="warning-store">
             <div className="title">
-              {t('view.storage.level_2')} <br /> ({t('view.storage.insecurity_level')})
+              {t("view.storage.level_2")} <br /> (
+              {t("view.storage.insecurity_level")})
             </div>
             <div>
-              <span className="des">{t('view.storage.from')}</span>
+              <span className="des">{t("view.storage.from")}</span>
               <Tooltip
-                title={t('view.storage.smaller_than_level_1')}
+                title={t("view.storage.smaller_than_level_1")}
                 visible={isVisibleTwo && !props?.callOff ? true : false}
                 color={errorColor}
               >
@@ -400,7 +413,8 @@ const WarningStoreSetting = (props) => {
           </div>
           <div className="frequence-warning">
             <div className="title">
-              {t('view.storage.alarm_frequency')} <br /> ({t('view.storage.time_execution')})
+              {t("view.storage.alarm_frequency")} <br /> (
+              {t("view.storage.time_execution")})
             </div>
             <div>
               <Select
@@ -410,11 +424,11 @@ const WarningStoreSetting = (props) => {
               >
                 {hourOption}
               </Select>
-              <span className="des">{t('view.storage.hour')}</span>
+              <span className="des">{t("view.storage.hour")}</span>
             </div>
             <Tooltip
               color={errorColor}
-              title={t('view.storage.not_be_warned')}
+              title={t("view.storage.not_be_warned")}
               visible={!isSwitchTwoTurnOn && !props?.callOff ? true : false}
             >
               <Switch
@@ -431,13 +445,14 @@ const WarningStoreSetting = (props) => {
             onChange={onChangeRadio}
             value={warningDiskData?.autoRemoveFreeSpaceFile ? 1 : 0}
           >
-            <Radio value={0}>{t('view.storage.automatically_95_percent')}</Radio>
-            <Radio value={1}>{t('view.storage.automatically_5gb')}</Radio>
+            <Radio value={0}>
+              {t("view.storage.automatically_95_percent")}
+            </Radio>
+            <Radio value={1}>{t("view.storage.automatically_5gb")}</Radio>
           </Radio.Group>
         </div>
-      </Card >
+      </Card>
       {/* </Tooltip> */}
-
     </>
   );
 };

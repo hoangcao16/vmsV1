@@ -1,16 +1,16 @@
-import { CloseOutlined, PlusOutlined } from '@ant-design/icons';
-import { Button, Popconfirm, Space, Table, Tag, Tooltip } from 'antd';
-import { isEmpty } from 'lodash-es';
-import React, { useEffect, useState } from 'react';
-import GroupApi from '../../../../actions/api/group/GroupApi';
-import UserApi from '../../../../actions/api/user/UserApi';
-import Notification from '../../../../components/vms/notification/Notification';
-import { ShowTotal } from '../../../../styled/showTotal';
-import '../../../commonStyle/commonAuto.scss';
-import '../../../commonStyle/commonSelect.scss';
-import { renderText } from '../../dataListUser/components/TableListUser';
-import './MemberInGroup.scss';
-import ModalAddMemberInGroup from './ModalAddMemberInGroup';
+import { CloseOutlined, PlusOutlined } from "@ant-design/icons";
+import { Button, Popconfirm, Space, Table, Tag, Tooltip } from "antd";
+import { isEmpty } from "lodash-es";
+import React, { useEffect, useState } from "react";
+import GroupApi from "../../../../actions/api/group/GroupApi";
+import UserApi from "../../../../actions/api/user/UserApi";
+import Notification from "../../../../components/vms/notification/Notification";
+import { ShowTotal } from "../../../../styled/showTotal";
+import "../../../commonStyle/commonAuto.scss";
+import "../../../commonStyle/commonSelect.scss";
+import { renderText } from "../../dataListUser/components/TableListUser";
+import "./MemberInGroup.scss";
+import ModalAddMemberInGroup from "./ModalAddMemberInGroup";
 import { useTranslation } from "react-i18next";
 
 export default function MemberInGroup(props) {
@@ -35,13 +35,16 @@ export default function MemberInGroup(props) {
   const renderHeader = () => {
     return (
       <>
-        <h4>{t('view.user.detail_list.member')}</h4>
+        <h4>{t("view.user.detail_list.member")}</h4>
         <div className="d-flex">
-          <Tooltip placement="top" title={t('view.user.detail_list.add_member', { add: t('add') })}>
+          <Tooltip
+            placement="top"
+            title={t("view.user.detail_list.add_member", { add: t("add") })}
+          >
             <Button
               type="primary"
               className="btnAddMember height-40 mr-1"
-              style={{ borderRadius: '6px' }}
+              style={{ borderRadius: "6px" }}
               onClick={showModalAdd}
             >
               <PlusOutlined />
@@ -55,15 +58,15 @@ export default function MemberInGroup(props) {
   const removeUser = async (userUuid) => {
     let dataRemove = {
       user_uuid: userUuid,
-      group_uuid: props.groupUuid
+      group_uuid: props.groupUuid,
     };
 
     const isDelete = await UserApi.removeUserInGroup(dataRemove);
     if (isDelete) {
       const notifyMess = {
-        type: 'success',
-        title: '',
-        description: `${t('noti.successfully_delete_menber')}`
+        type: "success",
+        title: "",
+        description: `${t("noti.successfully_delete_menber")}`,
       };
       Notification(notifyMess);
       const dataAfterRemove = await UserApi.getUserByGroupUuid(
@@ -100,44 +103,46 @@ export default function MemberInGroup(props) {
 
   const columns = [
     {
-      title: `${t('view.user.detail_list.member_name')}`,
-      dataIndex: 'name',
-      className: 'headerUserColums',
+      title: `${t("view.user.detail_list.member_name")}`,
+      dataIndex: "name",
+      className: "headerUserColums",
       render: renderText,
-      width: '15%'
+      width: "15%",
     },
     {
-      title: 'Email',
-      dataIndex: 'email',
-      className: 'headerUserColums',
+      title: "Email",
+      dataIndex: "email",
+      className: "headerUserColums",
       render: renderText,
-      width: '15%'
+      width: "15%",
     },
     {
-      title: `${t('R')}`,
-      dataIndex: 'roles',
-      className: 'headerUserColums',
-      render: renderRoles
+      title: `${t("R")}`,
+      dataIndex: "roles",
+      className: "headerUserColums",
+      render: renderRoles,
     },
 
     {
-      title: `${t('components.bookmark.action')}`,
-      fixed: 'right',
-      className: 'headerUserColums',
-      width: '15%',
+      title: `${t("components.bookmark.action")}`,
+      fixed: "right",
+      className: "headerUserColums",
+      width: "15%",
       render: (text, record) => {
         return (
           <Space>
             <Popconfirm
-              title={t('noti.remove_member')}
+              cancelText={t("view.user.detail_list.cancel")}
+              okText={t("view.user.detail_list.confirm")}
+              title={t("noti.remove_member")}
               onConfirm={() => removeUser(record.uuid)}
             >
-              <CloseOutlined style={{ fontSize: '10px', color: '#6E6B7B' }} />
+              <CloseOutlined style={{ fontSize: "10px", color: "#6E6B7B" }} />
             </Popconfirm>
           </Space>
         );
-      }
-    }
+      },
+    },
   ];
 
   // if (isEmpty(member)) {
@@ -162,7 +167,7 @@ export default function MemberInGroup(props) {
             onShowSizeChange: (current, size) => {
               onShowSizeChange(current, size);
             },
-            pageSizeOptions: [5,10,20,50,100],
+            pageSizeOptions: [5, 10, 20, 50, 100],
             hideOnSinglePage: false,
             current: page,
             total: member.length,
@@ -173,10 +178,13 @@ export default function MemberInGroup(props) {
             showTotal: (total, range) => {
               return (
                 <ShowTotal className="show--total">
-                  {t('view.user.detail_list.viewing')} {range[0]} {t('view.user.detail_list.to')} {range[1]} {t('view.user.detail_list.out_of')} {total} {t('view.user.detail_list.indexes')}
+                  {t("view.user.detail_list.viewing")} {range[0]}{" "}
+                  {t("view.user.detail_list.to")} {range[1]}{" "}
+                  {t("view.user.detail_list.out_of")} {total}{" "}
+                  {t("view.user.detail_list.indexes")}
                 </ShowTotal>
               );
-            }
+            },
           }}
         />
 

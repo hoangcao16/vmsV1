@@ -1,12 +1,17 @@
 import {
   Button,
   Card,
-  Checkbox, Image, Input, Popconfirm, Select, Tooltip
+  Checkbox,
+  Image,
+  Input,
+  Popconfirm,
+  Select,
+  Tooltip,
 } from "antd";
 import "antd/dist/antd.css";
 import { isEmpty } from "lodash-es";
 import React, { useEffect, useState } from "react";
-import { useTranslation } from 'react-i18next';
+import { useTranslation } from "react-i18next";
 import SettingApi from "../../../actions/api/setting/SettingApi";
 import cautionLogo from "../../../assets/img/pages/store-setting/caution-logo.png";
 import cleanImportantLogo from "../../../assets/img/pages/store-setting/clean-important-logo.png";
@@ -19,9 +24,7 @@ import "./../../commonStyle/commonForm.scss";
 import "./../../commonStyle/commonInput.scss";
 import "./../../commonStyle/commonModal.scss";
 import "./../../commonStyle/commonSelect.scss";
-import {
-  bodyStyleCard, errorColor, headStyleCard
-} from "./variables";
+import { bodyStyleCard, errorColor, headStyleCard } from "./variables";
 
 const DEFAULT_VALUE = {
   autoRemoveFileImportant: false,
@@ -236,16 +239,16 @@ export default function CleanSetting(props) {
       if (isPost) {
         const noti = {
           type: NOTYFY_TYPE.success,
-          title: `${t('noti.success')}`,
-          description: `${t('noti.successful_setting')}`,
+          title: `${t("noti.success")}`,
+          description: `${t("noti.successful_setting")}`,
         };
         Notification(noti);
       }
     } catch (error) {
       const noti = {
         type: NOTYFY_TYPE.warning,
-        title: `${t('noti.faid')}`,
-        description: `${t('noti.suerror_settingccess')}`,
+        title: `${t("noti.faid")}`,
+        description: `${t("noti.suerror_settingccess")}`,
       };
       Notification(noti);
       console.log(error);
@@ -255,23 +258,25 @@ export default function CleanSetting(props) {
   return (
     <>
       <Card
-        title={t('view.storage.cleanup_setting')}
+        title={t("view.storage.cleanup_setting")}
         extra={
           <Popconfirm
-            title={t('noti.save_change')}
-            placement='right'
+            cancelText={t("view.user.detail_list.cancel")}
+            okText={t("view.user.detail_list.confirm")}
+            title={t("noti.save_change")}
+            placement="right"
             disabled={!checkHandleSubmit}
             onConfirm={handleSubmit}
-            className='popconfirm--warning'
+            className="popconfirm--warning"
 
-          // onConfirm={handleSubmit}
+            // onConfirm={handleSubmit}
           >
             <Button
-              className='btn--save'
+              className="btn--save"
               // onClick={handleSubmit}
               disabled={!checkHandleSubmit}
             >
-              {t('view.map.button_save')}
+              {t("view.map.button_save")}
             </Button>
           </Popconfirm>
           // <Button
@@ -284,35 +289,38 @@ export default function CleanSetting(props) {
         }
         headStyle={headStyleCard}
         bodyStyle={bodyStyleCard}
-        className='setting__clean'
+        className="setting__clean"
       >
-        <div className='content'>
-          <div className='content--left'>
+        <div className="content">
+          <div className="content--left">
             <Image width={160} src={cleanLogo} preview={false} />
           </div>
-          <div className='content--right'>
-            <p className='content__title'>{t('view.storage.what_is_cs')}</p>
-            <p className='content__description'>
-              {t('view.storage.cs_desc')}
-            </p>
+          <div className="content--right">
+            <p className="content__title">{t("view.storage.what_is_cs")}</p>
+            <p className="content__description">{t("view.storage.cs_desc")}</p>
           </div>
         </div>
-        <div className='setting--clean'>
-          <div className='setting__title'>{t('view.storage.maximum_storage_time')}</div>
-          <div className='setting__content'>
-            <div className='setting__file--all'>
-              <div className='section'>
-                <div className='title'>{t('view.storage.file_capture')}</div>
-                <div className='file--setting'>
+        <div className="setting--clean">
+          <div className="setting__title">
+            {t("view.storage.maximum_storage_time")}
+          </div>
+          <div className="setting__content">
+            <div className="setting__file--all">
+              <div className="section">
+                <div className="title">{t("view.storage.file_capture")}</div>
+                <div className="file--setting">
                   <Tooltip
-                    title={t('view.storage.invalid_format')}
+                    title={t("view.storage.invalid_format")}
                     visible={isCorrectFormatValueOne ? false : true}
                     color={errorColor}
                   >
                     <Input
                       onChange={onChangeTimeOne}
-                      type='number'
-                      onKeyDown={(evt) => ["e", "E", "+", "-"].includes(evt.key) && evt.preventDefault()}
+                      type="number"
+                      onKeyDown={(evt) =>
+                        ["e", "E", "+", "-"].includes(evt.key) &&
+                        evt.preventDefault()
+                      }
                       value={
                         cleanSettingData?.configCleanFile
                           ? cleanSettingData?.configCleanFile[0]?.time
@@ -328,25 +336,28 @@ export default function CleanSetting(props) {
                         : ""
                     }
                   >
-                    <Option value='HOUR'>{t('view.storage.hour')}</Option>
-                    <Option value='DAY'>{t('view.storage.day')}</Option>
-                    <Option value='MONTH'>{t('view.storage.month')}</Option>
-                    <Option value='YEAR'>{t('view.storage.year')}</Option>
+                    <Option value="HOUR">{t("view.storage.hour")}</Option>
+                    <Option value="DAY">{t("view.storage.day")}</Option>
+                    <Option value="MONTH">{t("view.storage.month")}</Option>
+                    <Option value="YEAR">{t("view.storage.year")}</Option>
                   </Select>
                 </div>
               </div>
-              <div className='section'>
-                <div className='title'>{t('view.storage.autosave_file')}</div>
-                <div className='file--setting'>
+              <div className="section">
+                <div className="title">{t("view.storage.autosave_file")}</div>
+                <div className="file--setting">
                   <Tooltip
-                    title={t('view.storage.invalid_format')}
+                    title={t("view.storage.invalid_format")}
                     visible={isCorrectFormatValueTwo ? false : true}
                     color={errorColor}
                   >
                     <Input
                       onChange={onChangeTimeTwo}
-                      type='number'
-                      onKeyDown={(evt) => ["e", "E", "+", "-"].includes(evt.key) && evt.preventDefault()}
+                      type="number"
+                      onKeyDown={(evt) =>
+                        ["e", "E", "+", "-"].includes(evt.key) &&
+                        evt.preventDefault()
+                      }
                       value={
                         cleanSettingData?.configCleanFile
                           ? cleanSettingData?.configCleanFile[2]?.time
@@ -362,25 +373,28 @@ export default function CleanSetting(props) {
                         : ""
                     }
                   >
-                    <Option value='HOUR'>{t('view.storage.hour')}</Option>
-                    <Option value='DAY'>{t('view.storage.day')}</Option>
-                    <Option value='MONTH'>{t('view.storage.month')}</Option>
-                    <Option value='YEAR'>{t('view.storage.year')}</Option>
+                    <Option value="HOUR">{t("view.storage.hour")}</Option>
+                    <Option value="DAY">{t("view.storage.day")}</Option>
+                    <Option value="MONTH">{t("view.storage.month")}</Option>
+                    <Option value="YEAR">{t("view.storage.year")}</Option>
                   </Select>
                 </div>
               </div>
-              <div className='section'>
-                <div className='title'>{t('view.storage.event_file')}</div>
-                <div className='file--setting'>
+              <div className="section">
+                <div className="title">{t("view.storage.event_file")}</div>
+                <div className="file--setting">
                   <Tooltip
-                    title={t('view.storage.invalid_format')}
+                    title={t("view.storage.invalid_format")}
                     visible={isCorrectFormatValueThree ? false : true}
                     color={errorColor}
                   >
                     <Input
                       onChange={onChangeTimeThree}
-                      type='number'
-                      onKeyDown={(evt) => ["e", "E", "+", "-"].includes(evt.key) && evt.preventDefault()}
+                      type="number"
+                      onKeyDown={(evt) =>
+                        ["e", "E", "+", "-"].includes(evt.key) &&
+                        evt.preventDefault()
+                      }
                       value={
                         cleanSettingData?.configCleanFile
                           ? cleanSettingData?.configCleanFile[1]?.time
@@ -396,34 +410,34 @@ export default function CleanSetting(props) {
                         : ""
                     }
                   >
-                    <Option value='HOUR'>{t('view.storage.hour')}</Option>
-                    <Option value='DAY'>{t('view.storage.day')}</Option>
-                    <Option value='MONTH'>{t('view.storage.month')}</Option>
-                    <Option value='YEAR'>{t('view.storage.year')}</Option>
+                    <Option value="HOUR">{t("view.storage.hour")}</Option>
+                    <Option value="DAY">{t("view.storage.day")}</Option>
+                    <Option value="MONTH">{t("view.storage.month")}</Option>
+                    <Option value="YEAR">{t("view.storage.year")}</Option>
                   </Select>
                 </div>
               </div>
             </div>
-            <div className='setting__file--important'>
-              <div className='clean-important-img'>
+            <div className="setting__file--important">
+              <div className="clean-important-img">
                 <Image
                   width={135}
                   src={cleanImportantLogo}
                   preview={false}
-                  className='clean-important-logo'
+                  className="clean-important-logo"
                 />
                 <Image
                   width={17.5}
                   preview={false}
                   src={cautionLogo}
-                  className='caution-logo'
+                  className="caution-logo"
                 />
               </div>
               <Checkbox
                 onChange={onChangeCheckbox}
                 checked={cleanSettingData?.autoRemoveFileImportant}
               >
-                {t('view.storage.clean_important_file')}
+                {t("view.storage.clean_important_file")}
               </Checkbox>
             </div>
           </div>
