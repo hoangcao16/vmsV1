@@ -344,6 +344,8 @@ const TableCategory = () => {
             <Tooltip placement="top" title={t('delete')}>
               <Popconfirm
                 title={t('noti.delete_category', { this: t('this') })}
+                cancelText={t("view.user.detail_list.cancel")}
+                okText={t("view.user.detail_list.confirm")}
                 onConfirm={() => handleDelete(record.uuid, dataType)}
               >
                 <DeleteOutlined

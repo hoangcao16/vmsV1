@@ -537,6 +537,8 @@ const TableCamera = () => {
             {/* {permissionCheck('delete_camera') && ( */}
             <Tooltip placement="top" title={t("delete")}>
               <Popconfirm
+                cancelText={t("view.user.detail_list.cancel")}
+                okText={t("view.user.detail_list.confirm")}
                 title={t("noti.delete_camera", {
                   this: t("this"),
                   cam: t("camera"),
