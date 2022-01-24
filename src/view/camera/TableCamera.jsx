@@ -429,11 +429,20 @@ const TableCamera = () => {
     };
 
     await CameraApi.getExportData(data).then((value) => {
-      const data = new Blob([value], { type: "application/vnd.ms-excel" });
-      fileDownload(
-        data,
-        `Report_Camera_Info_${moment().format("DD.MM.YYYY_HH.mm.ss")}.xlsx`
-      );
+      if(value.type === "application/octet-stream"){
+        const data = new Blob([value], { type: "application/vnd.ms-excel" });
+        fileDownload(
+          data,
+          `Report_Camera_Info_${moment().format("DD.MM.YYYY_HH.mm.ss")}.xlsx`
+        );
+      }else {
+        const notifyMess = {
+          type: "error",
+          title: "",
+          description: `${t("noti.export_errors")}`,
+        };
+        Notification(notifyMess);
+      }
     });
   };
 

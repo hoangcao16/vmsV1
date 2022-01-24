@@ -28,7 +28,7 @@
   },
   "view": {
     "camera": {
-      "export_camera":"Xuất dữ liệu Camera",
+      "export_camera": "Xuất dữ liệu Camera",
       "active": "Đang hoạt động",
       "inactive": "Dừng hoạt động",
       "camera_list": "Danh sách {{cam}}",
@@ -461,7 +461,7 @@
       "time_threshold": "Ngưỡng thời gian",
       "second": "giây",
       "object_recognition": "Nhận diện đối tượng",
-      "choose":"Đối tượng",
+      "choose": "Đối tượng",
       "vehicle": "Xe cộ",
       "human": "Người",
       "draw": {
@@ -472,46 +472,45 @@
         "hurdles": "Xóa đường",
         "intrusion_detection": "Xóa vùng"
       },
-      "direction" :{
-        "title" : "Xác định hướng",
-        "AB" : "A --> B",
-        "BA" : "B --> A",
-        "All" : "Tất cả"
+      "direction": {
+        "title": "Xác định hướng",
+        "AB": "A --> B",
+        "BA": "B --> A",
+        "All": "Tất cả"
       }
     },
     "ai_events": {
       "event_files_list": "Danh sách sự kiện AI",
       "attendance": "Điểm danh",
       "intruding": "Xâm nhập",
-      "just_crossed" :"Vượt rào",
+      "just_crossed": "Vượt rào",
       "daudo": "Đậu đỗ sai quy định",
-      "nhandienbienso" : "Nhận diện biển số",
-      "damdong" : "Phát hiện đám đông",
+      "nhandienbienso": "Nhận diện biển số",
+      "damdong": "Phát hiện đám đông",
       "line_crossing": "Vượt rào ảo",
       "edit_info": "Chỉnh sửa thông tin đối tượng",
       "info": "Thông tin đối tượng",
       "edit_note": "Chỉnh sửa ghi chú",
-      "err_image" : "Hình ảnh vi phạm",
-      "type_object" : {
+      "err_image": "Hình ảnh vi phạm",
+      "type_object": {
         "xemay": "Xe máy",
         "human": "Người",
-        "unknow" :"Không xác định"
+        "unknow": "Không xác định"
       },
       "choose_obj": "Chọn đối tượng",
-      "plateNumber" :"Biển số",
-      "code" : "Mã",
+      "plateNumber": "Biển số",
+      "code": "Mã",
       "name": "Tên",
       "position": "Chức vụ",
-      "department" :"Phòng ban",
-      "type" :"Loại đối tượng "
+      "department": "Phòng ban",
+      "type": "Loại đối tượng "
     },
-    "department" : {
+    "department": {
       "administrative": "Đơn vị hành chính",
-      "edit_department" : "Chỉnh sửa thông tin phòng ban",
-      "add_department" : "Thêm phòng ban",
-      "name_department" : "Tên phòng ban"
+      "edit_department": "Chỉnh sửa thông tin phòng ban",
+      "add_department": "Thêm phòng ban",
+      "name_department": "Tên phòng ban"
     }
-
   },
 
   "preset": {
@@ -536,7 +535,7 @@
     "successfully_add_tag_category": "Thêm mới nhãn thành công",
     "successfully_edit_tag_category": "Sửa nhãn thành công",
     "fail_add_tag_category": "Thêm mới nhãn thất bại",
-
+    "export_errors": "Xuất file lỗi",
     "logged_out_successfully": "Đăng xuất thành công",
     "logged_out_failed": "Đăng xuất thất bại",
     "delete_camera": "Bạn chắc chắn muốn xóa {{cam}} {{this}}?",
