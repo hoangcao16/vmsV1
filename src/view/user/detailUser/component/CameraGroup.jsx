@@ -599,18 +599,21 @@ export default function CameraGroup(props) {
       dataIndex: "cam_group_name",
       className: "headerUserColums",
       fixed: "left",
+      width: "15%"
     },
     {
       title: `${t("R")}`,
       dataIndex: "role_cam_group",
       className: "headerUserColums",
       render: renderRole,
+      width: "15%"
     },
     {
       title: `${t("G")}`,
       dataIndex: "user_cam_group",
       className: "headerUserColums",
       render: userGroup,
+      width: "15%"
     },
     {
       title: `${t("view.user.detail_list.view_online")}`,

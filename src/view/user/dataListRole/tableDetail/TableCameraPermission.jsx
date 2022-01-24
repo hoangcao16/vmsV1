@@ -368,7 +368,7 @@ export default function TableCameraPermission(props) {
       dataIndex: 'cam_name',
       key: 'cam_name',
       className: 'headerUserColums',
-      width: '25%'
+      width: "15%"
     },
     {
       title: `${t('view.user.detail_list.view_online')}`,
