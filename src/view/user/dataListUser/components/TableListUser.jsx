@@ -272,6 +272,8 @@ const TableListUser = (props) => {
               <Popconfirm
                 title={t("noti.delete_user", { this: t("this"), u: t("u") })}
                 onConfirm={() => handleDeleteUser(record.uuid)}
+                cancelText={t("view.user.detail_list.cancel")}
+                okText={t("view.user.detail_list.confirm")}
               >
                 <Tooltip
                   placement="top"

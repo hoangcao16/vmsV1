@@ -595,7 +595,11 @@ const ModalEditCamera = (props) => {
               <Form.Item
                 label={t("view.map.port")}
                 name={["port"]}
-                rules={[{required: true},
+                rules={[
+                  {
+                    required: true,
+                    message: `${t("view.map.required_field")}`,
+                  },
                   ({ getFieldValue }) => ({
                     validator(rule, value) {
                       const data = getFieldValue(["port"]);
@@ -606,9 +610,7 @@ const ModalEditCamera = (props) => {
                           return Promise.reject(`${t("noti.just_number")}`);
                         }
                       } else {
-                        return Promise.resolve(
-                          `${t("view.map.required_field")}`
-                        );
+                        return Promise.resolve();
                       }
                     },
                   }),

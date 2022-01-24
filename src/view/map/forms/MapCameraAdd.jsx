@@ -520,22 +520,26 @@ const MapCameraAdd = (props) => {
             <Form.Item
               label={t("view.map.port")}
               name={["port"]}
-              rules={[{required: true},
-                ({ getFieldValue }) => ({
-                  validator(rule, value) {
-                    const data = getFieldValue(["port"]);
-                    if (data) {
-                      if (isFinite(data)) {
-                        return Promise.resolve();
-                      } else {
-                        return Promise.reject(`${t("noti.just_number")}`);
-                      }
-                    } else {
-                      return Promise.resolve(`${t("view.map.required_field")}`);
-                    }
+              rules={[
+                  {
+                    required: true,
+                    message: `${t("view.map.required_field")}`,
                   },
-                }),
-              ]}
+                  ({ getFieldValue }) => ({
+                    validator(rule, value) {
+                      const data = getFieldValue(["port"]);
+                      if (data) {
+                        if (isFinite(data)) {
+                          return Promise.resolve();
+                        } else {
+                          return Promise.reject(`${t("noti.just_number")}`);
+                        }
+                      } else {
+                        return Promise.resolve();
+                      }
+                    },
+                  }),
+                ]}
             >
               <Input
                 placeholder={t("view.map.please_enter_port", {

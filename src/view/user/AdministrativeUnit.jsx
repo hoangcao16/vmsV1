@@ -3,15 +3,16 @@ import {
   EditOutlined,
   InfoCircleOutlined,
   PlusOutlined,
-  SearchOutlined
+  SearchOutlined,
 } from "@ant-design/icons";
 import {
   AutoComplete,
   Button,
   Card,
-  Popconfirm, Space,
+  Popconfirm,
+  Space,
   Table,
-  Tooltip
+  Tooltip,
 } from "antd";
 import "antd/dist/antd.css";
 import { isEmpty } from "lodash-es";
@@ -30,7 +31,6 @@ import ModalEditAdministrativeUnit from "./ModalEditAdministrativeUnit";
 import ModalViewDetail from "./ModalViewDetail";
 import { bodyStyleCard, headStyleCard } from "./variables";
 
-
 export const CATEGORY_NAME = {
   AD_DIVISIONS: "AD_DIVISIONS",
 };
@@ -39,7 +39,7 @@ const AdministrativeUnit = () => {
   const { t } = useTranslation();
   const language = reactLocalStorage.get("language");
   const [dataOptions, setDataOptions] = useState({});
-  const dataType =CATEGORY_NAME.AD_DIVISIONS
+  const dataType = CATEGORY_NAME.AD_DIVISIONS;
   const [selectedCategoryId, setSelectedCategoryId] = useState(null);
   const [selectedUnitId, setSelectedUnitId] = useState(null);
   const [showModal, setShowModal] = useState(false);
@@ -191,6 +191,8 @@ const AdministrativeUnit = () => {
             </Tooltip>
             <Tooltip placement="top" title={t("delete")}>
               <Popconfirm
+                cancelText={t("view.user.detail_list.cancel")}
+                okText={t("view.user.detail_list.confirm")}
                 title={t("noti.delete_category", { this: t("this") })}
                 onConfirm={() => handleDelete(record.uuid, dataType)}
               >
