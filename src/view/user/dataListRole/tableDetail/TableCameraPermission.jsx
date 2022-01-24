@@ -364,11 +364,11 @@ export default function TableCameraPermission(props) {
   };
   const columns = [
     {
-      title: "Camera",
-      dataIndex: "cam_name",
-      key: "cam_name",
-      className: "headerUserColums",
-      width: "25%",
+      title: 'Camera',
+      dataIndex: 'cam_name',
+      key: 'cam_name',
+      className: 'headerUserColums',
+      width: "15%"
     },
     {
       title: `${t("view.user.detail_list.view_online")}`,

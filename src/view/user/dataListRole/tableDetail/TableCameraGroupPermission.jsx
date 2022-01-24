@@ -337,7 +337,7 @@ export default function TableCameraGroupPermission(props) {
       title: `${t("view.map.camera_group", { cam: t("camera") })}`,
       dataIndex: "cam_group_name",
       className: "headerUserColums",
-      width: "25%",
+      width: '15%',
     },
 
     {

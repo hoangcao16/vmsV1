@@ -401,9 +401,10 @@ export default function TableCameraGroupPermission(props) {
   };
   const columns = [
     {
-      title: `${t("view.map.camera_group", { cam: t("camera") })}`,
-      dataIndex: "cam_group_name",
-      className: "headerUserColums",
+      title: `${t('view.map.camera_group', { cam: t('camera') })}`,
+      dataIndex: 'cam_group_name',
+      className: 'headerUserColums',
+      width: '15%',
     },
 
     {
@@ -413,6 +414,7 @@ export default function TableCameraGroupPermission(props) {
       render: (text, record) => {
         return <Space>{viewOnline(record)}</Space>;
       },
+      width: '15%',
     },
     {
       title: `${t("view.user.detail_list.view_offline")}`,
@@ -421,6 +423,7 @@ export default function TableCameraGroupPermission(props) {
       render: (text, record) => {
         return <Space>{viewOffline(record)}</Space>;
       },
+      width: '15%',
     },
     {
       title: `${t("view.user.detail_list.preset_setting")}`,

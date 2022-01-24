@@ -363,9 +363,10 @@ export default function TableCameraPermission(props) {
   };
   const columns = [
     {
-      title: "Camera",
-      dataIndex: "cam_name",
-      className: "headerUserColums",
+      title: 'Camera',
+      dataIndex: 'cam_name',
+      className: 'headerUserColums',
+      width: '15%',
     },
     {
       title: `${t("view.user.detail_list.view_online")}`,
@@ -374,6 +375,7 @@ export default function TableCameraPermission(props) {
       render: (text, record) => {
         return <Space>{viewOnline(record)}</Space>;
       },
+      width: '15%',
     },
     {
       title: `${t("view.user.detail_list.view_offline")}`,
@@ -382,6 +384,7 @@ export default function TableCameraPermission(props) {
       render: (text, record) => {
         return <Space>{viewOffline(record)}</Space>;
       },
+      width: '15%',
     },
     {
       title: `${t("view.user.detail_list.preset_setting")}`,
