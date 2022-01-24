@@ -1,14 +1,15 @@
 import { Image } from "antd";
-import React, { useState } from "react";
-import exportIcon from "../../../../assets/img/icons/report/file-export 2.png";
-import "./ExportReport.scss";
-import { useTranslation } from "react-i18next";
-import ReportApi from "../../../../actions/api/report/ReportApi";
 import fileDownload from "js-file-download";
 import moment from "moment";
+import React, { useState } from "react";
+import { useTranslation } from "react-i18next";
 import { reactLocalStorage } from "reactjs-localstorage";
-import { isEmpty } from "lodash";
+import ReportApi from "../../../../actions/api/report/ReportApi";
 import permissionCheck from "../../../../actions/function/MyUltil/PermissionCheck";
+import exportIcon from "../../../../assets/img/icons/report/file-export 2.png";
+import Notification from "../../../../components/vms/notification/Notification";
+import "./ExportReport.scss";
+
 
 export default function ExportReport(props) {
   const language = reactLocalStorage.get("language");
@@ -30,11 +31,22 @@ export default function ExportReport(props) {
       lang: language,
     };
     await ReportApi.getExportData(data).then((value) => {
-      const data = new Blob([value], { type: "application/vnd.ms-excel" });
-      fileDownload(
-        data,
-        `Report_${moment().format("DD.MM.YYYY_HH.mm.ss")}.xlsx`
-      );
+
+      if(value.type === "application/octet-stream"){
+        const data = new Blob([value], { type: "application/vnd.ms-excel" });
+        fileDownload(
+          data,
+          `Report_${moment().format("DD.MM.YYYY_HH.mm.ss")}.xlsx`
+        );
+
+      }else{
+        const notifyMess = {
+          type: "error",
+          title: "",
+          description: `${t("noti.export_errors")}`,
+        };
+        Notification(notifyMess);
+      }
     });
   };
 
