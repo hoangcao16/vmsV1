@@ -607,23 +607,27 @@ export default function Camera(props) {
       className: "headerUserColums",
       dataIndex: "cam_name",
       fixed: "left",
+      width: "15%"
     },
     {
       title: `${t("view.map.camera_group", { cam: t("camera") })}`,
       className: "headerUserColums",
       dataIndex: "cam_name_group",
+      width: "15%"
     },
     {
       title: `${t("R")}`,
       className: "headerUserColums",
       dataIndex: "role_cam_group",
       render: renderRole,
+      width: "15%"
     },
     {
       title: `${t("G")}`,
       className: "headerUserColums",
       dataIndex: "user_cam_group",
       render: userGroup,
+      width: "15%"
     },
     {
       title: `${t("view.user.detail_list.view_online")}`,
@@ -671,6 +675,8 @@ export default function Camera(props) {
           <Space>
             {!record.isDisableRow && (
               <Popconfirm
+                cancelText={t("view.user.detail_list.cancel")}
+                okText={t("view.user.detail_list.confirm")}
                 title={t("noti.delete_all_permission")}
                 onConfirm={() => removeAllPermmision(record)}
               >

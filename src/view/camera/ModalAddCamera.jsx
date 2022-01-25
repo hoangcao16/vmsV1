@@ -552,6 +552,20 @@ const ModalAddCamera = (props) => {
                     required: true,
                     message: `${t("view.map.required_field")}`,
                   },
+                  ({ getFieldValue }) => ({
+                    validator(rule, value) {
+                      const data = getFieldValue(["port"]);
+                      if (data) {
+                        if (isFinite(data)) {
+                          return Promise.resolve();
+                        } else {
+                          return Promise.reject(`${t("noti.just_number")}`);
+                        }
+                      } else {
+                        return Promise.resolve();
+                      }
+                    },
+                  }),
                 ]}
               >
                 <Input
@@ -639,20 +653,17 @@ const ModalAddCamera = (props) => {
               </Form.Item>
             </Col>
             <Col span={24}>
-              <Form.Item
-                  label={t("view.map.hls_url")}
-                  name={["hlsUrl"]}
-              >
+              <Form.Item label={t("view.map.hls_url")} name={["hlsUrl"]}>
                 <Input
-                    placeholder={t("view.map.please_enter_hls_url", {
-                      plsEnter: t("please_enter"),
-                    })}
-                    onBlur={(e) => {
-                      form.setFieldsValue({
-                        hlsUrl: e.target.value.trim(),
-                      });
-                    }}
-                    maxLength={2000}
+                  placeholder={t("view.map.please_enter_hls_url", {
+                    plsEnter: t("please_enter"),
+                  })}
+                  onBlur={(e) => {
+                    form.setFieldsValue({
+                      hlsUrl: e.target.value.trim(),
+                    });
+                  }}
+                  maxLength={2000}
                 />
               </Form.Item>
             </Col>
@@ -671,7 +682,9 @@ const ModalAddCamera = (props) => {
             <Button type="primary" htmlType="submit">
               {t("view.user.detail_list.confirm")}
             </Button>
-            <Button onClick={handleShowModalAdd}>Huỷ</Button>
+            <Button onClick={handleShowModalAdd}>
+              {t("view.map.button_cancel")}
+            </Button>
           </div>
         </Form>
       </Modal>

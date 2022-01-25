@@ -429,9 +429,6 @@ const CameraApi = {
     } catch (error) {
       console.log(error);
     }
-    // if (responseCheckerErrorsController(result) === null) {
-    //   return [];
-    // }
     return result;
   },
 

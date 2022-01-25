@@ -3,8 +3,8 @@ import {
   EditOutlined,
   InfoCircleOutlined,
   PlusOutlined,
-  SearchOutlined
-} from '@ant-design/icons';
+  SearchOutlined,
+} from "@ant-design/icons";
 import {
   AutoComplete,
   Button,
@@ -12,25 +12,25 @@ import {
   Popconfirm,
   Space,
   Table,
-  Tooltip
-} from 'antd';
-import 'antd/dist/antd.css';
-import React, { useEffect, useState } from 'react';
-import { withRouter } from 'react-router-dom';
-import ZoneApi from '../../../actions/api/zone/ZoneApi';
-import Notification from '../../../components/vms/notification/Notification';
-import './../../commonStyle/commonTable.scss';
-import './../../commonStyle/commontextArea.scss';
-import ModalAddZone from './ModalAddZone';
-import ModalEditZone from './ModalEditZone';
-import ModalViewDetail from './ModalViewDetail';
-import { bodyStyleCard, headStyleCard } from './variables';
-import { useTranslation } from 'react-i18next';
-import './zoneStyle.scss';
-import { ShowTotal } from '../../../styled/showTotal';
+  Tooltip,
+} from "antd";
+import "antd/dist/antd.css";
+import React, { useEffect, useState } from "react";
+import { withRouter } from "react-router-dom";
+import ZoneApi from "../../../actions/api/zone/ZoneApi";
+import Notification from "../../../components/vms/notification/Notification";
+import "./../../commonStyle/commonTable.scss";
+import "./../../commonStyle/commontextArea.scss";
+import ModalAddZone from "./ModalAddZone";
+import ModalEditZone from "./ModalEditZone";
+import ModalViewDetail from "./ModalViewDetail";
+import { bodyStyleCard, headStyleCard } from "./variables";
+import { useTranslation } from "react-i18next";
+import "./zoneStyle.scss";
+import { ShowTotal } from "../../../styled/showTotal";
 
 export const DATA_FAKE_ZONE_SEARCH = {
-  provinces: [{ name: '', provinceId: '' }]
+  provinces: [{ name: "", provinceId: "" }],
 };
 
 const TableZone = () => {
@@ -40,19 +40,19 @@ const TableZone = () => {
   const [selectedZoneEditId, setSelectedZoneEditId] = useState(null);
   const [selectedAdd, setSelectedAdd] = useState(false);
 
-  const [name, setName] = useState('');
+  const [name, setName] = useState("");
 
-  const [val, setVal] = useState('');
+  const [val, setVal] = useState("");
   const [page, setPage] = useState(1);
   const [size, setSize] = useState(100000);
   const [total, setTotal] = useState(0);
 
   useEffect(() => {
     const data = {
-      provinceId: '',
-      districtId: '',
-      id: '',
-      name: ''
+      provinceId: "",
+      districtId: "",
+      id: "",
+      name: "",
     };
     ZoneApi.getAllZonesWithTotal(data).then((result) => {
       setListZone(result.payload);
@@ -62,13 +62,13 @@ const TableZone = () => {
   }, [selectedZoneEditId]);
   useEffect(() => {
     const data = {
-      provinceId: '',
-      districtId: '',
-      id: '',
-      name: '',
+      provinceId: "",
+      districtId: "",
+      id: "",
+      name: "",
 
       page: page,
-      size: size
+      size: size,
     };
     ZoneApi.getAllZonesWithTotal(data).then((result) => {
       setListZone(result.payload);
@@ -79,12 +79,12 @@ const TableZone = () => {
 
   useEffect(() => {
     const data = {
-      provinceId: '',
-      districtId: '',
-      id: '',
-      name: '',
+      provinceId: "",
+      districtId: "",
+      id: "",
+      name: "",
       page: page,
-      size: size
+      size: size,
     };
     ZoneApi.getAllZonesWithTotal(data).then((result) => {
       setListZone(result.payload);
@@ -97,12 +97,12 @@ const TableZone = () => {
 
     if (isDeleted) {
       const data = {
-        provinceId: '',
-        districtId: '',
-        id: '',
-        name: '',
+        provinceId: "",
+        districtId: "",
+        id: "",
+        name: "",
         page: page,
-        size: size
+        size: size,
       };
       ZoneApi.getAllZonesWithTotal(data).then((result) => {
         setListZone(result.payload);
@@ -111,9 +111,9 @@ const TableZone = () => {
       });
 
       const notifyMess = {
-        type: 'success',
-        title: '',
-        description: `${t('noti.successfully_delete_zone')}`
+        type: "success",
+        title: "",
+        description: `${t("noti.successfully_delete_zone")}`,
       };
       Notification(notifyMess);
     }
@@ -124,11 +124,11 @@ const TableZone = () => {
 
     const data = {
       name: value.trim(),
-      districtId: '',
-      id: '',
-      provinceId: '',
+      districtId: "",
+      id: "",
+      provinceId: "",
       page: page,
-      size: size
+      size: size,
     };
     const dataZoneSearch = await ZoneApi.getAllZonesWithTotal(data);
     if (dataZoneSearch.code === 700) {
@@ -161,78 +161,80 @@ const TableZone = () => {
 
   const zoneColumns = [
     {
-      title: `${t('view.category.no')}`,
-      fixed: 'left',
-      key: 'index',
-      className: 'headerColums',
-      width: '5%',
-      render: (text, record, index) => index + 1
+      title: `${t("view.category.no")}`,
+      fixed: "left",
+      key: "index",
+      className: "headerColums",
+      width: "5%",
+      render: (text, record, index) => index + 1,
     },
     {
-      title: `${t('view.common_device.zone_name')}`,
-      dataIndex: 'name',
-      key: 'name',
-      width: '30%',
-      className: 'headerColums',
-      fixed: 'left'
+      title: `${t("view.common_device.zone_name")}`,
+      dataIndex: "name",
+      key: "name",
+      width: "30%",
+      className: "headerColums",
+      fixed: "left",
     },
     {
-      title: `${t('view.map.location')}`,
-      dataIndex: 'address',
-      key: 'address',
-      width: '30%',
-      className: 'headerColums'
-    },
-
-    {
-      title: `${t('view.common_device.desc')}`,
-      dataIndex: 'description',
-      key: 'description',
-      className: 'headerColums',
-      width: '20%'
+      title: `${t("view.map.location")}`,
+      dataIndex: "address",
+      key: "address",
+      width: "30%",
+      className: "headerColums",
     },
 
     {
-      title: `${t('view.common_device.action')}`,
-      fixed: 'right',
-      className: 'headerColums',
-      width: '15%',
+      title: `${t("view.common_device.desc")}`,
+      dataIndex: "description",
+      key: "description",
+      className: "headerColums",
+      width: "20%",
+    },
+
+    {
+      title: `${t("view.common_device.action")}`,
+      fixed: "right",
+      className: "headerColums",
+      width: "15%",
       render: (text, record) => {
         return (
           <Space>
             <Tooltip
               placement="rightTop"
-              title={t('view.common_device.detail')}
+              title={t("view.common_device.detail")}
             >
               <InfoCircleOutlined
-                style={{ fontSize: '16px', color: '#6E6B7B' }}
+                style={{ fontSize: "16px", color: "#6E6B7B" }}
                 onClick={() => {
                   setSelectedZoneId(record.uuid);
                 }}
               />
             </Tooltip>
-            <Tooltip placement="rightTop" title={t('view.common_device.edit')}>
+            <Tooltip placement="rightTop" title={t("view.common_device.edit")}>
               <EditOutlined
-                style={{ fontSize: '16px', color: '#6E6B7B' }}
+                style={{ fontSize: "16px", color: "#6E6B7B" }}
                 onClick={() => {
                   setSelectedZoneEditId(record.uuid);
                 }}
               />
             </Tooltip>
-            <Tooltip placement="rightTop" title={t('delete')}>
+            <Tooltip placement="rightTop" title={t("delete")}>
               <Popconfirm
-                title={t('noti.delete_zone')}
+                cancelText={t("view.user.detail_list.cancel")}
+                okText={t("view.user.detail_list.confirm")}
+                title={t("noti.delete_zone")}
                 onConfirm={() => handleDelete(record.uuid)}
               >
                 <DeleteOutlined
-                  style={{ fontSize: '16px', color: '#6E6B7B' }}
+                  style={{ fontSize: "16px", color: "#6E6B7B" }}
                 />
               </Popconfirm>
             </Tooltip>
           </Space>
         );
-      }
-    }
+      },
+    },
   ];
 
   const onShowSizeChange = (current, pageSize) => {
@@ -252,23 +254,23 @@ const TableZone = () => {
           placeholder={
             <div className="placehoder height-40 justify-content-between d-flex align-items-center">
               <span>
-                {' '}
-                &nbsp;{' '}
-                {t('view.common_device.please_enter_zone_name', {
-                  plsEnter: t('please_enter')
-                })}{' '}
-              </span>{' '}
-              <SearchOutlined style={{ fontSize: 22, pointer: 'cussor' }} />
+                {" "}
+                &nbsp;{" "}
+                {t("view.common_device.please_enter_zone_name", {
+                  plsEnter: t("please_enter"),
+                })}{" "}
+              </span>{" "}
+              <SearchOutlined style={{ fontSize: 22, pointer: "cussor" }} />
             </div>
           }
         />
       </div>
       <Card
-        title={t('view.common_device.zone_list')}
+        title={t("view.common_device.zone_list")}
         extra={
           <Tooltip
             placement="rightTop"
-            title={t('view.common_device.add_zone', { add: t('add') })}
+            title={t("view.common_device.add_zone", { add: t("add") })}
           >
             <Button onClick={showModalAdd}>
               <PlusOutlined />
@@ -287,36 +289,30 @@ const TableZone = () => {
           columns={zoneColumns}
           dataSource={listZone}
           locale={{
-            emptyText: `${t('view.user.detail_list.no_valid_results_found')}`
+            emptyText: `${t("view.user.detail_list.no_valid_results_found")}`,
           }}
         />
       </Card>
-      {
-        selectedZoneId && (
-          <ModalViewDetail
-            selectedZoneId={selectedZoneId}
-            handleShowModal={handleShowModalInfo}
-          />
-        )
-      }
-      {
-        selectedZoneEditId && (
-          <ModalEditZone
-            selectedZoneEditId={selectedZoneEditId}
-            handleShowModalEdit={handleShowModalEdit}
-          />
-        )
-      }
+      {selectedZoneId && (
+        <ModalViewDetail
+          selectedZoneId={selectedZoneId}
+          handleShowModal={handleShowModalInfo}
+        />
+      )}
+      {selectedZoneEditId && (
+        <ModalEditZone
+          selectedZoneEditId={selectedZoneEditId}
+          handleShowModalEdit={handleShowModalEdit}
+        />
+      )}
 
-      {
-        selectedAdd && (
-          <ModalAddZone
-            selectedAdd={selectedAdd}
-            handleShowModalAdd={handleShowModalAdd}
-          />
-        )
-      }
-    </div >
+      {selectedAdd && (
+        <ModalAddZone
+          selectedAdd={selectedAdd}
+          handleShowModalAdd={handleShowModalAdd}
+        />
+      )}
+    </div>
   );
 };
 

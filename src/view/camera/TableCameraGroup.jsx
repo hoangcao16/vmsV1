@@ -4,15 +4,16 @@ import {
   EditOutlined,
   ExclamationCircleOutlined,
   PlusOutlined,
-  SearchOutlined
+  SearchOutlined,
 } from "@ant-design/icons";
 import {
   AutoComplete,
-  Button, Popconfirm,
+  Button,
+  Popconfirm,
   Spin,
   Tabs,
   Tooltip,
-  Tree
+  Tree,
 } from "antd";
 import "antd/dist/antd.css";
 import { isEmpty } from "lodash-es";
@@ -281,7 +282,7 @@ function CameraGroup(props) {
                 e.stopPropagation();
                 showModal(id);
               }}
-            // style={{ fontSize: '16px', color: '#6E6B7B' }}
+              // style={{ fontSize: '16px', color: '#6E6B7B' }}
             />
           </Tooltip>
           <Tooltip placement="top" title={t("view.common_device.edit")}>
@@ -290,7 +291,7 @@ function CameraGroup(props) {
                 e.stopPropagation();
                 showModalEdit(id);
               }}
-            // style={{ fontSize: '16px', color: '#6E6B7B' }}
+              // style={{ fontSize: '16px', color: '#6E6B7B' }}
             />
           </Tooltip>
           <Popconfirm
@@ -304,14 +305,15 @@ function CameraGroup(props) {
             }}
             className="confirm--delete"
             icon={<ExclamationCircleOutlined />}
-            okText={t("delete")}
+            cancelText={t("view.user.detail_list.cancel")}
+            okText={t("view.user.detail_list.confirm")}
           >
             <Tooltip placement="top" title={t("delete")}>
               <DeleteOutlined
                 onClick={(e) => {
                   e.stopPropagation();
                 }}
-              // style={{ fontSize: '16px', color: '#6E6B7B' }}
+                // style={{ fontSize: '16px', color: '#6E6B7B' }}
               />
             </Tooltip>
           </Popconfirm>
@@ -327,7 +329,7 @@ function CameraGroup(props) {
       const notifyMess = {
         type: "success",
         title: "",
-        description: `${t('noti.successfully_delete_camera_group')}`,
+        description: `${t("noti.successfully_delete_camera_group")}`,
       };
       Notification(notifyMess);
       props.handleFetchData({ name: "", parent: "all" });
@@ -388,7 +390,7 @@ function CameraGroup(props) {
                   <Button
                     type="primary"
                     className="btnAddUser height-40"
-                    style={{ borderRadius: "6px", border: '0' }}
+                    style={{ borderRadius: "6px", border: "0" }}
                     onClick={() => showModal(null)}
                   >
                     <PlusOutlined className="d-flex justify-content-between align-center" />

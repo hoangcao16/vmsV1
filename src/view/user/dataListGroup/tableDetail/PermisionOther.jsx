@@ -1,18 +1,17 @@
-import { CloseOutlined, PlusOutlined } from '@ant-design/icons';
-import { Button, Popconfirm, Space, Table, Tooltip } from 'antd';
-import React, { useEffect, useState } from 'react';
-import CameraApi from '../../../../actions/api/camera/CameraApi';
-import GroupApi from '../../../../actions/api/group/GroupApi';
-import UserApi from '../../../../actions/api/user/UserApi';
-import { ShowTotal } from '../../../../styled/showTotal';
-import '../../../commonStyle/commonAuto.scss';
-import '../../../commonStyle/commonSelect.scss';
-import { renderText } from '../../dataListUser/components/TableListUser';
-import Notification from './../../../../components/vms/notification/Notification';
-import ModalAddPermissionOthers from './ModalAddPermissionOthers';
-import './PermisionOther.scss';
+import { CloseOutlined, PlusOutlined } from "@ant-design/icons";
+import { Button, Popconfirm, Space, Table, Tooltip } from "antd";
+import React, { useEffect, useState } from "react";
+import CameraApi from "../../../../actions/api/camera/CameraApi";
+import GroupApi from "../../../../actions/api/group/GroupApi";
+import UserApi from "../../../../actions/api/user/UserApi";
+import { ShowTotal } from "../../../../styled/showTotal";
+import "../../../commonStyle/commonAuto.scss";
+import "../../../commonStyle/commonSelect.scss";
+import { renderText } from "../../dataListUser/components/TableListUser";
+import Notification from "./../../../../components/vms/notification/Notification";
+import ModalAddPermissionOthers from "./ModalAddPermissionOthers";
+import "./PermisionOther.scss";
 import { useTranslation } from "react-i18next";
-
 
 export default function PermisionOther(props) {
   const { t } = useTranslation();
@@ -33,19 +32,19 @@ export default function PermisionOther(props) {
     const data = {
       subject: `user_g@${props?.groupCode}`,
       object: `user_g@${props?.groupCode}`,
-      action: perCode
+      action: perCode,
     };
 
     const dataRemove = {
-      policies: [data]
+      policies: [data],
     };
 
     const isDelete = await CameraApi.removePermisionCamGroup(dataRemove);
     if (isDelete) {
       const notifyMess = {
-        type: 'success',
-        title: '',
-        description: `${t('noti.successfully_delete_permission')}`
+        type: "success",
+        title: "",
+        description: `${t("noti.successfully_delete_permission")}`,
       };
       Notification(notifyMess);
 
@@ -61,9 +60,12 @@ export default function PermisionOther(props) {
   const renderHeader = () => {
     return (
       <>
-        <h4>{t('view.user.detail_list.permission')}</h4>
+        <h4>{t("view.user.detail_list.permission")}</h4>
 
-        <Tooltip placement="top" title={t('view.user.detail_list.add_permission', { add: t('add') })}>
+        <Tooltip
+          placement="top"
+          title={t("view.user.detail_list.add_permission", { add: t("add") })}
+        >
           <Button
             type="primary"
             className="btnAddPermission"
@@ -87,38 +89,43 @@ export default function PermisionOther(props) {
 
   const columns = [
     {
-      title: `${t('view.user.detail_list.permission_name')}`,
-      dataIndex: 'name',
-      className: 'headerUserColums',
+      title: `${t("view.user.detail_list.permission_name")}`,
+      dataIndex: "name",
+      className: "headerUserColums",
       render: renderText,
-      width: '40%'
+      width: "40%",
     },
     {
-      title: `${t('view.user.detail_list.desc')}`,
-      dataIndex: 'description',
-      className: 'headerUserColums',
+      title: `${t("view.user.detail_list.desc")}`,
+      dataIndex: "description",
+      className: "headerUserColums",
 
       render: renderText,
-      width: '45%'
+      width: "45%",
     },
     {
-      title: `${t('view.user.detail_list.action')}`,
-      fixed: 'right',
-      width: '15%',
-      className: 'headerUserColums',
+      title: `${t("view.user.detail_list.action")}`,
+      fixed: "right",
+      width: "15%",
+      className: "headerUserColums",
       render: (text, record) => {
         return (
           <Space>
             <Popconfirm
-              title={t('noti.delete_permission', { g: t('g'), this: t('this') })}
+              cancelText={t("view.user.detail_list.cancel")}
+              okText={t("view.user.detail_list.confirm")}
+              title={t("noti.delete_permission", {
+                g: t("g"),
+                this: t("this"),
+              })}
               onConfirm={() => removePermissionOther(record.code)}
             >
               <CloseOutlined />
             </Popconfirm>
           </Space>
         );
-      }
-    }
+      },
+    },
   ];
 
   const onShowSizeChange = (current, pageSize) => {
@@ -151,10 +158,13 @@ export default function PermisionOther(props) {
             showTotal: (total, range) => {
               return (
                 <ShowTotal className="show--total">
-                  {t('view.user.detail_list.viewing')} {range[0]} {t('view.user.detail_list.to')} {range[1]} {t('view.user.detail_list.out_of')} {total} {t('view.user.detail_list.indexes')}
+                  {t("view.user.detail_list.viewing")} {range[0]}{" "}
+                  {t("view.user.detail_list.to")} {range[1]}{" "}
+                  {t("view.user.detail_list.out_of")} {total}{" "}
+                  {t("view.user.detail_list.indexes")}
                 </ShowTotal>
               );
-            }
+            },
           }}
         />
 

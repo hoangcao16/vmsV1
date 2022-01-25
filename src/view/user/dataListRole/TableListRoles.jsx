@@ -2,8 +2,8 @@ import {
   DeleteOutlined,
   EditOutlined,
   PlusOutlined,
-  SearchOutlined
-} from '@ant-design/icons';
+  SearchOutlined,
+} from "@ant-design/icons";
 import {
   AutoComplete,
   Button,
@@ -12,23 +12,23 @@ import {
   Popconfirm,
   Row,
   Table,
-  Tooltip
-} from 'antd';
-import React, { useEffect, useState } from 'react';
-import { useTranslation } from 'react-i18next';
-import { useHistory, useRouteMatch } from 'react-router-dom';
-import UserApi from '../../../actions/api/user/UserApi';
-import permissionCheck from '../../../actions/function/MyUltil/PermissionCheck';
-import Notification from '../../../components/vms/notification/Notification';
-import { ShowTotal } from '../../../styled/showTotal';
-import '../../commonStyle/commonAuto.scss';
-import '../../commonStyle/commonSelect.scss';
-import { renderText } from '../dataListUser/components/TableListUser';
-import './TableListRoles.scss';
+  Tooltip,
+} from "antd";
+import React, { useEffect, useState } from "react";
+import { useTranslation } from "react-i18next";
+import { useHistory, useRouteMatch } from "react-router-dom";
+import UserApi from "../../../actions/api/user/UserApi";
+import permissionCheck from "../../../actions/function/MyUltil/PermissionCheck";
+import Notification from "../../../components/vms/notification/Notification";
+import { ShowTotal } from "../../../styled/showTotal";
+import "../../commonStyle/commonAuto.scss";
+import "../../commonStyle/commonSelect.scss";
+import { renderText } from "../dataListUser/components/TableListUser";
+import "./TableListRoles.scss";
 
 export default function TableListRoles() {
   const { t } = useTranslation();
-  const [search, setSearch] = useState('');
+  const [search, setSearch] = useState("");
   const [form] = Form.useForm();
   const history = useHistory();
   let { path } = useRouteMatch();
@@ -43,9 +43,9 @@ export default function TableListRoles() {
 
   useEffect(() => {
     let data = {
-      filter: '',
+      filter: "",
       page: page,
-      size: size
+      size: size,
     };
 
     UserApi.getAllRole(data).then((result) => {
@@ -58,26 +58,23 @@ export default function TableListRoles() {
     return (
       <div className="d-flex justify-content-between align-items-center">
         <h4 className="font-weight-700">
-          {t(
-            'view.user.detail_list.role_list',
-            { R: t('R'), r: t('r') }
-          )}
+          {t("view.user.detail_list.role_list", { R: t("R"), r: t("r") })}
         </h4>
         <Tooltip
           placement="rightTop"
-          title={t('view.user.detail_list.add_role', {
-            add: t('add'),
-            R: t('R')
+          title={t("view.user.detail_list.add_role", {
+            add: t("add"),
+            R: t("R"),
           })}
         >
           <Button
             type="primary"
             className="btnAddRole height-40 mr-1"
-            style={{ borderRadius: '6px', border: '0' }}
+            style={{ borderRadius: "6px", border: "0" }}
             onClick={() => {
               history.push(`${path}/add-roles`);
             }}
-            disabled={!permissionCheck('add_role')}
+            disabled={!permissionCheck("add_role")}
           >
             <PlusOutlined className="d-flex justify-content-between align-center" />
           </Button>
@@ -106,9 +103,9 @@ export default function TableListRoles() {
     const isDelete = await UserApi.deleteRoles(record?.uuid);
     if (isDelete) {
       const notifyMess = {
-        type: 'success',
-        title: '',
-        description: `${t('noti.successfully_deleted_role')}`
+        type: "success",
+        title: "",
+        description: `${t("noti.successfully_deleted_role")}`,
       };
       Notification(notifyMess);
     }
@@ -118,49 +115,54 @@ export default function TableListRoles() {
 
   const columns = [
     {
-      title: `${t('view.user.detail_list.role_name', { R: t('R'), r: t('r') })}`,
-      dataIndex: 'name',
-      className: 'headerUserColums',
-      width: '40%',
-      render: renderText
+      title: `${t("view.user.detail_list.role_name", {
+        R: t("R"),
+        r: t("r"),
+      })}`,
+      dataIndex: "name",
+      className: "headerUserColums",
+      width: "40%",
+      render: renderText,
     },
     {
-      title: `${t('view.user.detail_list.desc')}`,
-      dataIndex: 'description',
-      className: 'headerUserColums',
-      width: '45%',
-      render: renderText
+      title: `${t("view.user.detail_list.desc")}`,
+      dataIndex: "description",
+      className: "headerUserColums",
+      width: "45%",
+      render: renderText,
     },
 
     {
-      title: `${t('view.user.detail_list.action')}`,
-      className: 'headerUserColums',
-      fixed: 'top',
-      width: '15%',
+      title: `${t("view.user.detail_list.action")}`,
+      className: "headerUserColums",
+      fixed: "top",
+      width: "15%",
       render: (text, record) => {
         return (
           <>
-            <Tooltip placement="top" title={t('view.user.detail_list.edit')}>
+            <Tooltip placement="top" title={t("view.user.detail_list.edit")}>
               <EditOutlined
                 onClick={() => {
                   history.push(`${path}/roles/detail/${record.uuid}`);
                 }}
               />
             </Tooltip>
-            {permissionCheck('add_role') ? (
+            {permissionCheck("add_role") ? (
               <Popconfirm
-                title={t('noti.delete_role', { this: t('this') })}
+                title={t("noti.delete_role", { this: t("this") })}
                 onConfirm={() => removePermmision(record)}
+                cancelText={t("view.user.detail_list.cancel")}
+                okText={t("view.user.detail_list.confirm")}
               >
-                <Tooltip placement="top" title={t('delete')}>
+                <Tooltip placement="top" title={t("delete")}>
                   <DeleteOutlined />
                 </Tooltip>
               </Popconfirm>
             ) : null}
           </>
         );
-      }
-    }
+      },
+    },
   ];
 
   const onShowSizeChange = (current, pageSize) => {
@@ -184,13 +186,13 @@ export default function TableListRoles() {
             maxLength={255}
             placeholder={
               <div className="placehoder height-40 justify-content-between d-flex align-items-center">
-                <span style={{ opacity: '0.5' }}>
-                  {' '}
-                  &nbsp;{' '}
-                  {t('view.user.detail_list.please_enter_search_keyword', {
-                    plsEnter: t('please_enter')
-                  })}{' '}
-                </span>{' '}
+                <span style={{ opacity: "0.5" }}>
+                  {" "}
+                  &nbsp;{" "}
+                  {t("view.user.detail_list.please_enter_search_keyword", {
+                    plsEnter: t("please_enter"),
+                  })}{" "}
+                </span>{" "}
                 <SearchOutlined style={{ fontSize: 22 }} />
               </div>
             }
@@ -219,16 +221,16 @@ export default function TableListRoles() {
           showTotal: (total, range) => {
             return (
               <ShowTotal className="show--total">
-                {t('view.user.detail_list.viewing')} {range[0]}{' '}
-                {t('view.user.detail_list.to')} {range[1]}{' '}
-                {t('view.user.detail_list.out_of')} {total}{' '}
-                {t('view.user.detail_list.indexes')}
+                {t("view.user.detail_list.viewing")} {range[0]}{" "}
+                {t("view.user.detail_list.to")} {range[1]}{" "}
+                {t("view.user.detail_list.out_of")} {total}{" "}
+                {t("view.user.detail_list.indexes")}
               </ShowTotal>
             );
-          }
+          },
         }}
         locale={{
-          emptyText: `${t('view.user.detail_list.no_valid_results_found')}`
+          emptyText: `${t("view.user.detail_list.no_valid_results_found")}`,
         }}
       />
     </div>

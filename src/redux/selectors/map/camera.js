@@ -1,20 +1,31 @@
 import { createSelector } from "reselect";
 
 export const getCamActiveOnMap = (state) => state.map.camsLive.listCamLive;
-export const getListCamera = (state) => state.map.camera.listCamera;
+export const getListAllCamera = (state) => state.map.camera.listAllCamera;
 
 export const getListCamLiveSelector = createSelector(
-  [getCamActiveOnMap, getListCamera],
-  (listCamLive, listCamera) => {
+  [getCamActiveOnMap, getListAllCamera],
+  (listCamLive, ListAllCamera) => {
     return (
       listCamLive?.map((cam) => {
-        const camIndex = listCamera?.findIndex(
-          (cam1) => cam1.uuid === cam.uuid
-        );
-        if (camIndex !== -1) {
-          cam = { ...listCamera[camIndex], ...cam };
+        if (ListAllCamera !== undefined) {
+          const camIndex = ListAllCamera?.findIndex(
+            (cam1) => cam1.uuid === cam.uuid
+          );
+          if (camIndex !== -1) {
+            cam = { ...ListAllCamera[camIndex], ...cam };
+          }
+          return cam;
+        } else {
+          ListAllCamera = []
+          const camIndex = ListAllCamera?.findIndex(
+            (cam1) => cam1.uuid === cam.uuid
+          );
+          if (camIndex !== -1) {
+            cam = { ...ListAllCamera[camIndex], ...cam };
+          }
+          return cam;
         }
-        return cam;
       }) || []
     );
   }
