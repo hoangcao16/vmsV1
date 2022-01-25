@@ -462,6 +462,8 @@ const TabRect = (props) => {
       status: "1",
       threshold: 0,
     })
+
+    
     setDataRectList(dataNew);
   };
 

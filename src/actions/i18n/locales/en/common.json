@@ -483,6 +483,7 @@
       "event_files_list": "Event AI files list",
       "attendance": "Attendance",
       "intruding": "Intrusion",
+      "first_seen" : "Attendance",
       "just_crossed" :"Just crossed",
       "daudo": "Wrong parking",
       "nhandienbienso": "Number plate recognition",
@@ -493,10 +494,13 @@
       "edit_note": "Edit Note",
       "err_image" : "Offending images",
       "type_object" : {
-        "xemay": "Motorcycle",
+        "vehicle": "Vehicle",
         "human": "Human",
           "unknow" :"nknow"
-
+      },
+      "useCase" : {
+        "zac_vehicle": "Vehicle",
+        "zac_human": "Human"
       },
       "choose_obj": "Choose object",
       "plateNumber":"Plate number",

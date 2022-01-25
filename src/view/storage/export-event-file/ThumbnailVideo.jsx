@@ -4,7 +4,7 @@ import _ from "lodash";
 import { format } from "../../../utility/vms/duration";
 
 const ThumbnailVideo = (props) => {
-  const { duration, playerVideo, fileCurrent } = props;
+  const { duration, playerVideo, fileCurrent, viewFileType } = props;
   const controlBarRef = useRef(null);
   const cbLeftRef = useRef(null);
   const cbRightRef = useRef(null);
@@ -28,7 +28,8 @@ const ThumbnailVideo = (props) => {
     const thumbWidth = window.innerWidth * 0.6666;
     const numOfImg = Math.ceil(thumbWidth / (80 * 3));
     let fakeImages = [];
-    if (fileCurrent.thumbnailData) {
+    
+    if (fileCurrent.thumbnailData && viewFileType !== 4) {
       for (let i = 0; i < fileCurrent.thumbnailData.length; i++) {
         for (let j = 0; j < numOfImg; j++) {
           fakeImages.push(fileCurrent.thumbnailData[i]);

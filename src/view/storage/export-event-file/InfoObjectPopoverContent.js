@@ -28,8 +28,8 @@ const InfoObjectPopoverContent = (props) => {
     };
     const typeObjects = [
         {
-            id: 'xemay',
-            name: `${t('view.ai_events.type_object.xemay')}`,
+            id: 'vehicle',
+            name: `${t('view.ai_events.type_object.vehicle')}`,
         },
         {
             id: 'human',
@@ -44,11 +44,9 @@ const InfoObjectPopoverContent = (props) => {
 
     const [form] = Form.useForm();
 
-    const path = props.viewFileType === 0 ? props.fileCurrent.path : props.fileCurrent.pathFile;
     const [currNode, setCurrNode] = useState(props.fileCurrent.note);
     const [editMode, setEditMode] = useState(false);
     const [typeObject, setTypeObject] = useState(props.fileCurrent.typeObject);
-    const { TextArea } = Input;
     const [departments, setDepartments] = useState([]);
     const [departmentId, setDepartmentId] = useState('');
     const [filterOptions, setFilterOptions] = useState(DATA_FAKE_UNIT);
@@ -61,35 +59,7 @@ const InfoObjectPopoverContent = (props) => {
         fetchSelectOptions().then(setFilterOptions);
     }, []);
 
-    const getRecordDate = () => {
-        if (props.viewFileType === 0) {
-            return props.fileCurrent.startRecordTime === -1 ? '' : moment(props.fileCurrent.startRecordTime * 1000).format("hh:mm DD/MM/YYYY");
-        } else {
-            return props.fileCurrent.violationTime === -1 ? '' : moment(props.fileCurrent.violationTime * 1000).format("hh:mm DD/MM/YYYY");
-        }
-    }
-
-    const getCreatedTime = () => {
-        if (props.viewFileType === 0) {
-            return props.fileCurrent.createdTime === -1 ? '' : moment(props.fileCurrent.createdTime * 1000).format("hh:mm DD/MM/YYYY");
-        } else {
-            return props.fileCurrent.createdTime === -1 ? '' : moment(props.fileCurrent.createdTime).format("hh:mm DD/MM/YYYY");
-        }
-    }
-
-    const changeNoteHandler = (event) => {
-        setCurrNode(event.target.value);
-    };
-
-    const cancelChangeNoteHandler = () => {
-        setCurrNode(props.fileCurrent.note);
-        setEditMode(false);
-    };
-
-    const saveFileHandler = (isImportant, note) => {
-        props.onEditFile(isImportant, note);
-        setEditMode(false);
-    };
+    
 
     const handleSubmit = async (value) => {
         const payload = {...value,
