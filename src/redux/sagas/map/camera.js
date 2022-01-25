@@ -9,18 +9,18 @@ import {
   addCameraOnMapFailed,
   addCameraOnMapSuccess,
   updateCameraOnMapByFilterFailed,
-  updateCameraOnMapByFilterSuccess
+  updateCameraOnMapByFilterSuccess,
 } from "../../actions/map/cameraActions";
 import { updateMapObject } from "../../actions/map/formMapActions";
 import {
   ADD_CAMERA_ON_MAP,
   FETCH_ALL_CAMERA_ON_MAP,
-  UPDATE_CAMERA_ON_MAP_BY_FILTER
+  UPDATE_CAMERA_ON_MAP_BY_FILTER,
 } from "../../types/map";
+import CameraApi from "../../../../src/actions/api/camera/CameraApi"
 
-const language = reactLocalStorage.get('language')
+const language = reactLocalStorage.get("language");
 const { fetchAllCameraOnMapFailed, fetchAllCameraOnMapSuccess } = mapActions;
-
 
 export function* fetchListCameraAction(action) {
   // const notifyMess = {
@@ -30,11 +30,24 @@ export function* fetchListCameraAction(action) {
   // }
   try {
     const { params } = action.payload;
-    
+
     const resp = yield call(cameraApi.getAll, params);
+      let data = {
+        name: "",
+        provinceId: "",
+        districtId: "",
+        id: "",
+        administrativeUnitUuid: "",
+        vendorUuid: "",
+        status: "",
+        page: 1,
+        size: 100000,
+      };
+      const dataCamera = yield call(CameraApi.getAllCamera, data);
     if (resp && resp.payload) {
       const { payload, metadata } = resp;
       yield put(fetchAllCameraOnMapSuccess({ listCamera: payload, metadata }));
+      yield put(fetchAllCameraOnMapSuccess({ listAllCamera: dataCamera, metadata }));
       // Notification(notifyMess);
     } else {
       yield put(fetchAllCameraOnMapFailed(null));
@@ -73,7 +86,7 @@ export function* updateListCameraByFilterAction(action) {
       isEditForm: false,
     };
     const bodyCamInfo = action.payload;
-    bodyCamInfo.createdFromMap = true
+    bodyCamInfo.createdFromMap = true;
     const resp = yield call(cameraApi.update, bodyCamInfo, bodyCamInfo.uuid);
     const formMapSelector = yield select((state) => state.map.form);
     if (resp && resp.payload) {
@@ -133,7 +146,7 @@ export function* addNewCamAction(action) {
       isEditForm: false,
     };
     const bodyCamInfo = action.payload;
-    bodyCamInfo.createdFromMap = true
+    bodyCamInfo.createdFromMap = true;
     const resp = yield call(cameraApi.createNew, bodyCamInfo);
     const formMapSelector = yield select((state) => state.map.form);
     if (resp && resp.payload) {
