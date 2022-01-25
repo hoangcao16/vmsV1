@@ -483,7 +483,8 @@
       "event_files_list": "Danh sách sự kiện AI",
       "attendance": "Điểm danh",
       "intruding": "Xâm nhập",
-      "just_crossed": "Vượt rào",
+      "first_seen" : "Điểm danh",
+      "just_crossed" :"Vượt rào",
       "daudo": "Đậu đỗ sai quy định",
       "nhandienbienso": "Nhận diện biển số",
       "damdong": "Phát hiện đám đông",
@@ -491,11 +492,16 @@
       "edit_info": "Chỉnh sửa thông tin đối tượng",
       "info": "Thông tin đối tượng",
       "edit_note": "Chỉnh sửa ghi chú",
-      "err_image": "Hình ảnh vi phạm",
+      "err_image" : "Hình ảnh vi phạm",
       "type_object": {
+        "vehicle": "Xe",
         "xemay": "Xe máy",
         "human": "Người",
         "unknow": "Không xác định"
+      },
+      "useCase" : {
+        "zac_vehicle": "Xe",
+        "zac_human": "Người"
       },
       "choose_obj": "Chọn đối tượng",
       "plateNumber": "Biển số",

@@ -625,7 +625,7 @@ const TableFile = (props) => {
     };
 
     const onChangeSubEventType = (type) => {
-        const dataParam = Object.assign({ ...searchParam, subEventType: type });
+        const dataParam = Object.assign({ ...searchParam, eventType: type });
         setSearchParam(dataParam);
     };
 

@@ -483,7 +483,8 @@
       "event_files_list": "Event AI files list",
       "attendance": "Attendance",
       "intruding": "Intrusion",
-      "just_crossed": "Just crossed",
+      "first_seen" : "Attendance",
+      "just_crossed" :"Just crossed",
       "daudo": "Wrong parking",
       "nhandienbienso": "Number plate recognition",
       "damdong": "Phát hiện đám đông",
@@ -491,11 +492,16 @@
       "info": "Info",
       "edit_info": "Edit Info",
       "edit_note": "Edit Note",
-      "err_image": "Offending images",
-      "type_object": {
+      "err_image" : "Offending images",
+      "type_object" : {
         "xemay": "Motorcycle",
+        "vehicle": "Vehicle",
         "human": "Human",
-        "unknow": "nknow"
+          "unknow" :"nknow"
+      },
+      "useCase" : {
+        "zac_vehicle": "Vehicle",
+        "zac_human": "Human"
       },
       "choose_obj": "Choose object",
       "plateNumber": "Plate number",

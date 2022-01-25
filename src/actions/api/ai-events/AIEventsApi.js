@@ -41,7 +41,27 @@ const AIEventsApi = {
     } catch (error) {
       console.log(JSON.stringify(error));
     }
+    
+    if (handleErrCodeAI(result) === null) {
+      return [];
+    }
 
+    console.log(result)
+    return result;
+  },
+
+  getDetailEvent: async (uuid) => {
+    let result;
+
+    try {
+      result = await AIService.getRequestData(
+        `/api/v1/ai-events/${uuid}`
+      );
+
+    } catch (error) {
+      console.log(JSON.stringify(error));
+    }
+    
     if (handleErrCodeAI(result) === null) {
       return [];
     }
