@@ -90,6 +90,9 @@ const ResetPassword = lazy(() =>
 const register = lazy(() =>
   import("./views/pages/authentication/register/Register")
 );
+const ValidateOtp = lazy(() =>
+    import("./views/pages/authentication/ValidateOtp")
+);
 
 const Live = lazy(() => import("./view/live/Live"));
 const Maps = lazy(() => import("./view/maps/Maps"));
@@ -120,10 +123,12 @@ const RouteConfig = ({ component: Component, fullLayout, ...rest }) => (
                       <Component {...props} />
                     </Suspense>
                   </LayoutTag>
-                ) : props.match.path == "/pages/reset-password" ? (
+                ) : props.match.path === "/pages/reset-password" ? (
                   <ResetPassword />
-                ) : props.match.path == "/pages/forgot-password" ? (
+                ) : props.match.path === "/pages/forgot-password" ? (
                   <ForgotPassword />
+                ) : props.match.path === "/pages/validate-otp" ? (
+                    <ValidateOtp />
                 ) : (
                   <Login />
                 )}
@@ -194,6 +199,11 @@ class AppRouter extends React.Component {
             path="/pages/reset-password"
             component={ResetPassword}
             fullLayout
+          />
+          <AppRoute
+              path="/pages/validate-otp"
+              component={ValidateOtp}
+              fullLayout
           />
 
           <AppRoute path="/app/camera/list" component={Camera} />
