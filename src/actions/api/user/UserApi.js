@@ -138,6 +138,7 @@ const   UserApi = {
   },
 
   getPermissionForUserLogin: async () => {
+    debugger;
     let result;
     try {
       result = await MyService.getRequestData(
@@ -317,6 +318,19 @@ const   UserApi = {
       return false;
     }
     return true;
+  },
+
+  getTokenFromOtp: async (params) => {
+    let result;
+    try {
+      result = await MyService.getRequestData(`/authz/sso-get-token-from-otp`, params);
+    } catch (error) {
+      console.log(error);
+    }
+    if (handleErrCodeAuthZ(result) === null) {
+      return {};
+    }
+    return result;
   },
 
   deleteGroup: async (groupUuid) => {
