@@ -138,7 +138,6 @@ const   UserApi = {
   },
 
   getPermissionForUserLogin: async () => {
-    debugger;
     let result;
     try {
       result = await MyService.getRequestData(
