@@ -485,15 +485,25 @@ function Sidebar(props) {
       };
       props.callData(clearData(data));
     } else {
-      if (selectedRowKeys.length > 3) {
-        const notifyMess = {
-          type: "error",
-          title: "",
-          description: "Số lượng sự kiện không được vượt quá 3",
-        };
-        Notification(notifyMess);
-
-        return;
+      if (selectedRowKeys.length < 1 || selectedRowKeys.length > 3) {
+        const language = reactLocalStorage.get("language");
+        if (language === "vn") {
+          const notifyMess = {
+            type: "error",
+            title: "",
+            description: `Số lượng sự kiện phải trong khoảng từ 1 đến 3`,
+          };
+          Notification(notifyMess);
+          return;
+        } else {
+          const notifyMess = {
+            type: "error",
+            title: "",
+            description: "Number of events must be in range from 1 to 3",
+          };
+          Notification(notifyMess);
+          return;
+        }
       }
       setSelectedRowKeys(selectedRowKeys);
       props.changeCount(selectedRowKeys);
