@@ -23,6 +23,7 @@ export const COLOR = ["#eb4034", "#7ccc47", "#425fd4"];
 
 function BarChartComponent(props) {
   const data = props.chartData;
+  console.log("data", data);
   const { t } = useTranslation();
   if (props.isShowLineAndPieChart) {
     return null;
