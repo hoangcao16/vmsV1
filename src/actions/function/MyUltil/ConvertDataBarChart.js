@@ -1,6 +1,7 @@
 import { isEmpty } from "lodash";
 
 export default function convertDataBarChart(arrObj) {
+  console.log("arrObj", arrObj);
   if (!isEmpty(arrObj)) {
     let arr1 = [];
     arrObj.map((d) => {
@@ -104,6 +105,7 @@ export default function convertDataBarChart(arrObj) {
     if (!isEmpty(arrObj[0].event3)) {
       object[arrObj[0].event3] = result3;
     }
+    console.log("object", object);
     return object;
   }
 }
