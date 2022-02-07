@@ -369,6 +369,7 @@ const TableCamera = () => {
   // ===========================Modal
 
   const showModal = () => {
+    setPage(1);
     setUnit(UNIT.ALL);
     setSearch("");
     form.setFieldsValue({ searchForm: null });
