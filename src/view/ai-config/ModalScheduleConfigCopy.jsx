@@ -1,25 +1,18 @@
-import { Col, Form, Input, Modal, Row, Spin, Button, Checkbox, TimePicker, Table } from "antd";
-import { isEmpty } from "lodash-es";
+import { Button, Form, Modal, Table } from "antd";
 import React, { useEffect, useState } from "react";
+import { useTranslation } from 'react-i18next';
+import AIConfigScheduleApi from "../../actions/api/ai-config/AIConfigScheduleApi";
 import CameraApi from "../../actions/api/camera/CameraApi";
-import VendorApi from "../../actions/api/vendor/VendorApi";
-import FieldApi from "../../actions/api/field/FieldApi";
-import Event from "../../actions/api/event/EventApi";
-import moment from 'moment';
 import Notification from "../../components/vms/notification/Notification";
 import "./../commonStyle/commonAuto.scss";
+import "./../commonStyle/commonDatePicker.scss";
 import "./../commonStyle/commonForm.scss";
 import "./../commonStyle/commonInput.scss";
 import "./../commonStyle/commonModal.scss";
 import "./../commonStyle/commonSelect.scss";
 import './../commonStyle/commonTable.scss';
-import "./../commonStyle/commonDatePicker.scss";
 import "./../commonStyle/commonTimePicker.scss";
 import "./ModalScheduleConfigCopy.scss";
-import { useTranslation } from 'react-i18next';
-import AIHumansApi from '../../actions/api/ai-humans/AIHumansApi';
-import { PlusOutlined, DeleteOutlined, CloseOutlined } from '@ant-design/icons';
-import AIConfigScheduleApi from "../../actions/api/ai-config/AIConfigScheduleApi";
 const AI_URL = process.env.REACT_APP_AI_BASE_URL;
 
 const format = 'HH:mm';
@@ -48,7 +41,6 @@ const ModalScheduleConfigCopy = (props) => {
     loading: false,
   });
 
-  
 
   useEffect(() => {
     

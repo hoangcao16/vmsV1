@@ -1,22 +1,21 @@
-import { call, put, takeLatest, all } from "redux-saga/effects";
-import {
-  ADD_ADMINIS_UNIT_ON_MAP,
-  FETCH_ALL_ADMINIS_UNITS_ON_MAP,
-  UPDATE_ADMINIS_UNIT_ON_MAP,
-  UPDATE_ADMINIS_UNIT_ON_MAP_FAILED,
-} from "../../types/map";
-import { NOTYFY_TYPE, STATUS_CODE } from "../../../view/common/vms/Constant";
-import mapActions from "../../actions/map";
+import { reactLocalStorage } from "reactjs-localstorage";
+import { all, call, put, takeLatest } from "redux-saga/effects";
 import adDivisioneApi from "../../../api/controller-api/adDivisionApi";
 import Notification from "../../../components/vms/notification/Notification";
+import { NOTYFY_TYPE } from "../../../view/common/vms/Constant";
+import mapActions from "../../actions/map";
 import {
   addAdminisUnitOnMapFailed,
   addAdminisUnitOnMapSuccess,
   updateAdminisUnitOnMapFailed,
-  updateAdminisUnitOnMapSuccess,
+  updateAdminisUnitOnMapSuccess
 } from "../../actions/map/adminisUnitsAction";
+import {
+  ADD_ADMINIS_UNIT_ON_MAP,
+  FETCH_ALL_ADMINIS_UNITS_ON_MAP,
+  UPDATE_ADMINIS_UNIT_ON_MAP
+} from "../../types/map";
 import { updateFormMapObject } from "./index";
-import { reactLocalStorage } from "reactjs-localstorage";
 
 const language = reactLocalStorage.get("language");
 
@@ -52,7 +51,7 @@ export function* fetchListAdminisUnitAction(action) {
 
 export function* updateAdminisUnitAction(action) {
   let notifyMess = {};
-  if (language == "vn") {
+  if (language === "vn") {
     notifyMess = {
       type: NOTYFY_TYPE.success,
       title: "Đơn vị hành chính",
@@ -67,6 +66,7 @@ export function* updateAdminisUnitAction(action) {
   }
   try {
     const bodyAdUnitInfo = action.payload;
+    bodyAdUnitInfo.createdFromMap = true
     const resp = yield call(
       adDivisioneApi.update,
       bodyAdUnitInfo,
@@ -83,9 +83,9 @@ export function* updateAdminisUnitAction(action) {
     if (error.response && error.response.data && error.response.data.errors) {
       yield put(updateAdminisUnitOnMapFailed(null));
       notifyMess.type = NOTYFY_TYPE.warning;
-      if (language == "vn") {
+      if (language === "vn") {
         notifyMess.description =
-          error.response.data.errors.message || "Có lỗi sai từ phía máy chủ";
+          error.response.data.errors.message || "Có lỗi xảy ra từ phía máy chủ";
       } else {
         notifyMess.description =
           error.response.data.errors.message ||
@@ -98,7 +98,7 @@ export function* updateAdminisUnitAction(action) {
 
 export function* addNewAdUnitction(action) {
   let notifyMess = {};
-  if (language == "vn") {
+  if (language === "vn") {
     notifyMess = {
       type: NOTYFY_TYPE.success,
       title: "Đơn vị hành chính",
@@ -113,6 +113,7 @@ export function* addNewAdUnitction(action) {
   }
   try {
     const bodyAdUnitInfo = action.payload;
+    bodyAdUnitInfo.createdFromMap = true
     const resp = yield call(adDivisioneApi.createNew, bodyAdUnitInfo);
     if (resp && resp.payload) {
       yield put(addAdminisUnitOnMapSuccess(resp.payload));
@@ -125,9 +126,9 @@ export function* addNewAdUnitction(action) {
     if (error.response && error.response.data && error.response.data.errors) {
       yield put(addAdminisUnitOnMapFailed(null));
       notifyMess.type = NOTYFY_TYPE.warning;
-      if (language == "vn") {
+      if (language === "vn") {
         notifyMess.description =
-          error.response.data.errors.message || "Có lỗi sai từ phía máy chủ";
+          error.response.data.errors.message || "Có lỗi xảy ra từ phía máy chủ";
       } else {
         notifyMess.description =
           error.response.data.errors.message ||

@@ -28,6 +28,7 @@
   },
   "view": {
     "camera": {
+      "export_camera": "Xuất dữ liệu Camera",
       "active": "Đang hoạt động",
       "inactive": "Dừng hoạt động",
       "camera_list": "Danh sách {{cam}}",
@@ -71,7 +72,8 @@
       "plsEnter_administrative_unit_name": "{{plsEnter}} tên đơn vị hành chính",
       "enter_key": "Nhập khóa",
       "choose_field_for_event": "Chọn lĩnh vực cho sự kiện",
-      "administrative_unit_detail": "Chi tiết đơn vị hành chính"
+      "administrative_unit_detail": "Chi tiết đơn vị hành chính",
+      "department": "Phòng ban"
     },
     "common_device": {
       "camproxy_name": "Tên Camproxy",
@@ -109,7 +111,10 @@
       "time": "Thời gian",
       "add_new_or_edit_preset_tour": "Thêm mới hoặc sửa một preset tour",
       "add_new_preset_tour": "Thêm mới preset tour",
-      "choose_preset_tour": "Chọn một preset tour"
+      "choose_preset_tour": "Chọn một preset tour",
+      "zoom": "Phóng to/Thu nhỏ",
+      "menu_preset": "Danh sách preset",
+      "close_camera": "Tắt Camera"
     },
     "map": {
       "search": "Tìm kiếm",
@@ -121,6 +126,7 @@
       "address_id": "Tên đường",
       "administrative_unit_uuid": "Đơn vị",
       "location_onmap": "Định vị",
+      "not_located_yet": "Chưa định vị",
       "btn_apply": "Áp dụng",
       "btn_remove_filter": "Xóa bộ lọc",
       "add_image": "Thêm ảnh",
@@ -168,7 +174,9 @@
       "please_enter_ip": "{{plsEnter}} IP",
       "original_url": "URL gốc",
       "please_enter_original_url": "{{plsEnter}} URL gốc",
-      "save_live_camera": "Lưu {{cam}} trực tuyến"
+      "save_live_camera": "Lưu {{cam}} trực tuyến",
+      "hls_url": "HLS URL",
+      "please_enter_hls_url": "{{plsEnter}} HLS URL"
     },
     "maps": {
       "add_camera": "{{add}} mới {{cam}}",
@@ -329,8 +337,8 @@
         "right": "Di chuyển sang phải",
         "up": "Di chuyển lên trên",
         "down": "Di chuyển xuống dưới",
-        "zoom_in": "Thu nhỏ",
-        "zoom_out": "Phóng to",
+        "zoom_in": "Phóng to",
+        "zoom_out": "Thu nhỏ",
         "hight_filter": "Bộ lọc nâng cao",
         "save_preset_tour": "Lưu preset tour",
         "save_preset": "Lưu preset",
@@ -413,7 +421,8 @@
         "add_camera_choose_permission": "Thêm Camera và chọn quyền",
         "image": "Hình ảnh",
         "enter_alternative_data": "{{plsEnter}} dữ liệu thay thế",
-        "scan": "Quét"
+        "scan": "Quét",
+        "search_to_select": "Tìm kiếm để chọn"
       }
     },
     "ai_humans": {
@@ -452,6 +461,7 @@
       "time_threshold": "Ngưỡng thời gian",
       "second": "giây",
       "object_recognition": "Nhận diện đối tượng",
+      "choose": "Đối tượng",
       "vehicle": "Xe cộ",
       "human": "Người",
       "draw": {
@@ -462,19 +472,76 @@
         "hurdles": "Xóa đường",
         "intrusion_detection": "Xóa vùng"
       },
-      "direction" :{
-        "title" : "Xác định hướng",
-        "AB" : "A --> B",
-        "BA" : "B --> A",
-        "All" : "Tất cả"
+      "direction": {
+        "title": "Xác định hướng",
+        "AB": "A --> B",
+        "BA": "B --> A",
+        "All": "Tất cả"
       }
+    },
+    "ai_events": {
+      "event_files_list": "Danh sách sự kiện AI",
+      "attendance": "Điểm danh",
+      "intruding": "Xâm nhập",
+      "first_seen" : "Điểm danh",
+      "just_crossed" :"Vượt rào",
+      "daudo": "Đậu đỗ sai quy định",
+      "nhandienbienso": "Nhận diện biển số",
+      "damdong": "Phát hiện đám đông",
+      "line_crossing": "Vượt rào ảo",
+      "edit_info": "Chỉnh sửa thông tin đối tượng",
+      "info": "Thông tin đối tượng",
+      "edit_note": "Chỉnh sửa ghi chú",
+      "err_image" : "Hình ảnh vi phạm",
+      "type_object": {
+        "vehicle": "Xe",
+        "xemay": "Xe máy",
+        "human": "Người",
+        "unknow": "Không xác định"
+      },
+      "useCase" : {
+        "zac_vehicle": "Xe",
+        "zac_human": "Người"
+      },
+      "choose_obj": "Chọn đối tượng",
+      "plateNumber": "Biển số",
+      "code": "Mã",
+      "name": "Tên",
+      "position": "Chức vụ",
+      "department": "Phòng ban",
+      "type": "Loại đối tượng "
+    },
+    "department": {
+      "administrative": "Đơn vị hành chính",
+      "edit_department": "Chỉnh sửa thông tin phòng ban",
+      "add_department": "Thêm phòng ban",
+      "name_department": "Tên phòng ban"
     }
   },
+
+  "preset": {
+    "choose_one_preset_tour": "Chọn một preset tour"
+  },
+
   "noti": {
+    "no_information": "Không có thông tin",
+    "warning_hard_drive_is_full": "Cảnh báo: Đầy ổ cứng",
+    "warning_camera": "Cảnh báo: Camera",
+    "hard_drive": "Ổ cứng",
+    "donot_have": "chưa có",
+    "is_used": "đã được sử dụng",
+    "estimated_remaining_usable_time_is": "Thời gian sử dụng còn lại dự kiến là",
+    "active": "hoạt động",
+    "inactive": "không hoạt động",
+    "watched_all_notifications": "Bạn đã xem hết danh sách thông báo",
+    "error_loading_notifications": "Lỗi khi tải thông báo",
+
     "successfully_update_tag_category": "Cập nhập nhãn thành công",
     "fail_update_tag_category": "Cập nhập nhãn thất bại",
     "successfully_add_tag_category": "Thêm mới nhãn thành công",
+    "successfully_edit_tag_category": "Sửa nhãn thành công",
     "fail_add_tag_category": "Thêm mới nhãn thất bại",
+    "export_errors": "Xuất file lỗi",
     "logged_out_successfully": "Đăng xuất thành công",
     "logged_out_failed": "Đăng xuất thất bại",
     "delete_camera": "Bạn chắc chắn muốn xóa {{cam}} {{this}}?",
@@ -527,6 +594,7 @@
     "enter_this_field": "Bạn không được để trống phần này!",
     "input_number": "Chỉ nhập số",
     "at_least_10_characters": "Tối thiểu 10 ký tự",
+    "up_to_20_characters": "Tối đa 20 ký tự",
     "at_least_8_characters": "Tối thiểu 8 ký tự",
     "successfully_delete_human": "{{delete}} thành công người",
     "no_valid_results_found": "Không tìm thấy kết quả hợp lệ",
@@ -616,7 +684,11 @@
     "full_account_password": "Vui lòng điền đầy đủ tài khoản và mật khẩu",
     "logged_in_successfully": "Đăng nhập thành công",
     "error_download_file": "Đã xảy ra lỗi trong quá trình tải tệp, hãy kiểm tra lại",
-    "error_2_digits": "Sai số đến chữ số thập phân thứ 2"
+    "error_2_digits": "Sai số đến chữ số thập phân thứ 2",
+    "successfully_edit_camera_group": "Sửa nhóm Camera thành công",
+    "browser_not_support_video": "Trình duyệt của bạn không hỗ trợ thẻ video",
+    "field_no_data": "Lĩnh vực này không có sự kiện",
+    "just_number": "Trường này chỉ được nhập số"
   },
   "breadcrumd": {
     "report": "Quản lý báo cáo",

@@ -11,8 +11,11 @@ import zoneApi from "../../../api/controller-api/zoneApi";
 import useHandleUploadFile from "../../../hooks/useHandleUploadFile";
 import {
   filterOption,
-  normalizeOptions
+  normalizeOptions,
 } from "../../common/select/CustomSelect";
+import "react-phone-number-input/style.css";
+import PhoneInput from "react-phone-number-input";
+import "./MapAdministrativeUnitAdd.scss";
 
 const { Dragger } = Upload;
 async function fetchSelectOptions() {
@@ -165,14 +168,24 @@ const MapAdministrativeUnitAdd = (props) => {
   };
 
   const validatePhoneNumber = (value) => {
-    console.log("value:", value);
-    const pattern = /^[+]*[(]{0,1}[0-9]{1,3}[)]{0,1}[-\s\./0-9]*$/g;
-
-    if (pattern.test(value) && value.length >= 10 && value.length <= 13) {
-      return true;
+    let rules = [];
+    if (value == "tel") {
+      rules.push(
+        {
+          required: true,
+          message: `${t("view.map.required_field")}`,
+        },
+        {
+          min: 12,
+          message: `${t("noti.at_least_10_characters")}`,
+        },
+        {
+          max: 22,
+          message: `${t("noti.up_to_20_characters")}`,
+        }
+      );
     }
-
-    return false;
+    return rules;
   };
 
   return (
@@ -260,31 +273,15 @@ const MapAdministrativeUnitAdd = (props) => {
             <Form.Item
               label={t("view.map.phone_number")}
               name={["tel"]}
-              rules={[
-                { required: true, message: t("view.map.required_field") },
-                ({ getFieldValue }) => ({
-                  validator(rule, value) {
-                    const data = getFieldValue(["tel"]);
-                    if (data) {
-                      if (validatePhoneNumber(value)) {
-                        return Promise.resolve();
-                      } else {
-                        return Promise.reject(
-                          `${t("noti.phone_number_format_is_not_correct")}`
-                        );
-                      }
-                    } else {
-                      return Promise.resolve(`${t("view.map.required_field")}`);
-                    }
-                  },
-                }),
-              ]}
+              rules={validatePhoneNumber("tel")}
             >
-              <Input
+              <PhoneInput
+                international={false}
+                defaultCountry="VN"
                 placeholder={t("view.map.please_enter_your_phone_number", {
                   plsEnter: t("please_enter"),
                 })}
-              ></Input>
+              />
             </Form.Item>
           </Col>
         </Row>

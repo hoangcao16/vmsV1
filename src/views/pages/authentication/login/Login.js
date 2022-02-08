@@ -26,7 +26,7 @@ const Login = () => {
         xl="7"
         lg="10"
         md="8"
-        className="d-flex justify-content-center"
+        className="d-flex justify-content-center "
       >
         <Card className="bg-authentication login-card rounded-0 mb-0 w-100">
           <Row className="m-0">

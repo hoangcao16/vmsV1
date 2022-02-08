@@ -1,9 +1,9 @@
+import { reactLocalStorage } from "reactjs-localstorage";
 import controllerApi from "../../../api/controller-api/api";
 import { handleErrCode } from "../../../api/controller-api/code";
 import Notification from "../../../components/vms/notification/Notification";
 import { NOTYFY_TYPE } from "../../../view/common/vms/Constant";
 import FileService from "./fileservice";
-import { reactLocalStorage } from "reactjs-localstorage";
 
 const FILE_ENDPOINT = "/cctv-controller-svc/api/v1/files";
 const EVENT_FILE_ENDPOINT = "/cctv-controller-svc/api/v1/event-files";
@@ -46,6 +46,34 @@ const ExportEventFileApi = {
       result = await FileService.getRequestData("/api/v1/downloadFile", {
         fileId: fileId,
         fileType: fileType,
+      });
+    } catch (e) {
+      if (language == "vn") {
+        Notification({
+          type: NOTYFY_TYPE.warning,
+          title: "Tệp lưu trữ",
+          description: e.toString(),
+        });
+      } else {
+        Notification({
+          type: NOTYFY_TYPE.warning,
+          title: "Archived file",
+          description: e.toString(),
+        });
+      }
+      return null;
+    }
+    return result;
+  },
+
+  downloadFileAI: async (cameraUuid, trackingId, uuid, fileName, fileType) => {
+    let result;
+    try {
+      result = await FileService.getRequestData("/api/v1/downloadAIFile", {
+        cameraUuid: cameraUuid,
+        trackingId: trackingId,
+        uuid: uuid,
+        fileName: fileName
       });
     } catch (e) {
       if (language == "vn") {

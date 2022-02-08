@@ -3,15 +3,18 @@ import { isEmpty } from "lodash";
 import React, { useEffect, useState } from "react";
 import { ChevronRight } from "react-feather";
 import { useTranslation } from "react-i18next";
+import { connect } from "react-redux";
+import permissionCheckByCamera from "../../../actions/function/MyUltil/PermissionCheckByCamera";
 import ptzControllerApi from "../../../api/ptz/ptzController";
 import Notification from "../../../components/vms/notification/Notification";
+import { openModalPresetSetting } from "../../../redux/actions/live/openModalPresetSetting";
 import { NOTYFY_TYPE } from "../../common/vms/Constant";
 import Preset from "../../preset/Preset";
 import ItemControl from "./ItemControl";
 // import { Modal, Button } from 'antd';
 import ModalControlPanel from "./ModalControlPanel";
-import permissionCheck from "../../../actions/function/MyUltil/PermissionCheck";
 import "./ModalPresetSetting.scss";
+
 
 const LIST_TYPES = {
   preset: "preset",
@@ -19,37 +22,42 @@ const LIST_TYPES = {
   other: "other",
 };
 
-const Index = ({
-  setOpenMenuControl,
-  isOpenModal,
-  setCurrentMenuControl,
-  slotId,
-  idCamera,
-  setReloadLiveMenuTool,
-  reloadLiveMenuTool,
-  isOpenModalControlPanel,
-  setIsOpenModalControlPanel,
-}) => {
+const Index = (props) => {
+  const {
+    setOpenMenuControl,
+    isOpenModal,
+    setCurrentMenuControl,
+    slotId,
+    idCamera,
+    setReloadLiveMenuTool,
+    reloadLiveMenuTool,
+    isOpenModalControlPanel,
+    setIsOpenModalControlPanel,
+  } = props;
   const { t } = useTranslation();
-  let CONTROL_TYPES = [
-    {
-      name: "Preset",
-      type: 1,
-      icon: <ChevronRight />,
-    },
-    {
-      name: "Preset tour",
-      type: 2,
-      icon: <ChevronRight />,
-    },
-    {
-      name: `${t("view.live.preset_setting")}`,
-      type: 3,
-    },
-    { name: `${t("view.live.open_control_panel")}`, type: 4 },
-  ];
-
-  if (!permissionCheck("setup_preset")) {
+  let CONTROL_TYPES = [];
+  if (
+    permissionCheckByCamera("setup_preset", idCamera) &&
+    permissionCheckByCamera("ptz_control", idCamera)
+  ) {
+    CONTROL_TYPES = [
+      {
+        name: "Preset",
+        type: 1,
+        icon: <ChevronRight />,
+      },
+      {
+        name: "Preset tour",
+        type: 2,
+        icon: <ChevronRight />,
+      },
+      {
+        name: `${t("view.live.preset_setting")}`,
+        type: 3,
+      },
+      { name: `${t("view.live.open_control_panel")}`, type: 4 },
+    ];
+  } else if (!permissionCheckByCamera("setup_preset", idCamera)) {
     CONTROL_TYPES = [
       {
         name: "Preset",
@@ -62,6 +70,23 @@ const Index = ({
         icon: <ChevronRight />,
       },
       { name: `${t("view.live.open_control_panel")}`, type: 4 },
+    ];
+  } else if (!permissionCheckByCamera("ptz_control", idCamera)) {
+    CONTROL_TYPES = [
+      {
+        name: "Preset",
+        type: 1,
+        icon: <ChevronRight />,
+      },
+      {
+        name: "Preset tour",
+        type: 2,
+        icon: <ChevronRight />,
+      },
+      {
+        name: `${t("view.live.preset_setting")}`,
+        type: 3,
+      },
     ];
   }
   const [typeActive, setTypeActive] = useState(1);
@@ -114,7 +139,7 @@ const Index = ({
     } catch (error) {
       const warnNotyfi = {
         type: NOTYFY_TYPE.warning,
-        description: `${t('noti.ERROR')}`,
+        description: `${t("noti.ERROR")}`,
         duration: 2,
       };
       Notification(warnNotyfi);
@@ -132,7 +157,7 @@ const Index = ({
     } catch (error) {
       const warnNotyfi = {
         type: NOTYFY_TYPE.warning,
-        description: `${t('noti.ERROR')}`,
+        description: `${t("noti.ERROR")}`,
         duration: 2,
       };
       Notification(warnNotyfi);
@@ -151,6 +176,7 @@ const Index = ({
     if (type === 3) {
       setIsOpenModalControlPanel(false);
       setOpenModalPresetSetting(true);
+      props.openModalPresetSetting(true)
       setOpenMenuControl(false);
       setListType(LIST_TYPES.other);
     }
@@ -184,6 +210,7 @@ const Index = ({
     setReloadLiveMenuTool(!reloadLiveMenuTool);
     setRecallPresetAndPresetTourList(!recallPresetAndPresetTourList);
     setOpenModalPresetSetting(false);
+    props.openModalPresetSetting(false);
     setTypeActive(1);
     setListType(LIST_TYPES.preset);
   };
@@ -296,4 +323,14 @@ const Index = ({
     </>
   );
 };
-export default Index;
+
+const mapStateToProps = (state) => ({});
+
+const mapDispatchToProps = (dispatch) => {
+  return {
+    openModalPresetSetting: (states) => {
+      dispatch(openModalPresetSetting(states));
+    },
+  };
+};
+export default connect(mapStateToProps, mapDispatchToProps)(Index);

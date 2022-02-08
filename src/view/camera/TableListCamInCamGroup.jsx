@@ -1,13 +1,13 @@
-import { DeleteOutlined, EyeOutlined, SearchOutlined } from '@ant-design/icons';
-import { AutoComplete, Button, Popconfirm, Table, Tooltip } from 'antd';
-import { isEmpty } from 'lodash-es';
-import React, { useEffect, useState } from 'react';
-import { useTranslation } from 'react-i18next';
-import CameraApi from '../../actions/api/camera/CameraApi';
-import Notification from '../../components/vms/notification/Notification';
-import { renderText } from '../user/dataListUser/components/TableListUser';
-import ModalViewDetail from './ModalViewDetail';
-import './TableListCamInCamGroup.scss';
+import { DeleteOutlined, EyeOutlined, SearchOutlined } from "@ant-design/icons";
+import { AutoComplete, Button, Popconfirm, Table, Tooltip } from "antd";
+import { isEmpty } from "lodash-es";
+import React, { useEffect, useState } from "react";
+import { useTranslation } from "react-i18next";
+import CameraApi from "../../actions/api/camera/CameraApi";
+import Notification from "../../components/vms/notification/Notification";
+import { renderText } from "../user/dataListUser/components/TableListUser";
+import ModalViewDetail from "./ModalViewDetail";
+import "./TableListCamInCamGroup.scss";
 
 export default function TableListCamInCamGroup(props) {
   const { t } = useTranslation();
@@ -15,11 +15,15 @@ export default function TableListCamInCamGroup(props) {
   const { camGroupUuid, handleAdddCamera } = props;
 
   const [camInGroup, setCamInGroup] = useState([]);
-  const [nameGroup, setNameGroup] = useState('');
-  const [search, setSearch] = useState('');
+  const [nameGroup, setNameGroup] = useState("");
+  const [search, setSearch] = useState("");
   const [reload, setReload] = useState(false);
 
   const [selectedCameraId, setSelectedCameraId] = useState(null);
+
+  useEffect(() => {
+    setSearch("");
+  }, [camGroupUuid]);
 
   useEffect(() => {
     if (isEmpty(camGroupUuid)) {
@@ -45,16 +49,16 @@ export default function TableListCamInCamGroup(props) {
     let camInGroupKey = data.map((c) => c.uuid);
 
     const payload = {
-      cameraUuidList: camInGroupKey
+      cameraUuidList: camInGroupKey,
     };
 
     const isUpdate = await CameraApi.updateCameraGroup(camGroupUuid, payload);
 
     if (isUpdate) {
       const notifyMess = {
-        type: 'success',
-        title: '',
-        description: `${t('noti.successfully_delete_camera_in_group')}`
+        type: "success",
+        title: "",
+        description: `${t("noti.successfully_delete_camera_in_group")}`,
       };
       Notification(notifyMess);
       setReload(!reload);
@@ -64,44 +68,44 @@ export default function TableListCamInCamGroup(props) {
 
   const columns = [
     {
-      title: 'Camera',
-      dataIndex: 'name',
-      className: 'headerUserColumns',
+      title: "Camera",
+      dataIndex: "name",
+      className: "headerUserColumns",
       // width: '20%',
-      render: renderText
+      render: renderText,
     },
     {
-      title: `${t('view.map.location')}`,
-      dataIndex: 'address',
-      className: 'headerUserColumns',
+      title: `${t("view.map.location")}`,
+      dataIndex: "address",
+      className: "headerUserColumns",
       // width: '32%',
-      render: renderText
+      render: renderText,
     },
     {
-      title: `${t('view.map.administrative_unit')}`,
-      dataIndex: 'administrativeUnitName',
-      className: 'headerUserColumns',
+      title: `${t("view.map.administrative_unit")}`,
+      dataIndex: "administrativeUnitName",
+      className: "headerUserColumns",
       // width: '30%',
-      render: renderText
+      render: renderText,
     },
 
     {
-      title: `${t('view.storage.action')}`,
-      fixed: 'right',
+      title: `${t("view.storage.action")}`,
+      fixed: "right",
       // width: '13%',
-      className: 'headerUserColumns',
+      className: "headerUserColumns",
       render: (text, record) => {
         return (
           <div className="d-flex">
             <Tooltip
               placement="top"
-              title={t('view.camera.camera_detail', { cam: t('camera') })}
+              title={t("view.camera.camera_detail", { cam: t("camera") })}
             >
               <EyeOutlined
                 style={{
-                  fontSize: '16px',
-                  color: '#6E6B7B',
-                  paddingRight: 10
+                  fontSize: "16px",
+                  color: "#6E6B7B",
+                  paddingRight: 10,
                 }}
                 onClick={() => {
                   setSelectedCameraId(record?.uuid);
@@ -109,35 +113,40 @@ export default function TableListCamInCamGroup(props) {
               />
             </Tooltip>
 
-            <Tooltip placement="top" title={t('delete')}>
+            <Tooltip placement="top" title={t("delete")}>
               <Popconfirm
-                title={t('noti.delete_camera', { this: t('this'), cam: t("camera") })}
+                title={t("noti.delete_camera", {
+                  this: t("this"),
+                  cam: t("camera"),
+                })}
                 onConfirm={() => removeCameraInGroup(record?.uuid)}
+                cancelText={t("view.user.detail_list.cancel")}
+                okText={t("view.user.detail_list.confirm")}
               >
                 <DeleteOutlined
-                  style={{ fontSize: '16px', color: '#6E6B7B' }}
+                  style={{ fontSize: "16px", color: "#6E6B7B" }}
                 />
               </Popconfirm>
             </Tooltip>
           </div>
         );
-      }
-    }
+      },
+    },
   ];
 
   const handleSearch = async (value) => {
     setSearch(value);
     let data = {
       name: value,
-      provinceId: '',
-      districtId: '',
-      id: '',
-      administrativeUnitUuid: '',
-      vendorUuid: '',
-      status: '',
+      provinceId: "",
+      districtId: "",
+      id: "",
+      administrativeUnitUuid: "",
+      vendorUuid: "",
+      status: "",
       cameraGroupUuid: camGroupUuid,
       page: 1,
-      size: 100000
+      size: 100000,
     };
     const dataCameraSearch = await CameraApi.getAllCamera(data);
     setCamInGroup(dataCameraSearch);
@@ -157,10 +166,10 @@ export default function TableListCamInCamGroup(props) {
         <div className=" d-flex justify-content-between align-items-center toolbar">
           <Tooltip
             placement="rightTop"
-            title={t('view.camera.add_new_cam_in_group')}
+            title={t("view.camera.add_new_cam_in_group")}
           >
             <Button type="primary" onClick={onAddCamera}>
-              {t('view.camera.add_new')}
+              {t("view.camera.add_new")}
             </Button>
           </Tooltip>
 
@@ -172,10 +181,10 @@ export default function TableListCamInCamGroup(props) {
             maxLength={255}
             placeholder={
               <div className="placehoder height-40 justify-content-between d-flex align-items-center">
-                <span style={{ opacity: '0.5' }}>
-                  {' '}
-                  &nbsp; {t('view.map.search')}{' '}
-                </span>{' '}
+                <span style={{ opacity: "0.5" }}>
+                  {" "}
+                  &nbsp; {t("view.map.search")}{" "}
+                </span>{" "}
                 <SearchOutlined style={{ fontSize: 22 }} />
               </div>
             }
@@ -196,10 +205,10 @@ export default function TableListCamInCamGroup(props) {
             title={renderHeader}
             // scroll={{ y: 300 }}
             pagination={{
-              pageSize: 8
+              pageSize: 8,
             }}
             locale={{
-              emptyText: `${t('view.user.detail_list.no_valid_results_found')}`
+              emptyText: `${t("view.user.detail_list.no_valid_results_found")}`,
             }}
           />
         </div>

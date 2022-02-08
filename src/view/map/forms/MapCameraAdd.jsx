@@ -13,7 +13,7 @@ import { DATA_FAKE_CAMERA } from "../../camera/ModalAddCamera";
 import { compareName } from "../../camera/ModalEditCamera";
 import {
   filterOption,
-  normalizeOptions
+  normalizeOptions,
 } from "../../common/select/CustomSelect";
 
 const { Dragger } = Upload;
@@ -153,7 +153,7 @@ const MapCameraAdd = (props) => {
         }
       }
 
-      setImgFile(editCam?.avatarFileName??'');
+      setImgFile(editCam?.avatarFileName ?? "");
     },
     [editCam, form, initialLatLgn[0], initialLatLgn[1], selectNewPosition]
   );
@@ -184,8 +184,6 @@ const MapCameraAdd = (props) => {
   }, [districtId, provinceId]);
 
   const { provinces, zones, vendors, cameraTypes, adDivisions } = filterOptions;
-
-  console.log("adDivisions:", adDivisions);
 
   const uploadButton = (
     <div>
@@ -523,17 +521,36 @@ const MapCameraAdd = (props) => {
               label={t("view.map.port")}
               name={["port"]}
               rules={[
-                { required: true, message: t("view.map.required_field") },
-              ]}
+                  {
+                    required: true,
+                    message: `${t("view.map.required_field")}`,
+                  },
+                  ({ getFieldValue }) => ({
+                    validator(rule, value) {
+                      const data = getFieldValue(["port"]);
+                      if (data) {
+                        if (isFinite(data)) {
+                          return Promise.resolve();
+                        } else {
+                          return Promise.reject(`${t("noti.just_number")}`);
+                        }
+                      } else {
+                        return Promise.resolve();
+                      }
+                    },
+                  }),
+                ]}
             >
               <Input
                 placeholder={t("view.map.please_enter_port", {
                   plsEnter: t("please_enter"),
                 })}
+                onBlur={(e) => {
+                  form.setFieldsValue({
+                    port: e.target.value.trim(),
+                  });
+                }}
                 maxLength={255}
-                onBlur={(e) =>
-                  form.setFieldsValue({ port: e.target.value.trim() })
-                }
               ></Input>
             </Form.Item>
           </Col>

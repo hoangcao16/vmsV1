@@ -28,6 +28,7 @@
   },
   "view": {
     "camera": {
+      "export_camera": "Export Camera Info",
       "active": "Active",
       "inactive": "Inactive",
       "camera_list": "{{cam}} List",
@@ -71,7 +72,8 @@
       "plsEnter_administrative_unit_name": "{{plsEnter}} administrative unit name",
       "enter_key": "Please enter key",
       "choose_field_for_event": "Please choose field for event",
-      "administrative_unit_detail": "Administrative unit detail"
+      "administrative_unit_detail": "Administrative unit detail",
+      "department": "Department"
     },
     "common_device": {
       "camproxy_name": "Camproxy name",
@@ -109,7 +111,10 @@
       "time": "Time",
       "add_new_or_edit_preset_tour": "Add new or edit preset tour",
       "add_new_preset_tour": "Add new preset tour",
-      "choose_preset_tour": "Choose preset tour"
+      "choose_preset_tour": "Choose preset tour",
+      "zoom": "Zoom in/Zoom out",
+      "menu_preset": "Preset menu",
+      "close_camera": "Close Camera"
     },
     "map": {
       "search": "Search",
@@ -121,6 +126,7 @@
       "address_id": "Street",
       "administrative_unit_uuid": "Unit",
       "location_onmap": "Locate",
+      "not_located_yet": "Not located yet",
       "btn_apply": "Apply",
       "btn_remove_filter": "Remove Filter",
       "add_image": "Add Image",
@@ -132,7 +138,7 @@
       "latitude": "Latitude",
       "button_cancel": "Cancel",
       "button_save": "Save",
-      "setting_favorite_screen":"Favorite screen settings",
+      "setting_favorite_screen": "Favorite screen settings",
       "invalid_phone_number": "Invalid phone number",
       "please_enter_unit_name": "{{plsEnter}} unit name",
       "please_enter_your_address": "{{plsEnter}} your andress",
@@ -168,7 +174,9 @@
       "please_enter_ip": "{{plsEnter}} IP",
       "original_url": "Original URL",
       "please_enter_original_url": "{{plsEnter}} Original URL",
-      "save_live_camera": "Save Live {{cam}}"
+      "save_live_camera": "Save Live {{cam}}",
+      "hls_url": "HLS URL",
+      "please_enter_hls_url": "{{plsEnter}} HLS URL"
     },
     "maps": {
       "not_provide": "Not provide",
@@ -309,31 +317,31 @@
       "user_group": "{{U}} {{G}}",
       "new_password": "New password",
       "detail_list": {
-        "edit_mode":"Edit Mode",
-        "search_mode":"Search",
-        "dark_mode":"Dark mode",
-        "light_mode":"Light Mode",
-        "back5":"Back 5 minutes",
-        "play":"Play",
-        "pause":"Pause",
-        "forward5":"Forward 5 minutes",
-        "speed":"Speed",
-        "star":"Set as default display",
-        "gird1":"Gird 1x1",
-        "gird2":"Gird 2x2",
-        "gird3":"Gird 3x3",
-        "gird4":"Gird 4x4",
-        "playback":"Playback view mode",
-        "live":"Live view mode",
-        "left":"Move left",
-        "right":"Move right",
-        "up":"Move up",
-        "down":"Move down",
-        "zoom_in":"Zoom in",
-        "zoom_out":"Zoom out",
-        "hight_filter":"Hight filter",
-        "save_preset_tour":"Save preset tour",
-        "save_preset":"Save preset tour",
+        "edit_mode": "Edit Mode",
+        "search_mode": "Search",
+        "dark_mode": "Dark mode",
+        "light_mode": "Light Mode",
+        "back5": "Back 5 minutes",
+        "play": "Play",
+        "pause": "Pause",
+        "forward5": "Forward 5 minutes",
+        "speed": "Speed",
+        "star": "Set as default display",
+        "gird1": "Gird 1x1",
+        "gird2": "Gird 2x2",
+        "gird3": "Gird 3x3",
+        "gird4": "Gird 4x4",
+        "playback": "Playback view mode",
+        "live": "Live view mode",
+        "left": "Move left",
+        "right": "Move right",
+        "up": "Move up",
+        "down": "Move down",
+        "zoom_in": "Zoom in",
+        "zoom_out": "Zoom out",
+        "hight_filter": "Hight filter",
+        "save_preset_tour": "Save preset tour",
+        "save_preset": "Save preset tour",
         "user_list": "{{U}} List",
         "add_user": "{{add}} {{U}}",
         "all": "All",
@@ -413,7 +421,8 @@
         "add_camera_choose_permission": "Add Camera and choose permission",
         "image": "Image",
         "enter_alternative_data": "{{plsEnter}} alternative data",
-        "scan": "Scan"
+        "scan": "Scan",
+        "search_to_select": "Search to select"
       }
     },
     "ai_humans": {
@@ -449,35 +458,89 @@
       "apply": "Apply",
       "time_config_copy": "Time config copy",
       "config_copy": "Copy",
-      "time_threshold" : "Time Threshold",
+      "time_threshold": "Time Threshold",
       "second": "second",
       "object_recognition": "Object Recognition",
+      "choose": "Choose",
       "vehicle": "Vehicle",
-      "human" : "human",
-      "draw" :  {
-        "hurdles" :"Draw hurdles",
-        "intrusion_detection" : "Draw area"
+      "human": "human",
+      "draw": {
+        "hurdles": "Draw hurdles",
+        "intrusion_detection": "Draw area"
       },
-      "delete" :  {
-        "hurdles" :"Delete hurdles",
-        "intrusion_detection" : "Delete area"
+      "delete": {
+        "hurdles": "Delete hurdles",
+        "intrusion_detection": "Delete area"
       },
-      "direction" :{
-        "title" : "Direction",
-        "AB" : "A --> B",
-        "BA" : "B --> A",
-        "All" : "All"
+      "direction": {
+        "title": "Direction",
+        "AB": "A --> B",
+        "BA": "B --> A",
+        "All": "All"
       }
-
-
+    },
+    "ai_events": {
+      "event_files_list": "Event AI files list",
+      "attendance": "Attendance",
+      "intruding": "Intrusion",
+      "first_seen" : "Attendance",
+      "just_crossed" :"Just crossed",
+      "daudo": "Wrong parking",
+      "nhandienbienso": "Number plate recognition",
+      "damdong": "Phát hiện đám đông",
+      "line_crossing": "Line crossing",
+      "info": "Info",
+      "edit_info": "Edit Info",
+      "edit_note": "Edit Note",
+      "err_image" : "Offending images",
+      "type_object" : {
+        "xemay": "Motorcycle",
+        "vehicle": "Vehicle",
+        "human": "Human",
+          "unknow" :"nknow"
+      },
+      "useCase" : {
+        "zac_vehicle": "Vehicle",
+        "zac_human": "Human"
+      },
+      "choose_obj": "Choose object",
+      "plateNumber": "Plate number",
+      "code": "Code",
+      "name": "Name",
+      "position": "Position",
+      "department": "Department"
+    },
+    "department": {
+      "administrative": "Aministrative Unit",
+      "edit_department": "Update department",
+      "add_department": "Add new department",
+      "name_department": "Department"
     }
   },
+
+  "preset": {
+    "choose_one_preset_tour": "Choose one preset tour"
+  },
+
   "noti": {
+    "no_information": "No information",
+    "warning_hard_drive_is_full": "Warning: Hard drive is full",
+    "warning_camera": "Warning: Camera",
+    "hard_drive": "Hard drive",
+    "donot_have": "don't have",
+    "is_used": "is used",
+    "estimated_remaining_usable_time_is": "Estimated remaining usable time is",
+    "active": "active",
+    "inactive": "inactive",
+    "watched_all_notifications": "You've already watched all notifications",
+    "error_loading_notifications": "Error loading notifications",
+
     "successfully_update_tag_category": "Successfully imported label type",
     "fail_update_tag_category": "Label type update failed",
-    "successfully_add_tag_category": "Add new success label",
+    "successfully_add_tag_category": "Successfully add new label",
+    "successfully_edit_tag_category": "Successfully edit label",
     "fail_add_tag_category": "Add new failure label",
-
+    "export_errors": "Export error file",
     "logged_out_successfully": "Logged out successfully",
     "logged_out_failed": "Logged out failed",
     "delete_camera": "Are you sure you want to delete {{this}} {{cam}}?",
@@ -530,6 +593,7 @@
     "enter_this_field": "Please enter this field!",
     "input_number": "Please enter number only",
     "at_least_10_characters": "At least 10 characters",
+    "up_to_20_characters": "Up to 20 characters",
     "at_least_8_characters": "At least 8 characters",
     "no_valid_results_found": "No valid results found",
 
@@ -539,9 +603,9 @@
     "successfully_edit_name": "Successfully edit",
     "successfully_add": "Successfully add new",
     "success": "Success",
-    "choose_event" : "You need to choose event",
+    "choose_event": "You need to choose event",
     "delete_zone": "Are you sure you want to delete this Zone?",
-    
+
     "choose_favorite_screen": "Choose favorite screen",
     "no_camera_in_screen": "No available Camera in this screen",
     "default_screen": "Default screen",
@@ -619,7 +683,11 @@
     "full_account_password": "Please enter account and password",
     "logged_in_successfully": "Logged in successfully",
     "error_download_file": "Errors occur while downloading the file, please check again",
-    "error_2_digits": "Error intervals to 2 decimal places"
+    "error_2_digits": "Error intervals to 2 decimal places",
+    "successfully_edit_camera_group": "Successfully edit Camera group",
+    "browser_not_support_video": "Your browser does not support the video tag",
+    "field_no_data": "This feild has no events",
+    "just_number": "This field only allowed numbers"
   },
   "breadcrumd": {
     "report": "Report Management",

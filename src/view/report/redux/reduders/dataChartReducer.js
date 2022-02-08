@@ -1,8 +1,12 @@
-import { DATA_CHART } from '../constants';
+import { DATA_CHART } from "../constants";
 
-const dataChartReducer = (state = [], action) => {
+const dataChartReducer = (state = { data: [], dataPieChart: [] }, action) => {
   if (action.type === DATA_CHART.LOAD_SUCCESS) {
-    return action.dataChart;
+    return {
+      ...state,
+      data: action.dataChart.chartEvents,
+      dataPieChart: action.dataChart.percents,
+    };
   }
   return state;
 };

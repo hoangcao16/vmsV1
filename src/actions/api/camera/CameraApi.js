@@ -1,3 +1,4 @@
+import { reactLocalStorage } from 'reactjs-localstorage';
 import {
   handleErrCodeAuthZ,
   handleErrCodeReport,
@@ -24,8 +25,6 @@ const CameraApi = {
     return result.payload;
   },
   getCameraByTagName: async (dataSearch) => {
-
-    console.log('dataSearch:',dataSearch)
 
     let result;
 
@@ -69,12 +68,11 @@ const CameraApi = {
     } catch (error) {
       console.log(JSON.stringify(error));
     }
-
     if (result === undefined || handleErrCodeReport(result) === null) {
       return [];
     }
 
-    return result.responseList;
+    return result.payload;
   },
 
   getAllCameraWidthTotal: async (dataSearch) => {
@@ -146,8 +144,6 @@ const CameraApi = {
     } catch (error) {
       console.log(error);
     }
-
-    console.log(result);
 
     if (responseCheckerErrorsController(result) === null) {
       return false;
@@ -403,15 +399,39 @@ const CameraApi = {
     if (responseCheckerErrorsController(result) === null) {
       return false;
     }
-
-    const notifyMess = {
-      type: 'success',
-      title: '',
-      description: 'Sửa camera thành công'
-    };
+    const language = reactLocalStorage.get('language')
+    let notifyMess = {};
+    if (language == 'vn') {
+      notifyMess = {
+        type: 'success',
+        title: '',
+        description: 'Sửa Camera thành công'
+      };
+    } else {
+      notifyMess = {
+        type: 'success',
+        title: '',
+        description: 'Successfully edit Camera'
+      };
+    }
     Notification(notifyMess);
     return true;
-  }
+  },
+
+
+  getExportData: async (body) => {
+    let result;
+    try {
+      result = await MyService.postRequestDataBlob(
+        '/owl/api/v1/report-camera',
+        body
+      );
+    } catch (error) {
+      console.log(error);
+    }
+    return result;
+  },
+
 };
 
 export default CameraApi;

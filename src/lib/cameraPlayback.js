@@ -8,12 +8,10 @@ import { reactLocalStorage } from "reactjs-localstorage";
 const language = reactLocalStorage.get('language')
 
 class CameraPlaybackService {
-    constructor() {
-    }
+
 
     async playbackCameraWithSeekTime(
         cameraSlot,
-        name,
         camUuid,
         camId,
         originSlotId,
@@ -21,7 +19,7 @@ class CameraPlaybackService {
         dispatch
     ) {
         if (camId === "" || camId === null) {
-            if (language == 'vn') {
+            if (language === 'vn') {
                 Notification({
                     type: "warning",
                     title: "Playback",
@@ -58,6 +56,8 @@ class CameraPlaybackService {
                 if (payload === null) return;
                 const videoCellName = "video-slot-" + originSlotId;
                 const video = document.getElementById(videoCellName);
+
+                console.log('data',video);
                 const videoSrc =
                     data.playbackUrl +
                     "/play/hls/" +

@@ -1,0 +1,97 @@
+@import '../../assets/scss/core/variables/vms-variable';
+
+.modal--administrative__unit{
+  width: 40vw !important;
+  top: 56px !important;
+  .ant-modal-content {
+    background-color: $vms-bg-primary;
+    border-radius: 12px !important;
+
+    button.ant-modal-close {
+      top: 15px;
+    }
+
+    .ant-modal-header {
+      padding-top: 32px;
+      background-color: $vms-bg-primary;
+      padding-bottom: 0;
+
+
+      .ant-modal-title {
+        padding-top: 0;
+        padding-bottom: 0;
+        color: $vms-status;
+        background-color: $vms-bg-primary;
+      }
+    }
+
+    .ant-modal-body {
+      background-color: $vms-bg-primary;
+      padding: 24px 32px 32px 24px !important;
+      border-radius: 0 0 12px 12px;
+      .avatarUser {
+        background-color: $vms-bg-sub;
+        width: 160px !important;
+        height: 160px !important;
+        border: $vms-border-gray;
+        border-radius: 6px !important;
+      }
+      .btn--submit {
+        text-align: center;
+        button {
+          background-color: $vms-main-blue-primary;
+          border: none;
+          border-radius: 4px;
+          padding: 8px 16px;
+          height: 100%;
+
+          span {
+            color: $vms-soft-statuts;
+            line-height: 24px;
+
+          }
+
+          &:hover {
+            box-shadow: 0 0 8px 0 $vms-main-blue-primary;
+          }
+        }
+      }
+
+      .ant-typography {
+        margin-bottom: 2.5rem  !important;
+        &>p:first-child {
+          color: $vms-soft-statuts;
+          font-size: 1.6rem !important;
+          margin-bottom: 8px;
+        }
+
+        &>p:last-child {
+          color: $vms-status-07;
+        }
+      }
+    }
+
+    label {
+      font-weight: 500;
+      color: $vms-status;
+      line-height: 24px;
+      height: 28px;
+      margin-top: 14px;
+    }
+  }
+
+  .renderTag {
+    .ant-tag {
+      background-color: $vms-bg-sub;
+      border-radius: 20px;
+      border: none;
+      margin-bottom: 4px;
+    }
+
+    &::before {
+      content: "";
+    }
+  }
+
+
+}

@@ -1,6 +1,5 @@
-import React from 'react'
-import { Skeleton } from "antd";
-import { StepBackwardOutlined, StepForwardOutlined } from '@ant-design/icons'
+import { StepBackwardOutlined, StepForwardOutlined } from '@ant-design/icons';
+import React from 'react';
 
 const MapPagination = ({ handleSelectPreviousPage, handleSelectNextPage, currentPage, totalPage, isLoading }) => {
   const handleNextPage = () => {

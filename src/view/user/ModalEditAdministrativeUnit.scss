@@ -1,0 +1,179 @@
+@import "../../assets/scss/core/variables/vms-variable";
+@import "../../assets/scss/core/mixins/vms-mixins";
+
+.modal--administrative__unit {
+  width: 45vw !important;
+  top: 56px !important;
+
+  .ant-modal-content {
+    border-radius: 12px !important;
+    background-color: $vms-bg-primary;
+
+    .ant-modal-header {
+      border-bottom: 0;
+      padding: 0;
+      background-color: $vms-bg-primary;
+      padding-bottom: 0;
+
+
+      .ant-modal-title {
+        border-radius: 12px 12px 0 0;
+        background-color: $vms-bg-primary;
+        color: $vms-soft-statuts;
+        text-align: center;
+        padding: 24px;
+        padding-bottom: 0;
+
+      }
+    }
+
+    .ant-modal-body {
+      background-color: $vms-bg-primary;
+      padding: 0 32px 30px 32px !important;
+      border-radius: 0 0 12px 12px;
+      width: 100%;
+
+      label {
+        color: $vms-soft-statuts;
+      }
+
+      .phone__input {
+        .ant-form-item-control-input {
+          border: $vms-border-gray;
+          .MuiFormControl-root{
+            height: 40px;
+            width: 100%;
+            .MuiInput-root{
+              // border: $vms-border-gray;
+              height: 40px;
+  
+              .MuiInput-input{
+                border:0 !important;
+                height: 40px;
+                font-size: 1.4rem;
+                padding: 0;
+              }
+              .MuiButtonBase-root{
+                svg {
+                  width: 20px;
+                }
+              }
+            }
+            .css-1480iag-MuiInputBase-root-MuiInput-root{
+              &::after,&::before {
+                border: 0;
+              }
+            }
+          }
+        }
+        
+      }
+
+      .row--submit {
+        display: flex;
+        justify-content: center;
+
+        .submit {
+          padding-top: 12px;
+          height: 40px;
+        }
+      }
+
+      .ant-form-item-control {
+        .ant-form-item-control-input {
+          border-radius: 6px;
+
+          .ant-form-item-control-input-content {
+            border-radius: 6px;
+            input {
+              border: $vms-border-gray;
+            }
+            input::placeholder {
+              color: $vms-status-05;
+            }
+          }
+        }
+      }
+    }
+
+    .ant-upload-picture-card-wrapper {
+      margin: 0;
+      padding: 0;
+      height: 100%;
+      justify-content: center;
+      align-items: center;
+
+      .ant-upload {
+        margin: 0;
+        height: 160px;
+        width: 160px;
+        object-fit: cover;
+        background-color: $vms-bg-3;
+        border: 1px solid rgba(234, 240, 247, 0.1);
+        border-radius: 6px;
+        span,
+        div {
+          color: $vms-status;
+        }
+        .avatarUser {
+          border-radius: 6px;
+          height: 100%;
+          width: 100%;
+        }
+      }
+    }
+
+    .ant-select-selection-placeholder {
+      color: $vms-status-05;
+    }
+  }
+
+  .footer__modal {
+    border: 0;
+    margin-top: 24px;
+    text-align: end;
+    button {
+      border: 0;
+      border-radius: 6px;
+      padding: 0px 32px;
+      height: 40px;
+      &:hover {
+        box-shadow: 0 0 8px $vms-main-blue-primary;
+      }
+    }
+    button:first-child {
+      background-color: transparent;
+      border: 1px solid $vms-main-blue-primary;
+      margin-right: 12px;
+      span {
+        color: $vms-main-blue-primary;
+      }
+    }
+
+    button:last-child {
+      background-color: $vms-main-blue-primary;
+      border: 1px solid $vms-main-blue-primary;
+      span {
+        color: $vms-status;
+      }
+    }
+  }
+}
+
+.PhoneInputCountrySelect { 
+  background: #191919;
+  color: rgba(208, 229, 255, 0.7);
+  @include scrollbar-styling(7px, 0);
+  &::-webkit-scrollbar-track {
+    background-color: $vms-bg-3;
+    box-shadow: inset 1px 0 $vms-bg-3;
+  }
+}
+
+.PhoneInputCountryIconImg {
+  color: rgba(208, 229, 255, 0.7);
+}
+
+.PhoneInputCountry {
+  margin-left: 10px;
+}

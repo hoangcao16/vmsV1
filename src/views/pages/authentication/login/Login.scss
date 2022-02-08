@@ -1,6 +1,9 @@
 @import '../../../../assets/scss/core/variables/vms-variable';
 
 .login {
+    padding-top: 100px;
+    padding-bottom: calc(100vh - 605px);
+    background-color: #f8f8f8;
     .h-w{
         height: 100%;
         width: 100%;

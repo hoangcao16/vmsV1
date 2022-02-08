@@ -242,7 +242,7 @@ const ModalEditCamera = (props) => {
       Notification({
         type: "error",
         title: "",
-        description: `${t('noti.edit_camera_failed')}` + error.toString(),
+        description: `${t("noti.edit_camera_failed")}` + error.toString(),
       });
       console.log(error);
     }
@@ -600,16 +600,32 @@ const ModalEditCamera = (props) => {
                     required: true,
                     message: `${t("view.map.required_field")}`,
                   },
+                  ({ getFieldValue }) => ({
+                    validator(rule, value) {
+                      const data = getFieldValue(["port"]);
+                      if (data) {
+                        if (isFinite(data)) {
+                          return Promise.resolve();
+                        } else {
+                          return Promise.reject(`${t("noti.just_number")}`);
+                        }
+                      } else {
+                        return Promise.resolve();
+                      }
+                    },
+                  }),
                 ]}
               >
                 <Input
                   placeholder={t("view.map.please_enter_port", {
                     plsEnter: t("please_enter"),
                   })}
+                  onBlur={(e) => {
+                    form.setFieldsValue({
+                      port: e.target.value.trim(),
+                    });
+                  }}
                   maxLength={255}
-                  onBlur={(e) =>
-                    form.setFieldsValue({ port: e.target.value.trim() })
-                  }
                 ></Input>
               </Form.Item>
             </Col>
@@ -680,6 +696,19 @@ const ModalEditCamera = (props) => {
                   <Input type="hidden" />
                 </Form.Item>
               </Col>
+            </Col>
+            <Col span={24}>
+              <Form.Item label={t("view.map.hls_url")} name={["hlsUrl"]}>
+                <Input
+                  placeholder={t("view.map.please_enter_hls_url", {
+                    plsEnter: t("please_enter"),
+                  })}
+                  maxLength={2000}
+                  onBlur={(e) =>
+                    form.setFieldsValue({ hlsUrl: e.target.value.trim() })
+                  }
+                />
+              </Form.Item>
             </Col>
             <Col span={24} className="mt-1">
               <span className="edit-tag-item" onClick={showModalEditTag}>

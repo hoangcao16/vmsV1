@@ -1,11 +1,9 @@
-import { call, put, takeLatest, select, all } from "redux-saga/effects";
-import {
-  ADD_CAMERA_ON_MAP,
-  FETCH_ALL_CAMERA_ON_MAP,
-  UPDATE_CAMERA_ON_MAP_BY_FILTER,
-} from "../../types/map";
+import { reactLocalStorage } from "reactjs-localstorage";
+import { all, call, put, select, takeLatest } from "redux-saga/effects";
 import cameraApi from "../../../api/controller-api/cameraApi";
-import { NOTYFY_TYPE, STATUS_CODE } from "../../../view/common/vms/Constant";
+import Notification from "../../../components/vms/notification/Notification";
+import { FORM_MAP_ITEM } from "../../../view/common/vms/constans/map";
+import { NOTYFY_TYPE } from "../../../view/common/vms/Constant";
 import mapActions from "../../actions/map";
 import {
   addCameraOnMapFailed,
@@ -14,13 +12,15 @@ import {
   updateCameraOnMapByFilterSuccess,
 } from "../../actions/map/cameraActions";
 import { updateMapObject } from "../../actions/map/formMapActions";
-import { FORM_MAP_ITEM } from "../../../view/common/vms/constans/map";
-import Notification from "../../../components/vms/notification/Notification";
-import { reactLocalStorage } from "reactjs-localstorage";
+import {
+  ADD_CAMERA_ON_MAP,
+  FETCH_ALL_CAMERA_ON_MAP,
+  UPDATE_CAMERA_ON_MAP_BY_FILTER,
+} from "../../types/map";
+import CameraApi from "../../../../src/actions/api/camera/CameraApi"
 
-const language = reactLocalStorage.get('language')
+const language = reactLocalStorage.get("language");
 const { fetchAllCameraOnMapFailed, fetchAllCameraOnMapSuccess } = mapActions;
-
 
 export function* fetchListCameraAction(action) {
   // const notifyMess = {
@@ -30,11 +30,24 @@ export function* fetchListCameraAction(action) {
   // }
   try {
     const { params } = action.payload;
-    
+
     const resp = yield call(cameraApi.getAll, params);
+      let data = {
+        name: "",
+        provinceId: "",
+        districtId: "",
+        id: "",
+        administrativeUnitUuid: "",
+        vendorUuid: "",
+        status: "",
+        page: 1,
+        size: 100000,
+      };
+      const dataCamera = yield call(CameraApi.getAllCamera, data);
     if (resp && resp.payload) {
-      const { code, payload, metadata } = resp;
+      const { payload, metadata } = resp;
       yield put(fetchAllCameraOnMapSuccess({ listCamera: payload, metadata }));
+      yield put(fetchAllCameraOnMapSuccess({ listAllCamera: dataCamera, metadata }));
       // Notification(notifyMess);
     } else {
       yield put(fetchAllCameraOnMapFailed(null));
@@ -51,7 +64,7 @@ export function* fetchListCameraAction(action) {
 
 export function* updateListCameraByFilterAction(action) {
   let notifyMess = {};
-  if (language == "vn") {
+  if (language === "vn") {
     notifyMess = {
       type: NOTYFY_TYPE.success,
       title: "Đơn vị hành chính",
@@ -73,6 +86,7 @@ export function* updateListCameraByFilterAction(action) {
       isEditForm: false,
     };
     const bodyCamInfo = action.payload;
+    bodyCamInfo.createdFromMap = true;
     const resp = yield call(cameraApi.update, bodyCamInfo, bodyCamInfo.uuid);
     const formMapSelector = yield select((state) => state.map.form);
     if (resp && resp.payload) {
@@ -95,9 +109,9 @@ export function* updateListCameraByFilterAction(action) {
     if (error.response && error.response.data && error.response.data.errors) {
       yield put(updateCameraOnMapByFilterFailed(null));
       notifyMess.type = NOTYFY_TYPE.warning;
-      if (language == "vn") {
+      if (language === "vn") {
         notifyMess.description =
-          error.response.data.errors.message || "Có lỗi sai từ phía máy chủ";
+          error.response.data.errors.message || "Có lỗi xảy ra từ phía máy chủ";
       } else {
         notifyMess.description =
           error.response.data.errors.message ||
@@ -110,7 +124,7 @@ export function* updateListCameraByFilterAction(action) {
 
 export function* addNewCamAction(action) {
   let notifyMess = {};
-  if (language == "vn") {
+  if (language === "vn") {
     notifyMess = {
       type: NOTYFY_TYPE.success,
       title: "Đơn vị hành chính",
@@ -132,6 +146,7 @@ export function* addNewCamAction(action) {
       isEditForm: false,
     };
     const bodyCamInfo = action.payload;
+    bodyCamInfo.createdFromMap = true;
     const resp = yield call(cameraApi.createNew, bodyCamInfo);
     const formMapSelector = yield select((state) => state.map.form);
     if (resp && resp.payload) {
@@ -154,9 +169,9 @@ export function* addNewCamAction(action) {
     if (error.response && error.response.data && error.response.data.errors) {
       yield put(addCameraOnMapFailed(null));
       notifyMess.type = NOTYFY_TYPE.warning;
-      if (language == "vn") {
+      if (language === "vn") {
         notifyMess.description =
-          error.response.data.errors.message || "Có lỗi sai từ phía máy chủ";
+          error.response.data.errors.message || "Có lỗi xảy ra từ phía máy chủ";
       } else {
         notifyMess.description =
           error.response.data.errors.message ||

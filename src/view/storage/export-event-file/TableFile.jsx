@@ -1,42 +1,32 @@
+import { SearchOutlined } from "@ant-design/icons";
 import {
-    Table,
-    Form,
-    Row,
-    Col,
-    Select,
-    DatePicker,
-    Tooltip,
-    Input,
-    AutoComplete,
-    Popover,
-    Pagination,
+    AutoComplete, Col, DatePicker, Form, Input, Pagination, Popover, Row, Select, Table, Tooltip
 } from "antd";
-import AddressApi from "../../../actions/api/address/AddressApi";
-import {
-    filterOption,
-    normalizeOptions,
-} from "../../common/select/CustomSelect";
-import React, {useEffect, useState} from "react";
-import moment from "moment";
-import {FiBookmark, FiFilm, FiImage, FiSearch} from "react-icons/fi";
-import adDivisionApi from "../../../api/controller-api/adDivisionApi";
-import cameraApi from "../../../api/controller-api/cameraApi";
-import cameraGroupApi from "../../../api/controller-api/cameraGroupApi";
+import _ from "lodash";
+import { findIndex } from "lodash-es";
 import debounce from "lodash/debounce";
-import {LinkOutlined, SearchOutlined} from "@ant-design/icons";
+import moment from "moment";
+import React, { useEffect, useState } from "react";
+import { useTranslation } from 'react-i18next';
 import {
     BsThreeDotsVertical,
     IoChevronDownOutline,
     IoChevronUpOutline,
-    MdClear,
+    MdClear
 } from "react-icons/all";
-import {findIndex} from "lodash-es";
-import _ from "lodash";
-import {useTranslation} from 'react-i18next';
-import {reactLocalStorage} from "reactjs-localstorage";
+import { FiBookmark, FiFilm, FiImage, FiSearch } from "react-icons/fi";
+import AddressApi from "../../../actions/api/address/AddressApi";
+import adDivisionApi from "../../../api/controller-api/adDivisionApi";
+import cameraApi from "../../../api/controller-api/cameraApi";
+import cameraGroupApi from "../../../api/controller-api/cameraGroupApi";
+import {
+    filterOption,
+    normalizeOptions
+} from "../../common/select/CustomSelect";
+const AI_SOURCE = process.env.REACT_APP_AI_SOURCE;
 
 const TableFile = (props) => {
-    const {t} = useTranslation();
+    const { t } = useTranslation();
     const typeList = [
         {
             id: 0,
@@ -68,19 +58,20 @@ const TableFile = (props) => {
     };
 
     const formItemLayout = {
-        wrapperCol: {span: 24},
-        labelCol: {span: 24},
+        wrapperCol: { span: 24 },
+        labelCol: { span: 24 },
     };
 
     const listFiles = props.listFiles;
     const eventList = props.eventList || [];
+    const eventListAI = props.eventListAI || [];
     const total = props.total;
 
     const renderType = (value) => {
         return !value || value === 0 ? (
-            <FiFilm className='iconType'/>
+            <FiFilm className='iconType' />
         ) : (
-            <FiImage className='iconType'/>
+            <FiImage className='iconType' />
         );
     };
 
@@ -96,16 +87,25 @@ const TableFile = (props) => {
         if (value && value.length > 30) {
             return (
                 <Tooltip title={value}>
-          <span>
-            {value.substr(0, 15) +
-            "..." +
-            value.substr(value.length - 15, value.length - 1)}
-          </span>
+                    <span>
+                        {value.substr(0, 15) +
+                            "..." +
+                            value.substr(value.length - 15, value.length - 1)}
+                    </span>
                 </Tooltip>
             );
         } else {
             return value;
         }
+    };
+
+    const renderSubtype = (value) => {
+        return (
+            <Tooltip title={value}>
+                <span>{t('view.ai_events.' + value)}
+                </span>
+            </Tooltip>
+        );;;
     };
 
     const renderSetImportantAction = (row) => {
@@ -153,7 +153,7 @@ const TableFile = (props) => {
                 }}
                 filterOption={filterOption}
                 // options={normalizeOptions("name", "uuid", eventList)}
-                placeholder='Loại sự kiện'
+                placeholder={t('view.category.event_type')}
                 defaultValue={row?.eventUuid ? row?.eventUuid : null}
                 options={eventList.map((e) => ({
                     value: e.uuid,
@@ -302,6 +302,49 @@ const TableFile = (props) => {
                     render: renderSetImportantAction,
                 },
             ];
+        } else if (props.viewFileType === 4) {
+            return [
+                {
+                    title: `${t('view.storage.type')}`,
+                    dataIndex: "type",
+                    key: "type",
+                    width: 60,
+                    fixed: "left",
+                    render: () => {
+                        return (
+                            <FiImage className='iconType' />
+                        );
+                    }
+
+                },
+
+                {
+                    title: `${t('view.storage.event')}`,
+                    width: 120,
+                    dataIndex: "subEventType",
+                    render: renderSubtype,
+                },
+                // {
+                //     title: `${t('view.storage.file_name')}`,
+                //     dataIndex: "fileName",
+                //     key: "fileName",
+                //     width: 150,
+                //     render: renderName,
+                // },
+                {
+                    title: "Camera",
+                    dataIndex: "cameraName",
+                    key: "cameraName",
+                    width: 240,
+                    render: renderName,
+                },
+                {
+                    title: `${t('view.storage.created_time')}`,
+                    width: 160,
+                    dataIndex: "createdTime",
+                    render: renderTime,
+                },
+            ];
         } else {
             return [
                 {
@@ -371,6 +414,7 @@ const TableFile = (props) => {
     const [endDate, setEndDate] = useState(null);
 
     const onClickRowSelect = (record) => {
+
         if (props) {
             setSelectedRowUuid(record.uuid);
             props.onClickRow(record);
@@ -379,7 +423,7 @@ const TableFile = (props) => {
 
     const getAllCamera = (cameraGroupUuid) => {
         if (cameraGroupUuid === '') {
-            cameraApi.getAll({'page': 0, 'size': 1000000, 'sort_by': 'name', 'order_by': 'asc'}).then((data) => {
+            cameraApi.getAll({ 'page': 0, 'size': 1000000, 'sort_by': 'name', 'order_by': 'asc' }).then((data) => {
                 if (data && data.payload) {
                     setCameraList(data.payload);
                 }
@@ -401,7 +445,7 @@ const TableFile = (props) => {
 
     useEffect(() => {
         AddressApi.getAllProvinces().then(setProvinceList);
-        adDivisionApi.getAll({'page': 0, 'size': 1000000, 'sort_by': 'name', 'order_by': 'asc'}).then((data) => {
+        adDivisionApi.getAll({ 'page': 0, 'size': 1000000, 'sort_by': 'name', 'order_by': 'asc' }).then((data) => {
             if (data && data.payload) {
                 setAdminUnitList(data.payload);
             }
@@ -507,7 +551,7 @@ const TableFile = (props) => {
                     eventUuid: "notnull",
                 });
             } else {
-                props.onSearch({...searchCaptureFileParamDefault, searchType: "all"});
+                props.onSearch({ ...searchCaptureFileParamDefault, searchType: "all" });
             }
         }
     }, [props.viewFileType]);
@@ -535,21 +579,21 @@ const TableFile = (props) => {
     };
 
     const onChangeCity = (cityId) => {
-        form.setFieldsValue({districtId: null, wardId: null});
+        form.setFieldsValue({ districtId: null, wardId: null });
         AddressApi.getDistrictByProvinceId(cityId).then(setDistrictList);
-        const dataParam = Object.assign({...searchParam, provinceId: cityId});
+        const dataParam = Object.assign({ ...searchParam, provinceId: cityId });
         setSearchParam(dataParam);
     };
 
     const onChangeDistrict = (districtId) => {
-        form.setFieldsValue({wardId: null});
+        form.setFieldsValue({ wardId: null });
         AddressApi.getWardByDistrictId(districtId).then(setWardList);
-        const dataParam = Object.assign({...searchParam, districtId: districtId});
+        const dataParam = Object.assign({ ...searchParam, districtId: districtId });
         setSearchParam(dataParam);
     };
 
     const onChangeWard = (wardId) => {
-        const dataParam = Object.assign({...searchParam, wardId: wardId});
+        const dataParam = Object.assign({ ...searchParam, wardId: wardId });
         setSearchParam(dataParam);
     };
 
@@ -557,7 +601,7 @@ const TableFile = (props) => {
         clearTimeout(timerIdentifier);
         let value = event.target.value;
         timerIdentifier = setTimeout(() => {
-            const dataParam = Object.assign({...searchParam, address: value});
+            const dataParam = Object.assign({ ...searchParam, address: value });
             setSearchParam(dataParam);
         }, 500);
     };
@@ -571,22 +615,27 @@ const TableFile = (props) => {
     };
 
     const onChangeType = (id) => {
-        const dataParam = Object.assign({...searchParam, type: id});
+        const dataParam = Object.assign({ ...searchParam, type: id });
         setSearchParam(dataParam);
     };
 
     const onChangeEventType = (eventUuid) => {
-        const dataParam = Object.assign({...searchParam, eventUuid: eventUuid});
+        const dataParam = Object.assign({ ...searchParam, eventUuid: eventUuid });
+        setSearchParam(dataParam);
+    };
+
+    const onChangeSubEventType = (type) => {
+        const dataParam = Object.assign({ ...searchParam, eventType: type });
         setSearchParam(dataParam);
     };
 
     const onChangeCamera = (cameraUuid) => {
-        const dataParam = Object.assign({...searchParam, cameraUuid: cameraUuid});
+        const dataParam = Object.assign({ ...searchParam, cameraUuid: cameraUuid });
         setSearchParam(dataParam);
     };
 
     const onChangeCameraGroup = (cameraGroupUuid) => {
-        const dataParam = Object.assign({...searchParam, cameraGroupUuid: cameraGroupUuid, cameraUuid: null});
+        const dataParam = Object.assign({ ...searchParam, cameraGroupUuid: cameraGroupUuid, cameraUuid: null });
         setSearchParam(dataParam);
         form.setFieldsValue({
             cameraUuid: null,
@@ -600,7 +649,7 @@ const TableFile = (props) => {
             moment.set("minute", 0);
             moment.set("second", 0);
             moment.set("millisecond", 1);
-            if (endDate && moment.isAfter(endDate)){
+            if (endDate && moment.isAfter(endDate)) {
                 form.setFieldsValue({
                     startDate: null,
                 });
@@ -610,7 +659,7 @@ const TableFile = (props) => {
                 });
                 setSearchParam(dataParam);
                 setStartDate(null);
-            }else{
+            } else {
                 const dataParam = Object.assign({
                     ...searchParam,
                     startRecordTime: +moment.unix(),
@@ -620,7 +669,7 @@ const TableFile = (props) => {
             }
 
         } else {
-            const dataParam = Object.assign({...searchParam, startRecordTime: -1});
+            const dataParam = Object.assign({ ...searchParam, startRecordTime: -1 });
             setSearchParam(dataParam);
         }
     };
@@ -631,7 +680,7 @@ const TableFile = (props) => {
             moment.set("minute", 59);
             moment.set("second", 59);
             moment.set("millisecond", 999);
-            if (startDate && startDate.isAfter(moment)){
+            if (startDate && startDate.isAfter(moment)) {
                 form.setFieldsValue({
                     endDate: null,
                 });
@@ -641,7 +690,7 @@ const TableFile = (props) => {
                 });
                 setSearchParam(dataParam);
                 setEndDate(null);
-            }else{
+            } else {
                 const dataParam = Object.assign({
                     ...searchParam,
                     endRecordTime: +moment.unix(),
@@ -650,7 +699,7 @@ const TableFile = (props) => {
                 setEndDate(moment);
             }
         } else {
-            const dataParam = Object.assign({...searchParam, endRecordTime: -1});
+            const dataParam = Object.assign({ ...searchParam, endRecordTime: -1 });
             setSearchParam(dataParam);
         }
     };
@@ -675,19 +724,19 @@ const TableFile = (props) => {
                                         onClick={() => props.onClickRow(value)}
                                     >
                                         <img className='imageFile'
-                                             src={"data:image/jpeg;base64," + (value.thumbnailData && value.thumbnailData.length > 0 ? value.thumbnailData[0] : "")}
-                                             alt={(value.thumbnailData && value.thumbnailData.length > 0 ? value.name : "")}
+                                            src={"data:image/jpeg;base64," + (value.thumbnailData && value.thumbnailData.length > 0 ? value.thumbnailData[0] : "")}
+                                            alt={(value.thumbnailData && value.thumbnailData.length > 0 ? value.name : "")}
                                         />
                                         {value && value.name && value.name.length > 30 ? (
                                             <Tooltip title={value.name}>
-                        <span className='nameFile'>
-                          {value.name.substr(0, 14) +
-                          "..." +
-                          value.name.substr(
-                              value.name.length - 15,
-                              value.name.length - 1
-                          )}
-                        </span>
+                                                <span className='nameFile'>
+                                                    {value.name.substr(0, 14) +
+                                                        "..." +
+                                                        value.name.substr(
+                                                            value.name.length - 15,
+                                                            value.name.length - 1
+                                                        )}
+                                                </span>
                                             </Tooltip>
                                         ) : (
                                             <span className='nameFile'>{value.name}</span>
@@ -696,6 +745,114 @@ const TableFile = (props) => {
                                 </div>
                             ))}
                         </div>
+                        <Pagination
+                            showLessItems={true}
+                            showSizeChanger={true}
+                            onShowSizeChange={(current, size) => {
+                                setPage(current);
+                                setPageSize(size);
+                                if (size !== pageSize)
+                                    onAdvanceSearchHandler(current, size, searchParam);
+                            }}
+                            current={page}
+                            defaultCurrent={page}
+                            pageSize={pageSize}
+                            defaultPageSize={15}
+                            pageSizeOptions={[15, 30, 60, 120]}
+                            total={total}
+                            onChange={(value) => {
+                                setPage(value);
+                                if (value !== page)
+                                    onAdvanceSearchHandler(value, pageSize, searchParam);
+                            }}
+                        />
+                    </div>
+                );
+            } else if (props.viewFileType === 4) {
+                return (
+                    <div className='gridEventFileContainer'>
+                        {listFiles.map((value, i) => {
+                            return (
+                                <div key={i} className='gridEventFileItem'>
+                                    <Row gutter={[16, 0]} className='row1'>
+                                        <Col span={8}>
+                                            <div
+                                                className='gridFileImage'
+                                                onClick={() => props.onClickRow(value)}
+                                            >
+                                                {value.overViewUrl ? (
+                                                    <img
+                                                        className='imageFile'
+                                                        src={value.overViewUrl}
+                                                        alt={(value.overViewUrl ? value.overViewUrl : "")}
+                                                    />
+                                                ) : (
+                                                    <img
+                                                        className='imageFile'
+                                                        src={"data:image/jpeg;base64," + (value.thumbnailData && value.thumbnailData.length > 0 ? value.thumbnailData : "")}
+                                                        alt={(value.thumbnailData && value.thumbnailData.length > 0 ? value.name : "")}
+                                                    />
+                                                )}
+
+                                            </div>
+                                        </Col>
+                                        <Col span={15}>
+                                            <Row gutter={[0, 8]}>
+                                                <Col span={24}>
+                                                    <ul>
+                                                        {value.eventName ? (
+                                                            <li className='eventName'>{value.eventName}</li>
+                                                        ) : (
+                                                            <li className='eventName'>{t('view.ai_events.' + value.subEventType)}</li>
+                                                        )}
+                                                        {value.fileName ? (<li className='name'>{value.fileName}</li>) : (null)}
+                                                        {value.pathFile ? (<li className='pathFile'>{value.pathFile}</li>) : (null)}
+                                                        <li className='createdTime'>
+                                                            {moment(+value.createdTime).format(
+                                                                "HH:mm DD/MM/YYYY"
+                                                            )}
+                                                        </li>
+                                                    </ul>
+                                                </Col>
+                                            </Row>
+                                        </Col>
+
+                                    </Row>
+                                    <Row gutter={[16, 0]} className='row2'>
+                                        <Col span={8}>
+                                            <ul>
+                                                <li className='cameraName'>
+                                                    {value &&
+                                                        value.cameraName &&
+                                                        value.cameraName.length > 24 ? (
+                                                        <Tooltip title={value.cameraName}>
+                                                            <span>
+                                                                {value.cameraName.substr(0, 10) +
+                                                                    "..." +
+                                                                    value.cameraName.substr(
+                                                                        value.cameraName.length - 10,
+                                                                        value.cameraName.length - 1
+                                                                    )}
+                                                            </span>
+                                                        </Tooltip>
+                                                    ) : (
+                                                        <span>{value.cameraName}</span>
+                                                    )}
+                                                </li>
+                                            </ul>
+                                        </Col>
+                                        <Col span={16}>
+                                            <ul>
+                                                <li className='address'>{value.address}</li>
+                                            </ul>
+                                        </Col>
+                                    </Row>
+                                    <hr />
+                                </div>
+                            );
+                        })}
+                        {/* </div> */}
+
                         <Pagination
                             showLessItems={true}
                             showSizeChanger={true}
@@ -782,17 +939,17 @@ const TableFile = (props) => {
                                             <ul>
                                                 <li className='cameraName'>
                                                     {value &&
-                                                    value.cameraName &&
-                                                    value.cameraName.length > 24 ? (
+                                                        value.cameraName &&
+                                                        value.cameraName.length > 24 ? (
                                                         <Tooltip title={value.cameraName}>
-                              <span>
-                                {value.cameraName.substr(0, 10) +
-                                "..." +
-                                value.cameraName.substr(
-                                    value.cameraName.length - 10,
-                                    value.cameraName.length - 1
-                                )}
-                              </span>
+                                                            <span>
+                                                                {value.cameraName.substr(0, 10) +
+                                                                    "..." +
+                                                                    value.cameraName.substr(
+                                                                        value.cameraName.length - 10,
+                                                                        value.cameraName.length - 1
+                                                                    )}
+                                                            </span>
                                                         </Tooltip>
                                                     ) : (
                                                         <span>{value.cameraName}</span>
@@ -806,7 +963,7 @@ const TableFile = (props) => {
                                             </ul>
                                         </Col>
                                     </Row>
-                                    <hr/>
+                                    <hr />
                                 </div>
                             );
                         })}
@@ -857,7 +1014,7 @@ const TableFile = (props) => {
                         },
                     };
                 }}
-                scroll={{x: 600, y: 650}}
+                scroll={{ x: 600, y: 650 }}
                 pagination={{
                     showLessItems: true,
                     showSizeChanger: true,
@@ -888,7 +1045,7 @@ const TableFile = (props) => {
                 className='bg-grey formSearch'
                 form={form}
                 {...formItemLayout}
-                style={{width: "100%", paddingBottom: "30px"}}
+                style={{ width: "100%", paddingBottom: "30px" }}
             >
                 <Row gutter={24} className='itemRow'>
                     <Col span={23}>
@@ -902,7 +1059,7 @@ const TableFile = (props) => {
                                             onSearch={debounce(onQuickSearchHandler, 1500)}
                                             placeholder={
                                                 <>
-                                                    <SearchOutlined/>
+                                                    <SearchOutlined />
                                                     <span className='placeholder__text'>{t('view.map.search')}</span>
                                                 </>
                                             }
@@ -914,7 +1071,7 @@ const TableFile = (props) => {
                         <Row
                             gutter={24}
                             className='itemRow'
-                            style={!useAdvanceSearch ? {display: "none"} : {}}
+                            style={!useAdvanceSearch ? { display: "none" } : {}}
                         >
                             <Col span={8}>
                                 <Form.Item name={["provinceId"]}>
@@ -964,13 +1121,13 @@ const TableFile = (props) => {
                         <Row
                             gutter={24}
                             className='itemRow'
-                            style={!useAdvanceSearch ? {display: "none"} : {}}
+                            style={!useAdvanceSearch ? { display: "none" } : {}}
                         >
                             <Col span={16}>
-                                <Form.Item name={["address"]} rules={[{required: false}]}>
+                                <Form.Item name={["address"]} rules={[{ required: false }]}>
                                     <Input placeholder={t('view.storage.street')} onChange={onChangeAddress}
-                                           maxLength={255}
-                                           onBlur={handleAddressBlur}
+                                        maxLength={255}
+                                        onBlur={handleAddressBlur}
                                     />
                                 </Form.Item>
                             </Col>
@@ -990,7 +1147,7 @@ const TableFile = (props) => {
                         <Row
                             gutter={24}
                             className='itemRow'
-                            style={!useAdvanceSearch ? {display: "none"} : {}}
+                            style={!useAdvanceSearch ? { display: "none" } : {}}
                         >
                             <Col span={12}>
                                 <Form.Item name={["cameraGroupUuid"]}>
@@ -1000,7 +1157,7 @@ const TableFile = (props) => {
                                         onChange={(uuid) => onChangeCameraGroup(uuid)}
                                         filterOption={filterOption}
                                         options={normalizeOptions("name", "uuid", cameraGroupList)}
-                                        placeholder={t('view.map.camera_group', {cam: t('camera')})}
+                                        placeholder={t('view.map.camera_group', { cam: t('camera') })}
                                     />
                                 </Form.Item>
                             </Col>
@@ -1020,14 +1177,14 @@ const TableFile = (props) => {
                         <Row
                             gutter={24}
                             className='itemRow'
-                            style={!useAdvanceSearch ? {display: "none"} : {}}
+                            style={!useAdvanceSearch ? { display: "none" } : {}}
                         >
                             <Col span={8}>
                                 <Form.Item name={["startDate"]}>
                                     <DatePicker
                                         onChange={onChangeStartDate}
                                         placeholder={t('view.storage.from_date')}
-                                        style={{width: "100%"}}
+                                        style={{ width: "100%" }}
                                     />
                                 </Form.Item>
                             </Col>
@@ -1036,7 +1193,7 @@ const TableFile = (props) => {
                                     <DatePicker
                                         onChange={onChangeEndDate}
                                         placeholder={t('view.storage.to_date')}
-                                        style={{width: "100%"}}
+                                        style={{ width: "100%" }}
                                     />
                                 </Form.Item>
                             </Col>
@@ -1046,7 +1203,7 @@ const TableFile = (props) => {
                         <Row
                             gutter={24}
                             className='itemRow'
-                            style={!useAdvanceSearch ? {display: "none"} : {}}
+                            style={!useAdvanceSearch ? { display: "none" } : {}}
                         >
                             <Col span={8}>
                                 {props.viewFileType >= 1 && (
@@ -1063,14 +1220,26 @@ const TableFile = (props) => {
                                 )}
                             </Col>
                             <Col span={8}>
-                                {props.viewFileType >= 2 && (
-                                    <Form.Item name={["event"]}>
+                                {props.viewFileType >= 2 && props.viewFileType != 4 && (
+                                    <Form.Item name={["eventType"]}>
                                         <Select
                                             allowClear
                                             showSearch
                                             onChange={(uuid) => onChangeEventType(uuid)}
                                             filterOption={filterOption}
                                             options={normalizeOptions("name", "uuid", eventList)}
+                                            placeholder={t('view.storage.event_type')}
+                                        />
+                                    </Form.Item>
+                                )}
+                                {props.viewFileType === 4 && (
+                                    <Form.Item name={["eventType"]}>
+                                        <Select
+                                            allowClear
+                                            showSearch
+                                            onChange={(type) => onChangeSubEventType(type)}
+                                            filterOption={filterOption}
+                                            options={normalizeOptions("name", "type", eventListAI)}
                                             placeholder={t('view.storage.event_type')}
                                         />
                                     </Form.Item>

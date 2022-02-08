@@ -1,6 +1,7 @@
 import {
   DeleteOutlined,
   EditOutlined,
+  ExportOutlined,
   FilterOutlined,
   InfoCircleOutlined,
   PlusOutlined,
@@ -48,7 +49,8 @@ import ModalEditCamera from "./ModalEditCamera";
 import ModalViewDetail from "./ModalViewDetail";
 import "./styleCamera.scss";
 import "./TableCamera.scss";
-
+import fileDownload from "js-file-download";
+import moment from "moment";
 const { Option } = Select;
 
 const STATUS = {
@@ -85,8 +87,8 @@ const TableCamera = () => {
   const [wardId, setWardId] = useState("");
   const [administrativeUnitUuid, setAdministrativeUnitUuid] = useState("");
   const [address, setAddress] = useState("");
-  const [status,setStatus]=useState("");
-  const [vendorUuid,setVendorUuid] = useState("");
+  const [status, setStatus] = useState("");
+  const [vendorUuid, setVendorUuid] = useState("");
   const [wards, setWard] = useState([]);
   const [form] = Form.useForm();
   const [filterOptions, setFilterOptions] = useState(DATA_FAKE_CAMERA);
@@ -108,7 +110,7 @@ const TableCamera = () => {
     setLoading(true);
     let data = {
       name: "",
-      address:address,
+      address: address,
       provinceId: provinceId,
       districtId: districtId,
       id: wardId,
@@ -131,7 +133,7 @@ const TableCamera = () => {
   useEffect(() => {
     setLoading(true);
     let data = {
-      address:address,
+      address: address,
       name: search,
       searchType: unit,
       searchValue: search,
@@ -157,7 +159,7 @@ const TableCamera = () => {
   useEffect(() => {
     setLoading(true);
     let data = {
-      address:address,
+      address: address,
       searchType: unit,
       searchValue: search,
       provinceId: provinceId,
@@ -182,8 +184,8 @@ const TableCamera = () => {
   const handleDelete = async (cameraId) => {
     const isDeleted = await CameraApi.delete(cameraId);
     let data = {
-      name:search,
-      address:address,
+      name: search,
+      address: address,
       provinceId: provinceId,
       districtId: districtId,
       id: wardId,
@@ -207,7 +209,7 @@ const TableCamera = () => {
       const notifyMess = {
         type: "success",
         title: "",
-        description: `${t('noti.successfully_delete_camera')}`,
+        description: `${t("noti.successfully_delete_camera")}`,
       };
       Notification(notifyMess);
     }
@@ -221,11 +223,11 @@ const TableCamera = () => {
 
   const handleSearch = async (value) => {
     setSearch(value);
-    setPage(1)
+    setPage(1);
     // setLoading(true);
     let data = {
       searchType: unit,
-      address:address,
+      address: address,
       searchValue: value,
       provinceId: provinceId,
       districtId: districtId,
@@ -318,7 +320,7 @@ const TableCamera = () => {
     let data = {
       searchType: unit,
       searchValue: "",
-      address:address,
+      address: address,
       provinceId: provinceId,
       districtId: districtId,
       id: wardId,
@@ -367,6 +369,7 @@ const TableCamera = () => {
   // ===========================Modal
 
   const showModal = () => {
+    setPage(1);
     setUnit(UNIT.ALL);
     setSearch("");
     form.setFieldsValue({ searchForm: null });
@@ -385,14 +388,13 @@ const TableCamera = () => {
   };
 
   const handleSubmit = async (value) => {
-
-    setDistrictId(value.districtId??"");
-    setProvinceId(value.provinceId??"");
-    setWardId(value.wardId??"");
-    setAdministrativeUnitUuid(value.administrativeUnitUuid??"")
-    setStatus(value.recordingStatus??"")
-    setVendorUuid(value.vendorUuid??"")
-    setAddress(value.address??"")
+    setDistrictId(value.districtId ?? "");
+    setProvinceId(value.provinceId ?? "");
+    setWardId(value.wardId ?? "");
+    setAdministrativeUnitUuid(value.administrativeUnitUuid ?? "");
+    setStatus(value.recordingStatus ?? "");
+    setVendorUuid(value.vendorUuid ?? "");
+    setAddress(value.address ?? "");
 
     const payload = {
       ...value,
@@ -411,6 +413,38 @@ const TableCamera = () => {
     setLoading(false);
 
     handleOk();
+  };
+
+  const handleExport = async () => {
+    let data = {
+      searchType: unit,
+      address: address,
+      searchValue: search,
+      provinceId: provinceId,
+      districtId: districtId,
+      id: wardId,
+      administrativeUnitUuid: administrativeUnitUuid,
+      vendorUuid: vendorUuid,
+      recordingStatus: status,
+      lang: reactLocalStorage.get("language"),
+    };
+
+    await CameraApi.getExportData(data).then((value) => {
+      if(value.type === "application/octet-stream"){
+        const data = new Blob([value], { type: "application/vnd.ms-excel" });
+        fileDownload(
+          data,
+          `Report_Camera_Info_${moment().format("DD.MM.YYYY_HH.mm.ss")}.xlsx`
+        );
+      }else {
+        const notifyMess = {
+          type: "error",
+          title: "",
+          description: `${t("noti.export_errors")}`,
+        };
+        Notification(notifyMess);
+      }
+    });
   };
 
   // if (isEmpty(listCamera)) {
@@ -449,6 +483,17 @@ const TableCamera = () => {
               onClick={redirectScan}
             >
               <ScanOutlined className="d-flex justify-content-between align-center" />
+            </Button>
+          </Tooltip>
+
+          <Tooltip placement="top" title={t("view.camera.export_camera")}>
+            <Button
+              type="primary"
+              className="btn--add-user height-40 mr-1"
+              style={{ borderRadius: "6px" }}
+              onClick={handleExport}
+            >
+              <ExportOutlined className="d-flex justify-content-between align-center" />
             </Button>
           </Tooltip>
 
@@ -502,6 +547,8 @@ const TableCamera = () => {
             {/* {permissionCheck('delete_camera') && ( */}
             <Tooltip placement="top" title={t("delete")}>
               <Popconfirm
+                cancelText={t("view.user.detail_list.cancel")}
+                okText={t("view.user.detail_list.confirm")}
                 title={t("noti.delete_camera", {
                   this: t("this"),
                   cam: t("camera"),

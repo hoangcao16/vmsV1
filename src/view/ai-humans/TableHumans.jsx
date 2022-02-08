@@ -2,8 +2,8 @@ import {
   DeleteOutlined,
   EditOutlined,
   PlusOutlined,
-  SearchOutlined
-} from '@ant-design/icons';
+  SearchOutlined,
+} from "@ant-design/icons";
 import {
   AutoComplete,
   Button,
@@ -12,43 +12,43 @@ import {
   Select,
   Space,
   Table,
-  Tag
-} from 'antd';
-import 'antd/dist/antd.css';
-import { isEmpty } from 'lodash-es';
-import debounce from 'lodash/debounce';
-import React, { useEffect, useState } from 'react';
-import { withRouter } from 'react-router-dom';
-import CameraApi from '../../actions/api/camera/CameraApi';
-import VendorApi from '../../actions/api/vendor/VendorApi';
-import FieldApi from '../../actions/api/field/FieldApi';
-import EventApi from '../../actions/api/event/EventApi';
+  Tag,
+} from "antd";
+import "antd/dist/antd.css";
+import { isEmpty } from "lodash-es";
+import debounce from "lodash/debounce";
+import React, { useEffect, useState } from "react";
+import { withRouter } from "react-router-dom";
+import CameraApi from "../../actions/api/camera/CameraApi";
+import VendorApi from "../../actions/api/vendor/VendorApi";
+import FieldApi from "../../actions/api/field/FieldApi";
+import EventApi from "../../actions/api/event/EventApi";
 
-import Notification from '../../components/vms/notification/Notification';
-import './../commonStyle/commonInput.scss';
-import './../commonStyle/commonSelect.scss';
-import './../commonStyle/commonTable.scss';
-import ModalEditHumans from './ModalEditHumans';
-import './TableHumans.scss';
-import { bodyStyleCard, headStyleCard } from './variables';
-import { useTranslation } from 'react-i18next';
-import { reactLocalStorage } from 'reactjs-localstorage';
-import Breadcrumds from '../breadcrumds/Breadcrumds';
-import { ShowTotal } from '../../styled/showTotal';
-import AIHumansApi from '../../actions/api/ai-humans/AIHumansApi';
+import Notification from "../../components/vms/notification/Notification";
+import "./../commonStyle/commonInput.scss";
+import "./../commonStyle/commonSelect.scss";
+import "./../commonStyle/commonTable.scss";
+import ModalEditHumans from "./ModalEditHumans";
+import "./TableHumans.scss";
+import { bodyStyleCard, headStyleCard } from "./variables";
+import { useTranslation } from "react-i18next";
+import { reactLocalStorage } from "reactjs-localstorage";
+import Breadcrumds from "../breadcrumds/Breadcrumds";
+import { ShowTotal } from "../../styled/showTotal";
+import AIHumansApi from "../../actions/api/ai-humans/AIHumansApi";
 
 export const CATEGORY_NAME = {
-  EVENT_TYPE: 'EVENT_TYPE',
-  VENDOR: 'VENDOR',
-  CAMERA_TYPE: 'CAMERA_TYPE',
-  AD_DIVISIONS: 'AD_DIVISIONS',
-  FIELD: 'FIELD'
+  EVENT_TYPE: "EVENT_TYPE",
+  VENDOR: "VENDOR",
+  CAMERA_TYPE: "CAMERA_TYPE",
+  AD_DIVISIONS: "AD_DIVISIONS",
+  FIELD: "FIELD",
 };
 
 const { Option } = Select;
 const TableHumans = () => {
   const { t } = useTranslation();
-  const language = reactLocalStorage.get('language');
+  const language = reactLocalStorage.get("language");
   const [selectedHumansId, setSelectedHumansId] = useState(null);
   const [showModal, setShowModal] = useState(false);
   const [total, setTotal] = useState(0);
@@ -58,16 +58,17 @@ const TableHumans = () => {
 
   useEffect(() => {
     if (
-      language == 'vn'
-        ? (document.title = 'CCTV | Quản lý khuôn mặt')
-        : (document.title = 'CCTV | Face Management')
+      language == "vn"
+        ? (document.title = "CCTV | Quản lý khuôn mặt")
+        : (document.title = "CCTV | Face Management")
     );
   }, []);
 
   useEffect(() => {
     const data = {
       page: page,
-      pageSize: pageSize
+      pageSize: pageSize,
+      name: "",
     };
     AIHumansApi.getAllHumans(data).then((result) => {
       setListHumans(result.payload);
@@ -75,14 +76,10 @@ const TableHumans = () => {
     });
   }, [page, pageSize, showModal]);
 
-
-
-
   const getNameByCategory = () => {
-
     return (
       <div className="card--header">
-        <h4>{t('view.ai_humans.face')}</h4>
+        <h4>{t("view.ai_humans.face")}</h4>
 
         <div className="search__toolbar">
           <AutoComplete
@@ -91,7 +88,7 @@ const TableHumans = () => {
             onSearch={debounce(handleSearch, 300)}
             placeholder={
               <div>
-                <span> &nbsp;{t('view.map.search')} </span>{' '}
+                <span> &nbsp;{t("view.map.search")} </span>{" "}
                 <SearchOutlined style={{ fontSize: 22 }} />
               </div>
             }
@@ -123,7 +120,7 @@ const TableHumans = () => {
     const data = {
       page: page,
       pageSize: pageSize,
-      name: value
+      name: value,
     };
     AIHumansApi.getAllHumans(data).then((result) => {
       let dataResult = result[Object.keys(result)[0]];
@@ -135,7 +132,8 @@ const TableHumans = () => {
   const loadList = async () => {
     const data = {
       page: page,
-      pageSize: pageSize
+      pageSize: pageSize,
+      name: "",
     };
     AIHumansApi.getAllHumans(data).then((result) => {
       let dataResult = result[Object.keys(result)[0]];
@@ -145,23 +143,22 @@ const TableHumans = () => {
   };
 
   const handleDelete = async (id) => {
-
     let isDelete = false;
 
     isDelete = await AIHumansApi.deleteHumans(id);
 
     const notifyMess = {
-      type: 'success',
-      title: '',
-      description: `${t('noti.successfully_delete_human', {
-        delete: t('delete')
-      })}`
+      type: "success",
+      title: "",
+      description: `${t("noti.successfully_delete_human", {
+        delete: t("delete"),
+      })}`,
     };
     isDelete && Notification(notifyMess);
 
     const data = {
       page: page,
-      pageSize: pageSize
+      pageSize: pageSize,
     };
     AIHumansApi.getAllHumans(data).then((result) => {
       let dataResult = result[Object.keys(result)[0]];
@@ -176,103 +173,103 @@ const TableHumans = () => {
   };
 
   const renderTag = (haveImg) => {
-    let str = ""
-    haveImg ? str = "Đã có ảnh" : str = "Chưa có ảnh"
+    let str = "";
+    haveImg ? (str = "Đã có ảnh") : (str = "Chưa có ảnh");
     return (
-      <Tag color={haveImg ? '#1380FF' : '#FF4646'} style={{ color: '#ffffff' }}>{str}</Tag>
+      <Tag color={haveImg ? "#1380FF" : "#FF4646"} style={{ color: "#ffffff" }}>
+        {str}
+      </Tag>
     );
   };
 
-  
-
-
   const categoryColumns = [
     {
-      title: 'STT',
-      fixed: 'left',
-      key: 'index',
-      className: 'headerColums',
-      width: '10%',
-      render: (text, record, index) => index + 1
+      title: "STT",
+      fixed: "left",
+      key: "index",
+      className: "headerColums",
+      width: "10%",
+      render: (text, record, index) => index + 1,
     },
     {
-      title: `${t('view.ai_humans.name')}`,
-      dataIndex: 'name',
-      key: 'name',
-      className: 'headerColums',
-      fixed: 'left',
-      width: '15%',
-      // ...TableUtils.getColumnSearchProps('name')
+      title: `${t("view.ai_humans.name")}`,
+      dataIndex: "name",
+      key: "name",
+      className: "headerColums",
+      fixed: "left",
+      width: "15%",
     },
     {
-      title: `${t('view.ai_humans.code')}`,
-      dataIndex: 'code',
-      className: 'headerColums',
-      key: 'code',
-      width: '5%'
+      title: `${t("view.ai_humans.code")}`,
+      dataIndex: "code",
+      className: "headerColums",
+      key: "code",
+      width: "5%",
     },
     {
-      title: `${t('view.ai_humans.position')}`,
-      dataIndex: 'position',
-      className: 'headerColums',
-      key: 'position',
-      width: '10%'
+      title: `${t("view.ai_humans.position")}`,
+      dataIndex: "position",
+      className: "headerColums",
+      key: "position",
+      width: "10%",
     },
     {
-      title: `${t('view.ai_humans.adminUnit')}`,
-      dataIndex: 'adminUnit',
-      className: 'headerColums',
-      key: 'adminUnit',
-      width: '10%'
+      title: `${t("view.ai_humans.adminUnit")}`,
+      dataIndex: "adminUnit",
+      className: "headerColums",
+      key: "adminUnit",
+      width: "10%",
     },
     {
-      title: `${t('view.ai_humans.department')}`,
-      dataIndex: 'department',
-      className: 'headerColums',
-      key: 'department',
-      width: '10%'
+      title: `${t("view.ai_humans.department")}`,
+      dataIndex: "department",
+      className: "headerColums",
+      key: "department",
+      width: "10%",
     },
     {
-      title: `${t('view.ai_humans.status')}`,
-      dataIndex: 'haveImg',
-      className: 'headerColums',
-      key: 'haveImg',
+      title: `${t("view.ai_humans.status")}`,
+      dataIndex: "haveImg",
+      className: "headerColums",
+      key: "haveImg",
       render: renderTag,
-      width: '10%'
+      width: "10%",
     },
     {
-      title: `${t('view.storage.action')}`,
-      className: 'headerColums',
-      fixed: 'right',
-      width: '12%',
+      title: `${t("view.storage.action")}`,
+      className: "headerColums",
+      fixed: "right",
+      width: "12%",
       render: (_text, record) => {
         return (
           <Space>
             <EditOutlined
-              style={{ fontSize: '16px', color: '#6E6B7B' }}
+              style={{ fontSize: "16px", color: "#6E6B7B" }}
               onClick={() => {
                 setSelectedHumansId(record.uuid);
                 setShowModal(true);
               }}
             />
             <Popconfirm
-              title={t('noti.delete_category', { this: t('this') })}
+              cancelText={t("view.user.detail_list.cancel")}
+              okText={t("view.user.detail_list.confirm")}
+              title={t("noti.delete_category", { this: t("this") })}
               onConfirm={() => handleDelete(record.uuid)}
             >
-              <DeleteOutlined style={{ fontSize: '16px', color: '#6E6B7B' }} />
+              <DeleteOutlined style={{ fontSize: "16px", color: "#6E6B7B" }} />
             </Popconfirm>
           </Space>
         );
-      }
-    }
+      },
+    },
   ];
 
   return (
     <div className="tabs__container--category">
       <Breadcrumds
         url="/app/setting"
-        nameParent={t('breadcrumd.setting')}
-        nameChild={t('view.ai_humans.face')}
+        nameParent={t("breadcrumd.setting")}
+        nameChild={t("view.ai_humans.face")}
       />
 
       <Card
@@ -285,7 +282,7 @@ const TableHumans = () => {
         bodyStyle={bodyStyleCard}
         headStyle={headStyleCard}
         className="card--category"
-      // headStyle={{ padding: 30 }}
+        // headStyle={{ padding: 30 }}
       >
         <Table
           className="table__hard--drive--list"
@@ -304,15 +301,15 @@ const TableHumans = () => {
             showTotal: (total, range) => {
               return (
                 <ShowTotal className="show--total">
-                  {t('view.user.detail_list.viewing')} {range[0]}{' '}
-                  {t('view.user.detail_list.to')} {range[1]}{' '}
-                  {t('view.user.detail_list.out_of')} {total}{' '}
-                  {t('view.user.detail_list.indexes')}
+                  {t("view.user.detail_list.viewing")} {range[0]}{" "}
+                  {t("view.user.detail_list.to")} {range[1]}{" "}
+                  {t("view.user.detail_list.out_of")} {total}{" "}
+                  {t("view.user.detail_list.indexes")}
                 </ShowTotal>
               );
-            }
+            },
           }}
-          scroll={{ x: 'max-content', y: 500 }}
+          scroll={{ x: "max-content", y: 500 }}
           rowKey="id"
           columns={categoryColumns}
           dataSource={listHumans}
@@ -334,17 +331,15 @@ const TableHumans = () => {
           dataType={dataType}
         />
       )} */}
-      {showModal &&
+      {showModal && (
         <ModalEditHumans
           selectedHumansId={selectedHumansId}
           setShowModal={setShowModal}
           loadList={loadList}
         />
-
-      }
+      )}
     </div>
   );
 };
-
 
 export default withRouter(TableHumans);

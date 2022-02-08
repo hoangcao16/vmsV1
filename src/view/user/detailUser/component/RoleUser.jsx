@@ -1,20 +1,20 @@
-import { LinkOutlined } from '@ant-design/icons';
-import { Card, Form, Select } from 'antd';
-import { isEmpty } from 'lodash-es';
-import React, { useEffect, useState } from 'react';
-import { useHistory, useLocation, useRouteMatch } from 'react-router-dom';
-import { reactLocalStorage } from 'reactjs-localstorage';
-import UserApi from '../../../../actions/api/user/UserApi';
-import Notification from '../../../../components/vms/notification/Notification';
-import '../../../commonStyle/commonAuto.scss';
-import '../../../commonStyle/commonSelect.scss';
-import './RoleUser.scss';
+import { LinkOutlined } from "@ant-design/icons";
+import { Card, Form, Select } from "antd";
+import { isEmpty } from "lodash-es";
+import React, { useEffect, useState } from "react";
 import { useTranslation } from "react-i18next";
-
+import { useHistory, useLocation, useRouteMatch } from "react-router-dom";
+import { reactLocalStorage } from "reactjs-localstorage";
+import UserApi from "../../../../actions/api/user/UserApi";
+import Notification from "../../../../components/vms/notification/Notification";
+import "../../../commonStyle/commonAuto.scss";
+import "../../../commonStyle/commonSelect.scss";
+import "./RoleUser.scss";
+const { Option } = Select;
 
 const formItemLayout = {
   wrapperCol: { span: 24 },
-  labelCol: { span: 24 }
+  labelCol: { span: 24 },
 };
 
 const RoleUser = (props) => {
@@ -34,9 +34,9 @@ const RoleUser = (props) => {
 
   useEffect(() => {
     const data = {
-      filter: '',
+      filter: "",
       page: 1,
-      size: ''
+      size: "",
     };
 
     UserApi.getAllRole(data).then((result) => {
@@ -55,7 +55,7 @@ const RoleUser = (props) => {
   };
 
   const render = (name, id) => {
-    reactLocalStorage.setObject('tabIndex', 3);
+    reactLocalStorage.setObject("tabIndex", 3);
     return (
       <div className="role__item">
         <span className="roll__item--name">{name}</span>
@@ -73,15 +73,15 @@ const RoleUser = (props) => {
   const onChange = async (value) => {
     const update = await UserApi.setRoleForUser({
       user_uuid: props?.id,
-      role_uuids: value
+      role_uuids: value,
     });
 
     if (update) {
       handleReload();
       const notifyMess = {
-        type: 'success',
-        title: '',
-        description: `${t('noti.successfully_update')}`,
+        type: "success",
+        title: "",
+        description: `${t("noti.successfully_update")}`,
       };
       Notification(notifyMess);
     }
@@ -111,22 +111,34 @@ const RoleUser = (props) => {
   return (
     <div className="detail-user--role">
       <Card className="cardRole">
-        <h4>{t('R')}</h4>
+        <h4>{t("R")}</h4>
 
         {!isEmpty(allRoles) ? (
           <Form form={form} {...formItemLayout} initialValues={roleUuidArr}>
-            <Form.Item name={['role_uuid']}>
+            <Form.Item name={["role_uuid"]}>
               <Select
-                mode="multiple"
-                style={{ width: '100%' }}
-                options={allRoles.map((g) => ({
-                  value: g.uuid,
-                  label: render(g.name, g.uuid)
-                }))}
-                onChange={(e) => onChange(e)}
+                showSearch
+                style={{ width: "100%" }}
                 bordered={false}
-                showSearch={true}
-              />
+                placeholder={t('view.user.detail_list.search_to_select')}
+                mode="multiple"
+                optionFilterProp="children"
+                filterOption={(input, option) =>
+                  option.key.toLowerCase().indexOf(input.toLowerCase()) >= 0
+                }
+                onChange={(e) => onChange(e)}
+                filterSort={(optionA, optionB) =>
+                  optionA.key
+                    .toLowerCase()
+                    .localeCompare(optionB.key.toLowerCase())
+                }
+              >
+                {allRoles.map((item) => (
+                  <Option key={item.name} value={item.uuid}>
+                    {render(item.name, item.uuid)}
+                  </Option>
+                ))}
+              </Select>
             </Form.Item>
           </Form>
         ) : null}

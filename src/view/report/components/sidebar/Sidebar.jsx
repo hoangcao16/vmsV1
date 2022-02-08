@@ -46,7 +46,7 @@ const SELECTED_TIME = {
 
 function Sidebar(props) {
   const { t } = useTranslation();
-
+  
   const [filterOptions, setFilterOptions] = useState(DATA_FAKE_CAMERA);
 
   const [provinceId, setProvinceId] = useState(["2"]);
@@ -235,7 +235,7 @@ function Sidebar(props) {
       });
     }
 
-    if (cityIdArr.length == 1) {
+    if (cityIdArr.length === 1) {
       let arr = [];
       arr = selectedRowKeys;
       props.changeCount(arr);
@@ -267,7 +267,7 @@ function Sidebar(props) {
       return;
     } else if (cityIdArr.length > 5) {
       const language = reactLocalStorage.get("language");
-      if (language == "vn") {
+      if (language === "vn") {
         const notifyMess = {
           type: "error",
           title: "",
@@ -323,7 +323,7 @@ function Sidebar(props) {
       return;
     } else if (districtIdArr.length > 5) {
       const language = reactLocalStorage.get("language");
-      if (language == "vn") {
+      if (language === "vn") {
         const notifyMess = {
           type: "error",
           title: "",
@@ -386,7 +386,7 @@ function Sidebar(props) {
       return;
     } else if (wardIdArr.length > 5) {
       const language = reactLocalStorage.get("language");
-      if (language == "vn") {
+      if (language === "vn") {
         const notifyMess = {
           type: "error",
           title: "",
@@ -447,7 +447,7 @@ function Sidebar(props) {
     if (isShowLineAndPieChart === true) {
       if (selectedRowKeys.length < 1 || selectedRowKeys.length > 3) {
         const language = reactLocalStorage.get("language");
-        if (language == "vn") {
+        if (language === "vn") {
           const notifyMess = {
             type: "error",
             title: "",
@@ -485,15 +485,25 @@ function Sidebar(props) {
       };
       props.callData(clearData(data));
     } else {
-      if (selectedRowKeys.length > 3) {
-        const notifyMess = {
-          type: "error",
-          title: "",
-          description: "Số lượng sự kiện không được vượt quá 3",
-        };
-        Notification(notifyMess);
-
-        return;
+      if (selectedRowKeys.length < 1 || selectedRowKeys.length > 3) {
+        const language = reactLocalStorage.get("language");
+        if (language === "vn") {
+          const notifyMess = {
+            type: "error",
+            title: "",
+            description: `Số lượng sự kiện phải trong khoảng từ 1 đến 3`,
+          };
+          Notification(notifyMess);
+          return;
+        } else {
+          const notifyMess = {
+            type: "error",
+            title: "",
+            description: "Number of events must be in range from 1 to 3",
+          };
+          Notification(notifyMess);
+          return;
+        }
       }
       setSelectedRowKeys(selectedRowKeys);
       props.changeCount(selectedRowKeys);
@@ -535,7 +545,7 @@ function Sidebar(props) {
     props.changeCount(arr);
   };
 
-  //=================================================================
+  //==================================================================
 
   function onChangeTimeStartDay(value) {
     let arr = [];
@@ -576,7 +586,7 @@ function Sidebar(props) {
       });
 
       const language = reactLocalStorage.get("language");
-      if (language == "vn") {
+      if (language === "vn") {
         const notifyMess = {
           type: "error",
           title: "",
@@ -615,7 +625,7 @@ function Sidebar(props) {
     return current > end || current > moment() + 1 || current < start;
   }
 
-  //=================================================================
+  //==================================================================
 
   function onChangeTimeStartMonth(value) {
     let arr = [];
@@ -652,7 +662,7 @@ function Sidebar(props) {
       });
 
       const language = reactLocalStorage.get("language");
-      if (language == "vn") {
+      if (language === "vn") {
         const notifyMess = {
           type: "error",
           title: "",
@@ -686,7 +696,7 @@ function Sidebar(props) {
     return current > moment() + 1 || current < start || current > end + 1;
   }
 
-  //=================================================================
+  //==================================================================
 
   function onChangeTimeStartYear(value) {
     let arr = [];
@@ -722,7 +732,7 @@ function Sidebar(props) {
       });
 
       const language = reactLocalStorage.get("language");
-      if (language == "vn") {
+      if (language === "vn") {
         const notifyMess = {
           type: "error",
           title: "",

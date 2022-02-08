@@ -6,7 +6,7 @@ const StatusForbidden = 605;
 export const handleForbiddenCode = (forbiddenCodes, error) => {
   const language = reactLocalStorage.get("language");
   let errCode = {};
-  if (language == "vn") {
+  if (language === "vn") {
     errCode = {
       type: "error",
       title: "Mã lỗi: " + StatusForbidden,
@@ -20,14 +20,14 @@ export const handleForbiddenCode = (forbiddenCodes, error) => {
     };
   }
   let description = `${
-    language == "vn"
+    language === "vn"
       ? "Bạn không có quyền để thực hiện hành động này"
       : "You don't have permission to perform this action"
   }`;
 
   if (error) {
     description = `${
-      language == "vn"
+      language === "vn"
         ? "Xóa không thành công. Nhóm người dùng/Vai trò đang được sử dụng"
         : "Delete failed. User group/Role is in use."
     }`;
@@ -38,6 +38,7 @@ export const handleForbiddenCode = (forbiddenCodes, error) => {
       page: 0,
       size: 1000000,
       filter: "",
+      lang: language
     };
     let forbiddenNames = [];
     UserApi.getAllPermission(data).then((result) => {
@@ -51,7 +52,7 @@ export const handleForbiddenCode = (forbiddenCodes, error) => {
         if (forbiddenNames.length > 0) {
           description =
             `${
-              language == "vn"
+              language === "vn"
                 ? "Bạn không có quyền "
                 : "You don't have permission "
             }` + forbiddenNames.join(", ");

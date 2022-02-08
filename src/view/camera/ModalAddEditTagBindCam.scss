@@ -18,7 +18,7 @@
         color: $vms-main-blue-primary !important;
       }
     }
-
+    
     .tag-input-item {
       text-align: left;
       .ant-form-item-control-input {
@@ -33,4 +33,8 @@
       }
     }
   }
+}
+
+[dir] .ant-select-show-search.ant-select:not(.ant-select-customize-input) .ant-select-selector {
+  min-height: 48px !important;
 }

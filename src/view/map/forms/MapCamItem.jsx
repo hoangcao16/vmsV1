@@ -57,7 +57,7 @@ const MapCamItem = ({ camera, handleSelectCamera, isControlCam }) => {
     <>
       <div
         onClick={handleClick}
-        className={`d-flex p-1 align-items-center card-cam__item ${
+        className={`d-flex align-items-center card-cam__item ${
           showControlCam ? "active" : ""
         }`}
       >
