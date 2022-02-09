@@ -27,6 +27,7 @@ const LiveCameraSlot = (props) => {
     zoomOutByDoubleClick,
     setReloadLiveMenuTool,
     reloadLiveMenuTool,
+    changeLiveMode
   } = props;
   const { t } = useTranslation();
   const [showMenus, setShowMenus] = useState({});
@@ -251,6 +252,7 @@ const LiveCameraSlot = (props) => {
                   reloadLiveMenuTool={reloadLiveMenuTool}
                   isOpenModalControlPanel={isOpenModalControlPanel}
                   setIsOpenModalControlPanel={setIsOpenModalControlPanel}
+                  changeLiveMode={changeLiveMode}
                 />
               }
               overlayClassName="control-panel-popover"

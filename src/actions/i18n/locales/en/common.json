@@ -107,6 +107,7 @@
     "live": {
       "preset_setting": "Preset setting",
       "open_control_panel": "Open control panel",
+      "view_by_setting": "View camera by setting",
       "preset_name": "Preset name",
       "time": "Time",
       "add_new_or_edit_preset_tour": "Add new or edit preset tour",
@@ -114,7 +115,11 @@
       "choose_preset_tour": "Choose preset tour",
       "zoom": "Zoom in/Zoom out",
       "menu_preset": "Preset menu",
-      "close_camera": "Close Camera"
+      "close_camera": "Close Camera",
+      "live_mode": "Live mode",
+      "attendance": "Attendance",
+      "intrusion_and_hurdles_human": "Hurdles and intrusion (Human detection)",
+      "intrusion_and_hurdles_vehicle": "Hurdles and intrusion (Vehicle detection)"
     },
     "map": {
       "search": "Search",

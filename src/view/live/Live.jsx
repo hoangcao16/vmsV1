@@ -239,7 +239,7 @@ const Live = (props) => {
       //Play all cameras with live
       addedCameras.forEach((cam, id) => {
         if (cam && cam.camUuid) {
-          liveCamera(cam.camUuid, cam.camId, cam.id);
+          liveCamera(cam.camUuid, cam.camId, cam.id, "live").then();
         }
       });
     }
@@ -247,8 +247,9 @@ const Live = (props) => {
   };
 
   // LIVE
-  const liveCamera = async (camUuid, camId, slotIdx) => {
-    if (camUuid == "" || camUuid == null) {
+  const liveCamera = async (camUuid, camId, slotIdx, type) => {
+    debugger;
+    if (camUuid === "" || camUuid == null) {
       Notification({
         type: "warning",
         title: `${t("noti.default_screen")}`,
@@ -269,7 +270,7 @@ const Live = (props) => {
     //Chỗ này check mode HLS or WebRTC: Xử lí trên giao diện khác nhau.
 
     if (mode === "webrtc") {
-      var restartConfig = {
+      const restartConfig = {
         iceServers: [
           {
             urls: "stun:turn.edsolabs.com:3478",
@@ -307,6 +308,7 @@ const Live = (props) => {
               token: token,
               camUuid: camUuid,
               offer: offer,
+              viewType: type
             })
             .then((res) => {
               if (res) {
@@ -328,6 +330,7 @@ const Live = (props) => {
         .catch((e) => console.log(e))
         .finally(() => {});
     } else {
+      debugger;
       const API = data.camproxyApi;
       const { token } = data;
       const spin = document.getElementById("spin-slot-" + slotIdx);
@@ -336,23 +339,23 @@ const Live = (props) => {
         .playCameraHls(API, {
           token: token,
           cameraUuid: camUuid,
+          viewType: type
         })
         .then(async (res) => {
-          if (res.data.code == "15000") {
+          if (res) {
             const cell = document.getElementById("video-slot-" + slotIdx);
             if (cell) {
               cell.autoplay = true;
-              cell.controls = true;
+              cell.controls = false;
               cell.preload = "none";
               cell.crossOrigin = "anonymous";
-              cell.style =
-                "width:100%;height:100%;display:block;object-fit:fill;position:absolute;top:0";
+              cell.style = "width:100%;height:100%;display:block;object-fit:fill;position:absolute;top:0";
               cell.type = "application/x-mpegURL";
               cell.muted = "muted";
-              // cell.innerHTML = `<source src='${camproxyApi}/camproxy/v1/play/hls/${camUuid}/index.m3u8' type='application/x-mpegURL'>`;
-              cell.innerHTML = `<source src='http://cctv-uat.edsolabs.com:8094/camproxy/v1/play/hls/b2bb2802-51e9-4395-bb16-fced5f036302/index.m3u8' type='application/x-mpegURL'>`;
+              cell.innerHTML = `<source src='${API}/camproxy/v1/play/hls/${camUuid}/index.m3u8' type='application/x-mpegURL'>`;
+              //cell.innerHTML = `<source src='http://cctv-uat.edsolabs.com:8094/camproxy/v1/play/hls/b2bb2802-51e9-4395-bb16-fced5f036302/index.m3u8' type='application/x-mpegURL'>`;
               spin.style.display = "none";
-              var ply = await videojs("video-slot-" + slotIdx);
+              const ply = await videojs("video-slot-" + slotIdx);
               ply.play();
             }
           }
@@ -641,7 +644,7 @@ const Live = (props) => {
 
       switch (liveMode) {
         case true:
-          liveCamera(camInfoArr[0], camInfoArr[2], des.id).then();
+          liveCamera(camInfoArr[0], camInfoArr[2], des.id, "live").then();
           setAddedCameras(result);
           break;
         case false:
@@ -662,6 +665,17 @@ const Live = (props) => {
   };
 
   // CONTROL CAMERA
+  const changeLiveMode = (slotId, type) => {
+    debugger;
+    const slotIdx = findCameraIndexInGrid(slotId);
+    const cameras = [...addedCameras];
+    let camera = cameras[slotIdx];
+    console.log(">>>>> camera: ", camera);
+    liveCamera(camera.camUuid, camera.camId, camera.id, type).then();
+    camera = { ...camera, liveMode: true };
+    cameras[slotIdx] = camera;
+    setAddedCameras([...cameras]);
+  }
   const updateGridSize2 = (size) => {
     currentGridSize = size;
     updateGridSize();
@@ -1172,7 +1186,7 @@ const Live = (props) => {
               isPlay: true,
               selected: false,
             };
-            liveCamera(camUuid, camFound.camId, idx);
+            liveCamera(camUuid, camFound.camId, idx, "live").then();
           }
         });
         setAddedCameras(cams);
@@ -1348,6 +1362,7 @@ const Live = (props) => {
             closeCamera={() => closeCamera(originSlotId)}
             onSelectVideoSlot={onSelectVideoSlot}
             liveMode={liveMode}
+            changeLiveMode={changeLiveMode}
             zoomOutByDoubleClick={zoomOutByDoubleClick}
             setReloadLiveMenuTool={setReloadLiveMenuTool}
             reloadLiveMenuTool={reloadLiveMenuTool}

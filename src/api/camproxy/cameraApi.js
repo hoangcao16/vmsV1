@@ -56,17 +56,20 @@ const playCamApi = {
           .then((response) => resolve(response))
           .catch((error) => reject(error));
       });
-
-      if (response && response.data.code == "15000") {
-        return response;
+      if (response && response.data) {
+        const payload = handleErrCode(response.data);
+        if (payload) {
+          return payload;
+        }
       }
+      return null;
     } catch (e) {
       Notification({
         type: "error",
         title: "",
         description: e.message,
       });
-      return false;
+      return null;
     }
   },
 };
