@@ -248,7 +248,6 @@ const Live = (props) => {
 
   // LIVE
   const liveCamera = async (camUuid, camId, slotIdx, type) => {
-    debugger;
     if (camUuid === "" || camUuid == null) {
       Notification({
         type: "warning",
@@ -330,7 +329,6 @@ const Live = (props) => {
         .catch((e) => console.log(e))
         .finally(() => {});
     } else {
-      debugger;
       const API = data.camproxyApi;
       const { token } = data;
       const spin = document.getElementById("spin-slot-" + slotIdx);
@@ -666,7 +664,6 @@ const Live = (props) => {
 
   // CONTROL CAMERA
   const changeLiveMode = (slotId, type) => {
-    debugger;
     const slotIdx = findCameraIndexInGrid(slotId);
     const cameras = [...addedCameras];
     let camera = cameras[slotIdx];
