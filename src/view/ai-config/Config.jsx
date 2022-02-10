@@ -34,7 +34,7 @@ const Config = () => {
   const [listCameras, setListCameras] = useState([]);
   const [cameraUuid, setCameraUuid] = useState("");
   const [page, setPage] = useState(1);
-  const [pageSize, setPageSize] = useState(10);
+  const [pageSize, setPageSize] = useState(100);
   const [data, setData] = useState(false);
 
   useEffect(() => {
