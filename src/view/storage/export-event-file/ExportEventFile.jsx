@@ -148,7 +148,7 @@ const ExportEventFile = () => {
       },
       {
         id: 0,
-        type: "line_crossing",
+        type: "just_crossed",
         name: `${t("view.ai_events.line_crossing")}`,
       },
       {
@@ -178,7 +178,7 @@ const ExportEventFile = () => {
       } else {
         AIEventsApi.getDetailEvent(fileCurrent.uuid).then(
           (data) => {
-            
+
             if (data && data.payload) {
               setDetailAI({
                 ...fileCurrent,
@@ -189,9 +189,9 @@ const ExportEventFile = () => {
                 departmentUuid: data.payload.departmentUuid,
                 departmentName: data.payload.departmentName,
                 imageOther: imageOther,
-                typeObject: data.payload.useCase === "zac_vehicle" ? "vehicle"  : "human"
+                typeObject: data.payload.useCase === "zac_vehicle" ? "vehicle" : "human"
               })
-              
+
               // if (data.payload.length >= 0) {
               //   data.payload.map((f) => {
               //     if (f.thumbnailData != null) {
@@ -204,9 +204,9 @@ const ExportEventFile = () => {
             }
           }
         );
-      }      
+      }
     }
-    
+
   }, [fileCurrent]);
 
   const refresh = () => {
@@ -1403,10 +1403,19 @@ const ExportEventFile = () => {
                 </Tooltip>
               </div>
               {detailAI.useCase === "zac_vehicle"
-                ? <div>{t("view.ai_events.type")} : {t("view.ai_events.useCase." + detailAI.useCase)}</div>
+                ? <ul style={{ listStyleType: 'none', display: 'inline-block' }}>
+                <li>{t("view.ai_events.type")} : {t("view.ai_events.useCase." + detailAI.useCase)}</li>
+                <li>{t("view.ai_events.plateNumber")} : {eventFileCurrent.plateNumber? eventFileCurrent.plateNumber :t("view.ai_events.UnKnow")}</li>
+              </ul>
+                : null}
+              {detailAI.useCase === "zac_human"
+                ? <ul style={{ listStyleType: 'none', display: 'inline-block' }}>
+                <li>{t("view.ai_events.type")} : {t("view.ai_events.useCase." + detailAI.useCase)}</li>
+                <li>{t("view.ai_events.name")} : {eventFileCurrent.name? eventFileCurrent.name :t("view.ai_events.UnKnow")}</li>
+              </ul>
                 : null}
               {detailAI.useCase === "attendance"
-                ? <ul style={{ listStyleType: 'none', display: 'inline-block'}}> 
+                ? <ul style={{ listStyleType: 'none', display: 'inline-block' }}>
                   <li>{t("view.ai_events.code")} : {detailAI.code}</li>
                   <li>{t("view.ai_events.name")} : {detailAI.name}</li>
                   <li>{t("view.ai_events.position")} : {detailAI.position}</li>

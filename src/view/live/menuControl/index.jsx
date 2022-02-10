@@ -14,11 +14,13 @@ import ItemControl from "./ItemControl";
 // import { Modal, Button } from 'antd';
 import ModalControlPanel from "./ModalControlPanel";
 import "./ModalPresetSetting.scss";
+import cameraAIApi from "../../../actions/api/live/CameraAIApi";
 
 
 const LIST_TYPES = {
   preset: "preset",
   presetTour: "presetTour",
+  viewSetting: "viewSetting",
   other: "other",
 };
 
@@ -33,6 +35,7 @@ const Index = (props) => {
     reloadLiveMenuTool,
     isOpenModalControlPanel,
     setIsOpenModalControlPanel,
+    changeLiveMode
   } = props;
   const { t } = useTranslation();
   let CONTROL_TYPES = [];
@@ -56,6 +59,7 @@ const Index = (props) => {
         type: 3,
       },
       { name: `${t("view.live.open_control_panel")}`, type: 4 },
+      { name: `${t("view.live.view_by_setting")}`, type: 5 },
     ];
   } else if (!permissionCheckByCamera("setup_preset", idCamera)) {
     CONTROL_TYPES = [
@@ -70,6 +74,7 @@ const Index = (props) => {
         icon: <ChevronRight />,
       },
       { name: `${t("view.live.open_control_panel")}`, type: 4 },
+      { name: `${t("view.live.view_by_setting")}`, type: 5 },
     ];
   } else if (!permissionCheckByCamera("ptz_control", idCamera)) {
     CONTROL_TYPES = [
@@ -87,6 +92,7 @@ const Index = (props) => {
         name: `${t("view.live.preset_setting")}`,
         type: 3,
       },
+      { name: `${t("view.live.view_by_setting")}`, type: 5 },
     ];
   }
   const [typeActive, setTypeActive] = useState(1);
@@ -95,6 +101,7 @@ const Index = (props) => {
   const [presetTourLists, setPresetTourLists] = useState([]);
   const [search, setSearch] = useState("");
   const [presetLists, setPresetLists] = useState([]);
+  const [cameraInfoLists, setCameraInfoLists] = useState([]);
   const [recallPresetAndPresetTourList, setRecallPresetAndPresetTourList] =
     useState(false);
   const getPreset = async (params) => {
@@ -105,6 +112,34 @@ const Index = (props) => {
       }
       if (payload) {
         setPresetLists(payload.data);
+      }
+    }
+  };
+  const getCameraInfo = async (params) => {
+    if (idCamera) {
+      const payload = await cameraAIApi.getCameraInfoByUuid(params);
+      if (isEmpty(payload)) {
+        return;
+      }
+      if (payload) {
+        let data = [];
+        data.push({cameraUuid: idCamera, type: "live", rtspStatus: "valid", title: `${t("view.live.live_mode")}`});
+        payload.forEach((p) => {
+          if (p.rtspStatus === "valid") {
+            switch (p.type) {
+              case "zac_human":
+                data.push({...p, title: `${t("view.live.intrusion_and_hurdles_human")}`});
+                break;
+              case "zac_vehicle":
+                data.push({...p, title: `${t("view.live.intrusion_and_hurdles_vehicle")}`});
+                break;
+              case "attendance":
+                data.push({...p, title: `${t("view.live.attendance")}`});
+                break;
+            }
+          }
+        })
+        setCameraInfoLists(data);
       }
     }
   };
@@ -165,6 +200,11 @@ const Index = (props) => {
     }
   };
 
+  const onClickChangeLiveMode = async (type) => {
+    setOpenMenuControl(false);
+    changeLiveMode(slotId, type);
+  }
+
   const handleSelectType = (type) => {
     setTypeActive(type);
     if (type === 4) {
@@ -199,6 +239,15 @@ const Index = (props) => {
       };
 
       getPreset(params);
+    }
+    if (type === 5) {
+      setListType(LIST_TYPES.viewSetting);
+      setSearch("");
+      const params = {
+        cameraUuid: idCamera,
+        name: "",
+      };
+      getCameraInfo(params);
     }
   };
 
@@ -245,6 +294,19 @@ const Index = (props) => {
     ));
   };
 
+  const renderListCameraInfo = () => {
+    return cameraInfoLists?.map((item, index) => (
+        <button
+            key={index}
+            className="menu-control-container__right__result__item"
+            title={item.title}
+            onClick={() => onClickChangeLiveMode(item.type)}
+        >
+          {item?.title}
+        </button>
+    ));
+  };
+
   const handleSearch = async (value) => {
     setSearch(value);
     const params = {
@@ -267,7 +329,7 @@ const Index = (props) => {
     <>
       <div className="menu-control-container">
         <div className="menu-control-container__left">
-          <div className="menu-control-container__left__back"></div>
+          <div className="menu-control-container__left__back"/>
           {CONTROL_TYPES.map((item, _) => {
             return (
               <ItemControl
@@ -281,20 +343,23 @@ const Index = (props) => {
         </div>
         <div className="menu-control-container__right">
           {/* <div className="menu-control-container__right__search"> */}
-          <AutoComplete
-            value={search}
-            onSearch={handleSearch}
-            onBlur={handleBlur}
-            maxLength={100}
-            className=" full-width height-40 read search__camera-group"
-            placeholder={t("view.map.search")}
-          />
+          {listType !== LIST_TYPES.viewSetting && (<AutoComplete
+              value={search}
+              onSearch={handleSearch}
+              onBlur={handleBlur}
+              maxLength={100}
+              className=" full-width height-40 read search__camera-group"
+              placeholder={t("view.map.search")}
+          />)
+          }
           {/* </div> */}
           <div className="menu-control-container__right__result">
             {listType === LIST_TYPES.preset
               ? renderListPreset()
               : listType === LIST_TYPES.presetTour
               ? renderListPresetTour()
+              : listType === LIST_TYPES.viewSetting
+              ? renderListCameraInfo()
               : ""}
           </div>
         </div>
