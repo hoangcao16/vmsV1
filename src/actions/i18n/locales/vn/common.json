@@ -509,7 +509,8 @@
       "name": "Tên",
       "position": "Chức vụ",
       "department": "Phòng ban",
-      "type": "Loại đối tượng "
+      "type": "Loại đối tượng ",
+      "UnKnow":"Không xác định"
     },
     "department": {
       "administrative": "Đơn vị hành chính",
