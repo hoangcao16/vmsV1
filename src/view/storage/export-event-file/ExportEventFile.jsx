@@ -186,21 +186,12 @@ const ExportEventFile = () => {
                 name: data.payload.name,
                 position: data.payload.position,
                 note: data.payload.note,
+                plateNumber: data.payload.plateNumber,
                 departmentUuid: data.payload.departmentUuid,
                 departmentName: data.payload.departmentName,
                 imageOther: imageOther,
                 typeObject: data.payload.useCase === "zac_vehicle" ? "vehicle" : "human"
               })
-
-              // if (data.payload.length >= 0) {
-              //   data.payload.map((f) => {
-              //     if (f.thumbnailData != null) {
-              //       imageOther.push("data:image/jpeg;base64," + f.thumbnailData)
-              //     }
-
-              //   })
-              // }
-
             }
           }
         );
@@ -1163,6 +1154,30 @@ const ExportEventFile = () => {
     setListEventFiles([...dataList]);
   };
 
+  const closeObjectForm = () => {
+    AIEventsApi.getDetailEvent(fileCurrent.uuid).then(
+      (data) => {
+
+        if (data && data.payload) {
+          setDetailAI({
+            ...fileCurrent,
+            code: data.payload.code,
+            name: data.payload.name,
+            position: data.payload.position,
+            note: data.payload.note,
+            plateNumber: data.payload.plateNumber,
+            departmentUuid: data.payload.departmentUuid,
+            departmentName: data.payload.departmentName,
+            imageOther: imageOther,
+            typeObject: data.payload.useCase === "zac_vehicle" ? "vehicle" : "human"
+          })
+
+
+        }
+      }
+    );
+  };
+
   const saveEventFileHandler = (eventFile, dataList) => {
     ExportEventFileApi.uploadFile(
       eventFile.uuid + ".jpeg",
@@ -1405,13 +1420,16 @@ const ExportEventFile = () => {
               {detailAI.useCase === "zac_vehicle"
                 ? <ul style={{ listStyleType: 'none', display: 'inline-block' }}>
                 <li>{t("view.ai_events.type")} : {t("view.ai_events.useCase." + detailAI.useCase)}</li>
-                <li>{t("view.ai_events.plateNumber")} : {eventFileCurrent.plateNumber? eventFileCurrent.plateNumber :t("view.ai_events.UnKnow")}</li>
+                <li>{t("view.ai_events.plateNumber")} : {detailAI.plateNumber? detailAI.plateNumber :t("view.ai_events.UnKnow")}</li>
               </ul>
                 : null}
               {detailAI.useCase === "zac_human"
                 ? <ul style={{ listStyleType: 'none', display: 'inline-block' }}>
                 <li>{t("view.ai_events.type")} : {t("view.ai_events.useCase." + detailAI.useCase)}</li>
-                <li>{t("view.ai_events.name")} : {eventFileCurrent.name? eventFileCurrent.name :t("view.ai_events.UnKnow")}</li>
+                <li>{t("view.ai_events.code")} : {detailAI.code? detailAI.code :t("view.ai_events.UnKnow")}</li>
+                <li>{t("view.ai_events.name")} : {detailAI.name? detailAI.name :t("view.ai_events.UnKnow")}</li>
+                <li>{t("view.ai_events.position")} : {detailAI.position? detailAI.position :t("view.ai_events.UnKnow")}</li>
+                <li>{t("view.ai_events.department")} : {detailAI.departmentName? detailAI.departmentName :t("view.ai_events.UnKnow")}</li>
               </ul>
                 : null}
               {detailAI.useCase === "attendance"
@@ -1573,6 +1591,7 @@ const ExportEventFile = () => {
         onEditFile={editFileOnPopoverHandler}
         onDownloadFile={downloadFileHandler}
         onDeleteFile={deleteFileHandler}
+        
       />
     );
   };
@@ -1585,6 +1604,7 @@ const ExportEventFile = () => {
         onEditFile={editFileOnPopoverHandler}
         onDownloadFile={downloadFileHandler}
         onDeleteFile={deleteFileHandler}
+        closeObjectForm={closeObjectForm}
       />
     );
   };
@@ -1681,6 +1701,7 @@ const ExportEventFile = () => {
             onClickRow={onClickTableFileHandler}
             onSearch={onSearchHandler}
             onEditFile={editFileHandler}
+            
           />
         </Col>
         <Col span={16} className="viewFileContainer">

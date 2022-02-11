@@ -43,7 +43,7 @@ const InfoObjectPopoverContent = (props) => {
     ];
 
     const [form] = Form.useForm();
-
+    console.log("_____________props.fileCurrent "  , props.fileCurrent)
     const [currNode, setCurrNode] = useState(props.fileCurrent.note);
     const [editMode, setEditMode] = useState(false);
     const [typeObject, setTypeObject] = useState(props.fileCurrent.typeObject);
@@ -64,21 +64,24 @@ const InfoObjectPopoverContent = (props) => {
     const handleSubmit = async (value) => {
         const payload = {...value,
             uuid: props.fileCurrent.uuid,
-            cameraUuid: props.fileCurrent.cameraUuid
+            cameraUuid: props.fileCurrent.cameraUuid,
+            type: value.typeObject
         };
 
-        console.log("         value        ", value)
+        console.log("         props.fileCurrent        ", value)
 
         try {
           const isEdit = await AIEventsApi.editInforOfEvent(props.fileCurrent.uuid, payload);
 
           if (isEdit) {
+            props.closeObjectForm()
             const notifyMess = {
               type: 'success',
               title: '',
               description: `${t('noti.successfully_edit_nvr')}`
             };
             Notification(notifyMess);
+            
           } else {
             const notifyMess = {
               type: 'error',
@@ -126,14 +129,13 @@ const InfoObjectPopoverContent = (props) => {
                     <Col span={24}>
                         <Form.Item
                             label={t('view.ai_events.choose_obj')}
-                            name={['type']}
+                            name={['typeObject']}
                         >
                             <Select
                                 dataSource={typeObjects}
                                 onChange={(type) => onChangeSelectTypeObject(type)}
                                 filterOption={filterOption}
                                 options={normalizeOptions("name", "id", typeObjects)}
-                                allowClear
                                 placeholder={t("view.ai_events.choose_obj")}
                             />
                         </Form.Item>
@@ -141,7 +143,7 @@ const InfoObjectPopoverContent = (props) => {
 
                     {
 
-                        typeObject && typeObject === "xemay" ? (
+                        typeObject && typeObject === "vehicle" ? (
                             <Col span={24}>
                                 <Form.Item
                                     label={t('view.ai_events.plateNumber')}

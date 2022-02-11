@@ -15,7 +15,9 @@ import ItemControl from "./ItemControl";
 import ModalControlPanel from "./ModalControlPanel";
 import "./ModalPresetSetting.scss";
 import cameraAIApi from "../../../actions/api/live/CameraAIApi";
+import { reactLocalStorage } from "reactjs-localstorage";
 
+const language = reactLocalStorage.get("language");
 
 const LIST_TYPES = {
   preset: "preset",
@@ -35,7 +37,9 @@ const Index = (props) => {
     reloadLiveMenuTool,
     isOpenModalControlPanel,
     setIsOpenModalControlPanel,
-    changeLiveMode
+    changeLiveMode,
+    typeAICamera,
+    setTypeAICamera,
   } = props;
   const { t } = useTranslation();
   let CONTROL_TYPES = [];
@@ -123,22 +127,60 @@ const Index = (props) => {
       }
       if (payload) {
         let data = [];
-        data.push({cameraUuid: idCamera, type: "live", rtspStatus: "valid", title: `${t("view.live.live_mode")}`});
+        data.push({
+          cameraUuid: idCamera,
+          type: "live",
+          rtspStatus: "valid",
+          title: `${t("view.live.live_mode")}`,
+        });
         payload.forEach((p) => {
           if (p.rtspStatus === "valid") {
             switch (p.type) {
               case "zac_human":
-                data.push({...p, title: `${t("view.live.intrusion_and_hurdles_human")}`});
-                break;
+                if (language == "vn") {
+                  data.push({
+                    ...p,
+                    title: "Vượt rào ảo và xâm nhập (Phát hiện người)",
+                  });
+                  break;
+                } else {
+                  data.push({
+                    ...p,
+                    title: "Hurdles and intrusion (Human detection)",
+                  });
+                  break;
+                }
               case "zac_vehicle":
-                data.push({...p, title: `${t("view.live.intrusion_and_hurdles_vehicle")}`});
-                break;
+                if (language == "vn") {
+                  data.push({
+                    ...p,
+                    title: "Vượt rào ảo và xâm nhập (Phát hiện phương tiện)",
+                  });
+                  break;
+                } else {
+                  data.push({
+                    ...p,
+                    title: "Hurdles and intrusion (Vehicle detection)",
+                  });
+                  break;
+                }
               case "attendance":
-                data.push({...p, title: `${t("view.live.attendance")}`});
-                break;
+                if (language == "vn") {
+                  data.push({
+                    ...p,
+                    title: "Điểm danh",
+                  });
+                  break;
+                } else {
+                  data.push({
+                    ...p,
+                    title: "Attendance",
+                  });
+                  break;
+                }
             }
           }
-        })
+        });
         setCameraInfoLists(data);
       }
     }
@@ -201,9 +243,10 @@ const Index = (props) => {
   };
 
   const onClickChangeLiveMode = async (type) => {
+    setTypeAICamera(type);
     setOpenMenuControl(false);
     changeLiveMode(slotId, type);
-  }
+  };
 
   const handleSelectType = (type) => {
     setTypeActive(type);
@@ -216,7 +259,7 @@ const Index = (props) => {
     if (type === 3) {
       setIsOpenModalControlPanel(false);
       setOpenModalPresetSetting(true);
-      props.openModalPresetSetting(true)
+      props.openModalPresetSetting(true);
       setOpenMenuControl(false);
       setListType(LIST_TYPES.other);
     }
@@ -296,14 +339,14 @@ const Index = (props) => {
 
   const renderListCameraInfo = () => {
     return cameraInfoLists?.map((item, index) => (
-        <button
-            key={index}
-            className="menu-control-container__right__result__item"
-            title={item.title}
-            onClick={() => onClickChangeLiveMode(item.type)}
-        >
-          {item?.title}
-        </button>
+      <button
+        key={index}
+        className="menu-control-container__right__result__item"
+        title={item.title}
+        onClick={() => onClickChangeLiveMode(item.type)}
+      >
+        {item?.title}
+      </button>
     ));
   };
 
@@ -329,7 +372,7 @@ const Index = (props) => {
     <>
       <div className="menu-control-container">
         <div className="menu-control-container__left">
-          <div className="menu-control-container__left__back"/>
+          <div className="menu-control-container__left__back" />
           {CONTROL_TYPES.map((item, _) => {
             return (
               <ItemControl
@@ -343,15 +386,16 @@ const Index = (props) => {
         </div>
         <div className="menu-control-container__right">
           {/* <div className="menu-control-container__right__search"> */}
-          {listType !== LIST_TYPES.viewSetting && (<AutoComplete
+          {listType !== LIST_TYPES.viewSetting && (
+            <AutoComplete
               value={search}
               onSearch={handleSearch}
               onBlur={handleBlur}
               maxLength={100}
               className=" full-width height-40 read search__camera-group"
               placeholder={t("view.map.search")}
-          />)
-          }
+            />
+          )}
           {/* </div> */}
           <div className="menu-control-container__right__result">
             {listType === LIST_TYPES.preset
