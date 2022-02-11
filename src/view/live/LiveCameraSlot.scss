@@ -1,0 +1,31 @@
+.bell {
+    position: absolute;
+    top: 30px;
+    left: 10px;
+    z-index: 11;
+    line-height: 18px;
+    &-button {
+        background-color: rgba(255, 255, 255, 0);
+        border: none;
+        height: 24px;
+        width: 24px;
+        &__icon {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            color: red;
+            opacity: 1;
+        }
+    }
+    &-button:hover {
+        background-color: rgba(255, 255, 255, 0);
+        border: none;
+        height: 24px;
+        width: 24px;
+    }
+}
+
+.dpn {
+    display: none;
+}

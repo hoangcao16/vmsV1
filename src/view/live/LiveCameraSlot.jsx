@@ -1,6 +1,14 @@
-import { Popover, Space, Spin, Tooltip } from "antd";
+import { Popover, Space, Spin, Tooltip, Button, Modal } from "antd";
 import React, { useEffect, useRef, useState } from "react";
-import { Camera, Maximize2, Menu, Minimize2, Video, X } from "react-feather";
+import {
+  Camera,
+  Maximize2,
+  Menu,
+  Minimize2,
+  Video,
+  X,
+  Bell,
+} from "react-feather";
 import { useTranslation } from "react-i18next";
 import { connect } from "react-redux";
 import { v4 as uuidV4 } from "uuid";
@@ -8,6 +16,7 @@ import permissionCheck from "../../actions/function/MyUltil/PermissionCheck";
 import permissionCheckByCamera from "../../actions/function/MyUltil/PermissionCheckByCamera";
 import { formatWithMilliseconds } from "../../utility/vms/duration";
 import MenuControl from "./menuControl";
+import "./LiveCameraSlot.scss";
 
 const LiveCameraSlot = (props) => {
   const {
@@ -27,10 +36,11 @@ const LiveCameraSlot = (props) => {
     zoomOutByDoubleClick,
     setReloadLiveMenuTool,
     reloadLiveMenuTool,
-    changeLiveMode
+    changeLiveMode,
   } = props;
   const { t } = useTranslation();
   const [showMenus, setShowMenus] = useState({});
+  const [showNoti, setShowNoti] = useState({});
   const [openMenuControl, setOpenMenuControl] = useState(false);
   const [oldRecState, setOldRecState] = useState(false);
   const [countInMinis, setCountInMinis] = useState(0);
@@ -38,6 +48,8 @@ const LiveCameraSlot = (props) => {
   const [stopTime, setStopTime] = useState(0);
   const [currLiveMode, setCurrLiveMode] = useState(liveMode);
   const [isOpenModalControlPanel, setIsOpenModalControlPanel] = useState(false);
+  const [typeAICamera, setTypeAICamera] = useState("live");
+  const [isInfoModalVisible, setIsInfoModalVisible] = useState(false);
   const requestId = useRef(uuidV4());
   const countRef = useRef(countInMinis);
   countRef.current = countInMinis;
@@ -54,11 +66,12 @@ const LiveCameraSlot = (props) => {
   };
   const onSelectedVideoSlot = () => {
     setShowMenus(true);
+    setShowNoti(true);
   };
   const onUnSelectedVideoSlot = () => {
     setShowMenus(false);
+    setShowNoti(false);
   };
-
 
   const captureCameraHandler = (slotId) => {
     if (!recMode) {
@@ -120,8 +133,21 @@ const LiveCameraSlot = (props) => {
     clearTimeout(timer.current);
   };
 
+  const showNotiInfo = () => {
+    setIsInfoModalVisible(true);
+  };
+
+  const handleOk = () => {
+    setIsInfoModalVisible(false);
+  };
+
+  const handleCancel = () => {
+    setIsInfoModalVisible(false);
+  };
+
   const slotIdx = findCameraIndexInGrid(slotId);
   const toolbarCss = showMenus === true ? "video-toolbar__control-0" : "";
+  const notiCss = showNoti == true ? "video-toolbar__control-0" : "dpn";
   const camName = addedCameras[slotIdx]?.name ? addedCameras[slotIdx].name : "";
   const liveCss = addedCameras[slotIdx]?.name ? "video__label--active" : "";
   const recMode = !!addedCameras[slotIdx]?.isRec;
@@ -152,164 +178,198 @@ const LiveCameraSlot = (props) => {
   }, [isMaximize]);
 
   return (
-    <div
-      // onDoubleClick={() => onDoubleClick()}
-      onMouseEnter={() => onSelectedVideoSlot()}
-      onMouseLeave={() => onUnSelectedVideoSlot()}
-      onClick={() => onSelectVideoSlot(slotId)}
-      id={"wrapper-slot-" + slotId}
-    >
-      <div className="video-info">
-        {camName.length > 30 ? (
-          <Tooltip placement="bottom" title={camName}>
-            <span className="video-info__name">{camName.slice(0, 30)}...</span>
-          </Tooltip>
-        ) : (
-          <span className="video-info__name">{camName}</span>
+    <>
+      <div
+        // onDoubleClick={() => onDoubleClick()}
+        onMouseEnter={() => onSelectedVideoSlot()}
+        onMouseLeave={() => onUnSelectedVideoSlot()}
+        onClick={() => onSelectVideoSlot(slotId)}
+        id={"wrapper-slot-" + slotId}
+      >
+        <div className="video-info">
+          {camName.length > 30 ? (
+            <Tooltip placement="bottom" title={camName}>
+              <span className="video-info__name">
+                {camName.slice(0, 30)}...
+              </span>
+            </Tooltip>
+          ) : (
+            <span className="video-info__name">{camName}</span>
+          )}
+        </div>
+
+        {recMode && (
+          <span
+            className={`video__label ${liveCss}`}
+          >{`Rec ${formatWithMilliseconds(countInMinis)}`}</span>
         )}
-      </div>
+        {liveMode && !recMode && (
+          <span className={`video__label ${liveCss}`}>Live</span>
+        )}
+        {!liveMode && !recMode && (
+          <span className={`video__label ${liveCss}`}>Play</span>
+        )}
 
-      {recMode && (
-        <span
-          className={`video__label ${liveCss}`}
-        >{`Rec ${formatWithMilliseconds(countInMinis)}`}</span>
-      )}
-      {liveMode && !recMode && (
-        <span className={`video__label ${liveCss}`}>Live</span>
-      )}
-      {!liveMode && !recMode && (
-        <span className={`video__label ${liveCss}`}>Play</span>
-      )}
-
-      <div>
-        {
-          <div className={`video-toolbar__control ${toolbarCss}`}>
-            {/*{recMode && <label className='video-toolbar__status'>{`REC ${formatWithMilliseconds(countInMinis)}`}</label>}*/}
-            {!permissionCheck("capture_video_cam") ? (
-              <></>
-            ) : (
-              <Tooltip title={t("view.user.record")}>
-                <div
-                  className={
-                    recMode ? "video-toolbar__capture" : "video-toolbar__link"
-                  }
-                  size="small"
-                  onClick={() => captureCameraHandler(slotId)}
-                >
-                  <Video className="video-toolbar__icon" size={12} />
-                </div>
-              </Tooltip>
-            )}
-
-            {!permissionCheck("capture_img_cam") ? (
-              <></>
-            ) : (
-              <Tooltip title={t("view.storage.capture_snapshot")}>
-                <div
-                  className="video-toolbar__link"
-                  size="small"
-                  onClick={() => startSnapshotCamera(slotId)}
-                >
-                  <Camera className="video-toolbar__icon" size={12} />
-                </div>
-              </Tooltip>
-            )}
-            {isMaximize ? (
-              <div
-                className="video-toolbar__link"
-                size="small"
-                onClick={() => maxMinCamera(slotId)}
+        {typeAICamera !== "live" ? (
+          <div className={`bell ${notiCss}`}>
+            <Tooltip
+              placement="right"
+              title={t("components.bookmark.notification")}
+              arrowPointAtCenter={true}
+              overlayStyle={{ position: "fixed" }}
+            >
+              <Button
+                type="primary"
+                className={"bell-button"}
+                onClick={showNotiInfo}
+                style={{ marginTop: 5, marginBottom: 5 }}
               >
-                {isMaximize && (
-                  <Minimize2 className="video-toolbar__icon" size={12} />
-                )}
-              </div>
-            ) : (
-              <Tooltip title={t("view.live.zoom")}>
+                <Bell className="bell-button__icon" />
+              </Button>
+            </Tooltip>
+          </div>
+        ) : (
+          <></>
+        )}
+
+        <div>
+          {
+            <div className={`video-toolbar__control ${toolbarCss}`}>
+              {/*{recMode && <label className='video-toolbar__status'>{`REC ${formatWithMilliseconds(countInMinis)}`}</label>}*/}
+              {!permissionCheck("capture_video_cam") ? (
+                <></>
+              ) : (
+                <Tooltip title={t("view.user.record")}>
+                  <div
+                    className={
+                      recMode ? "video-toolbar__capture" : "video-toolbar__link"
+                    }
+                    size="small"
+                    onClick={() => captureCameraHandler(slotId)}
+                  >
+                    <Video className="video-toolbar__icon" size={12} />
+                  </div>
+                </Tooltip>
+              )}
+
+              {!permissionCheck("capture_img_cam") ? (
+                <></>
+              ) : (
+                <Tooltip title={t("view.storage.capture_snapshot")}>
+                  <div
+                    className="video-toolbar__link"
+                    size="small"
+                    onClick={() => startSnapshotCamera(slotId)}
+                  >
+                    <Camera className="video-toolbar__icon" size={12} />
+                  </div>
+                </Tooltip>
+              )}
+              {isMaximize ? (
                 <div
                   className="video-toolbar__link"
                   size="small"
                   onClick={() => maxMinCamera(slotId)}
                 >
-                  {!isMaximize && (
-                    <Maximize2 className="video-toolbar__icon" size={12} />
+                  {isMaximize && (
+                    <Minimize2 className="video-toolbar__icon" size={12} />
                   )}
                 </div>
-              </Tooltip>
-            )}
-
-            <Popover
-              placement="top"
-              visible={openMenuControl}
-              content={
-                <MenuControl
-                  setOpenMenuControl={setOpenMenuControl}
-                  setCurrentMenuControl={setCurrentMenuControl}
-                  slotId={slotId}
-                  isOpenModal={currentMenuControl === slotId}
-                  idCamera={idCamera}
-                  setReloadLiveMenuTool={setReloadLiveMenuTool}
-                  reloadLiveMenuTool={reloadLiveMenuTool}
-                  isOpenModalControlPanel={isOpenModalControlPanel}
-                  setIsOpenModalControlPanel={setIsOpenModalControlPanel}
-                  changeLiveMode={changeLiveMode}
-                />
-              }
-              overlayClassName="control-panel-popover"
-              trigger="click"
-            >
-              {!permissionCheckByCamera("setup_preset", idCamera) ||
-              !permissionCheckByCamera("ptz_control", idCamera) ? (
-                <></>
               ) : (
-                <Tooltip title={t("view.live.menu_preset")}>
+                <Tooltip title={t("view.live.zoom")}>
                   <div
                     className="video-toolbar__link"
                     size="small"
-                    onClick={() => {
-                      setOpenMenuControl(!openMenuControl);
-                    }}
+                    onClick={() => maxMinCamera(slotId)}
                   >
-                    <Menu className="video-toolbar__icon" size={12} />
+                    {!isMaximize && (
+                      <Maximize2 className="video-toolbar__icon" size={12} />
+                    )}
                   </div>
                 </Tooltip>
               )}
-            </Popover>
-            <Tooltip title={t("view.live.close_camera")}>
-              <div
-                className="video-toolbar__link"
-                size="small"
-                onClick={() => {
-                  setOpenMenuControl(false);
-                  closeCameraHandler(slotId);
-                  setIsOpenModalControlPanel(false);
-                }}
-              >
-                <X className="video-toolbar__icon" size={12} />
-              </div>
-            </Tooltip>
-          </div>
-        }
-      </div>
-      <Space size="middle">
-        <Spin
-          className="video-js"
-          size="large"
-          id={"spin-slot-" + slotId}
-          style={{ display: "none" }}
-        />
-      </Space>
-      <video
-        className="video-js"
-        width="100%"
-        autoPlay="1"
-        id={"video-slot-" + slotId}
-        style={{ display: "none" }}
-      >
 
-        {t("noti.browser_not_support_video")}
-      </video>
-    </div>
+              <Popover
+                placement="top"
+                visible={openMenuControl}
+                content={
+                  <MenuControl
+                    setOpenMenuControl={setOpenMenuControl}
+                    setCurrentMenuControl={setCurrentMenuControl}
+                    slotId={slotId}
+                    isOpenModal={currentMenuControl === slotId}
+                    idCamera={idCamera}
+                    setReloadLiveMenuTool={setReloadLiveMenuTool}
+                    reloadLiveMenuTool={reloadLiveMenuTool}
+                    isOpenModalControlPanel={isOpenModalControlPanel}
+                    setIsOpenModalControlPanel={setIsOpenModalControlPanel}
+                    changeLiveMode={changeLiveMode}
+                    typeAICamera={typeAICamera}
+                    setTypeAICamera={setTypeAICamera}
+                  />
+                }
+                overlayClassName="control-panel-popover"
+                trigger="click"
+              >
+                {!permissionCheckByCamera("setup_preset", idCamera) ||
+                !permissionCheckByCamera("ptz_control", idCamera) ? (
+                  <></>
+                ) : (
+                  <Tooltip title={t("view.live.menu_preset")}>
+                    <div
+                      className="video-toolbar__link"
+                      size="small"
+                      onClick={() => {
+                        setOpenMenuControl(!openMenuControl);
+                      }}
+                    >
+                      <Menu className="video-toolbar__icon" size={12} />
+                    </div>
+                  </Tooltip>
+                )}
+              </Popover>
+              <Tooltip title={t("view.live.close_camera")}>
+                <div
+                  className="video-toolbar__link"
+                  size="small"
+                  onClick={() => {
+                    setOpenMenuControl(false);
+                    closeCameraHandler(slotId);
+                    setIsOpenModalControlPanel(false);
+                  }}
+                >
+                  <X className="video-toolbar__icon" size={12} />
+                </div>
+              </Tooltip>
+            </div>
+          }
+        </div>
+        <Space size="middle">
+          <Spin
+            className="video-js"
+            size="large"
+            id={"spin-slot-" + slotId}
+            style={{ display: "none" }}
+          />
+        </Space>
+        <video
+          className="video-js"
+          width="100%"
+          autoPlay="1"
+          id={"video-slot-" + slotId}
+          style={{ display: "none" }}
+        >
+          {t("noti.browser_not_support_video")}
+        </video>
+      </div>
+
+      <Modal
+        visible={isInfoModalVisible}
+        onOk={handleOk}
+        onCancel={handleCancel}
+      >
+      </Modal>
+    </>
   );
 };
 
