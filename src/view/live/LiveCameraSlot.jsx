@@ -147,7 +147,7 @@ const LiveCameraSlot = (props) => {
 
   const slotIdx = findCameraIndexInGrid(slotId);
   const toolbarCss = showMenus === true ? "video-toolbar__control-0" : "";
-  const notiCss = showNoti === true ? "video-toolbar__control-0" : "dpn";
+  const notiCss = showNoti == true ? "video-toolbar__control-0" : "dpn";
   const camName = addedCameras[slotIdx]?.name ? addedCameras[slotIdx].name : "";
   const liveCss = addedCameras[slotIdx]?.name ? "video__label--active" : "";
   const recMode = !!addedCameras[slotIdx]?.isRec;
