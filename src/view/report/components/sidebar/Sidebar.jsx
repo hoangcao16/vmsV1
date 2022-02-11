@@ -46,7 +46,7 @@ const SELECTED_TIME = {
 
 function Sidebar(props) {
   const { t } = useTranslation();
-  
+
   const [filterOptions, setFilterOptions] = useState(DATA_FAKE_CAMERA);
 
   const [provinceId, setProvinceId] = useState(["2"]);
@@ -444,88 +444,45 @@ function Sidebar(props) {
   ];
 
   const onSelectChange = (selectedRowKeys) => {
-    if (isShowLineAndPieChart === true) {
-      if (selectedRowKeys.length < 1 || selectedRowKeys.length > 3) {
-        const language = reactLocalStorage.get("language");
-        if (language === "vn") {
-          const notifyMess = {
-            type: "error",
-            title: "",
-            description: `Số lượng sự kiện phải trong khoảng từ 1 đến 3`,
-          };
-          Notification(notifyMess);
-          return;
-        } else {
-          const notifyMess = {
-            type: "error",
-            title: "",
-            description: "Number of events must be in range from 1 to 3",
-          };
-          Notification(notifyMess);
-          return;
-        }
+    if (selectedRowKeys.length < 1 || selectedRowKeys.length > 3) {
+      const language = reactLocalStorage.get("language");
+      if (language === "vn") {
+        const notifyMess = {
+          type: "error",
+          title: "",
+          description: `Số lượng sự kiện phải trong khoảng từ 1 đến 3`,
+        };
+        Notification(notifyMess);
+        return;
+      } else {
+        const notifyMess = {
+          type: "error",
+          title: "",
+          description: "Number of events must be in range from 1 to 3",
+        };
+        Notification(notifyMess);
+        return;
       }
-      setSelectedRowKeys(selectedRowKeys);
-      props.changeCount(selectedRowKeys);
-
-      //Call API
-      const data = {
-        pickTime: dataTime,
-        timeStartDay: timeStartDay,
-        timeEndDay: timeEndDay,
-        timeStartMonth: timeStartMonth,
-        timeEndMonth: timeEndMonth,
-        timeStartYear: timeStartYear,
-        timeEndYear: timeEndYear,
-        provinceId: provinceId,
-        districtId: districtId,
-        wardId: wardId,
-        fieldId: feildIds,
-        eventList: selectedRowKeys,
-      };
-      props.callData(clearData(data));
-    } else {
-      if (selectedRowKeys.length < 1 || selectedRowKeys.length > 3) {
-        const language = reactLocalStorage.get("language");
-        if (language === "vn") {
-          const notifyMess = {
-            type: "error",
-            title: "",
-            description: `Số lượng sự kiện phải trong khoảng từ 1 đến 3`,
-          };
-          Notification(notifyMess);
-          return;
-        } else {
-          const notifyMess = {
-            type: "error",
-            title: "",
-            description: "Number of events must be in range from 1 to 3",
-          };
-          Notification(notifyMess);
-          return;
-        }
-      }
-      setSelectedRowKeys(selectedRowKeys);
-      props.changeCount(selectedRowKeys);
-
-      //Call API
-      const data = {
-        pickTime: dataTime,
-        timeStartDay: timeStartDay,
-        timeEndDay: timeEndDay,
-        timeStartMonth: timeStartMonth,
-        timeEndMonth: timeEndMonth,
-        timeStartYear: timeStartYear,
-        timeEndYear: timeEndYear,
-        provinceId: provinceId,
-        districtId: districtId,
-        wardId: wardId,
-        fieldId: feildIds,
-        eventList: selectedRowKeys,
-      };
-
-      props.callData(clearData(data));
     }
+    setSelectedRowKeys(selectedRowKeys);
+    props.changeCount(selectedRowKeys);
+
+    //Call API
+    const data = {
+      pickTime: dataTime,
+      timeStartDay: timeStartDay,
+      timeEndDay: timeEndDay,
+      timeStartMonth: timeStartMonth,
+      timeEndMonth: timeEndMonth,
+      timeStartYear: timeStartYear,
+      timeEndYear: timeEndYear,
+      provinceId: provinceId,
+      districtId: districtId,
+      wardId: wardId,
+      fieldId: feildIds,
+      eventList: selectedRowKeys,
+    };
+    props.callData(clearData(data));
   };
 
   const rowSelection = {
