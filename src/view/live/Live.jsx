@@ -294,7 +294,7 @@ const Live = (props) => {
         }
       };
 
-      const token = getEmail() + '_' + getToken();
+      const token = slotIdx + '_' + getEmail() + '_' + getToken();
       const API = data.camproxyApi;
       pc.createOffer({
         iceRestart: true,
