@@ -48,6 +48,7 @@ import DraggableCameraList from "./DraggableCameraList";
 import LiveCameraSlot from "./LiveCameraSlot";
 import MenuTools from "./MenuTools";
 import {getEmail, getToken} from "../../api/token";
+import permissionCheck from "../../actions/function/MyUltil/PermissionCheck";
 
 const mode = process.env.REACT_APP_MODE_VIEW;
 
@@ -79,6 +80,8 @@ const Live = (props) => {
   const [reloadLiveMenuTool, setReloadLiveMenuTool] = useState(false);
   const [curSpeed, setCurSpeed] = useState(1);
   const [defaultSize, setDefaultSize] = useState(16);
+  const [pcList, setPCList] = useState([]);
+
   let currentItemIdx = 0;
   useEffect(() => {
     initialDataGrid.forEach((it) =>
@@ -294,7 +297,37 @@ const Live = (props) => {
         }
       };
 
-      const token = slotIdx + '_' + getEmail() + '_' + getToken();
+      const token = slotIdx + '##' + getToken() + '##' + getEmail();
+      pc.onconnectionstatechange = function(event) {
+        switch(pc.connectionState) {
+          case "connected":
+            // The connection has become fully connected
+              console.log(">>>>> connected: ", token);
+            // const timerIdentifier = setTimeout(() => {
+            //   console.log(">>>>> closing... ", token);
+            //   pc.close();
+            // }, 10000);
+            break;
+          case "disconnected":
+            console.log(">>>>> disconnected: ", token);
+            break;
+          case "failed":
+            // One or more transports has terminated unexpectedly or in an error
+            console.log(">>>>> failed: ", token);
+            break;
+          case "closed":
+            // The connection has been closed
+            console.log(">>>>> closed: ", token);
+            break;
+        }
+      };
+
+      pc.onsignalingstatechange = function(event) {
+        if (pc.signalingState === "closed") {
+          console.log(">>>>> signal is closed: ", token);
+        }
+      };
+
       const API = data.camproxyApi;
       pc.createOffer({
         iceRestart: true,
@@ -329,6 +362,21 @@ const Live = (props) => {
         })
         .catch((e) => console.log(e))
         .finally(() => {});
+
+      let pcLstTmp = [...pcList];
+      let isExist = false;
+      for (let i = 0; i < pcLstTmp.length; i++) {
+        if (pcLstTmp[i].slotIdx === slotIdx) {
+          pcLstTmp[i].pc = pc;
+          isExist = true;
+          break;
+        }
+      }
+      if (!isExist) {
+        pcLstTmp.push({slotIdx: slotIdx, pc: pc})
+      }
+      setPCList(pcLstTmp);
+
     } else {
       const API = data.camproxyApi;
       const { token } = data;
@@ -1056,6 +1104,15 @@ const Live = (props) => {
       if (cell) {
         cell.srcObject = null;
         cell.style.display = "none";
+      }
+      let pcLstTmp = [...pcList];
+      for (let i = 0; i < pcLstTmp.length; i++) {
+        if (pcLstTmp[i].slotIdx === slotIdx) {
+          if (pcLstTmp[i].pc) {
+            pcLstTmp[i].pc.close();
+          }
+          break;
+        }
       }
 
       removeFullGrid(originSlotId);
