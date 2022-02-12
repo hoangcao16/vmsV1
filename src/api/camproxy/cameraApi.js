@@ -2,7 +2,7 @@ import axios from "axios";
 import Notification from "../../components/vms/notification/Notification";
 import { handleErrCode } from "../camproxy/code";
 
-//const CAMPROXY_ENDPOINT = "/camproxy/v1/play?width=360&height=288";
+// const CAMPROXY_ENDPOINT = "/camproxy/v1/play?width=360&height=288";
 const CAMPROXY_ENDPOINT = "/camproxy/v1/play";
 const CAMPROXY_ENDPOINT_HLS = "/camproxy/v1/play/hls";
 const playCamApi = {
