@@ -283,7 +283,6 @@ const Live = (props) => {
       const pc = new RTCPeerConnection();
       pc.setConfiguration(restartConfig);
       pc.addTransceiver("video");
-      pc.oniceconnectionstatechange = () => {};
       const spin = document.getElementById("spin-slot-" + slotIdx);
       pc.ontrack = (event) => {
         //binding and play
@@ -298,34 +297,42 @@ const Live = (props) => {
       };
 
       const token = slotIdx + '##' + getToken() + '##' + getEmail();
+
+      pc.oniceconnectionstatechange = function(event) {
+        if (pc.iceConnectionState === "failed" ||
+            pc.iceConnectionState === "disconnected" ||
+            pc.iceConnectionState === "closed") {
+          // Handle the failure
+          console.log(">>>>> ice connection state: ", pc.signalingState, ", data: ", token);
+        }
+      };
+
       pc.onconnectionstatechange = function(event) {
         switch(pc.connectionState) {
           case "connected":
             // The connection has become fully connected
-              console.log(">>>>> connected: ", token);
-            // const timerIdentifier = setTimeout(() => {
-            //   console.log(">>>>> closing... ", token);
-            //   pc.close();
-            // }, 10000);
+              console.log(">>>>> connection state: connected, data: ", token);
             break;
           case "disconnected":
-            console.log(">>>>> disconnected: ", token);
+            console.log(">>>>> connection state: disconnected, data: ", token);
+            const timerIdentifier = setTimeout(() => {
+              console.log(">>>>> reconnect, data: ", token);
+              liveCamera(camUuid, camId, slotIdx, type).then();
+            }, 2000);
             break;
           case "failed":
             // One or more transports has terminated unexpectedly or in an error
-            console.log(">>>>> failed: ", token);
+            console.log(">>>>> connection state: failed, data: ", token);
             break;
           case "closed":
             // The connection has been closed
-            console.log(">>>>> closed: ", token);
+            console.log(">>>>> connection state: closed, data: ", token);
             break;
         }
       };
 
       pc.onsignalingstatechange = function(event) {
-        if (pc.signalingState === "closed") {
-          console.log(">>>>> signal is closed: ", token);
-        }
+        console.log(">>>>> signal state: ", pc.signalingState, ", data: ", token);
       };
 
       const API = data.camproxyApi;
