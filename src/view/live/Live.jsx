@@ -315,7 +315,7 @@ const Live = (props) => {
             break;
           case "disconnected":
             console.log(">>>>> connection state: disconnected, data: ", token);
-            const timerIdentifier = setTimeout(() => {
+            setTimeout(() => {
               console.log(">>>>> reconnect, data: ", token);
               liveCamera(camUuid, camId, slotIdx, type).then();
             }, 2000);
@@ -323,6 +323,10 @@ const Live = (props) => {
           case "failed":
             // One or more transports has terminated unexpectedly or in an error
             console.log(">>>>> connection state: failed, data: ", token);
+            setTimeout(() => {
+              console.log(">>>>> reconnect, data: ", token);
+              liveCamera(camUuid, camId, slotIdx, type).then();
+            }, 2000);
             break;
           case "closed":
             // The connection has been closed
