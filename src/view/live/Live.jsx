@@ -47,6 +47,7 @@ import { changeZoom } from "./../../redux/actions/customizer/index";
 import DraggableCameraList from "./DraggableCameraList";
 import LiveCameraSlot from "./LiveCameraSlot";
 import MenuTools from "./MenuTools";
+import {getToken} from "../../api/token";
 
 const mode = process.env.REACT_APP_MODE_VIEW;
 
@@ -293,7 +294,7 @@ const Live = (props) => {
         }
       };
 
-      const token = "123";
+      const token = getToken();
       const API = data.camproxyApi;
       pc.createOffer({
         iceRestart: true,
