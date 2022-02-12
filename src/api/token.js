@@ -15,6 +15,15 @@ export function getToken() {
     return ""
 }
 
+export function getEmail() {
+    const userDataStr = localStorage.getItem(config.userKeyName)
+    const userData = JSON.parse(userDataStr)
+    if (userData && userData.email) {
+        return userData.email
+    }
+    return ""
+}
+
 export function getRefreshToken() {
     const userDataStr = localStorage.getItem(config.userKeyName)
     const userData = JSON.parse(userDataStr)
