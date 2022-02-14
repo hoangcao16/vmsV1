@@ -556,6 +556,7 @@
     "successfully_delete_field": "Successfully deleted field",
     "successfully_delete_event_type": "Successfully deleted event type",
     "successfully_delete_tag_type": "Successfully deleted tag type",
+    "successfully_delete_dep_type": "Successfully deleted department type",
     "delete_category": "Are you sure you want to delete {{this}} category?",
     "successfully_edit_administrative_unit": "Successfully edited administrative unit",
     "successfully_edit_camproxy": "Successfully edited Camproxy",
