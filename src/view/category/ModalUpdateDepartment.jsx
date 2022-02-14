@@ -136,10 +136,6 @@ const ModalUpdateDepartment = (props) => {
                 name={["administrativeUnitUuid"]}
                 label={t("view.department.administrative")}
                 rules={[
-                  {
-                    required: true,
-                    message: `${t("view.map.required_field")}`,
-                  },
                 ]}
               >
                 <Select
