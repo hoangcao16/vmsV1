@@ -208,7 +208,7 @@ const TableCategory = () => {
   const handleSearch = async (value) => {
     setSearch(value);
     const data = {
-      name: value
+      name: value.replace(/[&\/\\#,+()$~%.'":*?<>{}]/g, '')
     };
     const dataSearch = await fetchOptionsData(data);
     setDataOptions(dataSearch);
@@ -289,7 +289,7 @@ const TableCategory = () => {
       const notifyMess = {
         type: 'success',
         title: '',
-        description: `${t('noti.successfully_delete_tag_type', {
+        description: `${t('noti.successfully_delete_dep_type', {
           delete: t('delete')
         })}`
       };

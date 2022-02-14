@@ -557,6 +557,7 @@
     "successfully_delete_field": "{{delete}} thành công lĩnh vực",
     "successfully_delete_event_type": "{{delete}} thành công loại sự kiện",
     "successfully_delete_tag_type": "{{delete}} thành công loại nhãn",
+    "successfully_delete_dep_type": "{{delete}} thành công phòng ban",
     "delete_category": "Bạn chắc chắn muốn xóa danh mục {{this}}?",
     "successfully_edit_administrative_unit": "Bạn đã sửa thành công đơn vị hành chính",
     "successfully_edit_camproxy": "Bạn đã sửa thành công Camproxy",
