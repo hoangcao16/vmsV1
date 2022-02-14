@@ -367,6 +367,7 @@ const LiveCameraSlot = (props) => {
         visible={isInfoModalVisible}
         onOk={handleOk}
         onCancel={handleCancel}
+        footer={null}
       >
       </Modal>
     </>
