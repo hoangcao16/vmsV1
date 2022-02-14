@@ -1045,38 +1045,15 @@ const TabRect = (props) => {
       tX - headLen * Math.cos(angle + Math.PI / 6),
       tY - headLen * Math.sin(angle + Math.PI / 6)
     );
-    console.log("______direction_______", direction)
-    if(fromX < toX){
-      console.log("_______ELSE______")
-      if (fX > tX) {
-        console.log("_______________")
-        ctx.fillText("B", fX + 5, fY);
-        ctx.fillText("A", tX - 15, tY);
-      } else {
-        console.log("_______e________")
-        ctx.fillText("A", fX + 5, fY);
-        ctx.fillText("B", tX - 15, tY);
-      }
+    
+    
+    if (fX < tX) { 
+      ctx.fillText("B", fX - 15, fY);
+      ctx.fillText("A", tX + 5, tY);
     } else {
-      console.log("_______ELSE______")
-      if (fX > tX) {
-        console.log("_______________")
-        ctx.fillText("B", fX + 5, fY);
-        ctx.fillText("A", tX - 15, tY);
-        
-      } else {
-        console.log("_______e________")
-        ctx.fillText("A", fX + 5, fY);
-        ctx.fillText("B", tX - 15, tY);
-      }
+      ctx.fillText("A", fX + 5, fY);
+      ctx.fillText("B", tX - 15, tY);
     }
-    // if (fX < tX) { 
-    //   ctx.fillText("B", fX - 15, fY);
-    //   ctx.fillText("A", tX + 5, tY);
-    // } else {
-    //   ctx.fillText("B", fX + 5, fY);
-    //   ctx.fillText("A", tX - 15, tY);
-    // }
   };
 
   const canvasMouseDown = (event) => {
