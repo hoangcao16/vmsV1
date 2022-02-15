@@ -819,16 +819,20 @@ const ExportEventFile = () => {
               });
             } else {
               if (fileCurrent.fileType === "4") {
-                // Call Nginx to get blob data of file
-                await ExportEventFileApi.downloadFileNginx(
-                  fileCurrent.id,
-                  fileCurrent.fileType,
-                  fileCurrent.nginx_host
+                await ExportEventFileApi.downloadFileAI(
+                  fileCurrent.cameraUuid,
+                  fileCurrent.trackingId,
+                  fileCurrent.uuid,
+                  fileCurrent.fileName,
+                  4
                 ).then(async (result) => {
                   const blob = new Blob([result.data], { type: "octet/stream" });
                   const url = window.URL.createObjectURL(blob);
                   saveAs(url, downloadFileName);
+        
                 });
+                // Call Nginx to get blob data of file
+                
               } else {
                 await ExportEventFileApi.downloadFileNginx(
                   fileCurrent.id,
@@ -895,6 +899,7 @@ const ExportEventFile = () => {
   const deleteFileHandler = async () => {
     let response = null;
     if (fileCurrent.uuid !== "") {
+      
       if (fileCurrent.tableName === "file") {
         const deletePhysicalFileRes =
           await deleteExportEventFileApi.deletePhysicalFile(fileCurrent.uuid);
@@ -915,6 +920,7 @@ const ExportEventFile = () => {
         }
       } else {
         let isSuccess = false;
+        console.log("________fileCurrent.type"  , fileCurrent  )
         if (fileCurrent.type === 0) {
           // Video
           const deletePhysicalFileRes =
@@ -1274,7 +1280,6 @@ const ExportEventFile = () => {
 
   const checkBtnDeleteDisabled = () => {
     if (captureMode) return "disabled";
-    if (viewFileType === 4) return "disabled";
     if (!fileCurrent) return "disabled";
     if (fileCurrent.uuid === "") return "disabled";
     return "";
@@ -1282,7 +1287,6 @@ const ExportEventFile = () => {
 
   const checkBtnDownloadDisabled = () => {
     if (!fileCurrent) return "disabled";
-    // if (viewFileType === 4) return "disabled";
     if (fileCurrent.uuid === "") return "disabled";
     return "";
   };
