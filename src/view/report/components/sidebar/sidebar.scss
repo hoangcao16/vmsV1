@@ -138,7 +138,7 @@
             text-align: center;
             padding: 0;
           }
-          & > th:nth-last-child(3){
+          & > th:nth-last-child(3) {
             padding: 0 !important;
             text-align: center;
           }
@@ -210,9 +210,7 @@
               left: 25%;
               color: $vms-soft-statuts;
             }
-
           }
-
         }
 
         tr .ant-table-cell:last-child,
@@ -237,21 +235,19 @@
 
       //end: head table
     }
-
   }
-
 }
 
 .dropdown__date-picker {
   .ant-picker-cell-disabled {
     .ant-picker-cell-inner {
-      color: #1380FF !important;
+      color: #1380ff !important;
     }
   }
 }
 
 .chartType {
-  color: #1380FF !important;
+  color: #1380ff !important;
   font-size: 12px;
   margin-top: 20px;
   margin-left: 8px;
@@ -271,33 +267,32 @@
 }
 
 .ChartTitle {
-  color: #D0E5FF;
+  color: #d0e5ff;
 }
 
 .button {
   cursor: pointer;
   width: 40px;
   height: 46px;
-  background-color: #D0E5FF;
+  background-color: #d0e5ff;
 }
 
 .sidebarItem {
   margin-top: 10px;
   display: flex;
   flex-wrap: wrap;
-  border-top: 1px solid #6C757D1F;
+  border-top: 1px solid #6c757d1f;
   padding-left: 8px;
   padding-right: 8px;
 }
 
 .optionTitle {
-  color: #1380FF !important;
+  color: #1380ff !important;
   font-size: 12px;
   margin-left: 5px;
 }
 
 .CollapseData {
-
   .ant-collapse.ant-collapse-icon-position-right {
     background-color: #191919;
     border: none;
@@ -306,11 +301,17 @@
   .ant-collapse-header {
     background-color: #191919;
     border: none;
-    color: #1380FF !important;
+    color: #1380ff !important;
   }
 
   .ant-collapse-content.ant-collapse-content-active {
     background-color: #191919;
     border: none;
   }
+}
+
+.ant-collapse > .ant-collapse-item > .ant-collapse-header {
+  position: relative;
+  line-height: 1.5715;
+  transition: all 0.3s, visibility 0s;
 }
