@@ -514,6 +514,7 @@
       "name": "Name",
       "position": "Position",
       "department": "Department",
+      "type": "Type",
       "UnKnow":"UnKnow"
     },
     "department": {
