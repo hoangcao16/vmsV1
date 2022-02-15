@@ -94,8 +94,9 @@
           .ant-collapse-header {
             color: $vms-soft-statuts;
             padding: 0;
+            display: block;
 
-            .dataUser__name {
+            .dataUser__name { 
               width: 38.5%;
               opacity: 0.7;
               font-size: 12px;
