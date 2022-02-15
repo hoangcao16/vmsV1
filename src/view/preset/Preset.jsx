@@ -1153,7 +1153,7 @@ const Preset = (props) => {
               <option value={20}>20</option>
               <option value={30}>30</option>
             </select>
-            <span>{t('ai_config.second')}</span>
+            <span>{t('view.ai_config.second')}</span>
           </div>
         );
       },
