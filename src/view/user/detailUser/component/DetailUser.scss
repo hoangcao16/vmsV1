@@ -94,7 +94,6 @@
           .ant-collapse-header {
             color: $vms-soft-statuts;
             padding: 0;
-            display: block;
 
             .dataUser__name { 
               width: 38.5%;
@@ -381,6 +380,10 @@
     }
   }
   //end: cardPosition
+}
+
+.ant-collapse>.ant-collapse-item>.ant-collapse-header {
+  display: block !important;
 }
 
 .disableCard {
