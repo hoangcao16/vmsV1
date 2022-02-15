@@ -337,9 +337,10 @@ const ExportEventFile = () => {
     } else if (viewFileType === 3) {
       setFileCurrent({ ...file });
     } else if (viewFileType === 4) {
-      setFileCurrent({ ...file });
+      setFileCurrent({ ...file, fileType: '4' });
     }
     if (file.type === 1) {
+
       //setUrlSnapshot("data:image/jpeg;base64," + file.thumbnailData[0]);
       // Call Nginx to get blob data of file
       await ExportEventFileApi.downloadFile(
@@ -356,6 +357,7 @@ const ExportEventFile = () => {
       if (AI_SOURCE === "philong") {
         setUrlSnapshot(file.overViewUrl);
       } else {
+        console.log(" file.fileName  ___file    ",  file.fileName)
         await ExportEventFileApi.downloadFileAI(
           file.cameraUuid,
           file.trackingId,
@@ -381,7 +383,12 @@ const ExportEventFile = () => {
         await playEventFile(file);
       }
     }
-    setDownloadFileName(file.name);
+    if (viewFileType === 4) {
+      setDownloadFileName(file.fileName);
+    } else {
+      setDownloadFileName(file.name);
+    }
+    
     addDataToEvent(file, 1);
   };
 
@@ -773,6 +780,9 @@ const ExportEventFile = () => {
         case 2:
           perStr = "download_event_file";
           break;
+        case 4:
+          perStr = "download_event_file";
+          break;
         case 3:
           if (fileCurrent.tableName === "file") {
             perStr = "download_record_file";
@@ -792,8 +802,11 @@ const ExportEventFile = () => {
           saveAs(urlSnapshot, downloadFileName);
         } else {
           setLoading(true);
+          console.log("fileCu2222222222222222222 ", fileCurrent.fileType)
+          
           try {
             if (fileCurrent.tableName === "file") {
+              console.log("_________12")
               // Call Nginx to get blob data of file
               await ExportEventFileApi.downloadFileNginx(
                 fileCurrent.id,
@@ -805,16 +818,30 @@ const ExportEventFile = () => {
                 saveAs(url, downloadFileName);
               });
             } else {
+              if (fileCurrent.fileType === "4") {
+                // Call Nginx to get blob data of file
+                await ExportEventFileApi.downloadFileNginx(
+                  fileCurrent.id,
+                  fileCurrent.fileType,
+                  fileCurrent.nginx_host
+                ).then(async (result) => {
+                  const blob = new Blob([result.data], { type: "octet/stream" });
+                  const url = window.URL.createObjectURL(blob);
+                  saveAs(url, downloadFileName);
+                });
+              } else {
+                await ExportEventFileApi.downloadFileNginx(
+                  fileCurrent.id,
+                  fileCurrent.type,
+                  fileCurrent.nginx_host
+                ).then(async (result) => {
+                  const blob = new Blob([result.data], { type: "octet/stream" });
+                  const url = window.URL.createObjectURL(blob);
+                  saveAs(url, downloadFileName);
+                });
+              }
               // Call Nginx to get blob data of file
-              await ExportEventFileApi.downloadFileNginx(
-                fileCurrent.id,
-                fileCurrent.type,
-                fileCurrent.nginx_host
-              ).then(async (result) => {
-                const blob = new Blob([result.data], { type: "octet/stream" });
-                const url = window.URL.createObjectURL(blob);
-                saveAs(url, downloadFileName);
-              });
+              
             }
           } catch (e) {
             Notification({
@@ -1255,7 +1282,7 @@ const ExportEventFile = () => {
 
   const checkBtnDownloadDisabled = () => {
     if (!fileCurrent) return "disabled";
-    if (viewFileType === 4) return "disabled";
+    // if (viewFileType === 4) return "disabled";
     if (fileCurrent.uuid === "") return "disabled";
     return "";
   };

@@ -15,6 +15,8 @@ const language = reactLocalStorage.get("language");
 const ExportEventFileApi = {
   downloadFileNginx: async (fileId, fileType, nginx_host) => {
     let result;
+    
+    console.log("__________fileType______", fileType)
     try {
       result = await FileService.getRequestData("/api/v1/downloadFileNginx", {
         fileId: fileId,
