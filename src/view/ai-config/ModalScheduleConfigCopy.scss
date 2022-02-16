@@ -46,6 +46,9 @@
     .headerColumsColor {
       background-color: #232323 !important;
     }
+    .ant-table-selection-column{
+      padding: 0px !important;
+    }
 
     .ant-table-tbody {
       border-radius: 0 0 12px 12px;
@@ -183,9 +186,39 @@
       }
     }
   }
+  .footer__modal {
+    border: 0;
+    margin-top: 24px;
+    button {
+      border: 0;
+      border-radius: 6px;
+      padding: 8px 32px;
+      &:hover {
+        box-shadow: 0 0 8px $vms-main-blue-primary;
+      }
+    }
+    button:first-child {
+      background-color: transparent;
+      border: 1px solid $vms-main-blue-primary;
+      margin-right: 12px;
+      span {
+        color: $vms-main-blue-primary;
+      }
+    }
+
+    button:last-child {
+      background-color: $vms-main-blue-primary;
+      border: 1px solid $vms-main-blue-primary;
+      span {
+        color: $vms-status;
+      }
+    }
+  }
   @include paginationDontShowTotal;
   .ant-pagination {
     border-radius: 0 0 12px 0;
   }
+
+
 }
 
