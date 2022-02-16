@@ -575,6 +575,7 @@
     "archived_file": "Archived file",
     "successfully_add_file": "Successfully added file",
     "error_cut_file": "Errors occur while cutting the file",
+    "error_delete_file": "Errors occur while deleting the file",
     "error_open_file": "Errors occur while opening the file",
     "successfully_delete_file": "Successfully deleted file",
     "successfully_edit_file": "Successfully edited file",
