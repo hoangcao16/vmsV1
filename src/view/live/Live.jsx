@@ -48,7 +48,7 @@ import DraggableCameraList from "./DraggableCameraList";
 import LiveCameraSlot from "./LiveCameraSlot";
 import MenuTools from "./MenuTools";
 import {getEmail, getToken} from "../../api/token";
-import permissionCheck from "../../actions/function/MyUltil/PermissionCheck";
+import * as StompJs from "@stomp/stompjs";
 
 const mode = process.env.REACT_APP_MODE_VIEW;
 
@@ -82,8 +82,48 @@ const Live = (props) => {
   const [defaultSize, setDefaultSize] = useState(16);
   const [pcList, setPCList] = useState([]);
 
+  let wsOnConnectCallback = function (message) {
+    // called when the client receives a STOMP message from the server
+    if (message.body) {
+      console.log('>>>>> Message: ' + message.body);
+    } else {
+      console.log('>>>>> Empty message');
+    }
+  };
+
+  function wsConnect() {
+    const client = new StompJs.Client({
+      brokerURL: 'ws://cctv-uat.edsolabs.com:8441/ai-events',
+      debug: function (str) {
+        console.log(str);
+      },
+      reconnectDelay: 5000,
+      heartbeatIncoming: 4000,
+      heartbeatOutgoing: 4000,
+    });
+
+    client.onConnect = function (frame) {
+      // Do something, all subscribes must be done is this callback
+      // This is needed because this will be executed after a (re)connect
+      const subscription = client.subscribe('/topic/messages', wsOnConnectCallback);
+    };
+
+    client.onStompError = function (frame) {
+      // Will be invoked in case of error encountered at Broker
+      // Bad login/passcode typically will cause an error
+      // Complaint brokers will set `message` header with a brief message. Body may contain details.
+      // Compliant brokers will terminate the connection after any error
+      console.log('Broker reported error: ' + frame.headers['message']);
+      console.log('Additional details: ' + frame.body);
+    };
+
+    client.activate();
+  }
+
   let currentItemIdx = 0;
   useEffect(() => {
+    wsConnect();
+
     initialDataGrid.forEach((it) =>
       addedCameras.push({
         id: it,
@@ -97,6 +137,14 @@ const Live = (props) => {
 
     return () => {
       clearInterval(refreshTokenTimer);
+
+      // CLOSE ALL STREAM
+      let pcLstTmp = [...pcList];
+      for (let i = 0; i < pcLstTmp.length; i++) {
+        if (pcLstTmp[i].pc) {
+          pcLstTmp[i].pc.close();
+        }
+      }
     };
   }, []);
 
@@ -271,7 +319,6 @@ const Live = (props) => {
     }
 
     //Chỗ này check mode HLS or WebRTC: Xử lí trên giao diện khác nhau.
-
     if (mode === "webrtc") {
       const restartConfig = {
         iceServers: [
@@ -285,18 +332,22 @@ const Live = (props) => {
       pc.addTransceiver("video");
       const spin = document.getElementById("spin-slot-" + slotIdx);
       pc.ontrack = (event) => {
+        debugger;
         //binding and play
         const cell = document.getElementById("video-slot-" + slotIdx);
         if (cell) {
           cell.srcObject = event.streams[0];
           cell.autoplay = true;
+          cell.muted = true;
           cell.controls = false;
           cell.style = "width:100%;height:100%;display:block;object-fit:fill;";
           spin.style.display = "none";
         }
       };
 
-      const token = slotIdx + '##' + getToken() + '##' + getEmail();
+      debugger;
+      const thisTime = new Date().getTime();
+      const token = slotIdx + '##' + getToken() + '##' + getEmail() + '##' + thisTime;
 
       pc.oniceconnectionstatechange = function(event) {
         if (pc.iceConnectionState === "failed" ||
@@ -305,6 +356,13 @@ const Live = (props) => {
           // Handle the failure
           console.log(">>>>> ice connection state: ", pc.signalingState, ", data: ", token);
         }
+      };
+
+      pc.ondatachannel = function(ev) {
+        console.log('Data channel is created!');
+        ev.channel.onopen = function() {
+          console.log('Data channel is open and ready to be used.');
+        };
       };
 
       pc.onconnectionstatechange = function(event) {
@@ -1113,9 +1171,12 @@ const Live = (props) => {
       setAddedCameras(result);
       const cell = document.getElementById("video-slot-" + originSlotId);
       if (cell) {
+        debugger;
         cell.srcObject = null;
         cell.style.display = "none";
       }
+
+      // CLOSE STREAM
       let pcLstTmp = [...pcList];
       for (let i = 0; i < pcLstTmp.length; i++) {
         if (pcLstTmp[i].slotIdx === slotIdx) {
@@ -1438,6 +1499,10 @@ const Live = (props) => {
     );
   };
 
+  const handleMessage = (stompMessage) => {
+    console.log(">>>>> stompMessage: ", stompMessage);
+  }
+
   return (
     <div>
       {
@@ -1533,6 +1598,17 @@ const Live = (props) => {
           )}
         </div>
       </DragDropContext>
+      <div>
+        {/*<StompClient*/}
+        {/*    endpoint="ws://cctv-uat.edsolabs.com:8441/ai-events"*/}
+        {/*    topic="/topic/messages"*/}
+        {/*    onMessage={handleMessage}*/}
+        {/*>*/}
+        {/*  <div>*/}
+        {/*    {"No message received yet"}*/}
+        {/*  </div>*/}
+        {/*</StompClient>*/}
+      </div>
     </div>
   );
 };
