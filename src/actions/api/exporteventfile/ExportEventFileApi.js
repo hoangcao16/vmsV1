@@ -181,19 +181,7 @@ const ExportEventFileApi = {
         fileName: pathFile,
       });
     } catch (e) {
-      if (language == "vn") {
-        Notification({
-          type: NOTYFY_TYPE.warning,
-          title: "Tệp lưu trữ",
-          description: e.toString(),
-        });
-      } else {
-        Notification({
-          type: NOTYFY_TYPE.warning,
-          title: "Archived file",
-          description: e.toString(),
-        });
-      }
+      
       return null;
     }
     return result;

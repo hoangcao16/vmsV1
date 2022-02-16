@@ -1,4 +1,5 @@
-import { Col, Input, Popconfirm, Popover, Row, Tooltip } from "antd";
+import { Col, Input, Popconfirm, Popover, Row, Tooltip, Button } from "antd";
+import { CloseOutlined } from '@ant-design/icons';
 import "antd/dist/antd.css";
 import { saveAs } from "file-saver";
 import { findIndex } from "lodash-es";
@@ -176,29 +177,46 @@ const ExportEventFile = () => {
           imageOther.push(fileCurrent.vehicleUrl)
         }
       } else {
-        AIEventsApi.getDetailEvent(fileCurrent.uuid).then(
-          (data) => {
-
-            if (data && data.payload) {
-              setDetailAI({
-                ...fileCurrent,
-                code: data.payload.code,
-                name: data.payload.name,
-                position: data.payload.position,
-                note: data.payload.note,
-                plateNumber: data.payload.plateNumber,
-                departmentUuid: data.payload.departmentUuid,
-                departmentName: data.payload.departmentName,
-                imageOther: imageOther,
-                typeObject: data.payload.useCase === "zac_vehicle" ? "vehicle" : "human"
+        setDetailAI({})
+        if (fileCurrent && fileCurrent.uuid != null) {
+          AIEventsApi.getEventsByTrackingId(fileCurrent.trackingId).then(
+            (data) => {
+              data.payload.map((ef) => {
+                if(ef.thumbnailData != null){
+                  imageOther.push({
+                    image: ef.thumbnailData,
+                    uuid: ef.uuid
+                  });
+                }
+                
               })
             }
-          }
-        );
+          );
+          setImageOther(imageOther)
+
+          AIEventsApi.getDetailEvent(fileCurrent.uuid).then(
+            (data) => {
+              if (data && data.payload) {
+                setDetailAI({
+                  ...fileCurrent,
+                  code: data.payload.code,
+                  name: data.payload.name,
+                  position: data.payload.position,
+                  note: data.payload.note,
+                  plateNumber: data.payload.plateNumber,
+                  departmentUuid: data.payload.departmentUuid,
+                  departmentName: data.payload.departmentName,
+                  typeObject: data.payload.useCase === "zac_vehicle" ? "vehicle" : "human"
+                })
+              }
+            }
+          );
+        }
       }
     }
-
   }, [fileCurrent]);
+
+
 
   const refresh = () => {
     setCaptureMode(false);
@@ -357,7 +375,7 @@ const ExportEventFile = () => {
       if (AI_SOURCE === "philong") {
         setUrlSnapshot(file.overViewUrl);
       } else {
-        console.log(" file.fileName  ___file    ",  file.fileName)
+        console.log(" file.fileName  ___file    ", file.fileName)
         await ExportEventFileApi.downloadFileAI(
           file.cameraUuid,
           file.trackingId,
@@ -388,7 +406,7 @@ const ExportEventFile = () => {
     } else {
       setDownloadFileName(file.name);
     }
-    
+
     addDataToEvent(file, 1);
   };
 
@@ -803,7 +821,7 @@ const ExportEventFile = () => {
         } else {
           setLoading(true);
           console.log("fileCu2222222222222222222 ", fileCurrent.fileType)
-          
+
           try {
             if (fileCurrent.tableName === "file") {
               console.log("_________12")
@@ -829,10 +847,10 @@ const ExportEventFile = () => {
                   const blob = new Blob([result.data], { type: "octet/stream" });
                   const url = window.URL.createObjectURL(blob);
                   saveAs(url, downloadFileName);
-        
+
                 });
                 // Call Nginx to get blob data of file
-                
+
               } else {
                 await ExportEventFileApi.downloadFileNginx(
                   fileCurrent.id,
@@ -845,7 +863,7 @@ const ExportEventFile = () => {
                 });
               }
               // Call Nginx to get blob data of file
-              
+
             }
           } catch (e) {
             Notification({
@@ -896,10 +914,38 @@ const ExportEventFile = () => {
     }
   };
 
+  const deleteImageHandler = async (uuid) => {
+    setLoading(true);
+    
+    const deleteFileDataRes = await AIEventsApi.deleteFileData(
+      fileCurrent.uuid
+    );
+
+    if (deleteFileDataRes && deleteFileDataRes.code === 1700) {
+        Notification({
+          type: NOTYFY_TYPE.success,
+          title: `${t("noti.archived_file")}`,
+          description: `${t("noti.successfully_delete_file")}`,
+        });
+        const updatedImageOther = imageOther.filter(
+          (item) => item.uuid !== uuid
+        );
+
+        setImageOther([...updatedImageOther]);
+    } else {
+      Notification({
+        type: NOTYFY_TYPE.warning,
+        title: `${t("noti.archived_file")}`,
+        description: `${t("noti.do_not_have_permission_to_action")}`,
+      });
+    }
+    setLoading(false);
+  };
+
   const deleteFileHandler = async () => {
     let response = null;
     if (fileCurrent.uuid !== "") {
-      
+
       if (fileCurrent.tableName === "file") {
         const deletePhysicalFileRes =
           await deleteExportEventFileApi.deletePhysicalFile(fileCurrent.uuid);
@@ -920,7 +966,7 @@ const ExportEventFile = () => {
         }
       } else {
         let isSuccess = false;
-        console.log("________fileCurrent.type"  , fileCurrent  )
+
         if (fileCurrent.type === 0) {
           // Video
           const deletePhysicalFileRes =
@@ -929,15 +975,37 @@ const ExportEventFile = () => {
             isSuccess = true;
           }
         } else {
-          // Image
-          const deleteFileDataRes = await ExportEventFileApi.deleteFileData(
-            fileCurrent.pathFile
-          );
-          if (deleteFileDataRes && deleteFileDataRes.code === "1600") {
-            isSuccess = true;
+          if (fileCurrent.fileType === "4") {
+
+            const delete_file =
+              await AIEventsApi.delete(fileCurrent.uuid);
+
+            if (delete_file) {
+              Notification({
+                type: NOTYFY_TYPE.success,
+                title: `${t("noti.archived_file")}`,
+                description: `${t("noti.successfully_delete_file")}`,
+              });
+              const updatedListFile = listFiles.filter(
+                (item) => item.uuid !== fileCurrent.uuid
+              );
+
+              setListFiles([...updatedListFile]);
+              refresh();
+            }
+          } else {
+            const deleteFileDataRes = await ExportEventFileApi.deleteFileData(
+              fileCurrent.pathFile
+            );
+            if (deleteFileDataRes && deleteFileDataRes.code === "1600") {
+              isSuccess = true;
+            }
           }
+
+          // Image
+
         }
-        if (isSuccess) {
+        if (isSuccess && fileCurrent.fileType !== "4") {
           response = await ExportEventFileApi.deleteEventFile(fileCurrent.uuid);
           if (response) {
             Notification({
@@ -1201,7 +1269,6 @@ const ExportEventFile = () => {
             plateNumber: data.payload.plateNumber,
             departmentUuid: data.payload.departmentUuid,
             departmentName: data.payload.departmentName,
-            imageOther: imageOther,
             typeObject: data.payload.useCase === "zac_vehicle" ? "vehicle" : "human"
           })
 
@@ -1450,18 +1517,18 @@ const ExportEventFile = () => {
               </div>
               {detailAI.useCase === "zac_vehicle"
                 ? <ul style={{ listStyleType: 'none', display: 'inline-block' }}>
-                <li>{t("view.ai_events.type")} : {t("view.ai_events.useCase." + detailAI.useCase)}</li>
-                <li>{t("view.ai_events.plateNumber")} : {detailAI.plateNumber? detailAI.plateNumber :t("view.ai_events.UnKnow")}</li>
-              </ul>
+                  <li>{t("view.ai_events.type")} : {t("view.ai_events.useCase." + detailAI.useCase)}</li>
+                  <li>{t("view.ai_events.plateNumber")} : {detailAI.plateNumber ? detailAI.plateNumber : t("view.ai_events.UnKnow")}</li>
+                </ul>
                 : null}
               {detailAI.useCase === "zac_human"
                 ? <ul style={{ listStyleType: 'none', display: 'inline-block' }}>
-                <li>{t("view.ai_events.type")} : {t("view.ai_events.useCase." + detailAI.useCase)}</li>
-                <li>{t("view.ai_events.code")} : {detailAI.code? detailAI.code :t("view.ai_events.UnKnow")}</li>
-                <li>{t("view.ai_events.name")} : {detailAI.name? detailAI.name :t("view.ai_events.UnKnow")}</li>
-                <li>{t("view.ai_events.position")} : {detailAI.position? detailAI.position :t("view.ai_events.UnKnow")}</li>
-                <li>{t("view.ai_events.department")} : {detailAI.departmentName? detailAI.departmentName :t("view.ai_events.UnKnow")}</li>
-              </ul>
+                  <li>{t("view.ai_events.type")} : {t("view.ai_events.useCase." + detailAI.useCase)}</li>
+                  <li>{t("view.ai_events.code")} : {detailAI.code ? detailAI.code : t("view.ai_events.UnKnow")}</li>
+                  <li>{t("view.ai_events.name")} : {detailAI.name ? detailAI.name : t("view.ai_events.UnKnow")}</li>
+                  <li>{t("view.ai_events.position")} : {detailAI.position ? detailAI.position : t("view.ai_events.UnKnow")}</li>
+                  <li>{t("view.ai_events.department")} : {detailAI.departmentName ? detailAI.departmentName : t("view.ai_events.UnKnow")}</li>
+                </ul>
                 : null}
               {detailAI.useCase === "attendance"
                 ? <ul style={{ listStyleType: 'none', display: 'inline-block' }}>
@@ -1489,11 +1556,38 @@ const ExportEventFile = () => {
                 <ul >
                   {
 
-                    detailAI.imageOther ? detailAI.imageOther.map((item, index) =>
-                      <li style={{ listStyleType: 'none', display: 'inline-block', marginRight: '20px' }}><div style={{ width: '90%', paddingBottom: '10px' }}
-                      >
+                    imageOther ? imageOther.map((item, index) =>
+
+                      <li key={item.uuid} style={{ listStyleType: 'none', display: 'inline-block', marginRight: '20px' }}><div style={{ width: '90%', paddingBottom: '10px' }}>
+
                         <div className='img__item' style={{ position: "relative" }}>
-                          <img style={{ width: '120px', height: "120px" }} className="cursor-pointer" src={item} alt="Avatar" />
+                          <Popconfirm title="Chắc chắn để xóa?"
+                            onCancel={event => {
+                              event.stopPropagation();
+                            }}
+                            onConfirm={(event) => { event.stopPropagation(); deleteImageHandler(item.uuid); }}>
+                            <Button className="button-photo-remove" size="small" type="danger"
+                              onClick={event => {
+                                event.stopPropagation();
+                              }}
+                              style={{
+                                position: 'absolute',
+                                top: 0,
+                                right: 0,
+                                width: '15px',
+                                height: '15px',
+                                borderRadius: '50%',
+                                display: 'flex',
+                                alignItems: 'center',
+                                justifyContent: 'center',
+                                background: 'red',
+                                // padding: '15px'
+                              }}
+                            >
+                              <CloseOutlined style={{}} />
+                            </Button>
+                          </Popconfirm>
+                          <img style={{ width: '120px', height: "120px" }} className="cursor-pointer" src={"data:image/jpeg;base64," + item.image} alt="Avatar" />
                         </div>
                       </div></li>
                     ) : null
@@ -1595,9 +1689,9 @@ const ExportEventFile = () => {
             <Col span={6}>
               <div className="title">{t("view.storage.length")}</div>
               <div>
-                {new Date(+eventFileCurrent.length * 1000)
+                {eventFileCurrent.length ? new Date(+eventFileCurrent.length * 1000)
                   .toISOString()
-                  .substr(11, 8)}
+                  .substr(11, 8) : 0}
               </div>
             </Col>
             <Col span={12}>
@@ -1622,7 +1716,7 @@ const ExportEventFile = () => {
         onEditFile={editFileOnPopoverHandler}
         onDownloadFile={downloadFileHandler}
         onDeleteFile={deleteFileHandler}
-        
+
       />
     );
   };
@@ -1732,7 +1826,7 @@ const ExportEventFile = () => {
             onClickRow={onClickTableFileHandler}
             onSearch={onSearchHandler}
             onEditFile={editFileHandler}
-            
+
           />
         </Col>
         <Col span={16} className="viewFileContainer">

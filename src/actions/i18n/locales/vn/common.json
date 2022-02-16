@@ -575,6 +575,7 @@
     "archived_file": "Tệp lưu trữ",
     "successfully_add_file": "Bạn đã thêm tệp thành công",
     "error_cut_file": "Đã xảy ra lỗi trong quá trình cắt tệp",
+    "error_delete_file": "Đã xảy ra lỗi trong quá trình xóa file",
     "error_open_file": "Đã xảy ra lỗi trong quá trình mở tệp",
     "successfully_delete_file": "Bạn đã xóa tệp thành công",
     "successfully_edit_file": "Bạn đã sửa tệp thành công",

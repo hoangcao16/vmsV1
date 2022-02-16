@@ -1,7 +1,11 @@
 import { handleErrCodeAI } from '../../function/MyUltil/ResponseChecker';
 import AIService from '../ai-service';
+import { reactLocalStorage } from "reactjs-localstorage";
+import { NOTYFY_TYPE } from "../../../view/common/vms/Constant";
+import FileService from '../exporteventfile/fileservice';
 
 const AI_SOURCE = process.env.REACT_APP_AI_SOURCE;
+const language = reactLocalStorage.get("language");
 
 const AIEventsApi = {
 
@@ -91,6 +95,34 @@ const AIEventsApi = {
       return false;
     }
     return true;
+  },
+
+  delete: async (uuid) => {
+    let result;
+
+    try {
+      result = await AIService.deleteRequestData(
+        `/api/v1/ai-events/${uuid}`
+      );
+    } catch (error) {
+      console.log(error);
+    }
+    if (handleErrCodeAI(result) === null) {
+      return false;
+    }
+    return true;
+  },
+
+  deleteFileData: async (id) => {
+    let result;
+    try {
+      result = await AIService.deleteRequestData("/api/v1/ai-events/image/" +id, {
+        fileName: id,
+      });
+    } catch (e) {
+      return null;
+    }
+    return result;
   },
   
   
