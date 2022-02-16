@@ -449,6 +449,7 @@
       }
     },
     "ai_config": {
+      "choose_camera": "Chọn camera",
       "config": "Quản lý sự kiện thông minh",
       "hurdles_events": "Sự kiện vượt rào ảo",
       "intrusion_detection_events": "Sự kiện phát hiện xâm nhập",
@@ -461,8 +462,19 @@
       "activate_intrusion_detection": "Kích hoạt tính năng phát hiện xâm nhập",
       "all_day": "Áp dụng cho tất cả các ngày trong tuần",
       "apply": "Áp dụng",
+      "edit_time" :{
+        "2": "Thay đổi thời gian thứ 2",
+        "3": "Thay đổi thời gian thứ 3",
+        "4": "Thay đổi thời gian thứ 4",
+        "5": "Thay đổi thời gian thứ 5",
+        "6": "Thay đổi thời gian thứ 6",
+        "7": "Thay đổi thời gian thứ 7",
+        "CN": "Thay đổi thời gian chủ nhật"
+      },
+      "select_time" :"Chọn thời gian",
       "time_config_copy": "Áp dụng lịch",
       "config_copy": "Sao chép",
+      "time_error_stat_end":"Thời gian bắt đầu lớn hơn thời gian kết thúc",
       "time_threshold": "Ngưỡng thời gian",
       "second": "giây",
       "object_recognition": "Nhận diện đối tượng",
@@ -482,7 +494,9 @@
         "AB": "A --> B",
         "BA": "B --> A",
         "All": "Tất cả"
-      }
+      },
+      "save":"Lưu",
+      "cancel": "Hủy"
     },
     "ai_events": {
       "event_files_list": "Danh sách sự kiện AI",

@@ -1,5 +1,5 @@
-import { EditOutlined} from '@ant-design/icons';
-import { Button, Card, Table, Space,Popconfirm} from 'antd';
+import { EditOutlined } from '@ant-design/icons';
+import { Button, Card, Table, Space, Popconfirm, Tooltip } from 'antd';
 import { PlusOutlined, DeleteOutlined, CheckOutlined, CloseOutlined } from '@ant-design/icons';
 import 'antd/dist/antd.css';
 import moment from 'moment';
@@ -42,12 +42,12 @@ const TabSchedule = (props) => {
 
 
   useEffect(() => {
-    if(cameraUuid != null && cameraUuid !== ""){
+    if (cameraUuid != null && cameraUuid !== "") {
       const data = {
         type: type,
         cameraUuid: cameraUuid
       };
-  
+
       AIConfigScheduleApi.getAllConfigSchedule(data).then((result) => {
 
         setData(result)
@@ -55,7 +55,7 @@ const TabSchedule = (props) => {
 
 
       });
-  
+
     }
   }, [cameraUuid, type, status]);
 
@@ -228,6 +228,7 @@ const TabSchedule = (props) => {
     if (values.start_2 && values.end_2) { itemList.push(getTimeLong(values.start_2, values.end_2)) }
     if (values.start_3 && values.end_3) { itemList.push(getTimeLong(values.start_3, values.end_3)) }
     if (values.start_4 && values.end_4) { itemList.push(getTimeLong(values.start_4, values.end_4)) }
+    if (values.start_5 && values.end_5) { itemList.push(getTimeLong(values.start_5, values.end_5)) }
 
     if (values.checkAll) {
       data2.sunday
@@ -272,27 +273,38 @@ const TabSchedule = (props) => {
   };
 
   const groups = [
+      
+
     {
-      id: 1, title: 'Chủ nhật', bgColor: 'white', rightTitle: <EditOutlined
-        style={{ fontSize: '16px', color: '#6E6B7B' }}
-        onClick={() => {
-          setSelectDay("CN")
-          if (!listTimesCN) {
-            const defaultList = [];
-            defaultList.push({
-              startTime: 1609434000,
-              endTime: 1609434000
-            })
-            setListTimes(defaultList)
-          } else {
-            setListTimes(listTimesCN)
-          }
-          setShowModal(true);
-        }}
-      />,
+      id: 1, title: 'Chủ nhật', bgColor: 'white', rightTitle: <Tooltip
+        placement="bottomLeft"
+        title={t("view.ai_config.edit_time.CN")}
+      >
+        <EditOutlined
+          style={{ fontSize: '16px', color: '#6E6B7B' }}
+          onClick={() => {
+            setSelectDay("CN")
+            if (!listTimesCN) {
+              const defaultList = [];
+              defaultList.push({
+                startTime: 1609434000,
+                endTime: 1609434000
+              })
+              setListTimes(defaultList)
+            } else {
+              setListTimes(listTimesCN)
+            }
+            setShowModal(true);
+          }}
+        />
+      </Tooltip>,
     },
     {
-      id: 2, title: 'Thứ hai', bgColor: 'white', rightTitle: <EditOutlined
+      id: 2, title: 'Thứ hai', bgColor: 'white', rightTitle: <Tooltip
+      placement="bottomLeft"
+      title={t("view.ai_config.edit_time.2")}
+    >
+      <EditOutlined
         style={{ fontSize: '16px', color: '#6E6B7B' }}
         onClick={() => {
           setSelectDay("2")
@@ -308,10 +320,15 @@ const TabSchedule = (props) => {
           }
           setShowModal(true);
         }}
-      />,
+      />
+    </Tooltip>,
     },
     {
-      id: 3, title: 'Thứ ba', bgColor: 'white', rightTitle: <EditOutlined
+      id: 3, title: 'Thứ ba', bgColor: 'white', rightTitle: <Tooltip
+      placement="bottomLeft"
+      title={t("view.ai_config.edit_time.3")}
+    >
+      <EditOutlined
         style={{ fontSize: '16px', color: '#6E6B7B' }}
         onClick={() => {
           setSelectDay("3")
@@ -327,10 +344,15 @@ const TabSchedule = (props) => {
           }
           setShowModal(true);
         }}
-      />,
+      />
+    </Tooltip>,
     },
     {
-      id: 4, title: 'Thứ tư', bgColor: 'white', rightTitle: <EditOutlined
+      id: 4, title: 'Thứ tư', bgColor: 'white', rightTitle: <Tooltip
+      placement="bottomLeft"
+      title={t("view.ai_config.edit_time.4")}
+    >
+      <EditOutlined
         style={{ fontSize: '16px', color: '#6E6B7B' }}
         onClick={() => {
           setSelectDay("4")
@@ -346,10 +368,15 @@ const TabSchedule = (props) => {
           }
           setShowModal(true);
         }}
-      />,
+      />
+    </Tooltip>,
     },
     {
-      id: 5, title: 'Thứ năm', bgColor: 'white', rightTitle: <EditOutlined
+      id: 5, title: 'Thứ năm', bgColor: 'white', rightTitle: <Tooltip
+      placement="bottomLeft"
+      title={t("view.ai_config.edit_time.5")}
+    >
+      <EditOutlined
         style={{ fontSize: '16px', color: '#6E6B7B' }}
         onClick={() => {
           setSelectDay("5")
@@ -365,10 +392,15 @@ const TabSchedule = (props) => {
           }
           setShowModal(true);
         }}
-      />,
+      />
+    </Tooltip>,
     },
     {
-      id: 6, title: 'Thứ sáu', bgColor: 'white', rightTitle: <EditOutlined
+      id: 6, title: 'Thứ sáu', bgColor: 'white', rightTitle: <Tooltip
+      placement="bottomLeft"
+      title={t("view.ai_config.edit_time.6")}
+    >
+      <EditOutlined
         style={{ fontSize: '16px', color: '#6E6B7B' }}
         onClick={() => {
           setSelectDay("6")
@@ -384,10 +416,15 @@ const TabSchedule = (props) => {
           }
           setShowModal(true);
         }}
-      />,
+      />
+    </Tooltip>,
     },
     {
-      id: 7, title: 'Thứ bảy', bgColor: 'white', rightTitle: <EditOutlined
+      id: 7, title: 'Thứ bảy', bgColor: 'white', rightTitle: <Tooltip
+      placement="bottomLeft"
+      title={t("view.ai_config.edit_time.7")}
+    >
+      <EditOutlined
         style={{ fontSize: '16px', color: '#6E6B7B' }}
         onClick={() => {
           setSelectDay("7")
@@ -404,7 +441,8 @@ const TabSchedule = (props) => {
 
           setShowModal(true);
         }}
-      />,
+      />
+    </Tooltip>,
     },
   ]
 
@@ -418,48 +456,48 @@ const TabSchedule = (props) => {
       // headStyle={{ padding: 30 }}
       >
         <div className="timeline_table" >
-           <Timeline
-                        style={{ color: 'white', marginTop: '20px', marginBottom: '20px' }}
-                        groups={groups}
-                        items={listDetail}
-                        defaultTimeStart={moment([2021, 1, 1, 0, 0, 0, 0])}
-                        defaultTimeEnd={moment([2021, 1, 1, 23, 59, 59, 999])}
-                        rightSidebarWidth={30}
-                        sidebarWidth={80}
-                        useResizeHandle={false}
-                        minZoom={60 * 60 * 1000}
-                        minResizeWidth={10}
-                    >
-                        <TimelineHeaders >
-                            <DateHeader labelFormat='HH' />
-                        </TimelineHeaders>
-                    </Timeline>
+          <Timeline
+            style={{ color: 'white', marginTop: '20px', marginBottom: '20px' }}
+            groups={groups}
+            items={listDetail}
+            defaultTimeStart={moment([2021, 1, 1, 0, 0, 0, 0])}
+            defaultTimeEnd={moment([2021, 1, 1, 23, 59, 59, 999])}
+            rightSidebarWidth={30}
+            sidebarWidth={80}
+            useResizeHandle={false}
+            minZoom={60 * 60 * 1000}
+            minResizeWidth={10}
+          >
+            <TimelineHeaders >
+              <DateHeader labelFormat='HH' />
+            </TimelineHeaders>
+          </Timeline>
           {/* <Timeline
             
           /> */}
-          
+
         </div>
 
         {cameraUuid ?
-            <div className="footer__modal">
+          <div className="footer__modal">
+            <Button
+              type="primary"
+              onClick={() => {
+                setShowModalCopy(true);
+              }}
+            >
+              {t('view.ai_config.config_copy')}
+            </Button>
+            <Button
+              onClick={() => {
+                handleSubmit();
+              }}
+              type="primary" htmlType="submit ">
+              {t('view.ai_config.apply')}
+            </Button>
 
-              <Button
-                onClick={() => {
-                  handleSubmit();
-                }}
-                type="primary" htmlType="submit ">
-                {t('view.ai_config.apply')}
-              </Button>
-              <Button
-                type="primary"
-                onClick={() => {
-                  setShowModalCopy(true);
-                }}
-              >
-                {t('view.ai_config.config_copy')}
-              </Button>
-            </div> : null
-          }
+          </div> : null
+        }
 
       </Card>
       {showModal &&
@@ -483,7 +521,7 @@ const TabSchedule = (props) => {
 
 function tabSchedulePropsAreEqual(prevTabSchedule, nextTabSchedule) {
   return _.isEqual(prevTabSchedule.cameraUuid, nextTabSchedule.cameraUuid) && _.isEqual(prevTabSchedule.type, nextTabSchedule.type)
-  && _.isEqual(prevTabSchedule.status, nextTabSchedule.status);
+    && _.isEqual(prevTabSchedule.status, nextTabSchedule.status);
 }
 
 export const MemoizedTabSchedule = React.memo(TabSchedule, tabSchedulePropsAreEqual);

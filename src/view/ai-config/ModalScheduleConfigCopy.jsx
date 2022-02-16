@@ -1,9 +1,13 @@
-import { Button, Form, Modal, Table } from "antd";
+import { Button, Form, Modal, Table, AutoComplete } from "antd";
+import {
+  SearchOutlined,
+} from "@ant-design/icons";
 import React, { useEffect, useState } from "react";
 import { useTranslation } from 'react-i18next';
 import AIConfigScheduleApi from "../../actions/api/ai-config/AIConfigScheduleApi";
 import CameraApi from "../../actions/api/camera/CameraApi";
 import Notification from "../../components/vms/notification/Notification";
+import debounce from "lodash/debounce";
 import "./../commonStyle/commonAuto.scss";
 import "./../commonStyle/commonDatePicker.scss";
 import "./../commonStyle/commonForm.scss";
@@ -43,7 +47,6 @@ const ModalScheduleConfigCopy = (props) => {
 
 
   useEffect(() => {
-    
     const data = {
       page: page,
       pageSize: pageSize
@@ -55,9 +58,42 @@ const ModalScheduleConfigCopy = (props) => {
 
   const columns = [{
     dataIndex: 'name',
-  }];
+  },
+  {
+    className: "action-1",
+    title: () => {
+      return (
+        <div style={{ textAlign: "center" }}>
+          <AutoComplete
+            className="searchInputCamproxy"
+            style={{ width: 250, height: 40, marginRight: 18 }}
+            onSearch={debounce(handleSearch, 300)}
+            placeholder={
+              <div>
+                <span> &nbsp;{t("view.map.search")} </span>{" "}
+                <SearchOutlined style={{ fontSize: 22 }} />
+              </div>
+            }
+          ></AutoComplete>
+        </div>
+      );
+    },
+    
+  },];
   const onSelectChange = (selectedRowKeys) => {
     setSelectedRowKeys(selectedRowKeys);
+  };
+
+  const handleSearch = async (value) => {
+    const data = {
+      page: page,
+      pageSize: pageSize,
+      name: value,
+    };
+    CameraApi.getAllCamera(data).then((result) => {
+      setListCameras(result);
+    });
+
   };
 
   const rowSelection = {
@@ -118,9 +154,8 @@ const ModalScheduleConfigCopy = (props) => {
           dataSource={listCameras} />
 
           <div className="footer__modal">
-            <Button onClick={() => { setShowModalCopy(false) }}>Đóng</Button>
-            <Button htmlType="submit">Lưu</Button>
-
+            <Button onClick={() => { setShowModalCopy(false) }}>{t('view.ai_config.cancel')}</Button>
+            <Button htmlType="submit">{t('view.ai_config.save')}</Button>
           </div>
         </Form>
       </Modal>

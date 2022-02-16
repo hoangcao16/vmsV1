@@ -100,9 +100,9 @@ const InfoPopoverContent = (props) => {
         <Col span={12}>
           <div className="title">{t("view.storage.length")}</div>
           <div>
-            {new Date(+props.fileCurrent.length * 1000)
+            {props.fileCurrent.length ? new Date(+props.fileCurrent.length * 1000)
               .toISOString()
-              .substr(11, 8)}
+              .substr(11, 8) : 0}
           </div>
         </Col>
         <Col span={1} />

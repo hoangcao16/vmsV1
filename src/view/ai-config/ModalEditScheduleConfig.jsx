@@ -60,8 +60,16 @@ const ModalEditScheduleConfig = (props) => {
 
   };
 
+  const checkTime = async (value) => {
+    console.log("time")
+    console.log(value)
+    console.log(timeDetails['end_1'])
+
+  };
+
   function onChangeCheckBox(val) {
     setCheckAll(val.target.checked)
+
   }
 
 
@@ -98,13 +106,37 @@ const ModalEditScheduleConfig = (props) => {
               <label className="optionTitleTime">{t('view.report.date_range')} </label>
             </Col>
             <Col span={8}>
-              <Form.Item name={['start_1']}>
-                <TimePicker ></TimePicker>
+              <Form.Item name={['start_1']}
+                rules={[
+                  ({ getFieldValue }) => ({
+                    validator(rule, start) {
+                      const end = getFieldValue(["end_1"]);
+                      if (start < end) {
+                        return Promise.resolve();
+                      } else {
+                        return Promise.reject(`${t("view.ai_config.time_error_stat_end")}`);
+                      }
+                    },
+                  }),
+                ]}>
+                <TimePicker placeholder={t("view.ai_config.select_time")}></TimePicker>
               </Form.Item>
             </Col>
             <Col span={8}>
-              <Form.Item name={['end_1']}>
-                <TimePicker ></TimePicker>
+              <Form.Item name={['end_1']}
+                rules={[
+                  ({ getFieldValue }) => ({
+                    validator(rule, end) {
+                      const start = getFieldValue(["start_1"]);
+                      if (start < end) {
+                        return Promise.resolve();
+                      } else {
+                        return Promise.reject(`${t("view.ai_config.time_error_stat_end")}`);
+                      }
+                    },
+                  }),
+                ]}>
+                <TimePicker placeholder={t("view.ai_config.select_time")}></TimePicker>
               </Form.Item>
             </Col>
           </Row>
@@ -113,13 +145,37 @@ const ModalEditScheduleConfig = (props) => {
               <label className="optionTitleTime">{t('view.report.date_range')} </label>
             </Col>
             <Col span={8}>
-              <Form.Item name={['start_2']}>
-                <TimePicker ></TimePicker>
+              <Form.Item name={['start_2']}
+                rules={[
+                  ({ getFieldValue }) => ({
+                    validator(rule, start) {
+                      const end = getFieldValue(["end_2"]);
+                      if (start < end) {
+                        return Promise.resolve();
+                      } else {
+                        return Promise.reject(`${t("view.ai_config.time_error_stat_end")}`);
+                      }
+                    },
+                  }),
+                ]}>
+                <TimePicker placeholder={t("view.ai_config.select_time")}></TimePicker>
               </Form.Item>
             </Col>
             <Col span={8}>
-              <Form.Item name={['end_2']}>
-                <TimePicker ></TimePicker>
+              <Form.Item name={['end_2']}
+                rules={[
+                  ({ getFieldValue }) => ({
+                    validator(rule, end) {
+                      const start = getFieldValue(["start_2"]);
+                      if (start < end) {
+                        return Promise.resolve();
+                      } else {
+                        return Promise.reject(`${t("view.ai_config.time_error_stat_end")}`);
+                      }
+                    },
+                  }),
+                ]}>
+                <TimePicker placeholder={t("view.ai_config.select_time")}></TimePicker>
               </Form.Item>
             </Col>
           </Row>
@@ -128,13 +184,37 @@ const ModalEditScheduleConfig = (props) => {
               <label className="optionTitleTime">{t('view.report.date_range')} </label>
             </Col>
             <Col span={8}>
-              <Form.Item name={['start_3']}>
-                <TimePicker ></TimePicker>
+              <Form.Item name={['start_3']}
+                rules={[
+                  ({ getFieldValue }) => ({
+                    validator(rule, start) {
+                      const end = getFieldValue(["end_3"]);
+                      if (start < end) {
+                        return Promise.resolve();
+                      } else {
+                        return Promise.reject(`${t("view.ai_config.time_error_stat_end")}`);
+                      }
+                    },
+                  }),
+                ]}>
+                <TimePicker placeholder={t("view.ai_config.select_time")}></TimePicker>
               </Form.Item>
             </Col>
             <Col span={8}>
-            <Form.Item name={['end_3']}>
-                <TimePicker ></TimePicker>
+              <Form.Item name={['end_3']}
+                rules={[
+                  ({ getFieldValue }) => ({
+                    validator(rule, end) {
+                      const start = getFieldValue(["start_3"]);
+                      if (start < end) {
+                        return Promise.resolve();
+                      } else {
+                        return Promise.reject(`${t("view.ai_config.time_error_stat_end")}`);
+                      }
+                    },
+                  }),
+                ]}>
+                <TimePicker placeholder={t("view.ai_config.select_time")}></TimePicker>
               </Form.Item>
             </Col>
 
@@ -144,13 +224,78 @@ const ModalEditScheduleConfig = (props) => {
               <label className="optionTitleTime">{t('view.report.date_range')} </label>
             </Col>
             <Col span={8}>
-              <Form.Item name={['start_4']}>
-                <TimePicker ></TimePicker>
+              <Form.Item name={['start_4']}
+                rules={[
+                  ({ getFieldValue }) => ({
+                    validator(rule, start) {
+                      const end = getFieldValue(["end_4"]);
+                      if (start < end) {
+                        return Promise.resolve();
+                      } else {
+                        return Promise.reject(`${t("view.ai_config.time_error_stat_end")}`);
+                      }
+                    },
+                  }),
+                ]}>
+                <TimePicker placeholder={t("view.ai_config.select_time")}></TimePicker>
               </Form.Item>
             </Col>
             <Col span={8}>
-              <Form.Item name={['end_4']}>
-                <TimePicker ></TimePicker>
+              <Form.Item name={['end_4']}
+                rules={[
+                  ({ getFieldValue }) => ({
+                    validator(rule, end) {
+                      const start = getFieldValue(["start_4"]);
+                      if (start < end) {
+                        return Promise.resolve();
+                      } else {
+                        return Promise.reject(`${t("view.ai_config.time_error_stat_end")}`);
+                      }
+                    },
+                  }),
+                ]}>
+                <TimePicker placeholder={t("view.ai_config.select_time")}></TimePicker>
+              </Form.Item>
+            </Col>
+            <Col >
+            </Col>
+          </Row>
+          <Row gutter={24} className="row_time">
+            <Col span={8}>
+              <label className="optionTitleTime">{t('view.report.date_range')} </label>
+            </Col>
+            <Col span={8}>
+              <Form.Item name={['start_5']}
+                rules={[
+                  ({ getFieldValue }) => ({
+                    validator(rule, start) {
+                      const end = getFieldValue(["end_5"]);
+                      if (start < end) {
+                        return Promise.resolve();
+                      } else {
+                        return Promise.reject(`${t("view.ai_config.time_error_stat_end")}`);
+                      }
+                    },
+                  }),
+                ]}>
+                <TimePicker placeholder={t("view.ai_config.select_time")}></TimePicker>
+              </Form.Item>
+            </Col>
+            <Col span={8}>
+              <Form.Item name={['end_5']}
+                rules={[
+                  ({ getFieldValue }) => ({
+                    validator(rule, end) {
+                      const start = getFieldValue(["start_5"]);
+                      if (start < end) {
+                        return Promise.resolve();
+                      } else {
+                        return Promise.reject(`${t("view.ai_config.time_error_stat_end")}`);
+                      }
+                    },
+                  }),
+                ]}>
+                <TimePicker placeholder={t("view.ai_config.select_time")}></TimePicker>
               </Form.Item>
             </Col>
             <Col >
@@ -167,8 +312,8 @@ const ModalEditScheduleConfig = (props) => {
           </Row>
 
           <div className="footer__modal">
-            <Button onClick={() => { setShowModal(false) }}>Đóng</Button>
-            <Button htmlType="submit">Lưu</Button>
+            <Button onClick={() => { setShowModal(false) }}>{t('view.ai_config.cancel')}</Button>
+            <Button htmlType="submit">{t('view.ai_config.save')}</Button>
 
           </div>
         </Form>

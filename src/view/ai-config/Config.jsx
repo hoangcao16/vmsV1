@@ -73,7 +73,7 @@ const Config = () => {
         <Select
           showSearch
           style={{ width: "50%", marginBottom: "40px" }}
-          placeholder="Select a camera"
+          placeholder={t("view.ai_config.choose_camera")}
           optionFilterProp="children"
           onSearch={onSearch}
           onChange={onChangeSelect}

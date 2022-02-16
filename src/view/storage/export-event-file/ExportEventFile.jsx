@@ -918,7 +918,7 @@ const ExportEventFile = () => {
     setLoading(true);
     
     const deleteFileDataRes = await AIEventsApi.deleteFileData(
-      fileCurrent.uuid
+      uuid
     );
 
     if (deleteFileDataRes && deleteFileDataRes.code === 1700) {
