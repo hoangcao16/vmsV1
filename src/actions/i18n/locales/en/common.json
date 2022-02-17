@@ -446,6 +446,13 @@
         "IMAGE_IS_BLUR": "image is blur",
         "IMAGE_HAS_NOT_FACE": "there isn't any faces in image ",
         "FACE_NOT_OF_PERSON": "Face in the image is different from those already in the collection"
+      },
+      "plus": "Add new human",
+      "edit": "Update human",
+      "delete": "Delete human",
+      "image" : {
+        "have": "Have image",
+        "no": "No image"
       }
     },
     "ai_config": {
@@ -496,7 +503,11 @@
         "All": "All"
       },
       "save":"Save",
-      "cancel": "Cancel"
+      "cancel": "Cancel",
+      "table":{
+        "no": "No",
+        "name" :"Name"
+      }
     },
     "ai_events": {
       "event_files_list": "Event AI files list",
@@ -555,12 +566,15 @@
     "inactive": "inactive",
     "watched_all_notifications": "You've already watched all notifications",
     "error_loading_notifications": "Error loading notifications",
-
     "successfully_update_tag_category": "Successfully imported label type",
+    "successfully_update_dep_category": "Successfully update department",
     "fail_update_tag_category": "Label type update failed",
+    "fail_update_dep_category" : "department update fail",
     "successfully_add_tag_category": "Successfully add new label",
+    "successfully_add_dep_category": "Successfully add new department",
     "successfully_edit_tag_category": "Successfully edit label",
     "fail_add_tag_category": "Add new failure label",
+    "fail_add_dep_category": "Add new failure department",
     "export_errors": "Export error file",
     "logged_out_successfully": "Logged out successfully",
     "logged_out_failed": "Logged out failed",

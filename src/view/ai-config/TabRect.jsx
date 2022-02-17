@@ -260,11 +260,11 @@ const TabRect = (props) => {
 
   const columnTables = [
     {
-      title: "No",
+      title: `${t("view.ai_config.table.no")}`,
       dataIndex: "lineNo",
     },
     {
-      title: "Name",
+      title: `${t("view.ai_config.table.name")}`,
       dataIndex: "name",
       editable: true,
       render: (text, record) => {

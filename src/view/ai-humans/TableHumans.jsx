@@ -13,6 +13,7 @@ import {
   Space,
   Table,
   Tag,
+  Tooltip
 } from "antd";
 import "antd/dist/antd.css";
 import { isEmpty } from "lodash-es";
@@ -93,16 +94,21 @@ const TableHumans = () => {
               </div>
             }
           ></AutoComplete>
-
-          <Button
-            type="primary"
-            onClick={() => {
-              setSelectedHumansId(null);
-              setShowModal(true);
-            }}
+          <Tooltip
+            placement="top"
+            title={t("view.ai_humans.plus")}
           >
-            <PlusOutlined />
-          </Button>
+            <Button
+              type="primary"
+              onClick={() => {
+                setSelectedHumansId(null);
+                setShowModal(true);
+              }}
+            >
+              <PlusOutlined />
+            </Button>
+          </Tooltip>
+
 
           {/* <Button
               className="btnAdd"
@@ -174,7 +180,7 @@ const TableHumans = () => {
 
   const renderTag = (haveImg) => {
     let str = "";
-    haveImg ? (str = "Đã có ảnh") : (str = "Chưa có ảnh");
+    haveImg ? (str = `${t("view.ai_humans.image.have")}`) : (str = `${t("view.ai_humans.image.no")}`);
     return (
       <Tag color={haveImg ? "#1380FF" : "#FF4646"} style={{ color: "#ffffff" }}>
         {str}
@@ -243,21 +249,33 @@ const TableHumans = () => {
       render: (_text, record) => {
         return (
           <Space>
-            <EditOutlined
-              style={{ fontSize: "16px", color: "#6E6B7B" }}
-              onClick={() => {
-                setSelectedHumansId(record.uuid);
-                setShowModal(true);
-              }}
-            />
-            <Popconfirm
-              cancelText={t("view.user.detail_list.cancel")}
-              okText={t("view.user.detail_list.confirm")}
-              title={t("noti.delete_category", { this: t("this") })}
-              onConfirm={() => handleDelete(record.uuid)}
+            <Tooltip
+              placement="top"
+              title={t("view.ai_humans.edit")}
             >
-              <DeleteOutlined style={{ fontSize: "16px", color: "#6E6B7B" }} />
-            </Popconfirm>
+              <EditOutlined
+                style={{ fontSize: "16px", color: "#6E6B7B" }}
+                onClick={() => {
+                  setSelectedHumansId(record.uuid);
+                  setShowModal(true);
+                }}
+              />
+            </Tooltip>
+            <Tooltip
+              placement="top"
+              title={t("view.ai_humans.delete")}
+            >
+              <Popconfirm
+                cancelText={t("view.user.detail_list.cancel")}
+                okText={t("view.user.detail_list.confirm")}
+                title={t("noti.delete_category", { this: t("this") })}
+                onConfirm={() => handleDelete(record.uuid)}
+              >
+                <DeleteOutlined style={{ fontSize: "16px", color: "#6E6B7B" }} />
+              </Popconfirm>
+            </Tooltip>
+
+
           </Space>
         );
       },
@@ -282,7 +300,7 @@ const TableHumans = () => {
         bodyStyle={bodyStyleCard}
         headStyle={headStyleCard}
         className="card--category"
-        // headStyle={{ padding: 30 }}
+      // headStyle={{ padding: 30 }}
       >
         <Table
           className="table__hard--drive--list"
@@ -296,7 +314,7 @@ const TableHumans = () => {
             total: total,
             pageSize: pageSize,
             onChange: (value) => {
-              setPage(value);
+              setPage(value.trim());
             },
             showTotal: (total, range) => {
               return (

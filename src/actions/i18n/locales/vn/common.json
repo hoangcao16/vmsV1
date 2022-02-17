@@ -432,8 +432,8 @@
     },
     "ai_humans": {
       "face": "Quản lý khuôn mặt",
-      "name": "Tên",
-      "code": "Mã",
+      "name": "Họ và tên",
+      "code": "Mã nhân viên",
       "position": "Chức vụ",
       "department": "Phòng ban",
       "adminUnit": "Đơn vị",
@@ -446,6 +446,13 @@
         "IMAGE_IS_BLUR": "Ảnh bị mờ",
         "IMAGE_HAS_NOT_FACE": "Không có mặt ở trong ảnh",
         "FACE_NOT_OF_PERSON": "Khuôn mặt trong ảnh khác với khuôn mặt đã có trong bộ sưu tập"
+      },
+      "plus": "Thêm mới cầu hình khuôn mặt",
+      "edit": "Thay đổi cầu hình khuôn mặt",
+      "delete": "Xóa cầu hình khuôn mặt",
+      "image" : {
+        "have": "Đã có ảnh",
+        "no": "Chưa có ảnh"
       }
     },
     "ai_config": {
@@ -496,7 +503,11 @@
         "All": "Tất cả"
       },
       "save":"Lưu",
-      "cancel": "Hủy"
+      "cancel": "Hủy",
+      "table":{
+        "no": "STT",
+        "name" :"Tên"
+      }
     },
     "ai_events": {
       "event_files_list": "Danh sách sự kiện AI",
@@ -557,10 +568,14 @@
     "error_loading_notifications": "Lỗi khi tải thông báo",
 
     "successfully_update_tag_category": "Cập nhập nhãn thành công",
+    "successfully_update_dep_category": "Cập nhập phòng ban thành công",
     "fail_update_tag_category": "Cập nhập nhãn thất bại",
+    "fail_update_dep_category": "Cập nhập phòng ban thất bại",
     "successfully_add_tag_category": "Thêm mới nhãn thành công",
+    "successfully_add_dep_category": "Thêm mới phòng ban thành công",
     "successfully_edit_tag_category": "Sửa nhãn thành công",
     "fail_add_tag_category": "Thêm mới nhãn thất bại",
+    "fail_add_dep_category": "Thêm mới phòng ban thất bại",
     "export_errors": "Xuất file lỗi",
     "logged_out_successfully": "Đăng xuất thành công",
     "logged_out_failed": "Đăng xuất thất bại",
