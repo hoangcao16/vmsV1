@@ -54,12 +54,12 @@ const ModalUpdateDepartment = (props) => {
     };
     if (selectedCategoryId) {
       notifyMess.description = response
-        ? `${t("noti.successfully_update_tag_category")}`
-        : `${t("noti.fail_update_tag_category")}`;
+        ? `${t("noti.successfully_update_dep_category")}`
+        : `${t("noti.fail_update_dep_category")}`;
     } else {
       notifyMess.description = response
-        ? `${t("noti.successfully_add_tag_category")}`
-        : `${t("noti.fail_add_tag_category")}`;
+        ? `${t("noti.successfully_add_dep_category")}`
+        : `${t("noti.fail_add_dep_category")}`;
     }
     Notification(notifyMess);
   };
