@@ -165,6 +165,7 @@ const TableHumans = () => {
     const data = {
       page: page,
       pageSize: pageSize,
+      name: ""
     };
     AIHumansApi.getAllHumans(data).then((result) => {
       let dataResult = result[Object.keys(result)[0]];
@@ -221,14 +222,14 @@ const TableHumans = () => {
     },
     {
       title: `${t("view.ai_humans.adminUnit")}`,
-      dataIndex: "adminUnit",
+      dataIndex: "adminUnitName",
       className: "headerColums",
       key: "adminUnit",
       width: "10%",
     },
     {
       title: `${t("view.ai_humans.department")}`,
-      dataIndex: "department",
+      dataIndex: "departmentName",
       className: "headerColums",
       key: "department",
       width: "10%",

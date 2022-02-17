@@ -339,6 +339,15 @@ export const handleErrCodeAI = (data) => {
       errCode.description = message;
       Notification(errCode);
       return null;
+    case AI_DUPLICATE_ENTITY:
+        let description = `${
+            language === "vn"
+              ? "Đã có mã nhân viên trong hệ thống"
+              : "Duplicate code"
+        }`;
+        errCode.description = description;
+        Notification(errCode);
+        return null;
     default:
       if (language == 'vn') {
         errCode.description = "Không xác định";
