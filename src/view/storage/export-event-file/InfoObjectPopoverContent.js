@@ -113,7 +113,6 @@ const InfoObjectPopoverContent = (props) => {
 
     const onChangeDepId = async (uuid) => {
         setDepartmentId(uuid);
-        // form.setFieldsValue({ districtId: null, wardId: null });
     };
 
     return (

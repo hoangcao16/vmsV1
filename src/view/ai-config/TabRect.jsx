@@ -1309,7 +1309,7 @@ const TabRect = (props) => {
                         >
                           <Input
                             disabled={!isActiveDetail}
-                            placeholder="Số"
+                            placeholder={t("view.ai_config.time")}
                             type="threshold"
                             value={threshold}
                           />

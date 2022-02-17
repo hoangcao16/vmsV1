@@ -111,10 +111,10 @@ const ModalEditScheduleConfig = (props) => {
                   ({ getFieldValue }) => ({
                     validator(rule, start) {
                       const end = getFieldValue(["end_1"]);
-                      if (start < end) {
-                        return Promise.resolve();
-                      } else {
+                      if (start > end) {
                         return Promise.reject(`${t("view.ai_config.time_error_stat_end")}`);
+                      } else {
+                        return Promise.resolve();
                       }
                     },
                   }),
@@ -128,10 +128,10 @@ const ModalEditScheduleConfig = (props) => {
                   ({ getFieldValue }) => ({
                     validator(rule, end) {
                       const start = getFieldValue(["start_1"]);
-                      if (start < end) {
-                        return Promise.resolve();
-                      } else {
+                      if (start > end) {
                         return Promise.reject(`${t("view.ai_config.time_error_stat_end")}`);
+                      } else {
+                        return Promise.resolve();
                       }
                     },
                   }),
@@ -150,10 +150,10 @@ const ModalEditScheduleConfig = (props) => {
                   ({ getFieldValue }) => ({
                     validator(rule, start) {
                       const end = getFieldValue(["end_2"]);
-                      if (start < end) {
-                        return Promise.resolve();
-                      } else {
+                      if (start > end) {
                         return Promise.reject(`${t("view.ai_config.time_error_stat_end")}`);
+                      } else {
+                        return Promise.resolve();
                       }
                     },
                   }),
@@ -167,10 +167,10 @@ const ModalEditScheduleConfig = (props) => {
                   ({ getFieldValue }) => ({
                     validator(rule, end) {
                       const start = getFieldValue(["start_2"]);
-                      if (start < end) {
-                        return Promise.resolve();
-                      } else {
+                      if (start > end) {
                         return Promise.reject(`${t("view.ai_config.time_error_stat_end")}`);
+                      } else {
+                        return Promise.resolve();
                       }
                     },
                   }),
@@ -189,10 +189,10 @@ const ModalEditScheduleConfig = (props) => {
                   ({ getFieldValue }) => ({
                     validator(rule, start) {
                       const end = getFieldValue(["end_3"]);
-                      if (start < end) {
-                        return Promise.resolve();
-                      } else {
+                      if (start > end) {
                         return Promise.reject(`${t("view.ai_config.time_error_stat_end")}`);
+                      } else {
+                        return Promise.resolve();
                       }
                     },
                   }),
@@ -206,10 +206,10 @@ const ModalEditScheduleConfig = (props) => {
                   ({ getFieldValue }) => ({
                     validator(rule, end) {
                       const start = getFieldValue(["start_3"]);
-                      if (start < end) {
-                        return Promise.resolve();
-                      } else {
+                      if (start > end) {
                         return Promise.reject(`${t("view.ai_config.time_error_stat_end")}`);
+                      } else {
+                        return Promise.resolve();
                       }
                     },
                   }),
@@ -229,10 +229,10 @@ const ModalEditScheduleConfig = (props) => {
                   ({ getFieldValue }) => ({
                     validator(rule, start) {
                       const end = getFieldValue(["end_4"]);
-                      if (start < end) {
-                        return Promise.resolve();
-                      } else {
+                      if (start > end) {
                         return Promise.reject(`${t("view.ai_config.time_error_stat_end")}`);
+                      } else {
+                        return Promise.resolve();
                       }
                     },
                   }),
@@ -246,10 +246,10 @@ const ModalEditScheduleConfig = (props) => {
                   ({ getFieldValue }) => ({
                     validator(rule, end) {
                       const start = getFieldValue(["start_4"]);
-                      if (start < end) {
-                        return Promise.resolve();
-                      } else {
+                      if (start > end) {
                         return Promise.reject(`${t("view.ai_config.time_error_stat_end")}`);
+                      } else {
+                        return Promise.resolve();
                       }
                     },
                   }),
@@ -270,10 +270,10 @@ const ModalEditScheduleConfig = (props) => {
                   ({ getFieldValue }) => ({
                     validator(rule, start) {
                       const end = getFieldValue(["end_5"]);
-                      if (start < end) {
-                        return Promise.resolve();
-                      } else {
+                      if (start > end) {
                         return Promise.reject(`${t("view.ai_config.time_error_stat_end")}`);
+                      } else {
+                        return Promise.resolve();
                       }
                     },
                   }),
@@ -287,10 +287,10 @@ const ModalEditScheduleConfig = (props) => {
                   ({ getFieldValue }) => ({
                     validator(rule, end) {
                       const start = getFieldValue(["start_5"]);
-                      if (start < end) {
-                        return Promise.resolve();
-                      } else {
+                      if (start > end) {
                         return Promise.reject(`${t("view.ai_config.time_error_stat_end")}`);
+                      } else {
+                        return Promise.resolve();
                       }
                     },
                   }),
