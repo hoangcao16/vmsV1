@@ -548,7 +548,8 @@
       "edit_department": "Update department",
       "add_department": "Add new department",
       "name_department": "Department"
-    }
+    },
+    "camera_name" :"Camera name"
   },
 
   "preset": {

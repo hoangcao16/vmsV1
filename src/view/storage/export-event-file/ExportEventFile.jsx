@@ -111,6 +111,7 @@ const ExportEventFile = () => {
   const [downloadFileName, setDownloadFileName] = useState("");
   const [eventFileCurrent, setEventFileCurrent] = useState(defaultEventFile);
   const [fileCurrent, setFileCurrent] = useState(null);
+  const [imageAICurrent, setImageAICurrent] = useState(null);
   const [originalFile, setOriginalFile] = useState(null);
   const [loading, setLoading] = useState(false);
   const [isOpenRootFile, setIsOpenRootFile] = useState(false);
@@ -182,13 +183,16 @@ const ExportEventFile = () => {
           AIEventsApi.getEventsByTrackingId(fileCurrent.trackingId).then(
             (data) => {
               data.payload.map((ef) => {
-                if(ef.thumbnailData != null){
+                if (ef.thumbnailData != null) {
                   imageOther.push({
                     image: ef.thumbnailData,
-                    uuid: ef.uuid
+                    uuid: ef.uuid,
+                    cameraUuid: ef.cameraUuid,
+                    trackingId: ef.trackingId,
+                    fileName: ef.fileName
                   });
                 }
-                
+
               })
             }
           );
@@ -208,6 +212,12 @@ const ExportEventFile = () => {
                   departmentName: data.payload.departmentName,
                   typeObject: data.payload.useCase === "zac_vehicle" ? "vehicle" : "human"
                 })
+                setImageAICurrent({
+                  cameraUuid: fileCurrent.cameraUuid,
+                  trackingId: fileCurrent.trackingId,
+                  uuid: fileCurrent.uuid,
+                  fileName: fileCurrent.fileName,
+                });
               }
             }
           );
@@ -375,7 +385,6 @@ const ExportEventFile = () => {
       if (AI_SOURCE === "philong") {
         setUrlSnapshot(file.overViewUrl);
       } else {
-        console.log(" file.fileName  ___file    ", file.fileName)
         await ExportEventFileApi.downloadFileAI(
           file.cameraUuid,
           file.trackingId,
@@ -824,7 +833,6 @@ const ExportEventFile = () => {
 
           try {
             if (fileCurrent.tableName === "file") {
-              console.log("_________12")
               // Call Nginx to get blob data of file
               await ExportEventFileApi.downloadFileNginx(
                 fileCurrent.id,
@@ -838,13 +846,14 @@ const ExportEventFile = () => {
             } else {
               if (fileCurrent.fileType === "4") {
                 await ExportEventFileApi.downloadFileAI(
-                  fileCurrent.cameraUuid,
-                  fileCurrent.trackingId,
-                  fileCurrent.uuid,
-                  fileCurrent.fileName,
+                  imageAICurrent.cameraUuid,
+                  imageAICurrent.trackingId,
+                  imageAICurrent.uuid,
+                  imageAICurrent.fileName,
                   4
                 ).then(async (result) => {
                   const blob = new Blob([result.data], { type: "octet/stream" });
+                  console.log("blob___", blob)
                   const url = window.URL.createObjectURL(blob);
                   saveAs(url, downloadFileName);
 
@@ -916,22 +925,22 @@ const ExportEventFile = () => {
 
   const deleteImageHandler = async (uuid) => {
     setLoading(true);
-    
+
     const deleteFileDataRes = await AIEventsApi.deleteFileData(
       uuid
     );
 
     if (deleteFileDataRes && deleteFileDataRes.code === 1700) {
-        Notification({
-          type: NOTYFY_TYPE.success,
-          title: `${t("noti.archived_file")}`,
-          description: `${t("noti.successfully_delete_file")}`,
-        });
-        const updatedImageOther = imageOther.filter(
-          (item) => item.uuid !== uuid
-        );
+      Notification({
+        type: NOTYFY_TYPE.success,
+        title: `${t("noti.archived_file")}`,
+        description: `${t("noti.successfully_delete_file")}`,
+      });
+      const updatedImageOther = imageOther.filter(
+        (item) => item.uuid !== uuid
+      );
 
-        setImageOther([...updatedImageOther]);
+      setImageOther([...updatedImageOther]);
     } else {
       Notification({
         type: NOTYFY_TYPE.warning,
@@ -940,6 +949,31 @@ const ExportEventFile = () => {
       });
     }
     setLoading(false);
+  };
+
+  const viewImageAIHandler = async (item) => {
+    setLoading(true);
+    console.log("_________ ", item)
+    await ExportEventFileApi.downloadFileAI(
+      item.cameraUuid,
+      item.trackingId,
+      item.uuid,
+      item.fileName,
+      4
+    ).then(async (result) => {
+      const blob = new Blob([result.data], { type: "octet/stream" });
+      getBase64Text(blob, async (image) => {
+        setUrlSnapshot(image);
+      });
+    });
+    setImageAICurrent({
+      cameraUuid: item.cameraUuid,
+      trackingId: item.trackingId,
+      uuid: item.uuid,
+      fileName: item.fileName,
+    });
+    setLoading(false);
+
   };
 
   const deleteFileHandler = async () => {
@@ -1272,7 +1306,6 @@ const ExportEventFile = () => {
             typeObject: data.payload.useCase === "zac_vehicle" ? "vehicle" : "human"
           })
 
-
         }
       }
     );
@@ -1459,7 +1492,7 @@ const ExportEventFile = () => {
           <Row gutter={[16, 30]} className="eventFileDetail">
             <Col span={6}>
               <div className="title">
-                {t("view.storage.camera_name", { cam: t("camera") })}
+                {t("view.ai_events.camera_name")}
               </div>
               <div>{detailAI?.cameraName}</div>
             </Col>
@@ -1474,8 +1507,8 @@ const ExportEventFile = () => {
               </div>
             </Col>
             <Col span={6}>
-              <div className="title">{t("view.storage.type")}</div>
-              {detailAI != null && detailAI?.subEventType === null
+              <div className="title">{t("view.ai_events.type")}</div>
+              {detailAI?.subEventType
                 ? <div>{t("view.ai_events." + detailAI.subEventType)}</div>
                 : null}
 
@@ -1561,7 +1594,7 @@ const ExportEventFile = () => {
                       <li key={item.uuid} style={{ listStyleType: 'none', display: 'inline-block', marginRight: '20px' }}><div style={{ width: '90%', paddingBottom: '10px' }}>
 
                         <div className='img__item' style={{ position: "relative" }}>
-                          <Popconfirm title="Chắc chắn để xóa?"
+                          {item.uuid != detailAI.uuid ? <Popconfirm title="Chắc chắn để xóa?"
                             onCancel={event => {
                               event.stopPropagation();
                             }}
@@ -1586,8 +1619,13 @@ const ExportEventFile = () => {
                             >
                               <CloseOutlined style={{}} />
                             </Button>
-                          </Popconfirm>
-                          <img style={{ width: '120px', height: "120px" }} className="cursor-pointer" src={"data:image/jpeg;base64," + item.image} alt="Avatar" />
+                          </Popconfirm> : null}
+
+                          <img onClick={event => {
+
+                            event.stopPropagation();
+                            viewImageAIHandler(item)
+                          }} style={{ width: '120px', height: "120px" }} className="cursor-pointer" src={"data:image/jpeg;base64," + item.image} alt="Avatar" />
                         </div>
                       </div></li>
                     ) : null

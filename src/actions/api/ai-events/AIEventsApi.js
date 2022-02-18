@@ -15,7 +15,6 @@ const AIEventsApi = {
       url = '/api/v1/integration-ai-events'
     }
     let result;
-
     try {
       result = await AIService.getRequestData(
         url, params

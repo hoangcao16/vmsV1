@@ -178,6 +178,15 @@ const TabRect = (props) => {
     };
 
     AIConfigRectApi.addConfigRect(payload).then((result) => {
+      
+
+      const notifyMess = {
+        type: 'success',
+        title: `${t('noti.success')}`,
+        description: `${t('noti.successfully_config')}`,
+      };
+      Notification(notifyMess);
+
       let dataNew = [...dataRectList];
 
       dataNew.forEach((data) => {
