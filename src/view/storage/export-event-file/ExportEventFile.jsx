@@ -1507,7 +1507,7 @@ const ExportEventFile = () => {
               </div>
             </Col>
             <Col span={6}>
-              <div className="title">{t("view.ai_events.type")}</div>
+              <div className="title">{t("view.ai_events.typeObject")}</div>
               {detailAI?.subEventType
                 ? <div>{t("view.ai_events." + detailAI.subEventType)}</div>
                 : null}

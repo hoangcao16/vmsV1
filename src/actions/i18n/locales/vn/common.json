@@ -543,7 +543,7 @@
       "type": "Loại đối tượng ",
       "UnKnow":"Không xác định",
       "camera_name" :"Camera ghi nhận",
-      "type" : "Loại sự kiện"
+      "typeObject" : "Loại sự kiện"
     },
     "department": {
       "administrative": "Đơn vị hành chính",
