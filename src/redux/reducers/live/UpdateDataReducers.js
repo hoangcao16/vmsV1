@@ -12,7 +12,7 @@ const updateData = (data = [], action) => {
         firstData.pop()
       }
       let dataSource = [];
-      firstData.map((i) => {
+      firstData.forEach((i) => {
         const changeData = JSON.parse(i)
         dataSource.push(changeData)
       })
