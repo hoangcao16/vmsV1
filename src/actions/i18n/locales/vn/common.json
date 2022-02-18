@@ -436,13 +436,13 @@
     },
     "ai_humans": {
       "face": "Quản lý khuôn mặt",
-      "name": "Tên",
-      "code": "Mã",
+      "name": "Họ và tên",
+      "code": "Mã nhân viên",
       "position": "Chức vụ",
       "department": "Phòng ban",
       "adminUnit": "Đơn vị",
       "status": "Trạng thái",
-      "guide_photo": "Ảnh hướng dẫn",
+      "guide_photo": "Ảnh mẫu",
       "image_error": {
         "IMAGE_IS_VALID": "Thành công",
         "IMAGE_HAS_ALREADY_IN_DB": "Hình ảnh đã tồn tại trong db",
@@ -450,9 +450,17 @@
         "IMAGE_IS_BLUR": "Ảnh bị mờ",
         "IMAGE_HAS_NOT_FACE": "Không có mặt ở trong ảnh",
         "FACE_NOT_OF_PERSON": "Khuôn mặt trong ảnh khác với khuôn mặt đã có trong bộ sưu tập"
+      },
+      "plus": "Thêm mới cầu hình khuôn mặt",
+      "edit": "Thay đổi cầu hình khuôn mặt",
+      "delete": "Xóa cầu hình khuôn mặt",
+      "image" : {
+        "have": "Đã có ảnh",
+        "no": "Chưa có ảnh"
       }
     },
     "ai_config": {
+      "choose_camera": "Chọn camera",
       "config": "Quản lý sự kiện thông minh",
       "hurdles_events": "Sự kiện vượt rào ảo",
       "intrusion_detection_events": "Sự kiện phát hiện xâm nhập",
@@ -465,9 +473,21 @@
       "activate_intrusion_detection": "Kích hoạt tính năng phát hiện xâm nhập",
       "all_day": "Áp dụng cho tất cả các ngày trong tuần",
       "apply": "Áp dụng",
+      "edit_time" :{
+        "2": "Thay đổi thời gian thứ 2",
+        "3": "Thay đổi thời gian thứ 3",
+        "4": "Thay đổi thời gian thứ 4",
+        "5": "Thay đổi thời gian thứ 5",
+        "6": "Thay đổi thời gian thứ 6",
+        "7": "Thay đổi thời gian thứ 7",
+        "CN": "Thay đổi thời gian chủ nhật"
+      },
+      "select_time" :"Chọn thời gian",
       "time_config_copy": "Áp dụng lịch",
       "config_copy": "Sao chép",
+      "time_error_stat_end":"Thời gian bắt đầu lớn hơn thời gian kết thúc",
       "time_threshold": "Ngưỡng thời gian",
+      "time": "Thời gian",
       "second": "giây",
       "object_recognition": "Nhận diện đối tượng",
       "choose": "Đối tượng",
@@ -486,6 +506,12 @@
         "AB": "A --> B",
         "BA": "B --> A",
         "All": "Tất cả"
+      },
+      "save":"Lưu",
+      "cancel": "Hủy",
+      "table":{
+        "no": "STT",
+        "name" :"Tên"
       }
     },
     "ai_events": {
@@ -519,7 +545,9 @@
       "position": "Chức vụ",
       "department": "Phòng ban",
       "type": "Loại đối tượng ",
-      "UnKnow":"Không xác định"
+      "UnKnow":"Không xác định",
+      "camera_name" :"Camera ghi nhận",
+      "typeObject" : "Loại sự kiện"
     },
     "department": {
       "administrative": "Đơn vị hành chính",
@@ -527,6 +555,7 @@
       "add_department": "Thêm phòng ban",
       "name_department": "Tên phòng ban"
     }
+    
   },
 
   "preset": {
@@ -547,10 +576,14 @@
     "error_loading_notifications": "Lỗi khi tải thông báo",
 
     "successfully_update_tag_category": "Cập nhập nhãn thành công",
+    "successfully_update_dep_category": "Cập nhập phòng ban thành công",
     "fail_update_tag_category": "Cập nhập nhãn thất bại",
+    "fail_update_dep_category": "Cập nhập phòng ban thất bại",
     "successfully_add_tag_category": "Thêm mới nhãn thành công",
+    "successfully_add_dep_category": "Thêm mới phòng ban thành công",
     "successfully_edit_tag_category": "Sửa nhãn thành công",
     "fail_add_tag_category": "Thêm mới nhãn thất bại",
+    "fail_add_dep_category": "Thêm mới phòng ban thất bại",
     "export_errors": "Xuất file lỗi",
     "logged_out_successfully": "Đăng xuất thành công",
     "logged_out_failed": "Đăng xuất thất bại",
@@ -571,6 +604,7 @@
     "successfully_add_zone": "Bạn đã thêm Zone thành công",
     "successfully_delete_zone": "Bạn đã xóa Zone thành công",
     "255_characters_limit": "Giới hạn 255 ký tự",
+    "20_characters_limit": "Giới hạn 20 ký tự",
     "do_not_have_permission_to_view_list_event": "Bạn không có quyền xem danh sách sự kiện",
     "error_get_file_check_again": "Đã xảy ra lỗi trong quá trình lấy danh sách tệp, hãy kiểm tra lại",
     "do_not_have_permission_to_action": "Bạn không có quyền để thực hiện hành động này",

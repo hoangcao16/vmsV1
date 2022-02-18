@@ -16,6 +16,7 @@ const TabType = (props) => {
   const { cameraUuid, type } = props
   const { t } = useTranslation();
   const [checkStatus, setCheckStatus] = useState(false);
+  const [activeCheckBox, setActiveCheckBox] = useState(false);
 
 
   useEffect(() => {
@@ -31,7 +32,9 @@ const TabType = (props) => {
           setCheckStatus(true)
         }
       });
-
+      setActiveCheckBox(true)
+    } else {
+      setActiveCheckBox(false)
     }
   }, [cameraUuid, type]);
 
@@ -74,7 +77,7 @@ const TabType = (props) => {
   return (
     <div className="tabs__container--tab_type">
       <div className="activate tab_type_checkbox">
-        <Checkbox onChange={onChangeCheckBox} checked={checkStatus}>{t('view.ai_config.activate_' + type)}</Checkbox>
+        <Checkbox  disabled={!activeCheckBox} onChange={onChangeCheckBox} checked={checkStatus}>{t('view.ai_config.activate_' + type)}</Checkbox>
       </div>
 
       <Card

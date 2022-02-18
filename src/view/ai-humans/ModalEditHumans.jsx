@@ -1,5 +1,5 @@
 import { CloseOutlined } from '@ant-design/icons';
-import { Button, Col, Form, Input, Modal, Popconfirm, Row, Spin, Upload } from "antd";
+import { Button, Col, Form, Input, Modal, Popconfirm, Row, Spin, Upload, Select } from "antd";
 import { isEmpty } from "lodash-es";
 import React, { useEffect, useState } from "react";
 import { useTranslation } from 'react-i18next';
@@ -16,9 +16,17 @@ import Default3Img from './imagesGuide/3.jpg';
 import Default4Img from './imagesGuide/4.jpg';
 import Default5Img from './imagesGuide/5.jpg';
 import Default from './imagesGuide/default.png';
+import DepartmentApi from "../../actions/api/department/DepartmentApi";
+import AdDivisionApi from "../../actions/api/advision/AdDivision";
+import {
+  filterOption,
+  normalizeOptions,
+} from "../common/select/CustomSelect";
 import "./ModalEditHumans.scss";
 const AI_URL = process.env.REACT_APP_AI_BASE_URL;
-
+const DATA_FAKE_UNIT = {
+  departments: [{ name: "", uuid: "" }],
+};
 
 const formItemLayout = {
   wrapperCol: { span: 24 },
@@ -38,9 +46,23 @@ const ModalEditHumans = (props) => {
   const [previewVisible, setPreviewVisible] = useState(false);
   const [previewImage, setPreviewImage] = useState("");
   const [previewTitle, setPreviewTitle] = useState("");
+  const [departmentId, setDepartmentId] = useState('');
   const [confidence, setConfidence] = useState("");
+  const [departments, setDepartments] = useState([]);
+  const [filterOptions, setFilterOptions] = useState(DATA_FAKE_UNIT);
+  const [administrativeUnits, setAdministrativeUnits] = useState([]);
+  const [adminUnitUuid, setAdminUnitUuid] = useState("");
 
+  useEffect(() => {
+    const data = {
+      name: "",
+    };
+    DepartmentApi.getAllDepartment(data).then(setDepartments);
+    fetchSelectOptions().then(setFilterOptions);
 
+    AdDivisionApi.getAllAdDivision(data).then(setAdministrativeUnits);
+    fetchSelectOptions().then(setFilterOptions);
+  }, []);
 
   useEffect(() => {
     let list = [];
@@ -224,6 +246,15 @@ const ModalEditHumans = (props) => {
       setImageUrl(listUrl);
     }
   }
+
+  const onChangeDepId = async (uuid) => {
+    setDepartmentId(uuid);
+  };
+
+  const onChangeADUnitId = async (ADUnitId) => {
+    setAdminUnitUuid(ADUnitId);
+    // form.setFieldsValue({ districtId: null, wardId: null });
+  };
   return (
     <>
       <Modal
@@ -250,12 +281,17 @@ const ModalEditHumans = (props) => {
               <Form.Item
                 name={["name"]}
                 label={["Họ và tên"]}
+                maxLength={255}
                 rules={[
                   {
                     required: true,
                     message: `${t('view.map.required_field')}`,
                     pattern: new RegExp("([a-zA-Z]{1,30}\\s*)+"),
                   },
+                  {
+                    max: 255,
+                    message: `${t('noti.255_characters_limit')}`
+                  }
                 ]}
               >
                 <Input placeholder="Họ và tên" />
@@ -271,6 +307,10 @@ const ModalEditHumans = (props) => {
                     message: `${t('view.map.required_field')}`,
                     pattern: new RegExp("([a-zA-Z]{1,30}\\s*)+"),
                   },
+                  {
+                    max: 255,
+                    message: `${t('noti.255_characters_limit')}`
+                  }
                 ]}
               >
                 <Input placeholder="Mã nhân viên" />
@@ -282,9 +322,8 @@ const ModalEditHumans = (props) => {
                 label={["Số điện thoại"]}
                 rules={[
                   {
-                    required: true,
-                    // message: `${t('view.map.required_field')}`,
-                    max: 12
+                    max: 20,
+                    message: `${t('noti.20_characters_limit')}`
                   }
                 ]}
               >
@@ -298,11 +337,8 @@ const ModalEditHumans = (props) => {
               <Form.Item
                 label={["Email"]}
                 name={['email']}
+                maxLength={255}
                 rules={[
-                  {
-                    required: true,
-                    // message: `${t('view.map.required_field')}`,
-                  }
                 ]}
               >
                 <Input
@@ -324,38 +360,42 @@ const ModalEditHumans = (props) => {
                 <Input placeholder="Chức vụ" />
               </Form.Item>
             </Col>
-            {/* <Col span={6}>
+            <Col span={6}>
               <Form.Item
-                name={['provinceId']}
-                label={t('view.map.province_id')}
-                rules={[{ required: true, message: `${t('view.map.required_field')}` }]}
+                name={["departmentUuid"]}
+                label={t("view.ai_events.department")}
+                rules={[
+                ]}
               >
                 <Select
                   showSearch
-                  dataSource={provinces}
-                  onChange={(cityId) => onChangeCity(cityId)}
+                  dataSource={departments}
+                  onChange={(aDUnitId) => onChangeDepId(aDUnitId)}
                   filterOption={filterOption}
-                  options={normalizeOptions('name', 'provinceId', provinces)}
-                  placeholder={t('view.map.province_id')}
+                  options={normalizeOptions("name", "uuid", departments)}
+                  placeholder={t("view.ai_events.department")}
+                  allowClear
                 />
               </Form.Item>
             </Col>
-            <Col span={12}>
-              <Form.Item
-                name={['provinceId']}
-                label={t('view.map.province_id')}
-                rules={[{ required: true, message: `${t('view.map.required_field')}` }]}
+            <Col span={6}>
+            <Form.Item
+                name={["adminUnitUuid"]}
+                label={t("view.department.administrative")}
+                rules={[
+                ]}
               >
                 <Select
                   showSearch
-                  dataSource={provinces}
-                  onChange={(cityId) => onChangeCity(cityId)}
+                  dataSource={administrativeUnits}
+                  onChange={(adminUnitUuid) => onChangeADUnitId(adminUnitUuid)}
                   filterOption={filterOption}
-                  options={normalizeOptions('name', 'provinceId', provinces)}
-                  placeholder={t('view.map.province_id')}
+                  options={normalizeOptions("name", "uuid", administrativeUnits)}
+                  placeholder={t("view.department.administrative")}
+                  allowClear
                 />
               </Form.Item>
-            </Col> */}
+            </Col>
 
           </Row>
           <Row style={{ marginTop: 30, color: "#d0e5ff", marginBottom: 30 }} gutter={24}>
@@ -376,15 +416,10 @@ const ModalEditHumans = (props) => {
 
 
           <Row style={{ marginTop: 30, color: "#d0e5ff", marginBottom: 30 }} gutter={24}>
-            <Col span={24} style={{ flex: 'none' }}>{'Ảnh nhận diện. Tỉ lệ chất lượng ảnh: ' + confidence + '. Cần thêm ảnh: '}</Col>
+            <Col span={24} style={{ flex: 'none' }}>{'Ảnh đạt ' + confidence }</Col>
           </Row>
 
           <Row gutter={24}>
-            {/* <Form.Item
-              name={["listImages"]}
-            >
-              <Input hidden />
-            </Form.Item> */}
             <Form.Item className="upload-photo" >
               <div style={{ display: "grid", gridTemplateColumns: 'repeat(5, 1fr)' }}>
                 {
@@ -489,6 +524,16 @@ const ModalEditHumans = (props) => {
 async function getHumansByUuid(selectedHumansId) {
   let dataEdit = await AIHumansApi.getHumansByUuid(selectedHumansId);
   return dataEdit;
+}
+
+async function fetchSelectOptions() {
+  const data = {
+    name: "",
+  };
+  const departments = await DepartmentApi.getAllDepartment(data);
+  return {
+    departments,
+  };
 }
 
 export default ModalEditHumans;

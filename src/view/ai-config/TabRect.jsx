@@ -178,6 +178,15 @@ const TabRect = (props) => {
     };
 
     AIConfigRectApi.addConfigRect(payload).then((result) => {
+      
+
+      const notifyMess = {
+        type: 'success',
+        title: `${t('noti.success')}`,
+        description: `${t('noti.successfully_config')}`,
+      };
+      Notification(notifyMess);
+
       let dataNew = [...dataRectList];
 
       dataNew.forEach((data) => {
@@ -260,11 +269,11 @@ const TabRect = (props) => {
 
   const columnTables = [
     {
-      title: "No",
+      title: `${t("view.ai_config.table.no")}`,
       dataIndex: "lineNo",
     },
     {
-      title: "Name",
+      title: `${t("view.ai_config.table.name")}`,
       dataIndex: "name",
       editable: true,
       render: (text, record) => {
@@ -1309,7 +1318,7 @@ const TabRect = (props) => {
                         >
                           <Input
                             disabled={!isActiveDetail}
-                            placeholder="Số"
+                            placeholder={t("view.ai_config.time")}
                             type="threshold"
                             value={threshold}
                           />

@@ -450,9 +450,17 @@
         "IMAGE_IS_BLUR": "image is blur",
         "IMAGE_HAS_NOT_FACE": "there isn't any faces in image ",
         "FACE_NOT_OF_PERSON": "Face in the image is different from those already in the collection"
+      },
+      "plus": "Add new human",
+      "edit": "Update human",
+      "delete": "Delete human",
+      "image" : {
+        "have": "Have image",
+        "no": "No image"
       }
     },
     "ai_config": {
+      "choose_camera": "Select a camera",
       "config": "Event Config Management ",
       "hurdles_events": "Hurdles Events",
       "intrusion_detection_events": "Intrusion Detection Events",
@@ -465,9 +473,21 @@
       "activate_intrusion_detection": "Activate Intrusion Detection Events ",
       "all_day": "All day",
       "apply": "Apply",
+      "edit_time" :{
+        "2": "Edit time monday",
+        "3": "Edit time tuesday",
+        "4": "Edit time wednesday",
+        "5": "Edit time whursday",
+        "6": "Edit time friday",
+        "7": "Edit time saturday",
+        "CN": "Edit time sunday"
+      },
       "time_config_copy": "Time config copy",
+      "select_time" :"Select time",
       "config_copy": "Copy",
+      "time_error_stat_end":"Start time is greater than end time",
       "time_threshold": "Time Threshold",
+      "time": "Time",
       "second": "second",
       "object_recognition": "Object Recognition",
       "choose": "Choose",
@@ -486,6 +506,12 @@
         "AB": "A --> B",
         "BA": "B --> A",
         "All": "All"
+      },
+      "save":"Save",
+      "cancel": "Cancel",
+      "table":{
+        "no": "No",
+        "name" :"Name"
       }
     },
     "ai_events": {
@@ -519,7 +545,9 @@
       "position": "Position",
       "department": "Department",
       "type": "Type",
-      "UnKnow":"UnKnow"
+      "UnKnow":"UnKnow",
+      "camera_name" :"Camera",
+      "typeObject" : "Type"
     },
     "department": {
       "administrative": "Aministrative Unit",
@@ -527,6 +555,7 @@
       "add_department": "Add new department",
       "name_department": "Department"
     }
+  
   },
 
   "preset": {
@@ -545,12 +574,15 @@
     "inactive": "inactive",
     "watched_all_notifications": "You've already watched all notifications",
     "error_loading_notifications": "Error loading notifications",
-
     "successfully_update_tag_category": "Successfully imported label type",
+    "successfully_update_dep_category": "Successfully update department",
     "fail_update_tag_category": "Label type update failed",
+    "fail_update_dep_category" : "department update fail",
     "successfully_add_tag_category": "Successfully add new label",
+    "successfully_add_dep_category": "Successfully add new department",
     "successfully_edit_tag_category": "Successfully edit label",
     "fail_add_tag_category": "Add new failure label",
+    "fail_add_dep_category": "Add new failure department",
     "export_errors": "Export error file",
     "logged_out_successfully": "Logged out successfully",
     "logged_out_failed": "Logged out failed",
@@ -571,6 +603,7 @@
     "successfully_edit_zone": "Successfully edited Zone",
     "successfully_delete_zone": "Successfully deleted Zone",
     "255_characters_limit": "255 characters limit",
+    "20_characters_limit": "20 characters limit",
     "do_not_have_permission_to_view_list_event": "You don't have permission to view list of events",
     "error_get_file_check_again": "Errors occur while getting file list. Please check again",
     "do_not_have_permission_to_action": "You don't have permission to perform this action",
