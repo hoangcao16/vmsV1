@@ -84,7 +84,8 @@ const Live = (props) => {
   const [pcList, setPCList] = useState([]);
 
   let wsOnConnectCallback = function (message) {
-    dispatch({type: UPDATE_DATA.LOAD_SUCCESS, message})
+    const dataBody = message.body
+    dispatch({type: UPDATE_DATA.LOAD_SUCCESS, dataBody})
     // called when the client receives a STOMP message from the server
     if (message.body) {
       console.log('>>>>> Message: ' + message.body);

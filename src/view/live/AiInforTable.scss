@@ -8,6 +8,9 @@
     top: 20px !important;
     left: 90%;
   }
+  .card--table {
+    border: none;
+  }
   .table__title {
     font-size: 24px;
     font-weight: bold;
@@ -29,6 +32,7 @@
       .ant-table-container,
       .ant-table-container:hover {
         color: #c2c6dc;
+        border: 1px solid #333333;
         .columns--text__color {
           background-color: #191919;
           color: #c2c6dc;
@@ -45,4 +49,16 @@
   &::-webkit-scrollbar-track {
     border-radius: 0 0 12px 0;
   }
+}
+
+[dir] .ant-table-cell-scrollbar {
+  box-shadow: none;
+}
+
+[dir] .ant-table-thead > tr > th {
+  border-bottom: 1px solid #333333;
+}
+
+[dir] .ant-table-tbody > tr > td {
+  border-bottom: 1px solid #333333;
 }
