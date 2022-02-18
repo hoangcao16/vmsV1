@@ -176,6 +176,7 @@ const BookmarkSetting = ({
           gridType: item.gridType,
           cameraUuids: item.cameraUuids,
           defaultBookmark: item.defaultBookmark,
+          viewTypes: item.viewTypes
         });
       });
       setBookmarks(tmp);

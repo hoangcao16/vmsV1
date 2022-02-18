@@ -234,7 +234,6 @@ const Live = (props) => {
   const fetchDefaultScreen = async () => {
     try {
       const data = await bookmarkApi.getDefault();
-
       if (data && data.payload && data.payload.length >= 1) {
         const defaultScreen = data.payload[0];
         // Get all cam info of each slot from a screen
@@ -308,7 +307,7 @@ const Live = (props) => {
         let pcLstTmp = [...prevValue];
         let isExist = false;
         for (let i = 0; i < pcLstTmp.length; i++) {
-          if (pcLstTmp[i].slotIdx === slotIdx && pcLstTmp[i].status === "running") {
+          if (pcLstTmp[i].slotIdx === slotIdx) {
             isExist = true;
             break;
           }
@@ -454,12 +453,13 @@ const Live = (props) => {
       for (let i = 0; i < pcLstTmp.length; i++) {
         if (pcLstTmp[i].slotIdx === slotIdx) {
           pcLstTmp[i].pc = pc;
+          pcLstTmp[i].viewType = type;
           isExist = true;
           break;
         }
       }
       if (!isExist) {
-        pcLstTmp.push({slotIdx: slotIdx, pc: pc, status: "running"})
+        pcLstTmp.push({slotIdx: slotIdx, pc: pc, viewType: type})
       }
       setPCList([...pcLstTmp]);
 
@@ -1250,6 +1250,8 @@ const Live = (props) => {
     }
 
     let cameraUuids = [];
+    let viewTypes = [];
+    let pcLstTmp = [...pcList];
     let isEmptyGrid = true;
     addedCameras.forEach((item, id) => {
       // Không lưu những camera mà không nằm trong scope màn hình
@@ -1263,6 +1265,16 @@ const Live = (props) => {
       } else {
         cameraUuids.push("");
       }
+
+      let type = "";
+      for (let i = 0; i < pcLstTmp.length; i++) {
+        if (pcLstTmp[i].slotIdx === id) {
+          type = pcLstTmp[i].viewType;
+          break;
+        }
+      }
+      viewTypes.push(type);
+
     });
     if (isEmptyGrid) {
       Notification({
@@ -1284,6 +1296,7 @@ const Live = (props) => {
       cameraUuids: cameraUuids,
       gridType: gridType,
       name: bookMarkName,
+      viewTypes: viewTypes
     };
     try {
       const response = await bookmarkApi.createNew(record);
@@ -1332,7 +1345,8 @@ const Live = (props) => {
               isPlay: true,
               selected: false,
             };
-            liveCamera(camUuid, camFound.camId, idx, "live").then();
+            let type = selectedItem.viewTypes[idx];
+            liveCamera(camUuid, camFound.camId, idx, type).then();
           }
         });
         setAddedCameras(cams);
