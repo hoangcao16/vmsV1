@@ -541,7 +541,9 @@
       "position": "Chức vụ",
       "department": "Phòng ban",
       "type": "Loại đối tượng ",
-      "UnKnow":"Không xác định"
+      "UnKnow":"Không xác định",
+      "camera_name" :"Camera ghi nhận",
+      "typeObject" : "Loại sự kiện"
     },
     "department": {
       "administrative": "Đơn vị hành chính",
@@ -549,6 +551,7 @@
       "add_department": "Thêm phòng ban",
       "name_department": "Tên phòng ban"
     }
+    
   },
 
   "preset": {

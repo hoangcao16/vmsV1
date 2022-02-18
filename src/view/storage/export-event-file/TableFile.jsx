@@ -606,6 +606,23 @@ const TableFile = (props) => {
         }, 500);
     };
 
+    const onFileName = (event) => {
+        const dataParam = Object.assign({ ...searchParam, fileName: event.target.value });
+        setSearchParam(dataParam);
+    };
+
+    const onCode = (event) => {
+        const dataParam = Object.assign({ ...searchParam, code: event.target.value });
+        setSearchParam(dataParam);
+    };
+
+    const onName = (event) => {
+        const dataParam = Object.assign({ ...searchParam, name: event.target.value });
+        setSearchParam(dataParam);
+    };
+
+
+
     const onChangeUnit = (unitId) => {
         const dataParam = Object.assign({
             ...searchParam,
@@ -1197,9 +1214,39 @@ const TableFile = (props) => {
                                     />
                                 </Form.Item>
                             </Col>
-                            <Col span={8}>
-                            </Col>
+
                         </Row>
+                        {props.viewFileType === 4 && (
+                            <Row
+                                gutter={24}
+                                className='itemRow'
+                                style={!useAdvanceSearch ? { display: "none" } : {}}
+                            >
+                                <Col span={8}>
+                                    <Form.Item name={["fileName"]} rules={[{ required: false }]}>
+                                        <Input placeholder={t('view.storage.file_name')} onChange={onFileName}
+                                            maxLength={255}
+                                        />
+                                    </Form.Item>
+
+                                </Col>
+                                <Col span={8}>
+                                    <Form.Item name={["code"]} rules={[{ required: false }]}>
+                                        <Input placeholder={t('view.ai_humans.code')} onChange={onCode}
+                                            maxLength={255}
+                                        />
+                                    </Form.Item>
+                                </Col>
+                                <Col span={8}>
+                                    <Form.Item name={["name"]} rules={[{ required: false }]}>
+                                        <Input placeholder={t('view.ai_humans.name')} onChange={onName}
+                                            maxLength={255}
+                                        />
+                                    </Form.Item>
+                                </Col>
+                            </Row>
+                        )}
+
                         <Row
                             gutter={24}
                             className='itemRow'
@@ -1244,6 +1291,7 @@ const TableFile = (props) => {
                                         />
                                     </Form.Item>
                                 )}
+
                             </Col>
                             <Col span={8}>
                                 <Tooltip placement="bottom" title={t('view.map.btn_remove_filter')}>

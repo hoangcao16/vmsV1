@@ -541,7 +541,9 @@
       "position": "Position",
       "department": "Department",
       "type": "Type",
-      "UnKnow":"UnKnow"
+      "UnKnow":"UnKnow",
+      "camera_name" :"Camera",
+      "typeObject" : "Type"
     },
     "department": {
       "administrative": "Aministrative Unit",
@@ -549,6 +551,7 @@
       "add_department": "Add new department",
       "name_department": "Department"
     }
+  
   },
 
   "preset": {
