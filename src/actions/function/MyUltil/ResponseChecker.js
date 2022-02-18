@@ -332,7 +332,11 @@ export const handleErrCodeAI = (data) => {
       Notification(errCode);
       return null;
     case AI_NOT_FOUND:
-      errCode.description = message;
+      errCode.description = `${
+        language === "vn"
+          ? "Config không tồn tại"
+          : "Config does not exist"
+    }`;
       Notification(errCode);
       return null;
     case AI_CANNOT_DELETE_ENTITY:
@@ -340,12 +344,11 @@ export const handleErrCodeAI = (data) => {
       Notification(errCode);
       return null;
     case AI_DUPLICATE_ENTITY:
-        let description = `${
-            language === "vn"
-              ? "Đã có mã nhân viên trong hệ thống"
-              : "Duplicate code"
-        }`;
-        errCode.description = description;
+        errCode.description = `${
+          language === "vn"
+            ? "Đã có mã nhân viên trong hệ thống"
+            : "Duplicate code"
+      }`;
         Notification(errCode);
         return null;
     default:

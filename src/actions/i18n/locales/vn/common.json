@@ -468,7 +468,15 @@
       "activate_hurdles": "Kích hoạt tính năng phát hiện vượt rào ảo",
       "activate_intrusion_detection": "Kích hoạt tính năng phát hiện xâm nhập",
       "all_day": "Áp dụng cho tất cả các ngày trong tuần",
-      "apply": "Áp dụng",
+      "time_week" :{
+        "2": "Thứ hai",
+        "3": "Thứ ba",
+        "4": "Thứ tư",
+        "5": "Thứ năm",
+        "6": "Thứ sáu",
+        "7": "Thứ bảy",
+        "CN": "Chủ nhật"
+      },
       "edit_time" :{
         "2": "Thay đổi thời gian thứ 2",
         "3": "Thay đổi thời gian thứ 3",
@@ -504,11 +512,13 @@
         "All": "Tất cả"
       },
       "save":"Lưu",
+      "apply":"Áp dụng",
       "cancel": "Hủy",
       "table":{
         "no": "STT",
         "name" :"Tên"
-      }
+      },
+      "no_data" :"Không có dữ liệu"
     },
     "ai_events": {
       "event_files_list": "Danh sách sự kiện AI",

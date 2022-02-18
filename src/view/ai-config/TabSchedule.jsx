@@ -276,7 +276,7 @@ const TabSchedule = (props) => {
       
 
     {
-      id: 1, title: 'Chủ nhật', bgColor: 'white', rightTitle: <Tooltip
+      id: 1, title: t("view.ai_config.time_week.CN"), bgColor: 'white', rightTitle: <Tooltip
         placement="bottomLeft"
         title={t("view.ai_config.edit_time.CN")}
       >
@@ -300,7 +300,7 @@ const TabSchedule = (props) => {
       </Tooltip>,
     },
     {
-      id: 2, title: 'Thứ hai', bgColor: 'white', rightTitle: <Tooltip
+      id: 2, title: t("view.ai_config.time_week.2"), bgColor: 'white', rightTitle: <Tooltip
       placement="bottomLeft"
       title={t("view.ai_config.edit_time.2")}
     >
@@ -324,7 +324,7 @@ const TabSchedule = (props) => {
     </Tooltip>,
     },
     {
-      id: 3, title: 'Thứ ba', bgColor: 'white', rightTitle: <Tooltip
+      id: 3, title: t("view.ai_config.time_week.3"), bgColor: 'white', rightTitle: <Tooltip
       placement="bottomLeft"
       title={t("view.ai_config.edit_time.3")}
     >
@@ -348,7 +348,7 @@ const TabSchedule = (props) => {
     </Tooltip>,
     },
     {
-      id: 4, title: 'Thứ tư', bgColor: 'white', rightTitle: <Tooltip
+      id: 4, title: t("view.ai_config.time_week.4"), bgColor: 'white', rightTitle: <Tooltip
       placement="bottomLeft"
       title={t("view.ai_config.edit_time.4")}
     >
@@ -372,7 +372,7 @@ const TabSchedule = (props) => {
     </Tooltip>,
     },
     {
-      id: 5, title: 'Thứ năm', bgColor: 'white', rightTitle: <Tooltip
+      id: 5, title: t("view.ai_config.time_week.5"), bgColor: 'white', rightTitle: <Tooltip
       placement="bottomLeft"
       title={t("view.ai_config.edit_time.5")}
     >
@@ -396,7 +396,7 @@ const TabSchedule = (props) => {
     </Tooltip>,
     },
     {
-      id: 6, title: 'Thứ sáu', bgColor: 'white', rightTitle: <Tooltip
+      id: 6, title: t("view.ai_config.time_week.6"), bgColor: 'white', rightTitle: <Tooltip
       placement="bottomLeft"
       title={t("view.ai_config.edit_time.6")}
     >
@@ -420,7 +420,7 @@ const TabSchedule = (props) => {
     </Tooltip>,
     },
     {
-      id: 7, title: 'Thứ bảy', bgColor: 'white', rightTitle: <Tooltip
+      id: 7, title: t("view.ai_config.time_week.7"), bgColor: 'white', rightTitle: <Tooltip
       placement="bottomLeft"
       title={t("view.ai_config.edit_time.7")}
     >

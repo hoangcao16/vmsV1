@@ -201,6 +201,7 @@ const TabRect = (props) => {
   };
 
   function setDefaultDataRect(data) {
+    console.log("data_10", data)
     clearEventHandler();
     setDataRect(data);
     let checkList = [];
@@ -474,54 +475,66 @@ const TabRect = (props) => {
   };
 
   const handleDelete = async (record) => {
+    
     let newData = [...dataRectList];
-    if (newData.length > 0) {
-      newData = newData.filter((item) => item.key !== record.key);
-      if (record.uuid != null) {
-        try {
-          let isPost = await AIConfigRectApi.deleteConfigRect(record.uuid);
+    if (record.uuid != null) {
+      try {
+        let isPost = await AIConfigRectApi.deleteConfigRect(record.uuid);
 
-          if (isPost) {
-            const notifyMess = {
-              type: "success",
-              title: `${t("noti.success")}`,
-              description: `${t("noti.delete_successful")}`,
-            };
-            Notification(notifyMess);
-          }
-        } catch (error) {
-          console.log(error);
+        if (isPost) {
+          const notifyMess = {
+            type: "success",
+            title: `${t("noti.success")}`,
+            description: `${t("noti.delete_successful")}`,
+          };
+          Notification(notifyMess);
+          newData = newData.filter((item) => item.key !== record.key);
+          let i = 1;
+          newData.forEach((data) => {
+            data.lineNo = i;
+            i++;
+          });
+          setDataRectList(newData);
+          setDefaultDataRect({})
         }
+      } catch (error) {
+        console.log(error);
       }
-
+    } else {
+      newData = newData.filter((item) => item.key !== record.key);
       let i = 1;
       newData.forEach((data) => {
         data.lineNo = i;
         i++;
       });
-
       setDataRectList(newData);
-    } else {
-      setDataRectList([]);
+      setDefaultDataRect({})
     }
+    
+    
   };
 
   const handleRowClick = (event, data) => {
     setIsActiveDetail(true);
     setKeyActive(data.key);
-    if (data.uuid != null) {
+    
+    let newData =  dataRectList.find(el => el.uuid === data.uuid)
+    if (data.uuid != null && newData == null) {
       AIConfigRectApi.getConfigRect(data.uuid).then((result) => {
+        console.log("result",result    )
         if (result != null) {
-          data = result;
+          result = {... result,
+            vehicle: data.vehicleDetection,
+            human: data.peopleDetection,
+          }
+          setDefaultDataRect(result);
         }
+        
       });
+    } else {
+      setDefaultDataRect({})
     }
-
-    setDefaultDataRect({
-      ...data,
-      vehicle: data.vehicleDetection,
-      human: data.peopleDetection,
-    });
+    
   };
 
   const playCameraOnline = async (cameraUuid) => {
@@ -1319,7 +1332,7 @@ const TabRect = (props) => {
                           <Input
                             disabled={!isActiveDetail}
                             placeholder={t("view.ai_config.time")}
-                            type="threshold"
+                            type="number"
                             value={threshold}
                           />
                         </Form.Item>
@@ -1423,6 +1436,7 @@ const TabRect = (props) => {
                   pagination={false}
                   onRow={(record, recordIndex) => {
                     return {
+
                       onClick: (event) => {
                         handleRowClick(event, record);
                       },
