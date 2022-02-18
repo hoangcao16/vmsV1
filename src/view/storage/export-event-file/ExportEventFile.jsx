@@ -1638,7 +1638,7 @@ const ExportEventFile = () => {
             <Col span={12}>
               <div className="title">
                 <span>{t("view.common_device.note")}</span>
-                {!editMode && (
+                {editMode && (
                   <AiOutlineEdit
                     className="iconEdit"
                     onClick={() => {

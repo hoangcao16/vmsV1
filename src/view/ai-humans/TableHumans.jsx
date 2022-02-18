@@ -87,6 +87,8 @@ const TableHumans = () => {
             className="searchInputCamproxy"
             style={{ width: 350, height: 40, marginRight: 18 }}
             onSearch={debounce(handleSearch, 300)}
+            
+            maxLength={255}
             placeholder={
               <div>
                 <span> &nbsp;{t("view.map.search")} </span>{" "}
@@ -131,7 +133,7 @@ const TableHumans = () => {
     AIHumansApi.getAllHumans(data).then((result) => {
       let dataResult = result[Object.keys(result)[0]];
       setListHumans(result.payload);
-      setTotal(result?.metadata.total);
+      setTotal(result?.metadata?.total);
     });
   };
 
@@ -144,7 +146,7 @@ const TableHumans = () => {
     AIHumansApi.getAllHumans(data).then((result) => {
       let dataResult = result[Object.keys(result)[0]];
       setListHumans(result.payload);
-      setTotal(result?.metadata.total);
+      setTotal(result?.metadata?.total);
     });
   };
 
@@ -327,6 +329,13 @@ const TableHumans = () => {
                 </ShowTotal>
               );
             },
+          }}
+          locale={{
+            emptyText: (
+              <div style={{ color: "white" }}>
+                {t("view.user.detail_list.no_valid_results_found")}
+              </div>
+            ),
           }}
           scroll={{ x: "max-content", y: 500 }}
           rowKey="id"

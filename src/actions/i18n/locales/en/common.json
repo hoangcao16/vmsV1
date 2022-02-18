@@ -472,12 +472,20 @@
       "activate_hurdles": "Activate Hurdles",
       "activate_intrusion_detection": "Activate Intrusion Detection Events ",
       "all_day": "All day",
-      "apply": "Apply",
+      "time_week" :{
+        "2": "Monday",
+        "3": "Tuesday",
+        "4": "Wednesday",
+        "5": "Thursday",
+        "6": "Friday",
+        "7": "Saturday",
+        "CN": "Sunday"
+      },
       "edit_time" :{
         "2": "Edit time monday",
         "3": "Edit time tuesday",
         "4": "Edit time wednesday",
-        "5": "Edit time whursday",
+        "5": "Edit time thursday",
         "6": "Edit time friday",
         "7": "Edit time saturday",
         "CN": "Edit time sunday"
@@ -509,10 +517,12 @@
       },
       "save":"Save",
       "cancel": "Cancel",
+      "apply":"Apply",
       "table":{
         "no": "No",
         "name" :"Name"
-      }
+      },
+      "no_data" :"No data"
     },
     "ai_events": {
       "event_files_list": "Event AI files list",

@@ -155,7 +155,7 @@ const ModalScheduleConfigCopy = (props) => {
 
           <div className="footer__modal">
             <Button onClick={() => { setShowModalCopy(false) }}>{t('view.ai_config.cancel')}</Button>
-            <Button htmlType="submit">{t('view.ai_config.save')}</Button>
+            <Button htmlType="submit">{t('view.ai_config.apply')}</Button>
           </div>
         </Form>
       </Modal>
