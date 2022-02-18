@@ -7,7 +7,6 @@ import {
   Minimize2,
   Video,
   X,
-  Bell,
 } from "react-feather";
 import { useTranslation } from "react-i18next";
 import { connect } from "react-redux";
@@ -15,8 +14,10 @@ import { v4 as uuidV4 } from "uuid";
 import permissionCheck from "../../actions/function/MyUltil/PermissionCheck";
 import permissionCheckByCamera from "../../actions/function/MyUltil/PermissionCheckByCamera";
 import { formatWithMilliseconds } from "../../utility/vms/duration";
+import AiInforTable from "./AiInforTable"
 import MenuControl from "./menuControl";
 import "./LiveCameraSlot.scss";
+import { BellFilled } from "@ant-design/icons";
 
 const LiveCameraSlot = (props) => {
   const {
@@ -137,14 +138,6 @@ const LiveCameraSlot = (props) => {
     setIsInfoModalVisible(true);
   };
 
-  const handleOk = () => {
-    setIsInfoModalVisible(false);
-  };
-
-  const handleCancel = () => {
-    setIsInfoModalVisible(false);
-  };
-
   const slotIdx = findCameraIndexInGrid(slotId);
   const toolbarCss = showMenus === true ? "video-toolbar__control-0" : "";
   const notiCss = showNoti == true ? "video-toolbar__control-0" : "dpn";
@@ -224,7 +217,7 @@ const LiveCameraSlot = (props) => {
                 onClick={showNotiInfo}
                 style={{ marginTop: 5, marginBottom: 5 }}
               >
-                <Bell className="bell-button__icon" />
+                <BellFilled className="bell-button__icon"/>
               </Button>
             </Tooltip>
           </div>
@@ -363,13 +356,11 @@ const LiveCameraSlot = (props) => {
         </video>
       </div>
 
-      <Modal
-        visible={isInfoModalVisible}
-        onOk={handleOk}
-        onCancel={handleCancel}
-        footer={null}
-      >
-      </Modal>
+      <AiInforTable 
+        showNotiInfo={showNotiInfo}
+        isInfoModalVisible={isInfoModalVisible}
+        setIsInfoModalVisible={setIsInfoModalVisible}
+      />
     </>
   );
 };

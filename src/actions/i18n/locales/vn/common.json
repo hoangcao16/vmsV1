@@ -119,7 +119,11 @@
       "live_mode": "Giám sát",
       "attendance": "Điểm danh",
       "intrusion_and_hurdles_human": "Vượt rào ảo và xâm nhập (Phát hiện người)",
-      "intrusion_and_hurdles_vehicle": "Vượt rào ảo và xâm nhập (Phát hiện phương tiện)"
+      "intrusion_and_hurdles_vehicle": "Vượt rào ảo và xâm nhập (Phát hiện phương tiện)",
+      "alert_type": "Loại báo động",
+      "camera_record": "Camera ghi nhận",
+      "img_confirm": "Hình ảnh xác nhận",
+      "alert_info": "Thông tin báo động"
     },
     "map": {
       "search": "Tìm kiếm",

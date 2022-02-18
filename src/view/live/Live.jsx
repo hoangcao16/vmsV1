@@ -43,12 +43,13 @@ import {
   STEP_SIZE_MINUTE,
 } from "../common/vms/constans/playback";
 import { NOTYFY_TYPE, PAGE_SIZE } from "../common/vms/Constant";
-import { changeZoom } from "./../../redux/actions/customizer/index";
+import { changeZoom, updateData } from "./../../redux/actions/customizer/index";
 import DraggableCameraList from "./DraggableCameraList";
 import LiveCameraSlot from "./LiveCameraSlot";
 import MenuTools from "./MenuTools";
 import {getEmail, getToken} from "../../api/token";
 import * as StompJs from "@stomp/stompjs";
+import { UPDATE_DATA } from "../../redux/types/live";
 
 const mode = process.env.REACT_APP_MODE_VIEW;
 
@@ -83,6 +84,7 @@ const Live = (props) => {
   const [pcList, setPCList] = useState([]);
 
   let wsOnConnectCallback = function (message) {
+    dispatch({type: UPDATE_DATA.LOAD_SUCCESS, message})
     // called when the client receives a STOMP message from the server
     if (message.body) {
       console.log('>>>>> Message: ' + message.body);
@@ -1638,6 +1640,6 @@ const mapStateToProps = (state) => {
 
 export default withRouter(
   connect(mapStateToProps, {
-    changeZoom,
+    changeZoom
   })(Live)
 );
