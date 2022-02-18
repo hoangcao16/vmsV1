@@ -3,7 +3,7 @@ import { isEmpty } from "lodash";
 import React, { useEffect, useState } from "react";
 import { ChevronRight } from "react-feather";
 import { useTranslation } from "react-i18next";
-import { connect } from "react-redux";
+import { connect, useDispatch } from "react-redux";
 import permissionCheckByCamera from "../../../actions/function/MyUltil/PermissionCheckByCamera";
 import ptzControllerApi from "../../../api/ptz/ptzController";
 import Notification from "../../../components/vms/notification/Notification";
@@ -16,6 +16,7 @@ import ModalControlPanel from "./ModalControlPanel";
 import "./ModalPresetSetting.scss";
 import cameraAIApi from "../../../actions/api/live/CameraAIApi";
 import { reactLocalStorage } from "reactjs-localstorage";
+import { UPDATE_DATA } from "../../../redux/types/live";
 
 const language = reactLocalStorage.get("language");
 
@@ -99,6 +100,7 @@ const Index = (props) => {
       { name: `${t("view.live.view_by_setting")}`, type: 5 },
     ];
   }
+  const dispatch = useDispatch();
   const [typeActive, setTypeActive] = useState(1);
   const [openModalPresetSetting, setOpenModalPresetSetting] = useState(false);
   const [listType, setListType] = useState(LIST_TYPES.preset);
@@ -243,9 +245,12 @@ const Index = (props) => {
   };
 
   const onClickChangeLiveMode = async (type) => {
+    const emptyData = {};
+    const dataBody = JSON.stringify(emptyData);
     setTypeAICamera(type);
     setOpenMenuControl(false);
     changeLiveMode(slotId, type);
+    dispatch({type: UPDATE_DATA.LOAD_SUCCESS, dataBody})
   };
 
   const handleSelectType = (type) => {
@@ -433,7 +438,8 @@ const Index = (props) => {
   );
 };
 
-const mapStateToProps = (state) => ({});
+const mapStateToProps = (state) => ({
+});
 
 const mapDispatchToProps = (dispatch) => {
   return {
