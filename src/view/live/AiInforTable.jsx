@@ -15,7 +15,6 @@ const { Text } = Typography;
 const dataType = '';
 
 export const renderText = (cellValue, row, t) => {
-  console.log("row", row)
   const language = reactLocalStorage.get("language");
 
   if (isEmpty(cellValue)) {
