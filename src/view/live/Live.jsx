@@ -298,6 +298,29 @@ const Live = (props) => {
     setLiveMode(mode);
   };
 
+  const reconnectCamera = (token, camUuid, camId, slotIdx, type) => {
+    setTimeout(() => {
+      // It will always get the latest ref value of pcList
+      // Reason: We used updater form of setState (which provides us latest state value)
+      setPCList((prevValue) => {
+        let pcLstTmp = [...prevValue];
+        let isExist = false;
+        for (let i = 0; i < pcLstTmp.length; i++) {
+          if (pcLstTmp[i].slotIdx === slotIdx && pcLstTmp[i].status === "running") {
+            isExist = true;
+            break;
+          }
+        }
+        if (isExist) {
+          console.log(">>>>> reconnect, data: ", token);
+          liveCamera(camUuid, camId, slotIdx, type).then();
+        }
+        return prevValue
+      })
+
+    }, 10000);
+  }
+
   // LIVE
   const liveCamera = async (camUuid, camId, slotIdx, type) => {
     if (camUuid === "" || camUuid == null) {
@@ -332,7 +355,6 @@ const Live = (props) => {
       pc.addTransceiver("video");
       const spin = document.getElementById("spin-slot-" + slotIdx);
       pc.ontrack = (event) => {
-        debugger;
         //binding and play
         const cell = document.getElementById("video-slot-" + slotIdx);
         if (cell) {
@@ -345,7 +367,6 @@ const Live = (props) => {
         }
       };
 
-      debugger;
       const thisTime = new Date().getTime();
       const token = slotIdx + '##' + getToken() + '##' + getEmail() + '##' + thisTime;
 
@@ -373,18 +394,12 @@ const Live = (props) => {
             break;
           case "disconnected":
             console.log(">>>>> connection state: disconnected, data: ", token);
-            setTimeout(() => {
-              console.log(">>>>> reconnect, data: ", token);
-              liveCamera(camUuid, camId, slotIdx, type).then();
-            }, 2000);
+            reconnectCamera(token, camUuid, camId, slotIdx, type);
             break;
           case "failed":
             // One or more transports has terminated unexpectedly or in an error
             console.log(">>>>> connection state: failed, data: ", token);
-            setTimeout(() => {
-              console.log(">>>>> reconnect, data: ", token);
-              liveCamera(camUuid, camId, slotIdx, type).then();
-            }, 2000);
+            reconnectCamera(token, camUuid, camId, slotIdx, type);
             break;
           case "closed":
             // The connection has been closed
@@ -442,9 +457,9 @@ const Live = (props) => {
         }
       }
       if (!isExist) {
-        pcLstTmp.push({slotIdx: slotIdx, pc: pc})
+        pcLstTmp.push({slotIdx: slotIdx, pc: pc, status: "running"})
       }
-      setPCList(pcLstTmp);
+      setPCList([...pcLstTmp]);
 
     } else {
       const API = data.camproxyApi;
@@ -786,6 +801,7 @@ const Live = (props) => {
     const cameras = [...addedCameras];
     let camera = cameras[slotIdx];
     console.log(">>>>> camera: ", camera);
+    closeCamera(slotId);
     liveCamera(camera.camUuid, camera.camId, camera.id, type).then();
     camera = { ...camera, liveMode: true };
     cameras[slotIdx] = camera;
@@ -1171,7 +1187,6 @@ const Live = (props) => {
       setAddedCameras(result);
       const cell = document.getElementById("video-slot-" + originSlotId);
       if (cell) {
-        debugger;
         cell.srcObject = null;
         cell.style.display = "none";
       }
@@ -1182,10 +1197,12 @@ const Live = (props) => {
         if (pcLstTmp[i].slotIdx === slotIdx) {
           if (pcLstTmp[i].pc) {
             pcLstTmp[i].pc.close();
+            pcLstTmp.splice(i, 1);
           }
           break;
         }
       }
+      setPCList([...pcLstTmp]);
 
       removeFullGrid(originSlotId);
       const targetSlot = document.getElementById("droppable-" + slotIdx);
