@@ -13,6 +13,7 @@ import chartData from './../../view/report/redux/reduders/index';
 import email from './../../view/storage/store-setting/redux/reducers/index';
 import quickSearch from './../../view/maps/redux/reducers/index';
 import openModalPresetSetting from './live/OpenModalPresetSettingReducers';
+import updateData from './live/UpdateDataReducers';
 
 const rootReducer = combineReducers({
   customizer: customizer,
@@ -26,7 +27,8 @@ const rootReducer = combineReducers({
   chart: chartData,
   live: liveReducer,
   quickSearch:quickSearch,
-  openModalPresetSetting: openModalPresetSetting
+  openModalPresetSetting: openModalPresetSetting,
+  updateData: updateData
 });
 
 export default rootReducer;

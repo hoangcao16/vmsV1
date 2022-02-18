@@ -119,7 +119,11 @@
       "live_mode": "Live mode",
       "attendance": "Attendance",
       "intrusion_and_hurdles_human": "Hurdles and intrusion (Human detection)",
-      "intrusion_and_hurdles_vehicle": "Hurdles and intrusion (Vehicle detection)"
+      "intrusion_and_hurdles_vehicle": "Hurdles and intrusion (Vehicle detection)",
+      "alert_type": "Alert type",
+      "camera_record": "Camera record",
+      "img_confirm": "Image confirm",
+      "alert_info": "Alert information"
     },
     "map": {
       "search": "Search",

@@ -1,0 +1,48 @@
+@import "../../assets/scss/core/variables/vms-variable";
+@import "../../assets/scss/core/mixins/vms-mixins";
+
+.ant-modal-content {
+  border-radius: 12px;
+  background-color: #191919;
+  .ant-modal-close {
+    top: 20px !important;
+    left: 90%;
+  }
+  .table__title {
+    font-size: 24px;
+    font-weight: bold;
+    color: #c2c6dc;
+  }
+  .ant-card-head {
+    border-top-right-radius: 0 !important;
+    border-top-left-radius: 0 !important;
+  }
+  .ant-card-body {
+    border-bottom-right-radius: 0 !important;
+    border-bottom-left-radius: 0 !important;
+    .ant-table {
+      background-color: #191919;
+      .ant-table-title {
+        background-color: #333333;
+        padding-top: 0;
+      }
+      .ant-table-container,
+      .ant-table-container:hover {
+        color: #c2c6dc;
+        .columns--text__color {
+          background-color: #191919;
+          color: #c2c6dc;
+        }
+        th {
+          background-color: #232323 !important;
+        }
+      }
+    }
+  }
+}
+.ant-table-body {
+  @include scrollbar-styling(12px, 0);
+  &::-webkit-scrollbar-track {
+    border-radius: 0 0 12px 0;
+  }
+}

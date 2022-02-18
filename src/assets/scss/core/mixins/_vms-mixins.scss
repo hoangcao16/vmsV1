@@ -535,7 +535,7 @@
   .ant-modal {
     .ant-modal-content {
       .ant-modal-close {
-        top: 0 !important;
+        top: 0;
         svg {
           color: $vms-status;
         }

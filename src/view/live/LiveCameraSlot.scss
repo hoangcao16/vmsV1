@@ -12,10 +12,11 @@
         &__icon {
             position: absolute;
             top: 50%;
-            left: 50%;
+            left: 60%;
             transform: translate(-50%, -50%);
-            color: red;
+            color: red !important;
             opacity: 1;
+            font-size: 18px;
         }
     }
     &-button:hover {
