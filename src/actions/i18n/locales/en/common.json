@@ -494,7 +494,7 @@
       "select_time" :"Select time",
       "config_copy": "Copy",
       "time_error_stat_end":"Start time is greater than end time",
-      "time_threshold": "Time Threshold",
+      "time_threshold": "Time Threshold:",
       "time": "Time",
       "second": "second",
       "object_recognition": "Object Recognition",
@@ -510,7 +510,7 @@
         "intrusion_detection": "Delete area"
       },
       "direction": {
-        "title": "Direction",
+        "title": "Direction:",
         "AB": "A --> B",
         "BA": "B --> A",
         "All": "All"
