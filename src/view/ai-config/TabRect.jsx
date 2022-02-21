@@ -1356,6 +1356,7 @@ const TabRect = (props) => {
                             <Select
                               disabled={!isActiveDetail}
                               onChange={(e) => onChangeDirectionHandler(e)}
+                              defaultValue={1}
                             >
                               <Option value={1}>
                                 {t("view.ai_config.direction.AB")}
