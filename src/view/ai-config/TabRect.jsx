@@ -310,6 +310,7 @@ const TabRect = (props) => {
     {
       title: `${t("view.user.detail_list.user_status")}`,
       dataIndex: "status",
+      ignoreRowClick: true,
       render: (text, record) => {
         return (
           <Space>
@@ -349,18 +350,22 @@ const TabRect = (props) => {
         }
       },
       dataIndex: "action",
+      ignoreRowClick: true,
+      allowOverflow: true,
+      button: true,
       render: (_text, record) => {
         return (
-          <Space>
-            <Popconfirm
-              cancelText={t("view.user.detail_list.cancel")}
-              okText={t("view.user.detail_list.confirm")}
-              title={t("noti.delete_category", { this: t("this") })}
-              onConfirm={() => handleDelete(record)}
-            >
-              <DeleteOutlined style={{ fontSize: "16px", color: "#6E6B7B" }} />
-            </Popconfirm>
-          </Space>
+          <div ><Space>
+          <Popconfirm
+            cancelText={t("view.user.detail_list.cancel")}
+            okText={t("view.user.detail_list.confirm")}
+            title={t("noti.delete_category", { this: t("this") })}
+            onConfirm={() => handleDelete(record)}
+          >
+            <DeleteOutlined style={{ fontSize: "16px", color: "#6E6B7B" }} />
+          </Popconfirm>
+        </Space></div>
+          
         );
       },
     },
@@ -512,9 +517,7 @@ const TabRect = (props) => {
   const handleRowClick = (event, data) => {
     setIsActiveDetail(true);
     setKeyActive(data.key);
-
-    let newData = dataRectList.find((el) => el.uuid === data.uuid);
-    if (data.uuid != null && newData == null) {
+    if (data.uuid != null) {
       AIConfigRectApi.getConfigRect(data.uuid).then((result) => {
         console.log("result", result);
         if (result != null) {
@@ -1443,7 +1446,11 @@ const TabRect = (props) => {
                   onRow={(record, recordIndex) => {
                     return {
                       onClick: (event) => {
-                        handleRowClick(event, record);
+                        console.log((event.target).nodeName)
+                        // handleRowClick(event, record);
+                        if((event.target).nodeName  !== 'SPAN') {
+                          handleRowClick(event, record);
+                        }
                       },
                     };
                   }}
