@@ -250,7 +250,7 @@ const Index = (props) => {
     setTypeAICamera(type);
     setOpenMenuControl(false);
     changeLiveMode(slotId, type);
-    dispatch({type: UPDATE_DATA.LOAD_SUCCESS, dataBody})
+    dispatch({ type: UPDATE_DATA.LOAD_SUCCESS, dataBody });
   };
 
   const handleSelectType = (type) => {
@@ -438,8 +438,7 @@ const Index = (props) => {
   );
 };
 
-const mapStateToProps = (state) => ({
-});
+const mapStateToProps = (state) => ({});
 
 const mapDispatchToProps = (dispatch) => {
   return {
