@@ -494,11 +494,11 @@
       "time_config_copy": "Áp dụng lịch",
       "config_copy": "Sao chép",
       "time_error_stat_end":"Thời gian bắt đầu lớn hơn thời gian kết thúc",
-      "time_threshold": "Ngưỡng thời gian",
+      "time_threshold": "Ngưỡng thời gian:",
       "time": "Thời gian",
       "second": "giây",
       "object_recognition": "Nhận diện đối tượng",
-      "choose": "Đối tượng",
+      "choose": "Đối tượng:",
       "vehicle": "Xe cộ",
       "human": "Người",
       "draw": {
@@ -510,7 +510,7 @@
         "intrusion_detection": "Xóa vùng"
       },
       "direction": {
-        "title": "Xác định hướng",
+        "title": "Xác định hướng:",
         "AB": "A --> B",
         "BA": "B --> A",
         "All": "Tất cả"

@@ -178,12 +178,10 @@ const TabRect = (props) => {
     };
 
     AIConfigRectApi.addConfigRect(payload).then((result) => {
-      
-
       const notifyMess = {
-        type: 'success',
-        title: `${t('noti.success')}`,
-        description: `${t('noti.successfully_config')}`,
+        type: "success",
+        title: `${t("noti.success")}`,
+        description: `${t("noti.successfully_config")}`,
       };
       Notification(notifyMess);
 
@@ -201,7 +199,7 @@ const TabRect = (props) => {
   };
 
   function setDefaultDataRect(data) {
-    console.log("data_10", data)
+    console.log("data_10", data);
     clearEventHandler();
     setDataRect(data);
     let checkList = [];
@@ -475,7 +473,6 @@ const TabRect = (props) => {
   };
 
   const handleDelete = async (record) => {
-    
     let newData = [...dataRectList];
     if (record.uuid != null) {
       try {
@@ -495,7 +492,7 @@ const TabRect = (props) => {
             i++;
           });
           setDataRectList(newData);
-          setDefaultDataRect({})
+          setDefaultDataRect({});
         }
       } catch (error) {
         console.log(error);
@@ -508,33 +505,30 @@ const TabRect = (props) => {
         i++;
       });
       setDataRectList(newData);
-      setDefaultDataRect({})
+      setDefaultDataRect({});
     }
-    
-    
   };
 
   const handleRowClick = (event, data) => {
     setIsActiveDetail(true);
     setKeyActive(data.key);
-    
-    let newData =  dataRectList.find(el => el.uuid === data.uuid)
+
+    let newData = dataRectList.find((el) => el.uuid === data.uuid);
     if (data.uuid != null && newData == null) {
       AIConfigRectApi.getConfigRect(data.uuid).then((result) => {
-        console.log("result",result    )
+        console.log("result", result);
         if (result != null) {
-          result = {... result,
+          result = {
+            ...result,
             vehicle: data.vehicleDetection,
             human: data.peopleDetection,
-          }
+          };
           setDefaultDataRect(result);
         }
-        
       });
     } else {
-      setDefaultDataRect({})
+      setDefaultDataRect({});
     }
-    
   };
 
   const playCameraOnline = async (cameraUuid) => {
@@ -1067,9 +1061,8 @@ const TabRect = (props) => {
       tX - headLen * Math.cos(angle + Math.PI / 6),
       tY - headLen * Math.sin(angle + Math.PI / 6)
     );
-    
-    
-    if (fX < tX) { 
+
+    if (fX < tX) {
       ctx.fillText("B", fX - 15, fY);
       ctx.fillText("A", tX + 5, tY);
     } else {
@@ -1317,7 +1310,11 @@ const TabRect = (props) => {
                   initialValues={dataRect}
                 >
                   {type === "intrusion_detection" ? (
-                    <Row gutter={24} style={{ marginTop: "20px" }}>
+                    <Row
+                      gutter={24}
+                      style={{ marginTop: "20px" }}
+                      className="align-items_center"
+                    >
                       <Col span={12} style={{ flex: "none" }}>
                         <p className="threshold">
                           {t("view.ai_config.time_threshold")}
@@ -1344,7 +1341,11 @@ const TabRect = (props) => {
                       </Col>
                     </Row>
                   ) : (
-                    <Row gutter={24} style={{ marginTop: "20px" }}>
+                    <Row
+                      gutter={24}
+                      style={{ marginTop: "20px" }}
+                      className="align-items_center"
+                    >
                       <Col span={12} style={{ flex: "none" }}>
                         <p className="threshold">
                           {t("view.ai_config.direction.title")}
@@ -1374,7 +1375,11 @@ const TabRect = (props) => {
                     </Row>
                   )}
 
-                  <Row gutter={24} style={{ marginTop: "20px" }}>
+                  <Row
+                    gutter={24}
+                    style={{ marginTop: "20px" }}
+                    className="align-items_center"
+                  >
                     {/* <Col span={24} style={{ flex: 'none' }}>
                       <div className="">
                         <Form.Item
@@ -1437,7 +1442,6 @@ const TabRect = (props) => {
                   pagination={false}
                   onRow={(record, recordIndex) => {
                     return {
-
                       onClick: (event) => {
                         handleRowClick(event, record);
                       },
