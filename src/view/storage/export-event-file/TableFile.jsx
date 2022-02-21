@@ -1253,7 +1253,7 @@ const TableFile = (props) => {
                             style={!useAdvanceSearch ? { display: "none" } : {}}
                         >
                             <Col span={8}>
-                                {props.viewFileType >= 1 && (
+                                {props.viewFileType >= 1 && props.viewFileType != 4  && (
                                     <Form.Item name={["type"]}>
                                         <Select
                                             allowClear
