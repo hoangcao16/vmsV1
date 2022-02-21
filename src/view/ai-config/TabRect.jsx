@@ -216,6 +216,7 @@ const TabRect = (props) => {
       vehicle: data.vehicleDetection,
       human: data.peopleDetection,
     });
+    localStorage.setItem("name", data.name);
 
     if (type === "hurdles") {
       if (data.pointsP != null && data.pointsP.length > 0) {
@@ -681,6 +682,7 @@ const TabRect = (props) => {
   };
 
   const drawRect = () => {
+    let name = localStorage.getItem("name")
     const canvas = document.getElementById("canvas-slot-" + type);
     if (canvas !== null) {
       const ctx = canvas.getContext("2d");
@@ -702,7 +704,7 @@ const TabRect = (props) => {
       ctx.stroke();
 
       // Rect number
-      ctx.fillText("#1#", coordinates[0].x - 15, coordinates[0].y - 10);
+      ctx.fillText(name, coordinates[0].x - 15, coordinates[0].y - 10);
 
       // Rect at all points
       ctx.beginPath();
@@ -900,6 +902,7 @@ const TabRect = (props) => {
 
   const drawLine = () => {
     const canvas = document.getElementById("canvas-slot-" + type);
+    let name = localStorage.getItem("name")
     if (canvas !== null) {
       const ctx = canvas.getContext("2d");
       ctx.clearRect(0, 0, canvas.width, canvas.height);
@@ -918,15 +921,15 @@ const TabRect = (props) => {
       // Line number
       if (fromX < toX) {
         if (fromY < toY) {
-          ctx.fillText("#1#", fromX - 15, fromY - 10);
+          ctx.fillText(name, fromX - 15, fromY - 10);
         } else {
-          ctx.fillText("#1#", fromX - 15, fromY + 20);
+          ctx.fillText(name, fromX - 15, fromY + 20);
         }
       } else {
         if (fromY < toY) {
-          ctx.fillText("#1#", fromX + 5, fromY - 10);
+          ctx.fillText(name, fromX + 5, fromY - 10);
         } else {
-          ctx.fillText("#1#", fromX + 5, fromY + 20);
+          ctx.fillText(name, fromX + 5, fromY + 20);
         }
       }
 
