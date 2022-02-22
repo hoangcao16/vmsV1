@@ -774,6 +774,7 @@ const Live = (props) => {
         liveMode: liveMode,
         hls: null,
       };
+
       setIdCurrCameraSelected(result[des?.id]?.camUuid);
 
       switch (liveMode) {

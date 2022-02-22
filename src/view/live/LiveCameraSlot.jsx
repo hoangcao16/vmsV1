@@ -49,7 +49,7 @@ const LiveCameraSlot = (props) => {
   const [stopTime, setStopTime] = useState(0);
   const [currLiveMode, setCurrLiveMode] = useState(liveMode);
   const [isOpenModalControlPanel, setIsOpenModalControlPanel] = useState(false);
-  const [typeAICamera, setTypeAICamera] = useState("live");
+  const [typeAICamera, setTypeAICamera] = useState("");
   const [isInfoModalVisible, setIsInfoModalVisible] = useState(false);
   const requestId = useRef(uuidV4());
   const countRef = useRef(countInMinis);
@@ -356,7 +356,8 @@ const LiveCameraSlot = (props) => {
         </video>
       </div>
 
-      <AiInforTable 
+      <AiInforTable
+        idCamera={idCamera}
         showNotiInfo={showNotiInfo}
         isInfoModalVisible={isInfoModalVisible}
         setIsInfoModalVisible={setIsInfoModalVisible}

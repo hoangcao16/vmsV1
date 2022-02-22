@@ -57,10 +57,10 @@ export const renderTime = (value) => {
 };
 
 const AiInforTable = (props) => {
-  const { showNotiInfo, isInfoModalVisible, setIsInfoModalVisible } = props;
+  const { showNotiInfo, isInfoModalVisible, setIsInfoModalVisible, idCamera } = props;
   const { t } = useTranslation();
   const data = props.updateData;
-  console.log("data", data)
+  const dataFilter = data.filter((i) => data.cameraUuid === idCamera)
   // img(data)
   // const img = async (file) => {
   //   console.log("file", file)
@@ -163,7 +163,7 @@ const AiInforTable = (props) => {
         >
           <Table
             columns={columns}
-            dataSource={data}
+            dataSource={dataFilter}
             pagination={false}
             scroll={{ y: 300 }}
           />
