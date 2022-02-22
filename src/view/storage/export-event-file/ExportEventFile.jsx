@@ -1600,81 +1600,60 @@ const ExportEventFile = () => {
             <Col span={24}>
               <div className="title">{t("view.ai_events.err_image")}</div>
               <div>
-                <ul>
-                  {imageOther
-                    ? imageOther.map((item, index) => (
-                        <li
-                          key={item.uuid}
-                          style={{
-                            listStyleType: "none",
-                            display: "inline-block",
-                            marginRight: "20px",
-                          }}
-                        >
-                          <div style={{ width: "90%", paddingBottom: "10px" }}>
-                            <div
-                              className="img__item"
-                              style={{ position: "relative" }}
-                            >
-                              {item.uuid != detailAI.uuid ? (
-                                <Popconfirm
-                                  title="Chắc chắn để xóa?"
-                                  onCancel={(event) => {
-                                    event.stopPropagation();
-                                  }}
-                                  onConfirm={(event) => {
-                                    event.stopPropagation();
-                                    deleteImageHandler(item.uuid);
-                                  }}
-                                >
-                                  <Button
-                                    className="button-photo-remove"
-                                    size="small"
-                                    type="danger"
-                                    onClick={(event) => {
-                                      event.stopPropagation();
-                                    }}
-                                    style={{
-                                      position: "absolute",
-                                      top: 0,
-                                      right: 0,
-                                      width: "15px",
-                                      height: "15px",
-                                      borderRadius: "50%",
-                                      display: "flex",
-                                      alignItems: "center",
-                                      justifyContent: "center",
-                                      background: "red",
-                                      // padding: '15px'
-                                    }}
-                                  >
-                                    <CloseOutlined style={{}} />
-                                  </Button>
-                                </Popconfirm>
-                              ) : null}
+                <ul >
+                {
 
-                              <img
-                                onClick={(event) => {
-                                  event.stopPropagation();
-                                  viewImageAIHandler(item);
-                                }}
-                                style={{ width: "120px", height: "120px" }}
-                                className="cursor-pointer"
-                                src={"data:image/jpeg;base64," + item.image}
-                                alt="Avatar"
-                              />
-                            </div>
-                          </div>
-                        </li>
-                      ))
-                    : null}
+imageOther ? imageOther.map((item, index) =>
+
+  <li key={item.uuid} style={{ listStyleType: 'none', display: 'inline-block', marginRight: '20px' }}><div style={{ width: '90%', paddingBottom: '10px' }}>
+
+    <div className='img__item' style={{ position: "relative" }}>
+      {item.uuid != detailAI.uuid ? <Popconfirm title={t("noti.delete_file", { this: t("this") })}
+      cancelText={t("view.user.detail_list.cancel")}
+      okText={t("view.ai_events.delete")}
+        onCancel={event => {
+          event.stopPropagation();
+        }}
+        onConfirm={(event) => { event.stopPropagation(); deleteImageHandler(item.uuid); }}>
+        <Button className="button-photo-remove" size="small" type="danger"
+          onClick={event => {
+            event.stopPropagation();
+          }}
+          style={{
+            position: 'absolute',
+            top: 0,
+            right: 0,
+            width: '15px',
+            height: '15px',
+            borderRadius: '50%',
+            display: 'flex',
+            alignItems: 'center',
+            justifyContent: 'center',
+            background: 'red',
+            // padding: '15px'
+          }}
+        >
+          <CloseOutlined style={{}} />
+        </Button>
+      </Popconfirm> : null}
+
+      <img onClick={event => {
+
+        event.stopPropagation();
+        viewImageAIHandler(item)
+      }} style={{ width: '120px', height: "120px" }} className="cursor-pointer" src={"data:image/jpeg;base64," + item.image} alt="Avatar" />
+    </div>
+  </div></li>
+) : null
+
+}
                 </ul>
               </div>
             </Col>
             <Col span={12}>
               <div className="title">
                 <span>{t("view.common_device.note")}</span>
-                {editMode && (
+                {detailAI.uuid && !editMode && (
                   <AiOutlineEdit
                     className="iconEdit"
                     onClick={() => {
