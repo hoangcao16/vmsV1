@@ -1,5 +1,5 @@
 import { Col, Input, Popconfirm, Popover, Row, Tooltip, Button } from "antd";
-import { CloseOutlined } from '@ant-design/icons';
+import { CloseOutlined } from "@ant-design/icons";
 import "antd/dist/antd.css";
 import { saveAs } from "file-saver";
 import { findIndex } from "lodash-es";
@@ -124,6 +124,7 @@ const ExportEventFile = () => {
   const [currNode, setCurrNode] = useState("");
   const [editMode, setEditMode] = useState(false);
   const [detailAI, setDetailAI] = useState(defaultEventFile);
+  const [visible, setVisible] = useState(false);
 
   const zoom = ((window.outerWidth - 10) / window.innerWidth) * 100;
 
@@ -146,7 +147,7 @@ const ExportEventFile = () => {
       {
         id: 0,
         type: "first_seen",
-        name: `${t('view.ai_events.attendance')}`,
+        name: `${t("view.ai_events.attendance")}`,
       },
       {
         id: 0,
@@ -168,17 +169,17 @@ const ExportEventFile = () => {
 
   useEffect(() => {
     if (viewFileType === 4) {
-      let imageOther = []
+      let imageOther = [];
 
       if (AI_SOURCE === "philong") {
         if (fileCurrent.plateNumberUrl) {
-          imageOther.push(fileCurrent.plateNumberUrl)
+          imageOther.push(fileCurrent.plateNumberUrl);
         }
         if (fileCurrent.vehicleUrl) {
-          imageOther.push(fileCurrent.vehicleUrl)
+          imageOther.push(fileCurrent.vehicleUrl);
         }
       } else {
-        setDetailAI({})
+        setDetailAI({});
         if (fileCurrent && fileCurrent.uuid != null) {
           AIEventsApi.getEventsByTrackingId(fileCurrent.trackingId).then(
             (data) => {
@@ -189,44 +190,40 @@ const ExportEventFile = () => {
                     uuid: ef.uuid,
                     cameraUuid: ef.cameraUuid,
                     trackingId: ef.trackingId,
-                    fileName: ef.fileName
+                    fileName: ef.fileName,
                   });
                 }
-
-              })
+              });
             }
           );
-          setImageOther(imageOther)
+          setImageOther(imageOther);
 
-          AIEventsApi.getDetailEvent(fileCurrent.uuid).then(
-            (data) => {
-              if (data && data.payload) {
-                setDetailAI({
-                  ...fileCurrent,
-                  code: data.payload.code,
-                  name: data.payload.name,
-                  position: data.payload.position,
-                  note: data.payload.note,
-                  plateNumber: data.payload.plateNumber,
-                  departmentUuid: data.payload.departmentUuid,
-                  departmentName: data.payload.departmentName,
-                  typeObject: data.payload.useCase === "zac_vehicle" ? "vehicle" : "human"
-                })
-                setImageAICurrent({
-                  cameraUuid: fileCurrent.cameraUuid,
-                  trackingId: fileCurrent.trackingId,
-                  uuid: fileCurrent.uuid,
-                  fileName: fileCurrent.fileName,
-                });
-              }
+          AIEventsApi.getDetailEvent(fileCurrent.uuid).then((data) => {
+            if (data && data.payload) {
+              setDetailAI({
+                ...fileCurrent,
+                code: data.payload.code,
+                name: data.payload.name,
+                position: data.payload.position,
+                note: data.payload.note,
+                plateNumber: data.payload.plateNumber,
+                departmentUuid: data.payload.departmentUuid,
+                departmentName: data.payload.departmentName,
+                typeObject:
+                  data.payload.useCase === "zac_vehicle" ? "vehicle" : "human",
+              });
+              setImageAICurrent({
+                cameraUuid: fileCurrent.cameraUuid,
+                trackingId: fileCurrent.trackingId,
+                uuid: fileCurrent.uuid,
+                fileName: fileCurrent.fileName,
+              });
             }
-          );
+          });
         }
       }
     }
   }, [fileCurrent]);
-
-
 
   const refresh = () => {
     setCaptureMode(false);
@@ -240,12 +237,10 @@ const ExportEventFile = () => {
   };
 
   const onClickTableFileHandler = async (row) => {
-
     if (row) {
       setCaptureMode(false);
       setUrlVideoTimeline(null);
       setUrlSnapshot("");
-
 
       if (viewFileType === 0) {
         await openFile(row);
@@ -365,10 +360,9 @@ const ExportEventFile = () => {
     } else if (viewFileType === 3) {
       setFileCurrent({ ...file });
     } else if (viewFileType === 4) {
-      setFileCurrent({ ...file, fileType: '4' });
+      setFileCurrent({ ...file, fileType: "4" });
     }
     if (file.type === 1) {
-
       //setUrlSnapshot("data:image/jpeg;base64," + file.thumbnailData[0]);
       // Call Nginx to get blob data of file
       await ExportEventFileApi.downloadFile(
@@ -380,7 +374,6 @@ const ExportEventFile = () => {
           setUrlSnapshot(image);
         });
       });
-
     } else if (viewFileType === 4) {
       if (AI_SOURCE === "philong") {
         setUrlSnapshot(file.overViewUrl);
@@ -396,7 +389,6 @@ const ExportEventFile = () => {
           getBase64Text(blob, async (image) => {
             setUrlSnapshot(image);
           });
-
         });
 
         // setUrlSnapshot("data:image/jpeg;base64," + file.thumbnailData);
@@ -657,7 +649,7 @@ const ExportEventFile = () => {
     } else {
       setEventFileCurrent({ ...row, blob: null, isSaved: false });
     }
-    setCurrNode(row.note)
+    setCurrNode(row.note);
   };
 
   const captureSnapshotHandler = () => {
@@ -829,7 +821,7 @@ const ExportEventFile = () => {
           saveAs(urlSnapshot, downloadFileName);
         } else {
           setLoading(true);
-          console.log("fileCu2222222222222222222 ", fileCurrent.fileType)
+          console.log("fileCu2222222222222222222 ", fileCurrent.fileType);
 
           try {
             if (fileCurrent.tableName === "file") {
@@ -852,27 +844,28 @@ const ExportEventFile = () => {
                   imageAICurrent.fileName,
                   4
                 ).then(async (result) => {
-                  const blob = new Blob([result.data], { type: "octet/stream" });
-                  console.log("blob___", blob)
+                  const blob = new Blob([result.data], {
+                    type: "octet/stream",
+                  });
+                  console.log("blob___", blob);
                   const url = window.URL.createObjectURL(blob);
                   saveAs(url, downloadFileName);
-
                 });
                 // Call Nginx to get blob data of file
-
               } else {
                 await ExportEventFileApi.downloadFileNginx(
                   fileCurrent.id,
                   fileCurrent.type,
                   fileCurrent.nginx_host
                 ).then(async (result) => {
-                  const blob = new Blob([result.data], { type: "octet/stream" });
+                  const blob = new Blob([result.data], {
+                    type: "octet/stream",
+                  });
                   const url = window.URL.createObjectURL(blob);
                   saveAs(url, downloadFileName);
                 });
               }
               // Call Nginx to get blob data of file
-
             }
           } catch (e) {
             Notification({
@@ -926,9 +919,7 @@ const ExportEventFile = () => {
   const deleteImageHandler = async (uuid) => {
     setLoading(true);
 
-    const deleteFileDataRes = await AIEventsApi.deleteFileData(
-      uuid
-    );
+    const deleteFileDataRes = await AIEventsApi.deleteFileData(uuid);
 
     if (deleteFileDataRes && deleteFileDataRes.code === 1700) {
       Notification({
@@ -936,9 +927,7 @@ const ExportEventFile = () => {
         title: `${t("noti.archived_file")}`,
         description: `${t("noti.successfully_delete_file")}`,
       });
-      const updatedImageOther = imageOther.filter(
-        (item) => item.uuid !== uuid
-      );
+      const updatedImageOther = imageOther.filter((item) => item.uuid !== uuid);
 
       setImageOther([...updatedImageOther]);
     } else {
@@ -953,7 +942,7 @@ const ExportEventFile = () => {
 
   const viewImageAIHandler = async (item) => {
     setLoading(true);
-    console.log("_________ ", item)
+    console.log("_________ ", item);
     await ExportEventFileApi.downloadFileAI(
       item.cameraUuid,
       item.trackingId,
@@ -973,13 +962,11 @@ const ExportEventFile = () => {
       fileName: item.fileName,
     });
     setLoading(false);
-
   };
 
   const deleteFileHandler = async () => {
     let response = null;
     if (fileCurrent.uuid !== "") {
-
       if (fileCurrent.tableName === "file") {
         const deletePhysicalFileRes =
           await deleteExportEventFileApi.deletePhysicalFile(fileCurrent.uuid);
@@ -1010,9 +997,7 @@ const ExportEventFile = () => {
           }
         } else {
           if (fileCurrent.fileType === "4") {
-
-            const delete_file =
-              await AIEventsApi.delete(fileCurrent.uuid);
+            const delete_file = await AIEventsApi.delete(fileCurrent.uuid);
 
             if (delete_file) {
               Notification({
@@ -1037,7 +1022,6 @@ const ExportEventFile = () => {
           }
 
           // Image
-
         }
         if (isSuccess && fileCurrent.fileType !== "4") {
           response = await ExportEventFileApi.deleteEventFile(fileCurrent.uuid);
@@ -1290,25 +1274,22 @@ const ExportEventFile = () => {
   };
 
   const closeObjectForm = () => {
-    AIEventsApi.getDetailEvent(fileCurrent.uuid).then(
-      (data) => {
-
-        if (data && data.payload) {
-          setDetailAI({
-            ...fileCurrent,
-            code: data.payload.code,
-            name: data.payload.name,
-            position: data.payload.position,
-            note: data.payload.note,
-            plateNumber: data.payload.plateNumber,
-            departmentUuid: data.payload.departmentUuid,
-            departmentName: data.payload.departmentName,
-            typeObject: data.payload.useCase === "zac_vehicle" ? "vehicle" : "human"
-          })
-
-        }
+    AIEventsApi.getDetailEvent(fileCurrent.uuid).then((data) => {
+      if (data && data.payload) {
+        setDetailAI({
+          ...fileCurrent,
+          code: data.payload.code,
+          name: data.payload.name,
+          position: data.payload.position,
+          note: data.payload.note,
+          plateNumber: data.payload.plateNumber,
+          departmentUuid: data.payload.departmentUuid,
+          departmentName: data.payload.departmentName,
+          typeObject:
+            data.payload.useCase === "zac_vehicle" ? "vehicle" : "human",
+        });
       }
-    );
+    });
   };
 
   const saveEventFileHandler = (eventFile, dataList) => {
@@ -1491,9 +1472,7 @@ const ExportEventFile = () => {
         <>
           <Row gutter={[16, 30]} className="eventFileDetail">
             <Col span={6}>
-              <div className="title">
-                {t("view.ai_events.camera_name")}
-              </div>
+              <div className="title">{t("view.ai_events.camera_name")}</div>
               <div>{detailAI?.cameraName}</div>
             </Col>
             <Col span={6}>
@@ -1501,18 +1480,14 @@ const ExportEventFile = () => {
               <div>
                 {detailAI != null && detailAI.createdTime === -1
                   ? ""
-                  : moment(detailAI.createdTime).format(
-                    "HH:mm DD/MM/YYYY"
-                  )}
+                  : moment(detailAI.createdTime).format("HH:mm DD/MM/YYYY")}
               </div>
             </Col>
             <Col span={6}>
               <div className="title">{t("view.ai_events.typeObject")}</div>
-              {detailAI?.subEventType
-                ? <div>{t("view.ai_events." + detailAI.subEventType)}</div>
-                : null}
-
-
+              {detailAI?.subEventType ? (
+                <div>{t("view.ai_events." + detailAI.subEventType)}</div>
+              ) : null}
             </Col>
             <Col span={6}>
               <div className="title">
@@ -1522,24 +1497,28 @@ const ExportEventFile = () => {
                   title={t("view.ai_events.edit_info")}
                 >
                   <Popover
-                    overlayClassName={`${checkBtnInfoObjectDisabled()
-                      ? "fileInfoPopoverHidden"
-                      : "fileInfoPopover"
-                      }`}
+                    overlayClassName={`${
+                      checkBtnInfoObjectDisabled()
+                        ? "fileInfoPopoverHidden"
+                        : "fileInfoPopover"
+                    }`}
                     placement="topRight"
                     title=""
+                    visible={visible}
                     content={
                       checkBtnInfoObjectDisabled()
                         ? ""
                         : renderInfoObjectPopoverContent
                     }
                     trigger={`${checkBtnInfoObjectDisabled() ? "" : "click"}`}
+                    onClick={(e) => {setVisible(true)}}
                   >
                     <AiFillEdit
-                      className={`${checkBtnInfoObjectDisabled()
-                        ? "action__disabled"
-                        : "action"
-                        }`}
+                      className={`${
+                        checkBtnInfoObjectDisabled()
+                          ? "action__disabled"
+                          : "action"
+                      }`}
                       onClick={(e) => {
                         if (checkBtnInfoObjectDisabled()) return;
                         e.stopPropagation();
@@ -1548,29 +1527,64 @@ const ExportEventFile = () => {
                   </Popover>
                 </Tooltip>
               </div>
-              {detailAI.useCase === "zac_vehicle"
-                ? <ul style={{ listStyleType: 'none', display: 'inline-block' }}>
-                  <li>{t("view.ai_events.type")} : {t("view.ai_events.useCase." + detailAI.useCase)}</li>
-                  <li>{t("view.ai_events.plateNumber")} : {detailAI.plateNumber ? detailAI.plateNumber : t("view.ai_events.UnKnow")}</li>
+              {detailAI.useCase === "zac_vehicle" ? (
+                <ul style={{ listStyleType: "none", display: "inline-block" }}>
+                  <li>
+                    {t("view.ai_events.type")} :{" "}
+                    {t("view.ai_events.useCase." + detailAI.useCase)}
+                  </li>
+                  <li>
+                    {t("view.ai_events.plateNumber")} :{" "}
+                    {detailAI.plateNumber
+                      ? detailAI.plateNumber
+                      : t("view.ai_events.UnKnow")}
+                  </li>
                 </ul>
-                : null}
-              {detailAI.useCase === "zac_human"
-                ? <ul style={{ listStyleType: 'none', display: 'inline-block' }}>
-                  <li>{t("view.ai_events.type")} : {t("view.ai_events.useCase." + detailAI.useCase)}</li>
-                  <li>{t("view.ai_events.code")} : {detailAI.code ? detailAI.code : t("view.ai_events.UnKnow")}</li>
-                  <li>{t("view.ai_events.name")} : {detailAI.name ? detailAI.name : t("view.ai_events.UnKnow")}</li>
-                  <li>{t("view.ai_events.position")} : {detailAI.position ? detailAI.position : t("view.ai_events.UnKnow")}</li>
-                  <li>{t("view.ai_events.department")} : {detailAI.departmentName ? detailAI.departmentName : t("view.ai_events.UnKnow")}</li>
+              ) : null}
+              {detailAI.useCase === "zac_human" ? (
+                <ul style={{ listStyleType: "none", display: "inline-block" }}>
+                  <li>
+                    {t("view.ai_events.type")} :{" "}
+                    {t("view.ai_events.useCase." + detailAI.useCase)}
+                  </li>
+                  <li>
+                    {t("view.ai_events.code")} :{" "}
+                    {detailAI.code ? detailAI.code : t("view.ai_events.UnKnow")}
+                  </li>
+                  <li>
+                    {t("view.ai_events.name")} :{" "}
+                    {detailAI.name ? detailAI.name : t("view.ai_events.UnKnow")}
+                  </li>
+                  <li>
+                    {t("view.ai_events.position")} :{" "}
+                    {detailAI.position
+                      ? detailAI.position
+                      : t("view.ai_events.UnKnow")}
+                  </li>
+                  <li>
+                    {t("view.ai_events.department")} :{" "}
+                    {detailAI.departmentName
+                      ? detailAI.departmentName
+                      : t("view.ai_events.UnKnow")}
+                  </li>
                 </ul>
-                : null}
-              {detailAI.useCase === "attendance"
-                ? <ul style={{ listStyleType: 'none', display: 'inline-block' }}>
-                  <li>{t("view.ai_events.code")} : {detailAI.code}</li>
-                  <li>{t("view.ai_events.name")} : {detailAI.name}</li>
-                  <li>{t("view.ai_events.position")} : {detailAI.position}</li>
-                  <li>{t("view.ai_events.department")} : {detailAI.departmentName}</li>
+              ) : null}
+              {detailAI.useCase === "attendance" ? (
+                <ul style={{ listStyleType: "none", display: "inline-block" }}>
+                  <li>
+                    {t("view.ai_events.code")} : {detailAI.code}
+                  </li>
+                  <li>
+                    {t("view.ai_events.name")} : {detailAI.name}
+                  </li>
+                  <li>
+                    {t("view.ai_events.position")} : {detailAI.position}
+                  </li>
+                  <li>
+                    {t("view.ai_events.department")} : {detailAI.departmentName}
+                  </li>
                 </ul>
-                : null}
+              ) : null}
               {/* <div>
                 {t("view.ai_events.plateNumber")} : {eventFileCurrent.plateNumber}
               </div> */}
@@ -1586,52 +1600,74 @@ const ExportEventFile = () => {
             <Col span={24}>
               <div className="title">{t("view.ai_events.err_image")}</div>
               <div>
-                <ul >
-                  {
-
-                    imageOther ? imageOther.map((item, index) =>
-
-                      <li key={item.uuid} style={{ listStyleType: 'none', display: 'inline-block', marginRight: '20px' }}><div style={{ width: '90%', paddingBottom: '10px' }}>
-
-                        <div className='img__item' style={{ position: "relative" }}>
-                          {item.uuid != detailAI.uuid ? <Popconfirm title="Chắc chắn để xóa?"
-                            onCancel={event => {
-                              event.stopPropagation();
-                            }}
-                            onConfirm={(event) => { event.stopPropagation(); deleteImageHandler(item.uuid); }}>
-                            <Button className="button-photo-remove" size="small" type="danger"
-                              onClick={event => {
-                                event.stopPropagation();
-                              }}
-                              style={{
-                                position: 'absolute',
-                                top: 0,
-                                right: 0,
-                                width: '15px',
-                                height: '15px',
-                                borderRadius: '50%',
-                                display: 'flex',
-                                alignItems: 'center',
-                                justifyContent: 'center',
-                                background: 'red',
-                                // padding: '15px'
-                              }}
+                <ul>
+                  {imageOther
+                    ? imageOther.map((item, index) => (
+                        <li
+                          key={item.uuid}
+                          style={{
+                            listStyleType: "none",
+                            display: "inline-block",
+                            marginRight: "20px",
+                          }}
+                        >
+                          <div style={{ width: "90%", paddingBottom: "10px" }}>
+                            <div
+                              className="img__item"
+                              style={{ position: "relative" }}
                             >
-                              <CloseOutlined style={{}} />
-                            </Button>
-                          </Popconfirm> : null}
+                              {item.uuid != detailAI.uuid ? (
+                                <Popconfirm
+                                  title="Chắc chắn để xóa?"
+                                  onCancel={(event) => {
+                                    event.stopPropagation();
+                                  }}
+                                  onConfirm={(event) => {
+                                    event.stopPropagation();
+                                    deleteImageHandler(item.uuid);
+                                  }}
+                                >
+                                  <Button
+                                    className="button-photo-remove"
+                                    size="small"
+                                    type="danger"
+                                    onClick={(event) => {
+                                      event.stopPropagation();
+                                    }}
+                                    style={{
+                                      position: "absolute",
+                                      top: 0,
+                                      right: 0,
+                                      width: "15px",
+                                      height: "15px",
+                                      borderRadius: "50%",
+                                      display: "flex",
+                                      alignItems: "center",
+                                      justifyContent: "center",
+                                      background: "red",
+                                      // padding: '15px'
+                                    }}
+                                  >
+                                    <CloseOutlined style={{}} />
+                                  </Button>
+                                </Popconfirm>
+                              ) : null}
 
-                          <img onClick={event => {
-
-                            event.stopPropagation();
-                            viewImageAIHandler(item)
-                          }} style={{ width: '120px', height: "120px" }} className="cursor-pointer" src={"data:image/jpeg;base64," + item.image} alt="Avatar" />
-                        </div>
-                      </div></li>
-                    ) : null
-
-                  }
-
+                              <img
+                                onClick={(event) => {
+                                  event.stopPropagation();
+                                  viewImageAIHandler(item);
+                                }}
+                                style={{ width: "120px", height: "120px" }}
+                                className="cursor-pointer"
+                                src={"data:image/jpeg;base64," + item.image}
+                                alt="Avatar"
+                              />
+                            </div>
+                          </div>
+                        </li>
+                      ))
+                    : null}
                 </ul>
               </div>
             </Col>
@@ -1695,8 +1731,8 @@ const ExportEventFile = () => {
                 {eventFileCurrent.violationTime === -1
                   ? ""
                   : moment(eventFileCurrent.violationTime * 1000).format(
-                    "HH:mm DD/MM/YYYY"
-                  )}
+                      "HH:mm DD/MM/YYYY"
+                    )}
               </div>
             </Col>
             <Col span={6}>
@@ -1705,8 +1741,8 @@ const ExportEventFile = () => {
                 {eventFileCurrent.createdTime === -1
                   ? ""
                   : moment(eventFileCurrent.createdTime).format(
-                    "HH:mm DD/MM/YYYY"
-                  )}
+                      "HH:mm DD/MM/YYYY"
+                    )}
               </div>
             </Col>
             <Col span={12}>
@@ -1727,9 +1763,11 @@ const ExportEventFile = () => {
             <Col span={6}>
               <div className="title">{t("view.storage.length")}</div>
               <div>
-                {eventFileCurrent.length ? new Date(+eventFileCurrent.length * 1000)
-                  .toISOString()
-                  .substr(11, 8) : 0}
+                {eventFileCurrent.length
+                  ? new Date(+eventFileCurrent.length * 1000)
+                      .toISOString()
+                      .substr(11, 8)
+                  : 0}
               </div>
             </Col>
             <Col span={12}>
@@ -1754,7 +1792,6 @@ const ExportEventFile = () => {
         onEditFile={editFileOnPopoverHandler}
         onDownloadFile={downloadFileHandler}
         onDeleteFile={deleteFileHandler}
-
       />
     );
   };
@@ -1762,6 +1799,8 @@ const ExportEventFile = () => {
   const renderInfoObjectPopoverContent = () => {
     return (
       <MemoizedInfoObjectPopoverContent
+        visible={visible}
+        setVisible={setVisible}
         viewFileType={viewFileType}
         fileCurrent={detailAI}
         onEditFile={editFileOnPopoverHandler}
@@ -1864,7 +1903,6 @@ const ExportEventFile = () => {
             onClickRow={onClickTableFileHandler}
             onSearch={onSearchHandler}
             onEditFile={editFileHandler}
-
           />
         </Col>
         <Col span={16} className="viewFileContainer">
@@ -1872,8 +1910,9 @@ const ExportEventFile = () => {
             <Col span={24}>
               <div className="displayScreen">
                 <div
-                  className={`iconPoster ${playerReady && !urlSnapshot ? "" : "hidden"
-                    }`}
+                  className={`iconPoster ${
+                    playerReady && !urlSnapshot ? "" : "hidden"
+                  }`}
                 >
                   <MemoizedHlsPlayer
                     playerReady={playerReady}
@@ -1884,8 +1923,9 @@ const ExportEventFile = () => {
                   />
                 </div>
                 <img
-                  className={`iconPoster ${!playerReady && !urlSnapshot ? "" : "hidden"
-                    }`}
+                  className={`iconPoster ${
+                    !playerReady && !urlSnapshot ? "" : "hidden"
+                  }`}
                   src={imagePoster}
                   alt=""
                 />
@@ -1901,10 +1941,11 @@ const ExportEventFile = () => {
             <Col span={7} />
             <Col className="actionControl" span={10}>
               <div
-                className={`disable-select ${checkDisabled()
-                  ? "playIconContainer__disabled"
-                  : "playIconContainer"
-                  }`}
+                className={`disable-select ${
+                  checkDisabled()
+                    ? "playIconContainer__disabled"
+                    : "playIconContainer"
+                }`}
               >
                 <FiRewind
                   className="playIcon"
@@ -1918,10 +1959,11 @@ const ExportEventFile = () => {
               {/*    <FiSkipBack className="playIcon"/>*/}
               {/*</div>*/}
               <div
-                className={`disable-select ${checkDisabled()
-                  ? "playIcon2Container__disabled"
-                  : "playIcon2Container"
-                  }`}
+                className={`disable-select ${
+                  checkDisabled()
+                    ? "playIcon2Container__disabled"
+                    : "playIcon2Container"
+                }`}
                 onClick={() => {
                   if (checkDisabled()) return;
                   const playEle = document.getElementById("video-control-play");
@@ -1936,28 +1978,29 @@ const ExportEventFile = () => {
                   id="video-control-pause"
                   className="playIcon2"
                   style={{ display: "none" }}
-                // onClick={() => {
-                //   if (checkDisabled()) return;
-                //   playHandler("pause");
-                // }}
+                  // onClick={() => {
+                  //   if (checkDisabled()) return;
+                  //   playHandler("pause");
+                  // }}
                 />
                 <FiPlay
                   id="video-control-play"
                   className="playIcon2"
-                // onClick={() => {
-                //   if (checkDisabled()) return;
-                //   playHandler("play");
-                // }}
+                  // onClick={() => {
+                  //   if (checkDisabled()) return;
+                  //   playHandler("play");
+                  // }}
                 />
               </div>
               {/*<div className={`${checkDisabled()?'playIconContainer__disabled':'playIconContainer'}`}>*/}
               {/*    <FiSkipForward className="playIcon"/>*/}
               {/*</div>*/}
               <div
-                className={`disable-select ${checkDisabled()
-                  ? "playIconContainer__disabled"
-                  : "playIconContainer"
-                  }`}
+                className={`disable-select ${
+                  checkDisabled()
+                    ? "playIconContainer__disabled"
+                    : "playIconContainer"
+                }`}
               >
                 <FiFastForward
                   className="playIcon"
@@ -1999,10 +2042,11 @@ const ExportEventFile = () => {
                 title={t("view.storage.view_information")}
               >
                 <Popover
-                  overlayClassName={`${checkBtnInfoDisabled()
-                    ? "fileInfoPopoverHidden"
-                    : "fileInfoPopover"
-                    }`}
+                  overlayClassName={`${
+                    checkBtnInfoDisabled()
+                      ? "fileInfoPopoverHidden"
+                      : "fileInfoPopover"
+                  }`}
                   placement="topRight"
                   title=""
                   content={
@@ -2011,8 +2055,9 @@ const ExportEventFile = () => {
                   trigger={`${checkBtnInfoDisabled() ? "" : "click"}`}
                 >
                   <AiOutlineInfoCircle
-                    className={`${checkBtnInfoDisabled() ? "action__disabled" : "action"
-                      }`}
+                    className={`${
+                      checkBtnInfoDisabled() ? "action__disabled" : "action"
+                    }`}
                     onClick={(e) => {
                       if (checkBtnInfoDisabled()) return;
                       e.stopPropagation();
@@ -2025,8 +2070,9 @@ const ExportEventFile = () => {
                 title={t("view.storage.download_file")}
               >
                 <FiDownload
-                  className={`${checkBtnDownloadDisabled() ? "action__disabled" : "action"
-                    }`}
+                  className={`${
+                    checkBtnDownloadDisabled() ? "action__disabled" : "action"
+                  }`}
                   onClick={() => {
                     if (checkBtnDownloadDisabled()) return;
                     downloadFileHandler();
@@ -2066,12 +2112,13 @@ const ExportEventFile = () => {
                   okText={t("view.user.detail_list.confirm")}
                   onConfirm={() => {
                     if (checkBtnDeleteDisabled()) return;
-                    deleteFileHandler().then((r) => { });
+                    deleteFileHandler().then((r) => {});
                   }}
                 >
                   <RiDeleteBinLine
-                    className={`${checkBtnDeleteDisabled() ? "action__disabled" : "action"
-                      }`}
+                    className={`${
+                      checkBtnDeleteDisabled() ? "action__disabled" : "action"
+                    }`}
                   />
                 </Popconfirm>
               </Tooltip>
