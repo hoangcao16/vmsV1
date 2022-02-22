@@ -60,7 +60,7 @@ const PlayControl = (props) => {
               placement="bottomLeft"
               title={t("view.user.detail_list.pause")}
             >
-              <PauseOutlined
+              <CaretRightOutlined
                 className="playIcon2"
                 onClick={() => {
                   pauseOrPlay();
@@ -72,7 +72,7 @@ const PlayControl = (props) => {
               placement="bottomLeft"
               title={t("view.user.detail_list.play")}
             >
-              <CaretRightOutlined
+              <PauseOutlined
                 className="playIcon2"
                 onClick={() => {
                   pauseOrPlay();
