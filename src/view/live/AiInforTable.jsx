@@ -60,7 +60,7 @@ const AiInforTable = (props) => {
   const { showNotiInfo, isInfoModalVisible, setIsInfoModalVisible, idCamera } = props;
   const { t } = useTranslation();
   const data = props.updateData;
-  const dataFilter = data.filter((i) => data.cameraUuid === idCamera)
+  const dataFilter = data.filter((i) => i.cameraUuid === idCamera)
   // img(data)
   // const img = async (file) => {
   //   console.log("file", file)
