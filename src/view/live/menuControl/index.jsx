@@ -245,7 +245,7 @@ const Index = (props) => {
   };
 
   const onClickChangeLiveMode = async (type) => {
-    const emptyData = {};
+    const emptyData = {cameraUuid: idCamera, useCase: type};
     const dataBody = JSON.stringify(emptyData);
     setTypeAICamera(type);
     setOpenMenuControl(false);
