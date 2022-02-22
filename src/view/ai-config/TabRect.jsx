@@ -199,10 +199,6 @@ const TabRect = (props) => {
   };
 
   function setDefaultDataRect(data) {
-<<<<<<< HEAD
-=======
-    console.log("data_10", data);
->>>>>>> c988197d3b23bb9e101448d9f84590d02e92b2d2
     clearEventHandler();
     setDataRect(data);
     let checkList = [];
