@@ -43,9 +43,9 @@ const updateData = (data = [], action) => {
       }
 
       //make sure cameraUuid's data at most 100 element
-      idArray.map((i) => {
+      idArray.forEach((i) => {
         let dataConvert = [];
-        dataSource.map((j) => {
+        dataSource.forEach((j) => {
           if (j.cameraUuid == i) {
             dataConvert.push(j);
           }
@@ -56,7 +56,6 @@ const updateData = (data = [], action) => {
         }
         lastData.push(...dataConvert);
       });
-
       return lastData;
     default:
       return data;
