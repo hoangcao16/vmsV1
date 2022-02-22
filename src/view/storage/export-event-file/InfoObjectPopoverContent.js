@@ -31,7 +31,6 @@ const formItemLayout = {
 };
 
 const InfoObjectPopoverContent = (props) => {
-    const {visible, setVisible} = props
   const { t } = useTranslation();
   const DATA_FAKE_UNIT = {
     departments: [{ name: "", uuid: "" }],
@@ -85,7 +84,6 @@ const InfoObjectPopoverContent = (props) => {
       );
 
       if (isEdit) {
-        setVisible(false)
         props.closeObjectForm();
         const notifyMess = {
           type: "success",
