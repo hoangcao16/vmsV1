@@ -324,13 +324,13 @@ const TableFile = (props) => {
                     dataIndex: "subEventType",
                     render: renderSubtype,
                 },
-                // {
-                //     title: `${t('view.storage.file_name')}`,
-                //     dataIndex: "fileName",
-                //     key: "fileName",
-                //     width: 150,
-                //     render: renderName,
-                // },
+                {
+                    title: `${t('view.storage.file_name')}`,
+                    dataIndex: "fileName",
+                    key: "fileName",
+                    width: 150,
+                    render: renderName,
+                },
                 {
                     title: "Camera",
                     dataIndex: "cameraName",
@@ -343,6 +343,11 @@ const TableFile = (props) => {
                     width: 160,
                     dataIndex: "createdTime",
                     render: renderTime,
+                },
+                {
+                    title: `${t('view.storage.note')}`,
+                    width: 160,
+                    dataIndex: "note",
                 },
             ];
         } else {

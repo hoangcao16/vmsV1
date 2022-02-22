@@ -557,7 +557,8 @@
       "type": "Loại đối tượng ",
       "UnKnow":"Không xác định",
       "camera_name" :"Camera ghi nhận",
-      "typeObject" : "Loại sự kiện"
+      "typeObject" : "Loại sự kiện",
+      "delete": "Xóa"
     },
     "department": {
       "administrative": "Đơn vị hành chính",

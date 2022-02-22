@@ -557,7 +557,8 @@
       "type": "Type",
       "UnKnow":"UnKnow",
       "camera_name" :"Camera",
-      "typeObject" : "Type"
+      "typeObject" : "Type",
+      "delete": "delete"
     },
     "department": {
       "administrative": "Aministrative Unit",
