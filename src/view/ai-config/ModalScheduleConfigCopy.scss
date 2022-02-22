@@ -5,6 +5,8 @@
   max-width: 960px;
   background-color: $vms-bg-sub !important;
 
+  &.disabled { opacity: 0.5; }
+
   .ant-modal-header {
     padding: 0;
     background-color: $vms-bg-primary;

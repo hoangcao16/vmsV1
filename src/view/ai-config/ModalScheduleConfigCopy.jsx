@@ -37,7 +37,7 @@ const ModalScheduleConfigCopy = (props) => {
   const [timeDetails, setTimeDetails] = useState(null)
   const [checkAll, setCheckAll] = useState(false);
   const [page, setPage] = useState(1);
-  const [pageSize, setPageSize] = useState(10);
+  const [pageSize, setPageSize] = useState(100);
   const [listCameras, setListCameras] = useState([]);
   const [selectedRowKeys, setSelectedRowKeys] = useState([]);
   const [select, setSelect] = useState({
@@ -49,7 +49,7 @@ const ModalScheduleConfigCopy = (props) => {
   useEffect(() => {
     const data = {
       page: page,
-      pageSize: pageSize
+      size: pageSize
     };
     CameraApi.getAllCamera(data).then((result) => {
       setListCameras(result);
@@ -87,7 +87,7 @@ const ModalScheduleConfigCopy = (props) => {
   const handleSearch = async (value) => {
     const data = {
       page: page,
-      pageSize: pageSize,
+      size: pageSize,
       name: value,
     };
     CameraApi.getAllCamera(data).then((result) => {
@@ -102,6 +102,7 @@ const ModalScheduleConfigCopy = (props) => {
   };
 
   const handleSubmit = async () => {
+    
     const payload = {
       cameraUuids: selectedRowKeys,
       type: type
@@ -154,8 +155,9 @@ const ModalScheduleConfigCopy = (props) => {
           dataSource={listCameras} />
 
           <div className="footer__modal">
+          
             <Button onClick={() => { setShowModalCopy(false) }}>{t('view.ai_config.cancel')}</Button>
-            <Button htmlType="submit">{t('view.ai_config.apply')}</Button>
+            <Button disabled={!(selectedRowKeys.length > 0)} htmlType="submit">{t('view.ai_config.apply')}</Button>
           </div>
         </Form>
       </Modal>

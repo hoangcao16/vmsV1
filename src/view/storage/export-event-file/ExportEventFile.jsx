@@ -1594,7 +1594,9 @@ const ExportEventFile = () => {
                       <li key={item.uuid} style={{ listStyleType: 'none', display: 'inline-block', marginRight: '20px' }}><div style={{ width: '90%', paddingBottom: '10px' }}>
 
                         <div className='img__item' style={{ position: "relative" }}>
-                          {item.uuid != detailAI.uuid ? <Popconfirm title="Chắc chắn để xóa?"
+                          {item.uuid != detailAI.uuid ? <Popconfirm title={t("noti.delete_file", { this: t("this") })}
+                          cancelText={t("view.user.detail_list.cancel")}
+                          okText={t("view.ai_events.delete")}
                             onCancel={event => {
                               event.stopPropagation();
                             }}
@@ -1638,7 +1640,7 @@ const ExportEventFile = () => {
             <Col span={12}>
               <div className="title">
                 <span>{t("view.common_device.note")}</span>
-                {editMode && (
+                {detailAI.uuid && !editMode && (
                   <AiOutlineEdit
                     className="iconEdit"
                     onClick={() => {
