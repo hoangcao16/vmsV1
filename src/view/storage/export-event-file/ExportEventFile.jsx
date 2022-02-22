@@ -1551,25 +1551,25 @@ const ExportEventFile = () => {
               </div>
               {detailAI.useCase === "zac_vehicle"
                 ? <ul style={{ listStyleType: 'none', display: 'inline-block' }}>
-                  <li>{t("view.ai_events.type")} : {t("view.ai_events.useCase." + detailAI.useCase)}</li>
-                  <li>{t("view.ai_events.plateNumber")} : {detailAI.plateNumber ? detailAI.plateNumber : t("view.ai_events.UnKnow")}</li>
+                  <li style={{marginTop:15}}>{t("view.ai_events.type")} : {t("view.ai_events.useCase." + detailAI.useCase)}</li>
+                  <li style={{marginTop:15}}>{t("view.ai_events.plateNumber")} : {detailAI.plateNumber ? detailAI.plateNumber : t("view.ai_events.UnKnow")}</li>
                 </ul>
                 : null}
               {detailAI.useCase === "zac_human"
                 ? <ul style={{ listStyleType: 'none', display: 'inline-block' }}>
-                  <li>{t("view.ai_events.type")} : {t("view.ai_events.useCase." + detailAI.useCase)}</li>
-                  <li>{t("view.ai_events.code")} : {detailAI.code ? detailAI.code : t("view.ai_events.UnKnow")}</li>
-                  <li>{t("view.ai_events.name")} : {detailAI.name ? detailAI.name : t("view.ai_events.UnKnow")}</li>
-                  <li>{t("view.ai_events.position")} : {detailAI.position ? detailAI.position : t("view.ai_events.UnKnow")}</li>
-                  <li>{t("view.ai_events.department")} : {detailAI.departmentName ? detailAI.departmentName : t("view.ai_events.UnKnow")}</li>
+                  <li style={{marginTop:15}}>{t("view.ai_events.type")} : {t("view.ai_events.useCase." + detailAI.useCase)}</li>
+                  <li style={{marginTop:15}}>{t("view.ai_events.code")} : {detailAI.code ? detailAI.code : t("view.ai_events.UnKnow")}</li>
+                  <li style={{marginTop:15}}>{t("view.ai_events.name")} : {detailAI.name ? detailAI.name : t("view.ai_events.UnKnow")}</li>
+                  <li style={{marginTop:15}}>{t("view.ai_events.position")} : {detailAI.position ? detailAI.position : t("view.ai_events.UnKnow")}</li>
+                  <li style={{marginTop:15}}>{t("view.ai_events.department")} : {detailAI.departmentName ? detailAI.departmentName : t("view.ai_events.UnKnow")}</li>
                 </ul>
                 : null}
               {detailAI.useCase === "attendance"
                 ? <ul style={{ listStyleType: 'none', display: 'inline-block' }}>
-                  <li>{t("view.ai_events.code")} : {detailAI.code}</li>
-                  <li>{t("view.ai_events.name")} : {detailAI.name}</li>
-                  <li>{t("view.ai_events.position")} : {detailAI.position}</li>
-                  <li>{t("view.ai_events.department")} : {detailAI.departmentName}</li>
+                  <li style={{marginTop:15}}>{t("view.ai_events.code")} : {detailAI.code}</li>
+                  <li style={{marginTop:15}}>{t("view.ai_events.name")} : {detailAI.name}</li>
+                  <li style={{marginTop:15}}>{t("view.ai_events.position")} : {detailAI.position}</li>
+                  <li style={{marginTop:15}}>{t("view.ai_events.department")} : {detailAI.departmentName}</li>
                 </ul>
                 : null}
               {/* <div>
