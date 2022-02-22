@@ -84,17 +84,22 @@ const TableHumans = () => {
 
         <div className="search__toolbar">
           <AutoComplete
-            className="searchInputCamproxy"
-            style={{ width: 350, height: 40, marginRight: 18 }}
             onSearch={debounce(handleSearch, 300)}
-            
+            style={{ width: 350, height: 40, marginRight: 18 }}
             maxLength={255}
+            className="searchInputCamproxy"
             placeholder={
-              <div>
-                <span> &nbsp;{t("view.map.search")} </span>{" "}
-                <SearchOutlined style={{ fontSize: 22 }} />
-              </div>
-            }
+                <div className="placeholder">
+                  <span style={{ opacity: "0.5" }}>
+                    {" "}
+                    &nbsp;{" "}
+                    {`${t("view.user.detail_list.please_enter_search_keyword", {
+                      plsEnter: t("please_enter"),
+                    })}`}{" "}
+                  </span>{" "}
+                  <SearchOutlined style={{ fontSize: 22 }} />
+                </div>
+              }
           ></AutoComplete>
           <Tooltip
             placement="top"
