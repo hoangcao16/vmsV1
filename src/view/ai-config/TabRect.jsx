@@ -178,12 +178,10 @@ const TabRect = (props) => {
     };
 
     AIConfigRectApi.addConfigRect(payload).then((result) => {
-      
-
       const notifyMess = {
-        type: 'success',
-        title: `${t('noti.success')}`,
-        description: `${t('noti.successfully_config')}`,
+        type: "success",
+        title: `${t("noti.success")}`,
+        description: `${t("noti.successfully_config")}`,
       };
       Notification(notifyMess);
 
@@ -201,6 +199,10 @@ const TabRect = (props) => {
   };
 
   function setDefaultDataRect(data) {
+<<<<<<< HEAD
+=======
+    console.log("data_10", data);
+>>>>>>> c988197d3b23bb9e101448d9f84590d02e92b2d2
     clearEventHandler();
     setDataRect(data);
     let checkList = [];
@@ -217,6 +219,7 @@ const TabRect = (props) => {
       vehicle: data.vehicleDetection,
       human: data.peopleDetection,
     });
+    localStorage.setItem("name", data.name);
 
     if (type === "hurdles") {
       if (data.pointsP != null && data.pointsP.length > 0) {
@@ -311,6 +314,7 @@ const TabRect = (props) => {
     {
       title: `${t("view.user.detail_list.user_status")}`,
       dataIndex: "status",
+      ignoreRowClick: true,
       render: (text, record) => {
         return (
           <Space>
@@ -350,18 +354,22 @@ const TabRect = (props) => {
         }
       },
       dataIndex: "action",
+      ignoreRowClick: true,
+      allowOverflow: true,
+      button: true,
       render: (_text, record) => {
         return (
-          <Space>
-            <Popconfirm
-              cancelText={t("view.user.detail_list.cancel")}
-              okText={t("view.user.detail_list.confirm")}
-              title={t("noti.delete_category", { this: t("this") })}
-              onConfirm={() => handleDelete(record)}
-            >
-              <DeleteOutlined style={{ fontSize: "16px", color: "#6E6B7B" }} />
-            </Popconfirm>
-          </Space>
+          <div ><Space>
+          <Popconfirm
+            cancelText={t("view.user.detail_list.cancel")}
+            okText={t("view.user.detail_list.confirm")}
+            title={t("noti.delete_category", { this: t("this") })}
+            onConfirm={() => handleDelete(record)}
+          >
+            <DeleteOutlined style={{ fontSize: "16px", color: "#6E6B7B" }} />
+          </Popconfirm>
+        </Space></div>
+          
         );
       },
     },
@@ -474,7 +482,6 @@ const TabRect = (props) => {
   };
 
   const handleDelete = async (record) => {
-    
     let newData = [...dataRectList];
     if (record.uuid != null) {
       try {
@@ -494,7 +501,7 @@ const TabRect = (props) => {
             i++;
           });
           setDataRectList(newData);
-          setDefaultDataRect({})
+          setDefaultDataRect({});
         }
       } catch (error) {
         console.log(error);
@@ -507,33 +514,28 @@ const TabRect = (props) => {
         i++;
       });
       setDataRectList(newData);
-      setDefaultDataRect({})
+      setDefaultDataRect({});
     }
-    
-    
   };
 
   const handleRowClick = (event, data) => {
     setIsActiveDetail(true);
     setKeyActive(data.key);
-    
-    let newData =  dataRectList.find(el => el.uuid === data.uuid)
-    if (data.uuid != null && newData == null) {
+    if (data.uuid != null) {
       AIConfigRectApi.getConfigRect(data.uuid).then((result) => {
-        console.log("result",result    )
+        console.log("result", result);
         if (result != null) {
-          result = {... result,
+          result = {
+            ...result,
             vehicle: data.vehicleDetection,
             human: data.peopleDetection,
-          }
+          };
           setDefaultDataRect(result);
         }
-        
       });
     } else {
-      setDefaultDataRect({})
+      setDefaultDataRect({});
     }
-    
   };
 
   const playCameraOnline = async (cameraUuid) => {
@@ -683,6 +685,7 @@ const TabRect = (props) => {
   };
 
   const drawRect = () => {
+    let name = localStorage.getItem("name")
     const canvas = document.getElementById("canvas-slot-" + type);
     if (canvas !== null) {
       const ctx = canvas.getContext("2d");
@@ -704,7 +707,7 @@ const TabRect = (props) => {
       ctx.stroke();
 
       // Rect number
-      ctx.fillText("#1#", coordinates[0].x - 15, coordinates[0].y - 10);
+      ctx.fillText(name, coordinates[0].x - 15, coordinates[0].y - 10);
 
       // Rect at all points
       ctx.beginPath();
@@ -902,6 +905,7 @@ const TabRect = (props) => {
 
   const drawLine = () => {
     const canvas = document.getElementById("canvas-slot-" + type);
+    let name = localStorage.getItem("name")
     if (canvas !== null) {
       const ctx = canvas.getContext("2d");
       ctx.clearRect(0, 0, canvas.width, canvas.height);
@@ -920,15 +924,15 @@ const TabRect = (props) => {
       // Line number
       if (fromX < toX) {
         if (fromY < toY) {
-          ctx.fillText("#1#", fromX - 15, fromY - 10);
+          ctx.fillText(name, fromX - 15, fromY - 10);
         } else {
-          ctx.fillText("#1#", fromX - 15, fromY + 20);
+          ctx.fillText(name, fromX - 15, fromY + 20);
         }
       } else {
         if (fromY < toY) {
-          ctx.fillText("#1#", fromX + 5, fromY - 10);
+          ctx.fillText(name, fromX + 5, fromY - 10);
         } else {
-          ctx.fillText("#1#", fromX + 5, fromY + 20);
+          ctx.fillText(name, fromX + 5, fromY + 20);
         }
       }
 
@@ -1066,9 +1070,8 @@ const TabRect = (props) => {
       tX - headLen * Math.cos(angle + Math.PI / 6),
       tY - headLen * Math.sin(angle + Math.PI / 6)
     );
-    
-    
-    if (fX < tX) { 
+
+    if (fX < tX) {
       ctx.fillText("B", fX - 15, fY);
       ctx.fillText("A", tX + 5, tY);
     } else {
@@ -1316,7 +1319,11 @@ const TabRect = (props) => {
                   initialValues={dataRect}
                 >
                   {type === "intrusion_detection" ? (
-                    <Row gutter={24} style={{ marginTop: "20px" }}>
+                    <Row
+                      gutter={24}
+                      style={{ marginTop: "20px" }}
+                      className="align-items_center"
+                    >
                       <Col span={12} style={{ flex: "none" }}>
                         <p className="threshold">
                           {t("view.ai_config.time_threshold")}
@@ -1343,7 +1350,11 @@ const TabRect = (props) => {
                       </Col>
                     </Row>
                   ) : (
-                    <Row gutter={24} style={{ marginTop: "20px" }}>
+                    <Row
+                      gutter={24}
+                      style={{ marginTop: "20px" }}
+                      className="align-items_center"
+                    >
                       <Col span={12} style={{ flex: "none" }}>
                         <p className="threshold">
                           {t("view.ai_config.direction.title")}
@@ -1355,6 +1366,7 @@ const TabRect = (props) => {
                             <Select
                               disabled={!isActiveDetail}
                               onChange={(e) => onChangeDirectionHandler(e)}
+                              defaultValue={1}
                             >
                               <Option value={1}>
                                 {t("view.ai_config.direction.AB")}
@@ -1372,7 +1384,11 @@ const TabRect = (props) => {
                     </Row>
                   )}
 
-                  <Row gutter={24} style={{ marginTop: "20px" }}>
+                  <Row
+                    gutter={24}
+                    style={{ marginTop: "20px" }}
+                    className="align-items_center"
+                  >
                     {/* <Col span={24} style={{ flex: 'none' }}>
                       <div className="">
                         <Form.Item
@@ -1435,9 +1451,12 @@ const TabRect = (props) => {
                   pagination={false}
                   onRow={(record, recordIndex) => {
                     return {
-
                       onClick: (event) => {
-                        handleRowClick(event, record);
+                        console.log((event.target).nodeName)
+                        // handleRowClick(event, record);
+                        if((event.target).nodeName  !== 'SPAN') {
+                          handleRowClick(event, record);
+                        }
                       },
                     };
                   }}
