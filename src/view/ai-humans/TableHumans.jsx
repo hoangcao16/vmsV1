@@ -37,6 +37,7 @@ import { reactLocalStorage } from "reactjs-localstorage";
 import Breadcrumds from "../breadcrumds/Breadcrumds";
 import { ShowTotal } from "../../styled/showTotal";
 import AIHumansApi from "../../actions/api/ai-humans/AIHumansApi";
+import ModalViewHumans from "./ModalViewHumans";
 
 export const CATEGORY_NAME = {
   EVENT_TYPE: "EVENT_TYPE",
@@ -52,6 +53,7 @@ const TableHumans = () => {
   const language = reactLocalStorage.get("language");
   const [selectedHumansId, setSelectedHumansId] = useState(null);
   const [showModal, setShowModal] = useState(false);
+  const [showModalView, setShowModalView] = useState(false);
   const [total, setTotal] = useState(0);
   const [listHumans, setListHumans] = useState([]);
   const [page, setPage] = useState(1);
@@ -266,6 +268,7 @@ const TableHumans = () => {
                 onClick={() => {
                   setSelectedHumansId(record.uuid);
                   setShowModal(true);
+                  setShowModalView(false);
                 }}
               />
             </Tooltip>
@@ -346,6 +349,19 @@ const TableHumans = () => {
           rowKey="id"
           columns={categoryColumns}
           dataSource={listHumans}
+          onRow={(record, recordIndex) => {
+            return {
+              onClick: (event) => {
+                
+                // handleRowClick(event, record);
+                if((event.target).nodeName  !== 'svg') {
+                  setSelectedHumansId(record.uuid);
+                  setShowModalView(true);
+                  setShowModal(false);
+                }
+              },
+            };
+          }}
         />
       </Card>
 
@@ -368,6 +384,13 @@ const TableHumans = () => {
         <ModalEditHumans
           selectedHumansId={selectedHumansId}
           setShowModal={setShowModal}
+          loadList={loadList}
+        />
+      )}
+      {showModalView && (
+        <ModalViewHumans
+          selectedHumansId={selectedHumansId}
+          setShowModalView={setShowModalView}
           loadList={loadList}
         />
       )}
