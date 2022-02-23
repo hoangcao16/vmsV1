@@ -90,7 +90,7 @@ const TabRect = (props) => {
       const warnNotyfi = {
         type: NOTYFY_TYPE.warning,
         title: `${t("noti.faid")}`,
-        description: `${t("noti.0_100")}`,
+        description: `${t("noti.0_20")}`,
         duration: 2,
       };
       Notification(warnNotyfi);
@@ -211,11 +211,11 @@ const TabRect = (props) => {
     setCheckedList(checkList);
     form.setFieldsValue({
       threshold: data.threshold,
-      direction: data.direction,
+      direction: data.direction ? data.direction  : 2,
       vehicle: data.vehicleDetection,
       human: data.peopleDetection,
     });
-    localStorage.setItem("name", data.name);
+    
 
     if (type === "hurdles") {
       if (data.pointsP != null && data.pointsP.length > 0) {
@@ -517,6 +517,7 @@ const TabRect = (props) => {
   const handleRowClick = (event, data) => {
     setIsActiveDetail(true);
     setKeyActive(data.key);
+    localStorage.setItem("name", data.name);
     if (data.uuid != null) {
       AIConfigRectApi.getConfigRect(data.uuid).then((result) => {
         console.log("result", result);
@@ -749,6 +750,9 @@ const TabRect = (props) => {
   };
 
   const addLine = (points, pointsP, directionV) => {
+    if(directionV == null){
+      directionV = 2
+    }
     if (timerIdentifier != null) clearTimeout(timerIdentifier);
     const video = document.getElementById("video-slot-" + type);
     const canvas = document.getElementById("canvas-slot-" + type);
@@ -1362,7 +1366,7 @@ const TabRect = (props) => {
                             <Select
                               disabled={!isActiveDetail}
                               onChange={(e) => onChangeDirectionHandler(e)}
-                              defaultValue={1}
+                              defaultValue={2}
                             >
                               <Option value={1}>
                                 {t("view.ai_config.direction.AB")}

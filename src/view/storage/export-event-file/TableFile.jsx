@@ -617,17 +617,27 @@ const TableFile = (props) => {
     };
 
     const onFileName = (event) => {
-        const dataParam = Object.assign({ ...searchParam, fileName: event.target.value });
+
+        form.setFieldsValue({
+            fileName: event.target.value.trim()
+        });
+        const dataParam = Object.assign({ ...searchParam, fileName: event.target.value.trim() });
         setSearchParam(dataParam);
     };
 
     const onCode = (event) => {
-        const dataParam = Object.assign({ ...searchParam, code: event.target.value });
+        form.setFieldsValue({
+            code: event.target.value.trim()
+        });
+        const dataParam = Object.assign({ ...searchParam, code: event.target.value.trim() });
         setSearchParam(dataParam);
     };
 
     const onName = (event) => {
-        const dataParam = Object.assign({ ...searchParam, name: event.target.value });
+        form.setFieldsValue({
+            code: event.target.value.trim()
+        });
+        const dataParam = Object.assign({ ...searchParam, name: event.target.value.trim() });
         setSearchParam(dataParam);
     };
 
@@ -1242,7 +1252,8 @@ const TableFile = (props) => {
                                 </Col>
                                 <Col span={8}>
                                     <Form.Item name={["code"]} rules={[{ required: false }]}>
-                                        <Input placeholder={t('view.ai_humans.code')} onChange={onCode}
+                                        <Input
+                                        placeholder={t('view.ai_humans.code')} onChange={onCode}
                                             maxLength={255}
                                         />
                                     </Form.Item>

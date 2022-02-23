@@ -684,6 +684,7 @@
     "copy_successful": "Bạn đã sao chép thành công",
     "faid": "Thất bại",
     "0_100": "Độ dài tên cần lớn hơn 0 và nhỏ hơn 100 kí tự",
+    "0_20": "Độ dài tên cần lớn hơn 0 và nhỏ hơn 20 kí tự",
     "change_preset_name_success": "Bạn đã đổi tên preset thành công",
     "delete_successful": "Bạn đã xóa thành công",
     "unidentified_camera": "Camera không xác định",
