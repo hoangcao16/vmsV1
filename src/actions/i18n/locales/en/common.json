@@ -435,9 +435,11 @@
       }
     },
     "ai_humans": {
+      "details": "Details",
       "face": "Face Management",
       "name": "Name",
       "code": "Code",
+      "phone": "Phone",
       "position": "Position",
       "department": "Department",
       "adminUnit": "AdminUnit",

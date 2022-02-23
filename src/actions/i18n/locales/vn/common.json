@@ -435,9 +435,11 @@
       }
     },
     "ai_humans": {
+      "details": "Thông tin chi tiết",
       "face": "Quản lý khuôn mặt",
       "name": "Họ và tên",
       "code": "Mã nhân viên",
+      "phone": "Số điện thoại",
       "position": "Chức vụ",
       "department": "Phòng ban",
       "adminUnit": "Đơn vị",
