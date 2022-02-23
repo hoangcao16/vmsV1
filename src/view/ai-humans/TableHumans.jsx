@@ -39,6 +39,7 @@ import { ShowTotal } from "../../styled/showTotal";
 import AIHumansApi from "../../actions/api/ai-humans/AIHumansApi";
 import ModalViewHumans from "./ModalViewHumans";
 
+
 export const CATEGORY_NAME = {
   EVENT_TYPE: "EVENT_TYPE",
   VENDOR: "VENDOR",
@@ -58,6 +59,7 @@ const TableHumans = () => {
   const [listHumans, setListHumans] = useState([]);
   const [page, setPage] = useState(1);
   const [pageSize, setPageSize] = useState(10);
+  const [valueSearch, setValueSearch] = useState();
 
   useEffect(() => {
     if (
@@ -79,30 +81,34 @@ const TableHumans = () => {
     });
   }, [page, pageSize, showModal]);
 
+
   const getNameByCategory = () => {
     return (
       <div className="card--header">
         <h4>{t("view.ai_humans.face")}</h4>
 
         <div className="search__toolbar">
-          <AutoComplete
-            onSearch={debounce(handleSearch, 300)}
-            style={{ width: 350, height: 40, marginRight: 18 }}
-            maxLength={255}
-            className="searchInputCamproxy"
-            placeholder={
-                <div className="placeholder">
-                  <span style={{ opacity: "0.5" }}>
-                    {" "}
-                    &nbsp;{" "}
-                    {`${t("view.user.detail_list.please_enter_search_keyword", {
-                      plsEnter: t("please_enter"),
-                    })}`}{" "}
-                  </span>{" "}
-                  <SearchOutlined style={{ fontSize: 22 }} />
-                </div>
-              }
-          ></AutoComplete>
+        <AutoComplete
+                  maxLength={255}
+                  className=" full-width height-40 read search__camera-group"
+                  onSearch={debounce(handleSearch,3000)}
+                  value={valueSearch}
+                  onChange={(e) => {
+                    setValueSearch(e);
+                  }}
+                  onBlur={(e) => setValueSearch(e.target.value.trim())}
+                  placeholder={
+                    <div className="placehoder height-40 justify-content-between d-flex align-items-center">
+                      <span style={{ opacity: "0.5" }}>
+                        {" "}
+                        &nbsp; {t("view.map.search")}{" "}
+                      </span>{" "}
+                      <SearchOutlined
+                        style={{ fontSize: 20, color: "#E3F0FF" }}
+                      />
+                    </div>
+                  }
+                />
           <Tooltip
             placement="top"
             title={t("view.ai_humans.plus")}
@@ -132,11 +138,13 @@ const TableHumans = () => {
   };
 
   const handleSearch = async (value) => {
+    setValueSearch(value.trim())
     const data = {
       page: page,
       pageSize: pageSize,
       name: value,
     };
+    console.log("handleSearch", data)
     AIHumansApi.getAllHumans(data).then((result) => {
       let dataResult = result[Object.keys(result)[0]];
       setListHumans(result.payload);

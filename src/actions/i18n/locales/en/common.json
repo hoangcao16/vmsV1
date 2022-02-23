@@ -683,6 +683,7 @@
     "copy_successful": "Copy successful",
     "faid": "Failed",
     "0_100": "Name length must have more than 0 and less than 100 characters",
+    "0_20": "Name length must have more than 0 and less than 20 characters",
     "change_preset_name_success": "Successfully change preset name",
     "delete_successful": "Delete successful",
     "unidentified_camera": "Unidentified Camera",
