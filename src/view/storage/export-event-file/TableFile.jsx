@@ -577,6 +577,11 @@ const TableFile = (props) => {
             endDate: null,
             type: null,
             event: null,
+            code: null,
+            name: null,
+            eventName: null,
+            eventType: null,
+            fileName: null,
             quickSearch: "",
         });
         setSearchParam(searchCaptureFileParamDefault);
