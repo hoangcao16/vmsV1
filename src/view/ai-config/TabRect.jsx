@@ -283,6 +283,7 @@ const TabRect = (props) => {
               id={`input-name-uuid-${record.key}`}
               defaultValue={record?.name}
               maxLength={20}
+              autoComplete="off"
               onFocus={(e) => handleFocusInputNameUuid(record)}
               style={{ width: "130px" }}
               className="ant-form-item-control-input input__form--name"
