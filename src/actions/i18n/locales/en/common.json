@@ -524,7 +524,8 @@
         "no": "No",
         "name" :"Name"
       },
-      "no_data" :"No data"
+      "no_data" :"No data",
+      "add_ai_config": "Add AI config"
     },
     "ai_events": {
       "event_files_list": "Event AI files list",
