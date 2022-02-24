@@ -524,7 +524,8 @@
         "no": "STT",
         "name" :"Tên"
       },
-      "no_data" :"Không có dữ liệu"
+      "no_data" :"Không có dữ liệu",
+      "add_ai_config": "Thêm thiết lập khu vực"
     },
     "ai_events": {
       "event_files_list": "Danh sách sự kiện AI",

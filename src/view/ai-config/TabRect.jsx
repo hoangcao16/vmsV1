@@ -289,20 +289,24 @@ const TabRect = (props) => {
               className="ant-form-item-control-input input__form--name"
             />
             <span id={`rename__uuid-${record.key}`} style={{ display: "none" }}>
-              <CheckOutlined
-                id={`confirm-done-icon-rename-${record.key}`}
-                onClick={(e) => {
-                  e.stopPropagation();
-                  handleDoneRenameUuid(e, record);
-                }}
-              />
-              <CloseOutlined
-                id={`confirm-close-icon-rename-${record.key}`}
-                onClick={(e) => {
-                  e.stopPropagation();
-                  handleCloseRenameUuid(e, record);
-                }}
-              />
+              <Tooltip placement="top" title={t("view.common_device.edit")}>
+                <CheckOutlined
+                  id={`confirm-done-icon-rename-${record.key}`}
+                  onClick={(e) => {
+                    e.stopPropagation();
+                    handleDoneRenameUuid(e, record);
+                  }}
+                />
+              </Tooltip>
+              <Tooltip placement="top" title={t("view.map.button_cancel")}>
+                <CloseOutlined
+                  id={`confirm-close-icon-rename-${record.key}`}
+                  onClick={(e) => {
+                    e.stopPropagation();
+                    handleCloseRenameUuid(e, record);
+                  }}
+                />
+              </Tooltip>
             </span>
           </div>
         );
@@ -337,15 +341,20 @@ const TabRect = (props) => {
         if (isActive) {
           return (
             <div style={{ textAlign: "center" }}>
-              <Button
-                disabled={!isActive}
-                size="small"
-                type="primary"
-                className="ml-2 mr-2"
-                onClick={onPlusConfigRect}
+              <Tooltip
+                placement="top"
+                title={t("view.ai_config.add_ai_config")}
               >
-                <PlusOutlined className="d-flex justify-content-between align-center" />
-              </Button>
+                <Button
+                  disabled={!isActive}
+                  size="small"
+                  type="primary"
+                  className="ml-2 mr-2"
+                  onClick={onPlusConfigRect}
+                >
+                  <PlusOutlined className="d-flex justify-content-between align-center" />
+                </Button>
+              </Tooltip>
             </div>
           );
         }
@@ -364,9 +373,11 @@ const TabRect = (props) => {
                 title={t("noti.delete_category", { this: t("this") })}
                 onConfirm={() => handleDelete(record)}
               >
-                <DeleteOutlined
-                  style={{ fontSize: "16px", color: "#6E6B7B" }}
-                />
+                <Tooltip placement="top" title={t("view.ai_events.delete")}>
+                  <DeleteOutlined
+                    style={{ fontSize: "16px", color: "#6E6B7B" }}
+                  />
+                </Tooltip>
               </Popconfirm>
             </Space>
           </div>
