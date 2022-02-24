@@ -444,7 +444,7 @@
       "department": "Phòng ban",
       "adminUnit": "Đơn vị",
       "status": "Trạng thái",
-      "guide_photo": "Ảnh mẫu",
+      "guide_photo": "Ảnh hướng dẫn",
       "image_error": {
         "IMAGE_IS_VALID": "Thành công",
         "IMAGE_HAS_ALREADY_IN_DB": "Hình ảnh đã tồn tại trong db",
@@ -456,6 +456,9 @@
       "plus": "Thêm mới cầu hình khuôn mặt",
       "edit": "Thay đổi cầu hình khuôn mặt",
       "delete": "Xóa cầu hình khuôn mặt",
+      "img_reach": "Ảnh đạt ",
+      "quality": " về chất lượng",
+      "uploading": "Đang tải lên...",
       "image" : {
         "have": "Đã có ảnh",
         "no": "Chưa có ảnh"
@@ -667,6 +670,7 @@
     "success": "Thành công",
     "choose_event": "Bạn cần phải chọn sự kiện",
     "delete_zone": "Bạn chắc chắn muốn xóa Zone này?",
+    "delete_img": "Bạn chắc chắn muốn xóa ảnh này?",
 
     "choose_favorite_screen": "Chọn màn hình ưa thích",
     "no_camera_in_screen": "Không tồn tại bất kỳ Camera nào trong màn hình này",

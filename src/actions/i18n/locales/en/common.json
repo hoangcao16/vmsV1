@@ -456,6 +456,9 @@
       "plus": "Add new human",
       "edit": "Update human",
       "delete": "Delete human",
+      "img_reach": "Image reach ",
+      "quality": " quality",
+      "uploading": "Uploading...",
       "image" : {
         "have": "Have image",
         "no": "No image"
@@ -666,6 +669,7 @@
     "success": "Success",
     "choose_event": "You need to choose event",
     "delete_zone": "Are you sure you want to delete this Zone?",
+    "delete_img": "Are you sure you want to delete this image?",
 
     "choose_favorite_screen": "Choose favorite screen",
     "no_camera_in_screen": "No available Camera in this screen",
