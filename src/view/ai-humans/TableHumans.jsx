@@ -3,6 +3,7 @@ import {
   EditOutlined,
   PlusOutlined,
   SearchOutlined,
+  InfoCircleOutlined
 } from "@ant-design/icons";
 import {
   AutoComplete,
@@ -267,6 +268,19 @@ const TableHumans = () => {
       render: (_text, record) => {
         return (
           <Space>
+          <Tooltip
+              placement="rightTop"
+              title={t("view.common_device.detail")}
+            >
+              <InfoCircleOutlined
+                style={{ fontSize: "16px", color: "#6E6B7B" }}
+                onClick={() => {
+                  setSelectedHumansId(record.uuid);
+                  setShowModalView(true);
+                  setShowModal(false);
+                }}
+              />
+            </Tooltip>
             <Tooltip
               placement="top"
               title={t("view.ai_humans.edit")}
@@ -287,14 +301,12 @@ const TableHumans = () => {
               <Popconfirm
                 cancelText={t("view.user.detail_list.cancel")}
                 okText={t("view.user.detail_list.confirm")}
-                title={t("noti.delete_category", { this: t("this") })}
+                title={t("noti.delete_config_human", { this: t("this") })}
                 onConfirm={() => handleDelete(record.uuid)}
               >
                 <DeleteOutlined style={{ fontSize: "16px", color: "#6E6B7B" }} />
               </Popconfirm>
             </Tooltip>
-
-
           </Space>
         );
       },
@@ -357,19 +369,19 @@ const TableHumans = () => {
           rowKey="id"
           columns={categoryColumns}
           dataSource={listHumans}
-          onRow={(record, recordIndex) => {
-            return {
-              onClick: (event) => {
+          // onRow={(record, recordIndex) => {
+          //   return {
+          //     onClick: (event) => {
                 
-                // handleRowClick(event, record);
-                if((event.target).nodeName  !== 'svg') {
-                  setSelectedHumansId(record.uuid);
-                  setShowModalView(true);
-                  setShowModal(false);
-                }
-              },
-            };
-          }}
+          //       // handleRowClick(event, record);
+          //       if((event.target).nodeName  !== 'svg') {
+          //         setSelectedHumansId(record.uuid);
+          //         setShowModalView(true);
+          //         setShowModal(false);
+          //       }
+          //     },
+          //   };
+          // }}
         />
       </Card>
 

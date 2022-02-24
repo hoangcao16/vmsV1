@@ -228,8 +228,8 @@ const ModalViewHumans = (props) => {
       >
         <Row gutter={24}>
           <Col span={12}>
-            <Paragraph className="mt-1">
-              <p style={{ fontWeight: 600, fontSize: 14 }}>
+            <Paragraph className="mt-1 dpf">
+              <p style={{ fontWeight: 600, fontSize: 14, width: 120 }}>
                 {t('view.ai_humans.name')}
               </p>
               <p>{selectedHuman?.name}</p>
@@ -237,24 +237,24 @@ const ModalViewHumans = (props) => {
           </Col>
 
           <Col span={12}>
-            <Paragraph className="mt-1">
-              <p style={{ fontWeight: 600, fontSize: 14 }}>
+            <Paragraph className="mt-1 dpf">
+              <p style={{ fontWeight: 600, fontSize: 14, width: 120 }}>
                 {t('view.ai_humans.code')}
               </p>
               <p>{selectedHuman?.code}</p>
             </Paragraph>
           </Col>
           <Col span={12}>
-            <Paragraph className="mt-1">
-              <p style={{ fontWeight: 600, fontSize: 14 }}>
+            <Paragraph className="mt-1 dpf">
+              <p style={{ fontWeight: 600, fontSize: 14, width: 120 }}>
                 {t('view.ai_humans.phone')}
               </p>
               <p>{selectedHuman?.phone}</p>
             </Paragraph>
           </Col>
           <Col span={12}>
-            <Paragraph className="mt-1">
-              <p style={{ fontWeight: 600, fontSize: 14 }}>
+            <Paragraph className="mt-1 dpf">
+              <p style={{ fontWeight: 600, fontSize: 14, width: 120 }}>
                 Email
               </p>
               <p>{selectedHuman?.email}</p>
@@ -262,39 +262,37 @@ const ModalViewHumans = (props) => {
           </Col>
 
           <Col span={12}>
-            <Paragraph className="mt-1">
-              <p style={{ fontWeight: 600, fontSize: 14 }}>
+            <Paragraph className="mt-1 dpf">
+              <p style={{ fontWeight: 600, fontSize: 14, width: 120 }}>
                 {t('view.ai_humans.position')}
               </p>
               <p>{selectedHuman?.position}</p>
             </Paragraph>
           </Col>
           <Col span={12}>
-            <Paragraph className="mt-1">
-              <p style={{ fontWeight: 600, fontSize: 14 }}>
+            <Paragraph className="mt-1 dpf">
+              <p style={{ fontWeight: 600, fontSize: 14, width: 120 }}>
               {t('view.ai_humans.adminUnit')}
               </p>
               <p>{selectedHuman?.adminUnitName}</p>
             </Paragraph>
           </Col>
           <Col span={12}>
-            <Paragraph className="mt-1">
-              <p style={{ fontWeight: 600, fontSize: 14 }}>
+            <Paragraph className="mt-1 dpf">
+              <p style={{ fontWeight: 600, fontSize: 14, width: 120 }}>
               {t('view.ai_humans.department')}
               </p>
               <p>{selectedHuman?.departmentName}</p>
             </Paragraph>
           </Col>
           <Col span={12}>
-            <Paragraph className="mt-1">
-              <p style={{ fontWeight: 600, fontSize: 14 }}>
+            <Paragraph className="mt-1 dpf">
+              <p style={{ fontWeight: 600, fontSize: 14, width: 120 }}>
               {t('view.ai_humans.status')}
               </p>
               <p>{renderTag(selectedHuman?.haveImg, confidence)}</p>
             </Paragraph>
           </Col>
-          
-          
         </Row>
         <Row style={{ marginTop: 30, color: "#d0e5ff", marginBottom: 30 }} gutter={24}>
           <Col span={24} style={{ flex: 'none' }}></Col>
