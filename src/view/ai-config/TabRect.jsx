@@ -118,7 +118,7 @@ const TabRect = (props) => {
       const successNotyfi = {
         type: NOTYFY_TYPE.success,
         title: `${t("noti.success")}`,
-        description: `${t("noti.change_preset_name_success")}`,
+        description: `${t("noti.change_area_name_success")}`,
         duration: 2,
       };
       Notification(successNotyfi);
@@ -211,11 +211,10 @@ const TabRect = (props) => {
     setCheckedList(checkList);
     form.setFieldsValue({
       threshold: data.threshold,
-      direction: data.direction != null ? data.direction  : 2,
+      direction: data.direction != null ? data.direction : 2,
       vehicle: data.vehicleDetection,
       human: data.peopleDetection,
     });
-    
 
     if (type === "hurdles") {
       if (data.pointsP != null && data.pointsP.length > 0) {
@@ -270,22 +269,23 @@ const TabRect = (props) => {
     {
       title: `${t("view.ai_config.table.no")}`,
       dataIndex: "lineNo",
+      align: "center",
     },
     {
       title: `${t("view.ai_config.table.name")}`,
       dataIndex: "name",
+      align: "center",
       editable: true,
       render: (text, record) => {
         return (
-          <>
+          <div className="input__form">
             <input
               id={`input-name-uuid-${record.key}`}
               defaultValue={record?.name}
               maxLength={20}
               onFocus={(e) => handleFocusInputNameUuid(record)}
-              autoComplete="off"
               style={{ width: "130px" }}
-              className="ant-form-item-control-input"
+              className="ant-form-item-control-input input__form--name"
             />
             <span id={`rename__uuid-${record.key}`} style={{ display: "none" }}>
               <CheckOutlined
@@ -303,7 +303,7 @@ const TabRect = (props) => {
                 }}
               />
             </span>
-          </>
+          </div>
         );
       },
     },
@@ -355,17 +355,20 @@ const TabRect = (props) => {
       button: true,
       render: (_text, record) => {
         return (
-          <div ><Space>
-          <Popconfirm
-            cancelText={t("view.user.detail_list.cancel")}
-            okText={t("view.user.detail_list.confirm")}
-            title={t("noti.delete_category", { this: t("this") })}
-            onConfirm={() => handleDelete(record)}
-          >
-            <DeleteOutlined style={{ fontSize: "16px", color: "#6E6B7B" }} />
-          </Popconfirm>
-        </Space></div>
-          
+          <div>
+            <Space>
+              <Popconfirm
+                cancelText={t("view.user.detail_list.cancel")}
+                okText={t("view.user.detail_list.confirm")}
+                title={t("noti.delete_category", { this: t("this") })}
+                onConfirm={() => handleDelete(record)}
+              >
+                <DeleteOutlined
+                  style={{ fontSize: "16px", color: "#6E6B7B" }}
+                />
+              </Popconfirm>
+            </Space>
+          </div>
         );
       },
     },
@@ -546,7 +549,7 @@ const TabRect = (props) => {
     }
     const data = await getServerCamproxyForPlay(cameraUuid);
     if (data == null) {
-      setIsActive(false)
+      setIsActive(false);
       Notification({
         type: NOTYFY_TYPE.warning,
         title: `${t("view.user.detail_list.view_online")}`,
@@ -683,7 +686,7 @@ const TabRect = (props) => {
   };
 
   const drawRect = () => {
-    let name = localStorage.getItem("name")
+    let name = localStorage.getItem("name");
     const canvas = document.getElementById("canvas-slot-" + type);
     if (canvas !== null) {
       const ctx = canvas.getContext("2d");
@@ -751,8 +754,8 @@ const TabRect = (props) => {
   };
 
   const addLine = (points, pointsP, directionV) => {
-    if(directionV == null){
-      directionV = 2
+    if (directionV == null) {
+      directionV = 2;
     }
     if (timerIdentifier != null) clearTimeout(timerIdentifier);
     const video = document.getElementById("video-slot-" + type);
@@ -906,7 +909,7 @@ const TabRect = (props) => {
 
   const drawLine = () => {
     const canvas = document.getElementById("canvas-slot-" + type);
-    let name = localStorage.getItem("name")
+    let name = localStorage.getItem("name");
     if (canvas !== null) {
       const ctx = canvas.getContext("2d");
       ctx.clearRect(0, 0, canvas.width, canvas.height);
@@ -1453,9 +1456,8 @@ const TabRect = (props) => {
                   onRow={(record, recordIndex) => {
                     return {
                       onClick: (event) => {
-                        console.log((event.target).nodeName)
                         // handleRowClick(event, record);
-                        if((event.target).nodeName  !== 'SPAN') {
+                        if (event.target.nodeName !== "SPAN") {
                           handleRowClick(event, record);
                         }
                       },

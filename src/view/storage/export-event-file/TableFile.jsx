@@ -635,7 +635,7 @@ const TableFile = (props) => {
 
     const onName = (event) => {
         form.setFieldsValue({
-            code: event.target.value.trim()
+            name: event.target.value.trim()
         });
         const dataParam = Object.assign({ ...searchParam, name: event.target.value.trim() });
         setSearchParam(dataParam);

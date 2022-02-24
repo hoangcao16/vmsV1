@@ -525,7 +525,7 @@ const BookmarkSetting = ({
                           : `${item?.name}`}
                       </span>
                       <div
-                        className=" bookmarks__list-item--edit-input"
+                        className="bookmarks__list-item--edit-input"
                         id={`screenEditInput-${idx}`}
                       >
                         <input

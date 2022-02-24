@@ -247,3 +247,11 @@
 .align-items_center {
   align-items: center;
 }
+
+.input__form {
+  display: flex;
+  align-items: center;
+  &--name {
+    margin: 0 25px 0 30px;
+  }
+}
