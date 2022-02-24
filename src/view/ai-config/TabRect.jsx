@@ -211,7 +211,7 @@ const TabRect = (props) => {
     setCheckedList(checkList);
     form.setFieldsValue({
       threshold: data.threshold,
-      direction: data.direction ? data.direction  : 2,
+      direction: data.direction != null ? data.direction  : 2,
       vehicle: data.vehicleDetection,
       human: data.peopleDetection,
     });
@@ -546,6 +546,7 @@ const TabRect = (props) => {
     }
     const data = await getServerCamproxyForPlay(cameraUuid);
     if (data == null) {
+      setIsActive(false)
       Notification({
         type: NOTYFY_TYPE.warning,
         title: `${t("view.user.detail_list.view_online")}`,
