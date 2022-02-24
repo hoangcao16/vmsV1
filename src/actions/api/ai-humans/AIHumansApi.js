@@ -18,8 +18,7 @@ const AIHumansApi = {
     if (handleErrCodeAI(result) === null) {
       return [];
     }
-
-    console.log(result)
+    
     return result;
   },
   getHumansByUuid: async (uuid) => {

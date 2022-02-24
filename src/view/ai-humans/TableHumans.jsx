@@ -3,7 +3,7 @@ import {
   EditOutlined,
   PlusOutlined,
   SearchOutlined,
-  InfoCircleOutlined
+  InfoCircleOutlined,
 } from "@ant-design/icons";
 import {
   AutoComplete,
@@ -14,7 +14,7 @@ import {
   Space,
   Table,
   Tag,
-  Tooltip
+  Tooltip,
 } from "antd";
 import "antd/dist/antd.css";
 import { isEmpty } from "lodash-es";
@@ -39,7 +39,6 @@ import Breadcrumds from "../breadcrumds/Breadcrumds";
 import { ShowTotal } from "../../styled/showTotal";
 import AIHumansApi from "../../actions/api/ai-humans/AIHumansApi";
 import ModalViewHumans from "./ModalViewHumans";
-
 
 export const CATEGORY_NAME = {
   EVENT_TYPE: "EVENT_TYPE",
@@ -82,38 +81,32 @@ const TableHumans = () => {
     });
   }, [page, pageSize, showModal]);
 
-
   const getNameByCategory = () => {
     return (
       <div className="card--header">
         <h4>{t("view.ai_humans.face")}</h4>
 
         <div className="search__toolbar">
-        <AutoComplete
-                  maxLength={255}
-                  className=" full-width height-40 read search__camera-group"
-                  onSearch={debounce(handleSearch,3000)}
-                  value={valueSearch}
-                  onChange={(e) => {
-                    setValueSearch(e);
-                  }}
-                  onBlur={(e) => setValueSearch(e.target.value.trim())}
-                  placeholder={
-                    <div className="placehoder height-40 justify-content-between d-flex align-items-center">
-                      <span style={{ opacity: "0.5" }}>
-                        {" "}
-                        &nbsp; {t("view.map.search")}{" "}
-                      </span>{" "}
-                      <SearchOutlined
-                        style={{ fontSize: 20, color: "#E3F0FF" }}
-                      />
-                    </div>
-                  }
-                />
-          <Tooltip
-            placement="top"
-            title={t("view.ai_humans.plus")}
-          >
+          <AutoComplete
+            maxLength={255}
+            className=" full-width height-40 read search__camera-group"
+            onSearch={handleSearch}
+            value={valueSearch}
+            onChange={(e) => {
+              setValueSearch(e);
+            }}
+            onBlur={(e) => setValueSearch(e.target.value.trim())}
+            placeholder={
+              <div className="placehoder height-40 justify-content-between d-flex align-items-center">
+                <span style={{ opacity: "0. 5" }}>
+                  {" "}
+                  &nbsp; {t("view.map.search")}{" "}
+                </span>{" "}
+                <SearchOutlined style={{ fontSize: 20, color: "#E3F0FF" }} />
+              </div>
+            }
+          />
+          <Tooltip placement="top" title={t("view.ai_humans.plus")}>
             <Button
               type="primary"
               onClick={() => {
@@ -124,7 +117,6 @@ const TableHumans = () => {
               <PlusOutlined />
             </Button>
           </Tooltip>
-
 
           {/* <Button
               className="btnAdd"
@@ -139,13 +131,13 @@ const TableHumans = () => {
   };
 
   const handleSearch = async (value) => {
-    setValueSearch(value.trim())
+    setValueSearch(value.trim());
     const data = {
       page: page,
       pageSize: pageSize,
       name: value,
     };
-    console.log("handleSearch", data)
+    console.log("handleSearch", data);
     AIHumansApi.getAllHumans(data).then((result) => {
       let dataResult = result[Object.keys(result)[0]];
       setListHumans(result.payload);
@@ -183,7 +175,7 @@ const TableHumans = () => {
     const data = {
       page: page,
       pageSize: pageSize,
-      name: ""
+      name: "",
     };
     AIHumansApi.getAllHumans(data).then((result) => {
       let dataResult = result[Object.keys(result)[0]];
@@ -199,7 +191,9 @@ const TableHumans = () => {
 
   const renderTag = (haveImg) => {
     let str = "";
-    haveImg ? (str = `${t("view.ai_humans.image.have")}`) : (str = `${t("view.ai_humans.image.no")}`);
+    haveImg
+      ? (str = `${t("view.ai_humans.image.have")}`)
+      : (str = `${t("view.ai_humans.image.no")}`);
     return (
       <Tag color={haveImg ? "#1380FF" : "#FF4646"} style={{ color: "#ffffff" }}>
         {str}
@@ -268,7 +262,7 @@ const TableHumans = () => {
       render: (_text, record) => {
         return (
           <Space>
-          <Tooltip
+            <Tooltip
               placement="rightTop"
               title={t("view.common_device.detail")}
             >
@@ -281,10 +275,7 @@ const TableHumans = () => {
                 }}
               />
             </Tooltip>
-            <Tooltip
-              placement="top"
-              title={t("view.ai_humans.edit")}
-            >
+            <Tooltip placement="top" title={t("view.ai_humans.edit")}>
               <EditOutlined
                 style={{ fontSize: "16px", color: "#6E6B7B" }}
                 onClick={() => {
@@ -294,17 +285,16 @@ const TableHumans = () => {
                 }}
               />
             </Tooltip>
-            <Tooltip
-              placement="top"
-              title={t("view.ai_humans.delete")}
-            >
+            <Tooltip placement="top" title={t("view.ai_humans.delete")}>
               <Popconfirm
                 cancelText={t("view.user.detail_list.cancel")}
                 okText={t("view.user.detail_list.confirm")}
                 title={t("noti.delete_config_human", { this: t("this") })}
                 onConfirm={() => handleDelete(record.uuid)}
               >
-                <DeleteOutlined style={{ fontSize: "16px", color: "#6E6B7B" }} />
+                <DeleteOutlined
+                  style={{ fontSize: "16px", color: "#6E6B7B" }}
+                />
               </Popconfirm>
             </Tooltip>
           </Space>
@@ -331,7 +321,7 @@ const TableHumans = () => {
         bodyStyle={bodyStyleCard}
         headStyle={headStyleCard}
         className="card--category"
-      // headStyle={{ padding: 30 }}
+        // headStyle={{ padding: 30 }}
       >
         <Table
           className="table__hard--drive--list"
@@ -372,7 +362,7 @@ const TableHumans = () => {
           // onRow={(record, recordIndex) => {
           //   return {
           //     onClick: (event) => {
-                
+
           //       // handleRowClick(event, record);
           //       if((event.target).nodeName  !== 'svg') {
           //         setSelectedHumansId(record.uuid);

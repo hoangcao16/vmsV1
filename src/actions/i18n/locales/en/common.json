@@ -686,6 +686,7 @@
     "0_100": "Name length must have more than 0 and less than 100 characters",
     "0_20": "Name length must have more than 0 and less than 20 characters",
     "change_preset_name_success": "Successfully change preset name",
+    "change_area_name_success": "Successfully change area name",
     "delete_successful": "Delete successful",
     "unidentified_camera": "Unidentified Camera",
     "error_camera_address": "Failed to receive error Camproxy address",
