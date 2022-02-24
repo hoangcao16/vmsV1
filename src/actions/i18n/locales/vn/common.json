@@ -609,6 +609,7 @@
     "successfully_delete_tag_type": "{{delete}} thành công loại nhãn",
     "successfully_delete_dep_type": "{{delete}} thành công phòng ban",
     "delete_category": "Bạn chắc chắn muốn xóa danh mục {{this}}?",
+    "delete_config_human": "Bạn chắc chắn muốn xóa cấu hình khuôn mặt {{this}}?",
     "successfully_edit_administrative_unit": "Bạn đã sửa thành công đơn vị hành chính",
     "successfully_edit_camproxy": "Bạn đã sửa thành công Camproxy",
     "successfully_edit_playback": "Bạn đã sửa thành công Playback",
