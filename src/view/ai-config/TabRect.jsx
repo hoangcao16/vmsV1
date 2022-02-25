@@ -96,10 +96,11 @@ const TabRect = (props) => {
       Notification(warnNotyfi);
       return;
     } else {
+      document.getElementById(`input-name-uuid-${record.key}`).value = value;
       const body = {
         cameraUuid: cameraUuid,
         type: type,
-        name: value,
+        name: value.trim(),
         uuid: record.uuid,
       };
 
@@ -131,9 +132,13 @@ const TabRect = (props) => {
   };
 
   const handleCloseRenameUuid = (e, record) => {
-    e.stopPropagation();
-    document.getElementById(`input-name-uuid-${record.key}`).value =
-      dataRectList[record.key].name;
+    // e.stopPropagation();
+    const n = dataRectList.find(item => item.key === record.key);
+    if(n != null){
+      document.getElementById(`input-name-uuid-${record.key}`).value = n.name.trim();
+    } else {
+      document.getElementById(`input-name-uuid-${record.key}`).value = "";
+    }
     document.getElementById(`rename__uuid-${record.key}`).style.display =
       "none";
   };
@@ -535,7 +540,6 @@ const TabRect = (props) => {
     localStorage.setItem("name", data.name);
     if (data.uuid != null) {
       AIConfigRectApi.getConfigRect(data.uuid).then((result) => {
-        console.log("result", result);
         if (result != null) {
           result = {
             ...result,
@@ -742,7 +746,6 @@ const TabRect = (props) => {
           y: coordinates[index].y / canvas.height,
         });
       }
-      console.log("coordinatesP:", coordinatesP);
     }
   };
 
@@ -1222,29 +1225,32 @@ const TabRect = (props) => {
         const position_ = canvasRefRect.current.getBoundingClientRect();
         const x_ = event.clientX - position_.left;
         const y_ = event.clientY - position_.top;
-        for (let index = 0; index < coordinates.length; index++) {
-          if (!coordinates[index].mouseDown) {
-            if (
-              x_ <= coordinates[index].x + 10 &&
-              x_ >= coordinates[index].x - 10 &&
-              y_ <= coordinates[index].y + 10 &&
-              y_ >= coordinates[index].y - 10
-            ) {
-              canvasRefRect.current.style.cursor = "grab";
-              break;
+        if(coordinates != null){
+          for (let index = 0; index < coordinates.length; index++) {
+            if (!coordinates[index].mouseDown) {
+              if (
+                x_ <= coordinates[index].x + 10 &&
+                x_ >= coordinates[index].x - 10 &&
+                y_ <= coordinates[index].y + 10 &&
+                y_ >= coordinates[index].y - 10
+              ) {
+                canvasRefRect.current.style.cursor = "grab";
+                break;
+              } else {
+                canvasRefRect.current.style.cursor = "default";
+              }
             } else {
-              canvasRefRect.current.style.cursor = "default";
+              coordinates[index] = { ...coordinates[index], x: x_, y: y_ };
             }
-          } else {
-            coordinates[index] = { ...coordinates[index], x: x_, y: y_ };
+          }
+          for (let index = 0; index < coordinates.length; index++) {
+            if (coordinates[index].mouseDown) {
+              drawRect();
+              break;
+            }
           }
         }
-        for (let index = 0; index < coordinates.length; index++) {
-          if (coordinates[index].mouseDown) {
-            drawRect();
-            break;
-          }
-        }
+        
         break;
     }
     event.preventDefault();

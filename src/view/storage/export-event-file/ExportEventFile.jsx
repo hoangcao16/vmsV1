@@ -829,8 +829,6 @@ const ExportEventFile = () => {
           saveAs(urlSnapshot, downloadFileName);
         } else {
           setLoading(true);
-          console.log("fileCu2222222222222222222 ", fileCurrent.fileType)
-
           try {
             if (fileCurrent.tableName === "file") {
               // Call Nginx to get blob data of file
@@ -853,7 +851,6 @@ const ExportEventFile = () => {
                   4
                 ).then(async (result) => {
                   const blob = new Blob([result.data], { type: "octet/stream" });
-                  console.log("blob___", blob)
                   const url = window.URL.createObjectURL(blob);
                   saveAs(url, downloadFileName);
 
@@ -953,7 +950,6 @@ const ExportEventFile = () => {
 
   const viewImageAIHandler = async (item) => {
     setLoading(true);
-    console.log("_________ ", item)
     await ExportEventFileApi.downloadFileAI(
       item.cameraUuid,
       item.trackingId,
@@ -1528,7 +1524,7 @@ const ExportEventFile = () => {
                       }`}
                     placement="topRight"
                     title=""
-                    
+
                     content={
                       checkBtnInfoObjectDisabled()
                         ? ""
@@ -1551,25 +1547,25 @@ const ExportEventFile = () => {
               </div>
               {detailAI.useCase === "zac_vehicle"
                 ? <ul style={{ listStyleType: 'none', display: 'inline-block' }}>
-                  <li style={{marginTop:15}}>{t("view.ai_events.type")} : {t("view.ai_events.useCase." + detailAI.useCase)}</li>
-                  <li style={{marginTop:15}}>{t("view.ai_events.plateNumber")} : {detailAI.plateNumber ? detailAI.plateNumber : t("view.ai_events.UnKnow")}</li>
+                  <li style={{ marginTop: 15 }}>{t("view.ai_events.type")} : {t("view.ai_events.useCase." + detailAI.useCase)}</li>
+                  <li style={{ marginTop: 15 }}>{t("view.ai_events.plateNumber")} : {detailAI.plateNumber ? detailAI.plateNumber : t("view.ai_events.UnKnow")}</li>
                 </ul>
                 : null}
               {detailAI.useCase === "zac_human"
                 ? <ul style={{ listStyleType: 'none', display: 'inline-block' }}>
-                  <li style={{marginTop:15}}>{t("view.ai_events.type")} : {t("view.ai_events.useCase." + detailAI.useCase)}</li>
-                  <li style={{marginTop:15}}>{t("view.ai_events.code")} : {detailAI.code ? detailAI.code : t("view.ai_events.UnKnow")}</li>
-                  <li style={{marginTop:15}}>{t("view.ai_events.name")} : {detailAI.name ? detailAI.name : t("view.ai_events.UnKnow")}</li>
-                  <li style={{marginTop:15}}>{t("view.ai_events.position")} : {detailAI.position ? detailAI.position : t("view.ai_events.UnKnow")}</li>
-                  <li style={{marginTop:15}}>{t("view.ai_events.department")} : {detailAI.departmentName ? detailAI.departmentName : t("view.ai_events.UnKnow")}</li>
+                  <li style={{ marginTop: 15 }}>{t("view.ai_events.type")} : {t("view.ai_events.useCase." + detailAI.useCase)}</li>
+                  <li style={{ marginTop: 15 }}>{t("view.ai_events.code")} : {detailAI.code ? detailAI.code : t("view.ai_events.UnKnow")}</li>
+                  <li style={{ marginTop: 15 }}>{t("view.ai_events.name")} : {detailAI.name ? detailAI.name : t("view.ai_events.UnKnow")}</li>
+                  <li style={{ marginTop: 15 }}>{t("view.ai_events.position")} : {detailAI.position ? detailAI.position : t("view.ai_events.UnKnow")}</li>
+                  <li style={{ marginTop: 15 }}>{t("view.ai_events.department")} : {detailAI.departmentName ? detailAI.departmentName : t("view.ai_events.UnKnow")}</li>
                 </ul>
                 : null}
               {detailAI.useCase === "attendance"
                 ? <ul style={{ listStyleType: 'none', display: 'inline-block' }}>
-                  <li style={{marginTop:15}}>{t("view.ai_events.code")} : {detailAI.code}</li>
-                  <li style={{marginTop:15}}>{t("view.ai_events.name")} : {detailAI.name}</li>
-                  <li style={{marginTop:15}}>{t("view.ai_events.position")} : {detailAI.position}</li>
-                  <li style={{marginTop:15}}>{t("view.ai_events.department")} : {detailAI.departmentName}</li>
+                  <li style={{ marginTop: 15 }}>{t("view.ai_events.code")} : {detailAI.code}</li>
+                  <li style={{ marginTop: 15 }}>{t("view.ai_events.name")} : {detailAI.name}</li>
+                  <li style={{ marginTop: 15 }}>{t("view.ai_events.position")} : {detailAI.position}</li>
+                  <li style={{ marginTop: 15 }}>{t("view.ai_events.department")} : {detailAI.departmentName}</li>
                 </ul>
                 : null}
               {/* <div>
@@ -1584,7 +1580,7 @@ const ExportEventFile = () => {
               <div className="title">{t("view.storage.path")}</div>
               <div className="pathFile">{detailAI.pathFile}</div>
             </Col>
-            <Col span={24}>
+            {detailAI.useCase !== "attendance" ? <Col span={24}>
               <div className="title">{t("view.ai_events.err_image")}</div>
               <div>
                 <ul >
@@ -1635,7 +1631,8 @@ const ExportEventFile = () => {
 
                 </ul>
               </div>
-            </Col>
+            </Col> : null}
+
             <Col span={12}>
               <div className="title">
                 <span>{t("view.common_device.note")}</span>
