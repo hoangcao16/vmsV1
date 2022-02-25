@@ -218,6 +218,9 @@ const Live = (props) => {
         });
         let screen = { ...defaultScreen };
         screen.camList = tmp;
+        console.log("defaultScreen", defaultScreen)
+        console.log("defaultScreen", defaultScreen.cameraUuids)
+        console.log("defaultScreen", defaultScreen.viewTypes)
         return screen;
       } else {
         return null;
@@ -325,6 +328,7 @@ const Live = (props) => {
 
   // LIVE
   const liveCamera = async (camUuid, camId, slotIdx, type) => {
+    console.log("Cameraaaaaaaa:", slotIdx, type)
     if (camUuid === "" || camUuid == null) {
       Notification({
         type: "warning",
@@ -741,7 +745,8 @@ const Live = (props) => {
     return result;
   };
 
-  const onDragEnd = async (result) => {
+  const onDragEnd = async (result,type) => {
+    console.log("type", type)
     const { destination, source, draggableId } = result;
     // dropped outside the list
     if (!destination) {
@@ -773,8 +778,9 @@ const Live = (props) => {
         streamUrl: streamUrl,
         liveMode: liveMode,
         hls: null,
+        type: type
       };
-
+      console.log("result", result)
       setIdCurrCameraSelected(result[des?.id]?.camUuid);
 
       switch (liveMode) {

@@ -93,7 +93,7 @@ const AiInforTable = (props) => {
       title: `${t("view.live.time")}`,
       dataIndex: "createdTime",
       key: "createdTime",
-      width: "26%",
+      width: "24%",
       render: renderTime,
     },
     {
@@ -101,7 +101,7 @@ const AiInforTable = (props) => {
       title: `${t("view.live.alert_type")}`,
       dataIndex: "subEventType",
       key: "subEventType",
-      width: "18%",
+      width: "20%",
       render: (cellValue, row) => renderText(cellValue, row, t),
     },
     {
@@ -109,7 +109,7 @@ const AiInforTable = (props) => {
       title: `${t("view.live.camera_record")}`,
       dataIndex: "cameraName",
       key: "cameraName",
-      width: "33%",
+      width: "30%",
       render: (cellValue, row) => renderText(cellValue, row, t),
     },
     {
@@ -117,7 +117,7 @@ const AiInforTable = (props) => {
       title: `${t("view.live.img_confirm")}`,
       dataIndex: "fileName",
       key: "fileName",
-      width: "15%",
+      width: "18%",
       render: (cellValue, row) => renderText(cellValue, row, t),
     },
   ];
@@ -148,7 +148,7 @@ const AiInforTable = (props) => {
         onOk={handleOk}
         onCancel={handleCancel}
         footer={null}
-        width={800}
+        width={850}
         modalRender={(modal) => (
           <Draggable>
             <div ref={draggleRef}>{modal}</div>
