@@ -516,7 +516,7 @@ const ModalEditHumans = (props) => {
                       <div
                         // className={props.classImage}
                         className="asdfasd"
-                        style={{ width: "90%", paddingBottom: "20px" }}
+                        style={{ width: "90%", paddingBottom: "15px", paddingTop: "15px", }}
                       >
                         <Upload
                           style={{ display: "flex" }}
