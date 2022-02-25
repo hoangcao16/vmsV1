@@ -118,7 +118,13 @@ const AiInforTable = (props) => {
       dataIndex: "fileName",
       key: "fileName",
       width: "18%",
-      render: (cellValue, row) => renderText(cellValue, row, t),
+      render: (cellValue, row) => {
+        return (
+          <Modal>
+            aaaaaaaa
+          </Modal>
+        )
+      },
     },
   ];
 
@@ -149,6 +155,7 @@ const AiInforTable = (props) => {
         onCancel={handleCancel}
         footer={null}
         width={850}
+        className="modal--table"
         modalRender={(modal) => (
           <Draggable>
             <div ref={draggleRef}>{modal}</div>
