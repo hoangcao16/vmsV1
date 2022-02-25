@@ -105,7 +105,7 @@
 }
 
 .upload__img {
-  width: 140px;
+  width: 161.28px;
   height: 220px;
   display: flex;
   border: 2px solid #191919;
@@ -113,4 +113,9 @@
   text-align: center;
   justify-content: center;
   border-radius: 6px;
+}
+
+.upload-photo {
+  padding: 0 12px !important;
+  width: 100%;
 }
