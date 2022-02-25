@@ -7,7 +7,7 @@ const DepartmentApi = {
 
     try {
       result = await MyService.getRequestData(
-        `/cctv-controller-svc/api/v1/departments?name=${data?.name}`
+        `/cctv-controller-svc/api/v1/departments?name=${data?.name}&administrativeUnitUuid=${data?.administrativeUnitUuid}`
       );
     } catch (error) {
       console.log(error);

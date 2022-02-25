@@ -388,12 +388,25 @@ const TableCategory = () => {
     }
   ];
 
+  const addDepartmentColumns = [
+    {
+      title: `${t('view.category.administrative_unit')}`,
+      dataIndex: 'administrativeName',
+      key: 'administrativeName',
+      className: 'headerColums'
+    }
+  ];
+
   if (dataType === CATEGORY_NAME.EVENT_TYPE) {
     categoryColumns.splice(2, 0, addFieldColumn);
   }
 
   if (dataType === CATEGORY_NAME.TAGS) {
     categoryColumns.splice(1, 1, ...addTagColumns);
+  }
+
+  if (dataType === CATEGORY_NAME.DEPARTMENTS) {
+    categoryColumns.splice(2, 0, ...addDepartmentColumns);
   }
 
   const handleShowModalUpdateCategory = () => {
@@ -471,7 +484,7 @@ async function fetchOptionsData(data) {
     FieldApi.getAllFeild(data),
     EventApi.getAllEvent(data),
     TagApi.getAllTags(data),
-    DepartmentApi.getAllDepartment(data)
+    DepartmentApi.getAllDepartment({...data, administrativeUnitUuid:""})
     
   ]);
 

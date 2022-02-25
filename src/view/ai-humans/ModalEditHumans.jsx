@@ -58,18 +58,25 @@ const ModalEditHumans = (props) => {
   const [departments, setDepartments] = useState([]);
   const [filterOptions, setFilterOptions] = useState(DATA_FAKE_UNIT);
   const [administrativeUnits, setAdministrativeUnits] = useState([]);
-  const [adminUnitUuid, setAdminUnitUuid] = useState("");
+  const [administrativeUnitUuid, setAdministrativeUnitUuid] = useState("");
 
   useEffect(() => {
     const data = {
-      name: "",
+      name: ""
     };
-    DepartmentApi.getAllDepartment(data).then(setDepartments);
-    fetchSelectOptions().then(setFilterOptions);
-
     AdDivisionApi.getAllAdDivision(data).then(setAdministrativeUnits);
-    fetchSelectOptions().then(setFilterOptions);
   }, []);
+
+  useEffect(() => {
+    setDepartments([]);
+
+    const dataDep = {
+      name: "",
+      administrativeUnitUuid :administrativeUnitUuid
+    };
+    DepartmentApi.getAllDepartment(dataDep).then(setDepartments);
+  }, [administrativeUnitUuid]);
+
 
   useEffect(() => {
     let list = [];
@@ -273,8 +280,8 @@ const ModalEditHumans = (props) => {
   };
 
   const onChangeADUnitId = async (ADUnitId) => {
-    setAdminUnitUuid(ADUnitId);
-    // form.setFieldsValue({ districtId: null, wardId: null });
+    setAdministrativeUnitUuid(ADUnitId);
+    form.setFieldsValue({ departmentUuid: null});
   };
 
   const uploadButton = (
@@ -315,6 +322,11 @@ const ModalEditHumans = (props) => {
                 label={t("view.ai_humans.name")}
                 maxLength={255}
                 rules={[
+                  {
+                    required: true,
+                    message: `${t("view.map.required_field")}`,
+                    pattern: new RegExp("([a-zA-Z]{1,30}\\s*)+"),
+                  },
                   {
                     pattern: new RegExp("([a-zA-Z]{1,30}\\s*)+"),
                   },
@@ -376,13 +388,6 @@ const ModalEditHumans = (props) => {
                 label={"Email"}
                 rules={[
                   {
-                    required: true,
-                    message: `${t(
-                      "view.user.detail_list.email_address_required"
-                    )}`,
-                    type: "email",
-                  },
-                  {
                     max: 255,
                     message: `${t("noti.255_characters_limit")}`,
                   },
@@ -404,6 +409,27 @@ const ModalEditHumans = (props) => {
             </Col>
             <Col span={6}>
               <Form.Item
+                name={["administrativeUnitUuid"]}
+                label={t("view.department.administrative")}
+                rules={[]}
+              >
+                <Select
+                  showSearch
+                  dataSource={administrativeUnits}
+                  onChange={(administrativeUnitUuid) => onChangeADUnitId(administrativeUnitUuid)}
+                  filterOption={filterOption}
+                  options={normalizeOptions(
+                    "name",
+                    "uuid",
+                    administrativeUnits
+                  )}
+                  allowClear
+                  placeholder={t("view.department.administrative")}
+                />
+              </Form.Item>
+            </Col>
+            <Col span={6}>
+              <Form.Item
                 name={["departmentUuid"]}
                 label={t("view.ai_events.department")}
                 rules={[]}
@@ -413,33 +439,12 @@ const ModalEditHumans = (props) => {
                   dataSource={departments}
                   onChange={(aDUnitId) => onChangeDepId(aDUnitId)}
                   filterOption={filterOption}
-                  options={normalizeOptions("name", "uuid", departments)}
+                  options={normalizeOptions("name", "administrativeUnitUuid", departments)}
                   placeholder={t("view.ai_events.department")}
-                  allowClear
                 />
               </Form.Item>
             </Col>
-            <Col span={6}>
-              <Form.Item
-                name={["adminUnitUuid"]}
-                label={t("view.department.administrative")}
-                rules={[]}
-              >
-                <Select
-                  showSearch
-                  dataSource={administrativeUnits}
-                  onChange={(adminUnitUuid) => onChangeADUnitId(adminUnitUuid)}
-                  filterOption={filterOption}
-                  options={normalizeOptions(
-                    "name",
-                    "uuid",
-                    administrativeUnits
-                  )}
-                  placeholder={t("view.department.administrative")}
-                  allowClear
-                />
-              </Form.Item>
-            </Col>
+            
           </Row>
           <Row
             style={{ marginTop: 30, color: "#d0e5ff", marginBottom: 30 }}
@@ -514,6 +519,7 @@ const ModalEditHumans = (props) => {
                 {listImages
                   ? listImages.map((item, index) => (
                       <div
+                      key={item.key}
                         // className={props.classImage}
                         className="asdfasd"
                         style={{ width: "90%", paddingBottom: "15px", paddingTop: "15px", }}
@@ -650,11 +656,12 @@ async function getHumansByUuid(selectedHumansId) {
 
 async function fetchSelectOptions() {
   const data = {
-    name: "",
+    name: ""
   };
-  const departments = await DepartmentApi.getAllDepartment(data);
+  const administrativeUnits = await AdDivisionApi.getAllAdDivision(data);
+  console.log("administrativeUnits", administrativeUnits)
   return {
-    departments,
+    administrativeUnits,
   };
 }
 
