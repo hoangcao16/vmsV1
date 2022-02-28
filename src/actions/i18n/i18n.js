@@ -15,7 +15,7 @@ i18next.init({
   ns: ['common'],
   defaultNS: 'common',
   lng: !isEmpty(reactLocalStorage.get('language'))
-    ? reactLocalStorage.get('language'): reactLocalStorage.set('language', 'vn') , // language to use
+    ? reactLocalStorage.get('language'): reactLocalStorage.set('language', 'vn') , // language to use and set default for app
   resources: {
     en: {
       common: commonEN // 'common' is our custom namespace
