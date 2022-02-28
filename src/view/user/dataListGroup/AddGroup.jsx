@@ -54,7 +54,8 @@ function AddGroup(props) {
               <h4 className="font-weight-700">
                 {t('view.user.detail_list.add_new_group', {
                   add: t('add'),
-                  G: t('G')
+                  G: t('G'),
+                  g: t('g')
                 })}
               </h4>
             </div>
