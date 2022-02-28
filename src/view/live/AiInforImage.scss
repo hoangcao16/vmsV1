@@ -1,0 +1,24 @@
+.image__wrapper {
+    .span__color {
+        color: #D0E5FF
+    }
+    font-size: 24px;
+    font-weight: bold;
+    &--content {
+        margin-top: 20px;
+        display: flex;
+        .image__size {
+            width: 335px;
+            height: 295px;
+            object-fit: cover;
+            margin-right: 28px;
+        }
+        &--info {
+            font-size: 18px;
+        }
+        .infomation {
+            font-size: 16px;
+            color: #c2c6dc;
+        }
+    }
+}

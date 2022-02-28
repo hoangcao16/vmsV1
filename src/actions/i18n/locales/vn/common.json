@@ -124,7 +124,9 @@
       "alert_type": "Loại báo động",
       "camera_record": "Camera ghi nhận",
       "img_confirm": "Xem hình ảnh",
-      "alert_info": "Thông tin báo động"
+      "alert_info": "Thông tin báo động",
+      "detail": "Chi tiết"
+
     },
     "map": {
       "search": "Tìm kiếm",
@@ -545,6 +547,10 @@
       "info": "Thông tin đối tượng",
       "edit_note": "Chỉnh sửa ghi chú",
       "err_image" : "Hình ảnh vi phạm",
+      "name1": "Tên: ",
+      "code1": "Mã nhân viên: ",
+      "department1": "Phòng ban: ",
+      "administrative1": "Đơn vị: ",
       "type_object": {
         "vehicle": "Xe",
         "xemay": "Xe máy",
