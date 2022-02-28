@@ -62,3 +62,15 @@
 [dir] .ant-modal .ant-modal-content .ant-modal-body {
   padding: 18px !important;
 }
+
+.show--image__button,
+.show--image__button:hover,
+.show--image__button:focus {
+  background-color: rgba(255, 255, 255, 0);
+  border: none;
+}
+
+.show--image__button__title {
+  color: #1380ff !important;
+  text-decoration: underline;
+}

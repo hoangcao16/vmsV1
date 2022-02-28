@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { Card, Modal, Table, Tooltip, Typography } from "antd";
+import { Card, Modal, Table, Tooltip, Typography, Button, Row } from "antd";
 import { useTranslation } from "react-i18next";
 import "./AiInforTable.scss";
 import { connect } from "react-redux";
@@ -10,9 +10,10 @@ import { bodyStyleCard, headStyleCard } from "../user/variables";
 import Draggable from "react-draggable";
 import ExportEventFileApi from "../../actions/api/exporteventfile/ExportEventFileApi";
 import { getBase64Text } from "../../utility/vms/getBase64Text";
+import AiInforImage from "./AiInforImage";
 
 const { Text } = Typography;
-const dataType = '';
+const dataType = "";
 
 export const renderText = (cellValue, row, t) => {
   const language = reactLocalStorage.get("language");
@@ -57,27 +58,27 @@ export const renderTime = (value) => {
 };
 
 const AiInforTable = (props) => {
-  const { showNotiInfo, isInfoModalVisible, setIsInfoModalVisible, idCamera } = props;
+  const { showNotiInfo, isInfoModalVisible, setIsInfoModalVisible, idCamera } =
+    props;
+  const [imageShowing, setImageShowing] = useState(false);
+  const [urlImage, setUrlImage] = useState("");
   const { t } = useTranslation();
   const data = props.updateData;
-  const dataFilter = data.filter((i) => i.cameraUuid === idCamera)
-  // img(data)
-  // const img = async (file) => {
-  //   console.log("file", file)
-  //   await ExportEventFileApi.downloadFileAI(
-  //     file[0].cameraUuid,
-  //     file[0].trackingId,
-  //     file[0].uuid,
-  //     file[0].fileName,
-  //     4
-  //   ).then(async (result) => {
-  //     const blob = new Blob([result.data], { type: "octet/stream" });
-  //     getBase64Text(blob, async (image) => {
-  //       console.log("image", image)
-  //     });
-  
-  //   });
-  // }
+  const dataFilter = data.filter((i) => i.cameraUuid === idCamera);
+  const img = async (file) => {
+    await ExportEventFileApi.downloadFileAI(
+      file.cameraUuid,
+      file.trackingId,
+      file.uuid,
+      file.fileName,
+      4
+    ).then(async (result) => {
+      const blob = new Blob([result.data], { type: "octet/stream" });
+      getBase64Text(blob, async (image) => {
+        setUrlImage(image);
+      });
+    });
+  };
 
   const columns = [
     {
@@ -120,13 +121,28 @@ const AiInforTable = (props) => {
       width: "18%",
       render: (cellValue, row) => {
         return (
-          <Modal>
-            aaaaaaaa
-          </Modal>
-        )
+          <Button
+            type="primary"
+            className={"show--image__button"}
+            onClick={(e) => {
+              e.stopPropagation();
+              showImage(row);
+            }}
+            style={{ marginTop: 5, marginBottom: 5 }}
+          >
+            <span className="show--image__button__title">
+              {t("view.live.detail")}
+            </span>
+          </Button>
+        );
       },
     },
   ];
+
+  const showImage = (row) => {
+    img(row);
+    setImageShowing(true);
+  };
 
   const handleOk = () => {
     setIsInfoModalVisible(false);
@@ -137,12 +153,8 @@ const AiInforTable = (props) => {
   };
 
   const renderHeader = (dataType) => {
-    let name = `${t("view.live.alert_info", { u: t("u"), U: t("U") })}`
-    return (
-      <div className="table__title">
-        {name}
-      </div>
-    );
+    let name = `${t("view.live.alert_info", { u: t("u"), U: t("U") })}`;
+    return <div className="table__title">{name}</div>;
   };
 
   const draggleRef = React.createRef();
@@ -176,6 +188,13 @@ const AiInforTable = (props) => {
           />
         </Card>
       </Modal>
+      <AiInforImage
+        idCamera={idCamera}
+        showImage={showImage}
+        imageShowing={imageShowing}
+        urlImage={urlImage}
+        setImageShowing={setImageShowing}
+      />
     </>
   );
 };

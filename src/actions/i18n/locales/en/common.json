@@ -123,7 +123,8 @@
       "alert_type": "Alert type",
       "camera_record": "Camera record",
       "img_confirm": "View image",
-      "alert_info": "Alert information"
+      "alert_info": "Alert information",
+      "detail": "Detail"
     },
     "map": {
       "search": "Search",
@@ -540,10 +541,14 @@
       "nhandienbienso": "Number plate recognition",
       "damdong": "Phát hiện đám đông",
       "line_crossing": "Line crossing",
-      "info": "Info",
+      "info": "Information",
       "edit_info": "Edit Info",
       "edit_note": "Edit Note",
       "err_image" : "Offending images",
+      "name1": "Name: ",
+      "code1": "Code of staff: ",
+      "department1": "Department: ",
+      "administrative1": "Aministrative Unit: ",
       "type_object" : {
         "xemay": "Motorcycle",
         "vehicle": "Vehicle",

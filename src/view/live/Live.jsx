@@ -47,9 +47,10 @@ import { changeZoom, updateData } from "./../../redux/actions/customizer/index";
 import DraggableCameraList from "./DraggableCameraList";
 import LiveCameraSlot from "./LiveCameraSlot";
 import MenuTools from "./MenuTools";
-import {getEmail, getToken} from "../../api/token";
+import { getEmail, getToken } from "../../api/token";
 import * as StompJs from "@stomp/stompjs";
 import { UPDATE_DATA } from "../../redux/types/live";
+import { isEmpty } from "lodash";
 
 const mode = process.env.REACT_APP_MODE_VIEW;
 
@@ -84,19 +85,19 @@ const Live = (props) => {
   const [pcList, setPCList] = useState([]);
 
   let wsOnConnectCallback = function (message) {
-    const dataBody = message.body
-    dispatch({type: UPDATE_DATA.LOAD_SUCCESS, dataBody})
+    const dataBody = message.body;
+    dispatch({ type: UPDATE_DATA.LOAD_SUCCESS, dataBody });
     // called when the client receives a STOMP message from the server
     if (message.body) {
-      console.log('>>>>> Message: ' + message.body);
+      console.log(">>>>> Message: " + message.body);
     } else {
-      console.log('>>>>> Empty message');
+      console.log(">>>>> Empty message");
     }
   };
 
   function wsConnect() {
     const client = new StompJs.Client({
-      brokerURL: 'ws://cctv-uat.edsolabs.com:8441/ai-events',
+      brokerURL: "ws://cctv-uat.edsolabs.com:8441/ai-events",
       debug: function (str) {
         console.log(str);
       },
@@ -108,7 +109,10 @@ const Live = (props) => {
     client.onConnect = function (frame) {
       // Do something, all subscribes must be done is this callback
       // This is needed because this will be executed after a (re)connect
-      const subscription = client.subscribe('/topic/messages', wsOnConnectCallback);
+      const subscription = client.subscribe(
+        "/topic/messages",
+        wsOnConnectCallback
+      );
     };
 
     client.onStompError = function (frame) {
@@ -116,8 +120,8 @@ const Live = (props) => {
       // Bad login/passcode typically will cause an error
       // Complaint brokers will set `message` header with a brief message. Body may contain details.
       // Compliant brokers will terminate the connection after any error
-      console.log('Broker reported error: ' + frame.headers['message']);
-      console.log('Additional details: ' + frame.body);
+      console.log("Broker reported error: " + frame.headers["message"]);
+      console.log("Additional details: " + frame.body);
     };
 
     client.activate();
@@ -218,9 +222,6 @@ const Live = (props) => {
         });
         let screen = { ...defaultScreen };
         screen.camList = tmp;
-        console.log("defaultScreen", defaultScreen)
-        console.log("defaultScreen", defaultScreen.cameraUuids)
-        console.log("defaultScreen", defaultScreen.viewTypes)
         return screen;
       } else {
         return null;
@@ -317,18 +318,15 @@ const Live = (props) => {
           }
         }
         if (isExist) {
-          console.log(">>>>> reconnect, data: ", token);
           liveCamera(camUuid, camId, slotIdx, type).then();
         }
-        return prevValue
-      })
-
+        return prevValue;
+      });
     }, 10000);
-  }
+  };
 
   // LIVE
   const liveCamera = async (camUuid, camId, slotIdx, type) => {
-    console.log("Cameraaaaaaaa:", slotIdx, type)
     if (camUuid === "" || camUuid == null) {
       Notification({
         type: "warning",
@@ -374,29 +372,37 @@ const Live = (props) => {
       };
 
       const thisTime = new Date().getTime();
-      const token = slotIdx + '##' + getToken() + '##' + getEmail() + '##' + thisTime;
+      const token =
+        slotIdx + "##" + getToken() + "##" + getEmail() + "##" + thisTime;
 
-      pc.oniceconnectionstatechange = function(event) {
-        if (pc.iceConnectionState === "failed" ||
-            pc.iceConnectionState === "disconnected" ||
-            pc.iceConnectionState === "closed") {
+      pc.oniceconnectionstatechange = function (event) {
+        if (
+          pc.iceConnectionState === "failed" ||
+          pc.iceConnectionState === "disconnected" ||
+          pc.iceConnectionState === "closed"
+        ) {
           // Handle the failure
-          console.log(">>>>> ice connection state: ", pc.signalingState, ", data: ", token);
+          console.log(
+            ">>>>> ice connection state: ",
+            pc.signalingState,
+            ", data: ",
+            token
+          );
         }
       };
 
-      pc.ondatachannel = function(ev) {
-        console.log('Data channel is created!');
-        ev.channel.onopen = function() {
-          console.log('Data channel is open and ready to be used.');
+      pc.ondatachannel = function (ev) {
+        console.log("Data channel is created!");
+        ev.channel.onopen = function () {
+          console.log("Data channel is open and ready to be used.");
         };
       };
 
-      pc.onconnectionstatechange = function(event) {
-        switch(pc.connectionState) {
+      pc.onconnectionstatechange = function (event) {
+        switch (pc.connectionState) {
           case "connected":
             // The connection has become fully connected
-              console.log(">>>>> connection state: connected, data: ", token);
+            console.log(">>>>> connection state: connected, data: ", token);
             break;
           case "disconnected":
             console.log(">>>>> connection state: disconnected, data: ", token);
@@ -414,8 +420,13 @@ const Live = (props) => {
         }
       };
 
-      pc.onsignalingstatechange = function(event) {
-        console.log(">>>>> signal state: ", pc.signalingState, ", data: ", token);
+      pc.onsignalingstatechange = function (event) {
+        console.log(
+          ">>>>> signal state: ",
+          pc.signalingState,
+          ", data: ",
+          token
+        );
       };
 
       const API = data.camproxyApi;
@@ -431,7 +442,7 @@ const Live = (props) => {
               token: token,
               camUuid: camUuid,
               offer: offer,
-              viewType: type
+              viewType: type,
             })
             .then((res) => {
               if (res) {
@@ -464,10 +475,9 @@ const Live = (props) => {
         }
       }
       if (!isExist) {
-        pcLstTmp.push({slotIdx: slotIdx, pc: pc, viewType: type})
+        pcLstTmp.push({ slotIdx: slotIdx, pc: pc, viewType: type });
       }
       setPCList([...pcLstTmp]);
-
     } else {
       const API = data.camproxyApi;
       const { token } = data;
@@ -477,7 +487,7 @@ const Live = (props) => {
         .playCameraHls(API, {
           token: token,
           cameraUuid: camUuid,
-          viewType: type
+          viewType: type,
         })
         .then(async (res) => {
           if (res) {
@@ -487,7 +497,8 @@ const Live = (props) => {
               cell.controls = false;
               cell.preload = "none";
               cell.crossOrigin = "anonymous";
-              cell.style = "width:100%;height:100%;display:block;object-fit:fill;position:absolute;top:0";
+              cell.style =
+                "width:100%;height:100%;display:block;object-fit:fill;position:absolute;top:0";
               cell.type = "application/x-mpegURL";
               cell.muted = "muted";
               cell.innerHTML = `<source src='${API}/camproxy/v1/play/hls/${camUuid}/index.m3u8' type='application/x-mpegURL'>`;
@@ -745,8 +756,7 @@ const Live = (props) => {
     return result;
   };
 
-  const onDragEnd = async (result,type) => {
-    console.log("type", type)
+  const onDragEnd = async (result, type) => {
     const { destination, source, draggableId } = result;
     // dropped outside the list
     if (!destination) {
@@ -778,9 +788,8 @@ const Live = (props) => {
         streamUrl: streamUrl,
         liveMode: liveMode,
         hls: null,
-        type: type
+        type: type,
       };
-      console.log("result", result)
       setIdCurrCameraSelected(result[des?.id]?.camUuid);
 
       switch (liveMode) {
@@ -814,9 +823,10 @@ const Live = (props) => {
     closeCamera(slotId);
     liveCamera(camera.camUuid, camera.camId, camera.id, type).then();
     camera = { ...camera, liveMode: true };
+    camera = { ...camera, type: type };
     cameras[slotIdx] = camera;
     setAddedCameras([...cameras]);
-  }
+  };
   const updateGridSize2 = (size) => {
     currentGridSize = size;
     updateGridSize();
@@ -1282,7 +1292,6 @@ const Live = (props) => {
         }
       }
       viewTypes.push(type);
-
     });
     if (isEmptyGrid) {
       Notification({
@@ -1304,7 +1313,7 @@ const Live = (props) => {
       cameraUuids: cameraUuids,
       gridType: gridType,
       name: bookMarkName,
-      viewTypes: viewTypes
+      viewTypes: viewTypes,
     };
     try {
       const response = await bookmarkApi.createNew(record);
@@ -1343,7 +1352,8 @@ const Live = (props) => {
           if (camUuid !== "") {
             const camFound = selectedItem.camList.find(
               (it, id) => it.cameraUuid === camUuid
-            );
+              );
+              let type = selectedItem.viewTypes[idx];
             cams[idx] = {
               id: idx,
               name: camFound.cameraName,
@@ -1352,8 +1362,8 @@ const Live = (props) => {
               streamUrl: "",
               isPlay: true,
               selected: false,
+              type: type,
             };
-            let type = selectedItem.viewTypes[idx];
             liveCamera(camUuid, camFound.camId, idx, type).then();
           }
         });
@@ -1542,7 +1552,7 @@ const Live = (props) => {
 
   const handleMessage = (stompMessage) => {
     console.log(">>>>> stompMessage: ", stompMessage);
-  }
+  };
 
   return (
     <div>
@@ -1662,6 +1672,6 @@ const mapStateToProps = (state) => {
 
 export default withRouter(
   connect(mapStateToProps, {
-    changeZoom
+    changeZoom,
   })(Live)
 );
