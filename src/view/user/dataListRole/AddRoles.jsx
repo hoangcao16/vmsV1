@@ -54,7 +54,8 @@ function AddRoles(props) {
               <h4 className="font-weight-700">
                 {t('view.user.detail_list.add_new_role', {
                   add: t('add'),
-                  R: t('R')
+                  R: t('R'),
+                  r: t('r')
                 })}
               </h4>
             </div>
