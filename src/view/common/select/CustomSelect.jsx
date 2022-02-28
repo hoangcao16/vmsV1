@@ -7,11 +7,7 @@ export function filterOption(input, option) {
 }
 
 export function normalizeOptions(labelField, valueField, dataSource) {
-  console.log("dataSource", dataSource)
-  console.log("labelField", labelField)
-  console.log("valueField", valueField)
   if (dataSource != null) {
-    console.log("valueField", "ádadasd")
     return dataSource
       .sort((a, b) =>
         defaultTo(get(a, labelField), '').localeCompare(get(b, labelField))
