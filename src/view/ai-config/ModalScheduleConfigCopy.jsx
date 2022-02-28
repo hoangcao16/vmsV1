@@ -68,6 +68,7 @@ const ModalScheduleConfigCopy = (props) => {
             className="searchInputCamproxy"
             style={{ width: 250, height: 40, marginRight: 18 }}
             onSearch={debounce(handleSearch, 300)}
+            maxLength={255}
             placeholder={
               <div>
                 <span> &nbsp;{t("view.map.search")} </span>{" "}
