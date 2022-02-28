@@ -80,9 +80,20 @@
       color: $vms-status-05;
     }
   }
-  
+}
 
+.deleteBtn {
+  font-size: 18px;
+  padding: 10px;
+  border: 1px solid #1890ff;
+  background-color: #1380ff;
+  color: #e3f0ff !important;
+  border-radius: 6px;
+}
 
+.deleteBtn:hover {
+  box-shadow: 0 0 8px #1380ff;
+  border-color: #40a9ff;
 }
 
 .disableCard {
