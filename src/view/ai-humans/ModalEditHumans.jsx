@@ -56,9 +56,10 @@ const ModalEditHumans = (props) => {
   const [departmentId, setDepartmentId] = useState("");
   const [confidence, setConfidence] = useState("");
   const [departments, setDepartments] = useState([]);
-  const [filterOptions, setFilterOptions] = useState(DATA_FAKE_UNIT);
+  console.log("departments", departments)
   const [administrativeUnits, setAdministrativeUnits] = useState([]);
   const [administrativeUnitUuid, setAdministrativeUnitUuid] = useState("");
+  console.log("administrativeUnitUuid", administrativeUnitUuid)
 
   useEffect(() => {
     const data = {
@@ -69,12 +70,15 @@ const ModalEditHumans = (props) => {
 
   useEffect(() => {
     setDepartments([]);
-
-    const dataDep = {
-      name: "",
-      administrativeUnitUuid :administrativeUnitUuid
-    };
-    DepartmentApi.getAllDepartment(dataDep).then(setDepartments);
+    if (isEmpty(administrativeUnitUuid)) {
+      setDepartments([])
+    } else {
+      const dataDep = {
+        name: "",
+        administrativeUnitUuid: administrativeUnitUuid
+      };
+      DepartmentApi.getAllDepartment(dataDep).then(setDepartments);
+    }
   }, [administrativeUnitUuid]);
 
 
@@ -280,6 +284,7 @@ const ModalEditHumans = (props) => {
   };
 
   const onChangeADUnitId = async (ADUnitId) => {
+    setDepartments([])
     setAdministrativeUnitUuid(ADUnitId);
     form.setFieldsValue({ departmentUuid: null});
   };
@@ -659,7 +664,6 @@ async function fetchSelectOptions() {
     name: ""
   };
   const administrativeUnits = await AdDivisionApi.getAllAdDivision(data);
-  console.log("administrativeUnits", administrativeUnits)
   return {
     administrativeUnits,
   };
