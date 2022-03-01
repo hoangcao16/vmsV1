@@ -56,10 +56,8 @@ const ModalEditHumans = (props) => {
   const [departmentId, setDepartmentId] = useState("");
   const [confidence, setConfidence] = useState("");
   const [departments, setDepartments] = useState([]);
-  console.log("departments", departments)
   const [administrativeUnits, setAdministrativeUnits] = useState([]);
   const [administrativeUnitUuid, setAdministrativeUnitUuid] = useState("");
-  console.log("administrativeUnitUuid", administrativeUnitUuid)
 
   useEffect(() => {
     const data = {
