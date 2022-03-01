@@ -22,7 +22,9 @@ const ModalUpdateDepartment = (props) => {
   const [loading, setLoading] = useState(false);
   const [department, setDepartment] = useState(null);
   const [administrativeUnits, setAdministrativeUnits] = useState([]);
-  const [administrativeUnitUuid, setAdministrativeUnitUuid] = useState(department?.administrativeUnitUuid || null);
+  const [administrativeUnitUuid, setAdministrativeUnitUuid] = useState(
+    department?.administrativeUnitUuid || null
+  );
   const [filterOptions, setFilterOptions] = useState(DATA_FAKE_UNIT);
 
   useEffect(() => {
@@ -36,9 +38,14 @@ const ModalUpdateDepartment = (props) => {
   useEffect(() => {
     const getDepartmentById = async () => {
       if (selectedCategoryId !== null) {
-        const response = await DepartmentApi.getDepartmentByUuid(selectedCategoryId);
+        const response = await DepartmentApi.getDepartmentByUuid(
+          selectedCategoryId
+        );
         if (response) {
-          form.setFieldsValue({ name: response.name,administrativeUnitUuid:  response.administrativeUnitUuid });
+          form.setFieldsValue({
+            name: response.name,
+            administrativeUnitUuid: response.administrativeUnitUuid,
+          });
         }
       }
     };
@@ -67,9 +74,12 @@ const ModalUpdateDepartment = (props) => {
     try {
       setLoading(true);
       let response;
-      console.log("       values    ", values)
+      console.log("       values    ", values);
       if (selectedCategoryId) {
-        response = await DepartmentApi.editDepartment(selectedCategoryId, values);
+        response = await DepartmentApi.editDepartment(
+          selectedCategoryId,
+          values
+        );
       } else {
         response = await DepartmentApi.addDepartment(values);
       }
@@ -90,7 +100,11 @@ const ModalUpdateDepartment = (props) => {
   return (
     <>
       <Modal
-        title={selectedCategoryId ? `${t('view.department.edit_department')}` : `${t('view.department.add_department')}`}
+        title={
+          selectedCategoryId
+            ? `${t("view.department.edit_department")}`
+            : `${t("view.department.add_department")}`
+        }
         visible={true}
         // onOk={handleSubmit}
         onCancel={() => {
@@ -110,12 +124,12 @@ const ModalUpdateDepartment = (props) => {
             <Row gutter={24}>
               <Col span={24}>
                 <Form.Item
-                  label={t('view.department.name_department')}
+                  label={t("view.department.name_department")}
                   name={["name"]}
                   rules={[
                     {
                       required: true,
-                      message: `${t('view.map.required_field')}`,
+                      message: `${t("view.map.required_field")}`,
                     },
                   ]}
                 >
@@ -132,33 +146,41 @@ const ModalUpdateDepartment = (props) => {
             </Row>
             <Row gutter={24}>
               <Col span={24}>
-              <Form.Item
-                name={["administrativeUnitUuid"]}
-                label={t("view.department.administrative")}
-                rules={[
-                ]}
-              >
-                <Select
-                  showSearch
-                  dataSource={administrativeUnits}
-                  onChange={(aDUnitId) => onChangeADUnitId(aDUnitId)}
-                  filterOption={filterOption}
-                  options={normalizeOptions("name", "uuid", administrativeUnits)}
-                  placeholder={t("view.department.administrative")}
-                  allowClear
-                />
-              </Form.Item>
+                <Form.Item
+                  name={["administrativeUnitUuid"]}
+                  label={t("view.department.administrative")}
+                  rules={[
+                    {
+                      required: true,
+                      message: `${t("view.map.required_field")}`,
+                    },
+                  ]}
+                >
+                  <Select
+                    showSearch
+                    dataSource={administrativeUnits}
+                    onChange={(aDUnitId) => onChangeADUnitId(aDUnitId)}
+                    filterOption={filterOption}
+                    options={normalizeOptions(
+                      "name",
+                      "uuid",
+                      administrativeUnits
+                    )}
+                    placeholder={t("view.department.administrative")}
+                    allowClear
+                  />
+                </Form.Item>
               </Col>
             </Row>
-            <div className="footer__modal"  >
+            <div className="footer__modal">
               <Button
                 onClick={() => {
                   setShowModal(false);
                 }}
               >
-                {t('view.camera.close')}
+                {t("view.camera.close")}
               </Button>
-              <Button htmlType="submit">{t('view.map.button_save')}</Button>
+              <Button htmlType="submit">{t("view.map.button_save")}</Button>
             </div>
           </Form>
         </Spin>
@@ -171,8 +193,8 @@ async function fetchSelectOptions() {
   const data = {
     name: "",
   };
-  const  administrativeUnits = await AdDivisionApi.getAllAdDivision(data);
-  console.log( 'ccccccccccc' , administrativeUnits)
+  const administrativeUnits = await AdDivisionApi.getAllAdDivision(data);
+  console.log("ccccccccccc", administrativeUnits);
   return {
     administrativeUnits,
   };
