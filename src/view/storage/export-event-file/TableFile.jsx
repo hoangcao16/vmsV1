@@ -332,14 +332,14 @@ const TableFile = (props) => {
                     render: renderName,
                 },
                 {
-                    title: "Camera",
+                    title: `${t("view.ai_events.camera_name")}`,
                     dataIndex: "cameraName",
                     key: "cameraName",
                     width: 240,
                     render: renderName,
                 },
                 {
-                    title: `${t('view.storage.created_time')}`,
+                    title: `${t('view.storage.violation_time')}`,
                     width: 160,
                     dataIndex: "createdTime",
                     render: renderTime,
