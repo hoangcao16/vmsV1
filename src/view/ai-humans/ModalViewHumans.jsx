@@ -299,14 +299,14 @@ const ModalViewHumans = (props) => {
         </Row>
         <Row gutter={24}>
             <Form.Item className="upload-photo" >
-              <div style={{ display: "grid", gridTemplateColumns: 'repeat(5, 1fr)' }}>
+              <div style={{ display: "grid", gridTemplateColumns: 'repeat(5, 1fr)', padding: '15px', columnGap: '15px', rowGap: '15px'}}>
                 {
 
                   listImages ? listImages.map((item, index) =>
 
                     <div
                       // className={props.classImage}
-                      className='asdfasd' style={{ width: '90%', paddingBottom: '20px', position: "relative" }}
+                      className='asdfasd' style={{ width: '100%', position: "relative" }}
                     >
                           
                           {item.errorStatus ?
