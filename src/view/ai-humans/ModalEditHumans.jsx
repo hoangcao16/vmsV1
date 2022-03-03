@@ -328,11 +328,10 @@ const ModalEditHumans = (props) => {
                   {
                     required: true,
                     message: `${t("view.map.required_field")}`,
-                    pattern: new RegExp("([a-zA-Z]{1,30}\\s*)+"),
                   },
-                  {
-                    pattern: new RegExp("([a-zA-Z]{1,30}\\s*)+"),
-                  },
+                  // {
+                  //   pattern: new RegExp("([a-zA-Z]{1,30}\\s*)+"),
+                  // },
                   {
                     max: 255,
                     message: `${t("noti.255_characters_limit")}`,
@@ -350,7 +349,6 @@ const ModalEditHumans = (props) => {
                   {
                     required: true,
                     message: `${t("view.map.required_field")}`,
-                    pattern: new RegExp("([a-zA-Z]{1,30}\\s*)+"),
                   },
                   {
                     max: 255,
@@ -367,7 +365,7 @@ const ModalEditHumans = (props) => {
                 label={t("view.ai_humans.phone")}
                 rules={[
                   {
-                    min: 12,
+                    min: 10,
                     message: `${t("noti.at_least_10_characters")}`,
                   },
                   {
@@ -394,6 +392,10 @@ const ModalEditHumans = (props) => {
                     max: 255,
                     message: `${t("noti.255_characters_limit")}`,
                   },
+                  {
+                    pattern: /^(([^<>()[\]\\.,;:\s@\"]+(\.[^<>()[\]\\.,;:\s@\"]+)*)|(\".+\"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/,
+                    message: `${t("view.user.detail_list.email_address_required")}`
+                  },
                 ]}
               >
                 <Input placeholder="Email" id="email" autocomplete="off" />
@@ -405,7 +407,12 @@ const ModalEditHumans = (props) => {
               <Form.Item
                 label={t("view.ai_humans.position")}
                 name={["position"]}
-                rules={[]}
+                rules={[
+                  {
+                    max: 255,
+                    message: `${t("noti.255_characters_limit")}`,
+                  },
+                ]}
               >
                 <Input placeholder={t("view.ai_humans.position")} />
               </Form.Item>
