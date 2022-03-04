@@ -103,6 +103,7 @@ const TabRect = (props) => {
         name: value.trim(),
         uuid: record.uuid,
       };
+      localStorage.setItem("name", value.trim());
 
       AIConfigRectApi.editConfigRectName(body).then((result) => {
         let dataNew = [...dataRectList];
@@ -113,6 +114,14 @@ const TabRect = (props) => {
         });
         setDataRectList(dataNew);
       });
+      switch (type) {
+        case "hurdles":
+          drawLine()
+          break;
+        case "intrusion_detection":
+          drawRect()
+          break;
+      }
 
       document.getElementById(`rename__uuid-${record.key}`).style.display =
         "none";
@@ -537,7 +546,7 @@ const TabRect = (props) => {
   const handleRowClick = (event, data) => {
     setIsActiveDetail(true);
     setKeyActive(data.key);
-    localStorage.setItem("name", data.name);
+    
     if (data.uuid != null) {
       AIConfigRectApi.getConfigRect(data.uuid).then((result) => {
         if (result != null) {
@@ -546,6 +555,7 @@ const TabRect = (props) => {
             vehicle: data.vehicleDetection,
             human: data.peopleDetection,
           };
+          localStorage.setItem("name", result.name);
           setDefaultDataRect(result);
         }
       });
@@ -1090,13 +1100,13 @@ const TabRect = (props) => {
       tY - headLen * Math.sin(angle + Math.PI / 6)
     );
 
-    if (fX < tX) {
-      ctx.fillText("B", fX - 15, fY);
-      ctx.fillText("A", tX + 5, tY);
-    } else {
-      ctx.fillText("A", fX + 5, fY);
-      ctx.fillText("B", tX - 15, tY);
-    }
+    // if (fX < tX) {
+    //   ctx.fillText("B", fX - 15, fY);
+    //   ctx.fillText("A", tX + 5, tY);
+    // } else {
+    //   ctx.fillText("A", fX + 5, fY);
+    //   ctx.fillText("B", tX - 15, tY);
+    // }
   };
 
   const canvasMouseDown = (event) => {
