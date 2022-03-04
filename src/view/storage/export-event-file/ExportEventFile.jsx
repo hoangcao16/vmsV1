@@ -142,24 +142,57 @@ const ExportEventFile = () => {
         }
       });
 
-    const dataEventList = [
-      {
-        id: 0,
-        type: "first_seen",
-        name: `${t('view.ai_events.attendance')}`,
-      },
-      {
-        id: 0,
-        type: "just_crossed",
-        name: `${t("view.ai_events.line_crossing")}`,
-      },
-      {
-        id: 0,
-        type: "intruding",
-        name: `${t("view.ai_events.intruding")}`,
-      },
-    ];
-    setEventListAI(dataEventList);
+      if (AI_SOURCE === "philong"){
+        const dataEventList = [
+          {
+            id: 0,
+            type: "nhandienbienso",
+            name: `${t('view.ai_events.nhandienbienso')}`,
+          },
+          {
+            id: 0,
+            type: "damdong",
+            name: `${t("view.ai_events.damdong")}`,
+          },
+          {
+            id: 0,
+            type: "vuotdendo",
+            name: `${t("view.ai_events.vuotdendo")}`,
+          },
+          {
+            id: 0,
+            type: "daudo",
+            name: `${t("view.ai_events.daudo")}`,
+          },
+          
+          
+        ];
+        setEventListAI(dataEventList);
+
+      } else {
+        const dataEventList = [
+          {
+            id: 0,
+            type: "first_seen",
+            name: `${t('view.ai_events.attendance')}`,
+          },
+          {
+            id: 0,
+            type: "just_crossed",
+            name: `${t("view.ai_events.line_crossing")}`,
+          },
+          {
+            id: 0,
+            type: "intruding",
+            name: `${t("view.ai_events.intruding")}`,
+          },
+          
+        ];
+        setEventListAI(dataEventList);
+      }
+
+    
+    
   }, []);
 
   useEffect(() => {
@@ -169,10 +202,21 @@ const ExportEventFile = () => {
   useEffect(() => {
     if (viewFileType === 4) {
       let imageOther = []
-
+      console.log("fileCurrent____________", fileCurrent)
       if (AI_SOURCE === "philong") {
+        
+        setDetailAI({
+          ...fileCurrent,
+        })
         if (fileCurrent.plateNumberUrl) {
-          imageOther.push(fileCurrent.plateNumberUrl)
+          // imageOther.push(fileCurrent.plateNumberUrl)
+          imageOther.push({
+            image: fileCurrent.plateNumberUrl,
+            // uuid: ef.uuid,
+            // cameraUuid: ef.cameraUuid,
+            // trackingId: ef.trackingId,
+            // fileName: ef.fileName
+          });
         }
         if (fileCurrent.vehicleUrl) {
           imageOther.push(fileCurrent.vehicleUrl)
@@ -242,6 +286,7 @@ const ExportEventFile = () => {
   const onClickTableFileHandler = async (row) => {
 
     if (row) {
+      console.log("row     ", row)
       setCaptureMode(false);
       setUrlVideoTimeline(null);
       setUrlSnapshot("");
@@ -365,6 +410,7 @@ const ExportEventFile = () => {
     } else if (viewFileType === 3) {
       setFileCurrent({ ...file });
     } else if (viewFileType === 4) {
+      console.log("ef           ile:",file);
       setFileCurrent({ ...file, fileType: '4' });
     }
     if (file.type === 1) {
@@ -1156,6 +1202,7 @@ const ExportEventFile = () => {
               (item) => item.uuid === requestObject.uuid
             );
             dataList[index] = requestObject;
+            console.log("requestObject"  ,requestObject)
             setListFiles([...dataList]);
             setFileCurrent({ ...requestObject });
             setEventFileCurrent((preSate) => {
@@ -1551,6 +1598,12 @@ const ExportEventFile = () => {
                   <li style={{ marginTop: 15 }}>{t("view.ai_events.plateNumber")} : {detailAI.plateNumber ? detailAI.plateNumber : t("view.ai_events.UnKnow")}</li>
                 </ul>
                 : null}
+              {detailAI.subEventType === "nhandienbienso" || detailAI.subEventType === "daudo"  || detailAI.subEventType === "vuotdendo"
+                ? <ul style={{ listStyleType: 'none', display: 'inline-block' }}>
+                  <li style={{ marginTop: 15 }}>{t("view.ai_events.type")} : {detailAI.vehicleType}</li>
+                  <li style={{ marginTop: 15 }}>{t("view.ai_events.plateNumber")} : {detailAI.plateNumber ? detailAI.plateNumber : t("view.ai_events.UnKnow")}</li>
+                </ul>
+                : null}
               {detailAI.useCase === "zac_human"
                 ? <ul style={{ listStyleType: 'none', display: 'inline-block' }}>
                   <li style={{ marginTop: 15 }}>{t("view.ai_events.type")} : {t("view.ai_events.useCase." + detailAI.useCase)}</li>
@@ -1583,7 +1636,7 @@ const ExportEventFile = () => {
             {detailAI.useCase !== "attendance" ? <Col span={24}>
               <div className="title">{t("view.ai_events.err_image")}</div>
               <div>
-                <ul >
+                {AI_SOURCE === "philong" ? (<ul >
                   {
 
                     imageOther ? imageOther.map((item, index) =>
@@ -1629,7 +1682,55 @@ const ExportEventFile = () => {
 
                   }
 
-                </ul>
+                </ul>) : (<ul >
+                  {
+
+                    imageOther ? imageOther.map((item, index) =>
+
+                      <li key={item.uuid} style={{ listStyleType: 'none', display: 'inline-block', marginRight: '20px' }}><div style={{ width: '90%', paddingBottom: '10px' }}>
+
+                        <div className='img__item' style={{ position: "relative" }}>
+                          {item.uuid != detailAI.uuid ? <Popconfirm title="Chắc chắn để xóa?"
+                            onCancel={event => {
+                              event.stopPropagation();
+                            }}
+                            onConfirm={(event) => { event.stopPropagation(); deleteImageHandler(item.uuid); }}>
+                            <Button className="button-photo-remove" size="small" type="danger"
+                              onClick={event => {
+                                event.stopPropagation();
+                              }}
+                              style={{
+                                position: 'absolute',
+                                top: 0,
+                                right: 0,
+                                width: '15px',
+                                height: '15px',
+                                borderRadius: '50%',
+                                display: 'flex',
+                                alignItems: 'center',
+                                justifyContent: 'center',
+                                background: 'red',
+                                // padding: '15px'
+                              }}
+                            >
+                              <CloseOutlined style={{}} />
+                            </Button>
+                          </Popconfirm> : null}
+
+                          <img onClick={event => {
+
+                            event.stopPropagation();
+                            viewImageAIHandler(item)
+                          }} style={{ width: '120px', height: "120px" }} className="cursor-pointer" src={item.image} alt="Avatar" />
+                        </div>
+                      </div></li>
+                    ) : null
+
+                  }
+
+                </ul>)}
+
+
               </div>
             </Col> : null}
 

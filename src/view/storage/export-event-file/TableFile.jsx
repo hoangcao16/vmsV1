@@ -324,13 +324,13 @@ const TableFile = (props) => {
                     dataIndex: "subEventType",
                     render: renderSubtype,
                 },
-                {
-                    title: `${t('view.storage.file_name')}`,
-                    dataIndex: "fileName",
-                    key: "fileName",
-                    width: 150,
-                    render: renderName,
-                },
+                // {
+                //     title: `${t('view.storage.file_name')}`,
+                //     dataIndex: "fileName",
+                //     key: "fileName",
+                //     width: 150,
+                //     render: renderName,
+                // },
                 {
                     title: `${t("view.ai_events.camera_name")}`,
                     dataIndex: "cameraName",
@@ -577,6 +577,7 @@ const TableFile = (props) => {
             endDate: null,
             type: null,
             event: null,
+            plateNumber: null,
             code: null,
             name: null,
             eventName: null,
@@ -641,6 +642,14 @@ const TableFile = (props) => {
         setSearchParam(dataParam);
     };
 
+    const onPlateNumber = (event) => {
+        form.setFieldsValue({
+            plateNumber: event.target.value.trim()
+        });
+        const dataParam = Object.assign({ ...searchParam, plateNumber: event.target.value.trim() });
+        setSearchParam(dataParam);
+    };
+    
 
 
     const onChangeUnit = (unitId) => {
@@ -1286,6 +1295,13 @@ const TableFile = (props) => {
                                         />
                                     </Form.Item>
                                 )}
+                                {props.viewFileType === 4 && (
+                                    <Form.Item name={["plateNumber"]} rules={[{ required: false }]}>
+                                        <Input placeholder={t('view.ai_events.plateNumber')} onChange={onPlateNumber}
+                                            maxLength={255}
+                                        />
+                                    </Form.Item>
+                                )}
                             </Col>
                             <Col span={8}>
                                 {props.viewFileType >= 2 && props.viewFileType != 4 && (
@@ -1300,7 +1316,9 @@ const TableFile = (props) => {
                                         />
                                     </Form.Item>
                                 )}
+                                
                                 {props.viewFileType === 4 && (
+                                    
                                     <Form.Item name={["eventType"]}>
                                         <Select
                                             allowClear
