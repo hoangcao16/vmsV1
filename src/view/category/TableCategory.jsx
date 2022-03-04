@@ -78,6 +78,7 @@ const TableCategory = () => {
 
   const handleChange = (value) => {
     setDataType(value);
+    setSearch('')
   };
 
   const getDataByCategory = (dataType) => {
@@ -208,10 +209,40 @@ const TableCategory = () => {
   const handleSearch = async (value) => {
     setSearch(value);
     const data = {
-      name: value.replace(/[&\/\\#,+()$~%.'":*?<>{}]/g, '')
+      name: value.replace(/[&\/\\#,+()$~%.^'":*?<>{}]/g, '')
     };
-    const dataSearch = await fetchOptionsData(data);
-    setDataOptions(dataSearch);
+    // const dataSearch = await fetchOptionsData(data);
+    // setDataOptions(dataSearch);
+    let dataSearch;
+    if (dataType === CATEGORY_NAME.VENDOR) {
+      dataSearch = await VendorApi.getAllVendor(data);
+      setDataOptions((prev) => { return {...prev, vendors: dataSearch}})
+    }
+
+    if (dataType === CATEGORY_NAME.FIELD) {
+      dataSearch = await FieldApi.getAllFeild(data);
+      setDataOptions((prev) => { return {...prev, field: dataSearch}})
+    }
+
+    if (dataType === CATEGORY_NAME.CAMERA_TYPE) {
+      dataSearch = await CameraApi.getAllCameraTypes(data);
+      setDataOptions((prev) => { return {...prev, cameraTypes: dataSearch}})
+    }
+
+    if (dataType === CATEGORY_NAME.EVENT_TYPE) {
+      dataSearch = await EventApi.getAllEvent(data);
+      setDataOptions((prev) => { return {...prev, eventTypes: dataSearch}})
+    }
+
+    if (dataType === CATEGORY_NAME.TAGS) {
+      dataSearch = await TagApi.getAllTags(data);
+      setDataOptions((prev) => { return {...prev, tags: dataSearch}})
+    }
+
+    if (dataType === CATEGORY_NAME.DEPARTMENTS) {
+      dataSearch = await DepartmentApi.getAllDepartment({...data, administrativeUnitUuid:""});
+      setDataOptions((prev) => { return {...prev, departments: dataSearch}})
+    }
   };
 
   const handleDelete = async (id, dataType) => {
@@ -484,8 +515,7 @@ async function fetchOptionsData(data) {
     FieldApi.getAllFeild(data),
     EventApi.getAllEvent(data),
     TagApi.getAllTags(data),
-    DepartmentApi.getAllDepartment({...data, administrativeUnitUuid:""})
-    
+    DepartmentApi.getAllDepartment({...data, administrativeUnitUuid:""}) 
   ]);
 
   return {
