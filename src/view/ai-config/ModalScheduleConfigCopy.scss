@@ -45,6 +45,18 @@
         text-align: center;
       }
     }
+    th.ant-table-cell.action-1 {
+      position: relative;
+      height: 70px;
+
+      .searchInputCamproxy {
+        position: absolute;
+        right: 0;
+        top: 50%;
+        transform: translateY(-50%);
+      }
+    }
+    
     .headerColumsColor {
       background-color: #232323 !important;
     }
