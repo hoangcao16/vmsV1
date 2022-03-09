@@ -110,6 +110,7 @@ const TabRect = (props) => {
         dataNew.forEach((data) => {
           if (data.key === record.key) {
             data.uuid = result.uuid;
+            data.name=value.trim()
           }
         });
         setDataRectList(dataNew);

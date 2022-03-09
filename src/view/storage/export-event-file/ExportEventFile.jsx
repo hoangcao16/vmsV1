@@ -1636,7 +1636,7 @@ const ExportEventFile = () => {
             {detailAI.useCase !== "attendance" ? <Col span={24}>
               <div className="title">{t("view.ai_events.err_image")}</div>
               <div>
-                {AI_SOURCE === "philong" ? (<ul >
+                {AI_SOURCE !== "philong" ? (<ul >
                   {
 
                     imageOther ? imageOther.map((item, index) =>
@@ -1737,7 +1737,7 @@ const ExportEventFile = () => {
             <Col span={12}>
               <div className="title">
                 <span>{t("view.common_device.note")}</span>
-                {editMode && (
+                {detailAI.uuid && (
                   <AiOutlineEdit
                     className="iconEdit"
                     onClick={() => {
