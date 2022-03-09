@@ -18,6 +18,7 @@ import {
   Spin,
   Switch,
   Table,
+  InputNumber,
   Tooltip,
 } from "antd";
 import "antd/dist/antd.css";
@@ -1388,12 +1389,13 @@ const TabRect = (props) => {
                           rules={[]}
                           vale={threshold}
                         >
-                          <Input
+                          <InputNumber size="large" min={1} max={1000000} disabled={!isActiveDetail} value={threshold} placeholder={t("view.ai_config.time")} />
+                          {/* <Input
                             disabled={!isActiveDetail}
                             placeholder={t("view.ai_config.time")}
                             type="number"
                             value={threshold}
-                          />
+                          /> */}
                         </Form.Item>
                       </Col>
                       <Col span={6} style={{ flex: "none" }}>
