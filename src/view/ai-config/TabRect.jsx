@@ -150,6 +150,15 @@ const TabRect = (props) => {
     }
     document.getElementById(`rename__uuid-${record.key}`).style.display =
       "none";
+      localStorage.setItem("name", n.name.trim());
+      switch (type) {
+        case "hurdles":
+          drawLine()
+          break;
+        case "intrusion_detection":
+          drawRect()
+          break;
+      }
   };
 
   const handleSubmit = async (value) => {
@@ -1099,14 +1108,25 @@ const TabRect = (props) => {
       tX - headLen * Math.cos(angle + Math.PI / 6),
       tY - headLen * Math.sin(angle + Math.PI / 6)
     );
+    if(fromY < toY){
+      if (fX < tX) {
+        ctx.fillText("B", fX - 15, fY);
+        ctx.fillText("A", tX + 5, tY);
+      } else {
+        ctx.fillText("A", fX + 5, fY);
+        ctx.fillText("B", tX - 15, tY);
+      }
+    } else{
+      if (fX < tX) {
+        ctx.fillText("A", fX - 15, fY);
+        ctx.fillText("B", tX + 5, tY);
+      } else {
+        ctx.fillText("B", fX + 5, fY);
+        ctx.fillText("A", tX - 15, tY);
+      }
+    }
 
-    // if (fX < tX) {
-    //   ctx.fillText("B", fX - 15, fY);
-    //   ctx.fillText("A", tX + 5, tY);
-    // } else {
-    //   ctx.fillText("A", fX + 5, fY);
-    //   ctx.fillText("B", tX - 15, tY);
-    // }
+    
   };
 
   const canvasMouseDown = (event) => {
