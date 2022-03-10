@@ -126,6 +126,10 @@ const ExportEventFile = () => {
   const [detailAI, setDetailAI] = useState(defaultEventFile);
 
   const zoom = ((window.outerWidth - 10) / window.innerWidth) * 100;
+  const [visible, setVisible] = useState(false);
+  
+  
+
 
   useEffect(() => {
     language === "vn"
@@ -1571,12 +1575,13 @@ const ExportEventFile = () => {
                       }`}
                     placement="topRight"
                     title=""
-
+                    visible={visible}
+                    onVisibleChange={(visible) => setVisible(visible)}
                     content={
                       checkBtnInfoObjectDisabled()
                         ? ""
                         : renderInfoObjectPopoverContent
-                    }
+                     }
                     trigger={`${checkBtnInfoObjectDisabled() ? "" : "click"}`}
                   >
                     <AiFillEdit
@@ -1861,13 +1866,14 @@ const ExportEventFile = () => {
   const renderInfoObjectPopoverContent = () => {
     return (
       <MemoizedInfoObjectPopoverContent
-        viewFileType={viewFileType}
-        fileCurrent={detailAI}
-        onEditFile={editFileOnPopoverHandler}
-        onDownloadFile={downloadFileHandler}
-        onDeleteFile={deleteFileHandler}
-        closeObjectForm={closeObjectForm}
-      />
+          viewFileType={viewFileType}
+          fileCurrent={detailAI}
+          onEditFile={editFileOnPopoverHandler}
+          onDownloadFile={downloadFileHandler}
+          onDeleteFile={deleteFileHandler}
+          closeObjectForm={closeObjectForm}
+          onClose={() => setVisible(false)}
+        />
     );
   };
 
