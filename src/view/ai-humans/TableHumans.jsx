@@ -92,9 +92,6 @@ const TableHumans = () => {
             className=" full-width height-40 read search__camera-group"
             onSearch={handleSearch}
             value={valueSearch}
-            onChange={(e) => {
-              setValueSearch(e);
-            }}
             onBlur={(e) => setValueSearch(e.target.value.trim())}
             placeholder={
               <div className="placehoder height-40 justify-content-between d-flex align-items-center">
@@ -131,11 +128,11 @@ const TableHumans = () => {
   };
 
   const handleSearch = async (value) => {
-    setValueSearch(value.trim());
+    setValueSearch(value);
     const data = {
       page: page,
       pageSize: pageSize,
-      name: value,
+      name: value.replace(/[&\/\\#,+()!@=+`~_|$~%.^'":;*?<>{}\[\]\-]/g, ''),
     };
     console.log("handleSearch", data);
     AIHumansApi.getAllHumans(data).then((result) => {
@@ -207,7 +204,7 @@ const TableHumans = () => {
       fixed: "left",
       key: "index",
       className: "headerColums",
-      width: "10%",
+      width: "8%",
       render: (text, record, index) => index + 1,
     },
     {
@@ -223,7 +220,7 @@ const TableHumans = () => {
       dataIndex: "code",
       className: "headerColums",
       key: "code",
-      width: "5%",
+      width: "10%",
     },
     {
       title: `${t("view.ai_humans.position")}`,
