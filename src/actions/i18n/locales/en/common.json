@@ -555,7 +555,7 @@
         "xemay": "Motorcycle",
         "vehicle": "Vehicle",
         "human": "Human",
-          "unknow" :"nknow"
+          "unknow" :"UnKnow"
       },
       "useCase" : {
         "zac_vehicle": "Vehicle",
