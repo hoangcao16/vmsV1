@@ -393,9 +393,9 @@ const ModalEditHumans = (props) => {
                     message: `${t("noti.255_characters_limit")}`,
                   },
                   {
-                    pattern: /^(([^<>()[\]\\.,;:\s@\"]+(\.[^<>()[\]\\.,;:\s@\"]+)*)|(\".+\"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/,
+                    pattern: /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/,
                     message: `${t("view.user.detail_list.email_address_required")}`
-                  },
+                  }
                 ]}
               >
                 <Input placeholder="Email" id="email" autocomplete="off" />
