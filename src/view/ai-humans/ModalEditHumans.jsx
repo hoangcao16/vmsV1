@@ -369,7 +369,7 @@ const ModalEditHumans = (props) => {
                     message: `${t("noti.at_least_10_characters")}`,
                   },
                   {
-                    max: 22,
+                    max: 20,
                     message: `${t("noti.up_to_20_characters")}`,
                   },
                 ]}
