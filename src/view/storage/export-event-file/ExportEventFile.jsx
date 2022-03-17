@@ -1743,24 +1743,31 @@ const ExportEventFile = () => {
               <div className="title">
                 <span>{t("view.common_device.note")}</span>
                 {detailAI.uuid && (
-                  <AiOutlineEdit
-                    className="iconEdit"
-                    onClick={() => {
-                      setEditMode(true);
-                    }}
-                  />
+                  <Tooltip placement="top" title={t("view.common_device.edit")}>
+                    <AiOutlineEdit
+                      className="iconEdit"
+                      onClick={() => {
+                        setEditMode(true);
+                      }}
+                    />
+                  </Tooltip>
+                  
                 )}
                 {editMode && (
-                  <AiOutlineCheck
-                    className="iconEdit"
-                    onClick={() => saveFileHandler(null, currNode)}
-                  />
+                  <Tooltip placement="top" title={t("view.map.button_save")}>
+                    <AiOutlineCheck
+                      className="iconEdit"
+                      onClick={() => saveFileHandler(null, currNode)}
+                    />
+                  </Tooltip>
                 )}
                 {editMode && (
-                  <AiOutlineClose
-                    className="iconEdit"
-                    onClick={() => cancelChangeNoteHandler()}
-                  />
+                  <Tooltip placement="top" title={t("view.map.button_cancel")}>
+                    <AiOutlineClose
+                      className="iconEdit"
+                      onClick={() => cancelChangeNoteHandler()}
+                    />
+                  </Tooltip>
                 )}
               </div>
               <div>
