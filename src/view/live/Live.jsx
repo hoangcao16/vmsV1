@@ -1,7 +1,7 @@
 import "antd/dist/antd.css";
 import Hls from "hls.js";
 import moment from "moment";
-import React, { useEffect, useRef, useState } from "react";
+import React, {useEffect, useReducer, useRef, useState} from "react";
 import { DragDropContext, Draggable, Droppable } from "react-beautiful-dnd";
 import { useTranslation } from "react-i18next";
 import { connect, useDispatch } from "react-redux";
@@ -83,6 +83,7 @@ const Live = (props) => {
   const [curSpeed, setCurSpeed] = useState(1);
   const [defaultSize, setDefaultSize] = useState(16);
   const [pcList, setPCList] = useState([]);
+  const pcListRef = useRef(pcList)
 
   let wsOnConnectCallback = function (message) {
     const dataBody = message.body;
@@ -144,16 +145,13 @@ const Live = (props) => {
 
     return () => {
       clearInterval(refreshTokenTimer);
-
-      // CLOSE ALL STREAM
-      let pcLstTmp = [...pcList];
-      for (let i = 0; i < pcLstTmp.length; i++) {
-        if (pcLstTmp[i].pc) {
-          pcLstTmp[i].pc.close();
-        }
-      }
+      closeAllRTCPeerConnection();
     };
   }, []);
+
+  useEffect(() => {
+      pcListRef.current = pcList
+  },[pcList]);
 
   useEffect(() => {
     fetchCameras(filter, search);
@@ -167,6 +165,17 @@ const Live = (props) => {
       }
     }
   }, [props.openModalPresetSetting.state]);
+
+  const closeAllRTCPeerConnection = () => {
+    // CLOSE ALL STREAM
+    let pcLstTmp = [...pcListRef.current];
+    for (let i = 0; i < pcLstTmp.length; i++) {
+      if (pcLstTmp[i].pc) {
+        pcLstTmp[i].pc.close();
+        //console.log(">>>>> close connection: ", pcLstTmp[i].pc);
+      }
+    }
+  }
 
   /**
    * Hàm này tạo screen với dầy đủ thông tin của từng  camera trên lưới: Ví dụ: tên cam, uuid, id

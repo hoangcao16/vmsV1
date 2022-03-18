@@ -21,7 +21,7 @@ import {
 } from "antd";
 import { arrayMoveImmutable } from "array-move";
 import { isEmpty } from "lodash";
-import React, { useEffect, useLayoutEffect, useState } from "react";
+import React, {useEffect, useLayoutEffect, useRef, useState} from "react";
 import { useTranslation } from "react-i18next";
 import {
   sortableContainer,
@@ -35,6 +35,7 @@ import Notification from "../../components/vms/notification/Notification";
 import getServerCamproxyForPlay from "../../utility/vms/camera";
 import { NOTYFY_TYPE } from "../common/vms/Constant";
 import "./Preset.scss";
+import {getEmail, getToken} from "../../api/token";
 
 const Preset = (props) => {
   const { idCamera } = props;
@@ -61,8 +62,40 @@ const Preset = (props) => {
   const [speed, setSpeed] = useState(1);
   const [loading, setLoading] = useState(false);
   const { t } = useTranslation();
-
   // const [newPresetTour, setNewPresetTour] = useState([]);
+
+  const [pcList, setPCList] = useState([]);
+  const pcListRef = useRef(pcList);
+
+  useEffect(() => {
+    pcListRef.current = pcList
+  },[pcList]);
+
+  const closeAllRTCPeerConnection = () => {
+    // CLOSE ALL STREAM
+    let pcLstTmp = [...pcListRef.current];
+    for (let i = 0; i < pcLstTmp.length; i++) {
+      if (pcLstTmp[i].pc) {
+        pcLstTmp[i].pc.close();
+      }
+    }
+  }
+
+  const closeRTCPeerConnection = (slotIdx) => {
+    // CLOSE STREAM
+    debugger;
+    let pcLstTmp = [...pcListRef.current];
+    for (let i = 0; i < pcLstTmp.length; i++) {
+      if (pcLstTmp[i].slotIdx === slotIdx) {
+        if (pcLstTmp[i].pc) {
+          pcLstTmp[i].pc.close();
+          pcLstTmp.splice(i, 1);
+        }
+        break;
+      }
+    }
+    setPCList([...pcLstTmp]);
+  }
 
   const convertRowsPreset = (data) => {
     return data.map((row, index) => {
@@ -140,8 +173,12 @@ const Preset = (props) => {
       setPresetTourDatas(convertPresetTourDatas(payload.data));
     }
   };
+
   useEffect(() => {
     setIsPlayCamera(true);
+    return () => {
+      closeAllRTCPeerConnection();
+    };
   }, []);
 
   //call api get all preset
@@ -317,7 +354,10 @@ const Preset = (props) => {
         spin.style.display = "none";
       }
     };
-    const token = "123";
+
+    const thisTime = new Date().getTime();
+    const token = "0##" + getToken() + "##" + getEmail() + "##" + thisTime;
+
     const API = data.camproxyApi;
 
     pc.createOffer({
@@ -332,6 +372,7 @@ const Preset = (props) => {
             token: token,
             camUuid: camUuid,
             offer: offer,
+            viewType: "live",
           })
           .then((res) => {
             if (res) {
@@ -351,6 +392,20 @@ const Preset = (props) => {
       })
       .catch(alert)
       .finally(() => {});
+
+    let pcLstTmp = [...pcList];
+    let isExist = false;
+    for (let i = 0; i < pcLstTmp.length; i++) {
+      if (pcLstTmp[i].slotIdx === 0) {
+        pcLstTmp[i].pc = pc;
+        isExist = true;
+        break;
+      }
+    }
+    if (!isExist) {
+      pcLstTmp.push({ slotIdx: 0, pc: pc });
+    }
+    setPCList([...pcLstTmp]);
   };
 
   const setUpSpeed = () => {
@@ -369,6 +424,7 @@ const Preset = (props) => {
     const cell = document.getElementById("video-slot-1");
     cell.srcObject = null;
     cell.style.display = "none";
+    closeRTCPeerConnection(0);
   };
 
   const onPanLeftStart = async () => {

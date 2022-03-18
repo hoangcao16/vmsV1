@@ -27,18 +27,50 @@ const MapCamItemLive = (props) => {
     const maxMinCamera = () => {
         setIsMaximize(!isMaximize);
     }
+    const [pcList, setPCList] = useState([]);
+    const pcListRef = useRef(pcList);
 
+    useEffect(() => {
+        return () => {
+            closeAllRTCPeerConnection();
+        };
+    },[]);
+
+    useEffect(() => {
+        pcListRef.current = pcList
+    },[pcList]);
 
     useEffect(() => {
         if (!camLive) {
             CameraService.closeCamera(slotId);
+            closeRTCPeerConnection(slotId);
             return;
         }
         if (liveMode) {
             if (camLive && !camLive.isPlay && !camLive.messError) {
-                CameraService.playCameraOnline(camLive, slotId, dispatch)
+                CameraService.playCameraOnline(camLive, slotId, dispatch).then(
+                    (pc) => {
+                        if (pc instanceof RTCPeerConnection) {
+                            console.log(">>>>> pc: ", pc);
+                            let pcLstTmp = [...pcList];
+                            let isExist = false;
+                            for (let i = 0; i < pcLstTmp.length; i++) {
+                                if (pcLstTmp[i].slotIdx === slotId) {
+                                    pcLstTmp[i].pc = pc;
+                                    isExist = true;
+                                    break;
+                                }
+                            }
+                            if (!isExist) {
+                                pcLstTmp.push({ slotIdx: slotId, pc: pc });
+                            }
+                            setPCList([...pcLstTmp]);
+                        }
+                    }
+                )
             } else if (!camLive) {
                 CameraService.closeCamera(slotId);
+                closeRTCPeerConnection(slotId);
             }
         } else {
             if (camLive?.first) {
@@ -68,6 +100,31 @@ const MapCamItemLive = (props) => {
         }
     }, [camLive?.first, camLive?.name, liveMode, playbackSeekTime]
     );
+
+    const closeAllRTCPeerConnection = () => {
+        // CLOSE ALL STREAM
+        let pcLstTmp = [...pcListRef.current];
+        for (let i = 0; i < pcLstTmp.length; i++) {
+            if (pcLstTmp[i].pc) {
+                pcLstTmp[i].pc.close();
+            }
+        }
+    }
+
+    const closeRTCPeerConnection = (slotIdx) => {
+        // CLOSE STREAM
+        let pcLstTmp = [...pcListRef.current];
+        for (let i = 0; i < pcLstTmp.length; i++) {
+            if (pcLstTmp[i].slotIdx === slotIdx) {
+                if (pcLstTmp[i].pc) {
+                    pcLstTmp[i].pc.close();
+                    pcLstTmp.splice(i, 1);
+                }
+                break;
+            }
+        }
+        setPCList([...pcLstTmp]);
+    }
 
     useEffect(() => {
         if (camLive && !camLive.isPlay) {
@@ -99,6 +156,7 @@ const MapCamItemLive = (props) => {
         dispatch(deSelectCamLiveOnMap(slotId))
         dispatch(removeCamLiveOnMap(camLive));
         CameraService.closeCamera(slotId);
+        closeRTCPeerConnection(slotId);
         setIsMaximize(false);
     };
     return (
