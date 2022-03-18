@@ -7,6 +7,7 @@ import {
   updatePlayCamLive,
 } from "../redux/actions/map/camLiveAction";
 import { reactLocalStorage } from "reactjs-localstorage";
+import {getEmail, getToken} from "../api/token";
 
 const language = reactLocalStorage.get("language");
 let notifyMess = {};
@@ -38,6 +39,7 @@ class CameraService {
     }
     // cell.style.display = "none";
   };
+
   async playCameraOnline(cam, slotIdx, dispatch) {
     try {
       if (cam.uuid === "" || cam.uuid == null) {
@@ -97,7 +99,10 @@ class CameraService {
         // spin.style.display = 'none'
         return { status: "success" };
       };
-      const token = "123";
+
+      const thisTime = new Date().getTime();
+      const token =
+          slotIdx + "##" + getToken() + "##" + getEmail() + "##" + thisTime;
 
       const API = data.camproxyApi;
       pc.createOffer({
@@ -111,6 +116,7 @@ class CameraService {
             token: token,
             camUuid: cam.uuid,
             offer: offer,
+            viewType: "live",
           })
           .then((res) => {
             if (res) {
@@ -130,6 +136,9 @@ class CameraService {
             }
           });
       });
+
+      return pc;
+
     } catch (error) {
       console.log("error:", error);
       dispatch && dispatch(viewCamIsNotPermission(cam));

@@ -23,7 +23,7 @@ import {
 } from "antd";
 import "antd/dist/antd.css";
 import _ from "lodash";
-import React, { useEffect, useRef } from "react";
+import React, {useEffect, useRef, useState} from "react";
 import "react-calendar-timeline/lib/Timeline.css";
 import { useTranslation } from "react-i18next";
 import AIConfigRectApi from "../../actions/api/ai-config/AIConfigRectApi";
@@ -35,6 +35,7 @@ import { sortPoints } from "../../utility/vms/sortIntrusionPoints";
 import { NOTYFY_TYPE } from "../common/vms/Constant";
 import "./TabRect.scss";
 import { bodyStyleCard, headStyleCard } from "./variables";
+import {getEmail, getToken} from "../../api/token";
 
 const CheckboxGroup = Checkbox.Group;
 const { Option } = Select;
@@ -54,6 +55,9 @@ const TabRect = (props) => {
   const [keyActive, setKeyActive] = React.useState(0);
   const [isActive, setIsActive] = React.useState(false);
   const [isActiveDetail, setIsActiveDetail] = React.useState(false);
+
+  const [pcList, setPCList] = useState([]);
+  const pcListRef = useRef(pcList);
 
   const canvasRef = useRef(null);
   const canvasRefRect = useRef(null);
@@ -81,6 +85,42 @@ const TabRect = (props) => {
     wrapperCol: { span: 24 },
     labelCol: { span: 24 },
   };
+
+  useEffect(() => {
+    return () => {
+      closeAllRTCPeerConnection();
+    };
+  },[]);
+
+  useEffect(() => {
+    pcListRef.current = pcList
+  },[pcList]);
+
+  const closeAllRTCPeerConnection = () => {
+    // CLOSE ALL STREAM
+    let pcLstTmp = [...pcListRef.current];
+    for (let i = 0; i < pcLstTmp.length; i++) {
+      if (pcLstTmp[i].pc) {
+        pcLstTmp[i].pc.close();
+      }
+    }
+  }
+
+  const closeRTCPeerConnection = (slotIdx) => {
+    // CLOSE STREAM
+    debugger;
+    let pcLstTmp = [...pcListRef.current];
+    for (let i = 0; i < pcLstTmp.length; i++) {
+      if (pcLstTmp[i].slotIdx === slotIdx) {
+        if (pcLstTmp[i].pc) {
+          pcLstTmp[i].pc.close();
+          pcLstTmp.splice(i, 1);
+        }
+        break;
+      }
+    }
+    setPCList([...pcLstTmp]);
+  }
 
   const handleDoneRenameUuid = async (e, record) => {
     const value = document
@@ -610,7 +650,10 @@ const TabRect = (props) => {
         spin.style.display = "none";
       }
     };
-    const token = "123";
+
+    const thisTime = new Date().getTime();
+    const token = "0##" + getToken() + "##" + getEmail() + "##" + thisTime;
+
     const API = data.camproxyApi;
 
     pc.createOffer({
@@ -625,6 +668,7 @@ const TabRect = (props) => {
             token: token,
             camUuid: cameraUuid,
             offer: offer,
+            viewType: "live",
           })
           .then((res) => {
             if (res) {
@@ -644,6 +688,20 @@ const TabRect = (props) => {
       })
       .catch(alert)
       .finally(() => {});
+
+    let pcLstTmp = [...pcList];
+    let isExist = false;
+    for (let i = 0; i < pcLstTmp.length; i++) {
+      if (pcLstTmp[i].slotIdx === 0) {
+        pcLstTmp[i].pc = pc;
+        isExist = true;
+        break;
+      }
+    }
+    if (!isExist) {
+      pcLstTmp.push({ slotIdx: 0, pc: pc });
+    }
+    setPCList([...pcLstTmp]);
   };
 
   const closeCamera = () => {
@@ -654,6 +712,7 @@ const TabRect = (props) => {
     if (timerIdentifierRect != null) clearTimeout(timerIdentifierRect);
     window.removeEventListener("resize", resizeLineCanvasEventHandler);
     window.removeEventListener("resize", resizeRectCanvasEventHandler);
+    closeRTCPeerConnection(0);
   };
 
   const initRect = () => {
