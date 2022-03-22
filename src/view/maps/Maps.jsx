@@ -77,7 +77,6 @@ const Maps = (props) => {
     isEditForm,
   } = formMapSelector;
 
-
   // dispatch action
   const {
     fetchAllCameraOnMap,
