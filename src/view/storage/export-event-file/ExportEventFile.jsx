@@ -204,27 +204,36 @@ const ExportEventFile = () => {
   }, [viewFileType]);
 
   useEffect(() => {
-    if (viewFileType === 4) {
+    if (viewFileType === 4 && fileCurrent != null) {
       let imageOther = []
-      console.log("fileCurrent____________", fileCurrent)
+      
       if (AI_SOURCE === "philong") {
         
         setDetailAI({
           ...fileCurrent,
         })
         if (fileCurrent.plateNumberUrl) {
-          // imageOther.push(fileCurrent.plateNumberUrl)
           imageOther.push({
+            fileName:'ImagePlate.jpg',
+            uuid: fileCurrent.uuid,
             image: fileCurrent.plateNumberUrl,
-            // uuid: ef.uuid,
-            // cameraUuid: ef.cameraUuid,
-            // trackingId: ef.trackingId,
-            // fileName: ef.fileName
           });
         }
         if (fileCurrent.vehicleUrl) {
-          imageOther.push(fileCurrent.vehicleUrl)
+          imageOther.push({
+            fileName:'ImageVehicle.jpg',
+            uuid: fileCurrent.uuid,
+            image: fileCurrent.vehicleUrl,
+          });
+          
         }
+        console.log("imageOther   []  ", imageOther)
+        setImageOther(imageOther)
+
+        setImageAICurrent({
+          uuid: fileCurrent.uuid,
+          fileName: "ImageViolate.jpg"
+        });
       } else {
         setDetailAI({})
         if (fileCurrent && fileCurrent.uuid != null) {
@@ -432,6 +441,7 @@ const ExportEventFile = () => {
       });
 
     } else if (viewFileType === 4) {
+      
       if (AI_SOURCE === "philong") {
         setUrlSnapshot(file.overViewUrl);
       } else {
@@ -461,7 +471,12 @@ const ExportEventFile = () => {
       }
     }
     if (viewFileType === 4) {
-      setDownloadFileName(file.fileName);
+      if (AI_SOURCE === "philong") {
+        setDownloadFileName("ImageViolate.jpg");
+      } else {
+        setDownloadFileName(file.fileName);
+      }
+      
     } else {
       setDownloadFileName(file.name);
     }
@@ -858,6 +873,7 @@ const ExportEventFile = () => {
           perStr = "download_event_file";
           break;
         case 4:
+          
           perStr = "download_event_file";
           break;
         case 3:
@@ -880,6 +896,7 @@ const ExportEventFile = () => {
         } else {
           setLoading(true);
           try {
+            
             if (fileCurrent.tableName === "file") {
               // Call Nginx to get blob data of file
               await ExportEventFileApi.downloadFileNginx(
@@ -892,19 +909,36 @@ const ExportEventFile = () => {
                 saveAs(url, downloadFileName);
               });
             } else {
+              
+              
               if (fileCurrent.fileType === "4") {
-                await ExportEventFileApi.downloadFileAI(
-                  imageAICurrent.cameraUuid,
-                  imageAICurrent.trackingId,
-                  imageAICurrent.uuid,
-                  imageAICurrent.fileName,
-                  4
-                ).then(async (result) => {
-                  const blob = new Blob([result.data], { type: "octet/stream" });
-                  const url = window.URL.createObjectURL(blob);
-                  saveAs(url, downloadFileName);
-
-                });
+                
+                if (AI_SOURCE === "philong") {
+                  console.log("imageAICurrent          ", imageAICurrent)
+                  await ExportEventFileApi.downloadAIIntegrationFile(
+                    imageAICurrent.uuid,
+                    imageAICurrent.fileName,
+                  ).then(async (result) => {
+                    const blob = new Blob([result.data], { type: "octet/stream" });
+                    const url = window.URL.createObjectURL(blob);
+                    saveAs(url, downloadFileName);
+  
+                  });
+                } else {
+                  await ExportEventFileApi.downloadFileAI(
+                    imageAICurrent.cameraUuid,
+                    imageAICurrent.trackingId,
+                    imageAICurrent.uuid,
+                    imageAICurrent.fileName,
+                    4
+                  ).then(async (result) => {
+                    const blob = new Blob([result.data], { type: "octet/stream" });
+                    const url = window.URL.createObjectURL(blob);
+                    saveAs(url, downloadFileName);
+  
+                  });
+                }
+                
                 // Call Nginx to get blob data of file
 
               } else {
@@ -1000,24 +1034,43 @@ const ExportEventFile = () => {
 
   const viewImageAIHandler = async (item) => {
     setLoading(true);
-    await ExportEventFileApi.downloadFileAI(
-      item.cameraUuid,
-      item.trackingId,
-      item.uuid,
-      item.fileName,
-      4
-    ).then(async (result) => {
-      const blob = new Blob([result.data], { type: "octet/stream" });
-      getBase64Text(blob, async (image) => {
-        setUrlSnapshot(image);
+    if (AI_SOURCE === "philong") {
+      
+      await ExportEventFileApi.downloadAIIntegrationFile(
+        item.uuid,
+        item.fileName
+      ).then(async (result) => {
+        const blob = new Blob([result.data], { type: "octet/stream" });
+        getBase64Text(blob, async (image) => {
+          setUrlSnapshot(image);
+        });
       });
-    });
-    setImageAICurrent({
-      cameraUuid: item.cameraUuid,
-      trackingId: item.trackingId,
-      uuid: item.uuid,
-      fileName: item.fileName,
-    });
+      setImageAICurrent({
+        uuid: item.uuid,
+        fileName: "ImageViolate.jpg",
+      });
+    } else {
+      await ExportEventFileApi.downloadFileAI(
+        item.cameraUuid,
+        item.trackingId,
+        item.uuid,
+        item.fileName,
+        4
+      ).then(async (result) => {
+        const blob = new Blob([result.data], { type: "octet/stream" });
+        getBase64Text(blob, async (image) => {
+          setUrlSnapshot(image);
+        });
+      });
+      setImageAICurrent({
+        cameraUuid: item.cameraUuid,
+        trackingId: item.trackingId,
+        uuid: item.uuid,
+        fileName: item.fileName,
+      });
+
+    }
+    
     setLoading(false);
 
   };
@@ -1630,14 +1683,15 @@ const ExportEventFile = () => {
                 {t("view.ai_events.plateNumber")} : {eventFileCurrent.plateNumber}
               </div> */}
             </Col>
-            <Col span={6}>
+            {AI_SOURCE !== "philong" ? <div><Col span={6}>
               <div className="title">{t("view.storage.file_name")}</div>
               <div>{detailAI.fileName}</div>
             </Col>
             <Col span={12}>
               <div className="title">{t("view.storage.path")}</div>
               <div className="pathFile">{detailAI.pathFile}</div>
-            </Col>
+            </Col></div> : null}
+            
             {detailAI.useCase !== "attendance" ? <Col span={24}>
               <div className="title">{t("view.ai_events.err_image")}</div>
               <div>
@@ -1700,7 +1754,7 @@ const ExportEventFile = () => {
                               event.stopPropagation();
                             }}
                             onConfirm={(event) => { event.stopPropagation(); deleteImageHandler(item.uuid); }}>
-                            <Button className="button-photo-remove" size="small" type="danger"
+                            {/* <Button className="button-photo-remove" size="small" type="danger"
                               onClick={event => {
                                 event.stopPropagation();
                               }}
@@ -1719,7 +1773,7 @@ const ExportEventFile = () => {
                               }}
                             >
                               <CloseOutlined style={{}} />
-                            </Button>
+                            </Button> */}
                           </Popconfirm> : null}
 
                           <img onClick={event => {
