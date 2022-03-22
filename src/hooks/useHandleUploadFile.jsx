@@ -65,7 +65,6 @@ const useHandleUploadFile = (fileName) => {
     }
     const isLt2M = file.size / 1024 / 1024 < 2;
     if (!isLt2M) {
-      console.log("aaaaaaaa")
       Notification({
         type: "error",
         title: "",
