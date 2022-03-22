@@ -31,6 +31,7 @@ const DraggableCameraList = (props) => {
   const [isCollapsedCameraList, setIsCollapsedCameraList] = useState(true);
   const [isOpennedCameraFilter, setIsOpennedCameraFilter] = useState(false);
   const [provinces, setProvinces] = useState(null);
+  let [currentPage, setCurrentPage] = useState(1);
 
   const toggleCollapsedCameraList = () => {
     setIsCollapsedCameraList(isCollapsedCameraList ? false : true);
@@ -49,6 +50,7 @@ const DraggableCameraList = (props) => {
   };
   const onPressEnter = (searchValue) => {
     handleSearch(searchValue);
+    setCurrentPage(1)
   };
 
   const getItemStyle = (isDragging, draggableStyle) => ({
@@ -69,9 +71,10 @@ const DraggableCameraList = (props) => {
     ...draggableStyle,
   });
 
-  const totalPage = Math.ceil(totalCameras / PAGE_SIZE);
-  let [currentPage, setCurrentPage] = useState(1);
-
+  let totalPage = Math.ceil(totalCameras / PAGE_SIZE);
+  if (totalPage < 1) {
+    totalPage = 1
+  }
   const handleSelectPreviousPage = () => {
     if (currentPage === 1) {
       setCurrentPage(1);
