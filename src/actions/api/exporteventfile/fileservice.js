@@ -149,7 +149,6 @@ const FileService = {
         },
       })
       .then((response) => {
-        console.log("check ========");
         let check = this._checkResponseUpload(response);
         if (!check) {
           return {};

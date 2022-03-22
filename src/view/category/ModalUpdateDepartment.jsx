@@ -74,7 +74,6 @@ const ModalUpdateDepartment = (props) => {
     try {
       setLoading(true);
       let response;
-      console.log("       values    ", values);
       if (selectedCategoryId) {
         response = await DepartmentApi.editDepartment(
           selectedCategoryId,
@@ -194,7 +193,6 @@ async function fetchSelectOptions() {
     name: "",
   };
   const administrativeUnits = await AdDivisionApi.getAllAdDivision(data);
-  console.log("ccccccccccc", administrativeUnits);
   return {
     administrativeUnits,
   };

@@ -3,6 +3,7 @@ import { useEffect, useState } from "react";
 import { useTranslation } from "react-i18next";
 import { v4 as uuidV4 } from "uuid";
 import ExportEventFileApi from "../actions/api/exporteventfile/ExportEventFileApi";
+import Notification from "../components/vms/notification/Notification";
 import { getBase64 } from "../utility/vms/file";
 
 const useHandleUploadFile = (fileName) => {
@@ -64,6 +65,7 @@ const useHandleUploadFile = (fileName) => {
     }
     const isLt2M = file.size / 1024 / 1024 < 2;
     if (!isLt2M) {
+      console.log("aaaaaaaa")
       Notification({
         type: "error",
         title: "",

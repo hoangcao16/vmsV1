@@ -52,7 +52,6 @@ const InfoObjectPopoverContent = (props) => {
     ];
 
     const [form] = Form.useForm();
-    console.log("_____________props.fileCurrent ", props.fileCurrent.subEventType);
     const [currNode, setCurrNode] = useState(props.fileCurrent.note);
     const [editMode, setEditMode] = useState(false);
     const [typeObject, setTypeObject] = useState(props.fileCurrent.typeObject);

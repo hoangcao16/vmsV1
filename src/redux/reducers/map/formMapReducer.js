@@ -18,7 +18,6 @@ const initialState = {
 const formMapReducer = (state = initialState, action) => {
   switch (action.type) {
     case UPDATE_MAP_OBJECT: {
-      console.log('update:',{ ...state, ...action.payload } )
       return { ...state, ...action.payload };
     }
 
