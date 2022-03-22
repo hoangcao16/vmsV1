@@ -6,8 +6,14 @@ import { isEmpty } from "lodash";
 
 const AiInforImage = (props) => {
   const { t } = useTranslation();
-  const { idCamera, showImage, setImageShowing, imageShowing, urlImage, aIData } =
-    props;
+  const {
+    idCamera,
+    showImage,
+    setImageShowing,
+    imageShowing,
+    urlImage,
+    aIData,
+  } = props;
   const handleOk = () => {
     setImageShowing(false);
   };
@@ -31,7 +37,26 @@ const AiInforImage = (props) => {
             <div className="image__wrapper--content--info">
               <span className="span__color">{t("view.ai_events.info")}</span>
               <div className="infomation">
-                <div>{t("view.live.plate_number")}{": "}{aIData.plateNumber}</div>
+                {aIData.useCase == "zac_vehicle" ? (
+                  <div>
+                    {t("view.live.plate_number")}
+                    {": "}
+                    {aIData.plateNumber}
+                  </div>
+                ) : (
+                  <>
+                    <div>
+                      {t("view.ai_events.name")}
+                      {": "}
+                      {aIData.name}
+                    </div>
+                    <div>
+                      {t("view.ai_events.code")}
+                      {": "}
+                      {aIData.code}
+                    </div>
+                  </>
+                )}
               </div>
             </div>
           </div>
