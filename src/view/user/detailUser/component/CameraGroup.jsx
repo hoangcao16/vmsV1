@@ -38,7 +38,6 @@ export default function CameraGroup(props) {
   useEffect(() => {}, [selectedAdd]);
 
   const convertData = (data) => {
-    console.log("data", data)
     //Nhóm tất cả các bản ghi có cùng cam_group_uuid sau dó merge role name trong p_role_camera_groups
     var arr = [];
     var group_to_values1 = data.p_role_camera_groups.reduce(function (

@@ -206,7 +206,6 @@ const ExportEventFile = () => {
   useEffect(() => {
     if (viewFileType === 4) {
       let imageOther = []
-      console.log("fileCurrent____________", fileCurrent)
       if (AI_SOURCE === "philong") {
         
         setDetailAI({
@@ -290,7 +289,6 @@ const ExportEventFile = () => {
   const onClickTableFileHandler = async (row) => {
 
     if (row) {
-      console.log("row     ", row)
       setCaptureMode(false);
       setUrlVideoTimeline(null);
       setUrlSnapshot("");
@@ -414,7 +412,6 @@ const ExportEventFile = () => {
     } else if (viewFileType === 3) {
       setFileCurrent({ ...file });
     } else if (viewFileType === 4) {
-      console.log("ef           ile:",file);
       setFileCurrent({ ...file, fileType: '4' });
     }
     if (file.type === 1) {
@@ -1206,7 +1203,6 @@ const ExportEventFile = () => {
               (item) => item.uuid === requestObject.uuid
             );
             dataList[index] = requestObject;
-            console.log("requestObject"  ,requestObject)
             setListFiles([...dataList]);
             setFileCurrent({ ...requestObject });
             setEventFileCurrent((preSate) => {
