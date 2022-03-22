@@ -4,6 +4,8 @@
 
 tr.ant-table-row.disabled-row {
   background-color: $dark; // pointer-events: none;
+  opacity: 0.4;
+  pointer-events: none;
 }
 
 .ant-table-thead > tr.ant-table-row-hover:not(.ant-table-expanded-row) > td,

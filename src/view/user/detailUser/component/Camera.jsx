@@ -61,6 +61,7 @@ export default function Camera(props) {
   useEffect(() => {}, [selectedAdd]);
 
   const convertData = (data) => {
+    console.log("_______", data)
     //Nhóm tất cả các bản ghi có cùng cam_uuid sau dó merge role name trong p_role_camera_groups
     var arr = [];
     var group_to_values1 = data.p_role_cameras.reduce(function (obj, item) {
@@ -269,7 +270,7 @@ export default function Camera(props) {
         ...permisionConvert,
         cam_name: pc?.cam_name,
         cam_uuid: pc?.cam_uuid,
-        isDisableRow: checkDisable(pc.cam_group_uuid, data?.p_camera_groups), // đk để hiển thị là
+        // isDisableRow: checkDisable(pc.cam_group_uuid, data?.p_camera_groups), // đk để hiển thị là
       };
     });
   };
