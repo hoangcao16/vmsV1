@@ -742,19 +742,19 @@ const DetailUser = (props) => {
         <GroupUser id={userUuid} handleReload={handleReload} reload={reload} />
       </div>
 
-      <CameraGroup
-        id={userUuid}
-        handleRefreshCameraPage={handleRefreshCameraPage}
-        reload={reload}
-        isMyInfor={props?.isMyInfor}
-      ></CameraGroup>
+        <CameraGroup
+          id={userUuid}
+          handleRefreshCameraPage={handleRefreshCameraPage}
+          reload={reload}
+          isMyInfor={props?.isMyInfor}
+        ></CameraGroup>
 
-      <Camera
-        id={userUuid}
-        reloadCameraPage={reloadCameraPage}
-        reload={reload}
-        isMyInfor={props?.isMyInfor}
-      />
+        <Camera
+          id={userUuid}
+          reloadCameraPage={reloadCameraPage}
+          reload={reload}
+          isMyInfor={props?.isMyInfor}
+        />
     </div>
   );
 };
