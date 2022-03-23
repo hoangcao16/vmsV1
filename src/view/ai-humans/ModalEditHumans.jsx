@@ -353,6 +353,11 @@ const ModalEditHumans = (props) => {
                       name: e.target.value.trim(),
                     });
                   }}
+                  onPaste={(e) => {
+                    form.setFieldsValue({
+                      name: e.target.value.trimStart(),
+                    });
+                  }}
                 />
               </Form.Item>
             </Col>
@@ -376,6 +381,11 @@ const ModalEditHumans = (props) => {
                   onBlur={(e) => {
                     form.setFieldsValue({
                       code: e.target.value.trim(),
+                    });
+                  }}
+                  onPaste={(e) => {
+                    form.setFieldsValue({
+                      code: e.target.value.trimStart(),
                     });
                   }}
                 />
@@ -431,6 +441,11 @@ const ModalEditHumans = (props) => {
                       email: e.target.value.trim(),
                     });
                   }}
+                  onPaste={(e) => {
+                    form.setFieldsValue({
+                      email: e.target.value.trimStart(),
+                    });
+                  }}
                 />
               </Form.Item>
             </Col>
@@ -452,6 +467,11 @@ const ModalEditHumans = (props) => {
                   onBlur={(e) => {
                     form.setFieldsValue({
                       position: e.target.value.trim(),
+                    });
+                  }}
+                  onPaste={(e) => {
+                    form.setFieldsValue({
+                      position: e.target.value.trimStart(),
                     });
                   }}
                 />
