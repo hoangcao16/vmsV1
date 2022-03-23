@@ -1,0 +1,33 @@
+@import "../../../assets/scss/vms.scss";
+.select__control,
+.select__menu {
+    background-color: $vms-bg-sub !important;
+    color: $vms-status;
+}
+
+.select__indicator-separator {
+    width: 0 !important;
+}
+
+.select__input {
+    color: $vms-status;
+}
+
+.select__option:hover {
+    background-color: rgba(0, 0, 0, 0.5);
+}
+
+.select__option {
+    background-color: $vms-bg-sub;
+}
+
+.select__menu-list::-webkit-scrollbar {
+    width: 8px;
+}
+
+.select__menu-list::-webkit-scrollbar-track {}
+
+.select__menu-list::-webkit-scrollbar-thumb {
+    background-color: $vms-bg-primary;
+    border-radius: 12px;
+}

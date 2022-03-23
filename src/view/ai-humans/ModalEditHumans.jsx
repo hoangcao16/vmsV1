@@ -9,8 +9,8 @@ import {
   Row,
   Spin,
   Upload,
-  Select,
 } from "antd";
+import Select from "react-select";
 import { isEmpty } from "lodash-es";
 import React, { useEffect, useState } from "react";
 import { useTranslation } from "react-i18next";
@@ -31,6 +31,8 @@ import DepartmentApi from "../../actions/api/department/DepartmentApi";
 import AdDivisionApi from "../../actions/api/advision/AdDivision";
 import { filterOption, normalizeOptions } from "../common/select/CustomSelect";
 import "./ModalEditHumans.scss";
+import "../common/reactSelect/CustomReactSelect.scss";
+import { red } from "@mui/material/colors";
 const AI_URL = process.env.REACT_APP_AI_BASE_URL;
 const DATA_FAKE_UNIT = {
   departments: [{ name: "", uuid: "" }],
@@ -41,7 +43,14 @@ const formItemLayout = {
   labelCol: { span: 24 },
 };
 
+const options = [
+  { value: "chocolate", label: "Chocolate" },
+  { value: "strawberry", label: "Strawberry" },
+  { value: "vanilla", label: "Vanilla" },
+];
+
 const ModalEditHumans = (props) => {
+  const [selectedOption, setSelectedOption] = useState(null);
   const { t } = useTranslation();
   let { setShowModal, selectedHumansId, loadList } = props;
   const [fieldData, setFieldData] = useState();
@@ -61,7 +70,7 @@ const ModalEditHumans = (props) => {
 
   useEffect(() => {
     const data = {
-      name: ""
+      name: "",
     };
     AdDivisionApi.getAllAdDivision(data).then(setAdministrativeUnits);
   }, []);
@@ -69,16 +78,15 @@ const ModalEditHumans = (props) => {
   useEffect(() => {
     setDepartments([]);
     if (isEmpty(administrativeUnitUuid)) {
-      setDepartments([])
+      setDepartments([]);
     } else {
       const dataDep = {
         name: "",
-        administrativeUnitUuid: administrativeUnitUuid
+        administrativeUnitUuid: administrativeUnitUuid,
       };
       DepartmentApi.getAllDepartment(dataDep).then(setDepartments);
     }
   }, [administrativeUnitUuid]);
-
 
   useEffect(() => {
     let list = [];
@@ -278,13 +286,13 @@ const ModalEditHumans = (props) => {
   }
 
   const onChangeDepId = async (uuid) => {
-    setDepartmentId(uuid);
+    setDepartmentId(uuid.value);
   };
 
   const onChangeADUnitId = async (ADUnitId) => {
-    setDepartments([])
-    setAdministrativeUnitUuid(ADUnitId);
-    form.setFieldsValue({ departmentUuid: null});
+    setDepartments([]);
+    setAdministrativeUnitUuid(ADUnitId.value);
+    form.setFieldsValue({ departmentUuid: null });
   };
 
   const uploadButton = (
@@ -338,7 +346,14 @@ const ModalEditHumans = (props) => {
                   },
                 ]}
               >
-                <Input placeholder={t("view.ai_humans.name")} />
+                <Input
+                  placeholder={t("view.ai_humans.name")}
+                  onBlur={(e) => {
+                    form.setFieldsValue({
+                      name: e.target.value.trim(),
+                    });
+                  }}
+                />
               </Form.Item>
             </Col>
             <Col span={6}>
@@ -356,7 +371,14 @@ const ModalEditHumans = (props) => {
                   },
                 ]}
               >
-                <Input placeholder={t("view.ai_humans.code")} />
+                <Input
+                  placeholder={t("view.ai_humans.code")}
+                  onBlur={(e) => {
+                    form.setFieldsValue({
+                      code: e.target.value.trim(),
+                    });
+                  }}
+                />
               </Form.Item>
             </Col>
             <Col span={6}>
@@ -394,11 +416,22 @@ const ModalEditHumans = (props) => {
                   },
                   {
                     pattern: /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/,
-                    message: `${t("view.user.detail_list.email_address_required")}`
-                  }
+                    message: `${t(
+                      "view.user.detail_list.email_address_required"
+                    )}`,
+                  },
                 ]}
               >
-                <Input placeholder="Email" id="email" autocomplete="off" />
+                <Input
+                  placeholder="Email"
+                  id="email"
+                  autocomplete="off"
+                  onBlur={(e) => {
+                    form.setFieldsValue({
+                      email: e.target.value.trim(),
+                    });
+                  }}
+                />
               </Form.Item>
             </Col>
           </Row>
@@ -414,7 +447,14 @@ const ModalEditHumans = (props) => {
                   },
                 ]}
               >
-                <Input placeholder={t("view.ai_humans.position")} />
+                <Input
+                  placeholder={t("view.ai_humans.position")}
+                  onBlur={(e) => {
+                    form.setFieldsValue({
+                      position: e.target.value.trim(),
+                    });
+                  }}
+                />
               </Form.Item>
             </Col>
             <Col span={6}>
@@ -423,7 +463,7 @@ const ModalEditHumans = (props) => {
                 label={t("view.department.administrative")}
                 rules={[]}
               >
-                <Select
+                {/* <Select
                   showSearch
                   dataSource={administrativeUnits}
                   onChange={(administrativeUnitUuid) => onChangeADUnitId(administrativeUnitUuid)}
@@ -435,6 +475,19 @@ const ModalEditHumans = (props) => {
                   )}
                   allowClear
                   placeholder={t("view.department.administrative")}
+                /> */}
+                <Select
+                  classNamePrefix="select"
+                  placeholder={t("view.department.administrative")}
+                  isSearchable
+                  onChange={(administrativeUnitUuid) =>
+                    onChangeADUnitId(administrativeUnitUuid)
+                  }
+                  options={normalizeOptions(
+                    "name",
+                    "uuid",
+                    administrativeUnits
+                  )}
                 />
               </Form.Item>
             </Col>
@@ -444,17 +497,27 @@ const ModalEditHumans = (props) => {
                 label={t("view.ai_events.department")}
                 rules={[]}
               >
-                <Select
+                {/* <Select
                   showSearch
                   dataSource={departments}
                   onChange={(aDUnitId) => onChangeDepId(aDUnitId)}
                   filterOption={filterOption}
                   options={normalizeOptions("name", "administrativeUnitUuid", departments)}
                   placeholder={t("view.ai_events.department")}
+                /> */}
+                <Select
+                  placeholder={t("view.ai_events.department")}
+                  classNamePrefix="select"
+                  isSearchable
+                  onChange={(aDUnitId) => onChangeDepId(aDUnitId)}
+                  options={normalizeOptions(
+                    "name",
+                    "administrativeUnitUuid",
+                    departments
+                  )}
                 />
               </Form.Item>
             </Col>
-            
           </Row>
           <Row
             style={{ marginTop: 30, color: "#d0e5ff", marginBottom: 30 }}
@@ -529,10 +592,14 @@ const ModalEditHumans = (props) => {
                 {listImages
                   ? listImages.map((item, index) => (
                       <div
-                      key={item.key}
+                        key={item.key}
                         // className={props.classImage}
                         className="asdfasd"
-                        style={{ width: "90%", paddingBottom: "15px", paddingTop: "15px", }}
+                        style={{
+                          width: "90%",
+                          paddingBottom: "15px",
+                          paddingTop: "15px",
+                        }}
                       >
                         <Upload
                           style={{ display: "flex" }}
@@ -666,7 +733,7 @@ async function getHumansByUuid(selectedHumansId) {
 
 async function fetchSelectOptions() {
   const data = {
-    name: ""
+    name: "",
   };
   const administrativeUnits = await AdDivisionApi.getAllAdDivision(data);
   return {
