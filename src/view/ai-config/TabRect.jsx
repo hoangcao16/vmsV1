@@ -186,6 +186,10 @@ const TabRect = (props) => {
     document.getElementById(`input-name-uuid-${record.key}`).value = e.target.value.trim();
   }
 
+  const handlePasteInputNameUuid = (e, record) => {
+    document.getElementById(`input-name-uuid-${record.key}`).value = e.target.value.trimStart();
+  }
+
   const handleCloseRenameUuid = (e, record) => {
     // e.stopPropagation();
     const n = dataRectList.find((item) => item.key === record.key);
@@ -356,6 +360,7 @@ const TabRect = (props) => {
               autoComplete="off"
               onFocus={(e) => handleFocusInputNameUuid(record)}
               onBlur={(e) => handleBlurInputNameUuid(e, record)}
+              onPaste={(e) => handlePasteInputNameUuid(e, record)}
               style={{ width: "130px" }}
               className="ant-form-item-control-input input__form--name"
             />
