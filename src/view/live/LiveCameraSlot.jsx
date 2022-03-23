@@ -1,20 +1,13 @@
 import { Popover, Space, Spin, Tooltip, Button, Modal } from "antd";
 import React, { useEffect, useRef, useState } from "react";
-import {
-  Camera,
-  Maximize2,
-  Menu,
-  Minimize2,
-  Video,
-  X,
-} from "react-feather";
+import { Camera, CloudLightning, Maximize2, Menu, Minimize2, Video, X } from "react-feather";
 import { useTranslation } from "react-i18next";
 import { connect } from "react-redux";
 import { v4 as uuidV4 } from "uuid";
 import permissionCheck from "../../actions/function/MyUltil/PermissionCheck";
 import permissionCheckByCamera from "../../actions/function/MyUltil/PermissionCheckByCamera";
 import { formatWithMilliseconds } from "../../utility/vms/duration";
-import AiInforTable from "./AiInforTable"
+import AiInforTable from "./AiInforTable";
 import MenuControl from "./menuControl";
 import "./LiveCameraSlot.scss";
 import { BellFilled } from "@ant-design/icons";
@@ -39,7 +32,6 @@ const LiveCameraSlot = (props) => {
     reloadLiveMenuTool,
     changeLiveMode,
   } = props;
-  console.log("addedCameras", addedCameras)
   const { t } = useTranslation();
   const [showMenus, setShowMenus] = useState({});
   const [showNoti, setShowNoti] = useState({});
@@ -203,28 +195,40 @@ const LiveCameraSlot = (props) => {
         {!liveMode && !recMode && (
           <span className={`video__label ${liveCss}`}>Play</span>
         )}
-
-        {typeAICamera !== "live" ? (
-          <div className={`bell ${notiCss}`}>
-            <Tooltip
-              placement="right"
-              title={t("components.bookmark.notification")}
-              arrowPointAtCenter={true}
-              overlayStyle={{ position: "fixed" }}
-            >
-              <Button
-                type="primary"
-                className={"bell-button"}
-                onClick={showNotiInfo}
-                style={{ marginTop: 5, marginBottom: 5 }}
-              >
-                <BellFilled className="bell-button__icon"/>
-              </Button>
-            </Tooltip>
-          </div>
+        {addedCameras.map((cam) => {
+          if (cam.id === slotId) {
+            if (["zac_vehicle", "zac_human", "attendance"].includes(cam.type)) {
+              return (
+                <>
+                  <div className={`bell ${notiCss}`}>
+                    <Tooltip
+                      placement="right"
+                      title={t("components.bookmark.notification")}
+                      arrowPointAtCenter={true}
+                      overlayStyle={{ position: "fixed" }}
+                    >
+                      <Button
+                        type="primary"
+                        className={"bell-button"}
+                        onClick={showNotiInfo}
+                        style={{ marginTop: 5, marginBottom: 5 }}
+                      >
+                        <BellFilled className="bell-button__icon" />
+                      </Button>
+                    </Tooltip>
+                  </div>
+                </>
+              );
+            } else {
+              return <></>
+            }
+          }
+        })}
+        {/* {typeAICamera !== "live" ? (
+          <div className={`bell ${notiCss}`}></div>
         ) : (
           <></>
-        )}
+        )} */}
 
         <div>
           {

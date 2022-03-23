@@ -125,7 +125,8 @@
       "camera_record": "Camera record",
       "img_confirm": "View image",
       "alert_info": "Alert information",
-      "detail": "Detail"
+      "detail": "Detail",
+      "plate_number": "Plate number"
     },
     "map": {
       "search": "Search",

@@ -62,6 +62,7 @@ const AiInforTable = (props) => {
     props;
   const [imageShowing, setImageShowing] = useState(false);
   const [urlImage, setUrlImage] = useState("");
+  const [aIData, setAIData] = useState("");
   const { t } = useTranslation();
   const data = props.updateData;
   const dataFilter = data.filter((i) => i.cameraUuid === idCamera);
@@ -140,6 +141,7 @@ const AiInforTable = (props) => {
   ];
 
   const showImage = (row) => {
+    setAIData(row)
     img(row);
     setImageShowing(true);
   };
@@ -193,6 +195,7 @@ const AiInforTable = (props) => {
         showImage={showImage}
         imageShowing={imageShowing}
         urlImage={urlImage}
+        aIData={aIData}
         setImageShowing={setImageShowing}
       />
     </>
