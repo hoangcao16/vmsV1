@@ -78,6 +78,7 @@ export default function ModalAddCameraGroup(props) {
               },
               { max: 255, message: `${t('noti.255_characters_limit')}` }
             ]}
+            label={t("view.camera.camera_group_name")}
           >
             <Input
               placeholder={t('view.camera.please_enter_new_camera_group_name', {
@@ -101,6 +102,7 @@ export default function ModalAddCameraGroup(props) {
               },
               { max: 255, message: `${t('noti.255_characters_limit')}` }
             ]}
+            label={t("view.common_device.desc")}
           >
             <Input 
               placeholder={t('view.user.detail_list.desc')} 

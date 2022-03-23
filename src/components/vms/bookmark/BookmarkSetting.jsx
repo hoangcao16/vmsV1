@@ -94,7 +94,6 @@ const BookmarkSetting = ({
     loading: false,
     hasMore: true,
   });
-  console.log("showModal", showModal)
   const [rowClass, setRowClass] = useState("h-25");
   const [colClass, setColClass] = useState("col-3");
   const [dataGridPreview, setDataGridPreview] = useState(initialDataGrid);

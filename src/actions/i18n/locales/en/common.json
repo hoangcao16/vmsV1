@@ -58,7 +58,8 @@
       "add_new_tag": "Add new tag",
       "please_enter_new_camera_group_name": "Please enter new Camera group name",
       "please_enter_camera_group_name": "Please enter Camera group name",
-      "add_camera_group": "Add Camera to Camera group"
+      "add_camera_group": "Add Camera to Camera group",
+      "camera_group_name": "Camera group name"
     },
     "category": {
       "camera_vendor": "{{cam}} vendor",
