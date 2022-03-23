@@ -115,6 +115,9 @@ const ModalAddEditTagBindCam = (props) => {
                         >
                           <TagsInput
                             onlyUnique
+                            inputProps={{
+                              placeholder: `${t("view.camera.add_new_tag")}`
+                            }}
                             onChange={(value) => {
                               const { tags } = _.cloneDeep(formValue);
                               tags[key].value = value;
