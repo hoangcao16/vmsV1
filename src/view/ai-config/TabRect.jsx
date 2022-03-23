@@ -23,7 +23,7 @@ import {
 } from "antd";
 import "antd/dist/antd.css";
 import _ from "lodash";
-import React, {useEffect, useRef, useState} from "react";
+import React, { useEffect, useRef, useState } from "react";
 import "react-calendar-timeline/lib/Timeline.css";
 import { useTranslation } from "react-i18next";
 import AIConfigRectApi from "../../actions/api/ai-config/AIConfigRectApi";
@@ -35,7 +35,7 @@ import { sortPoints } from "../../utility/vms/sortIntrusionPoints";
 import { NOTYFY_TYPE } from "../common/vms/Constant";
 import "./TabRect.scss";
 import { bodyStyleCard, headStyleCard } from "./variables";
-import {getEmail, getToken} from "../../api/token";
+import { getEmail, getToken } from "../../api/token";
 
 const CheckboxGroup = Checkbox.Group;
 const { Option } = Select;
@@ -90,11 +90,11 @@ const TabRect = (props) => {
     return () => {
       closeAllRTCPeerConnection();
     };
-  },[]);
+  }, []);
 
   useEffect(() => {
-    pcListRef.current = pcList
-  },[pcList]);
+    pcListRef.current = pcList;
+  }, [pcList]);
 
   const closeAllRTCPeerConnection = () => {
     // CLOSE ALL STREAM
@@ -104,7 +104,7 @@ const TabRect = (props) => {
         pcLstTmp[i].pc.close();
       }
     }
-  }
+  };
 
   const closeRTCPeerConnection = (slotIdx) => {
     // CLOSE STREAM
@@ -120,7 +120,7 @@ const TabRect = (props) => {
       }
     }
     setPCList([...pcLstTmp]);
-  }
+  };
 
   const handleDoneRenameUuid = async (e, record) => {
     const value = document
@@ -151,17 +151,17 @@ const TabRect = (props) => {
         dataNew.forEach((data) => {
           if (data.key === record.key) {
             data.uuid = result.uuid;
-            data.name=value.trim()
+            data.name = value.trim();
           }
         });
         setDataRectList(dataNew);
       });
       switch (type) {
         case "hurdles":
-          drawLine()
+          drawLine();
           break;
         case "intrusion_detection":
-          drawRect()
+          drawRect();
           break;
       }
 
@@ -182,25 +182,30 @@ const TabRect = (props) => {
       "flex";
   };
 
+  const handleBlurInputNameUuid = (e, record) => {
+    document.getElementById(`input-name-uuid-${record.key}`).value = e.target.value.trim();
+  }
+
   const handleCloseRenameUuid = (e, record) => {
     // e.stopPropagation();
-    const n = dataRectList.find(item => item.key === record.key);
-    if(n != null){
-      document.getElementById(`input-name-uuid-${record.key}`).value = n.name.trim();
+    const n = dataRectList.find((item) => item.key === record.key);
+    if (n != null) {
+      document.getElementById(`input-name-uuid-${record.key}`).value =
+        n.name.trim();
     } else {
       document.getElementById(`input-name-uuid-${record.key}`).value = "";
     }
     document.getElementById(`rename__uuid-${record.key}`).style.display =
       "none";
-      localStorage.setItem("name", n.name.trim());
-      switch (type) {
-        case "hurdles":
-          drawLine()
-          break;
-        case "intrusion_detection":
-          drawRect()
-          break;
-      }
+    localStorage.setItem("name", n.name.trim());
+    switch (type) {
+      case "hurdles":
+        drawLine();
+        break;
+      case "intrusion_detection":
+        drawRect();
+        break;
+    }
   };
 
   const handleSubmit = async (value) => {
@@ -350,6 +355,7 @@ const TabRect = (props) => {
               maxLength={20}
               autoComplete="off"
               onFocus={(e) => handleFocusInputNameUuid(record)}
+              onBlur={(e) => handleBlurInputNameUuid(e, record)}
               style={{ width: "130px" }}
               className="ant-form-item-control-input input__form--name"
             />
@@ -597,7 +603,7 @@ const TabRect = (props) => {
   const handleRowClick = (event, data) => {
     setIsActiveDetail(true);
     setKeyActive(data.key);
-    
+
     if (data.uuid != null) {
       AIConfigRectApi.getConfigRect(data.uuid).then((result) => {
         if (result != null) {
@@ -1169,7 +1175,7 @@ const TabRect = (props) => {
       tX - headLen * Math.cos(angle + Math.PI / 6),
       tY - headLen * Math.sin(angle + Math.PI / 6)
     );
-    if(fromY < toY){
+    if (fromY < toY) {
       if (fX < tX) {
         ctx.fillText("B", fX - 15, fY);
         ctx.fillText("A", tX + 5, tY);
@@ -1177,7 +1183,7 @@ const TabRect = (props) => {
         ctx.fillText("A", fX + 5, fY);
         ctx.fillText("B", tX - 15, tY);
       }
-    } else{
+    } else {
       if (fX < tX) {
         ctx.fillText("A", fX - 15, fY);
         ctx.fillText("B", tX + 5, tY);
@@ -1186,8 +1192,6 @@ const TabRect = (props) => {
         ctx.fillText("A", tX - 15, tY);
       }
     }
-
-    
   };
 
   const canvasMouseDown = (event) => {
@@ -1316,7 +1320,7 @@ const TabRect = (props) => {
         const position_ = canvasRefRect.current.getBoundingClientRect();
         const x_ = event.clientX - position_.left;
         const y_ = event.clientY - position_.top;
-        if(coordinates != null){
+        if (coordinates != null) {
           for (let index = 0; index < coordinates.length; index++) {
             if (!coordinates[index].mouseDown) {
               if (
@@ -1341,7 +1345,7 @@ const TabRect = (props) => {
             }
           }
         }
-        
+
         break;
     }
     event.preventDefault();
@@ -1448,7 +1452,14 @@ const TabRect = (props) => {
                           rules={[]}
                           vale={threshold}
                         >
-                          <InputNumber size="large" min={1} max={1000000} disabled={!isActiveDetail} value={threshold} placeholder={t("view.ai_config.time")} />
+                          <InputNumber
+                            size="large"
+                            min={1}
+                            max={1000000}
+                            disabled={!isActiveDetail}
+                            value={threshold}
+                            placeholder={t("view.ai_config.time")}
+                          />
                           {/* <Input
                             disabled={!isActiveDetail}
                             placeholder={t("view.ai_config.time")}

@@ -96,6 +96,7 @@ const ModalScheduleConfigCopy = (props) => {
     });
 
   };
+  
 
   const rowSelection = {
     selectedRowKeys,
