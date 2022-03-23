@@ -94,6 +94,7 @@ const BookmarkSetting = ({
     loading: false,
     hasMore: true,
   });
+  console.log("showModal", showModal)
   const [rowClass, setRowClass] = useState("h-25");
   const [colClass, setColClass] = useState("col-3");
   const [dataGridPreview, setDataGridPreview] = useState(initialDataGrid);
@@ -176,7 +177,7 @@ const BookmarkSetting = ({
           gridType: item.gridType,
           cameraUuids: item.cameraUuids,
           defaultBookmark: item.defaultBookmark,
-          viewTypes: item.viewTypes
+          viewTypes: item.viewTypes,
         });
       });
       setBookmarks(tmp);
@@ -221,6 +222,18 @@ const BookmarkSetting = ({
     setInitialGridPreview(tmp);
     setDataGridPreview(tmp);
   }, []);
+
+  useEffect(() => {
+    if (showModal == false) {
+      setSearchName(null)
+      let fakeData = {
+        target: {
+          value: ""
+        }
+      }
+      handleInputOnchange(fakeData)
+    }
+  }, [showModal])
 
   const handleInfiniteOnLoad = () => {
     setConfig({
