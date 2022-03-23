@@ -224,12 +224,6 @@ const LiveCameraSlot = (props) => {
             }
           }
         })}
-        {/* {typeAICamera !== "live" ? (
-          <div className={`bell ${notiCss}`}></div>
-        ) : (
-          <></>
-        )} */}
-
         <div>
           {
             <div className={`video-toolbar__control ${toolbarCss}`}>
