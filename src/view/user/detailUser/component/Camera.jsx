@@ -17,6 +17,7 @@ export default function Camera(props) {
   const [data, setData] = useState([]);
   const [cameraGroup, setCameraGroup] = useState([]);
   const [camera, setCamera] = useState([]);
+  console.log("camera1111111", camera)
   const [selectedAdd, setSelectedAdd] = useState(false);
   const [reloadCameraPage, setReloadCameraPage] = useState(
     props?.reloadCameraPage
@@ -305,9 +306,7 @@ export default function Camera(props) {
 
     const cameraAdd = selectedRowKeys.map((s) => {
       const cam = data.p_cameras.find((c) => c.cam_uuid === s); // cái nào có sẵn trong p_cameras thì lấy
-
       const cam2 = camera.find((c) => c.uuid === s); // không có trong p_cameras == > bảng camera mà tìm
-
       if (cam) {
         return cam;
       }
