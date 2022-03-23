@@ -415,7 +415,7 @@ const ModalEditHumans = (props) => {
                     message: `${t("noti.255_characters_limit")}`,
                   },
                   {
-                    pattern: /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/,
+                    pattern: /^[a-zA-Z][a-zA-Z0-9_\.]{3,32}@[a-z]{2,}(\.[a-z]{2,4}){1,2}$/,
                     message: `${t(
                       "view.user.detail_list.email_address_required"
                     )}`,
