@@ -140,7 +140,6 @@
 
       &.CameraGroup {
         width: 26vw;
-        height: calc(190px + 5.5vh + 53.2vh);
 
         // overflow: auto;
         background-color: $vms-bg-3 !important;
@@ -172,15 +171,19 @@
       }
 
       .treeData {
-        height: calc(78.4vh + 58px);
+        height: 673px;
         overflow: auto;
+        padding-bottom: 20px;
         background-color: $vms-bg-3;
         //begin:css scroll bar
-        @include scrollbar-styling(12px,12px);
+        @include scrollbar-styling(12px, 12px);
 
         //end:css scroll bar
         .ant-tree-list {
           background-color: $vms-bg-3;
+          .ant-tree-list-holder {
+            width: 100%;
+          }
           .ant-tree-list-holder-inner {
             .ant-tree-treenode {
               padding: 0;
@@ -228,14 +231,14 @@
                     align-items: center;
                     justify-content: space-between;
                     width: 5.8vw;
-                      svg {
-                        // float: right;
-                        font-size: 20px;
-                        color: $vms-status;
-                        &:hover {
-                          color: $vms-main-blue-primary;
-                        }
+                    svg {
+                      // float: right;
+                      font-size: 20px;
+                      color: $vms-status;
+                      &:hover {
+                        color: $vms-main-blue-primary;
                       }
+                    }
                   }
                 }
               }
