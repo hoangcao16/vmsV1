@@ -8,7 +8,7 @@ import {
   Popconfirm,
   Row,
   Spin,
-  Upload
+  Upload,
 } from "antd";
 import Select from "react-select";
 import { isEmpty } from "lodash-es";
@@ -31,7 +31,7 @@ import DepartmentApi from "../../actions/api/department/DepartmentApi";
 import AdDivisionApi from "../../actions/api/advision/AdDivision";
 import { filterOption, normalizeOptions } from "../common/select/CustomSelect";
 import "./ModalEditHumans.scss";
-import "../common/reactSelect/CustomReactSelect.scss"
+import "../common/reactSelect/CustomReactSelect.scss";
 import { red } from "@mui/material/colors";
 const AI_URL = process.env.REACT_APP_AI_BASE_URL;
 const DATA_FAKE_UNIT = {
@@ -346,7 +346,14 @@ const ModalEditHumans = (props) => {
                   },
                 ]}
               >
-                <Input placeholder={t("view.ai_humans.name")} />
+                <Input
+                  placeholder={t("view.ai_humans.name")}
+                  onBlur={(e) => {
+                    form.setFieldsValue({
+                      name: e.target.value.trim(),
+                    });
+                  }}
+                />
               </Form.Item>
             </Col>
             <Col span={6}>
@@ -364,7 +371,14 @@ const ModalEditHumans = (props) => {
                   },
                 ]}
               >
-                <Input placeholder={t("view.ai_humans.code")} />
+                <Input
+                  placeholder={t("view.ai_humans.code")}
+                  onBlur={(e) => {
+                    form.setFieldsValue({
+                      code: e.target.value.trim(),
+                    });
+                  }}
+                />
               </Form.Item>
             </Col>
             <Col span={6}>
@@ -408,7 +422,16 @@ const ModalEditHumans = (props) => {
                   },
                 ]}
               >
-                <Input placeholder="Email" id="email" autocomplete="off" />
+                <Input
+                  placeholder="Email"
+                  id="email"
+                  autocomplete="off"
+                  onBlur={(e) => {
+                    form.setFieldsValue({
+                      email: e.target.value.trim(),
+                    });
+                  }}
+                />
               </Form.Item>
             </Col>
           </Row>
@@ -424,7 +447,14 @@ const ModalEditHumans = (props) => {
                   },
                 ]}
               >
-                <Input placeholder={t("view.ai_humans.position")} />
+                <Input
+                  placeholder={t("view.ai_humans.position")}
+                  onBlur={(e) => {
+                    form.setFieldsValue({
+                      position: e.target.value.trim(),
+                    });
+                  }}
+                />
               </Form.Item>
             </Col>
             <Col span={6}>
@@ -485,7 +515,6 @@ const ModalEditHumans = (props) => {
                     "administrativeUnitUuid",
                     departments
                   )}
-                  
                 />
               </Form.Item>
             </Col>
