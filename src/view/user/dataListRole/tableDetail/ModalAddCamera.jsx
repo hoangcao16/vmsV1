@@ -106,6 +106,7 @@ const ModalAddCamera = (props) => {
   useEffect(() => {
     if (provinceId) {
       AddressApi.getDistrictByProvinceId(provinceId).then(setDistrict);
+      setWard([]);
       setDistrictId(null)
     }
   }, [provinceId]);
