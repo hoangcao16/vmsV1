@@ -17,7 +17,6 @@ export default function Camera(props) {
   const [data, setData] = useState([]);
   const [cameraGroup, setCameraGroup] = useState([]);
   const [camera, setCamera] = useState([]);
-  console.log("camera1111111", camera)
   const [selectedAdd, setSelectedAdd] = useState(false);
   const [reloadCameraPage, setReloadCameraPage] = useState(
     props?.reloadCameraPage
