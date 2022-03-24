@@ -1,29 +1,29 @@
-import { Button, Col, Form, Input, Modal, Row, Select } from 'antd';
-import React, { useEffect, useState } from 'react';
-import { useTranslation } from 'react-i18next';
-import AddressApi from '../../../actions/api/address/AddressApi';
-import CamproxyApi from '../../../actions/api/camproxy/CamproxyApi';
-import NVRApi from '../../../actions/api/nvr/NVRApi';
-import PlaybackApi from '../../../actions/api/playback/PlaybackApi';
-import ZoneApi from '../../../actions/api/zone/ZoneApi';
-import Notification from '../../../components/vms/notification/Notification';
+import { Button, Col, Form, Input, Modal, Row, Select } from "antd";
+import React, { useEffect, useState } from "react";
+import { useTranslation } from "react-i18next";
+import AddressApi from "../../../actions/api/address/AddressApi";
+import CamproxyApi from "../../../actions/api/camproxy/CamproxyApi";
+import NVRApi from "../../../actions/api/nvr/NVRApi";
+import PlaybackApi from "../../../actions/api/playback/PlaybackApi";
+import ZoneApi from "../../../actions/api/zone/ZoneApi";
+import Notification from "../../../components/vms/notification/Notification";
 import {
   filterOption,
-  normalizeOptions
-} from '../../common/select/CustomSelect';
-import './ModalAddZone.scss';
+  normalizeOptions,
+} from "../../common/select/CustomSelect";
+import "./ModalAddZone.scss";
 
 const { TextArea } = Input;
 const formItemLayout = {
   wrapperCol: { span: 24 },
-  labelCol: { span: 24 }
+  labelCol: { span: 24 },
 };
 
 export const DATA_FAKE_ZONE = {
-  provinces: [{ name: '', provinceId: '' }],
-  campoxy: [{ name: '', uuid: '' }],
-  nvr: [{ name: '', uuid: '' }],
-  playback: [{ name: '', uuid: '' }]
+  provinces: [{ name: "", provinceId: "" }],
+  campoxy: [{ name: "", uuid: "" }],
+  nvr: [{ name: "", uuid: "" }],
+  playback: [{ name: "", uuid: "" }],
 };
 
 const ModalAddZone = (props) => {
@@ -49,18 +49,17 @@ const ModalAddZone = (props) => {
   }, []);
 
   useEffect(() => {
-    setDistrict([]);
-
     if (provinceId) {
       AddressApi.getDistrictByProvinceId(provinceId).then(setDistrict);
+      setDistrictId(null);
     }
   }, [provinceId]);
 
   useEffect(() => {
-    setWard([]);
-
     if (districtId) {
       AddressApi.getWardByDistrictId(districtId).then(setWard);
+    } else {
+      setWard([]);
     }
   }, [districtId]);
 
@@ -94,9 +93,9 @@ const ModalAddZone = (props) => {
     const isAdd = await ZoneApi.addZone(payload);
     if (isAdd) {
       const notifyMess = {
-        type: 'success',
-        title: '',
-        description: `${t('noti.successfully_add_zone')}`
+        type: "success",
+        title: "",
+        description: `${t("noti.successfully_add_zone")}`,
       };
       Notification(notifyMess);
       setIsModalVisible(false);
@@ -108,15 +107,14 @@ const ModalAddZone = (props) => {
     <>
       <div>
         <Modal
-          title={t('view.common_device.add_zone', { add: t('add') })}
+          title={t("view.common_device.add_zone", { add: t("add") })}
           visible={isModalVisible}
           onOk={handleShowModalAdd}
           onCancel={handleShowModalAdd}
           style={{ top: 40 }}
           footer={null}
           className="modal--zone"
-          maskStyle={{ background: 'rgba(51, 51, 51, 0.9)' }}
-
+          maskStyle={{ background: "rgba(51, 51, 51, 0.9)" }}
         >
           <Form
             className="bg-grey"
@@ -127,23 +125,23 @@ const ModalAddZone = (props) => {
             <Row gutter={24}>
               <Col span={24}>
                 <Form.Item
-                  label={t('view.common_device.zone_name')}
-                  name={['name']}
+                  label={t("view.common_device.zone_name")}
+                  name={["name"]}
                   rules={[
                     {
                       required: true,
-                      message: `${t('view.map.required_field')}`
+                      message: `${t("view.map.required_field")}`,
                     },
                     {
                       max: 255,
-                      message: `${t('noti.255_characters_limit')}`
-                    }
+                      message: `${t("noti.255_characters_limit")}`,
+                    },
                   ]}
                 >
                   <Input
                     onBlur={(e) => {
                       form.setFieldsValue({
-                        name: e.target.value.trim()
+                        name: e.target.value.trim(),
                       });
                     }}
                   ></Input>
@@ -152,13 +150,13 @@ const ModalAddZone = (props) => {
 
               <Col span={8}>
                 <Form.Item
-                  name={['provinceId']}
-                  label={t('view.map.province_id')}
+                  name={["provinceId"]}
+                  label={t("view.map.province_id")}
                   rules={[
                     {
                       required: true,
-                      message: `${t('view.map.required_field')}`
-                    }
+                      message: `${t("view.map.required_field")}`,
+                    },
                   ]}
                 >
                   <Select
@@ -166,20 +164,20 @@ const ModalAddZone = (props) => {
                     dataSource={provinces}
                     onChange={(cityId) => onChangeCity(cityId)}
                     filterOption={filterOption}
-                    options={normalizeOptions('name', 'provinceId', provinces)}
+                    options={normalizeOptions("name", "provinceId", provinces)}
                   />
                 </Form.Item>
               </Col>
 
               <Col span={8}>
                 <Form.Item
-                  name={['districtId']}
-                  label={t('view.map.district_id')}
+                  name={["districtId"]}
+                  label={t("view.map.district_id")}
                   rules={[
                     {
                       required: true,
-                      message: `${t('view.map.required_field')}`
-                    }
+                      message: `${t("view.map.required_field")}`,
+                    },
                   ]}
                 >
                   <Select
@@ -187,44 +185,44 @@ const ModalAddZone = (props) => {
                     dataSource={districts}
                     onChange={(districtId) => onChangeDistrict(districtId)}
                     filterOption={filterOption}
-                    options={normalizeOptions('name', 'districtId', districts)}
+                    options={normalizeOptions("name", "districtId", districts)}
                   />
                 </Form.Item>
               </Col>
 
               <Col span={8}>
                 <Form.Item
-                  name={['wardId']}
-                  label={t('view.map.ward_id')}
-                // rules={[{ required: true, message: `${t('view.map.required_field')}`, }]}
+                  name={["wardId"]}
+                  label={t("view.map.ward_id")}
+                  // rules={[{ required: true, message: `${t('view.map.required_field')}`, }]}
                 >
                   <Select
                     showSearch
                     dataSource={wards}
                     filterOption={filterOption}
-                    options={normalizeOptions('name', 'id', wards)}
+                    options={normalizeOptions("name", "id", wards)}
                   />
                 </Form.Item>
               </Col>
               <Col span={24}>
                 <Form.Item
-                  label={t('view.map.address')}
-                  name={['address']}
+                  label={t("view.map.address")}
+                  name={["address"]}
                   rules={[
                     {
                       required: true,
-                      message: `${t('view.map.required_field')}`
+                      message: `${t("view.map.required_field")}`,
                     },
                     {
                       max: 255,
-                      message: `${t('noti.255_characters_limit')}`
-                    }
+                      message: `${t("noti.255_characters_limit")}`,
+                    },
                   ]}
                 >
                   <Input
                     onBlur={(e) => {
                       form.setFieldsValue({
-                        address: e.target.value.trim()
+                        address: e.target.value.trim(),
                       });
                     }}
                   />
@@ -233,23 +231,23 @@ const ModalAddZone = (props) => {
 
               <Col span={24}>
                 <Form.Item
-                  label={t('view.common_device.desc')}
-                  name={['description']}
+                  label={t("view.common_device.desc")}
+                  name={["description"]}
                   rules={[
                     {
                       required: true,
-                      message: `${t('view.map.required_field')}`
+                      message: `${t("view.map.required_field")}`,
                     },
                     {
                       max: 255,
-                      message: `${t('noti.255_characters_limit')}`
-                    }
+                      message: `${t("noti.255_characters_limit")}`,
+                    },
                   ]}
                 >
                   <TextArea
                     onBlur={(e) => {
                       form.setFieldsValue({
-                        description: e.target.value.trim()
+                        description: e.target.value.trim(),
                       });
                     }}
                   />
@@ -257,48 +255,48 @@ const ModalAddZone = (props) => {
               </Col>
               <Col span={24}>
                 <Form.Item
-                  label={t('view.common_device.choose_nvr')}
-                  name={['nvrUuidList']}
+                  label={t("view.common_device.choose_nvr")}
+                  name={["nvrUuidList"]}
                 >
                   <Select
                     mode="multiple"
                     showArrow
-                    style={{ width: '100%' }}
+                    style={{ width: "100%" }}
                     options={nvr.map((r) => ({
                       value: r.uuid,
-                      label: r.name
+                      label: r.name,
                     }))}
                   />
                 </Form.Item>
               </Col>
               <Col span={24}>
                 <Form.Item
-                  label={t('view.common_device.choose_playback')}
-                  name={['playbackUuidList']}
+                  label={t("view.common_device.choose_playback")}
+                  name={["playbackUuidList"]}
                 >
                   <Select
                     mode="multiple"
                     showArrow
-                    style={{ width: '100%' }}
+                    style={{ width: "100%" }}
                     options={playback.map((s) => ({
                       value: s.uuid,
-                      label: s.name
+                      label: s.name,
                     }))}
                   />
                 </Form.Item>
               </Col>
               <Col span={24}>
                 <Form.Item
-                  label={t('view.common_device.choose_camproxy')}
-                  name={['campUuidList']}
+                  label={t("view.common_device.choose_camproxy")}
+                  name={["campUuidList"]}
                 >
                   <Select
                     mode="multiple"
                     showArrow
-                    style={{ width: '100%' }}
+                    style={{ width: "100%" }}
                     options={campoxy.map((c) => ({
                       value: c.uuid,
-                      label: c.name
+                      label: c.name,
                     }))}
                   />
                 </Form.Item>
@@ -307,7 +305,7 @@ const ModalAddZone = (props) => {
             <Row className="row--submit">
               <div className="submit">
                 <Button type="primary" htmlType="submit ">
-                  {t('view.user.detail_list.confirm')}
+                  {t("view.user.detail_list.confirm")}
                 </Button>
               </div>
             </Row>
@@ -327,7 +325,7 @@ async function fetchSelectOptions() {
     provinces,
     playback,
     nvr,
-    campoxy
+    campoxy,
   };
 }
 

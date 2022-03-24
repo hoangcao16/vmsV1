@@ -122,8 +122,10 @@ const MapAdministrativeUnitAdd = (props) => {
     setWard([]);
     if (districtId) {
       AddressApi.getWardByDistrictId(districtId).then(setWard);
+    } else {
+      setWard([]);
     }
-  }, [districtId, provinceId]);
+  }, [districtId]);
 
   const { provinces } = filterOptions;
 

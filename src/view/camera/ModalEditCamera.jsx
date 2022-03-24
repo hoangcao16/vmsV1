@@ -97,9 +97,8 @@ const ModalEditCamera = (props) => {
     if (null === provinceId) {
       return;
     }
-
     setDistrict([]);
-
+    setWard([]);
     if (provinceId) {
       AddressApi.getDistrictByProvinceId(provinceId).then(setDistrict);
     }
@@ -109,9 +108,7 @@ const ModalEditCamera = (props) => {
     if (null === districtId) {
       return;
     }
-
     setWard([]);
-
     if (districtId) {
       AddressApi.getWardByDistrictId(districtId).then(setWard);
     }

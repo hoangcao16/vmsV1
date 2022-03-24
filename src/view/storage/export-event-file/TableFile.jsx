@@ -591,6 +591,7 @@ const TableFile = (props) => {
 
     const onChangeCity = (cityId) => {
         form.setFieldsValue({ districtId: null, wardId: null });
+        setWardList([])
         AddressApi.getDistrictByProvinceId(cityId).then(setDistrictList);
         const dataParam = Object.assign({ ...searchParam, provinceId: cityId });
         setSearchParam(dataParam);

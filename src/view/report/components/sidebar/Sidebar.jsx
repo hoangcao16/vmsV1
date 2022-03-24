@@ -162,7 +162,7 @@ function Sidebar(props) {
       return;
     } else if (districtId.length === 1 && provinceId.length === 1) {
       AddressApi.getWardByDistrictId(districtId).then(setWard);
-    }
+    } 
   }, [districtId]);
 
   const { provinces, fields } = filterOptions;

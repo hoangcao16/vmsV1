@@ -764,7 +764,8 @@
     "successfully_edit_camera_group": "Sửa nhóm Camera thành công",
     "browser_not_support_video": "Trình duyệt của bạn không hỗ trợ thẻ video",
     "field_no_data": "Lĩnh vực này không có sự kiện",
-    "just_number": "Trường này chỉ được nhập số"
+    "just_number": "Trường này chỉ được nhập số",
+    "sure_to_delete": "Chắc chắn để xóa?"
   },
   "breadcrumd": {
     "report": "Quản lý báo cáo",

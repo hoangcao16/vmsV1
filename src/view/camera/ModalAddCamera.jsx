@@ -76,21 +76,18 @@ const ModalAddCamera = (props) => {
   }, []);
 
   useEffect(() => {
-    setDistrict([]);
-
-    if (!provinceId) {
-      return;
+    if (provinceId) {
+      AddressApi.getDistrictByProvinceId(provinceId).then(setDistrict);
+      setDistrictId(null);
     }
-    AddressApi.getDistrictByProvinceId(provinceId).then(setDistrict);
   }, [provinceId]);
 
   useEffect(() => {
-    setWard([]);
-
-    if (!districtId) {
-      return;
+    if (districtId) {
+      AddressApi.getWardByDistrictId(districtId).then(setWard);
+    } else {
+      setWard([]);
     }
-    AddressApi.getWardByDistrictId(districtId).then(setWard);
   }, [districtId]);
 
   const { provinces, zones, vendors, cameraTypes, adDivisions } = filterOptions;

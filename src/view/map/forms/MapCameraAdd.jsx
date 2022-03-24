@@ -96,10 +96,6 @@ const MapCameraAdd = (props) => {
     beforeUpload,
   ] = useHandleUploadFile(imgFile);
 
-  useEffect(() => {
-    console.log("editCam", editCam)
-  })
-
   useEffect(
     (e) => {
       if (editCam) {
@@ -121,7 +117,7 @@ const MapCameraAdd = (props) => {
           ip: editCam.ip,
           zoneUuid: editCam.zoneUuid,
           zoneName: editCam.zoneName,
-          
+
           administrativeUnitUuid: editCam.administrativeUnitUuid,
         });
         if (selectNewPosition) {
@@ -174,6 +170,7 @@ const MapCameraAdd = (props) => {
 
   useEffect(() => {
     setDistrict([]);
+    setDistrictId(null);
     if (provinceId) {
       AddressApi.getDistrictByProvinceId(provinceId).then(setDistrict);
     }
@@ -183,11 +180,12 @@ const MapCameraAdd = (props) => {
   }, [editCam, provinceId]);
 
   useEffect(() => {
-    setWard([]);
     if (districtId) {
       AddressApi.getWardByDistrictId(districtId).then(setWard);
+    } else {
+      setWard([]);
     }
-  }, [districtId, provinceId]);
+  }, [districtId]);
 
   const { provinces, zones, vendors, cameraTypes, adDivisions } = filterOptions;
 
@@ -200,7 +198,6 @@ const MapCameraAdd = (props) => {
 
   const onChangeCity = async (cityId) => {
     setProvinceId(cityId);
-
     await resetDistrictAndWardData();
   };
 
@@ -527,25 +524,25 @@ const MapCameraAdd = (props) => {
               label={t("view.map.port")}
               name={["port"]}
               rules={[
-                  {
-                    required: true,
-                    message: `${t("view.map.required_field")}`,
-                  },
-                  ({ getFieldValue }) => ({
-                    validator(rule, value) {
-                      const data = getFieldValue(["port"]);
-                      if (data) {
-                        if (isFinite(data)) {
-                          return Promise.resolve();
-                        } else {
-                          return Promise.reject(`${t("noti.just_number")}`);
-                        }
-                      } else {
+                {
+                  required: true,
+                  message: `${t("view.map.required_field")}`,
+                },
+                ({ getFieldValue }) => ({
+                  validator(rule, value) {
+                    const data = getFieldValue(["port"]);
+                    if (data) {
+                      if (isFinite(data)) {
                         return Promise.resolve();
+                      } else {
+                        return Promise.reject(`${t("noti.just_number")}`);
                       }
-                    },
-                  }),
-                ]}
+                    } else {
+                      return Promise.resolve();
+                    }
+                  },
+                }),
+              ]}
             >
               <Input
                 placeholder={t("view.map.please_enter_port", {
@@ -623,10 +620,7 @@ const MapCameraAdd = (props) => {
             </Form.Item>
           </Col>
           <Col span={24}>
-            <Form.Item
-              label={t("view.map.hls_url")}
-              name={["hlsUrl"]}
-            >
+            <Form.Item label={t("view.map.hls_url")} name={["hlsUrl"]}>
               <Input
                 placeholder={t("view.map.please_enter_hls_url", {
                   plsEnter: t("please_enter"),
