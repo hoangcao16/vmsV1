@@ -610,7 +610,6 @@ const MapCameraAdd = (props) => {
               ]}
             >
               <Input
-                disabled={isEditForm}
                 placeholder={t("view.map.please_enter_original_url", {
                   plsEnter: t("please_enter"),
                 })}
@@ -629,7 +628,6 @@ const MapCameraAdd = (props) => {
               name={["hlsUrl"]}
             >
               <Input
-                disabled={isEditForm}
                 placeholder={t("view.map.please_enter_hls_url", {
                   plsEnter: t("please_enter"),
                 })}
