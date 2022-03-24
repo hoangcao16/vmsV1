@@ -1,238 +1,215 @@
 @import "../../assets/scss/core/variables/vms-variable";
 @import '../../assets/scss/core/mixins/vms-mixins';
-
 .modal__edit--schedule_config_copy {
-  max-width: 960px;
-  background-color: $vms-bg-sub !important;
-
-  &.disabled { opacity: 0.5; }
-
-  .ant-modal-header {
-    padding: 0;
-    background-color: $vms-bg-primary;
-    border-bottom: 0;
-
-    .ant-modal-title {
-      border-radius: 12px 12px 0 0;
-      background-color: $vms-bg-primary;
-      color: $vms-status;
-      text-align: center;
-      padding-left: 32px;
-      font-size: 2rem;
+    max-width: 960px;
+    background-color: $vms-bg-sub !important;
+    &.disabled {
+        opacity: 0.5;
     }
-  }
-
-  .ant-table {
-    background-color: $vms-bg-primary;
-    border-left: 1px solid rgba(234, 240, 247, 0.1);
-    border-right: 1px solid rgba(234, 240, 247, 0.1);
-    border-bottom: 1px solid rgba(234, 240, 247, 0.1);
-    border-radius: 0 0 12px 12px;
-
-
-    
-
-    th.ant-table-cell {
-      background-color: $vms-bg-3 !important;
-      color: $vms-soft-statuts;
-      border-bottom: 1px solid rgba(234, 240, 247, 0.1);
-      border-top: 1px solid rgba(234, 240, 247, 0.1);
-      padding: 12px 0 12px 10px;
-      &:first-child {
-        padding-left: 16px;
-      }
-      &:last-child {
-        text-align: center;
-      }
-    }
-    th.ant-table-cell.action-1 {
-      position: relative;
-      height: 70px;
-
-      .searchInputCamproxy {
-        position: absolute;
-        right: 0;
-        top: 50%;
-        transform: translateY(-50%);
-      }
-    }
-    
-    .headerColumsColor {
-      background-color: #232323 !important;
-    }
-    .ant-table-selection-column{
-      padding: 0px !important;
-    }
-
-    .ant-table-tbody {
-      border-radius: 0 0 12px 12px;
-      tr {
-        td.ant-table-cell {
-          background-color: $vms-bg-primary;
-          color: $vms-status-07;
-          border-bottom: 1px solid rgba(234, 240, 247, 0.1);
-          padding: 12px 0 12px 10px;
-          .ant-progress-text {
-            color: $vms-status-07;
-          }
+    .ant-modal-header {
+        padding: 0;
+        background-color: $vms-bg-primary;
+        border-bottom: 0;
+        .ant-modal-title {
+            border-radius: 12px 12px 0 0;
+            background-color: $vms-bg-primary;
+            color: $vms-status;
+            text-align: center;
+            padding-left: 32px;
+            font-size: 2rem;
         }
-        td:first-child {
-          text-align: center;
-          padding-left: 0;
-        }
-        td:nth-child(4) {
-          padding-right: 16px;
-        }
-
-        &:last-child {
-          td {
-            border-bottom: none;
-          }
-        }
-      }
     }
-  }
-
-  .ant-modal-body {
-    width: 100%;
-    // background-color: $vms-bg-sub;
-    background-color: $vms-bg-primary;
-    padding: 14px 32px 30px !important;
-    border-radius: 0 0 12px 12px;
-    text-align: right;
-
-    label {
-      color: $vms-soft-statuts;
-    }
-
-    .ant-form-item-control-input {
-      border-radius: 6px;
-      background-color: $vms-bg-sub !important;
-      input {
-        
-
-        // background-color: $vms-bg-primary !important;
-        &::placeholder {
-          color: $vms-status-05 !important;
-        }
-      }
-    }
-
-    .ant-form-item-control-input-content {
-      height: 100%;
-      select {
-        height: 100%;
-        width: 100%;
-        background-color: $vms-bg-sub !important;
-        border-radius: 6px;
-        padding: 8px;
-        color: $vms-status;
-        outline: none;
-        border: $vms-border-gray;
-      }
-    }
-    button {
-      height: 100%;
-      background-color: $vms-main-blue-primary;
-      border-radius: 6px;
-      border: none;
-
-      span {
-        color: $vms-status;
-      }
-    }
-  }
-
-  .ant-table {
-    background-color: $vms-bg-primary;
-    border-bottom: 1px solid rgba(234, 240, 247, 0.1);
-    border-radius: 0 0 12px 12px;
-
-    th.ant-table-cell {
-      background-color: $vms-bg-3 !important;
-      color: $vms-soft-statuts;
-      border-bottom: 1px solid rgba(234, 240, 247, 0.1);
-      padding: 12px 0 12px 16px;
-    }
-    th:first-child{
-      text-align: center;
-    }
-    th:nth-last-child(2) {
-      text-align: center;
-      padding-left: 0;
-    }
-
-    .ant-table-body {
-      border-radius: 0 0 12px 12px;
-      @include scrollbar-styling(12px,0);
-      &::-webkit-scrollbar-track {
-        border-radius: 0 0 12px 0;
-      }
-      tr {
-        td.ant-table-cell {
-          // background-color: $vms-bg-primary;
-          color: $vms-status-07;
-          border-bottom: 1px solid rgba(234, 240, 247, 0.1);
-          padding: 12px 0 12px 16px;
-        }
-        
-        td:first-child {
-          text-align: center;
-        }
-        td:last-child {
-          color: $vms-soft-statuts;
-          padding-left: 0;
-          .ant-space {
-            .ant-space-item {
-              display: flex;
-              justify-content: center;
-              align-items: center;
-              svg {
-                font-size: 22px;
-              }
+    .ant-table {
+        background-color: $vms-bg-primary;
+        border-left: 1px solid rgba(234, 240, 247, 0.1);
+        border-right: 1px solid rgba(234, 240, 247, 0.1);
+        border-bottom: 1px solid rgba(234, 240, 247, 0.1);
+        border-radius: 0 0 12px 12px;
+        th.ant-table-cell {
+            background-color: $vms-bg-3 !important;
+            color: $vms-soft-statuts;
+            border-bottom: 1px solid rgba(234, 240, 247, 0.1);
+            border-top: 1px solid rgba(234, 240, 247, 0.1);
+            padding: 12px 0 12px 10px;
+            &:first-child {
+                padding-left: 16px;
             }
-          }
+            &:last-child {
+                text-align: center;
+            }
         }
-
-        &:last-child {
-          border-bottom: none;
+        th.ant-table-cell.action-1 {
+            position: relative;
+            height: 70px;
+            .searchInputCamproxy {
+                position: absolute;
+                right: 0;
+                top: 50%;
+                transform: translateY(-50%);
+            }
         }
-      }
+        .headerColumsColor {
+            background-color: #232323 !important;
+        }
+        .ant-table-selection-column {
+            padding: 0px !important;
+        }
+        .ant-table-tbody {
+            border-radius: 0 0 12px 12px;
+            tr {
+                td.ant-table-cell {
+                    background-color: $vms-bg-primary;
+                    color: $vms-status-07;
+                    border-bottom: 1px solid rgba(234, 240, 247, 0.1);
+                    padding: 12px 0 12px 10px;
+                    .ant-progress-text {
+                        color: $vms-status-07;
+                    }
+                }
+                td:first-child {
+                    text-align: center;
+                    padding-left: 0;
+                }
+                td:nth-child(4) {
+                    padding-right: 16px;
+                }
+                &:last-child {
+                    td {
+                        border-bottom: none;
+                    }
+                }
+            }
+        }
     }
-  }
-  .footer__modal {
-    border: 0;
-    margin-top: 24px;
-    button {
-      border: 0;
-      border-radius: 6px;
-      padding: 8px 32px;
-      &:hover {
-        box-shadow: 0 0 8px $vms-main-blue-primary;
-      }
+    .ant-modal-body {
+        width: 100%;
+        // background-color: $vms-bg-sub;
+        background-color: $vms-bg-primary;
+        padding: 14px 32px 30px !important;
+        border-radius: 0 0 12px 12px;
+        text-align: right;
+        label {
+            color: $vms-soft-statuts;
+        }
+        .ant-form-item-control-input {
+            border-radius: 6px;
+            background-color: $vms-bg-sub !important;
+            input {
+                // background-color: $vms-bg-primary !important;
+                &::placeholder {
+                    color: $vms-status-05 !important;
+                }
+            }
+        }
+        .ant-form-item-control-input-content {
+            height: 100%;
+            select {
+                height: 100%;
+                width: 100%;
+                background-color: $vms-bg-sub !important;
+                border-radius: 6px;
+                padding: 8px;
+                color: $vms-status;
+                outline: none;
+                border: $vms-border-gray;
+            }
+        }
+        button {
+            height: 100%;
+            background-color: $vms-main-blue-primary;
+            border-radius: 6px;
+            border: none;
+            span {
+                color: $vms-status;
+            }
+        }
     }
-    button:first-child {
-      background-color: transparent;
-      border: 1px solid $vms-main-blue-primary;
-      margin-right: 12px;
-      span {
-        color: $vms-main-blue-primary;
-      }
+    .ant-table {
+        background-color: $vms-bg-primary;
+        border-bottom: 1px solid rgba(234, 240, 247, 0.1);
+        border-radius: 0 0 12px 12px;
+        th.ant-table-cell {
+            background-color: $vms-bg-3 !important;
+            color: $vms-soft-statuts;
+            border-bottom: 1px solid rgba(234, 240, 247, 0.1);
+            padding: 12px 0 12px 16px;
+        }
+        th:first-child {
+            text-align: center;
+        }
+        th:nth-last-child(2) {
+            text-align: center;
+            padding-left: 0;
+        }
+        .ant-table-body {
+            border-radius: 0 0 12px 12px;
+            @include scrollbar-styling(12px, 0);
+            &::-webkit-scrollbar-track {
+                border-radius: 0 0 12px 0;
+            }
+            tr {
+                td.ant-table-cell {
+                    // background-color: $vms-bg-primary;
+                    color: $vms-status-07;
+                    border-bottom: 1px solid rgba(234, 240, 247, 0.1);
+                    padding: 12px 0 12px 16px;
+                }
+                td:first-child {
+                    text-align: center;
+                }
+                td:last-child {
+                    color: $vms-soft-statuts;
+                    padding-left: 0;
+                    .ant-space {
+                        .ant-space-item {
+                            display: flex;
+                            justify-content: center;
+                            align-items: center;
+                            svg {
+                                font-size: 22px;
+                            }
+                        }
+                    }
+                }
+                &:last-child {
+                    border-bottom: none;
+                }
+            }
+        }
     }
-
-    button:last-child {
-      background-color: $vms-main-blue-primary;
-      border: 1px solid $vms-main-blue-primary;
-      span {
-        color: $vms-status;
-      }
+    .footer__modal {
+        border: 0;
+        margin-top: 24px;
+        button {
+            border: 0;
+            border-radius: 6px;
+            padding: 8px 32px;
+            &:hover {
+                box-shadow: 0 0 8px $vms-main-blue-primary;
+            }
+        }
+        button:first-child {
+            background-color: transparent;
+            border: 1px solid $vms-main-blue-primary;
+            margin-right: 12px;
+            span {
+                color: $vms-main-blue-primary;
+            }
+        }
+        button:last-child {
+            background-color: $vms-main-blue-primary;
+            border: 1px solid $vms-main-blue-primary;
+            span {
+                color: $vms-status;
+            }
+        }
     }
-  }
-  @include paginationDontShowTotal;
-  .ant-pagination {
-    border-radius: 0 0 12px 0;
-  }
-
-
+    @include paginationDontShowTotal;
+    .ant-pagination {
+        border-radius: 0 0 12px 0;
+    }
 }
 
+.ant-form-item-control-input-content {
+    background-color: #232323;
+}
