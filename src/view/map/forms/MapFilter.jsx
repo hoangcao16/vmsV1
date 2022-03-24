@@ -45,6 +45,7 @@ const MapFilter = (props) => {
     setDistrict([]);
     if (provinceId) {
       AddressApi.getDistrictByProvinceId(provinceId).then(setDistrict);
+      setWards([]);
     }
   }, [provinceId]);
 
