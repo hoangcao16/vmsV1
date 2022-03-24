@@ -355,11 +355,11 @@ function AddUser(props) {
                             message: `${t("view.map.required_field")}`,
                           },
                           {
-                            min: 12,
+                            min: 10,
                             message: `${t("noti.at_least_10_characters")}`,
                           },
                           {
-                            max: 22,
+                            max: 20,
                             message: `${t("noti.up_to_20_characters")}`,
                           },
                         ]}
@@ -393,10 +393,14 @@ function AddUser(props) {
                         rules={[
                           {
                             required: true,
+                            message: `${t("view.map.required_field")}`,
+                          },
+                          {
+                            pattern:
+                              /^[a-zA-Z][a-zA-Z0-9_\.]{3,32}@[a-z]{2,}(\.[a-z]{2,4}){1,2}$/,
                             message: `${t(
                               "view.user.detail_list.email_address_required"
                             )}`,
-                            type: "email",
                           },
                           {
                             max: 255,
@@ -404,7 +408,15 @@ function AddUser(props) {
                           },
                         ]}
                       >
-                        <Input placeholder="Email" autocomplete="off" />
+                        <Input
+                          placeholder="Email"
+                          autocomplete="off"
+                          onBlur={(e) => {
+                            form.setFieldsValue({
+                              email: e.target.value.trim(),
+                            });
+                          }}
+                        />
                       </Form.Item>
                     </Col>
                   </Row>
