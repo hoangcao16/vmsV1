@@ -66,9 +66,8 @@ const ModalEditZone = (props) => {
     if (null === provinceId) {
       return;
     }
-
     setDistrict([]);
-
+    setWard([]);
     if (provinceId) {
       AddressApi.getDistrictByProvinceId(provinceId).then(setDistrict);
     }
@@ -78,9 +77,7 @@ const ModalEditZone = (props) => {
     if (null === districtId) {
       return;
     }
-
     setWard([]);
-
     if (districtId) {
       AddressApi.getWardByDistrictId(districtId).then(setWard);
     }

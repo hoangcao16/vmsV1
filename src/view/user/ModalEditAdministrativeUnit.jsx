@@ -90,6 +90,7 @@ const ModalEditAdministrativeUnit = (props) => {
     }
 
     setDistrict([]);
+    setWard([]);
 
     if (provinceId) {
       AddressApi.getDistrictByProvinceId(provinceId).then(setDistrict);

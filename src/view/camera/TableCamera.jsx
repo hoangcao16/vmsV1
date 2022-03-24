@@ -274,18 +274,17 @@ const TableCamera = () => {
   }, []);
 
   useEffect(() => {
-    setDistrict([]);
-
     if (provinceId) {
       AddressApi.getDistrictByProvinceId(provinceId).then(setDistrict);
+      setDistrictId(null);
     }
   }, [provinceId]);
 
   useEffect(() => {
-    setWard([]);
-
     if (districtId) {
       AddressApi.getWardByDistrictId(districtId).then(setWard);
+    } else {
+      setWard([]);
     }
   }, [districtId]);
 
@@ -430,13 +429,13 @@ const TableCamera = () => {
     };
 
     await CameraApi.getExportData(data).then((value) => {
-      if(value.type === "application/octet-stream"){
+      if (value.type === "application/octet-stream") {
         const data = new Blob([value], { type: "application/vnd.ms-excel" });
         fileDownload(
           data,
           `Report_Camera_Info_${moment().format("DD.MM.YYYY_HH.mm.ss")}.xlsx`
         );
-      }else {
+      } else {
         const notifyMess = {
           type: "error",
           title: "",
