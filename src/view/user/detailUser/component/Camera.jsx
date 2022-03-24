@@ -37,6 +37,8 @@ export default function Camera(props) {
       administrativeUnitUuid: "",
       vendorUuid: "",
       status: "",
+      page: 0,
+      size: 1000000,
     };
 
     setReloadCameraPage(props?.reloadCameraPage);
