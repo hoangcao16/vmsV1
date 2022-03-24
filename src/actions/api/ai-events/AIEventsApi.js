@@ -98,10 +98,16 @@ const AIEventsApi = {
 
   delete: async (uuid) => {
     let result;
+    let url = '/api/v1/ai-events/'
+    // let url = '/api/v1/integration-ai-events'
+    console.log(AI_SOURCE)
+    if(AI_SOURCE === 'philong'){
+      url = '/api/v1/integration-ai-events/'
+    }
 
     try {
       result = await AIService.deleteRequestData(
-        `/api/v1/ai-events/${uuid}`
+        `${url}${uuid}`
       );
     } catch (error) {
       console.log(error);

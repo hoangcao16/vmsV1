@@ -51,7 +51,6 @@ const MapCamItemLive = (props) => {
                 CameraService.playCameraOnline(camLive, slotId, dispatch).then(
                     (pc) => {
                         if (pc instanceof RTCPeerConnection) {
-                            console.log(">>>>> pc: ", pc);
                             let pcLstTmp = [...pcList];
                             let isExist = false;
                             for (let i = 0; i < pcLstTmp.length; i++) {

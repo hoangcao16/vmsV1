@@ -269,7 +269,7 @@ export default function Camera(props) {
         ...permisionConvert,
         cam_name: pc?.cam_name,
         cam_uuid: pc?.cam_uuid,
-        isDisableRow: checkDisable(pc.cam_group_uuid, data?.p_camera_groups), // đk để hiển thị là
+        // isDisableRow: checkDisable(pc.cam_group_uuid, data?.p_camera_groups), // đk để hiển thị là
       };
     });
   };

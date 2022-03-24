@@ -1,4 +1,4 @@
-import { Col, Input, Popconfirm, Popover, Row, Tooltip, Button } from "antd";
+import { Col, Input, Popconfirm, Popover, Row, Tooltip, Button, Spin, Space } from "antd";
 import { CloseOutlined } from '@ant-design/icons';
 import "antd/dist/antd.css";
 import { saveAs } from "file-saver";
@@ -120,15 +120,16 @@ const ExportEventFile = () => {
   const [eventList, setEventList] = useState([]);
   const [eventListAI, setEventListAI] = useState([]);
   const [imageOther, setImageOther] = useState([]);
-
+  const [playerAIVideoUrl, setPlayerAIVideoUrl] = useState(false);
+  const [playerReadyAIVideo, setPlayerReadyAIVideo] = useState(false);
   const [currNode, setCurrNode] = useState("");
   const [editMode, setEditMode] = useState(false);
   const [detailAI, setDetailAI] = useState(defaultEventFile);
 
   const zoom = ((window.outerWidth - 10) / window.innerWidth) * 100;
   const [visible, setVisible] = useState(false);
-  
-  
+
+
 
 
   useEffect(() => {
@@ -146,57 +147,57 @@ const ExportEventFile = () => {
         }
       });
 
-      if (AI_SOURCE === "philong"){
-        const dataEventList = [
-          {
-            id: 0,
-            type: "nhandienbienso",
-            name: `${t('view.ai_events.nhandienbienso')}`,
-          },
-          {
-            id: 0,
-            type: "damdong",
-            name: `${t("view.ai_events.damdong")}`,
-          },
-          {
-            id: 0,
-            type: "vuotdendo",
-            name: `${t("view.ai_events.vuotdendo")}`,
-          },
-          {
-            id: 0,
-            type: "daudo",
-            name: `${t("view.ai_events.daudo")}`,
-          },
-          
-          
-        ];
-        setEventListAI(dataEventList);
+    if (AI_SOURCE === "philong") {
+      const dataEventList = [
+        {
+          id: 0,
+          type: "nhandienbienso",
+          name: `${t('view.ai_events.nhandienbienso')}`,
+        },
+        {
+          id: 0,
+          type: "damdong",
+          name: `${t("view.ai_events.damdong")}`,
+        },
+        {
+          id: 0,
+          type: "vuotdendo",
+          name: `${t("view.ai_events.vuotdendo")}`,
+        },
+        {
+          id: 0,
+          type: "daudo",
+          name: `${t("view.ai_events.daudo")}`,
+        },
 
-      } else {
-        const dataEventList = [
-          {
-            id: 0,
-            type: "first_seen",
-            name: `${t('view.ai_events.attendance')}`,
-          },
-          {
-            id: 0,
-            type: "just_crossed",
-            name: `${t("view.ai_events.line_crossing")}`,
-          },
-          {
-            id: 0,
-            type: "intruding",
-            name: `${t("view.ai_events.intruding")}`,
-          },
-          
-        ];
-        setEventListAI(dataEventList);
-      }
 
-    
-    
+      ];
+      setEventListAI(dataEventList);
+
+    } else {
+      const dataEventList = [
+        {
+          id: 0,
+          type: "first_seen",
+          name: `${t('view.ai_events.attendance')}`,
+        },
+        {
+          id: 0,
+          type: "just_crossed",
+          name: `${t("view.ai_events.line_crossing")}`,
+        },
+        {
+          id: 0,
+          type: "intruding",
+          name: `${t("view.ai_events.intruding")}`,
+        },
+
+      ];
+      setEventListAI(dataEventList);
+    }
+
+
+
   }, []);
 
   useEffect(() => {
@@ -206,26 +207,40 @@ const ExportEventFile = () => {
   useEffect(() => {
     if (viewFileType === 4 && fileCurrent != null) {
       let imageOther = []
-      
+
       if (AI_SOURCE === "philong") {
-        
+
         setDetailAI({
           ...fileCurrent,
         })
         if (fileCurrent.plateNumberUrl) {
           imageOther.push({
-            fileName:'ImagePlate.jpg',
+            id: "plate",
+            fileName: 'ImagePlate.jpg',
             uuid: fileCurrent.uuid,
             image: fileCurrent.plateNumberUrl,
           });
         }
         if (fileCurrent.vehicleUrl) {
           imageOther.push({
-            fileName:'ImageVehicle.jpg',
+            id: "vehicle",
+            fileName: 'ImageVehicle.jpg',
             uuid: fileCurrent.uuid,
             image: fileCurrent.vehicleUrl,
           });
-          
+
+        }
+
+        if (fileCurrent.videoUrl) {
+          console.log("")
+          imageOther.push({
+            id: "video",
+            type: "mp4",
+            fileName: 'ImageVehicle.jpg',
+            uuid: fileCurrent.uuid,
+            url: fileCurrent.videoUrl,
+          });
+
         }
         console.log("imageOther   []  ", imageOther)
         setImageOther(imageOther)
@@ -299,7 +314,6 @@ const ExportEventFile = () => {
   const onClickTableFileHandler = async (row) => {
 
     if (row) {
-      console.log("row     ", row)
       setCaptureMode(false);
       setUrlVideoTimeline(null);
       setUrlSnapshot("");
@@ -368,6 +382,7 @@ const ExportEventFile = () => {
           playbackPermissionReq
         );
         if (checkPerRes) {
+          console.log("checkPerRes    ", checkPerRes)
           const playReq = {
             fileAbsName: file.path + "/" + file.name,
             domain: file.domain,
@@ -423,9 +438,9 @@ const ExportEventFile = () => {
     } else if (viewFileType === 3) {
       setFileCurrent({ ...file });
     } else if (viewFileType === 4) {
-      console.log("ef           ile:",file);
       setFileCurrent({ ...file, fileType: '4' });
     }
+
     if (file.type === 1) {
 
       //setUrlSnapshot("data:image/jpeg;base64," + file.thumbnailData[0]);
@@ -441,7 +456,7 @@ const ExportEventFile = () => {
       });
 
     } else if (viewFileType === 4) {
-      
+
       if (AI_SOURCE === "philong") {
         setUrlSnapshot(file.overViewUrl);
       } else {
@@ -476,7 +491,7 @@ const ExportEventFile = () => {
       } else {
         setDownloadFileName(file.fileName);
       }
-      
+
     } else {
       setDownloadFileName(file.name);
     }
@@ -873,7 +888,7 @@ const ExportEventFile = () => {
           perStr = "download_event_file";
           break;
         case 4:
-          
+
           perStr = "download_event_file";
           break;
         case 3:
@@ -896,7 +911,7 @@ const ExportEventFile = () => {
         } else {
           setLoading(true);
           try {
-            
+
             if (fileCurrent.tableName === "file") {
               // Call Nginx to get blob data of file
               await ExportEventFileApi.downloadFileNginx(
@@ -909,10 +924,10 @@ const ExportEventFile = () => {
                 saveAs(url, downloadFileName);
               });
             } else {
-              
-              
+
+
               if (fileCurrent.fileType === "4") {
-                
+
                 if (AI_SOURCE === "philong") {
                   console.log("imageAICurrent          ", imageAICurrent)
                   await ExportEventFileApi.downloadAIIntegrationFile(
@@ -921,8 +936,8 @@ const ExportEventFile = () => {
                   ).then(async (result) => {
                     const blob = new Blob([result.data], { type: "octet/stream" });
                     const url = window.URL.createObjectURL(blob);
-                    saveAs(url, downloadFileName);
-  
+                    saveAs(url, imageAICurrent.fileName);
+
                   });
                 } else {
                   await ExportEventFileApi.downloadFileAI(
@@ -935,10 +950,10 @@ const ExportEventFile = () => {
                     const blob = new Blob([result.data], { type: "octet/stream" });
                     const url = window.URL.createObjectURL(blob);
                     saveAs(url, downloadFileName);
-  
+
                   });
                 }
-                
+
                 // Call Nginx to get blob data of file
 
               } else {
@@ -1035,20 +1050,34 @@ const ExportEventFile = () => {
   const viewImageAIHandler = async (item) => {
     setLoading(true);
     if (AI_SOURCE === "philong") {
-      
-      await ExportEventFileApi.downloadAIIntegrationFile(
-        item.uuid,
-        item.fileName
-      ).then(async (result) => {
-        const blob = new Blob([result.data], { type: "octet/stream" });
-        getBase64Text(blob, async (image) => {
-          setUrlSnapshot(image);
+      if (item.type === "mp4") {
+        setImageAICurrent({
+          uuid: item.uuid,
+          fileName: "Video.mp4",
         });
-      });
-      setImageAICurrent({
-        uuid: item.uuid,
-        fileName: "ImageViolate.jpg",
-      });
+        console.log("item.url _______", item.url)
+        setPlayerAIVideoUrl(item.url)
+        setPlayerReadyAIVideo(true)
+        setUrlSnapshot("")
+
+      } else {
+        console.log("item   ", item)
+        await ExportEventFileApi.downloadAIIntegrationFile(
+          item.uuid,
+          item.fileName
+        ).then(async (result) => {
+          const blob = new Blob([result.data], { type: "octet/stream" });
+          getBase64Text(blob, async (image) => {
+            setUrlSnapshot(image);
+          });
+        });
+        setImageAICurrent({
+          uuid: item.uuid,
+          fileName: item.fileName,
+        });
+      }
+
+
     } else {
       await ExportEventFileApi.downloadFileAI(
         item.cameraUuid,
@@ -1070,7 +1099,7 @@ const ExportEventFile = () => {
       });
 
     }
-    
+
     setLoading(false);
 
   };
@@ -1259,7 +1288,6 @@ const ExportEventFile = () => {
               (item) => item.uuid === requestObject.uuid
             );
             dataList[index] = requestObject;
-            console.log("requestObject"  ,requestObject)
             setListFiles([...dataList]);
             setFileCurrent({ ...requestObject });
             setEventFileCurrent((preSate) => {
@@ -1295,6 +1323,7 @@ const ExportEventFile = () => {
   const clickTableEventFileHandler = async (eventFile, dataList) => {
     setCaptureMode(true);
     setFileCurrent(eventFile);
+
     if (eventFile.type === 0) {
       //Video type
       setUrlSnapshot("");
@@ -1634,7 +1663,7 @@ const ExportEventFile = () => {
                       checkBtnInfoObjectDisabled()
                         ? ""
                         : renderInfoObjectPopoverContent
-                     }
+                    }
                     trigger={`${checkBtnInfoObjectDisabled() ? "" : "click"}`}
                   >
                     <AiFillEdit
@@ -1656,7 +1685,7 @@ const ExportEventFile = () => {
                   <li style={{ marginTop: 15 }}>{t("view.ai_events.plateNumber")} : {detailAI.plateNumber ? detailAI.plateNumber : t("view.ai_events.UnKnow")}</li>
                 </ul>
                 : null}
-              {detailAI.subEventType === "nhandienbienso" || detailAI.subEventType === "daudo"  || detailAI.subEventType === "vuotdendo"
+              {detailAI.subEventType === "nhandienbienso" || detailAI.subEventType === "daudo" || detailAI.subEventType === "vuotdendo"
                 ? <ul style={{ listStyleType: 'none', display: 'inline-block' }}>
                   <li style={{ marginTop: 15 }}>{t("view.ai_events.type")} : {detailAI.vehicleType}</li>
                   <li style={{ marginTop: 15 }}>{t("view.ai_events.plateNumber")} : {detailAI.plateNumber ? detailAI.plateNumber : t("view.ai_events.UnKnow")}</li>
@@ -1687,11 +1716,11 @@ const ExportEventFile = () => {
               <div className="title">{t("view.storage.file_name")}</div>
               <div>{detailAI.fileName}</div>
             </Col>
-            <Col span={12}>
-              <div className="title">{t("view.storage.path")}</div>
-              <div className="pathFile">{detailAI.pathFile}</div>
-            </Col></div> : null}
-            
+              <Col span={12}>
+                <div className="title">{t("view.storage.path")}</div>
+                <div className="pathFile">{detailAI.pathFile}</div>
+              </Col></div> : null}
+
             {detailAI.useCase !== "attendance" ? <Col span={24}>
               <div className="title">{t("view.ai_events.err_image")}</div>
               <div>
@@ -1746,7 +1775,7 @@ const ExportEventFile = () => {
 
                     imageOther ? imageOther.map((item, index) =>
 
-                      <li key={item.uuid} style={{ listStyleType: 'none', display: 'inline-block', marginRight: '20px' }}><div style={{ width: '90%', paddingBottom: '10px' }}>
+                      <li key={item.id} style={{ listStyleType: 'none', display: 'inline-block', marginRight: '20px' }}><div style={{ width: '90%', paddingBottom: '10px' }}>
 
                         <div className='img__item' style={{ position: "relative" }}>
                           {item.uuid != detailAI.uuid ? <Popconfirm title="Chắc chắn để xóa?"
@@ -1776,11 +1805,33 @@ const ExportEventFile = () => {
                             </Button> */}
                           </Popconfirm> : null}
 
-                          <img onClick={event => {
 
-                            event.stopPropagation();
-                            viewImageAIHandler(item)
-                          }} style={{ width: '120px', height: "120px" }} className="cursor-pointer" src={item.image} alt="Avatar" />
+                          {item.type === "mp4" ?
+                            <div className='img__item' 
+                              onClick={event => {
+
+                                event.stopPropagation();
+                                viewImageAIHandler(item)
+                              }}>
+                              {/* <video id={item.id} refs="rtsp://10.0.0.66:8554/proxy6" /> */}
+                              <Space size="middle">
+                                <Spin
+                                  className="video-js"
+                                  size="large"
+                                  id={"spin-slot-" + item.id}
+                                  style={{ display: "none" }}
+                                />
+                              </Space>
+                              <video style={{ width: '120px', height: "120px" }}  className="video-container video-container-overlay" loop autoplay>
+                              <source src={ item.url } type="video/mp4" />
+                          </video>
+                            </div> : <img onClick={event => {
+
+                              event.stopPropagation();
+                              viewImageAIHandler(item)
+                            }} style={{ width: '120px', height: "120px" }} className="cursor-pointer" src={item.image} alt="Avatar" />}
+
+
                         </div>
                       </div></li>
                     ) : null
@@ -1805,7 +1856,7 @@ const ExportEventFile = () => {
                       }}
                     />
                   </Tooltip>
-                  
+
                 )}
                 {editMode && (
                   <Tooltip placement="top" title={t("view.map.button_save")}>
@@ -1927,14 +1978,14 @@ const ExportEventFile = () => {
   const renderInfoObjectPopoverContent = () => {
     return (
       <MemoizedInfoObjectPopoverContent
-          viewFileType={viewFileType}
-          fileCurrent={detailAI}
-          onEditFile={editFileOnPopoverHandler}
-          onDownloadFile={downloadFileHandler}
-          onDeleteFile={deleteFileHandler}
-          closeObjectForm={closeObjectForm}
-          onClose={() => setVisible(false)}
-        />
+        viewFileType={viewFileType}
+        fileCurrent={detailAI}
+        onEditFile={editFileOnPopoverHandler}
+        onDownloadFile={downloadFileHandler}
+        onDeleteFile={deleteFileHandler}
+        closeObjectForm={closeObjectForm}
+        onClose={() => setVisible(false)}
+      />
     );
   };
 
@@ -2049,8 +2100,25 @@ const ExportEventFile = () => {
                     duration={duration}
                   />
                 </div>
+                <div
+                  style={{ width: '100%', height: "100%" }}
+                  className={`iconPoster ${!playerReady && playerReadyAIVideo && !urlSnapshot ? "" : "hidden"
+                    }`}
+                >
+                  <Space size="larger">
+                                <Spin
+                                  className="video-js"
+                                  size="large"
+                                  id={"spin-slot-10"}
+                                  style={{ display: "none" }}
+                                />
+                              </Space>
+                              <video style={{ width: '100%'}} controls loop>
+                              <source src={ playerAIVideoUrl? playerAIVideoUrl: "" } type="video/mp4" />
+                          </video>
+                </div>
                 <img
-                  className={`iconPoster ${!playerReady && !urlSnapshot ? "" : "hidden"
+                  className={`iconPoster ${!playerReadyAIVideo && !playerReady && !urlSnapshot ? "" : "hidden"
                     }`}
                   src={imagePoster}
                   alt=""
