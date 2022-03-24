@@ -42,16 +42,17 @@ const MapFilter = (props) => {
     });
   }, []);
   useEffect(() => {
-    setDistrict([]);
     if (provinceId) {
       AddressApi.getDistrictByProvinceId(provinceId).then(setDistrict);
+      setDistrictId(null)
     }
   }, [provinceId]);
 
   useEffect(() => {
-    setWards([]);
     if (districtId) {
       AddressApi.getWardByDistrictId(districtId).then(setWards);
+    } else {
+      setWards([]);
     }
   }, [districtId]);
   const onChangeFilterType = (e) => {
