@@ -1,21 +1,21 @@
-import { Button, Col, Form, Input, Modal, Row, Spin } from 'antd';
-import { isEmpty } from 'lodash-es';
-import React, { useEffect, useState } from 'react';
-import PlaybackApi from '../../../actions/api/playback/PlaybackApi';
-import Notification from '../../../components/vms/notification/Notification';
-import './../../commonStyle/commonForm.scss';
-import './../../commonStyle/commonInput.scss';
-import './../../commonStyle/commonModal.scss';
-import './../../commonStyle/commonSelect.scss';
-import './ModalEditPlayback.scss';
-import { useTranslation } from 'react-i18next';
-import trimObjValues from '../../../actions/function/MyUltil/CheckDataTrim';
+import { Button, Col, Form, Input, Modal, Row, Spin } from "antd";
+import { isEmpty } from "lodash-es";
+import React, { useEffect, useState } from "react";
+import PlaybackApi from "../../../actions/api/playback/PlaybackApi";
+import Notification from "../../../components/vms/notification/Notification";
+import "./../../commonStyle/commonForm.scss";
+import "./../../commonStyle/commonInput.scss";
+import "./../../commonStyle/commonModal.scss";
+import "./../../commonStyle/commonSelect.scss";
+import "./ModalEditPlayback.scss";
+import { useTranslation } from "react-i18next";
+import trimObjValues from "../../../actions/function/MyUltil/CheckDataTrim";
 
 const { TextArea } = Input;
 
 const formItemLayout = {
   wrapperCol: { span: 24 },
-  labelCol: { span: 24 }
+  labelCol: { span: 24 },
 };
 
 const ModalEditPlayback = (props) => {
@@ -47,9 +47,9 @@ const ModalEditPlayback = (props) => {
 
       if (isEdit) {
         const notifyMess = {
-          type: 'success',
-          title: '',
-          description: `${t('noti.successfully_edit_playback')}`
+          type: "success",
+          title: "",
+          description: `${t("noti.successfully_edit_playback")}`,
         };
         Notification(notifyMess);
       }
@@ -73,15 +73,14 @@ const ModalEditPlayback = (props) => {
   return (
     <>
       <Modal
-        title={t('view.common_device.edit_playback')}
+        title={t("view.common_device.edit_playback")}
         visible={isModalVisible}
         onOk={handleSubmit}
         onCancel={handleShowModalEdit}
         style={{ top: 40 }}
         footer={null}
         className="modal--playback"
-        maskStyle={{ background: 'rgba(51, 51, 51, 0.9)' }}
-
+        maskStyle={{ background: "rgba(51, 51, 51, 0.9)" }}
       >
         <Form
           className="bg-grey"
@@ -93,23 +92,28 @@ const ModalEditPlayback = (props) => {
           <Row gutter={24}>
             <Col span={24}>
               <Form.Item
-                label={t('view.common_device.playback_name')}
-                name={['name']}
+                label={t("view.common_device.playback_name")}
+                name={["name"]}
                 rules={[
                   {
                     required: true,
-                    message: `${t('view.map.required_field')}`
+                    message: `${t("view.map.required_field")}`,
                   },
                   {
                     max: 255,
-                    message: `${t('noti.255_characters_limit')}`
-                  }
+                    message: `${t("noti.255_characters_limit")}`,
+                  },
                 ]}
               >
                 <Input
                   onBlur={(e) => {
                     form.setFieldsValue({
-                      name: e.target.value.trim()
+                      name: e.target.value.trim(),
+                    });
+                  }}
+                  onPaste={(e) => {
+                    form.setFieldsValue({
+                      name: e.target.value.trimStart(),
                     });
                   }}
                 ></Input>
@@ -117,50 +121,60 @@ const ModalEditPlayback = (props) => {
             </Col>
             <Col span={24}>
               <Form.Item
-                label={t('view.common_device.note')}
-                name={['note']}
+                label={t("view.common_device.note")}
+                name={["note"]}
                 rules={[
                   {
                     required: true,
-                    message: `${t('view.map.required_field')}`
+                    message: `${t("view.map.required_field")}`,
                   },
                   {
                     max: 255,
-                    message: `${t('noti.255_characters_limit')}`
-                  }
+                    message: `${t("noti.255_characters_limit")}`,
+                  },
                 ]}
               >
                 <TextArea
                   onBlur={(e) => {
                     form.setFieldsValue({
-                      note: e.target.value.trim()
+                      note: e.target.value.trim(),
                     });
-                  }}>
-                </TextArea>
+                  }}
+                  onPaste={(e) => {
+                    form.setFieldsValue({
+                      note: e.target.value.trimStart(),
+                    });
+                  }}
+                ></TextArea>
               </Form.Item>
             </Col>
             <Col span={24}>
               <Form.Item
-                label={t('view.common_device.desc')}
-                name={['description']}
+                label={t("view.common_device.desc")}
+                name={["description"]}
                 rules={[
                   {
                     required: true,
-                    message: `${t('view.map.required_field')}`
+                    message: `${t("view.map.required_field")}`,
                   },
                   {
                     max: 255,
-                    message: `${t('noti.255_characters_limit')}`
-                  }
+                    message: `${t("noti.255_characters_limit")}`,
+                  },
                 ]}
               >
                 <TextArea
                   onBlur={(e) => {
                     form.setFieldsValue({
-                      description: e.target.value.trim()
+                      description: e.target.value.trim(),
                     });
-                  }}>
-                </TextArea>
+                  }}
+                  onPaste={(e) => {
+                    form.setFieldsValue({
+                      description: e.target.value.trimStart(),
+                    });
+                  }}
+                ></TextArea>
               </Form.Item>
             </Col>
           </Row>
@@ -168,7 +182,7 @@ const ModalEditPlayback = (props) => {
           <Row className="row--submit">
             <div className="submit">
               <Button type="primary" htmlType="submit ">
-                {t('view.user.detail_list.confirm')}
+                {t("view.user.detail_list.confirm")}
               </Button>
             </div>
           </Row>

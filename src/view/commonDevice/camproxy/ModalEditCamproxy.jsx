@@ -111,6 +111,11 @@ const ModalEditCamproxy = (props) => {
                       name: e.target.value.trim()
                     });
                   }}
+                  onPaste={(e) => {
+                    form.setFieldsValue({
+                      name: e.target.value.trimStart()
+                    });
+                  }}
                 />
               </Form.Item>
             </Col>
@@ -135,6 +140,11 @@ const ModalEditCamproxy = (props) => {
                       note: e.target.value.trim()
                     });
                   }}
+                  onPaste={(e) => {
+                    form.setFieldsValue({
+                      note: e.target.value.trimStart()
+                    });
+                  }}
                 />
               </Form.Item>
             </Col>
@@ -157,6 +167,11 @@ const ModalEditCamproxy = (props) => {
                   onBlur={(e) => {
                     form.setFieldsValue({
                       description: e.target.value.trim()
+                    });
+                  }}
+                  onPaste={(e) => {
+                    form.setFieldsValue({
+                      description: e.target.value.trimStart()
                     });
                   }}
                 />

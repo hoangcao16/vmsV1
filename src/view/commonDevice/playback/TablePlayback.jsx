@@ -58,6 +58,11 @@ const TablePlayback = () => {
     setVal(value);
   };
 
+  const handlePaste = async (event) => {
+    const value = event.target.value.trimStart();
+    setVal(value);
+  };
+
   const renderTag = (cellValue) => {
     return (
       <Tag color={cellValue === 'UP' ? '#1380FF' : '#FF4646'} style={{ color: '#ffffff' }}>{cellValue === 'UP' ? `${t('view.camera.active')}` : `${t('view.camera.inactive')}`}</Tag>
@@ -135,6 +140,7 @@ const TablePlayback = () => {
           className=" full-width height-40"
           onSearch={handleSearch}
           onBlur={handleBlur}
+          onPaste={handlePaste}
           placeholder={
             <div className="placehoder height-40 justify-content-between d-flex align-items-center">
               <span>

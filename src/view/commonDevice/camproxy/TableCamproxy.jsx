@@ -112,6 +112,11 @@ const TableCamproxy = () => {
     setVal(value);
   };
 
+  const handlePaste = async (event) => {
+    const value = event.target.value.trimStart();
+    setVal(value);
+  };
+
   return (
     <div className="tabs__container--device">
       <div className="search mt-2" >
@@ -120,6 +125,7 @@ const TableCamproxy = () => {
           className=" full-width height-40"
           onSearch={handleSearch}
           onBlur={handleBlur}
+          onPaste={handlePaste}
           value={val}
           placeholder={
             <div className="placehoder height-40 justify-content-between d-flex align-items-center">
