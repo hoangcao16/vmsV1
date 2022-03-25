@@ -537,6 +537,12 @@ const TableFile = (props) => {
             quickSearch: value
         });
     };
+    const handleQuickSearchPaste = (event) => {
+        const value = event.target.value.trimStart();
+        form.setFieldsValue({
+            quickSearch: value
+        });
+    };
 
     const handleAddressBlur = (event) => {
         const value = event.target.value.trim();
@@ -1103,6 +1109,7 @@ const TableFile = (props) => {
                                         <AutoComplete
                                             maxLength={255}
                                             onBlur={handleQuickSearchBlur}
+                                            onPaste={handleQuickSearchPaste}
                                             onSearch={debounce(onQuickSearchHandler, 1500)}
                                             placeholder={
                                                 <>
@@ -1175,6 +1182,11 @@ const TableFile = (props) => {
                                     <Input placeholder={t('view.storage.street')} onChange={onChangeAddress}
                                         maxLength={255}
                                         onBlur={handleAddressBlur}
+                                        onPaste={(e) => {
+                                            form.setFieldsValue({
+                                                address: e.target.value.trimStart()
+                                            });
+                                        }}
                                     />
                                 </Form.Item>
                             </Col>
