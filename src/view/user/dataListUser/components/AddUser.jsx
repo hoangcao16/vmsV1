@@ -403,7 +403,7 @@ function AddUser(props) {
                           {
                             // pattern:
                             //   /^[a-zA-Z0-9]{1,}[\._-]{0,1}[a-zA-Z0-9]{0,}@[a-z0-9]{2,}(\.[a-z]{2,4}){1,2}$/,
-                            pattern: /^[a-zA-Z0-9]+([\._-]?[a-zA-Z0-9]+)*@[a-zA-Z0-9]+([\._-]?[a-zA-Z0-9]+)*(\.[a-zA-Z]{2,4}){1,2}$/,
+                            pattern: /^[a-zA-Z0-9]+([\._-]?[a-zA-Z0-9]+)*@[a-zA-Z0-9]+([\_-]?[a-zA-Z0-9]+)*(\.[a-zA-Z]{2,4}){1,2}$/,
                             message: `${t(
                               "view.user.detail_list.email_address_required"
                             )}`,
