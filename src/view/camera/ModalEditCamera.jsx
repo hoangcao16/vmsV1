@@ -295,6 +295,9 @@ const ModalEditCamera = (props) => {
                       onBlur={(e) =>
                         form.setFieldsValue({ name: e.target.value.trim() })
                       }
+                      onPaste={(e) =>
+                        form.setFieldsValue({ name: e.target.value.trimStart() })
+                      }
                     />
                   </Form.Item>
                 </Col>
@@ -318,6 +321,9 @@ const ModalEditCamera = (props) => {
                       maxLength={255}
                       onBlur={(e) =>
                         form.setFieldsValue({ code: e.target.value.trim() })
+                      }
+                      onPaste={(e) =>
+                        form.setFieldsValue({ code: e.target.value.trimStart() })
                       }
                     />
                   </Form.Item>
@@ -489,6 +495,9 @@ const ModalEditCamera = (props) => {
                   onBlur={(e) =>
                     form.setFieldsValue({ address: e.target.value.trim() })
                   }
+                  onPaste={(e) =>
+                    form.setFieldsValue({ address: e.target.value.trimStart() })
+                  }
                 />
               </Form.Item>
             </Col>
@@ -545,6 +554,9 @@ const ModalEditCamera = (props) => {
                   onBlur={(e) =>
                     form.setFieldsValue({ long_: e.target.value.trim() })
                   }
+                  onPaste={(e) =>
+                    form.setFieldsValue({ long_: e.target.value.trimStart() })
+                  }
                 />
               </Form.Item>
             </Col>
@@ -584,6 +596,9 @@ const ModalEditCamera = (props) => {
                   onBlur={(e) =>
                     form.setFieldsValue({ lat_: e.target.value.trim() })
                   }
+                  onPaste={(e) =>
+                    form.setFieldsValue({ lat_: e.target.value.trimStart() })
+                  }
                 />
               </Form.Item>
             </Col>
@@ -620,6 +635,11 @@ const ModalEditCamera = (props) => {
                   onBlur={(e) => {
                     form.setFieldsValue({
                       port: e.target.value.trim(),
+                    });
+                  }}
+                  onPaste={(e) => {
+                    form.setFieldsValue({
+                      port: e.target.value.trimStart(),
                     });
                   }}
                   maxLength={255}
@@ -664,6 +684,9 @@ const ModalEditCamera = (props) => {
                   onBlur={(e) =>
                     form.setFieldsValue({ ip: e.target.value.trim() })
                   }
+                  onPaste={(e) =>
+                    form.setFieldsValue({ ip: e.target.value.trimStart() })
+                  }
                 />
               </Form.Item>
             </Col>
@@ -686,6 +709,9 @@ const ModalEditCamera = (props) => {
                   onBlur={(e) =>
                     form.setFieldsValue({ cameraUrl: e.target.value.trim() })
                   }
+                  onPaste={(e) =>
+                    form.setFieldsValue({ cameraUrl: e.target.value.trimStart() })
+                  }
                 />
               </Form.Item>
               <Col span={24}>
@@ -703,6 +729,9 @@ const ModalEditCamera = (props) => {
                   maxLength={2000}
                   onBlur={(e) =>
                     form.setFieldsValue({ hlsUrl: e.target.value.trim() })
+                  }
+                  onPaste={(e) =>
+                    form.setFieldsValue({ hlsUrl: e.target.value.trimStart() })
                   }
                 />
               </Form.Item>

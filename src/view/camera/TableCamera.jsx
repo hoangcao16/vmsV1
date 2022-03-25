@@ -605,6 +605,15 @@ const TableCamera = () => {
 
     setSearch(value);
   };
+  const handlePaste = (e) => {
+    const value = e.target.value.trimStart();
+
+    form.setFieldsValue({
+      searchForm: value,
+    });
+
+    setSearch(value);
+  }
 
   const onShowSizeChange = (current, pageSize) => {
     setPage(current);
@@ -651,6 +660,7 @@ const TableCamera = () => {
               onSearch={debounce(handleSearch, 1000)}
               value={search}
               onBlur={handleBlur}
+              onPaste={handlePaste}
               maxLength={255}
               placeholder={
                 <div className="placeholder">
@@ -753,6 +763,11 @@ const TableCamera = () => {
                   onBlur={(e) => {
                     form.setFieldsValue({
                       address: e.target.value.trim(),
+                    });
+                  }}
+                  onPaste={(e) => {
+                    form.setFieldsValue({
+                      address: e.target.value.trimStart(),
                     });
                   }}
                 />

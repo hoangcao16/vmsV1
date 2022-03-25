@@ -14,6 +14,7 @@ import {
   Table,
   Tooltip,
 } from "antd";
+import { event } from "jquery";
 import React, { useEffect, useState } from "react";
 import { useTranslation } from "react-i18next";
 import { useHistory, useRouteMatch } from "react-router-dom";
@@ -177,6 +178,11 @@ export default function TableListGroup() {
     setSearch(value);
   };
 
+  const handlePaste = (event) => {
+    const value = event.target.value.trimStart();
+    setSearch(value);
+  }
+
   return (
     <div className="groupTableContent">
       <Row gutter={24} className="mt-2">
@@ -186,6 +192,7 @@ export default function TableListGroup() {
             value={search}
             onSearch={handleSearch}
             onBlur={handleBlur}
+            onPaste={handlePaste}
             maxLength={255}
             placeholder={
               <div className="placehoder height-40 justify-content-between d-flex align-items-center">
