@@ -388,6 +388,10 @@ const BookmarkSetting = ({
     setSearchName(e.target.value.trim());
   };
 
+  const handlePaste = (e) => {
+    setSearchName(e.target.value.trimStart());
+  }
+
   const handleSelectGridType = (gType) => {
     setCurrentPage(1);
     setBookmarks([]);
@@ -490,6 +494,7 @@ const BookmarkSetting = ({
               handleInputOnchange(e);
             }}
             onBlur={(e) => handleBlur(e)}
+            onPaste={(e) => handlePaste(e)}
           />
           <Select
             className="bookmarks__filter-gridType"
