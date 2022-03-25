@@ -144,6 +144,11 @@ const ModalAddZone = (props) => {
                         name: e.target.value.trim(),
                       });
                     }}
+                    onPaste={(e) => {
+                      form.setFieldsValue({
+                        name: e.target.value.trimStart(),
+                      });
+                    }}
                   ></Input>
                 </Form.Item>
               </Col>
@@ -225,6 +230,11 @@ const ModalAddZone = (props) => {
                         address: e.target.value.trim(),
                       });
                     }}
+                    onPaste={(e) => {
+                      form.setFieldsValue({
+                        address: e.target.value.trimStart(),
+                      });
+                    }}
                   />
                 </Form.Item>
               </Col>
@@ -248,6 +258,11 @@ const ModalAddZone = (props) => {
                     onBlur={(e) => {
                       form.setFieldsValue({
                         description: e.target.value.trim(),
+                      });
+                    }}
+                    onPaste={(e) => {
+                      form.setFieldsValue({
+                        description: e.target.value.trimStart(),
                       });
                     }}
                   />

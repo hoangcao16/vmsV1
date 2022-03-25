@@ -143,6 +143,11 @@ const TableZone = () => {
     setVal(value);
   };
 
+  const handlePaste = async (event) => {
+    const value = event.target.value.trimStart();
+    setVal(value);
+  };
+
   const handleShowModalInfo = () => {
     setSelectedZoneId(null);
   };
@@ -251,6 +256,7 @@ const TableZone = () => {
           className=" full-width height-40"
           onSearch={handleSearch}
           onBlur={handleBlur}
+          onPaste={handlePaste}
           placeholder={
             <div className="placehoder height-40 justify-content-between d-flex align-items-center">
               <span>
