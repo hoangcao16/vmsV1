@@ -136,7 +136,12 @@ const ModalUpdateDepartment = (props) => {
                     maxLength={255}
                     onBlur={(e) =>
                       form.setFieldsValue({
-                        key: e.target.value.trim(),
+                        name: e.target.value.trim(),
+                      })
+                    }
+                    onPaste={(e) =>
+                      form.setFieldsValue({
+                        name: e.target.value.trimStart(),
                       })
                     }
                   />

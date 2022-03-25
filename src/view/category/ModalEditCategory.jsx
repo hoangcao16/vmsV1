@@ -197,6 +197,11 @@ const ModalViewEditCategory = (props) => {
                       name: e.target.value.trim(),
                     });
                   }}
+                  onPaste={(e) => {
+                    form.setFieldsValue({
+                      name: e.target.value.trimStart(),
+                    });
+                  }}
                 />
               </Form.Item>
               {dataType === CATEGORY_NAME.EVENT_TYPE ? (

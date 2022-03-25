@@ -150,6 +150,7 @@ const TableCategory = () => {
             value={search}
             onSearch={handleSearch}
             onBlur={handleBlur}
+            onPaste={handlePaste}
             maxLength={255}
             style={{ width: 350, height: 40, marginRight: 18 }}
             placeholder={
@@ -203,6 +204,11 @@ const TableCategory = () => {
 
   const handleBlur = (event) => {
     const value = event.target.value.trim();
+    setSearch(value);
+  };
+
+  const handlePaste = (event) => {
+    const value = event.target.value.trimStart();
     setSearch(value);
   };
 
