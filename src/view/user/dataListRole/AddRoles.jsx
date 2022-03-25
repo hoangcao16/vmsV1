@@ -90,6 +90,11 @@ function AddRoles(props) {
                             name: e.target.value.trim()
                           });
                         }}
+                        onPaste={(e) => {
+                          form.setFieldsValue({
+                            name: e.target.value.trimStart()
+                          });
+                        }}
                         rules={[
                           {
                             required: true,
@@ -127,6 +132,11 @@ function AddRoles(props) {
                         onBlur={(e) => {
                           form.setFieldsValue({
                             description: e.target.value.trim()
+                          });
+                        }}
+                        onPaste={(e) => {
+                          form.setFieldsValue({
+                            description: e.target.value.trimStart()
                           });
                         }}
                         rules={[

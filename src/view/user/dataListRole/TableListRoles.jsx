@@ -174,6 +174,11 @@ export default function TableListRoles() {
     setSearch(value);
   };
 
+  const handlePaste = (event) => {
+    const value = event.target.value.trimStart();
+    setSearch(value);
+  };
+
   return (
     <div className="groupTableContent">
       <Row gutter={24} className="mt-2">
@@ -183,6 +188,7 @@ export default function TableListRoles() {
             value={search}
             onSearch={handleSearch}
             onBlur={handleBlur}
+            onPaste={handlePaste}
             maxLength={255}
             placeholder={
               <div className="placehoder height-40 justify-content-between d-flex align-items-center">

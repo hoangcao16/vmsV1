@@ -103,6 +103,11 @@ function AddGroup(props) {
                               name: e.target.value.trim()
                             });
                           }}
+                          onPaste={(e) => {
+                            form.setFieldsValue({
+                              name: e.target.value.trimStart()
+                            });
+                          }}
                         />
                       </Form.Item>
                     </Col>
@@ -129,6 +134,11 @@ function AddGroup(props) {
                           onBlur={(e) => {
                             form.setFieldsValue({
                               description: e.target.value.trim()
+                            });
+                          }}
+                          onPaste={(e) => {
+                            form.setFieldsValue({
+                              description: e.target.value.trimStart()
                             });
                           }}
                         />

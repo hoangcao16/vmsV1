@@ -276,6 +276,11 @@ function AddUser(props) {
                               name: e.target.value.trim(),
                             });
                           }}
+                          onPaste={(e) => {
+                            form.setFieldsValue({
+                              name: e.target.value.trimStart(),
+                            });
+                          }}
                         />
                       </Form.Item>
                       <Form.Item

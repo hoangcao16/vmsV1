@@ -99,6 +99,11 @@ export default function ModalEditCameraGroup(props) {
                   name: e.target.value.trim()
                 });
               }}
+              onPaste={(e) => {
+                form.setFieldsValue({
+                  name: e.target.value.trimStart()
+                });
+              }}
             />
           </Form.Item>
           <Form.Item
@@ -118,6 +123,11 @@ export default function ModalEditCameraGroup(props) {
               onBlur={(e) => {
                 form.setFieldsValue({
                   description: e.target.value.trim()
+                });
+              }}
+              onPaste={(e) => {
+                form.setFieldsValue({
+                  description: e.target.value.trimStart()
                 });
               }}
             />

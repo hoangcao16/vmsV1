@@ -159,6 +159,10 @@ const TableListUser = (props) => {
     const value = event.target.value.trim();
     setSearch(value);
   };
+  const handlePaste = (event) => {
+    const value = event.target.value.trimStart();
+    setSearch(value);
+  };
 
   const onChangeUnit = async (value) => {
     setUnit(value);
@@ -332,6 +336,7 @@ const TableListUser = (props) => {
               value={search}
               onSearch={handleSearch}
               onBlur={handleBlur}
+              onPaste={handlePaste}
               maxLength={255}
               placeholder={
                 <div className="placehoder height-40 justify-content-between d-flex align-items-center">

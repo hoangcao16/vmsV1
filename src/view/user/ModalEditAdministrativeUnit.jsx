@@ -343,6 +343,11 @@ const ModalEditAdministrativeUnit = (props) => {
                           name: e.target.value.trim(),
                         });
                       }}
+                      onPaste={(e) => {
+                        form.setFieldsValue({
+                          name: e.target.value.trimStart(),
+                        });
+                      }}
                     />
                   </Form.Item>
                 </Col>
@@ -357,11 +362,11 @@ const ModalEditAdministrativeUnit = (props) => {
                         message: `${t("view.map.required_field")}`,
                       },
                       {
-                        min: 12,
+                        min: 10,
                         message: `${t("noti.at_least_10_characters")}`,
                       },
                       {
-                        max: 22,
+                        max: 20,
                         message: `${t("noti.up_to_20_characters")}`,
                       },
                     ]}
@@ -397,6 +402,11 @@ const ModalEditAdministrativeUnit = (props) => {
                   onBlur={(e) => {
                     form.setFieldsValue({
                       address: e.target.value.trim(),
+                    });
+                  }}
+                  onPaste={(e) => {
+                    form.setFieldsValue({
+                      address: e.target.value.trimStart(),
                     });
                   }}
                 />
@@ -495,6 +505,9 @@ const ModalEditAdministrativeUnit = (props) => {
                   onBlur={(e) =>
                     form.setFieldsValue({ long_: e.target.value.trim() })
                   }
+                  onPaste={(e) =>
+                    form.setFieldsValue({ long_: e.target.value.trimStart() })
+                  }
                 />
               </Form.Item>
             </Col>
@@ -533,6 +546,9 @@ const ModalEditAdministrativeUnit = (props) => {
                   maxLength={255}
                   onBlur={(e) =>
                     form.setFieldsValue({ lat_: e.target.value.trim() })
+                  }
+                  onPaste={(e) =>
+                    form.setFieldsValue({ lat_: e.target.value.trimStart() })
                   }
                 />
               </Form.Item>

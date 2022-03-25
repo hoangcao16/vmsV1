@@ -87,6 +87,7 @@ const AdministrativeUnit = () => {
             value={search}
             onSearch={handleSearch}
             onBlur={handleBlur}
+            onPaste={handlePaste}
             maxLength={255}
             style={{ width: 350, height: 40, marginRight: 18 }}
             placeholder={
@@ -117,6 +118,10 @@ const AdministrativeUnit = () => {
     const value = event.target.value.trim();
     setSearch(value);
   };
+
+  const handlePaste = (event) => {
+    setSearch(event.target.value.trimStart())
+  }
 
   const handleSearch = async (value) => {
     setSearch(value);
