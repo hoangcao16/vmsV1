@@ -92,6 +92,11 @@ const CameraFormFilter = (props) => {
               address: e.target.value.trim(),
             });
           }}
+          onPaste={(e) => {
+            form.setFieldsValue({
+              address: e.target.value.trimStart(),
+            });
+          }}
         />
       </Form.Item>
 
