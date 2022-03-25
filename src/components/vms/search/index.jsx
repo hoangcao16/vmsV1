@@ -21,6 +21,11 @@ const Search = ({ onPressEnter, toggleOpenFilter, searchValue }) => {
     setSearch(value);
   };
 
+  const handlePaste = (e) => {
+    const value = e.target.value.trimStart();
+    setSearch(value);
+  };
+
   return (
     <Space className="search-input" style={{ justifyContent: "space-between" }}>
       <Input
@@ -32,6 +37,7 @@ const Search = ({ onPressEnter, toggleOpenFilter, searchValue }) => {
         suffix={<SearchOutlined onClick={() => onPressEnter(search)} />}
         maxLength={255}
         onBlur={handleBlur}
+        onPaste={handlePaste}
       />
       {toggleOpenFilter && (
         <Button onClick={toggleOpenFilter} className="search-input__filter">
