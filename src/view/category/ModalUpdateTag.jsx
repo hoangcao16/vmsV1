@@ -112,6 +112,11 @@ const ModalUpdateTag = (props) => {
                         key: e.target.value.trim(),
                       })
                     }
+                    onPaste={(e) =>
+                      form.setFieldsValue({
+                        key: e.target.value.trimStart(),
+                      })
+                    }
                   />
                 </Form.Item>
               </Col>
