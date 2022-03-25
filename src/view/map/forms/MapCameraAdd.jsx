@@ -287,6 +287,11 @@ const MapCameraAdd = (props) => {
                     name: e.target.value.trim(),
                   });
                 }}
+                onPaste={(e) => {
+                  form.setFieldsValue({
+                    name: e.target.value.trim(),
+                  });
+                }}
               />
             </Form.Item>
           </Col>
@@ -307,6 +312,11 @@ const MapCameraAdd = (props) => {
                 value={editCam?.name}
                 maxLength={255}
                 onBlur={(e) => {
+                  form.setFieldsValue({
+                    code: e.target.value.trim(),
+                  });
+                }}
+                onPaste={(e) => {
                   form.setFieldsValue({
                     code: e.target.value.trim(),
                   });
@@ -378,6 +388,11 @@ const MapCameraAdd = (props) => {
                 placeholder={t("view.map.please_choose_location")}
                 maxLength={255}
                 onBlur={(e) => {
+                  form.setFieldsValue({
+                    address: e.target.value.trim(),
+                  });
+                }}
+                onPaste={(e) => {
                   form.setFieldsValue({
                     address: e.target.value.trim(),
                   });
@@ -478,6 +493,9 @@ const MapCameraAdd = (props) => {
                 onBlur={(e) =>
                   form.setFieldsValue({ long_: e.target.value.trim() })
                 }
+                onPaste={(e) =>
+                  form.setFieldsValue({ long_: e.target.value.trim() })
+                }
               />
             </Form.Item>
           </Col>
@@ -515,6 +533,9 @@ const MapCameraAdd = (props) => {
                 onBlur={(e) =>
                   form.setFieldsValue({ lat_: e.target.value.trim() })
                 }
+                onPaste={(e) =>
+                  form.setFieldsValue({ lat_: e.target.value.trim() })
+                }
               />
             </Form.Item>
           </Col>
@@ -549,6 +570,11 @@ const MapCameraAdd = (props) => {
                   plsEnter: t("please_enter"),
                 })}
                 onBlur={(e) => {
+                  form.setFieldsValue({
+                    port: e.target.value.trim(),
+                  });
+                }}
+                onPaste={(e) => {
                   form.setFieldsValue({
                     port: e.target.value.trim(),
                   });
@@ -595,6 +621,11 @@ const MapCameraAdd = (props) => {
                     ip: e.target.value.trim(),
                   });
                 }}
+                onPaste={(e) => {
+                  form.setFieldsValue({
+                    ip: e.target.value.trim(),
+                  });
+                }}
               />
             </Form.Item>
           </Col>
@@ -616,6 +647,11 @@ const MapCameraAdd = (props) => {
                     cameraUrl: e.target.value.trim(),
                   });
                 }}
+                onPaste={(e) => {
+                  form.setFieldsValue({
+                    cameraUrl: e.target.value.trim(),
+                  });
+                }}
               />
             </Form.Item>
           </Col>
@@ -627,6 +663,11 @@ const MapCameraAdd = (props) => {
                 })}
                 maxLength={2000}
                 onBlur={(e) => {
+                  form.setFieldsValue({
+                    hlsUrl: e.target.value.trim(),
+                  });
+                }}
+                onPaste={(e) => {
                   form.setFieldsValue({
                     hlsUrl: e.target.value.trim(),
                   });
