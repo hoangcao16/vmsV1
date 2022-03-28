@@ -97,7 +97,7 @@ function AddGroup(props) {
                             'view.user.detail_list.enter_group_name',
                             { plsEnter: t('please_enter'), g: t('g') }
                           )}
-                          maxLength={225}
+                          maxLength={255}
                           onBlur={(e) => {
                             form.setFieldsValue({
                               name: e.target.value.trim()
@@ -130,7 +130,7 @@ function AddGroup(props) {
                             'view.user.detail_list.enter_group_desc',
                             { plsEnter: t('please_enter'), g: t('g') }
                           )}
-                          maxLength={225}
+                          maxLength={255}
                           onBlur={(e) => {
                             form.setFieldsValue({
                               description: e.target.value.trim()
