@@ -59,7 +59,7 @@ function Chart(props) {
 
   return (
     <>
-      {props.isShowLineAndPieChart && (
+      {(props?.typeChart == "all" || props?.typeChart == "line") && (
         <div className="Chart">
           <div className="Chart__title">
             <h3>
@@ -102,7 +102,7 @@ const mapStateToProps = (state) => ({
   chartData: convertDataChartAndPieChart(state.chart.chartData.data),
   error: state.chart.error,
   title: state.chart.title,
-  isShowLineAndPieChart: state.chart.isShowLineAndPieChart,
+  typeChart: state.chart.typeChart,
 });
 
 const mapDispatchToProps = (dispatch) => {

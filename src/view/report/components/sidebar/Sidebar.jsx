@@ -26,12 +26,13 @@ import {
 import { loadDataChart } from "../../redux/actions";
 import { changeChart } from "../../redux/actions/changeChart";
 import { changeTitle } from "../../redux/actions/changeTitle";
-import { changeCount } from "../../redux/actions/changeCount";
 import "./../../../../view/commonStyle/commonInput.scss";
 import "./../../../../view/commonStyle/commonSelect.scss";
 import "./sidebar.scss";
 import { useTranslation } from "react-i18next";
 import { reactLocalStorage } from "reactjs-localstorage";
+import WeekPanel from "./WeekPanel";
+import CameraApi from "../../../../actions/api/camera/CameraApi.js"
 
 const { Option } = Select;
 const formItemLayout = {
@@ -41,6 +42,7 @@ const formItemLayout = {
 const SELECTED_TIME = {
   DAY: "day",
   MONTH: "month",
+  WEEK: "week",
   YEAR: "year",
 };
 
@@ -66,7 +68,15 @@ function Sidebar(props) {
   const [timeStartDay, setTimeStartDay] = useState(
     moment().subtract(7, "days")
   );
+
   const [timeEndDay, setTimeEndDay] = useState(moment());
+
+  const [timeStartWeek, setTimeStartWeek] = useState(
+    moment().subtract(4, "weeks")
+  );
+  console.log("timeStartWeek", timeStartWeek);
+
+  const [timeEndWeek, setTimeEndWeek] = useState(moment());
 
   const [timeStartMonth, setTimeStartMonth] = useState(
     moment().subtract(11, "months")
@@ -87,8 +97,7 @@ function Sidebar(props) {
   const [selectedRowKeys, setSelectedRowKeys] = useState([]);
 
   const [feildIds, setFeildIds] = useState([]);
-
-  const [isShowLineAndPieChart, setisShowLineAndPieChart] = useState(true);
+  const [listAiCamera, setListAiCamera] = useState([])
 
   useEffect(() => {
     fetchSelectOptions().then((data) => {
@@ -120,12 +129,13 @@ function Sidebar(props) {
           setSelectedRowKeys(arr);
         }
         props.changeTitle(data?.fields[0]?.name);
-        setisShowLineAndPieChart(true);
 
         const dataDefault = {
           pickTime: dataTime,
           timeStartDay: timeStartDay,
           timeEndDay: timeEndDay,
+          timeStartWeek: "",
+          timeEndWeek: "",
           timeStartMonth: "",
           timeEndMonth: "",
           timeStartYear: "",
@@ -137,15 +147,27 @@ function Sidebar(props) {
           eventList: arr,
         };
         props.callData(clearData(dataDefault));
-        props.changeCount(arr);
       }
     });
   }, []);
 
-  useEffect(() => {
-    const isShowLineAndPieChart = hiddenDistrictAndWard && hiddenWard;
-    props.changeChart(isShowLineAndPieChart);
-  }, [hiddenDistrictAndWard, hiddenWard]);
+  // useEffect(() => {
+  //   let data = {
+  //     name: "",
+  //     address: "",
+  //     provinceId: "",
+  //     districtId: "",
+  //     id: "",
+  //     administrativeUnitUuid: "",
+  //     vendorUuid: "",
+  //     starecordingStatustus: "",
+  //     page: 1,
+  //     size: 10,
+  //     // ai: true,
+  //   };
+  //   console.log("data", data)
+  //   CameraApi.getAllCameraWidthTotal(data).then(rerult => console.log(rerult))
+  // }, [provinceId, districtId, wardId])
 
   useEffect(() => {
     setDistrict([]);
@@ -162,7 +184,7 @@ function Sidebar(props) {
       return;
     } else if (districtId.length === 1 && provinceId.length === 1) {
       AddressApi.getWardByDistrictId(districtId).then(setWard);
-    } 
+    }
   }, [districtId]);
 
   const { provinces, fields } = filterOptions;
@@ -172,6 +194,8 @@ function Sidebar(props) {
       pickTime: dataTime,
       timeStartDay: timeStartDay,
       timeEndDay: timeEndDay,
+      timeStartWeek: timeStartWeek,
+      timeEndWeek: timeEndWeek,
       timeStartMonth: timeStartMonth,
       timeEndMonth: timeEndMonth,
       timeStartYear: timeStartYear,
@@ -192,6 +216,8 @@ function Sidebar(props) {
     dataTime,
     timeStartDay,
     timeEndDay,
+    timeStartWeek,
+    timeEndWeek,
     timeStartMonth,
     timeEndMonth,
     timeStartYear,
@@ -211,16 +237,12 @@ function Sidebar(props) {
 
     if (!isEmpty(dataFilter.eventList[0])) {
       setEventList(dataFilter.eventList);
-      props.changeCount(dataFilter?.eventList[0]);
     } else {
-      let arr = [];
-      props.changeCount(arr);
       setEventList(dataFilter.eventList);
       setSelectedRowKeys(null);
       return;
     }
 
-    // if (selectedRowKeys)
     setSelectedRowKeys([dataFilter?.eventList[0]?.uuid]);
   };
 
@@ -236,12 +258,8 @@ function Sidebar(props) {
     }
 
     if (cityIdArr.length === 1) {
-      let arr = [];
-      arr = selectedRowKeys;
-      props.changeCount(arr);
       setHiddenDistrictAndWard(true);
       setHiddenWard(true);
-      setisShowLineAndPieChart(true);
       setProvinceId(cityIdArr);
       if (isEmpty(eventList)) {
         emptyField();
@@ -254,7 +272,6 @@ function Sidebar(props) {
     } else if (cityIdArr.length > 1 && cityIdArr.length <= 5) {
       setHiddenDistrictAndWard(false);
       setHiddenWard(false);
-      setisShowLineAndPieChart(false);
       setDistrictId([]);
       setWardId([]);
       form.setFieldsValue({ districtId: undefined, wardId: undefined });
@@ -292,11 +309,7 @@ function Sidebar(props) {
 
   const onChangeDistrict = async (districtIdArr) => {
     if (districtIdArr.length === 1) {
-      let arr = [];
-      arr = selectedRowKeys;
-      props.changeCount(arr);
       setHiddenWard(true);
-      setisShowLineAndPieChart(true);
       setDistrictId(districtIdArr);
       if (isEmpty(eventList)) {
         emptyField();
@@ -309,7 +322,6 @@ function Sidebar(props) {
       return;
     } else if (districtIdArr.length > 1 && districtIdArr.length <= 5) {
       setHiddenWard(false);
-      setisShowLineAndPieChart(false);
       setDistrictId(districtIdArr);
       setWardId([]);
       if (isEmpty(eventList)) {
@@ -345,7 +357,6 @@ function Sidebar(props) {
       setHiddenDistrictAndWard(true);
       setHiddenWard(true);
       setDistrictId([]);
-      setisShowLineAndPieChart(true);
       if (isEmpty(eventList)) {
         emptyField();
       } else {
@@ -359,12 +370,7 @@ function Sidebar(props) {
 
   const onChangeWard = (wardIdArr) => {
     if (wardIdArr.length === 1) {
-      let arr = [];
-      arr = selectedRowKeys;
-      props.changeCount(arr);
       setWardId(wardIdArr);
-      setisShowLineAndPieChart(true);
-      props.changeChart(true);
       if (isEmpty(eventList)) {
         emptyField();
       } else {
@@ -373,15 +379,12 @@ function Sidebar(props) {
 
       return;
     } else if (wardIdArr.length > 1 && wardIdArr.length <= 5) {
-      setisShowLineAndPieChart(false);
       setWardId(wardIdArr);
       if (isEmpty(eventList)) {
         emptyField();
       } else {
         setSelectedRowKeys(selectedRowKeys);
       }
-
-      props.changeChart(false);
 
       return;
     } else if (wardIdArr.length > 5) {
@@ -406,7 +409,6 @@ function Sidebar(props) {
       return;
     } else {
       setHiddenWard(true);
-      setisShowLineAndPieChart(true);
       setWardId([]);
       if (isEmpty(eventList)) {
         emptyField();
@@ -416,7 +418,6 @@ function Sidebar(props) {
 
       form.setFieldsValue({ wardId: undefined });
     }
-    props.changeChart(true);
   };
 
   const eventColumns = [
@@ -444,13 +445,13 @@ function Sidebar(props) {
   ];
 
   const onSelectChange = (selectedRowKeys) => {
-    if (selectedRowKeys.length < 1 || selectedRowKeys.length > 3) {
+    if (selectedRowKeys.length < 1) {
       const language = reactLocalStorage.get("language");
       if (language === "vn") {
         const notifyMess = {
           type: "error",
           title: "",
-          description: `Số lượng sự kiện phải trong khoảng từ 1 đến 3`,
+          description: `Số lượng sự kiện phải lớn hơn từ 1`,
         };
         Notification(notifyMess);
         return;
@@ -458,20 +459,21 @@ function Sidebar(props) {
         const notifyMess = {
           type: "error",
           title: "",
-          description: "Number of events must be in range from 1 to 3",
+          description: `Number of events must be greater than 1`,
         };
         Notification(notifyMess);
         return;
       }
     }
     setSelectedRowKeys(selectedRowKeys);
-    props.changeCount(selectedRowKeys);
 
     //Call API
     const data = {
       pickTime: dataTime,
       timeStartDay: timeStartDay,
       timeEndDay: timeEndDay,
+      timeStartWeek: timeStartWeek,
+      timeEndWeek: timeEndWeek,
       timeStartMonth: timeStartMonth,
       timeEndMonth: timeEndMonth,
       timeStartYear: timeStartYear,
@@ -490,6 +492,18 @@ function Sidebar(props) {
     onChange: onSelectChange,
   };
 
+  const onChangeTypeChart = (typeChart) => {
+    let controlTypeChart;
+    if (typeChart == "bar") {
+      controlTypeChart = "bar";
+    } else if (typeChart == "line") {
+      controlTypeChart = "line"
+    } else if (typeChart == "pie") {
+      controlTypeChart = "pie"
+    }
+    props.changeChart(controlTypeChart);
+  };
+
   const onChangeDateTime = async (dateTime) => {
     setDatatime(dateTime);
     if (isEmpty(eventList)) {
@@ -497,17 +511,11 @@ function Sidebar(props) {
     } else {
       setSelectedRowKeys(selectedRowKeys);
     }
-    let arr = [];
-    arr = selectedRowKeys;
-    props.changeCount(arr);
   };
 
   //==================================================================
 
   function onChangeTimeStartDay(value) {
-    let arr = [];
-    arr = selectedRowKeys;
-    props.changeCount(arr);
     if (!value) {
       form.setFieldsValue({
         timeEndDay: timeEndDay,
@@ -524,9 +532,6 @@ function Sidebar(props) {
   }
 
   function onChangeTimeEndDay(value) {
-    let arr = [];
-    arr = selectedRowKeys;
-    props.changeCount(arr);
     setTimeStartDay(timeStartDay);
     setTimeEndDay(value);
     const dk = moment(timeStartDay).add(1, "days");
@@ -584,13 +589,75 @@ function Sidebar(props) {
 
   //==================================================================
 
-  function onChangeTimeStartMonth(value) {
-    let arr = [];
-    arr = selectedRowKeys;
-    props.changeCount(arr);
+  function onChangeTimeStartWeek(value) {
     if (!value) {
       form.setFieldsValue({
-        timeEndMonth: timeEndMonth,
+        timeEndWeek: timeEndWeek,
+      });
+      return;
+    }
+
+    setTimeStartWeek(value);
+  }
+
+  function onChangeTimeEndWeek(value) {
+    setTimeEndWeek(value);
+
+    const dk = moment(timeStartWeek).add(1, "weeks");
+
+    if (!value) {
+      form.setFieldsValue({
+        timeStartWeek: timeStartWeek,
+      });
+      return;
+    }
+
+    if (dk > value) {
+      form.setFieldsValue({
+        timeStartMonth: "",
+      });
+
+      const language = reactLocalStorage.get("language");
+      if (language === "vn") {
+        const notifyMess = {
+          type: "error",
+          title: "",
+          description:
+            "Khoảng thời gian bạn chọn chưa đúng, vui lòng kiểm tra lại",
+        };
+        Notification(notifyMess);
+        return;
+      } else {
+        const notifyMess = {
+          type: "error",
+          title: "",
+          description:
+            "Time range you choose is not correct, please check again",
+        };
+        Notification(notifyMess);
+        return;
+      }
+    }
+  }
+
+  function disabledDateTimeStartWeek(current) {
+    const start = moment(timeEndWeek).startOf("W").subtract(12, "weeks");
+    const end = moment(timeEndWeek).startOf("W").subtract(0, "weeks");
+    return current < start || current > end;
+  }
+
+  // function disabledDateTimeEndWeek(current) {
+  //   const start = moment(timeEndWeek).endOf('W').add(1, "weeks");
+  //   const end = moment(timeEndWeek).endOf('W').add(4, "weeks");
+  //   return current > moment() + 1 || current < start || current > end + 1;
+  // }
+
+  //==================================================================
+
+  function onChangeTimeStartMonth(value) {
+    if (!value) {
+      form.setFieldsValue({
+        timeEndWeek: timeEndWeek,
       });
       return;
     }
@@ -599,9 +666,6 @@ function Sidebar(props) {
   }
 
   function onChangeTimeEndMonth(value) {
-    let arr = [];
-    arr = selectedRowKeys;
-    props.changeCount(arr);
     setTimeEndMonth(value);
 
     const dk = moment(timeStartMonth).add(1, "months");
@@ -656,9 +720,6 @@ function Sidebar(props) {
   //==================================================================
 
   function onChangeTimeStartYear(value) {
-    let arr = [];
-    arr = selectedRowKeys;
-    props.changeCount(arr);
     if (!value) {
       form.setFieldsValue({
         timeEndYear: timeEndYear,
@@ -670,9 +731,6 @@ function Sidebar(props) {
   }
 
   function onChangeTimeEndYear(value) {
-    let arr = [];
-    arr = selectedRowKeys;
-    props.changeCount(arr);
     setTimeEndYear(value);
     const dk = moment(timeStartYear).add(1, "years");
 
@@ -732,6 +790,23 @@ function Sidebar(props) {
           {...formItemLayout}
           style={{ width: "100%", paddingBottom: "30px" }}
         >
+          <label className="optionTitle">
+            {t("view.report.choose_type_chart")}
+          </label>
+          <Row gutter={24} style={{ margin: "5px" }}>
+            <Col span={24}>
+              <Form.Item name={["pickTypeChart"]}>
+                <Select
+                  placeholder="Hãy chọn loại biểu đồ"
+                  onChange={(typeChart) => onChangeTypeChart(typeChart)}
+                >
+                  <Option value="bar">Dạng cột</Option>
+                  <Option value="line">Dạng đường</Option>
+                  <Option value="pie">Dạng tròn</Option>
+                </Select>
+              </Form.Item>
+            </Col>
+          </Row>
           <label className="optionTitle">{t("view.report.view_by")}</label>
           <Row gutter={24} style={{ margin: "5px" }}>
             <Col span={24}>
@@ -741,6 +816,7 @@ function Sidebar(props) {
                   onChange={(dateTime) => onChangeDateTime(dateTime)}
                 >
                   <Option value="day">{t("view.report.day")}</Option>
+                  {/* <Option value="week">Week</Option> */}
                   <Option value="month">{t("view.report.month")}</Option>
                   <Option value="year">{t("view.report.year")}</Option>
                 </Select>
@@ -775,6 +851,37 @@ function Sidebar(props) {
                     disabledDate={disabledDateTimeEndDay}
                     dropdownClassName="dropdown__date-picker"
                     onChange={onChangeTimeEndDay}
+                  />
+                </Form.Item>
+              </Col>
+            </Row>
+          )}
+
+          {dataTime === SELECTED_TIME.WEEK && (
+            <Row gutter={24} style={{ margin: "5px" }}>
+              <Col span={12}>
+                <Form.Item name={["timeStartWeek"]}>
+                  <DatePicker
+                    allowClear={false}
+                    picker="month"
+                    format="TW-YYYY"
+                    panelRender={WeekPanel}
+                    defaultValue={moment().subtract(4, "weeks")}
+                    dropdownClassName="dropdown__date-picker"
+                    onChange={onChangeTimeStartWeek}
+                  />
+                </Form.Item>
+              </Col>
+              <Col span={12}>
+                <Form.Item name={["timeEndWeek"]}>
+                  <DatePicker
+                    allowClear={false}
+                    picker="week"
+                    format="WW-YYYY"
+                    defaultValue={moment()}
+                    // disabledDate={disabledDateTimeEndWeek}
+                    dropdownClassName="dropdown__date-picker"
+                    onChange={onChangeTimeEndWeek}
                   />
                 </Form.Item>
               </Col>
@@ -983,9 +1090,6 @@ const mapDispatchToProps = (dispatch) => {
     },
     changeChart: (data) => {
       dispatch(changeChart(data));
-    },
-    changeCount: (count) => {
-      dispatch(changeCount(count));
     },
     callData: (params) => {
       dispatch(loadDataChart(params));

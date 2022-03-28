@@ -1,8 +1,8 @@
-import { CHANGE_CHART } from '../constants';
+import { CHANGE_CHART } from "../constants";
 
 const changeChart = (data) => ({
   type: CHANGE_CHART.LOAD_SUCCESS,
-  data
+  data,
 });
 
 export { changeChart };

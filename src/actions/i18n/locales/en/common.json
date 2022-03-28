@@ -216,7 +216,8 @@
       "export_data": "Export data",
       "compare_chart": "SITUATION COMPARISON CHART:",
       "trend_chart": "SITUATION TREND CHART:",
-      "proportion_chart": "SITUATION PROPORTION CHART:"
+      "proportion_chart": "SITUATION PROPORTION CHART:",
+      "choose_type_chart": "Choose chart"
     },
     "pages": {
       "login": "Login",

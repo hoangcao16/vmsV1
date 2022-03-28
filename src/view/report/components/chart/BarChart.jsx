@@ -50,7 +50,7 @@ function BarChartComponent(props) {
 
   return (
     <>
-      {!props.isShowLineAndPieChart && (
+      {(props?.typeChart == "all" || props?.typeChart == "bar") && (
         <div className="BarChart">
           {isEmpty(data) ? (
             <>
@@ -142,7 +142,7 @@ const mapStateToProps = (state) => ({
   chartData: convertDataBarChart(state.chart.chartData.data),
   error: state.chart.error,
   title: state.chart.title,
-  isShowLineAndPieChart: state.chart.isShowLineAndPieChart,
+  typeChart: state.chart.typeChart,
 });
 
 const mapDispatchToProps = (dispatch) => {

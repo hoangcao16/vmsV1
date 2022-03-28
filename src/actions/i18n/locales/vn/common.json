@@ -216,7 +216,8 @@
       "export_data": "Xuất dữ liệu",
       "compare_chart": "BIỂU ĐỒ SO SÁNH TÌNH HÌNH:",
       "trend_chart": "BIỂU ĐỒ XU THẾ TÌNH HÌNH:",
-      "proportion_chart": "BIỂU ĐỒ TỶ LỆ TÌNH HÌNH:"
+      "proportion_chart": "BIỂU ĐỒ TỶ LỆ TÌNH HÌNH:",
+      "choose_type_chart": "Chọn loại biểu đồ"
     },
     "pages": {
       "login": "Đăng nhập",

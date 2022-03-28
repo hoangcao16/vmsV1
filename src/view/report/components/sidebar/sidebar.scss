@@ -1,13 +1,22 @@
 @import "../../../../assets/scss/core/variables/vms-variable";
 @import "../../../../assets//scss/core//mixins/vms-mixins";
 
+
+.ant-picker-body-custom{
+  display: flex;
+  flex-wrap: wrap;
+
+  .ant-picker-cell-inner{
+    max-width: 30px;
+  }
+}
+
 .sidebar {
   margin-left: 12px;
   padding: 0 0 12px;
   border-left: 1px solid #eaf0f62c;
   max-width: 345px;
   min-width: 345px;
-
   .ant-select-multiple {
     height: 100%;
 
