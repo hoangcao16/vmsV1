@@ -560,6 +560,9 @@ const BookmarkSetting = ({
                           onBlur={(e) => {
                             setNewName(e.target.value.trim());
                           }}
+                          onPaste={(e) => {
+                            setNewName(e.target.value.trimStart());
+                          }}
                           maxLength={100}
                         />
                         <CheckOutlined
