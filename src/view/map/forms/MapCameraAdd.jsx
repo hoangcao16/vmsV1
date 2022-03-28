@@ -172,19 +172,26 @@ const MapCameraAdd = (props) => {
   useEffect(() => {
     setDistrict([]);
     setDistrictId(null);
+    setWard([]);
     if (provinceId) {
       AddressApi.getDistrictByProvinceId(provinceId).then(setDistrict);
     }
+    // if (editCam && editCam.districtId) {
+    //   AddressApi.getWardByDistrictId(editCam.districtId).then(setWard);
+    // }
+  }, [provinceId]);
+  
+  useEffect(() => {
+    setWard([]);
     if (editCam && editCam.districtId) {
       AddressApi.getWardByDistrictId(editCam.districtId).then(setWard);
     }
-  }, [editCam, provinceId]);
+  }, [editCam]);
 
   useEffect(() => {
+    setWard([]);
     if (districtId) {
       AddressApi.getWardByDistrictId(districtId).then(setWard);
-    } else {
-      setWard([]);
     }
   }, [districtId]);
 
@@ -657,10 +664,7 @@ const MapCameraAdd = (props) => {
             </Form.Item>
           </Col>
           <Col span={24}>
-            <Form.Item
-              label={t("view.map.hls_url")}
-              name={["hlsUrl"]}
-            >
+            <Form.Item label={t("view.map.hls_url")} name={["hlsUrl"]}>
               <Input
                 placeholder={t("view.map.please_enter_hls_url", {
                   plsEnter: t("please_enter"),
