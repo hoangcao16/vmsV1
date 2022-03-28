@@ -93,6 +93,7 @@ const TableHumans = () => {
             onSearch={handleSearch}
             value={valueSearch}
             onBlur={(e) => setValueSearch(e.target.value.trim())}
+            onPaste={(e) => setValueSearch(e.target.value.trimStart())}
             placeholder={
               <div className="placehoder height-40 justify-content-between d-flex align-items-center">
                 <span style={{ opacity: "0. 5" }}>
