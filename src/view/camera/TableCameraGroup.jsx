@@ -278,7 +278,7 @@ function CameraGroup(props) {
           {name}
         </div>
         <div className="tools--edit">
-          <Tooltip placement="top" title={t("view.camera.add_camera_group")}>
+          <Tooltip placement="top" title={t("view.camera.add_new_camera_group")}>
             <PlusOutlined
               onClick={(e) => {
                 e.stopPropagation();
