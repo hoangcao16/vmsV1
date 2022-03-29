@@ -476,7 +476,7 @@ const ExportEventFile = () => {
     } else if (viewFileType === 4) {
       if (AI_SOURCE === 'philong') {
         await ExportEventFileApi.downloadAIIntegrationFile(
-          file.cameraUuid,
+          file.uuid,
           "ImageViolate.jpg"
         ).then(async (result) => {
           const blob = new Blob([result.data], { type: 'octet/stream' })
