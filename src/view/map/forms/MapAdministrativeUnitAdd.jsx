@@ -110,20 +110,27 @@ const MapAdministrativeUnitAdd = (props) => {
 
   useEffect(() => {
     setDistrict([]);
+    setDistrictId(null);
+    setWard([]);
     if (provinceId) {
       AddressApi.getDistrictByProvinceId(provinceId).then(setDistrict);
     }
+    // if (editAdminisUnit && editAdminisUnit.districtId) {
+    //   AddressApi.getWardByDistrictId(editAdminisUnit.districtId).then(setWard);
+    // }
+  }, [provinceId]);
+
+  useEffect(() => {
+    setWard([]);
     if (editAdminisUnit && editAdminisUnit.districtId) {
       AddressApi.getWardByDistrictId(editAdminisUnit.districtId).then(setWard);
     }
-  }, [editAdminisUnit, provinceId]);
-
+  }, [editAdminisUnit])
+  
   useEffect(() => {
     setWard([]);
     if (districtId) {
       AddressApi.getWardByDistrictId(districtId).then(setWard);
-    } else {
-      setWard([]);
     }
   }, [districtId]);
 
