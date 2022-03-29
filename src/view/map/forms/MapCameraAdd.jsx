@@ -133,7 +133,7 @@ const MapCameraAdd = (props) => {
           id: "",
           name: "",
           code: "",
-          cameraTypeUuid: "",
+          cameraTypeUuid: null,
           vendorUuid: null,
           address: "",
           provinceId: null,
