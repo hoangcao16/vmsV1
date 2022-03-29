@@ -76,7 +76,6 @@ const CameraApi = {
   },
 
   getAllCameraWidthTotal: async (dataSearch) => {
-    console.log("dataSearch", dataSearch)
     let result;
     try {
       result = await MyService.getRequestData(

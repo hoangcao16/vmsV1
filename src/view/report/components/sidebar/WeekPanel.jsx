@@ -1,13 +1,14 @@
 import React, { useEffect, useState } from "react";
 import moment from "moment";
 
-export default function WeekPanel({ props }) {
-  const currentYear = moment(props.value).format("YYYY");
-  const totalWeeks = moment().weeksInYear();
-  console.log(props)
-  console.log(totalWeeks)
+moment.locale("en");
 
-  useEffect(() => {}, [props.value]);
+export default function WeekPanel({ value, setTest, onSelect }) {
+  const currentYear = moment(value).format("YYYY");
+  const totalWeeks = moment(value).weeksInYear();
+  console.log(totalWeeks, currentYear);
+
+  useEffect(() => {}, [value]);
 
   return (
     <div tabIndex={-1} className="ant-picker-panel">
@@ -31,7 +32,12 @@ export default function WeekPanel({ props }) {
         </div>
         <div className="ant-picker-body ant-picker-body-custom">
           {Array.from(new Array(totalWeeks)).map((_, index) => (
-            <div className="ant-picker-cell" onClick={() => props.onSelect(moment(`${index + 1}-${currentYear}`, 'W-YYYY'))}>
+            <div
+              className="ant-picker-cell"
+              onClick={() => {
+                onSelect(moment(`${index + 1}-${currentYear}`, "WW-YYYY"));
+              }}
+            >
               <div className="ant-picker-cell-inner">{index + 1}</div>
             </div>
           ))}

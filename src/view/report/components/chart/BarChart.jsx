@@ -50,7 +50,7 @@ function BarChartComponent(props) {
 
   return (
     <>
-      {(props?.typeChart == "all" || props?.typeChart == "bar") && (
+      {(props?.typeChart == "bar") && (
         <div className="BarChart">
           {isEmpty(data) ? (
             <>

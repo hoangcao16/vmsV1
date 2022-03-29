@@ -11,6 +11,7 @@ import "./app.scss";
 import BarChartComponent from "./components/chart/BarChart";
 import Chart from "./components/chart/Chart";
 import PieChartComponents from "./components/chart/PieChart";
+import TableChart from "./components/chart/TableChart";
 import FeatureInfo from "./components/featureInfo/FeatureInfo";
 import Sidebar from "./components/sidebar/Sidebar";
 import "./Report.scss";
@@ -32,6 +33,7 @@ const TableReport = (props) => {
     if(!isEmpty(props.chartData)){
       return (
         <div className="body__content">
+        <TableChart />
         <Chart />
         <PieChartComponents />
         <BarChartComponent />

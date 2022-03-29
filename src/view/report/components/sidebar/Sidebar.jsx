@@ -2,7 +2,9 @@ import {
   Col,
   DatePicker,
   Divider,
+  Dropdown,
   Form,
+  Input,
   Row,
   Select,
   Table,
@@ -32,7 +34,10 @@ import "./sidebar.scss";
 import { useTranslation } from "react-i18next";
 import { reactLocalStorage } from "reactjs-localstorage";
 import WeekPanel from "./WeekPanel";
-import CameraApi from "../../../../actions/api/camera/CameraApi.js"
+import AICameraApi from "../../../../actions/api/ai-camera/AICameraApi.js";
+import { CalendarOutlined } from "@ant-design/icons";
+
+moment.locale("en");
 
 const { Option } = Select;
 const formItemLayout = {
@@ -74,7 +79,6 @@ function Sidebar(props) {
   const [timeStartWeek, setTimeStartWeek] = useState(
     moment().subtract(4, "weeks")
   );
-  console.log("timeStartWeek", timeStartWeek);
 
   const [timeEndWeek, setTimeEndWeek] = useState(moment());
 
@@ -97,7 +101,10 @@ function Sidebar(props) {
   const [selectedRowKeys, setSelectedRowKeys] = useState([]);
 
   const [feildIds, setFeildIds] = useState([]);
-  const [listAiCamera, setListAiCamera] = useState([])
+
+  const [test, setTest] = useState(null);
+
+  const [cameraAI, setCameraAI] = useState([]);
 
   useEffect(() => {
     fetchSelectOptions().then((data) => {
@@ -151,24 +158,6 @@ function Sidebar(props) {
     });
   }, []);
 
-  // useEffect(() => {
-  //   let data = {
-  //     name: "",
-  //     address: "",
-  //     provinceId: "",
-  //     districtId: "",
-  //     id: "",
-  //     administrativeUnitUuid: "",
-  //     vendorUuid: "",
-  //     starecordingStatustus: "",
-  //     page: 1,
-  //     size: 10,
-  //     // ai: true,
-  //   };
-  //   console.log("data", data)
-  //   CameraApi.getAllCameraWidthTotal(data).then(rerult => console.log(rerult))
-  // }, [provinceId, districtId, wardId])
-
   useEffect(() => {
     setDistrict([]);
     if (provinceId.length === 1) {
@@ -186,6 +175,18 @@ function Sidebar(props) {
       AddressApi.getWardByDistrictId(districtId).then(setWard);
     }
   }, [districtId]);
+
+  //API AI
+  useEffect(() => {
+    const data = {
+      provinceIds: "",
+      districtIds: "",
+      wardIds: "",
+      size: 100000,
+      page: 1,
+    };
+    const a = AICameraApi.getAllCameraAI(data).then(setCameraAI);
+  }, [provinceId, districtId, wardId]);
 
   const { provinces, fields } = filterOptions;
 
@@ -497,9 +498,11 @@ function Sidebar(props) {
     if (typeChart == "bar") {
       controlTypeChart = "bar";
     } else if (typeChart == "line") {
-      controlTypeChart = "line"
+      controlTypeChart = "line";
     } else if (typeChart == "pie") {
-      controlTypeChart = "pie"
+      controlTypeChart = "pie";
+    } else if (typeChart == "table") {
+      controlTypeChart = "table";
     }
     props.changeChart(controlTypeChart);
   };
@@ -589,7 +592,8 @@ function Sidebar(props) {
 
   //==================================================================
 
-  function onChangeTimeStartWeek(value) {
+  function onChangeTimeStartWeek(value, string) {
+    console.log("first", value, string);
     if (!value) {
       form.setFieldsValue({
         timeEndWeek: timeEndWeek,
@@ -803,6 +807,7 @@ function Sidebar(props) {
                   <Option value="bar">Dạng cột</Option>
                   <Option value="line">Dạng đường</Option>
                   <Option value="pie">Dạng tròn</Option>
+                  <Option value="table">Dạng bảng</Option>
                 </Select>
               </Form.Item>
             </Col>
@@ -816,7 +821,7 @@ function Sidebar(props) {
                   onChange={(dateTime) => onChangeDateTime(dateTime)}
                 >
                   <Option value="day">{t("view.report.day")}</Option>
-                  {/* <Option value="week">Week</Option> */}
+                  <Option value="week">Week</Option>
                   <Option value="month">{t("view.report.month")}</Option>
                   <Option value="year">{t("view.report.year")}</Option>
                 </Select>
@@ -861,15 +866,27 @@ function Sidebar(props) {
             <Row gutter={24} style={{ margin: "5px" }}>
               <Col span={12}>
                 <Form.Item name={["timeStartWeek"]}>
-                  <DatePicker
-                    allowClear={false}
-                    picker="month"
-                    format="TW-YYYY"
-                    panelRender={WeekPanel}
-                    defaultValue={moment().subtract(4, "weeks")}
-                    dropdownClassName="dropdown__date-picker"
-                    onChange={onChangeTimeStartWeek}
-                  />
+                  <Dropdown
+                    trigger={["click"]}
+                    overlay={
+                      <WeekPanel
+                        value={moment("01/12/2021", "DD/MM/YYYY")}
+                        onSelect={(value) => {
+                          form.setFieldsValue({ timeStartWeek: value });
+                          setTest(moment(value).format("TW-YYYY"))
+                          console.log(
+                            form.getFieldsValue("timeStartWeek").timeStartWeek
+                          );
+                        }}
+                      />
+                    }
+                  >
+                    <Input
+                      className="week-input"
+                      value={test}
+                      suffix={<CalendarOutlined />}
+                    />
+                  </Dropdown>
                 </Form.Item>
               </Col>
               <Col span={12}>
@@ -1021,7 +1038,23 @@ function Sidebar(props) {
               </Row>
             </>
           )}
-
+          <label className="optionTitle">Camera AI</label>
+          <Row gutter={24} style={{ margin: "5px" }}>
+            <Col span={24}>
+              <Form.Item name={["cameraAI"]}>
+                <Select
+                  mode="multiple"
+                  allowClear={false}
+                  showSearch
+                  dataSource={cameraAI}
+                  onChange={(districtId) => onChangeDistrict(districtId)}
+                  filterOption={filterOption}
+                  options={normalizeOptions("name", "uuid", cameraAI)}
+                  placeholder="//API AI"
+                />
+              </Form.Item>
+            </Col>
+          </Row>
           <label className="optionTitle">{t("view.category.field")}</label>
           <Row gutter={24} style={{ margin: "5px" }}>
             <Col span={24}>
