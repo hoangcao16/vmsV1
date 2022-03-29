@@ -251,6 +251,7 @@ function CameraGroup(props) {
   }
 
   const showModal = (id) => {
+    setValueSearch(null)
     setIsAdd(true);
     setDataAdd(id);
   };
@@ -265,6 +266,7 @@ function CameraGroup(props) {
   };
 
   const showModalEdit = (id) => {
+    setValueSearch(null)
     setIsEdit(true);
     setDataEdit(id);
   };
@@ -276,7 +278,7 @@ function CameraGroup(props) {
           {name}
         </div>
         <div className="tools--edit">
-          <Tooltip placement="top" title={t("view.camera.add_camera_group")}>
+          <Tooltip placement="top" title={t("view.camera.add_new_camera_group")}>
             <PlusOutlined
               onClick={(e) => {
                 e.stopPropagation();
@@ -367,11 +369,10 @@ function CameraGroup(props) {
                   className=" full-width height-40 read search__camera-group"
                   onSearch={debounce(handleSearch, 1000)}
                   value={valueSearch}
-                  onChange={(e) => {
-                    setValueSearch(e);
-                  }}
+                  onChange={(e) => setValueSearch(e)}
                   onBlur={(e) => setValueSearch(e.target.value.trim())}
                   onPaste={(e) => setValueSearch(e.target.value.trimStart())}
+                  onClear={(e) => console.log("clear")}
                   placeholder={
                     <div className="placehoder height-40 justify-content-between d-flex align-items-center">
                       <span style={{ opacity: "0.5" }}>

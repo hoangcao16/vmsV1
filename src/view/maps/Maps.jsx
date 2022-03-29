@@ -6,27 +6,27 @@ import "../../assets/scss/pages/map.scss";
 import mapActions from "../../redux/actions/map";
 import {
   addAdminisUnitOnMap,
-  updateAdminisUnitOnMap
+  updateAdminisUnitOnMap,
 } from "../../redux/actions/map/adminisUnitsAction";
 import {
   addCameraOnMap,
-  updateCameraOnMapByFilter
+  updateCameraOnMapByFilter,
 } from "../../redux/actions/map/cameraActions";
 import { seekPlaybackOnMap } from "../../redux/actions/map/camLiveAction";
 import {
   setMapStyle,
-  updateMapObject
+  updateMapObject,
 } from "../../redux/actions/map/formMapActions";
 import {
   addNewTrackingPoint,
   updateCurrentLang,
-  updateTrackingPointAction
+  updateTrackingPointAction,
 } from "../../redux/actions/map/trackingPointActions";
 import {
   FORM_MAP_ITEM,
   STYLE_MODE,
   TRACKING_POINTS,
-  TYPE_FORM_ACTION_ON_MAP
+  TYPE_FORM_ACTION_ON_MAP,
 } from "../common/vms/constans/map";
 import { PAGE_SIZE } from "../common/vms/Constant";
 import { buildingIcon } from "../map/adminisUnit.icon";
@@ -92,7 +92,7 @@ const Maps = (props) => {
   const [search, setSearch] = useState("");
   const [filter, setFilter] = useState({});
   const [filterType, setFilterType] = useState(CamType);
-  
+
   const radiusTrackingPoint = 1;
   const metadata = {
     page: 1,
@@ -168,8 +168,6 @@ const Maps = (props) => {
       formMapObj.selectedPos = false;
       formMapObj.formEditting = {
         ...cam,
-        cameraUrl:
-          isEditForm && formEditting ? formEditting.cameraUrl : cam.cameraUrl,
       };
       sessionStorage.setItem(FORM_MAP_ITEM, JSON.stringify({ ...formMapObj }));
       dispatch(updateMapObject({ ...formMapObj }));

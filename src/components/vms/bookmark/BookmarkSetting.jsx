@@ -548,6 +548,7 @@ const BookmarkSetting = ({
                         <input
                           id={`screenIdInput-${idx}`}
                           type="text"
+                          value={newName}
                           onChange={(e) => {
                             e.stopPropagation();
                             setNewName(e.target.value);
@@ -555,7 +556,7 @@ const BookmarkSetting = ({
                           defaultValue={item.name.slice(0, 20)}
                           onClick={(e) => {
                             e.stopPropagation();
-                            setNewName(e.target.value);
+                            setNewName(e.target.value.trim());
                           }}
                           onBlur={(e) => {
                             setNewName(e.target.value.trim());
