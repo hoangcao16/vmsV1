@@ -104,7 +104,12 @@
       "please_enter_nvr_name": "{{plsEnter}} tên NVR",
       "please_enter_playback_name": "{{plsEnter}} tên Playback",
       "please_enter_zone_name": "{{plsEnter}} tên Zone",
-      "please_enter_camproxy_name": "{{plsEnter}} tên Camproxy"
+      "please_enter_camproxy_name": "{{plsEnter}} tên Camproxy",
+      "state": "Trạng thái xử lý",
+      "ticket": "Phiếu phạt",
+      "update_state_THXL": "Cập nhật THXL",
+      "move": "Chuyển",
+      "want_to_change?": "Bạn có chắc chắn thay đổi trạng thái xử lý sự kiện này?"
     },
     "live": {
       "preset_setting": "Cài đặt Preset",
@@ -463,7 +468,7 @@
       "img_reach": "Ảnh đạt ",
       "quality": " về chất lượng",
       "uploading": "Đang tải lên...",
-      "image" : {
+      "image": {
         "have": "Đã có ảnh",
         "no": "Chưa có ảnh"
       }
@@ -481,7 +486,7 @@
       "activate_hurdles": "Kích hoạt tính năng phát hiện vượt rào ảo",
       "activate_intrusion_detection": "Kích hoạt tính năng phát hiện xâm nhập",
       "all_day": "Áp dụng cho tất cả các ngày trong tuần",
-      "time_week" :{
+      "time_week": {
         "2": "Thứ hai",
         "3": "Thứ ba",
         "4": "Thứ tư",
@@ -490,7 +495,7 @@
         "7": "Thứ bảy",
         "CN": "Chủ nhật"
       },
-      "edit_time" :{
+      "edit_time": {
         "2": "Thay đổi thời gian thứ 2",
         "3": "Thay đổi thời gian thứ 3",
         "4": "Thay đổi thời gian thứ 4",
@@ -499,10 +504,10 @@
         "7": "Thay đổi thời gian thứ 7",
         "CN": "Thay đổi thời gian chủ nhật"
       },
-      "select_time" :"Chọn thời gian",
+      "select_time": "Chọn thời gian",
       "time_config_copy": "Áp dụng lịch",
       "config_copy": "Sao chép",
-      "time_error_stat_end":"Thời gian bắt đầu lớn hơn thời gian kết thúc",
+      "time_error_stat_end": "Thời gian bắt đầu lớn hơn thời gian kết thúc",
       "time_threshold": "Ngưỡng thời gian:",
       "time": "Thời gian",
       "second": "giây",
@@ -524,22 +529,22 @@
         "BA": "B --> A",
         "All": "Tất cả"
       },
-      "save":"Lưu",
-      "apply":"Áp dụng",
+      "save": "Lưu",
+      "apply": "Áp dụng",
       "cancel": "Hủy",
-      "table":{
+      "table": {
         "no": "STT",
-        "name" :"Tên"
+        "name": "Tên"
       },
-      "no_data" :"Không có dữ liệu",
+      "no_data": "Không có dữ liệu",
       "add_ai_config": "Thêm thiết lập khu vực"
     },
     "ai_events": {
       "event_files_list": "Danh sách sự kiện AI",
       "attendance": "Điểm danh",
       "intruding": "Xâm nhập",
-      "first_seen" : "Điểm danh",
-      "just_crossed" :"Vượt rào",
+      "first_seen": "Điểm danh",
+      "just_crossed": "Vượt rào",
       "daudo": "Đậu đỗ sai quy định",
       "nhandienbienso": "Nhận diện biển số",
       "vuotdendo": "Vượt đèn đỏ",
@@ -548,7 +553,7 @@
       "edit_info": "Chỉnh sửa thông tin đối tượng",
       "info": "Thông tin đối tượng",
       "edit_note": "Chỉnh sửa ghi chú",
-      "err_image" : "Hình ảnh vi phạm",
+      "err_image": "Hình ảnh vi phạm",
       "name1": "Tên: ",
       "code1": "Mã nhân viên: ",
       "department1": "Phòng ban: ",
@@ -559,7 +564,7 @@
         "human": "Người",
         "unknow": "Không xác định"
       },
-      "useCase" : {
+      "useCase": {
         "zac_vehicle": "Xe",
         "zac_human": "Người"
       },
@@ -570,9 +575,9 @@
       "position": "Chức vụ",
       "department": "Phòng ban",
       "type": "Loại đối tượng ",
-      "UnKnow":"Không xác định",
-      "camera_name" :"Camera ghi nhận",
-      "typeObject" : "Loại sự kiện",
+      "UnKnow": "Không xác định",
+      "camera_name": "Camera ghi nhận",
+      "typeObject": "Loại sự kiện",
       "delete": "Xóa"
     },
     "department": {
@@ -581,7 +586,6 @@
       "add_department": "Thêm phòng ban",
       "name_department": "Tên phòng ban"
     }
-    
   },
 
   "preset": {

@@ -1,5 +1,5 @@
-@import "../../../assets/scss/core/variables/vms-variable";
-@import "../../../assets/scss/core/mixins/vms-mixins";
+@import '../../../assets/scss/core/variables/vms-variable';
+@import '../../../assets/scss/core/mixins/vms-mixins';
 
 .viewFileContainer {
   padding-left: 12px !important;
@@ -276,7 +276,6 @@
     .ant-input {
       border: none !important;
     }
-
   }
 
   .eventFileDetail {
@@ -305,6 +304,11 @@
       color: $vms-main-blue-primary;
       width: 16px;
       height: 16px;
+    }
+    .ant-btn {
+      & > span {
+        color: #333333;
+      }
     }
   }
 }
@@ -447,7 +451,6 @@
 
   // view data
   .tableData {
-
     .gridEventFileContainer {
       font-style: normal;
       font-weight: 500;
@@ -481,8 +484,9 @@
         }
 
         li.name::before {
-          content: "";
-          background: transparent url("../../../assets/img/icons/folder.png") no-repeat center;
+          content: '';
+          background: transparent url('../../../assets/img/icons/folder.png')
+            no-repeat center;
           background-size: contain;
           position: absolute;
           height: 14px;
@@ -493,8 +497,10 @@
         }
 
         li.pathFile::before {
-          content: "";
-          background: transparent url("../../../assets/img/icons/camera-list/cameraUrl.png") no-repeat center;
+          content: '';
+          background: transparent
+            url('../../../assets/img/icons/camera-list/cameraUrl.png') no-repeat
+            center;
           background-size: contain;
           position: absolute;
           height: 14px;
@@ -505,8 +511,9 @@
         }
 
         li.cameraName::before {
-          content: "";
-          background: transparent url("../../../assets/img/icons/camera.png") no-repeat center;
+          content: '';
+          background: transparent url('../../../assets/img/icons/camera.png')
+            no-repeat center;
           background-size: contain;
           position: absolute;
           height: 14px;
@@ -517,8 +524,9 @@
         }
 
         li.createdTime::before {
-          content: "";
-          background: transparent url("../../../assets/img/icons/calendar.png") no-repeat center;
+          content: '';
+          background: transparent url('../../../assets/img/icons/calendar.png')
+            no-repeat center;
           background-size: contain;
           position: absolute;
           height: 14px;
@@ -529,8 +537,10 @@
         }
 
         li.address::before {
-          content: "";
-          background: transparent url("../../../assets/img/icons/camera-list/address.png") no-repeat center;
+          content: '';
+          background: transparent
+            url('../../../assets/img/icons/camera-list/address.png') no-repeat
+            center;
           background-size: contain;
           position: absolute;
           height: 14px;
@@ -721,7 +731,6 @@
     .ant-col > li {
       line-break: anywhere;
     }
-
   }
 
   @include paginationDontShowTotalHaveChangeSize;
@@ -744,7 +753,6 @@
     }
   }
 }
-
 
 .actionEventFile {
   .icon {
