@@ -475,7 +475,15 @@ const ExportEventFile = () => {
       })
     } else if (viewFileType === 4) {
       if (AI_SOURCE === 'philong') {
-        setUrlSnapshot(file.overViewUrl)
+        await ExportEventFileApi.downloadAIIntegrationFile(
+          file.cameraUuid,
+          "ImageViolate.jpg"
+        ).then(async (result) => {
+          const blob = new Blob([result.data], { type: 'octet/stream' })
+          getBase64Text(blob, async (image) => {
+            setUrlSnapshot(image)
+          })
+        })
       } else {
         await ExportEventFileApi.downloadFileAI(
           file.cameraUuid,
