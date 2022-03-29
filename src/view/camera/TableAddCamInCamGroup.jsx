@@ -260,6 +260,12 @@ export default function TableAddCamInCamGroup(props) {
     setSearch(value);
   };
 
+  const handlePaste = (event) => {
+    const value = event.target.value.trimStart();
+
+    setSearch(value);
+  };
+
   const renderHeader = () => {
     return (
       <>
@@ -294,6 +300,7 @@ export default function TableAddCamInCamGroup(props) {
             onSearch={handleSearch}
             value={search}
             onBlur={handleBlur}
+            onPaste={handlePaste}
             maxLength={255}
             placeholder={
               <div className="placehoder height-40 justify-content-between d-flex align-items-center">
