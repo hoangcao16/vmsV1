@@ -212,11 +212,18 @@ const TableCameraScan = (props) => {
                   ({ getFieldValue }) => ({
                     validator(rule, value) {
                       const data = getFieldValue(['p2']);
+                      const [ip2_octet1, ip2_octet2, ip2_octet3, ip2_octet4] = data.split('.').map(value => Number(value));
+                      const [ip1_octet1, ip1_octet2, ip1_octet3, ip1_octet4] = getFieldValue(['p1']).split('.').map(value => Number(value));
+                      const ip1_total = ip1_octet4 + (ip1_octet3*256) + (ip1_octet2*256*256) + (ip1_octet1*256*256*256);
+                      const ip2_total = ip2_octet4 + (ip2_octet3*256) + (ip2_octet2*256*256) + (ip2_octet1*256*256*256);
+
                       var ipformat =
                         /^(25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\.(25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\.(25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\.(25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)$/;
                       if (data) {
                         if (!data.match(ipformat)) {
                           return Promise.reject(`${t('view.map.ip2_error')}`);
+                        } else if(ip1_total > ip2_total) {
+                          return Promise.reject(`IP kết thúc phải lớn hơn IP bắt đầu`);
                         } else {
                           return Promise.resolve();
                         }
