@@ -1,27 +1,26 @@
-import React, { lazy, Suspense } from "react"
-import ReactDOM from "react-dom"
-import { Provider } from "react-redux"
+import React, { lazy, Suspense } from 'react'
+import ReactDOM from 'react-dom'
+import { Provider } from 'react-redux'
+import Spinner from './components/@vuexy/spinner/Fallback-spinner'
+import './index.scss'
+import 'antd/dist/antd.css'
+import { store } from './redux/storeConfig/store'
+import * as serviceWorker from './serviceWorker'
+import { Layout } from './utility/context/Layout'
 
-import Spinner from "./components/@vuexy/spinner/Fallback-spinner"
-import "./index.scss"
-import { store } from "./redux/storeConfig/store"
-import * as serviceWorker from "./serviceWorker"
-import { Layout } from "./utility/context/Layout"
-
-
-const LazyApp = lazy(() => import("./App"))
+const LazyApp = lazy(() => import('./App'))
 
 // configureDatabase()
 
 ReactDOM.render(
-    <Provider store={store}>
-        <Suspense fallback={<Spinner />}>
-            <Layout>
-                    <LazyApp />
-            </Layout>
-        </Suspense>
-    </Provider>,
-    document.getElementById("root")
+  <Provider store={store}>
+    <Suspense fallback={<Spinner />}>
+      <Layout>
+        <LazyApp />
+      </Layout>
+    </Suspense>
+  </Provider>,
+  document.getElementById('root')
 )
 
 // If you want your app to work offline and load faster, you can change
