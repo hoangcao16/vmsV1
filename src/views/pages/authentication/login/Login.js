@@ -44,7 +44,7 @@ const Login = () => {
               >
                 <CardHeader className="pb-1">
                   <CardTitle>
-                    <h4 style={{ color: "#ebeefd", fontSize: "20px" }} className="mb-0">
+                    <h4 style={{ color: "#ebeefd", fontSize: "18px" }} className="mb-0">
                       {t("view.pages.login")}
                     </h4>
                   </CardTitle>
