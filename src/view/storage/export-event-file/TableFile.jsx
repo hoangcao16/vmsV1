@@ -549,11 +549,22 @@ const TableFile = (props) => {
 
   const onQuickSearchHandler = (value) => {
     value = value.trim()
-    const dataParam = Object.assign({
-      ...searchParam,
-      searchType: 'all',
-      searchValue: value,
-    })
+    let dataParam = {}
+    if (props.viewFileType === 2) {
+      let eventUuid = 'notnull'
+      dataParam = Object.assign({
+        ...searchParam,
+        searchType: 'all',
+        searchValue: value,
+        eventUuid: eventUuid,
+      });
+    }else {
+      dataParam = Object.assign({
+        ...searchParam,
+        searchType: 'all',
+        searchValue: value,
+      });
+    }
     props.onSearch(dataParam)
   }
 
