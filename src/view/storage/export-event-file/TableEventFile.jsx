@@ -58,21 +58,28 @@ const TableEventFile = (props) => {
     if (row.isSaved && !row.editMode)
       return (
         <div className="actionEventFile">
-          <AiOutlineEdit
-            className="icon"
-            onClick={() => changeEditModeHandler(row?.uuid, true)}
-          />
-          {!row.isImportant && (
-            <FiBookmark
+          <Tooltip placement="top" title={t("view.user.detail_list.edit")}>
+            <AiOutlineEdit
               className="icon"
-              onClick={() => editEventFileHandler(row?.uuid, true)}
+              onClick={() => changeEditModeHandler(row?.uuid, true)}
             />
+          </Tooltip>
+
+          {!row.isImportant && (
+            <Tooltip placement="top" title={t("view.ai_config.save")}>
+              <FiBookmark
+                className="icon"
+                onClick={() => editEventFileHandler(row?.uuid, true)}
+              />
+            </Tooltip>
           )}
           {row.isImportant && (
-            <FiBookmark
-              className="icon-active"
-              onClick={() => editEventFileHandler(row?.uuid, false)}
-            />
+            <Tooltip placement="top" title={t("view.ai_config.save")}>
+              <FiBookmark
+                className="icon-active"
+                onClick={() => editEventFileHandler(row?.uuid, false)}
+              />
+            </Tooltip>
           )}
           <Popconfirm
             cancelText={t("view.user.detail_list.cancel")}
@@ -82,35 +89,45 @@ const TableEventFile = (props) => {
               deleteEventFileHandler(row?.uuid);
             }}
           >
-            <RiDeleteBinLine className="icon" />
+            <Tooltip placement="top" title={t("view.storage.delete")}>
+              <RiDeleteBinLine className="icon" />
+            </Tooltip>
           </Popconfirm>
         </div>
       );
     return (
       <div className="actionEventFile">
         {row.isSaved && (
-          <AiOutlineCheck
-            className="icon"
-            onClick={() => editEventFileHandler(row?.uuid, row?.isImportant)}
-          />
+          <Tooltip placement="top" title={t("view.ai_config.save")}>
+            <AiOutlineCheck
+              className="icon"
+              onClick={() => editEventFileHandler(row?.uuid, row?.isImportant)}
+            />
+          </Tooltip>
         )}
         {row.isSaved && (
-          <AiOutlineClose
-            className="icon"
-            onClick={() => changeEditModeHandler(row?.uuid, false)}
-          />
+          <Tooltip placement="top" title={t("view.user.detail_list.cancel")}>
+            <AiOutlineClose
+              className="icon"
+              onClick={() => changeEditModeHandler(row?.uuid, false)}
+            />
+          </Tooltip>
         )}
         {!row.isSaved && (
-          <AiOutlineCheck
-            className="icon"
-            onClick={() => saveEventFileHandler(row?.uuid)}
-          />
+          <Tooltip placement="top" title={t("add")}>
+            <AiOutlineCheck
+              className="icon"
+              onClick={() => saveEventFileHandler(row?.uuid)}
+            />
+          </Tooltip>
         )}
         {!row.isSaved && (
-          <AiOutlineClose
-            className="icon"
-            onClick={() => deleteEventFileHandler(row?.uuid)}
-          />
+          <Tooltip placement="top" title={t("delete")}>
+            <AiOutlineClose
+              className="icon"
+              onClick={() => deleteEventFileHandler(row?.uuid)}
+            />
+          </Tooltip>
         )}
       </div>
     );
