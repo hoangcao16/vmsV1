@@ -1,27 +1,32 @@
 body.dark-layout .form-label-group>input:not(:focus):not(:placeholder-shown)~label,
 body.dark-layout .form-label-group>textarea:not(:focus):not(:placeholder-shown)~label {
-  color: #c2c6dc !important;
+    color: #c2c6dc !important;
 }
 
 .form-label-group>input:not(:focus):not(:placeholder-shown)~label,
 .form-label-group textarea:not(:focus):not(:placeholder-shown)~label {
-  color: #c2c6dc !important;
+    color: #c2c6dc !important;
 }
 
 .form-label-group>input:not():not(:placeholder-shown)~label,
 .form-label-group textarea:not():not(:placeholder-shown)~label {
-  color: #c2c6dc !important;
+    color: #c2c6dc !important;
 }
 
 .form-label-group>input:focus:not(:placeholder-shown)~label,
 .form-label-group>input:not(:active):not(:placeholder-shown)~label,
 .form-label-group textarea:focus:not(:placeholder-shown)~label,
 .form-label-group textarea:not(:active):not(:placeholder-shown)~label {
-  color: #c2c6dc !important;
-  // transition: all 0.25s ease-in-out;
-  // opacity: 1;
+    color: #c2c6dc !important;
+    // transition: all 0.25s ease-in-out;
+    // opacity: 1;
 }
 
 a:hover {
-  color: #57aeff !important;
-} 
+    color: #57aeff !important;
+}
+
+[dir] .btn:not(:disabled):not(.disabled) {
+    font-size: 14px;
+    padding: 10px 15px;
+}
