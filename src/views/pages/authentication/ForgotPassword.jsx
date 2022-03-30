@@ -103,7 +103,7 @@ const ForgotPassword = () => {
               <Card className='rounded-0 mb-0 px-2 py-1 h100 fp'>
                 <CardHeader className='pb-1'>
                   <CardTitle>
-                    <h4 className="mb-0 fp__title">{t('view.pages.recover_password')}</h4>
+                    <h4 className="mb-0 fp__title" style={{fontSize: "18px"}}>{t('view.pages.recover_password')}</h4>
                   </CardTitle>
                 </CardHeader>
                 <p className="px-2 auth-title fp__desc">
