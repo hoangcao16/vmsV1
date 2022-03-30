@@ -109,7 +109,9 @@
       "ticket": "Penalty ticket",
       "update_state_THXL": "Update THXL",
       "move": "Move",
-      "want_to_change?": "Are you sure to change this event handler state?"
+      "want_to_change?": "Are you sure to change this event handler state?",
+      "agree": "Agree",
+      "cancel": "Cancel"
     },
     "live": {
       "preset_setting": "Preset setting",
@@ -585,6 +587,19 @@
       "edit_department": "Update department",
       "add_department": "Add new department",
       "name_department": "Department"
+    },
+    "penalty_ticket": {
+      "print_ticket": "Print penalty ticket",
+      "send_ticket": "Send ticket",
+      "ticket": "Penalty ticket",
+      "num": "No",
+      "vehicle_type": "Transportation",
+      "violation_datetime": "Recorded time",
+      "violation_type": "Type of violation",
+      "total_fine": "Total fines",
+      "to_text": "Text",
+      "violation_proof": "Proof of violation",
+      "violation_img": "Violating images"
     }
   },
 

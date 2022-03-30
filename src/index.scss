@@ -1,2 +1,13 @@
-@import "../node_modules/prismjs/themes/prism-tomorrow";
-@import "./assets/scss/app.scss";
+@import '../node_modules/prismjs/themes/prism-tomorrow';
+@import './assets/scss/app.scss';
+
+.ant-btn {
+  & > span {
+    color: #333333;
+  }
+}
+.ant-btn-primary {
+  & > span {
+    color: #fff !important;
+  }
+}
