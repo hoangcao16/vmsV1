@@ -53,7 +53,6 @@ export default function ExportReport(props) {
   if (permissionCheck("export_report")) {
     return (
       <div className="Export" onClick={handleExport}>
-        <Image width={20} src={exportIcon} preview={false} />
         <p className="Export__title">{t("view.report.export_data")}</p>
       </div>
     );

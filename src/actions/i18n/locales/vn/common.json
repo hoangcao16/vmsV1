@@ -163,6 +163,7 @@
       "please_enter_unit_name": "{{plsEnter}} tên đơn vị",
       "please_enter_your_address": "{{plsEnter}} địa chỉ",
       "required_field": "Trường này bắt buộc",
+      "ip_error": "Bạn nhập chưa đúng địa chỉ IP",
       "ip1_error": "Bạn nhập chưa đúng địa chỉ IP1",
       "ip2_error": "Bạn nhập chưa đúng địa chỉ IP2",
       "lat_error": "Bạn nhập chưa đúng vĩ độ",
@@ -221,9 +222,10 @@
       "year": "Năm",
       "date_range": "Khoảng thời gian",
       "export_data": "Xuất dữ liệu",
-      "compare_chart": "BIỂU ĐỒ SO SÁNH TÌNH HÌNH:",
-      "trend_chart": "BIỂU ĐỒ XU THẾ TÌNH HÌNH:",
-      "proportion_chart": "BIỂU ĐỒ TỶ LỆ TÌNH HÌNH:"
+      "situation_chart": "BIỂU ĐỒ TÌNH HÌNH:",
+      "situation_report": "BÁO CÁO TÌNH HÌNH:",
+      "choose_type_chart": "Chọn loại biểu đồ",
+      "week": "Tuần"
     },
     "pages": {
       "login": "Đăng nhập",

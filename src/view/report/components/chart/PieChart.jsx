@@ -97,13 +97,13 @@ function PieChartComponents(props) {
 
   return (
     <>
-      {props.isShowLineAndPieChart && props.changeCount.length > 1 && (
+      {(props?.typeChart == "all" || props?.typeChart == "pie") && (
         <div className="PieChart">
           <div className="PieChart__title">
             <h3>
               {" "}
               {t(
-                "view.report.proportion_chart"
+                "view.report.situation_chart"
               )} {props.title.toUpperCase()}{" "}
             </h3>
             {permissionCheck("export_report") && (
@@ -155,8 +155,7 @@ const mapStateToProps = (state) => ({
   per: state.chart.chartData.dataPieChart,
   error: state.chart.error,
   title: state.chart.title,
-  isShowLineAndPieChart: state.chart.isShowLineAndPieChart,
-  changeCount: state.chart.changeCount,
+  typeChart: state.chart.typeChart,
 });
 
 const mapDispatchToProps = (dispatch) => {

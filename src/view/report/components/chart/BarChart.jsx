@@ -50,7 +50,7 @@ function BarChartComponent(props) {
 
   return (
     <>
-      {!props.isShowLineAndPieChart && (
+      {(props?.typeChart == "bar") && (
         <div className="BarChart">
           {isEmpty(data) ? (
             <>
@@ -58,7 +58,7 @@ function BarChartComponent(props) {
                 <h3>
                   {" "}
                   {t(
-                    "view.report.compare_chart"
+                    "view.report.situation_chart"
                   )} {props.title.toUpperCase()}{" "}
                 </h3>
               </div>
@@ -84,7 +84,7 @@ function BarChartComponent(props) {
                       >
                         <h3>
                           {" "}
-                          {t("view.report.compare_chart")}{" "}
+                          {t("view.report.situation_chart")}{" "}
                           {props.title.toUpperCase()} {"-"}{" "}
                           {`${Object.keys(data)
                             [i].slice(0, 26)
@@ -95,7 +95,7 @@ function BarChartComponent(props) {
                     ) : (
                       <h3>
                         {" "}
-                        {t("view.report.compare_chart")}{" "}
+                        {t("view.report.situation_chart")}{" "}
                         {props.title.toUpperCase()} {"-"}{" "}
                         {Object.keys(data)[i].toUpperCase()}{" "}
                       </h3>
@@ -142,7 +142,7 @@ const mapStateToProps = (state) => ({
   chartData: convertDataBarChart(state.chart.chartData.data),
   error: state.chart.error,
   title: state.chart.title,
-  isShowLineAndPieChart: state.chart.isShowLineAndPieChart,
+  typeChart: state.chart.typeChart,
 });
 
 const mapDispatchToProps = (dispatch) => {
