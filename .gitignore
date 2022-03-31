@@ -4,6 +4,5 @@ node_modules
 build
 .sass-cache/
 *.css.map
-*.css
 *.map
 .history

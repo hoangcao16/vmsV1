@@ -31,12 +31,12 @@ const SelectWrapper = styled(Select)`
   }
   .select-type__menu {
     background-color: #333333;
-    color: #5ab1f1;
+    color: #d0e5ff;
   }
   .select-type__option--is-focused {
     background-color: #464647;
   }
   .select-type__single-value {
-    color: #709bba;
+    color: #d0e5ff;
   }
 `

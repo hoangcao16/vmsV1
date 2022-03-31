@@ -83,7 +83,6 @@ const Preset = (props) => {
 
   const closeRTCPeerConnection = (slotIdx) => {
     // CLOSE STREAM
-    debugger;
     let pcLstTmp = [...pcListRef.current];
     for (let i = 0; i < pcLstTmp.length; i++) {
       if (pcLstTmp[i].slotIdx === slotIdx) {

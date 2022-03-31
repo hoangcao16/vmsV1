@@ -33,6 +33,7 @@ import {
   filterOption,
   normalizeOptions,
 } from '../../common/select/CustomSelect'
+import locale from 'antd/lib/date-picker/locale/vi_VN'
 const AI_SOURCE = process.env.REACT_APP_AI_SOURCE
 
 const TableFile = (props) => {
@@ -549,11 +550,22 @@ const TableFile = (props) => {
 
   const onQuickSearchHandler = (value) => {
     value = value.trim()
-    const dataParam = Object.assign({
-      ...searchParam,
-      searchType: 'all',
-      searchValue: value,
-    })
+    let dataParam = {}
+    if (props.viewFileType === 2) {
+      let eventUuid = 'notnull'
+      dataParam = Object.assign({
+        ...searchParam,
+        searchType: 'all',
+        searchValue: value,
+        eventUuid: eventUuid,
+      });
+    }else {
+      dataParam = Object.assign({
+        ...searchParam,
+        searchType: 'all',
+        searchValue: value,
+      });
+    }
     props.onSearch(dataParam)
   }
 
@@ -1324,6 +1336,8 @@ const TableFile = (props) => {
                     onChange={onChangeStartDate}
                     placeholder={t('view.storage.from_date')}
                     style={{ width: '100%' }}
+                    locale={locale}
+                    format='DD-MM-YYYY'
                   />
                 </Form.Item>
               </Col>
@@ -1333,6 +1347,8 @@ const TableFile = (props) => {
                     onChange={onChangeEndDate}
                     placeholder={t('view.storage.to_date')}
                     style={{ width: '100%' }}
+                    locale={locale}
+                    format='DD-MM-YYYY'
                   />
                 </Form.Item>
               </Col>

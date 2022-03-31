@@ -282,8 +282,8 @@
     width: 100%;
     font-style: normal;
     font-weight: 500;
-    font-size: 12px;
-    line-height: 12px;
+    font-size: 14px;
+    line-height: 14px;
     color: $vms-status-07;
     margin-bottom: 30px;
     margin-top: 30px;
@@ -291,7 +291,7 @@
 
     .title {
       font-weight: bold;
-      font-size: 14px;
+      font-size: 16px;
       color: $vms-status;
       margin-bottom: 10px;
     }
@@ -305,10 +305,11 @@
       width: 16px;
       height: 16px;
     }
-    .ant-btn {
-      & > span {
-        color: #333333;
-      }
+    .vms-ant-btn {
+      background-color: $vms-main-blue-primary;
+    }
+    .ml-8 {
+      margin-left: 8px;
     }
   }
 }

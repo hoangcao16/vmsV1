@@ -8,7 +8,6 @@ import {
   Button,
   Spin,
   Space,
-  Modal,
 } from 'antd'
 import { CloseOutlined, ExclamationCircleOutlined } from '@ant-design/icons'
 import 'antd/dist/antd.css'
@@ -23,7 +22,7 @@ import {
   AiOutlineInfoCircle,
   MdCenterFocusWeak,
 } from 'react-icons/all'
-import { SelectProgessState } from './style'
+import { SelectProgessState, ConfirmUpdate } from './style'
 import {
   FiBookmark,
   FiCamera,
@@ -72,9 +71,9 @@ import { MemoizedTableEventFile } from './TableEventFile'
 import { MemoizedTableFile } from './TableFile'
 import { MemoizedThumbnailVideo } from './ThumbnailVideo'
 import SelectType from './components/select-type'
+import TicketModal from './components/ticket-modal'
 const AI_SOURCE = process.env.REACT_APP_AI_SOURCE
 const { TextArea } = Input
-const { confirm } = Modal
 const ExportEventFile = () => {
   const { t } = useTranslation()
   let defaultEventFile = {
@@ -153,6 +152,7 @@ const ExportEventFile = () => {
   const [detailAI, setDetailAI] = useState(defaultEventFile)
   const [processState, setProcessState] = useState(processingstatusOptions[0])
   const [objectType, setObjectType] = useState()
+  const [ticketModalVisible, setTicketModalVisible] = useState(false)
   const zoom = ((window.outerWidth - 10) / window.innerWidth) * 100
   const [visible, setVisible] = useState(false)
 
@@ -477,7 +477,7 @@ const ExportEventFile = () => {
       if (AI_SOURCE === 'philong') {
         await ExportEventFileApi.downloadAIIntegrationFile(
           file.uuid,
-          "ImageViolate.jpg"
+          'ImageViolate.jpg'
         ).then(async (result) => {
           const blob = new Blob([result.data], { type: 'octet/stream' })
           getBase64Text(blob, async (image) => {
@@ -1553,9 +1553,12 @@ const ExportEventFile = () => {
     setProcessState(value)
   }
   const handleUpdateTHXL = async () => {
-    confirm({
+    ConfirmUpdate.confirm({
       title: t('view.common_device.want_to_change?'),
       icon: <ExclamationCircleOutlined />,
+      centered: true,
+      okText: t('view.common_device.agree'),
+      cancelText: t('view.common_device.cancel'),
       onOk: async () => {
         const data = {
           cameraUuid: detailAI.cameraUuid,
@@ -1743,6 +1746,7 @@ const ExportEventFile = () => {
                       alignItems: 'center',
                     }}
                   >
+                    {t('view.ai_events.type')} :{' '}
                     {/* {t('view.ai_events.type')} : {detailAI.vehicleType} */}
                     <SelectType
                       option={typeObjects}
@@ -1839,7 +1843,7 @@ const ExportEventFile = () => {
               <Row>
                 <Col span={11}>
                   <div className='title'>
-                    <span>{t('view.common_device.note')}</span>
+                    {t('view.common_device.note')}
                     {/* {detailAI.uuid && (
                   <Tooltip placement='top' title={t('view.common_device.edit')}>
                     <AiOutlineEdit
@@ -1873,16 +1877,18 @@ const ExportEventFile = () => {
                     <TextArea
                       // defaultValue={currNode}
                       value={currNode}
-                      rows={4}
+                      autoSize={true}
                       onChange={changeNoteHandler}
                     />
                     {/* )} */}
                   </div>
                 </Col>
-                <Col span={5} offset={1}>
-                  <div className='title'>
-                    <span>{t('view.common_device.state')}</span>
-                  </div>
+                <Col
+                  span={5}
+                  offset={1}
+                  style={{ paddingLeft: '8px', paddingRight: '8px' }}
+                >
+                  <div className='title'>{t('view.common_device.state')}</div>
                   <div>
                     <SelectProgessState
                       options={processingstatusOptions}
@@ -2061,7 +2067,7 @@ const ExportEventFile = () => {
                                         }}
                                         className='video-container video-container-overlay'
                                         loop
-                                        autoplay
+                                        autoPlay
                                       >
                                         <source
                                           src={item.url}
@@ -2096,16 +2102,26 @@ const ExportEventFile = () => {
             ) : null}
             <Col span={24}>
               <Row>
-                <Col offset={12}>
-                  <Button>{t('view.common_device.ticket')}</Button>
+                <Col>
+                  <Button
+                    type='primary'
+                    onClick={handleShowTicketModal}
+                    className='vms-ant-btn'
+                  >
+                    {t('view.common_device.ticket')}
+                  </Button>
                 </Col>
-                <Col offset={1}>
-                  <Button type='primary' onClick={handleUpdateTHXL}>
+                <Col className='ml-8'>
+                  <Button
+                    type='primary'
+                    className='vms-ant-btn'
+                    onClick={handleUpdateTHXL}
+                  >
                     {t('view.common_device.update_state_THXL')}
                   </Button>
                 </Col>
-                <Col offset={1}>
-                  <Button type='primary' danger>
+                <Col className='ml-8'>
+                  <Button type='primary' className='vms-ant-btn'>
                     {t('view.common_device.move')}
                   </Button>
                 </Col>
@@ -2214,7 +2230,15 @@ const ExportEventFile = () => {
       />
     )
   }
-
+  const handleShowTicketModal = () => {
+    setTicketModalVisible(true)
+  }
+  const handleOk = () => {
+    setTicketModalVisible(false)
+  }
+  const handleCancel = () => {
+    setTicketModalVisible(false)
+  }
   return (
     <>
       <Row>
@@ -2596,6 +2620,13 @@ const ExportEventFile = () => {
         </Col>
       </Row>
       {loading ? <Loading /> : null}
+      <TicketModal
+        visible={ticketModalVisible}
+        setVisible={setTicketModalVisible}
+        handleOk={handleOk}
+        handleCancel={handleCancel}
+        data={detailAI}
+      />
     </>
   )
 }

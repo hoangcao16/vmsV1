@@ -1,0 +1,20 @@
+#print-me {
+  color: #d0e5ff;
+}
+@media all {
+  .pagebreak {
+    display: none;
+  }
+}
+@media print {
+  #print-me {
+    color: #000;
+  }
+  .pagebreak {
+    page-break-before: always;
+  }
+}
+/* page */
+@page {
+  size: auto;
+}
