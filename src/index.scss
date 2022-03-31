@@ -1,6 +1,29 @@
 @import '../node_modules/prismjs/themes/prism-tomorrow';
 @import './assets/scss/app.scss';
 
+.ant-modal-confirm {
+  .ant-modal-content {
+    background-color: #191919;
+    color: #d0e5ff;
+  }
+  .ant-modal-confirm-body {
+    .ant-modal-confirm-title {
+      color: #d0e5ff;
+    }
+  }
+}
+.ant-modal-confirm-btns {
+  .ant-btn {
+    & > span {
+      color: #333333;
+    }
+  }
+  .ant-btn-primary {
+    & > span {
+      color: #fff !important;
+    }
+  }
+}
 .ant-btn {
   & > span {
     color: #333333;

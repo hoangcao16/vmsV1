@@ -1,5 +1,5 @@
 import { Button } from 'antd'
-import { StyledTicketModal, Input } from './style'
+import { StyledTicketModal, StyledInput, StyledConfirmSend } from './style'
 import React, { useRef, useEffect, useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import { useReactToPrint } from 'react-to-print'
@@ -8,13 +8,161 @@ import { getText } from './toVND'
 import { default as ExportEventFileApi } from '../../../../actions/api/exporteventfile/ExportEventFileApi'
 import { getBase64Text } from '../../../../utility/vms/getBase64Text'
 import './index.css'
+import SendTicketModal from './send-ticket-modal'
 const AI_SOURCE = process.env.REACT_APP_AI_SOURCE
+
+const PrintSection = ({
+  componentRef,
+  data,
+  fine,
+  handleSetFine,
+  totext,
+  urlSnapshot,
+}) => {
+  const { t } = useTranslation()
+  return (
+    <div
+      ref={componentRef}
+      style={{ padding: '16px', boxSizing: 'border-box' }}
+      id='print-me'
+    >
+      <div style={{ textAlign: 'center', marginBottom: '16px' }}>
+        <div
+          style={{
+            width: '100%',
+            fontSize: '20px',
+            fontWeight: 'bold',
+          }}
+        >
+          {t('view.penalty_ticket.ticket')}
+        </div>
+        <div style={{ fontSize: '14px' }}>
+          {t('view.penalty_ticket.num')}:xxx
+        </div>
+      </div>
+      <table style={{ width: '100%', borderCollapse: 'collapse' }}>
+        <tbody>
+          <tr>
+            <td style={{ width: '30%', paddingBottom: '16px' }}>
+              {t('view.penalty_ticket.vehicle_type')}
+            </td>
+            <td style={{ paddingBottom: '16px' }}>
+              {data?.typeObject &&
+                t('view.ai_events.type_object.' + data?.typeObject)}
+            </td>
+          </tr>
+          <tr>
+            <td style={{ width: '30%', paddingBottom: '16px' }}>
+              {t('view.ai_events.plateNumber')}
+            </td>
+            <td style={{ paddingBottom: '16px' }}>
+              {data?.plateNumber ? data?.plateNumber : 'Không xác định'}
+            </td>
+          </tr>
+          <tr>
+            <td style={{ width: '30%', paddingBottom: '16px' }}>
+              {t('view.live.camera_record')}
+            </td>
+            <td style={{ paddingBottom: '16px' }}>{data?.cameraName}</td>
+          </tr>
+          <tr>
+            <td style={{ width: '30%', paddingBottom: '16px' }}>
+              {t('view.penalty_ticket.violation_datetime')}
+            </td>
+            <td style={{ paddingBottom: '16px' }}>
+              {data?.createdTime &&
+                moment(data?.createdTime).format('HH:mm DD/MM/YYYY')}
+            </td>
+          </tr>
+          <tr>
+            <td style={{ width: '30%', paddingBottom: '16px' }}>
+              {t('view.penalty_ticket.violation_type')}
+            </td>
+            <td style={{ paddingBottom: '16px' }}>
+              {data?.subEventType && t('view.ai_events.' + data?.subEventType)}
+            </td>
+          </tr>
+          <tr>
+            <td style={{ width: '30%', paddingBottom: '16px' }}>
+              {t('view.penalty_ticket.total_fine')}
+            </td>
+            <td style={{ paddingBottom: '16px' }}>
+              <span style={{ display: 'inline-flex' }}>
+                <StyledInput
+                  placeholder='............................'
+                  value={fine}
+                  onChange={(e) => handleSetFine(e)}
+                />
+                <span>&nbsp;đồng&nbsp;</span>
+              </span>
+              ({t('view.penalty_ticket.to_text')}: {totext}{' '}
+              {totext === '' ? '' : 'đồng'})
+            </td>
+          </tr>
+          <tr>
+            <td style={{ verticalAlign: 'top', paddingBottom: '16px' }}>
+              {t('view.penalty_ticket.violation_proof')}
+            </td>
+            <td>
+              {urlSnapshot !== '' ? (
+                <div style={{ paddingBottom: '16px' }}>
+                  <div>{t('view.penalty_ticket.violation_img')}:</div>
+                  <div>
+                    <img
+                      style={{ maxWidth: '200px', height: '120px' }}
+                      className='cursor-pointer'
+                      src={urlSnapshot}
+                      alt='Avatar'
+                    />
+                  </div>
+                </div>
+              ) : (
+                ''
+              )}
+
+              {/* <div>
+              <div>Video:</div>
+            </div> */}
+            </td>
+          </tr>
+        </tbody>
+      </table>
+      <div className='pagebreak'></div>
+    </div>
+  )
+}
 const TicketModal = ({ visible, handleOk, handleCancel, data }) => {
   const { t } = useTranslation()
   const componentRef = useRef()
   const [fine, setFine] = useState('')
   const [totext, setTotext] = useState('')
   const [urlSnapshot, setUrlSnapshot] = useState('')
+  // Send Ticket Modal
+  const [sendModalVisible, setSendModalVisible] = useState(false)
+  const handleOpenSendModal = () => {
+    setSendModalVisible(true)
+  }
+  const handleSendTicket = (e) => {
+    console.log('send ticket', e)
+
+    StyledConfirmSend.confirm({
+      title: t('view.penalty_ticket.confirm_send'),
+      okText: t('view.common_device.agree'),
+      cancelText: t('view.common_device.cancel'),
+      onOk() {
+        setSendModalVisible(false)
+      },
+      centered: true,
+      onCancel() {
+        console.log('Cancel')
+      },
+    })
+  }
+  const handleCancelSend = () => {
+    console.log('cancel send ticket')
+    setSendModalVisible(false)
+  }
+  //print
   const handlePrint = useReactToPrint({
     content: () => componentRef.current,
   })
@@ -59,6 +207,7 @@ const TicketModal = ({ visible, handleOk, handleCancel, data }) => {
       }
     })()
   }, [data])
+
   return (
     <>
       <StyledTicketModal
@@ -74,7 +223,7 @@ const TicketModal = ({ visible, handleOk, handleCancel, data }) => {
             key='send'
             type='primary'
             // loading={loading}
-            onClick={handleOk}
+            onClick={handleOpenSendModal}
           >
             {t('view.penalty_ticket.send_ticket')}
           </Button>,
@@ -87,115 +236,19 @@ const TicketModal = ({ visible, handleOk, handleCancel, data }) => {
           </Button>,
         ]}
       >
-        <div
-          ref={componentRef}
-          style={{ padding: '16px', boxSizing: 'border-box' }}
-          id='print-me'
-        >
-          <div style={{ textAlign: 'center', marginBottom: '16px' }}>
-            <div
-              style={{
-                width: '100%',
-                fontSize: '20px',
-                fontWeight: 'bold',
-              }}
-            >
-              {t('view.penalty_ticket.ticket')}
-            </div>
-            <div style={{ fontSize: '14px' }}>
-              {t('view.penalty_ticket.num')}:xxx
-            </div>
-          </div>
-          <table style={{ width: '100%', borderCollapse: 'collapse' }}>
-            <tbody>
-              <tr>
-                <td style={{ width: '30%', paddingBottom: '16px' }}>
-                  {t('view.penalty_ticket.vehicle_type')}
-                </td>
-                <td>
-                  {data?.typeObject &&
-                    t('view.ai_events.type_object.' + data?.typeObject)}
-                </td>
-              </tr>
-              <tr>
-                <td style={{ width: '30%', paddingBottom: '16px' }}>
-                  {t('view.ai_events.plateNumber')}
-                </td>
-                <td>
-                  {data?.plateNumber ? data?.plateNumber : 'Không xác định'}
-                </td>
-              </tr>
-              <tr>
-                <td style={{ width: '30%', paddingBottom: '16px' }}>
-                  {t('view.live.camera_record')}
-                </td>
-                <td>{data?.cameraName}</td>
-              </tr>
-              <tr>
-                <td style={{ width: '30%', paddingBottom: '16px' }}>
-                  {t('view.penalty_ticket.violation_datetime')}
-                </td>
-                <td>
-                  {data?.createdTime &&
-                    moment(data?.createdTime).format('HH:mm DD/MM/YYYY')}
-                </td>
-              </tr>
-              <tr>
-                <td style={{ width: '30%', paddingBottom: '16px' }}>
-                  {t('view.penalty_ticket.violation_type')}
-                </td>
-                <td>
-                  {data?.subEventType &&
-                    t('view.ai_events.' + data?.subEventType)}
-                </td>
-              </tr>
-              <tr>
-                <td style={{ width: '30%', paddingBottom: '16px' }}>
-                  {t('view.penalty_ticket.total_fine')}
-                </td>
-                <td>
-                  <span style={{ display: 'inline-flex' }}>
-                    <Input
-                      placeholder='............................'
-                      value={fine}
-                      onChange={(e) => handleSetFine(e)}
-                    />
-                    <span>&nbsp;đồng&nbsp;</span>
-                  </span>
-                  ({t('view.penalty_ticket.to_text')}: {totext}{' '}
-                  {totext === '' ? '' : 'đồng'})
-                </td>
-              </tr>
-              <tr>
-                <td style={{ verticalAlign: 'top', paddingBottom: '16px' }}>
-                  {t('view.penalty_ticket.violation_proof')}
-                </td>
-                <td>
-                  {urlSnapshot !== '' ? (
-                    <div style={{ paddingBottom: '16px' }}>
-                      <div>{t('view.penalty_ticket.violation_img')}:</div>
-                      <div>
-                        <img
-                          style={{ maxWidth: '200px', height: '120px' }}
-                          className='cursor-pointer'
-                          src={urlSnapshot}
-                          alt='Avatar'
-                        />
-                      </div>
-                    </div>
-                  ) : (
-                    ''
-                  )}
-
-                  {/* <div>
-                    <div>Video:</div>
-                  </div> */}
-                </td>
-              </tr>
-            </tbody>
-          </table>
-          <div className='pagebreak'></div>
-        </div>
+        <PrintSection
+          componentRef={componentRef}
+          data={data}
+          fine={fine}
+          handleSetFine={handleSetFine}
+          totext={totext}
+          urlSnapshot={urlSnapshot}
+        />
+        <SendTicketModal
+          sendModalVisible={sendModalVisible}
+          handleSendTicket={handleSendTicket}
+          handleCancelSend={handleCancelSend}
+        />
       </StyledTicketModal>
     </>
   )

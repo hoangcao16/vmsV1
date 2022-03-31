@@ -599,7 +599,8 @@
       "total_fine": "Tổng cộng tiền phạt",
       "to_text": "Bằng chữ",
       "violation_proof": "Bằng chứng vi phạm",
-      "violation_img": "Hình ảnh vi phạm"
+      "violation_img": "Hình ảnh vi phạm",
+      "confirm_send": "Bạn có chắc chắn gửi phiếu phạt này"
     }
   },
 
