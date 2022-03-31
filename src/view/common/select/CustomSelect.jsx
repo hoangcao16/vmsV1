@@ -2,8 +2,16 @@ import { Select } from 'antd';
 import { defaultTo, get } from 'lodash';
 import React from 'react';
 
+
+function removeAccents(str) {
+  return str.normalize('NFD')
+            .replace(/[\u0300-\u036f]/g, '')
+            .replace(/đ/g, 'd').replace(/Đ/g, 'D')
+            .replace(/\s+/g, '');
+}
+
 export function filterOption(input, option) {
-  return option.label.match(new RegExp(input, 'i'));
+  return option.label.match(new RegExp(input, 'i')) || removeAccents(option.label).match(new RegExp(input, 'i'));
 }
 
 export function normalizeOptions(labelField, valueField, dataSource) {
