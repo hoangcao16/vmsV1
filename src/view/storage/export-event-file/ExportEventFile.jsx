@@ -8,7 +8,6 @@ import {
   Button,
   Spin,
   Space,
-  Modal,
 } from 'antd'
 import { CloseOutlined, ExclamationCircleOutlined } from '@ant-design/icons'
 import 'antd/dist/antd.css'
@@ -23,7 +22,7 @@ import {
   AiOutlineInfoCircle,
   MdCenterFocusWeak,
 } from 'react-icons/all'
-import { SelectProgessState } from './style'
+import { SelectProgessState, ConfirmUpdate } from './style'
 import {
   FiBookmark,
   FiCamera,
@@ -75,7 +74,6 @@ import SelectType from './components/select-type'
 import TicketModal from './components/ticket-modal'
 const AI_SOURCE = process.env.REACT_APP_AI_SOURCE
 const { TextArea } = Input
-const { confirm } = Modal
 const ExportEventFile = () => {
   const { t } = useTranslation()
   let defaultEventFile = {
@@ -1555,9 +1553,10 @@ const ExportEventFile = () => {
     setProcessState(value)
   }
   const handleUpdateTHXL = async () => {
-    confirm({
+    ConfirmUpdate.confirm({
       title: t('view.common_device.want_to_change?'),
       icon: <ExclamationCircleOutlined />,
+      centered: true,
       okText: t('view.common_device.agree'),
       cancelText: t('view.common_device.cancel'),
       onOk: async () => {
