@@ -109,13 +109,9 @@
       "ticket": "Phiếu phạt",
       "update_state_THXL": "Cập nhật THXL",
       "move": "Chuyển",
-<<<<<<< HEAD
-      "want_to_change?": "Bạn có chắc chắn thay đổi trạng thái xử lý sự kiện này?"
-=======
       "want_to_change?": "Bạn có chắc chắn thay đổi trạng thái xử lý sự kiện này?",
       "agree": "Đồng ý",
       "cancel": "Đóng"
->>>>>>> 69ec8c83abc914c42da662b71f61d858408ab6f8
     },
     "live": {
       "preset_setting": "Cài đặt Preset",
@@ -167,10 +163,7 @@
       "please_enter_unit_name": "{{plsEnter}} tên đơn vị",
       "please_enter_your_address": "{{plsEnter}} địa chỉ",
       "required_field": "Trường này bắt buộc",
-<<<<<<< HEAD
       "ip_error": "Bạn nhập chưa đúng địa chỉ IP",
-=======
->>>>>>> 69ec8c83abc914c42da662b71f61d858408ab6f8
       "ip1_error": "Bạn nhập chưa đúng địa chỉ IP1",
       "ip2_error": "Bạn nhập chưa đúng địa chỉ IP2",
       "lat_error": "Bạn nhập chưa đúng vĩ độ",
@@ -229,16 +222,10 @@
       "year": "Năm",
       "date_range": "Khoảng thời gian",
       "export_data": "Xuất dữ liệu",
-<<<<<<< HEAD
       "situation_chart": "BIỂU ĐỒ TÌNH HÌNH:",
       "situation_report": "BÁO CÁO TÌNH HÌNH:",
       "choose_type_chart": "Chọn loại biểu đồ",
       "week": "Tuần"
-=======
-      "compare_chart": "BIỂU ĐỒ SO SÁNH TÌNH HÌNH:",
-      "trend_chart": "BIỂU ĐỒ XU THẾ TÌNH HÌNH:",
-      "proportion_chart": "BIỂU ĐỒ TỶ LỆ TÌNH HÌNH:"
->>>>>>> 69ec8c83abc914c42da662b71f61d858408ab6f8
     },
     "pages": {
       "login": "Đăng nhập",
@@ -596,14 +583,6 @@
       "camera_name": "Camera ghi nhận",
       "typeObject": "Loại sự kiện",
       "delete": "Xóa"
-<<<<<<< HEAD
-    },
-    "department": {
-      "administrative": "Đơn vị hành chính",
-      "edit_department": "Chỉnh sửa thông tin phòng ban",
-      "add_department": "Thêm phòng ban",
-      "name_department": "Tên phòng ban"
-=======
     },
     "department": {
       "administrative": "Đơn vị hành chính",
@@ -624,7 +603,6 @@
       "violation_proof": "Bằng chứng vi phạm",
       "violation_img": "Hình ảnh vi phạm",
       "confirm_send": "Bạn có chắc chắn gửi phiếu phạt này"
->>>>>>> 69ec8c83abc914c42da662b71f61d858408ab6f8
     }
   },
 
