@@ -615,11 +615,12 @@ const ModalEditCamera = (props) => {
                   ({ getFieldValue }) => ({
                     validator(rule, value) {
                       const data = getFieldValue(["port"]);
+                      const regex = /^((6553[0-5])|(655[0-2][0-9])|(65[0-4][0-9]{2})|(6[0-4][0-9]{3})|([1-5][0-9]{4})|([0-5]{0,5})|([0-9]{1,4}))$/
                       if (data) {
-                        if (isFinite(data)) {
+                        if (isFinite(data) && regex.test(data)) {
                           return Promise.resolve();
                         } else {
-                          return Promise.reject(`${t("noti.just_number")}`);
+                          return Promise.reject(`${t("view.storage.invalid_format")}`);
                         }
                       } else {
                         return Promise.resolve();
@@ -674,6 +675,10 @@ const ModalEditCamera = (props) => {
                     required: true,
                     message: `${t("view.map.required_field")}`,
                   },
+                  {
+                    pattern: /^(25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\.(25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\.(25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\.(25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)$/,
+                    message: `${t("view.map.ip_error")}`,
+                  }
                 ]}
               >
                 <Input

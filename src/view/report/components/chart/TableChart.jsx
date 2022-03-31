@@ -3,10 +3,14 @@ import { Table } from "antd";
 import { connect } from "react-redux";
 import { loadDataChart } from "../../redux/actions";
 import "./TableChart.scss";
-import moment from 'moment'
+import moment from "moment";
+import { useTranslation } from "react-i18next";
+import permissionCheck from "../../../../actions/function/MyUltil/PermissionCheck";
+import ExportReport from "./ExportReport";
+import ExportReportToMail from "./ExportReportToMail";
 
 function TableChart(props) {
-
+  const { t } = useTranslation();
   const dataSource = [
     {
       key: "1",
@@ -108,47 +112,47 @@ function TableChart(props) {
     },
   ];
 
-  const existedId = {}
+  const existedId = {};
   const mergeColumn = (id) => {
-    const totalRows = dataSource.filter(obj => obj.id === id).length;
+    const totalRows = dataSource.filter((obj) => obj.id === id).length;
 
-    if(!existedId[id] || existedId[id] < 1){
+    if (!existedId[id] || existedId[id] < 1) {
       existedId[id] = 1;
 
       return {
         rowSpan: totalRows,
-        colSpan: 1
+        colSpan: 1,
       };
     }
 
     existedId[id]++;
 
-    if(existedId[id] >= totalRows){
-      existedId[id] = 0
+    if (existedId[id] >= totalRows) {
+      existedId[id] = 0;
     }
-    
+
     return {
       rowSpan: 0,
       colSpan: 0,
     };
-  }
+  };
 
   const generateColumn = () => {
-    const startDate = moment('20/01/2022', 'DD/MM/YYYY')
-    const endDate = moment('25/01/2022', 'DD/MM/YYYY')
+    const startDate = moment("20/01/2022", "DD/MM/YYYY");
+    const endDate = moment("25/01/2022", "DD/MM/YYYY");
 
-    const diff = moment(endDate).diff(startDate, 'd');
+    const diff = moment(endDate).diff(startDate, "d");
 
     return Array.from(new Array(diff)).map((val, key) => {
-      const name = startDate.format('DD/MM')
-      startDate.add(1, 'd');
+      const name = startDate.format("DD/MM");
+      startDate.add(1, "d");
       return {
-          title: name,
-          dataIndex: name,
-          key,
-      }
-    })
-  }
+        title: name,
+        dataIndex: name,
+        key,
+      };
+    });
+  };
 
   var columns = [
     {
@@ -158,25 +162,44 @@ function TableChart(props) {
       render: (val, row) => {
         return {
           props: {
-            ...mergeColumn(row.id)
+            ...mergeColumn(row.id),
           },
-          children: <b>{val}</b>
+          children: <b>{val}</b>,
         };
-      }
+      },
     },
     {
       title: "Tên Camera",
       dataIndex: "nameCamera",
       key: "nameCamera",
     },
-    ...generateColumn()
+    ...generateColumn(),
   ];
 
   return (
     <>
       {(props?.typeChart == "all" || props?.typeChart == "table") && (
         <div className="table-chart">
-          <Table dataSource={dataSource} columns={columns} pagination={false} />
+          <div className="table-chart__title">
+            <h3>
+              {" "}
+              {t(
+                "view.report.situation_report"
+              )} {props.title.toUpperCase()}{" "}
+            </h3>
+            {permissionCheck("export_report") && (
+              <div className="export">
+                <ExportReport type="rateReport" />
+                <ExportReportToMail />
+              </div>
+            )}
+          </div>
+          <Table
+            dataSource={dataSource}
+            columns={columns}
+            pagination={false}
+            className="table-report"
+          />
         </div>
       )}
     </>

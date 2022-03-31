@@ -337,9 +337,6 @@ const ModalEditHumans = (props) => {
                     required: true,
                     message: `${t("view.map.required_field")}`,
                   },
-                  // {
-                  //   pattern: new RegExp("([a-zA-Z]{1,30}\\s*)+"),
-                  // },
                   {
                     max: 255,
                     message: `${t("noti.255_characters_limit")}`,

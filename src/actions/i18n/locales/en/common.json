@@ -219,10 +219,10 @@
       "year": "Year",
       "date_range": "Date range",
       "export_data": "Export data",
-      "compare_chart": "SITUATION COMPARISON CHART:",
-      "trend_chart": "SITUATION TREND CHART:",
-      "proportion_chart": "SITUATION PROPORTION CHART:",
-      "choose_type_chart": "Choose chart"
+      "situation_chart": "SITUATION CHART:",
+      "situation_report": "SITUATION REPORT:",
+      "choose_type_chart": "Choose chart",
+      "week": "Week"
     },
     "pages": {
       "login": "Login",

@@ -103,7 +103,7 @@ function PieChartComponents(props) {
             <h3>
               {" "}
               {t(
-                "view.report.proportion_chart"
+                "view.report.situation_chart"
               )} {props.title.toUpperCase()}{" "}
             </h3>
             {permissionCheck("export_report") && (

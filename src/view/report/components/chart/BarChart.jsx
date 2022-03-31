@@ -58,7 +58,7 @@ function BarChartComponent(props) {
                 <h3>
                   {" "}
                   {t(
-                    "view.report.compare_chart"
+                    "view.report.situation_chart"
                   )} {props.title.toUpperCase()}{" "}
                 </h3>
               </div>
@@ -84,7 +84,7 @@ function BarChartComponent(props) {
                       >
                         <h3>
                           {" "}
-                          {t("view.report.compare_chart")}{" "}
+                          {t("view.report.situation_chart")}{" "}
                           {props.title.toUpperCase()} {"-"}{" "}
                           {`${Object.keys(data)
                             [i].slice(0, 26)
@@ -95,7 +95,7 @@ function BarChartComponent(props) {
                     ) : (
                       <h3>
                         {" "}
-                        {t("view.report.compare_chart")}{" "}
+                        {t("view.report.situation_chart")}{" "}
                         {props.title.toUpperCase()} {"-"}{" "}
                         {Object.keys(data)[i].toUpperCase()}{" "}
                       </h3>

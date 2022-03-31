@@ -64,7 +64,7 @@ function Chart(props) {
           <div className="Chart__title">
             <h3>
               {" "}
-              {t("view.report.trend_chart")} {props.title.toUpperCase()}{" "}
+              {t("view.report.situation_chart")} {props.title.toUpperCase()}{" "}
             </h3>
 
             {permissionCheck("export_report") && (
