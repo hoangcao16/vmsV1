@@ -106,6 +106,7 @@ const TableCamera = () => {
     labelCol: { span: 24 },
   };
 
+
   useEffect(() => {
     setLoading(true);
     let data = {
@@ -156,30 +157,30 @@ const TableCamera = () => {
     setLoading(false);
   }, [page, size]);
 
-  useEffect(() => {
-    setLoading(true);
-    let data = {
-      address: address,
-      searchType: unit,
-      searchValue: search,
-      provinceId: provinceId,
-      districtId: districtId,
-      id: wardId,
-      administrativeUnitUuid: administrativeUnitUuid,
-      vendorUuid: vendorUuid,
-      recordingStatus: status,
-      page: page,
-      size: size,
-    };
+  // useEffect(() => {
+  //   setLoading(true);
+  //   let data = {
+  //     address: address,
+  //     searchType: unit,
+  //     searchValue: search,
+  //     provinceId: provinceId,
+  //     districtId: districtId,
+  //     id: wardId,
+  //     administrativeUnitUuid: administrativeUnitUuid,
+  //     vendorUuid: vendorUuid,
+  //     recordingStatus: status,
+  //     page: page,
+  //     size: size,
+  //   };
 
-    CameraApi.getAllCameraWidthTotal(data)
-      .then((result) => {
-        setListCamera(result.payload);
-        setTotal(result?.metadata?.total);
-      })
-      .finally(setLoading(false));
-    setLoading(false);
-  }, [selectedAdd, selectedEdit]);
+  //   CameraApi.getAllCameraWidthTotal(data)
+  //     .then((result) => {
+  //       setListCamera(result.payload);
+  //       setTotal(result?.metadata?.total);
+  //     })
+  //     .finally(setLoading(false));
+  //   setLoading(false);
+  // }, [selectedAdd, selectedEdit]);
 
   const handleDelete = async (cameraId) => {
     const isDeleted = await CameraApi.delete(cameraId);
