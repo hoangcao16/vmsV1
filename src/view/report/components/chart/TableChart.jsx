@@ -1,123 +1,36 @@
 import React from "react";
 import { Table } from "antd";
 import { connect } from "react-redux";
-import { loadDataChart } from "../../redux/actions";
+import { loadTableDataChart } from "../../redux/actions";
 import "./TableChart.scss";
 import moment from "moment";
 import { useTranslation } from "react-i18next";
 import permissionCheck from "../../../../actions/function/MyUltil/PermissionCheck";
 import ExportReport from "./ExportReport";
 import ExportReportToMail from "./ExportReportToMail";
+import { isEmpty } from "lodash";
 
 function TableChart(props) {
   const { t } = useTranslation();
-  const dataSource = [
-    {
-      key: "1",
-      type: "Vượt đèn đỏ",
-      id: "123abc",
-      nameCamera: "Cam1",
-      "20/01": 10,
-      "21/01": 10,
-      "22/01": 10,
-      "23/01": 10,
-      "24/01": 10,
-      "25/01": 10,
-      "26/01": 10,
-      "27/01": 10,
-      "28/01": 10,
-      "29/01": 10,
-      "30/01": 100,
-    },
-    {
-      key: "2",
-      type: "Vượt đèn đỏ",
-      id: "123abc",
-      nameCamera: "Cam2",
-      "20/01": 10,
-      "21/01": 10,
-      "22/01": 10,
-      "23/01": 10,
-      "24/01": 10,
-      "25/01": 10,
-      "26/01": 10,
-      "27/01": 10,
-      "28/01": 10,
-      "29/01": 10,
-      "30/01": 100,
-    },
-    {
-      key: "3",
-      type: "Vượt đèn đỏ",
-      id: "123abc",
-      nameCamera: "Cam3",
-      "20/01": 10,
-      "21/01": 10,
-      "22/01": 10,
-      "23/01": 10,
-      "24/01": 10,
-      "25/01": 10,
-      "26/01": 10,
-      "27/01": 10,
-      "28/01": 10,
-      "29/01": 10,
-    },
-    {
-      key: "4",
-      type: "Không đội mũ",
-      id: "asdfgh",
-      nameCamera: "Cam1",
-      "20/01": 10,
-      "21/01": 10,
-      "22/01": 10,
-      "23/01": 10,
-      "24/01": 10,
-      "25/01": 10,
-      "26/01": 10,
-      "27/01": 10,
-      "28/01": 10,
-      "29/01": 10,
-    },
-    {
-      key: "5",
-      type: "Không đội mũ",
-      id: "asdfgh",
-      nameCamera: "Cam2",
-      "20/01": 10,
-      "21/01": 10,
-      "22/01": 10,
-      "23/01": 10,
-      "24/01": 10,
-      "25/01": 10,
-      "26/01": 10,
-      "27/01": 10,
-      "28/01": 10,
-      "29/01": 10,
-    },
-    {
-      key: "6",
-      type: "Không đội mũ",
-      id: "asdfgh",
-      nameCamera: "Cam3",
-      "20/01": 10,
-      "21/01": 10,
-      "22/01": 10,
-      "23/01": 10,
-      "24/01": 10,
-      "25/01": 10,
-      "26/01": 10,
-      "27/01": 10,
-      "28/01": 10,
-      "29/01": 10,
-    },
-  ];
+  let dataSource = props.dataTableChart || [];
+  dataSource.sort(function (a, b) {
+    if (a.eventUuid < b.eventUuid) {
+      return -1;
+    }
+    if (a.eventUuid > b.eventUuid) {
+      return 1;
+    }
+    return 0;
+  });
 
   const existedId = {};
-  const mergeColumn = (id) => {
-    const totalRows = dataSource.filter((obj) => obj.id === id).length;
+  const mergeColumn = (eventUuid) => {
+    const totalRows = dataSource.filter(
+      (obj) => obj.eventUuid === eventUuid
+    ).length;
 
-    if (!existedId[id] || existedId[id] < 1) {
-      existedId[id] = 1;
+    if (!existedId[eventUuid] || existedId[eventUuid] < 1) {
+      existedId[eventUuid] = 1;
 
       return {
         rowSpan: totalRows,
@@ -125,10 +38,10 @@ function TableChart(props) {
       };
     }
 
-    existedId[id]++;
+    existedId[eventUuid]++;
 
-    if (existedId[id] >= totalRows) {
-      existedId[id] = 0;
+    if (existedId[eventUuid] >= totalRows) {
+      existedId[eventUuid] = 0;
     }
 
     return {
@@ -138,14 +51,73 @@ function TableChart(props) {
   };
 
   const generateColumn = () => {
-    const startDate = moment("20/01/2022", "DD/MM/YYYY");
-    const endDate = moment("25/01/2022", "DD/MM/YYYY");
+    let format = {
+      dateStringFormat: "DDMMYYYY",
+      dateFormat: "DD/MM/YYYY",
+      unit: "d",
+      start: "01/01/2022",
+      end: "10/01/2022",
+    };
 
-    const diff = moment(endDate).diff(startDate, "d");
+    switch (props.date.typeTime) {
+      case "DAY":
+        format = {
+          dateStringFormat: "DDMMYYYY",
+          dateFormat: "DD/MM/YYYY",
+          unit: "d",
+          start: "01/01/2022",
+          end: "10/01/2022",
+        };
+        break;
+      case "WEEK":
+        format = {
+          dateStringFormat: "DDMMYYYY",
+          dateFormat: "DD/MM/YYYY",
+          unit: "w",
+          start: "01/01/2022",
+          end: "10/01/2022",
+        };
+        break;
+      case "MONTH":
+        format = {
+          dateStringFormat: "MMYYYY",
+          dateFormat: "MM/YYYY",
+          unit: "m",
+          start: "01/2022",
+          end: "02/2022",
+        };
+        break;
+      case "YEAR":
+        format = {
+          dateStringFormat: "YYYY",
+          dateFormat: "YYYY",
+          unit: "y",
+          start: "2018",
+          end: "2022",
+        };
+        break;
+    }
 
-    return Array.from(new Array(diff)).map((val, key) => {
-      const name = startDate.format("DD/MM");
-      startDate.add(1, "d");
+    if (!isEmpty(props.date.startDate)) {
+      format.start = moment(props.date.startDate, format.dateStringFormat).format(
+        format.dateFormat
+      );
+    }
+
+    if (!isEmpty(props.date.startDate)) {
+      format.end = moment(props.date.endDate, format.dateStringFormat).format(
+        format.dateFormat
+      );
+    }
+
+    const startDate = moment(format.start, format.dateFormat);
+    const endDate = moment(format.end, format.dateFormat);
+
+    let diff = moment(endDate).diff(startDate, format.unit);
+
+    return Array.from(new Array(diff+1)).map((val, key) => {
+      const name = startDate.format(format.dateFormat);
+      startDate.add(1, format.unit);
       return {
         title: name,
         dataIndex: name,
@@ -156,22 +128,24 @@ function TableChart(props) {
 
   var columns = [
     {
-      title: "Loại vi phạm",
+      title: `${t("view.report.type_violation")}`,
       dataIndex: "type",
       key: "type",
+      fixed: "left",
       render: (val, row) => {
         return {
           props: {
-            ...mergeColumn(row.id),
+            ...mergeColumn(row.eventUuid),
           },
           children: <b>{val}</b>,
         };
       },
     },
     {
-      title: "Tên Camera",
+      title: `${t("view.camera.camera_name", { cam: t("camera") })}`,
       dataIndex: "nameCamera",
       key: "nameCamera",
+      fixed: "left",
     },
     ...generateColumn(),
   ];
@@ -199,6 +173,7 @@ function TableChart(props) {
             columns={columns}
             pagination={false}
             className="table-report"
+            scroll={{ x: 1500, y: 500 }}
           />
         </div>
       )}
@@ -212,12 +187,14 @@ const mapStateToProps = (state) => ({
   error: state.chart.error,
   title: state.chart.title,
   typeChart: state.chart.typeChart,
+  dataTableChart: state.chart?.dataTableChart?.data?.tableEvents,
+  date: state.chart?.dataTableChart?.date,
 });
 
 const mapDispatchToProps = (dispatch) => {
   return {
     callData: (params) => {
-      dispatch(loadDataChart(params));
+      dispatch(loadTableDataChart(params));
     },
   };
 };

@@ -31,7 +31,6 @@ export default function ExportReport(props) {
       lang: language,
     };
     await ReportApi.getExportData(data).then((value) => {
-
       if(value.type === "application/octet-stream"){
         const data = new Blob([value], { type: "application/vnd.ms-excel" });
         fileDownload(
@@ -39,7 +38,7 @@ export default function ExportReport(props) {
           `Report_${moment().format("DD.MM.YYYY_HH.mm.ss")}.xlsx`
         );
 
-      }else{
+      } else {
         const notifyMess = {
           type: "error",
           title: "",

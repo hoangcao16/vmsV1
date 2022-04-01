@@ -5,7 +5,6 @@ import { useTranslation } from "react-i18next";
 import { connect } from "react-redux";
 import { Cell, Pie, PieChart } from "recharts";
 import permissionCheck from "../../../../actions/function/MyUltil/PermissionCheck";
-import convertDataChartAndPieChart from "../../../../actions/function/MyUltil/ConvertDataChartAndPieChart";
 import { loadDataChart } from "../../redux/actions";
 import ExportReport from "./ExportReport";
 import "./pieChart.scss";
@@ -151,7 +150,7 @@ function PieChartComponents(props) {
 
 const mapStateToProps = (state) => ({
   isLoading: state.chart.isLoading,
-  chartData: convertDataChartAndPieChart(state.chart.chartData.data),
+  chartData: state.chart.chartData.data,
   per: state.chart.chartData.dataPieChart,
   error: state.chart.error,
   title: state.chart.title,

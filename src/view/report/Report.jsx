@@ -28,22 +28,22 @@ const TableReport = (props) => {
     );
   }, [t]);
 
-  const rendered = ()=>{
-
-    if(!isEmpty(props.chartData)){
-      return (
-        <div className="body__content">
-        <TableChart />
-        <Chart />
-        <PieChartComponents />
-        <BarChartComponent />
+  const rendered = () => {
+    return (
+      <div className="body__content">
+        {!isEmpty(props.tableDataChart) ? <TableChart /> : ""}
+        {!isEmpty(props.chartData) ? (
+          <>
+            <Chart />
+            {/* <PieChartComponents /> */}
+            <BarChartComponent />
+          </>
+        ) : (
+          ""
+        )}
       </div>
-      )
-    }
-    return (<div className="body__noContent">
-      {t('noti.field_no_data').toUpperCase()}
-    </div>)
-  }
+    );
+  };
 
   return (
     <>
@@ -55,9 +55,7 @@ const TableReport = (props) => {
           <FeatureInfo />
         </div>
         <div className="body">
-          {!props.isLoading ? rendered() : (
-            <Loading />
-          )}
+          {!props.isLoading ? rendered() : <Loading />}
           <div className="body__slidebar">
             <Sidebar />
           </div>
@@ -69,7 +67,8 @@ const TableReport = (props) => {
 
 const mapStateToProps = (state) => ({
   isLoading: state.chart.isLoading,
-  chartData: state.chart.chartData.data,
+  chartData: state.chart.chartData,
+  tableDataChart: state.chart.dataTableChart,
 });
 
 export default connect(mapStateToProps)(withRouter(TableReport));

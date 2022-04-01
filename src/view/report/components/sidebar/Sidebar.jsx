@@ -25,7 +25,7 @@ import {
   filterOption,
   normalizeOptions,
 } from "../../../common/select/CustomSelect";
-import { loadDataChart } from "../../redux/actions";
+import { loadDataChart, loadTableDataChart } from "../../redux/actions";
 import { changeChart } from "../../redux/actions/changeChart";
 import { changeTitle } from "../../redux/actions/changeTitle";
 import "./../../../../view/commonStyle/commonInput.scss";
@@ -102,7 +102,7 @@ function Sidebar(props) {
   const [feildIds, setFeildIds] = useState([]);
 
   const [cameraAI, setCameraAI] = useState([]);
-  
+
   const [cameraAIUuid, setCameraAIUuid] = useState([]);
 
   useEffect(() => {
@@ -151,6 +151,7 @@ function Sidebar(props) {
           wardId: "",
           fieldId: data?.fields[0]?.uuid,
           eventList: arr,
+          cameraUuids: [],
         };
         props.callData(clearData(dataDefault));
       }
@@ -177,14 +178,24 @@ function Sidebar(props) {
 
   //API AI
   useEffect(() => {
-    const data = {
-      provinceIds: "",
+    let data = {
+      provinceIds: provinceId.toString(),
       districtIds: "",
       wardIds: "",
       size: 100000,
       page: 1,
     };
-    const a = AICameraApi.getAllCameraAI(data).then(setCameraAI);
+    if (isEmpty(districtId)) {
+      data.districtIds = "";
+    } else {
+      data.districtIds = districtId.toString();
+    }
+    if (isEmpty(wardId)) {
+      data.wardId = "";
+    } else {
+      data.wardIds = wardId.toString();
+    }
+    AICameraApi.getAllCameraAI(data).then(setCameraAI);
   }, [provinceId, districtId, wardId]);
 
   const { provinces, fields } = filterOptions;
@@ -205,6 +216,7 @@ function Sidebar(props) {
       wardId: wardId,
       fieldId: feildIds,
       eventList: selectedRowKeys,
+      cameraUuids: cameraAIUuid,
     };
     props.callData(clearData(data));
     return;
@@ -223,6 +235,7 @@ function Sidebar(props) {
     timeStartYear,
     timeEndYear,
     feildIds,
+    cameraAIUuid
   ]);
 
   const emptyField = () => {
@@ -422,7 +435,7 @@ function Sidebar(props) {
 
   const onChangeCameraAI = async (cameraAiArr) => {
     if (cameraAiArr.length >= 1) {
-      setCameraAIUuid(cameraAiArr)
+      setCameraAIUuid(cameraAiArr);
       if (isEmpty(eventList)) {
         emptyField();
       } else {
@@ -430,7 +443,7 @@ function Sidebar(props) {
       }
       return;
     } else {
-      setCameraAIUuid([])
+      setCameraAIUuid([]);
       if (isEmpty(eventList)) {
         emptyField();
       } else {
@@ -503,6 +516,7 @@ function Sidebar(props) {
       wardId: wardId,
       fieldId: feildIds,
       eventList: selectedRowKeys,
+      cameraUuids: cameraAIUuid,
     };
     props.callData(clearData(data));
   };
@@ -810,7 +824,7 @@ function Sidebar(props) {
           className="mt-2 bg-grey"
           form={form}
           {...formItemLayout}
-          onFieldsChange={() => console.log("Formdata", form.getFieldsValue())}
+          // onFieldsChange={() => console.log("Formdata", form.getFieldsValue())}
           style={{ width: "100%", paddingBottom: "30px" }}
         >
           <label className="optionTitle">
@@ -820,13 +834,13 @@ function Sidebar(props) {
             <Col span={24}>
               <Form.Item name={["pickTypeChart"]}>
                 <Select
-                  placeholder="Hãy chọn loại biểu đồ"
+                  placeholder={t("view.report.please_choose_chart_type")}
                   onChange={(typeChart) => onChangeTypeChart(typeChart)}
                 >
-                  <Option value="bar">Dạng cột</Option>
-                  <Option value="line">Dạng đường</Option>
-                  <Option value="pie">Dạng tròn</Option>
-                  <Option value="table">Dạng bảng</Option>
+                  <Option value="bar">{t("view.report.column")}</Option>
+                  <Option value="line">{t("view.report.line")}</Option>
+                  <Option value="pie">{t("view.report.circle")}</Option>
+                  <Option value="table">{t("view.report.table")}</Option>
                 </Select>
               </Form.Item>
             </Col>
@@ -885,16 +899,24 @@ function Sidebar(props) {
             <Row gutter={24} style={{ margin: "5px" }}>
               <Col span={12}>
                 <Form.Item name={["timeStartWeek"]}>
-                  <WeekPicker value={moment(timeEndDay).subtract(4, "weeks")} onChange={console.log} disableDate={(currentWeek) => {
-                    // return currentWeek.isoWeek() < 13
-                  }}/>
+                  <WeekPicker
+                    value={moment(timeEndDay).subtract(4, "weeks")}
+                    onChange={console.log}
+                    disableDate={(currentWeek) => {
+                      // return currentWeek.isoWeek() < 13
+                    }}
+                  />
                 </Form.Item>
               </Col>
               <Col span={12}>
                 <Form.Item name={["timeEndWeek"]}>
-                  <WeekPicker value={moment()} onChange={console.log} disableDate={(currentWeek) => {
-                    // return currentWeek.isoWeek() < 13
-                  }}/>
+                  <WeekPicker
+                    value={moment()}
+                    onChange={console.log}
+                    disableDate={(currentWeek) => {
+                      // return currentWeek.isoWeek() < 13
+                    }}
+                  />
                 </Form.Item>
               </Col>
             </Row>
@@ -1121,6 +1143,7 @@ const mapDispatchToProps = (dispatch) => {
     },
     callData: (params) => {
       dispatch(loadDataChart(params));
+      dispatch(loadTableDataChart(params));
     },
   };
 };

@@ -224,7 +224,13 @@
       "situation_chart": "SITUATION CHART:",
       "situation_report": "SITUATION REPORT:",
       "choose_type_chart": "Choose chart",
-      "week": "Week"
+      "week": "Week",
+      "column": "Column type",
+      "line": "Line type",
+      "circle": "Circle type",
+      "table": "Table type",
+      "please_choose_chart_type": "Please choose chart type",
+      "type_violation": "Type of violation"
     },
     "pages": {
       "login": "Login",

@@ -225,7 +225,13 @@
       "situation_chart": "BIỂU ĐỒ TÌNH HÌNH:",
       "situation_report": "BÁO CÁO TÌNH HÌNH:",
       "choose_type_chart": "Chọn loại biểu đồ",
-      "week": "Tuần"
+      "week": "Tuần",
+      "column": "Dạng cột",
+      "line": "Dạng đường",
+      "circle": "Dạng tròn",
+      "table": "Dạng bảng",
+      "please_choose_chart_type": "Hãy chọn loại biểu đồ",
+      "type_violation": "Loại vi phạm"
     },
     "pages": {
       "login": "Đăng nhập",

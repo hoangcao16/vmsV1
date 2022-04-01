@@ -3,10 +3,10 @@ import moment from "moment";
 import { call, put, takeLatest } from "redux-saga/effects";
 // import CameraApi from '../../../../actions/api/camera/CameraApi';
 import ReportApi from "../../../../actions/api/report/ReportApi";
-import { setDataChart, setError } from "../actions";
-import { DATA_CHART } from "../constants";
+import { setTableDataChart, setTableDataError } from "../actions";
+import { TABLE_DATA_CHART } from "../constants";
 
-export function* handleDataChartLoad(action) {
+export function* handleTableDataChartLoad(action) {
   const { params } = action;
   let timeStart;
   let timeEnd;
@@ -43,34 +43,26 @@ export function* handleDataChartLoad(action) {
   localStorage.setItem("payloadDataChart", JSON.stringify(payloadDataChart));
   try {
     if (!isEmpty(payloadDataChart.eventUuids)) {
-      let res
-      if (
-        params.provinceId.length > 1 ||
-        (params.districtId && params.districtId.length > 1) ||
-        (params.wardId && params.wardId.length > 1)
-      ) {
-        res = yield call(() =>
-          ReportApi.getCompareData(payloadDataChart).then((result) => {
-            return result;
-          })
-        );
-      } else {
-        res = yield call(() =>
-          ReportApi.getData(payloadDataChart).then((result) => {
-            return result;
-          })
-        );
-      }
-      yield put(setDataChart(res));
+      const res = yield call(() =>
+        ReportApi.getTableData(payloadDataChart).then((result) => {
+          return result;
+        })
+      );
+      const date = {
+        typeTime: params.pickTime.toUpperCase(),
+        startDate: timeStart,
+        endDate: timeEnd,
+      };
+      yield put(setTableDataChart({res, date}));
     } else {
-      const fakeData = { data: []};
-      yield put(setDataChart(fakeData));
+      const fakeData = { tableChartEvents: [], dateType: {} };
+      yield put(setTableDataChart(fakeData));
     }
   } catch (error) {
-    yield put(setError(error.toString()));
+    yield put(setTableDataError(error.toString()));
   }
 }
 
-export default function* dataChart() {
-  yield takeLatest(DATA_CHART.LOAD, handleDataChartLoad);
+export default function* dataTableChart() {
+  yield takeLatest(TABLE_DATA_CHART.LOAD, handleTableDataChartLoad);
 }
