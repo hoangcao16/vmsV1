@@ -66,10 +66,9 @@ export default function ExportReportToMail() {
   function confirm() {
     Modal.confirm({
       title: `${t("view.user.detail_list.confirm")}`,
-      icon: "",
-      content: 'Bla bla ...',
+      content: `${t("view.user.detail_list.are_you_sure_sent_data_for_this_email")}`,
       okText: `${t("view.user.detail_list.confirm")}`,
-      cancelText: 'KOOK',
+      cancelText: `${t("view.map.button_cancel")}`,
       onOk: () => {
         handleOk();
       }
