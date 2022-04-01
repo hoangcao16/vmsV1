@@ -798,7 +798,8 @@
     "browser_not_support_video": "Your browser does not support the video tag",
     "field_no_data": "This feild has no events",
     "just_number": "This field only allowed numbers",
-    "sure_to_delete": "Sure to delete?"
+    "sure_to_delete": "Sure to delete?",
+    "are_you_sure_sent_data_for_this_email": "Are you sure to sent data for this Email?"
   },
   "breadcrumd": {
     "report": "Report Management",

@@ -800,7 +800,8 @@
     "browser_not_support_video": "Trình duyệt của bạn không hỗ trợ thẻ video",
     "field_no_data": "Lĩnh vực này không có sự kiện",
     "just_number": "Trường này chỉ được nhập số",
-    "sure_to_delete": "Chắc chắn để xóa?"
+    "sure_to_delete": "Chắc chắn để xóa?",
+    "are_you_sure_sent_data_for_this_email": "Bạn có chắc muốn gửi dữ liệu cho Email này?"
   },
   "breadcrumd": {
     "report": "Quản lý báo cáo",
