@@ -17,6 +17,7 @@ import { loadDataChart } from "../../redux/actions";
 import "./chart.scss";
 import ExportReport from "./ExportReport";
 import { COLOR } from "./BarChart";
+import ExportReportToMail from "./ExportReportToMail";
 
 function Chart(props) {
   let data = [];
@@ -26,7 +27,7 @@ function Chart(props) {
   } else if (props.chartData && props.chartData.CompareChartEvent) {
     data = props.chartData.CompareChartEvent;
   }
-  
+
   const { t } = useTranslation();
 
   if (props.isLoading) {
@@ -75,7 +76,10 @@ function Chart(props) {
             </h3>
 
             {permissionCheck("export_report") && (
-              <ExportReport type="trendReport" />
+              <div className="export">
+                <ExportReport type="trendReport" />
+                <ExportReportToMail />
+              </div>
             )}
           </div>
 

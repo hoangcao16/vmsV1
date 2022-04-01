@@ -1,9 +1,3 @@
-.Chart {
-  width: 100%;
-  padding-right: 20px;
-  background-color: #333333;
-}
-
 .ResponsiveContainer {
   padding-top: 50px;
 }
@@ -14,11 +8,17 @@
 .Chart {
   width: 100%;
   background-color: $vms-bg-sub;
+  background-color: #333333;
+  padding-right: 20px;
   
   &__title {
     padding: 15px;
     justify-content: space-between;
     align-items: center;
     display: flex;
+  }
+  .export {
+    display: flex;
+    flex-wrap: nowrap;
   }
 }

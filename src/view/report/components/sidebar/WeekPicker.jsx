@@ -6,20 +6,27 @@ import { CalendarOutlined } from "@ant-design/icons";
 moment.locale("en");
 
 const WeekPicker = ({ value, onChange, disableDate = () => {} }) => {
-  const [currentYear, setCurrentYear] = useState(moment(value).format("YYYY"));
+  console.log('value', value)
+  const [currentYear, setCurrentYear] = useState(moment(value).format("TW-YYYY"));
   const [currentValue, setCurrentValue] = useState(
     moment(value).format("TW-YYYY")
   );
+  console.log("currentValue", currentValue)
   const [visible, setVisible] = useState(false);
   const totalWeeks = moment(currentYear, "YYYY").isoWeeksInYear();
+  const ref = useRef(null);
 
   useEffect(() => {
-    function handleClickOutside(event) {
-      console.log(event);
-    }
-    document.addEventListener("click", handleClickOutside);
-
-    return () => document.removeEventListener("click", handleClickOutside);
+    const handleClickOutside = (event) => {
+      const parent = ref.current.input.closest('.week-input');
+      if (parent && !parent.contains(event.target)) {
+        setVisible(false);
+      }
+    };
+    document.addEventListener('click', handleClickOutside, true);
+    return () => {
+      document.removeEventListener('click', handleClickOutside, true);
+    };
   });
 
   const handleChangeYear = (diff) => {
@@ -109,6 +116,7 @@ const WeekPicker = ({ value, onChange, disableDate = () => {} }) => {
       <Input
         className="week-input"
         onFocus={() => setVisible(true)}
+        ref={ref}
         value={currentValue}
         suffix={<CalendarOutlined />}
       />

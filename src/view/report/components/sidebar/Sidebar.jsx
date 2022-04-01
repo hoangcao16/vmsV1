@@ -79,6 +79,8 @@ function Sidebar(props) {
     moment().subtract(4, "weeks")
   );
 
+  console.log("timeStartWeek", timeStartWeek)
+
   const [timeEndWeek, setTimeEndWeek] = useState(moment());
 
   const [timeStartMonth, setTimeStartMonth] = useState(
@@ -625,56 +627,56 @@ function Sidebar(props) {
 
   //==================================================================
 
-  function onChangeTimeStartWeek(value, string) {
-    if (!value) {
-      form.setFieldsValue({
-        timeEndWeek: timeEndWeek,
-      });
-      return;
-    }
+  // function onChangeTimeStartWeek(value, string) {
+  //   if (!value) {
+  //     form.setFieldsValue({
+  //       timeEndWeek: timeEndWeek,
+  //     });
+  //     return;
+  //   }
 
-    setTimeStartWeek(value);
-  }
+  //   setTimeStartWeek(value);
+  // }
 
-  function onChangeTimeEndWeek(value) {
-    setTimeEndWeek(value);
+  // function onChangeTimeEndWeek(value) {
+  //   setTimeEndWeek(value);
 
-    const dk = moment(timeStartWeek).add(1, "weeks");
+  //   const dk = moment(timeStartWeek).add(1, "weeks");
 
-    if (!value) {
-      form.setFieldsValue({
-        timeStartWeek: timeStartWeek,
-      });
-      return;
-    }
+  //   if (!value) {
+  //     form.setFieldsValue({
+  //       timeStartWeek: timeStartWeek,
+  //     });
+  //     return;
+  //   }
 
-    if (dk > value) {
-      form.setFieldsValue({
-        timeStartMonth: "",
-      });
+  //   if (dk > value) {
+  //     form.setFieldsValue({
+  //       timeStartMonth: "",
+  //     });
 
-      const language = reactLocalStorage.get("language");
-      if (language === "vn") {
-        const notifyMess = {
-          type: "error",
-          title: "",
-          description:
-            "Khoảng thời gian bạn chọn chưa đúng, vui lòng kiểm tra lại",
-        };
-        Notification(notifyMess);
-        return;
-      } else {
-        const notifyMess = {
-          type: "error",
-          title: "",
-          description:
-            "Time range you choose is not correct, please check again",
-        };
-        Notification(notifyMess);
-        return;
-      }
-    }
-  }
+  //     const language = reactLocalStorage.get("language");
+  //     if (language === "vn") {
+  //       const notifyMess = {
+  //         type: "error",
+  //         title: "",
+  //         description:
+  //           "Khoảng thời gian bạn chọn chưa đúng, vui lòng kiểm tra lại",
+  //       };
+  //       Notification(notifyMess);
+  //       return;
+  //     } else {
+  //       const notifyMess = {
+  //         type: "error",
+  //         title: "",
+  //         description:
+  //           "Time range you choose is not correct, please check again",
+  //       };
+  //       Notification(notifyMess);
+  //       return;
+  //     }
+  //   }
+  // }
 
   function disabledDateTimeStartWeek(current) {
     const start = moment(timeEndWeek).startOf("W").subtract(12, "weeks");
@@ -900,7 +902,7 @@ function Sidebar(props) {
               <Col span={12}>
                 <Form.Item name={["timeStartWeek"]}>
                   <WeekPicker
-                    value={moment(timeEndDay).subtract(4, "weeks")}
+                    value={moment(timeStartWeek).format("WT-YYYY")}
                     onChange={console.log}
                     disableDate={(currentWeek) => {
                       // return currentWeek.isoWeek() < 13

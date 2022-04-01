@@ -222,6 +222,7 @@
       "year": "Năm",
       "date_range": "Khoảng thời gian",
       "export_data": "Xuất dữ liệu",
+      "sent_data": "Gửi dữ liệu",
       "situation_chart": "BIỂU ĐỒ TÌNH HÌNH:",
       "situation_report": "BÁO CÁO TÌNH HÌNH:",
       "choose_type_chart": "Chọn loại biểu đồ",
@@ -231,7 +232,12 @@
       "circle": "Dạng tròn",
       "table": "Dạng bảng",
       "please_choose_chart_type": "Hãy chọn loại biểu đồ",
-      "type_violation": "Loại vi phạm"
+      "type_violation": "Loại vi phạm",
+      "to": "Đến",
+      "in_system": "Trong hệ thống",
+      "leader": "Lãnh đạo",
+      "email_not_valid": "Yêu cầu nhập email hợp lệ, cách nhau bằng dấu ','",
+      "sent": "Gửi"
     },
     "pages": {
       "login": "Đăng nhập",
