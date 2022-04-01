@@ -95,7 +95,7 @@ const TableCamera = () => {
   const [total, setTotal] = useState(0);
   const [page, setPage] = useState(1);
   const [size, setSize] = useState(10);
-  const [search, setSearch] = useState("");
+  const [search, setSearch] = useState();
   const [unit, setUnit] = useState(UNIT.ALL);
   const [isModalVisible, setIsModalVisible] = useState(false);
   const history = useHistory();
@@ -105,7 +105,6 @@ const TableCamera = () => {
     wrapperCol: { span: 24 },
     labelCol: { span: 24 },
   };
-
 
   useEffect(() => {
     setLoading(true);
@@ -223,8 +222,7 @@ const TableCamera = () => {
   }, []);
 
   const handleSearch = async (value) => {
-    setSearch(value);
-    setPage(1);
+    // setPage(1);
     // setLoading(true);
     let data = {
       searchType: unit,
@@ -259,7 +257,9 @@ const TableCamera = () => {
   };
 
   const showModalAdd = () => {
+    setSearch(null)
     setSelectedAdd(true);
+    handleSearch();
   };
 
   const handleShowModalAdd = () => {
@@ -312,7 +312,7 @@ const TableCamera = () => {
 
   const onChangeTypeFilter = async (value) => {
     setUnit(value);
-    setSearch("");
+    setSearch(null);
     form.setFieldsValue({ searchForm: null });
 
     setSearch(value);
@@ -371,7 +371,7 @@ const TableCamera = () => {
   const showModal = () => {
     setPage(1);
     setUnit(UNIT.ALL);
-    setSearch("");
+    setSearch(null);
     form.setFieldsValue({ searchForm: null });
     setIsModalVisible(true);
   };
@@ -379,7 +379,7 @@ const TableCamera = () => {
   const handleOk = () => {
     setIsModalVisible(false);
 
-    setSearch("");
+    setSearch(null);
     setUnit(null);
   };
 
@@ -599,22 +599,12 @@ const TableCamera = () => {
   };
   const handleBlur = (event) => {
     const value = event.target.value.trim();
-
-    form.setFieldsValue({
-      searchForm: value,
-    });
-
     setSearch(value);
   };
   const handlePaste = (e) => {
     const value = e.target.value.trimStart();
-
-    form.setFieldsValue({
-      searchForm: value,
-    });
-
     setSearch(value);
-  }
+  };
 
   const onShowSizeChange = (current, pageSize) => {
     setPage(current);
@@ -655,29 +645,27 @@ const TableCamera = () => {
           <Option value={UNIT.ADDRESS}>{t("view.map.location")}</Option>
         </Select>
 
-        <Form className="searchData" form={form}>
-          <Form.Item name={["searchForm"]}>
-            <AutoComplete
-              onSearch={debounce(handleSearch, 1000)}
-              value={search}
-              onBlur={handleBlur}
-              onPaste={handlePaste}
-              maxLength={255}
-              placeholder={
-                <div className="placeholder">
-                  <span style={{ opacity: "0.5" }}>
-                    {" "}
-                    &nbsp;{" "}
-                    {`${t("view.user.detail_list.please_enter_search_keyword", {
-                      plsEnter: t("please_enter"),
-                    })}`}{" "}
-                  </span>{" "}
-                  <SearchOutlined style={{ fontSize: 22 }} />
-                </div>
-              }
-            />
-          </Form.Item>
-        </Form>
+        <AutoComplete
+          className="full-width search__camera"
+          onSearch={debounce(handleSearch, 1000)}
+          value={search}
+          onBlur={handleBlur}
+          onPaste={handlePaste}
+          onChange={(e) => setSearch(e)}
+          maxLength={255}
+          placeholder={
+            <div className="placeholder justify-content-between d-flex align-items-center">
+              <span style={{ opacity: "0.5" }}>
+                {" "}
+                &nbsp;{" "}
+                {`${t("view.user.detail_list.please_enter_search_keyword", {
+                  plsEnter: t("please_enter"),
+                })}`}{" "}
+              </span>{" "}
+              <SearchOutlined style={{ fontSize: 22 }} />
+            </div>
+          }
+        />
 
         <Button
           className="filter-advance"
