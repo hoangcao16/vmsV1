@@ -13,22 +13,35 @@ import {
   YAxis,
 } from "recharts";
 import permissionCheck from "../../../../actions/function/MyUltil/PermissionCheck";
-import convertDataChartAndPieChart from "../../../../actions/function/MyUltil/ConvertDataChartAndPieChart";
 import { loadDataChart } from "../../redux/actions";
 import "./chart.scss";
 import ExportReport from "./ExportReport";
 import { COLOR } from "./BarChart";
 
-
-
 function Chart(props) {
-  const data = props.chartData;
+  let data = [];
+
+  if (props.chartData && props.chartData.DataChartEvent) {
+    data = props.chartData.DataChartEvent;
+  } else if (props.chartData && props.chartData.CompareChartEvent) {
+    data = props.chartData.CompareChartEvent;
+  }
+  
   const { t } = useTranslation();
+
+  if (props.isLoading) {
+    return null;
+  }
   const dataConvert = (dataMap) => {
-    const dataNoName = dataMap[0];
-    delete dataNoName.name;
-    const keyArr = Object.keys(dataNoName);
-    return keyArr.map((k,index) => {
+    if (isEmpty(data)) {
+      return;
+    }
+    let arr = [];
+    arr = Object.fromEntries(
+      Object.entries(data[0]).filter(([key]) => key !== "time")
+    );
+    const keyArr = Object.keys(arr);
+    return keyArr.map((k, index) => {
       return (
         <Line
           key={k}
@@ -49,14 +62,6 @@ function Chart(props) {
     });
   };
 
-  if (isEmpty(JSON.parse(JSON.stringify(data)))) {
-    return null;
-  }
-
-  if (props.isLoading) {
-    return null;
-  }
-
   return (
     <>
       {(props?.typeChart == "all" || props?.typeChart == "line") && (
@@ -64,7 +69,9 @@ function Chart(props) {
           <div className="Chart__title">
             <h3>
               {" "}
-              {t("view.report.situation_chart")} {props.title.toUpperCase()}{" "}
+              {t(
+                "view.report.situation_chart"
+              )} {props.title.toUpperCase()}{" "}
             </h3>
 
             {permissionCheck("export_report") && (
@@ -75,7 +82,7 @@ function Chart(props) {
           <LineChart
             width={870}
             height={300}
-            data={JSON.parse(JSON.stringify(data))}
+            data={data}
             margin={{
               top: 5,
               right: 30,
@@ -84,12 +91,11 @@ function Chart(props) {
             }}
           >
             <CartesianGrid strokeDasharray="3 3" />
-            <XAxis dataKey="name" />
+            <XAxis dataKey="time" />
             <YAxis />
             <Tooltip />
             <Legend />
-
-            {dataConvert(JSON.parse(JSON.stringify(data)))}
+            {dataConvert(data)}
           </LineChart>
         </div>
       )}
@@ -99,7 +105,7 @@ function Chart(props) {
 
 const mapStateToProps = (state) => ({
   isLoading: state.chart.isLoading,
-  chartData: convertDataChartAndPieChart(state.chart.chartData.data),
+  chartData: state.chart.chartData.data,
   error: state.chart.error,
   title: state.chart.title,
   typeChart: state.chart.typeChart,

@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { Button, Modal, Form, Select, Radio, Input } from "antd";
+import { Button, Modal, Form, Select, Radio, Input, Popconfirm } from "antd";
 import "./ExportReportToMail.scss";
 import { useTranslation } from "react-i18next";
 import {
@@ -12,7 +12,6 @@ const dataType = "";
 export default function ExportReportToMail() {
   const { t } = useTranslation();
   const [form] = Form.useForm();
-  console.log("form", form.getFieldsValue());
   const [isModalVisible, setIsModalVisible] = useState(false);
   const [email, setEmail] = useState([]); //callAPI get email
   const [emailUuid, setEmailUuid] = useState([]);
@@ -31,19 +30,6 @@ export default function ExportReportToMail() {
     { emailId: "8", name: "12345678", uuid: "12345678" },
     { emailId: "9", name: "123456789", uuid: "123456789" },
   ];
-
-  // const checkEmail = (value) => {
-  //   console.log("value", value);
-  //   const Reg =
-  //     /^[a-zA-Z0-9]+([\._-]?[a-zA-Z0-9]+)*@[a-zA-Z0-9]+([\_-]?[a-zA-Z0-9]+)*(\.[a-zA-Z]{2,4}){1,2}$/;
-  //   if (Reg.test(value.email)) {
-  //     console.log("true");
-  //     return true;
-  //   } else {
-  //     console.log("false");
-  //     return false;
-  //   }
-  // };
 
   const showModal = () => {
     setIsModalVisible(true);
@@ -67,9 +53,9 @@ export default function ExportReportToMail() {
   };
 
   const handleSubmit = async (value) => {
-    console.log(value)
+    console.log(value);
     handleOk();
-  }
+  };
 
   const renderHeader = (dataType) => {
     let name = "Gửi báo cáo";
@@ -153,7 +139,9 @@ export default function ExportReportToMail() {
                           //eslint-disable-next-line
                           if (
                             !value ||
-                            /^(([a-zA-Z0-9_\-\.]+)@([a-zA-Z0-9_\-\.]+)\.([a-zA-Z]{2,5}){1,25})+([,](([a-zA-Z0-9_\-\.]+)@([a-zA-Z0-9_\-\.]+)\.([a-zA-Z]{2,5}){1,25})+)*$/.test(value)
+                            /^(([a-zA-Z0-9_\-\.]+)@([a-zA-Z0-9_\-\.]+)\.([a-zA-Z]{2,5}){1,25})+([,](([a-zA-Z0-9_\-\.]+)@([a-zA-Z0-9_\-\.]+)\.([a-zA-Z]{2,5}){1,25})+)*$/.test(
+                              value
+                            )
                           ) {
                             return Promise.resolve();
                           }
@@ -190,6 +178,13 @@ export default function ExportReportToMail() {
                     >
                       {t("view.user.detail_list.confirm")}
                     </Button>
+                    {/* <Popconfirm
+                      cancelText={t("view.user.detail_list.cancel")}
+                      title={t("noti.delete_category", { this: t("this") })}
+                      onConfirm={() => handleSubmit()}
+                    >
+                      <div>aaaaaaaaaaaaaaaaaaa</div>
+                    </Popconfirm> */}
                     <Button onClick={handleCancel}>
                       {t("view.camera.close")}
                     </Button>

@@ -28,6 +28,50 @@ const ReportApi = {
     }
     return result;
   },
+
+  getTableData: async (body) => {
+    let result;
+    try {
+      result = await MyService.getRequestData(
+        "/owl/api/v1/get-data-table",
+        body
+      );
+    } catch (error) {
+      console.log(JSON.stringify(error));
+    }
+    if (handleErrCodeReport(result) === null) {
+      return [];
+    }
+    return result;
+  },
+
+  getData: async (body) => {
+    let result;
+
+    try {
+      result = await MyService.getRequestData("/owl/api/v1/get-data", body);
+    } catch (error) {
+      console.log(JSON.stringify(error));
+    }
+    if (handleErrCodeReport(result) === null) {
+      return [];
+    }
+    return result.payload;
+  },
+
+  getCompareData: async (body) => {
+    let result;
+
+    try {
+      result = await MyService.getRequestData("/owl/api/v1/compare-data", body);
+    } catch (error) {
+      console.log(JSON.stringify(error));
+    }
+    if (handleErrCodeReport(result) === null) {
+      return [];
+    }
+    return result.payload;
+  },
 };
 
 export default ReportApi;
