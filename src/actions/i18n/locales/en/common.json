@@ -601,7 +601,8 @@
       "to_text": "Text",
       "violation_proof": "Proof of violation",
       "violation_img": "Violating images",
-      "confirm_send": "Are you sure to submit this ticket"
+      "confirm_send": "Are you sure to submit this ticket",
+      "ticket_num": "Ticket number"
     }
   },
 

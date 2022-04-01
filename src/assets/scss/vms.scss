@@ -9,7 +9,6 @@
   //color: black;
 }
 
-
 html[dir] body .content .content-wrapper {
   padding: 0;
 }
@@ -23,7 +22,10 @@ html body .content .content-wrapper {
 .mapboxgl-map {
   min-height: 100vh;
 }
-
+.view-map-preview {
+  height: 100%;
+  min-height: unset;
+}
 [dir] footer.footer {
   padding: 0;
 }
@@ -42,8 +44,26 @@ body.dark-layout .main-menu-content .navigation-main .nav-item svg {
   border: $vms-blue;
 }
 
-[dir] body.dark-layout .nav-tabs .nav-item .nav-link, [dir] body.dark-layout .nav-tabs.nav-justified .nav-item .nav-link, [dir] body.dark-layout .nav:not(.nav-pills) .nav-item .nav-link {
+[dir] body.dark-layout .nav-tabs .nav-item .nav-link,
+[dir] body.dark-layout .nav-tabs.nav-justified .nav-item .nav-link,
+[dir] body.dark-layout .nav:not(.nav-pills) .nav-item .nav-link {
   background-color: #191919;
+}
+
+::-webkit-input-placeholder {
+  color: $vms-white1;
+}
+
+::-moz-placeholder {
+  color: $vms-white1;
+}
+
+:-ms-input-placeholder {
+  color: $vms-white1;
+}
+
+::-ms-input-placeholder {
+  color: $vms-white1;
 }
 
 ::placeholder {
@@ -79,7 +99,6 @@ body.dark-layout .main-menu-content .navigation-main .nav-item svg {
   color: $vms-white1;
 }
 
-
 [dir] .mapboxgl-popup-content {
   background: $vms-black;
 }
@@ -94,17 +113,16 @@ body .content .content-wrapper {
   border-top-color: $vms-black;
 }
 
-
 .vms-main-blue-primary {
-  color: #1380FF !important;
+  color: #1380ff !important;
 }
 
 .vms-soft-statuts {
-  color: #E3F0FF !important;
+  color: #e3f0ff !important;
 }
 
 .vms-status {
-  color: #D0E5FF !important;
+  color: #d0e5ff !important;
 }
 
 .vms-bg-primary {
@@ -119,11 +137,11 @@ body .content .content-wrapper {
 }
 
 .vms-main-card {
-  color: #FCFEFF !important;
+  color: #fcfeff !important;
 }
 
 .vms-red-drak-mode {
-  color: #FF4646 !important;
+  color: #ff4646 !important;
 }
 
 [dir] .ant-form-item {
@@ -135,6 +153,13 @@ body .content .content-wrapper {
   margin-bottom: 0rem;
 }
 
-[dir] .ant-form-item-has-error :not(.ant-input-disabled).ant-input, [dir] .ant-form-item-has-error :not(.ant-input-affix-wrapper-disabled).ant-input-affix-wrapper, [dir] .ant-form-item-has-error :not(.ant-input-disabled).ant-input:hover, [dir] .ant-form-item-has-error :not(.ant-input-affix-wrapper-disabled).ant-input-affix-wrapper:hover {
+[dir] .ant-form-item-has-error :not(.ant-input-disabled).ant-input,
+[dir]
+  .ant-form-item-has-error
+  :not(.ant-input-affix-wrapper-disabled).ant-input-affix-wrapper,
+[dir] .ant-form-item-has-error :not(.ant-input-disabled).ant-input:hover,
+[dir]
+  .ant-form-item-has-error
+  :not(.ant-input-affix-wrapper-disabled).ant-input-affix-wrapper:hover {
   background-color: #030303;
 }

@@ -358,10 +358,17 @@ const TableFile = (props) => {
           render: renderTime,
         },
         {
+          title: `${t('view.penalty_ticket.ticket_num')}`,
+          dataIndex: 'penaltyTicketId',
+          key: 'penaltyTicketId',
+          width: 200,
+          render: renderName,
+        },
+        {
           title: `${t('view.common_device.status')}`,
           dataIndex: 'status',
           key: 'status',
-          width: 240,
+          width: 160,
           render: renderName,
         },
         {
@@ -558,13 +565,13 @@ const TableFile = (props) => {
         searchType: 'all',
         searchValue: value,
         eventUuid: eventUuid,
-      });
-    }else {
+      })
+    } else {
       dataParam = Object.assign({
         ...searchParam,
         searchType: 'all',
         searchValue: value,
-      });
+      })
     }
     props.onSearch(dataParam)
   }
