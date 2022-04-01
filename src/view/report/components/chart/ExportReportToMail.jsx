@@ -20,15 +20,15 @@ export default function ExportReportToMail() {
   const [chooseEmail, setChooseEmail] = useState(true);
 
   const fakeEmail = [
-    { emailId: "1", name: "1", uuid: "1" },
-    { emailId: "2", name: "12", uuid: "12" },
-    { emailId: "3", name: "123", uuid: "123" },
-    { emailId: "4", name: "1234", uuid: "1234" },
-    { emailId: "5", name: "12345", uuid: "12345" },
-    { emailId: "6", name: "123456", uuid: "123456" },
-    { emailId: "7", name: "1234567", uuid: "1234567" },
-    { emailId: "8", name: "12345678", uuid: "12345678" },
-    { emailId: "9", name: "123456789", uuid: "123456789" },
+    { emailId: "1", name: "nguyenvana@gmail.com", uuid: "1" },
+    { emailId: "2", name: "nguyenvanb@gmail.com", uuid: "12" },
+    { emailId: "3", name: "nguyenvanc@gmail.com", uuid: "123" },
+    { emailId: "4", name: "nguyenvand@gmail.com", uuid: "1234" },
+    { emailId: "5", name: "nguyenvane@gmail.com", uuid: "12345" },
+    { emailId: "6", name: "nguyenvanf@gmail.com", uuid: "123456" },
+    { emailId: "7", name: "nguyenvang@gmail.com", uuid: "1234567" },
+    { emailId: "8", name: "nguyenvanh@gmail.com", uuid: "12345678" },
+    { emailId: "9", name: "nguyenvani@gmail.com", uuid: "123456789" },
   ];
 
   const showModal = () => {
@@ -54,18 +54,32 @@ export default function ExportReportToMail() {
 
   const handleSubmit = async (value) => {
     console.log(value);
-    handleOk();
+    confirm()
+    // handleOk();
   };
 
   const renderHeader = (dataType) => {
-    let name = "Gửi báo cáo";
+    let name = `${t("view.report.sent_data")}`;
     return <div className="table__title">{name}</div>;
   };
+
+  function confirm() {
+    Modal.confirm({
+      title: `${t("view.user.detail_list.confirm")}`,
+      icon: "",
+      content: 'Bla bla ...',
+      okText: `${t("view.user.detail_list.confirm")}`,
+      cancelText: 'KOOK',
+      onOk: () => {
+        handleOk();
+      }
+    });
+  }
 
   return (
     <>
       <div onClick={showModal} className="button-send">
-        Gửi dữ liệu
+        {t("view.report.sent_data")}
       </div>
       <Modal
         title={renderHeader(dataType)}
@@ -77,15 +91,15 @@ export default function ExportReportToMail() {
         destroyOnClose={true}
       >
         <div className="modal-custom-content">
-          <div className="modal-custom-content-to">Nơi nhận</div>
+          <div className="modal-custom-content-to">{t("view.report.to")}</div>
           <div className="modal-custom-content-wrapper">
             <Radio.Group
               onChange={onChange}
               value={chooseEmail}
               className="modal-custom-content-wrapper--radio"
             >
-              <Radio value={true}>Trong hệ thống</Radio>
-              <Radio value={false}>Lãnh đạo</Radio>
+              <Radio value={true}>{t("view.report.in_system")}</Radio>
+              <Radio value={false}>{t("view.report.leader")}</Radio>
             </Radio.Group>
             <Form form={form} onFinish={handleSubmit}>
               {chooseEmail == true ? (
@@ -108,7 +122,7 @@ export default function ExportReportToMail() {
                       // onChange={(cameraAI) => onChangeEmail(cameraAI)}
                       filterOption={filterOption}
                       options={normalizeOptions("name", "uuid", fakeEmail)}
-                      placeholder="//API AI"
+                      placeholder="Email"
                     />
                   </Form.Item>
                   <div className="button-wrapper">
@@ -117,7 +131,7 @@ export default function ExportReportToMail() {
                       htmlType="submit"
                       className="submit-button"
                     >
-                      {t("view.user.detail_list.confirm")}
+                      {t("view.report.sent")}
                     </Button>
                     <Button onClick={handleCancel}>
                       {t("view.camera.close")}
@@ -147,7 +161,7 @@ export default function ExportReportToMail() {
                           }
                           return Promise.reject(
                             new Error(
-                              "Email không hợp lệ, cách nhau bằng dấu ','"
+                              `${t("view.report.email_not_valid")}`
                             )
                           );
                         },
@@ -168,7 +182,6 @@ export default function ExportReportToMail() {
                       }}
                     />
                   </Form.Item>
-                  {message == true ? "sai định dạng" : ""}
                   <div className="button-wrapper">
                     <Button
                       type="primary"
@@ -176,15 +189,8 @@ export default function ExportReportToMail() {
                       className="submit-button"
                       on
                     >
-                      {t("view.user.detail_list.confirm")}
+                      {t("view.report.sent")}
                     </Button>
-                    {/* <Popconfirm
-                      cancelText={t("view.user.detail_list.cancel")}
-                      title={t("noti.delete_category", { this: t("this") })}
-                      onConfirm={() => handleSubmit()}
-                    >
-                      <div>aaaaaaaaaaaaaaaaaaa</div>
-                    </Popconfirm> */}
                     <Button onClick={handleCancel}>
                       {t("view.camera.close")}
                     </Button>

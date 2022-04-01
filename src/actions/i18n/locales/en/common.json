@@ -221,6 +221,7 @@
       "year": "Year",
       "date_range": "Date range",
       "export_data": "Export data",
+      "sent_data": "Sent data",
       "situation_chart": "SITUATION CHART:",
       "situation_report": "SITUATION REPORT:",
       "choose_type_chart": "Choose chart",
@@ -230,7 +231,12 @@
       "circle": "Circle type",
       "table": "Table type",
       "please_choose_chart_type": "Please choose chart type",
-      "type_violation": "Type of violation"
+      "type_violation": "Type of violation",
+      "to": "To",
+      "in_system": "In system",
+      "leader": "Leader",
+      "email_not_valid": "Please fill in valid email, separate by ','",
+      "sent": "Sent"
     },
     "pages": {
       "login": "Login",

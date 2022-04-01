@@ -2,18 +2,23 @@
 @import "../../../../assets//scss/core//mixins/vms-mixins";
 
 .BarChart {
-    padding-top: 25px;
-    width: 100%;
-    background-color: $vms-bg-sub;
+  padding-top: 25px;
+  width: 100%;
+  background-color: $vms-bg-sub;
 
-    &__title {
-        padding: 0px 15px 15px;
-        justify-content: space-between;
-        align-items: center;
-        display: flex;
-    }
+  &__title {
+    padding: 0px 15px 15px;
+    justify-content: space-between;
+    align-items: center;
+    display: flex;
+  }
 
-    .ExportBarChartReport {
-        display: flex;
-    }
+  .export {
+    display: flex;
+    flex-wrap: nowrap;
+  }
+
+  .ExportBarChartReport {
+    display: flex;
+  }
 }

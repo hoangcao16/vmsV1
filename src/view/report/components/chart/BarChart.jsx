@@ -17,6 +17,7 @@ import permissionCheck from "../../../../actions/function/MyUltil/PermissionChec
 import { loadDataChart } from "../../redux/actions";
 import "./barChart.scss";
 import ExportReport from "./ExportReport";
+import ExportReportToMail from "./ExportReportToMail";
 
 export const COLOR = ["#eb4034", "#7ccc47", "#425fd4"];
 
@@ -65,7 +66,10 @@ function BarChartComponent(props) {
               </h3>
 
               {permissionCheck("export_report") && (
-                <ExportReport type="comparativeReport" />
+                <div className="export">
+                  <ExportReport type="comparativeReport" />
+                  <ExportReportToMail />
+                </div>
               )}
             </div>
             <BarChart
