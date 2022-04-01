@@ -37,13 +37,19 @@ const PrintSection = ({
           {t('view.penalty_ticket.ticket')}
         </div>
         <div style={{ fontSize: '14px' }}>
-          {t('view.penalty_ticket.num')}:xxx
+          {t('view.penalty_ticket.num')}: {data?.penaltyTicketId}
         </div>
       </div>
       <table style={{ width: '100%', borderCollapse: 'collapse' }}>
         <tbody>
           <tr>
-            <td style={{ width: '30%', paddingBottom: '16px' }}>
+            <td
+              style={{
+                width: '30%',
+                paddingBottom: '16px',
+                fontWeight: 'bold',
+              }}
+            >
               {t('view.penalty_ticket.vehicle_type')}
             </td>
             <td style={{ paddingBottom: '16px' }}>
@@ -52,7 +58,13 @@ const PrintSection = ({
             </td>
           </tr>
           <tr>
-            <td style={{ width: '30%', paddingBottom: '16px' }}>
+            <td
+              style={{
+                width: '30%',
+                paddingBottom: '16px',
+                fontWeight: 'bold',
+              }}
+            >
               {t('view.ai_events.plateNumber')}
             </td>
             <td style={{ paddingBottom: '16px' }}>
@@ -60,13 +72,25 @@ const PrintSection = ({
             </td>
           </tr>
           <tr>
-            <td style={{ width: '30%', paddingBottom: '16px' }}>
+            <td
+              style={{
+                width: '30%',
+                paddingBottom: '16px',
+                fontWeight: 'bold',
+              }}
+            >
               {t('view.live.camera_record')}
             </td>
             <td style={{ paddingBottom: '16px' }}>{data?.cameraName}</td>
           </tr>
           <tr>
-            <td style={{ width: '30%', paddingBottom: '16px' }}>
+            <td
+              style={{
+                width: '30%',
+                paddingBottom: '16px',
+                fontWeight: 'bold',
+              }}
+            >
               {t('view.penalty_ticket.violation_datetime')}
             </td>
             <td style={{ paddingBottom: '16px' }}>
@@ -75,7 +99,13 @@ const PrintSection = ({
             </td>
           </tr>
           <tr>
-            <td style={{ width: '30%', paddingBottom: '16px' }}>
+            <td
+              style={{
+                width: '30%',
+                paddingBottom: '16px',
+                fontWeight: 'bold',
+              }}
+            >
               {t('view.penalty_ticket.violation_type')}
             </td>
             <td style={{ paddingBottom: '16px' }}>
@@ -83,7 +113,13 @@ const PrintSection = ({
             </td>
           </tr>
           <tr>
-            <td style={{ width: '30%', paddingBottom: '16px' }}>
+            <td
+              style={{
+                width: '30%',
+                paddingBottom: '16px',
+                fontWeight: 'bold',
+              }}
+            >
               {t('view.penalty_ticket.total_fine')}
             </td>
             <td style={{ paddingBottom: '16px' }}>
@@ -100,7 +136,13 @@ const PrintSection = ({
             </td>
           </tr>
           <tr>
-            <td style={{ verticalAlign: 'top', paddingBottom: '16px' }}>
+            <td
+              style={{
+                verticalAlign: 'top',
+                paddingBottom: '16px',
+                fontWeight: 'bold',
+              }}
+            >
               {t('view.penalty_ticket.violation_proof')}
             </td>
             <td>
@@ -112,17 +154,28 @@ const PrintSection = ({
                       style={{ maxWidth: '200px', height: '120px' }}
                       className='cursor-pointer'
                       src={urlSnapshot}
-                      alt='Avatar'
+                      alt='violation-img'
                     />
                   </div>
                 </div>
               ) : (
                 ''
               )}
-
-              {/* <div>
-              <div>Video:</div>
-            </div> */}
+              {data?.videoUrl ? (
+                <div className='violation_video'>
+                  Video:{' '}
+                  <a
+                    className='video-link'
+                    href={data.videoUrl}
+                    target='_blank'
+                    rel='noopener noreferrer'
+                  >
+                    Bấm để xem video
+                  </a>
+                </div>
+              ) : (
+                ''
+              )}
             </td>
           </tr>
         </tbody>
@@ -168,7 +221,7 @@ const TicketModal = ({ visible, handleOk, handleCancel, data }) => {
   })
   const handleSetFine = (e) => {
     setFine(e.target.value)
-    if (e.target.value !== '') {
+    if (e.target.value !== '' && !isNaN(parseFloat(e.target.value))) {
       const text = getText(parseFloat(e.target.value))
       setTotext(text.charAt(0).toUpperCase() + text.slice(1))
     } else {

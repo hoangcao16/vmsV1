@@ -13,8 +13,14 @@
   .pagebreak {
     page-break-before: always;
   }
+  .violation_video {
+    display: none;
+  }
 }
 /* page */
 @page {
   size: auto;
+}
+.video-link:hover {
+  color: #d0e5ff !important;
 }

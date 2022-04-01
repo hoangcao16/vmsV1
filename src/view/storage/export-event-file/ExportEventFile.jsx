@@ -72,6 +72,7 @@ import { MemoizedTableFile } from './TableFile'
 import { MemoizedThumbnailVideo } from './ThumbnailVideo'
 import SelectType from './components/select-type'
 import TicketModal from './components/ticket-modal'
+import PreviewMap from './components/mappreview'
 const AI_SOURCE = process.env.REACT_APP_AI_SOURCE
 const { TextArea } = Input
 const ExportEventFile = () => {
@@ -151,7 +152,7 @@ const ExportEventFile = () => {
   const [editMode, setEditMode] = useState(false)
   const [detailAI, setDetailAI] = useState(defaultEventFile)
   const [processState, setProcessState] = useState(processingstatusOptions[0])
-  const [objectType, setObjectType] = useState()
+  const [objectType, setObjectType] = useState(null)
   const [ticketModalVisible, setTicketModalVisible] = useState(false)
   const zoom = ((window.outerWidth - 10) / window.innerWidth) * 100
   const [visible, setVisible] = useState(false)
@@ -2335,7 +2336,7 @@ const ExportEventFile = () => {
         </Col>
         <Col span={16} className='viewFileContainer'>
           <Row className='screenView'>
-            <Col span={24}>
+            <Col span={16}>
               <div className='displayScreen'>
                 <div
                   className={`iconPoster ${
@@ -2388,6 +2389,9 @@ const ExportEventFile = () => {
                   alt=''
                 />
               </div>
+            </Col>
+            <Col span={8}>
+              <PreviewMap data={detailAI} fileCurrent={fileCurrent} />
             </Col>
           </Row>
           <Row className='playControl'>
