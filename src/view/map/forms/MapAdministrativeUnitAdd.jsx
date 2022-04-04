@@ -54,34 +54,45 @@ const MapAdministrativeUnitAdd = (props) => {
   } = props;
 
   useEffect(() => {
-    if (editAdminisUnit != null) {
-      setProvinceId(editAdminisUnit.provinceId);
-      form.setFieldsValue({
-        uuid: editAdminisUnit.uuid,
-        name: editAdminisUnit.name,
-        long_: editAdminisUnit.long_,
-        lat_: editAdminisUnit.lat_,
-        address: editAdminisUnit.address,
-        provinceId: editAdminisUnit.provinceId,
-        districtId: editAdminisUnit.districtId,
-        wardId: editAdminisUnit.wardId,
-        tel: editAdminisUnit.tel,
-      });
-      if (selectNewPosition) {
+    (async () => {
+      await fetchSelectOptions().then(setFilterOptions);
+      if (editAdminisUnit != null) {
+        // setProvinceId(editAdminisUnit.provinceId);
+        await AddressApi.getDistrictByProvinceId(
+          editAdminisUnit.provinceId
+        ).then(setDistrict);
+        if (editAdminisUnit.districtId) {
+          await AddressApi.getWardByDistrictId(editAdminisUnit.districtId).then(
+            setWard
+          );
+        }
         form.setFieldsValue({
-          long_: initialLatLgn[0],
-          lat_: initialLatLgn[1],
+          uuid: editAdminisUnit.uuid,
+          name: editAdminisUnit.name,
+          long_: editAdminisUnit.long_,
+          lat_: editAdminisUnit.lat_,
+          address: editAdminisUnit.address,
+          provinceId: editAdminisUnit.provinceId,
+          districtId: editAdminisUnit.districtId,
+          wardId: editAdminisUnit.wardId,
+          tel: editAdminisUnit.tel,
         });
+        if (selectNewPosition) {
+          form.setFieldsValue({
+            long_: initialLatLgn[0],
+            lat_: initialLatLgn[1],
+          });
+        }
+      } else {
+        if (selectNewPosition) {
+          form.setFieldsValue({
+            long_: initialLatLgn[0],
+            lat_: initialLatLgn[1],
+          });
+        }
       }
-    } else {
-      if (selectNewPosition) {
-        form.setFieldsValue({
-          long_: initialLatLgn[0],
-          lat_: initialLatLgn[1],
-        });
-      }
-    }
-    setImgFile(editAdminisUnit?.avatarFileName ?? "");
+      setImgFile(editAdminisUnit?.avatarFileName ?? "");
+    })();
   }, [
     editAdminisUnit,
     form,
@@ -104,9 +115,9 @@ const MapAdministrativeUnitAdd = (props) => {
 
   const [wards, setWard] = useState([]);
 
-  useEffect(() => {
-    fetchSelectOptions().then(setFilterOptions);
-  }, []);
+  // useEffect(() => {
+  //   fetchSelectOptions().then(setFilterOptions);
+  // }, []);
 
   useEffect(() => {
     setDistrict([]);
@@ -115,18 +126,8 @@ const MapAdministrativeUnitAdd = (props) => {
     if (provinceId) {
       AddressApi.getDistrictByProvinceId(provinceId).then(setDistrict);
     }
-    // if (editAdminisUnit && editAdminisUnit.districtId) {
-    //   AddressApi.getWardByDistrictId(editAdminisUnit.districtId).then(setWard);
-    // }
   }, [provinceId]);
 
-  useEffect(() => {
-    setWard([]);
-    if (editAdminisUnit && editAdminisUnit.districtId) {
-      AddressApi.getWardByDistrictId(editAdminisUnit.districtId).then(setWard);
-    }
-  }, [editAdminisUnit])
-  
   useEffect(() => {
     setWard([]);
     if (districtId) {
