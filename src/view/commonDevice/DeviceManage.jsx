@@ -1,14 +1,13 @@
-import { Tabs } from 'antd';
-import 'antd/dist/antd.css';
-import React from 'react';
-import { withRouter } from 'react-router-dom';
-import TableCamproxy from './camproxy/TableCamproxy';
-import './DeviceManage.scss';
-import TableNVR from './nvr/TableNVR';
-import TablePlayback from './playback/TablePlayback';
-import TableZone from './zone/TableZone';
+import { Tabs } from "antd";
+import React from "react";
+import { withRouter } from "react-router-dom";
+import TableCamproxy from "./camproxy/TableCamproxy";
+import "./DeviceManage.scss";
+import TableNVR from "./nvr/TableNVR";
+import TablePlayback from "./playback/TablePlayback";
+import TableZone from "./zone/TableZone";
 
-import Breadcrumds from './../breadcrumds/Breadcrumds';
+import Breadcrumds from "./../breadcrumds/Breadcrumds";
 import { useTranslation } from "react-i18next";
 
 const { TabPane } = Tabs;
@@ -19,8 +18,8 @@ const DeviceManage = () => {
     <>
       <Breadcrumds
         url="/app/setting"
-        nameParent={t('breadcrumd.setting')}
-        nameChild={t('view.user.device')}
+        nameParent={t("breadcrumd.setting")}
+        nameChild={t("view.user.device")}
       />
 
       <div className="tabs__container--store">

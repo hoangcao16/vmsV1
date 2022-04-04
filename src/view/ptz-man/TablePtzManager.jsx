@@ -1,13 +1,12 @@
-import { DeleteOutlined, EditOutlined } from '@ant-design/icons';
-import { Button, Card, message, Space, Table } from 'antd';
-import 'antd/dist/antd.css';
-import React, { useEffect, useState } from 'react';
-import { withRouter } from 'react-router-dom';
-import rest_api from '../../actions/rest_api';
-import { ShowTotal } from '../../styled/showTotal';
-import Loading from '../Loading';
-import './../commonStyle/commonTable.scss';
-import Breadcrumbs from '../../components/@vuexy/breadCrumbs/BreadCrumb';
+import { DeleteOutlined, EditOutlined } from "@ant-design/icons";
+import { Button, Card, message, Space, Table } from "antd";
+import React, { useEffect, useState } from "react";
+import { withRouter } from "react-router-dom";
+import rest_api from "../../actions/rest_api";
+import { ShowTotal } from "../../styled/showTotal";
+import Loading from "../Loading";
+import "./../commonStyle/commonTable.scss";
+import Breadcrumbs from "../../components/@vuexy/breadCrumbs/BreadCrumb";
 import Notification from "../../components/vms/notification/Notification";
 import { useTranslation } from "react-i18next";
 import { reactLocalStorage } from "reactjs-localstorage";
@@ -37,14 +36,14 @@ const TablePtzManager = () => {
   useEffect(() => {
     let unmounted = false;
     let params = {
-      zoneId: '',
-      name: '',
+      zoneId: "",
+      name: "",
       size: size,
-      page: page
+      page: page,
     };
     setLoading(true);
     rest_api
-      .get('/ptz-ctrl/ptz-man/profiles', params, null)
+      .get("/ptz-ctrl/ptz-man/profiles", params, null)
       .then((data) => {
         if (!unmounted) {
           if (data && data.rows) {
@@ -55,9 +54,9 @@ const TablePtzManager = () => {
       })
       .catch((error) => {
         Notification({
-          type: 'error',
-          title: '',
-          description: error.message
+          type: "error",
+          title: "",
+          description: error.message,
         });
       })
       .finally(() => {
@@ -72,67 +71,66 @@ const TablePtzManager = () => {
     let clientId = e.clientId;
   };
 
-
   const addNewPtzProfile = () => {
     setShowCreate(true);
   };
 
   const columns = [
     {
-      title: 'Tên',
-      dataIndex: 'name',
-      key: 'name',
-      className: 'headerColums',
+      title: "Tên",
+      dataIndex: "name",
+      key: "name",
+      className: "headerColums",
 
-      fxed: 'left'
+      fxed: "left",
     },
     {
-      title: 'ClientId',
-      dataIndex: 'clientId',
-      className: 'headerColums',
-      key: 'clientId'
+      title: "ClientId",
+      dataIndex: "clientId",
+      className: "headerColums",
+      key: "clientId",
     },
     {
-      title: 'Key',
-      dataIndex: 'clientKey',
-      className: 'headerColums',
-      key: 'clientKey'
+      title: "Key",
+      dataIndex: "clientKey",
+      className: "headerColums",
+      key: "clientKey",
     },
     {
-      title: 'Zone',
-      dataIndex: 'zoneName',
-      className: 'headerColums',
-      key: 'zoneName'
+      title: "Zone",
+      dataIndex: "zoneName",
+      className: "headerColums",
+      key: "zoneName",
     },
     {
-      title: 'Trạng thái',
-      dataIndex: 'status',
-      className: 'headerColums',
-      key: 'status'
+      title: "Trạng thái",
+      dataIndex: "status",
+      className: "headerColums",
+      key: "status",
     },
     {
-      title: 'Last seen',
-      dataIndex: 'lastConnected',
-      className: 'headerColums',
-      key: 'lastConnected'
+      title: "Last seen",
+      dataIndex: "lastConnected",
+      className: "headerColums",
+      key: "lastConnected",
     },
     {
-      title: 'Thời gian',
-      dataIndex: 'updateAt',
-      className: 'headerColums',
-      key: 'updateAt'
+      title: "Thời gian",
+      dataIndex: "updateAt",
+      className: "headerColums",
+      key: "updateAt",
     },
     {
-      title: 'Người thao tác',
-      className: 'headerColums',
-      dataIndex: 'updateBy',
-      key: 'updateBy'
+      title: "Người thao tác",
+      className: "headerColums",
+      dataIndex: "updateBy",
+      key: "updateBy",
     },
     {
-      title: 'Chỉnh sửa',
-      className: 'headerColums',
-      width: '12%',
-      fixed: 'right',
+      title: "Chỉnh sửa",
+      className: "headerColums",
+      width: "12%",
+      fixed: "right",
       render: (text, record) => {
         return (
           <Space>
@@ -142,14 +140,11 @@ const TablePtzManager = () => {
                 editPtz(record);
               }}
             />
-            <Button
-              icon={<DeleteOutlined />}
-
-            />
+            <Button icon={<DeleteOutlined />} />
           </Space>
         );
-      }
-    }
+      },
+    },
   ];
 
   return (
@@ -160,7 +155,7 @@ const TablePtzManager = () => {
         breadCrumbActive="Danh sách"
       />
       <Card className="mb-1">
-        <div style={{ display: 'flex', justifyContent: 'space-between' }}>
+        <div style={{ display: "flex", justifyContent: "space-between" }}>
           <div>
             <h1>Danh sách PTZ module</h1>
           </div>
@@ -173,7 +168,7 @@ const TablePtzManager = () => {
         rowKey="clientId"
         size="medium"
         columns={columns}
-        scroll={{ x: 'max-content' }}
+        scroll={{ x: "max-content" }}
         dataSource={rows}
         pagination={{
           hideOnSinglePage: false,
@@ -189,7 +184,7 @@ const TablePtzManager = () => {
                 Đang xem {range[0]} đến {range[1]} trong tổng số {total} mục
               </ShowTotal>
             );
-          }
+          },
         }}
       />
       {/*<CreatePtzProfile visible={showCreate} setVisible={setShowCreate}/>*/}

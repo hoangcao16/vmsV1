@@ -4,42 +4,49 @@ import {
   StyledOutSideSelect,
   StyledEmailInput,
   ErrorMessage,
-} from './style'
-import { Row, Col, Radio, Button, Form } from 'antd'
-import React, { useEffect, useState } from 'react'
-import { useTranslation } from 'react-i18next'
-import { useForm, Controller } from 'react-hook-form'
-import { yupResolver } from '@hookform/resolvers/yup'
-import * as Yup from 'yup'
+} from "./style";
+import { Row, Col, Radio, Button, Form } from "antd";
+import React, { useEffect, useState } from "react";
+import { useTranslation } from "react-i18next";
+import { useForm, Controller } from "react-hook-form";
 const OutSideSystemOptions = [
   {
-    label: 'Hệ thống 1',
+    label: "Hệ thống 1",
     value: 1,
   },
   {
-    label: 'Hệ thống 2',
+    label: "Hệ thống 2",
     value: 2,
   },
   {
-    label: 'Hệ thống 3',
+    label: "Hệ thống 3",
     value: 3,
   },
-]
+];
+const defaultValues = {
+  email: "",
+};
 const SendTicketModal = ({
   sendModalVisible,
   handleSendTicket,
   handleCancelSend,
+  resetForm,
 }) => {
-  const { t } = useTranslation()
-  const [activeTab, setActiveTab] = useState(1)
+  const { t } = useTranslation();
+  const [activeTab, setActiveTab] = useState(1);
   const hanldeTabs = (e) => {
-    setActiveTab(e.target.value)
-  }
+    setActiveTab(e.target.value);
+  };
   const {
     handleSubmit,
     control,
+    reset,
     formState: { errors },
-  } = useForm()
+  } = useForm({ mode: "all", defaultValues: defaultValues });
+  useEffect(() => {
+    reset(defaultValues);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [resetForm]);
   return (
     <>
       <StyledSendTicketModal
@@ -54,45 +61,48 @@ const SendTicketModal = ({
         <form onSubmit={handleSubmit(handleSendTicket)}>
           <Row>
             <Col span={6}>
-              <span>Nơi nhận</span>
+              <span>{t("view.penalty_ticket.recipients")}</span>
             </Col>
             <Col span={17} offset={1}>
               <Row>
                 <Radio.Group
-                  name='radiogroup'
+                  name="radiogroup"
                   defaultValue={1}
                   onChange={hanldeTabs}
                 >
-                  <Radio value={1}>Ngoài hệ thống</Radio>
-                  <Radio value={2}>Lãnh đạo</Radio>
+                  <Radio value={1}>
+                    {t("view.penalty_ticket.outside-the-system")}
+                  </Radio>
+                  <Radio value={2}>{t("view.penalty_ticket.leader")}</Radio>
                 </Radio.Group>
               </Row>
               <Row>
-                <Col span={24} className='email-content'>
+                <Col span={24} className="email-content">
                   {activeTab === 1 ? (
                     <StyledOutSideSelect
                       options={OutSideSystemOptions}
-                      className='react-select'
-                      classNamePrefix='select-outside-system'
+                      className="react-select"
+                      classNamePrefix="select-outside-system"
                     />
                   ) : (
                     <Controller
-                      name='email'
+                      name="email"
                       rules={{
                         pattern: {
                           value:
                             /^(([a-zA-Z0-9_\-\.]+)@([a-zA-Z0-9_\-\.]+)\.([a-zA-Z]{2,5}){1,25})+(\s*[,]\s*(([a-zA-Z0-9_\-\.]+)@([a-zA-Z0-9_\-\.]+)\.([a-zA-Z]{2,5}){1,25})+)*$/,
-                          message: 'Giữa các email cách nhau một dấu ","',
+                          message: t("view.penalty_ticket.validate-email"),
                         },
-                        required: 'Invalid email',
+                        required: t("view.penalty_ticket.require-email"),
                       }}
                       control={control}
                       render={({ field }) => (
                         <>
                           <StyledEmailInput
                             autoSize={true}
+                            maxLength={100}
                             {...field}
-                            data-type={errors?.email ? 'error' : 'normal'}
+                            data-type={errors?.email ? "error" : "normal"}
                           />
                           <ErrorMessage>{errors.email?.message}</ErrorMessage>
                         </>
@@ -103,22 +113,27 @@ const SendTicketModal = ({
               </Row>
             </Col>
           </Row>
-          <Row className='ant-modal-footer'>
+          <Row className="ant-modal-footer">
             <Col offset={12} span={12}>
-              <Button type='primary' htmlType='submit'>
-                {t('view.penalty_ticket.send_ticket')}
+              <Button type="primary" htmlType="submit">
+                {t("view.penalty_ticket.send_ticket")}
               </Button>
               <Button onClick={handleCancelSend}>
-                {t('view.camera.close')}
+                {t("view.camera.close")}
               </Button>
             </Col>
           </Row>
         </form>
       </StyledSendTicketModal>
     </>
-  )
-}
-export default SendTicketModal
+  );
+};
+export default SendTicketModal;
 const Header = () => {
-  return <SendTicketModalHeader>Gửi phiếu phạt</SendTicketModalHeader>
-}
+  const { t } = useTranslation();
+  return (
+    <SendTicketModalHeader>
+      {t("view.penalty_ticket.send-a-ticket")}
+    </SendTicketModalHeader>
+  );
+};

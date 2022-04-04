@@ -608,7 +608,14 @@
       "violation_proof": "Proof of violation",
       "violation_img": "Violating images",
       "confirm_send": "Are you sure to submit this ticket",
-      "ticket_num": "Ticket number"
+      "ticket_num": "Ticket number",
+      "recipients": "Recipients",
+      "outside-the-system": "Outside the system",
+      "leader": "Leader",
+      "require-email": "Enter/paste email address",
+      "validate-email": "Enter malformed email e.g. abc@gmail.com, xyz@gmail.com",
+      "send-a-ticket": "Send ticket",
+      "click-to-view-video": "Click to view video"
     }
   },
 

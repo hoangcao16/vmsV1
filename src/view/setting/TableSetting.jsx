@@ -1,10 +1,9 @@
-import 'antd/dist/antd.css';
-import React, { useEffect } from 'react';
-import { withRouter } from 'react-router-dom';
+import React, { useEffect } from "react";
+import { withRouter } from "react-router-dom";
 
 const TableSetting = () => {
   useEffect(() => {
-    document.title = 'CCTV | Setting';
+    document.title = "CCTV | Setting";
   }, []);
 
   return (

@@ -1,5 +1,5 @@
-@import '../../../assets/scss/core/variables/vms-variable';
-@import '../../../assets/scss/core/mixins/vms-mixins';
+@import "../../../assets/scss/core/variables/vms-variable";
+@import "../../../assets/scss/core/mixins/vms-mixins";
 
 .viewFileContainer {
   padding-left: 12px !important;
@@ -11,7 +11,7 @@
 
     .displayScreen {
       height: 100%;
-
+      max-height: 500px;
       .iconPoster {
         width: 100%;
         height: 100%;
@@ -485,8 +485,8 @@
         }
 
         li.name::before {
-          content: '';
-          background: transparent url('../../../assets/img/icons/folder.png')
+          content: "";
+          background: transparent url("../../../assets/img/icons/folder.png")
             no-repeat center;
           background-size: contain;
           position: absolute;
@@ -498,9 +498,9 @@
         }
 
         li.pathFile::before {
-          content: '';
+          content: "";
           background: transparent
-            url('../../../assets/img/icons/camera-list/cameraUrl.png') no-repeat
+            url("../../../assets/img/icons/camera-list/cameraUrl.png") no-repeat
             center;
           background-size: contain;
           position: absolute;
@@ -512,8 +512,8 @@
         }
 
         li.cameraName::before {
-          content: '';
-          background: transparent url('../../../assets/img/icons/camera.png')
+          content: "";
+          background: transparent url("../../../assets/img/icons/camera.png")
             no-repeat center;
           background-size: contain;
           position: absolute;
@@ -525,8 +525,8 @@
         }
 
         li.createdTime::before {
-          content: '';
-          background: transparent url('../../../assets/img/icons/calendar.png')
+          content: "";
+          background: transparent url("../../../assets/img/icons/calendar.png")
             no-repeat center;
           background-size: contain;
           position: absolute;
@@ -538,9 +538,9 @@
         }
 
         li.address::before {
-          content: '';
+          content: "";
           background: transparent
-            url('../../../assets/img/icons/camera-list/address.png') no-repeat
+            url("../../../assets/img/icons/camera-list/address.png") no-repeat
             center;
           background-size: contain;
           position: absolute;

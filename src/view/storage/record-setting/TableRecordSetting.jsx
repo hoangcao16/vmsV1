@@ -9,27 +9,26 @@ import {
   Row,
   Select,
   TimePicker,
-  Space
-} from 'antd';
-import 'antd/dist/antd.css';
-import moment from 'moment';
-import React, { useEffect, useState } from 'react';
-import { withRouter } from 'react-router-dom';
-import SettingApi from '../../../actions/api/setting/SettingApi';
-import './../../commonStyle/commonCard.scss';
-import './../../commonStyle/commonDatePicker.scss';
-import './../../commonStyle/commonInput.scss';
-import './../../commonStyle/commonSelect.scss';
-import './styleRecording.scss';
+  Space,
+} from "antd";
+import moment from "moment";
+import React, { useEffect, useState } from "react";
+import { withRouter } from "react-router-dom";
+import SettingApi from "../../../actions/api/setting/SettingApi";
+import "./../../commonStyle/commonCard.scss";
+import "./../../commonStyle/commonDatePicker.scss";
+import "./../../commonStyle/commonInput.scss";
+import "./../../commonStyle/commonSelect.scss";
+import "./styleRecording.scss";
 import Breadcrumbs from "../../../components/@vuexy/breadCrumbs/BreadCrumb";
 import Notification from "../../../components/vms/notification/Notification";
 
 const { Option } = Select;
-const format = 'HH:mm';
+const format = "HH:mm";
 
 const TYPE_RECORD = {
-  recordingVideoFullTime: 'RecordingVideoFullTime',
-  recordingVideosSchedule: 'RecordingVideosSchedule'
+  recordingVideoFullTime: "RecordingVideoFullTime",
+  recordingVideosSchedule: "RecordingVideosSchedule",
 };
 
 const DEFAULT_FORM = {
@@ -38,49 +37,49 @@ const DEFAULT_FORM = {
   recordingVideosSchedule: false,
   fromTime: 0,
   toTime: 0,
-  days: []
+  days: [],
 };
 
 const TIME = {
-  DAILY: 'DAILY',
-  MON: 'MON',
-  TUE: 'TUE',
-  WED: 'WED',
-  THU: 'THU',
-  FRI: 'FRI',
-  SAT: 'SAT',
-  SUN: 'SUN'
+  DAILY: "DAILY",
+  MON: "MON",
+  TUE: "TUE",
+  WED: "WED",
+  THU: "THU",
+  FRI: "FRI",
+  SAT: "SAT",
+  SUN: "SUN",
 };
 
 const optionTime = [
   {
-    label: '60 giây',
-    value: 60
+    label: "60 giây",
+    value: 60,
   },
   {
-    label: '80 giây',
-    value: 80
+    label: "80 giây",
+    value: 80,
   },
   {
-    label: '90 giây',
-    value: 90
+    label: "90 giây",
+    value: 90,
   },
   {
-    label: '120 giây',
-    value: 120
+    label: "120 giây",
+    value: 120,
   },
   {
-    label: '150 giây',
-    value: 150
+    label: "150 giây",
+    value: 150,
   },
   {
-    label: '180 giây',
-    value: 180
+    label: "180 giây",
+    value: 180,
   },
   {
-    label: 'Khác',
-    value: -1
-  }
+    label: "Khác",
+    value: -1,
+  },
 ];
 
 const TableRecordSetting = () => {
@@ -95,7 +94,7 @@ const TableRecordSetting = () => {
   const [recordingVideo, setRecordingVideo] = useState(null);
 
   useEffect(() => {
-    document.title = 'CCTV | Cấu hình Recording';
+    document.title = "CCTV | Cấu hình Recording";
   }, []);
 
   useEffect(() => {
@@ -122,7 +121,7 @@ const TableRecordSetting = () => {
 
   const handleSubmit = async (value) => {
     const payload = {
-      ...value
+      ...value,
     };
 
     const payloadConverted = {
@@ -135,21 +134,21 @@ const TableRecordSetting = () => {
       recordingVideoScheduleDto: {
         fromTime: payload.fromTime,
         toTime: payload.toTime,
-        days: payload.days
-      }
+        days: payload.days,
+      },
     };
 
     try {
       const isPost = await SettingApi.postRecordingVideo(payloadConverted);
 
       if (isPost) {
-        message.success('Cài đặt thành công');
+        message.success("Cài đặt thành công");
       }
     } catch (error) {
       Notification({
-        type: 'error',
-        title: 'Record setting',
-        description: error.toString()
+        type: "error",
+        title: "Record setting",
+        description: error.toString(),
       });
     }
 
@@ -186,8 +185,8 @@ const TableRecordSetting = () => {
                 name="recordingVideoSizeSaveInput"
                 rules={[{ required: valueTime === -1 ?? false }]}
                 extra={
-                  <span style={{ color: 'red', paddingLeft: '10px' }}>
-                    {' '}
+                  <span style={{ color: "red", paddingLeft: "10px" }}>
+                    {" "}
                     Tối đa 3000s
                   </span>
                 }
@@ -200,7 +199,7 @@ const TableRecordSetting = () => {
             ) : null}
           </Row>
 
-          <p style={{ paddingTop: '20px' }}>Thể loại</p>
+          <p style={{ paddingTop: "20px" }}>Thể loại</p>
 
           <Radio.Group onChange={onChangeValueType} value={typeRecording}>
             <Space direction="vertical">
@@ -212,16 +211,16 @@ const TableRecordSetting = () => {
           </Radio.Group>
 
           {typeRecording === TYPE_RECORD.recordingVideosSchedule ? (
-            <Row gutter={24} style={{ marginTop: '20px' }}>
+            <Row gutter={24} style={{ marginTop: "20px" }}>
               <Col
                 span={12}
-                style={{ display: 'flex', justifyContent: 'flex-start' }}
+                style={{ display: "flex", justifyContent: "flex-start" }}
               >
                 <div
                   style={{
-                    height: '40px',
-                    lineHeight: '40px',
-                    paddingRight: '20px'
+                    height: "40px",
+                    lineHeight: "40px",
+                    paddingRight: "20px",
                   }}
                 >
                   Lặp lại
@@ -254,13 +253,13 @@ const TableRecordSetting = () => {
                 <Row gutter={24}>
                   <Col
                     span={6}
-                    style={{ display: 'flex', justifyContent: 'space-between' }}
+                    style={{ display: "flex", justifyContent: "space-between" }}
                   >
                     <div
                       style={{
-                        height: '40px',
-                        lineHeight: '40px',
-                        paddingRight: '10px'
+                        height: "40px",
+                        lineHeight: "40px",
+                        paddingRight: "10px",
                       }}
                     >
                       Từ:
@@ -271,13 +270,13 @@ const TableRecordSetting = () => {
                   </Col>
                   <Col
                     span={6}
-                    style={{ display: 'flex', justifyContent: 'space-between' }}
+                    style={{ display: "flex", justifyContent: "space-between" }}
                   >
                     <div
                       style={{
-                        height: '40px',
-                        lineHeight: '40px',
-                        paddingRight: '10px'
+                        height: "40px",
+                        lineHeight: "40px",
+                        paddingRight: "10px",
                       }}
                     >
                       Đến:
@@ -290,24 +289,24 @@ const TableRecordSetting = () => {
               </Col>
             </Row>
           ) : null}
-          <Row style={{ display: 'flex', justifyContent: 'flex-end' }}>
+          <Row style={{ display: "flex", justifyContent: "flex-end" }}>
             <div
               className="submit"
               style={{
-                textAlign: 'center'
+                textAlign: "center",
               }}
             >
               <Button
                 type="primary"
                 htmlType="submit"
                 style={{
-                  backgroundColor: '#7367F0',
-                  borderColor: '#7367F0',
+                  backgroundColor: "#7367F0",
+                  borderColor: "#7367F0",
                   marginTop: 15,
                   marginBottom: 25,
                   height: 40,
                   borderRadius: 6,
-                  width: 120
+                  width: 120,
                 }}
               >
                 Lưu
@@ -334,14 +333,14 @@ async function convertRecordingVideo(data) {
     recordingVideosSchedule:
       data?.recordingVideosSchedule || DEFAULT_FORM.recordingVideosSchedule,
     fromTime:
-      moment(data?.recordingVideoScheduleDto?.fromTime).format('HH:mm') ||
-      moment().set('hour', 7).startOf('hour') ||
+      moment(data?.recordingVideoScheduleDto?.fromTime).format("HH:mm") ||
+      moment().set("hour", 7).startOf("hour") ||
       moment(DEFAULT_FORM.fromTime),
     toTime:
-      moment(data?.recordingVideoScheduleDto?.toTime).format('HH:mm') ||
-      moment().set('hour', 7).startOf('hour') ||
+      moment(data?.recordingVideoScheduleDto?.toTime).format("HH:mm") ||
+      moment().set("hour", 7).startOf("hour") ||
       moment(DEFAULT_FORM.toTime),
-    days: data?.recordingVideoScheduleDto?.days || DEFAULT_FORM.days
+    days: data?.recordingVideoScheduleDto?.days || DEFAULT_FORM.days,
   };
 
   return result;

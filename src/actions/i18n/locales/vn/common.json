@@ -609,7 +609,14 @@
       "violation_proof": "Bằng chứng vi phạm",
       "violation_img": "Hình ảnh vi phạm",
       "confirm_send": "Bạn có chắc chắn gửi phiếu phạt này",
-      "ticket_num": "Mã phiếu phạt"
+      "ticket_num": "Mã phiếu phạt",
+      "recipients": "Nơi nhận",
+      "outside-the-system": "Ngoài hệ thống",
+      "leader": "Lãnh đạo",
+      "require-email": "Nhập/dán địa chỉ email",
+      "validate-email": "Nhập email không đúng định dạng, ví dụ: abc@gmail.com, xyz@gmail.com",
+      "send-a-ticket": "Gửi phiếu phạt",
+      "click-to-view-video": "Bấm để xem video"
     }
   },
 

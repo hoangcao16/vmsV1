@@ -1,27 +1,26 @@
-import { notification } from 'antd';
-import 'antd/dist/antd.css';
-import { isEmpty } from 'lodash';
-import React, { useEffect, useState } from 'react';
-import { Check, Lock, Mail } from 'react-feather';
-import { useTranslation } from 'react-i18next';
-import { Link } from 'react-router-dom';
-import { reactLocalStorage } from 'reactjs-localstorage';
-import { Button, CardBody, Form, FormGroup, Input, Label } from 'reactstrap';
-import UserApi from '../../../../actions/api/user/UserApi';
-import { handleErrCodeAuthZ } from '../../../../actions/function/MyUltil/ResponseChecker';
-import rest_api from '../../../../actions/rest_api';
-import Checkbox from '../../../../components/@vuexy/checkbox/CheckboxesVuexy';
-import { history } from '../../../../history';
-import './LoginDefault.scss';
+import { notification } from "antd";
+import { isEmpty } from "lodash";
+import React, { useEffect, useState } from "react";
+import { Check, Lock, Mail } from "react-feather";
+import { useTranslation } from "react-i18next";
+import { Link } from "react-router-dom";
+import { reactLocalStorage } from "reactjs-localstorage";
+import { Button, CardBody, Form, FormGroup, Input, Label } from "reactstrap";
+import UserApi from "../../../../actions/api/user/UserApi";
+import { handleErrCodeAuthZ } from "../../../../actions/function/MyUltil/ResponseChecker";
+import rest_api from "../../../../actions/rest_api";
+import Checkbox from "../../../../components/@vuexy/checkbox/CheckboxesVuexy";
+import { history } from "../../../../history";
+import "./LoginDefault.scss";
 
 const LoginDefault = () => {
   const { t } = useTranslation();
-  const [email, setEmail] = useState('');
-  const [password, setPassword] = useState('');
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
   const [remember, setRemember] = useState(false);
 
   useEffect(() => {
-    let loginInfo = reactLocalStorage.getObject('login_info', null);
+    let loginInfo = reactLocalStorage.getObject("login_info", null);
     if (loginInfo !== undefined && loginInfo !== null) {
       let email = loginInfo.email;
       let password = loginInfo.password;
@@ -40,19 +39,19 @@ const LoginDefault = () => {
 
     if (isEmpty(email) || isEmpty(password)) {
       notification.error({
-        message: `${t('noti.faid')}`,
-        description: `${t('noti.full_account_password')}`,
-        duration: 2
+        message: `${t("noti.faid")}`,
+        description: `${t("noti.full_account_password")}`,
+        duration: 2,
       });
       return;
     }
 
     const payload = {
       email: email,
-      password: password
+      password: password,
     };
     rest_api.post(
-      '/authz/login',
+      "/authz/login",
       payload,
       async (data) => {
         const dataHandle = handleErrCodeAuthZ(data);
@@ -63,30 +62,30 @@ const LoginDefault = () => {
             refreshToken: data?.refreshToken,
             email: email,
             userUuid: data?.userUuid,
-            avatar_file_name: data?.avatar_file_name
+            avatar_file_name: data?.avatar_file_name,
           };
-          await reactLocalStorage.setObject('user', user);
+          await reactLocalStorage.setObject("user", user);
 
           await UserApi.getPermissionForUserLogin().then((result) => {
-            reactLocalStorage.setObject('permissionUser', result);
+            reactLocalStorage.setObject("permissionUser", result);
           });
 
           if (remember) {
             let loginInfo = {
               email: email,
-              password: password
+              password: password,
             };
-            reactLocalStorage.setObject('login_info', loginInfo);
+            reactLocalStorage.setObject("login_info", loginInfo);
           } else {
-            reactLocalStorage.remove('login_info');
+            reactLocalStorage.remove("login_info");
           }
 
           notification.success({
-            message: `${t('noti.success')}`,
-            description: `${t('noti.logged_in_successfully')}`,
-            duration: 2
+            message: `${t("noti.success")}`,
+            description: `${t("noti.logged_in_successfully")}`,
+            duration: 2,
           });
-          history.push('/');
+          history.push("/");
         }
       },
       null,
@@ -99,52 +98,51 @@ const LoginDefault = () => {
       <CardBody className="pt-1">
         <Form action="/" onSubmit={handleLogin}>
           <FormGroup className="form-label-group position-relative has-icon-left">
-              <Input
-                style={{
-                  backgroundColor: '#262c49',
-                  color: '#ebeefd',
-                  border: 'none'
-                }}
-                type="text"
-                placeholder={t('view.pages.account')}
-                value={email}
-                maxLength={255}
-                onChange={(e) => {
-                  const value = e.target.value.trim();
-                  setEmail(value);
-
-                }}
+            <Input
+              style={{
+                backgroundColor: "#262c49",
+                color: "#ebeefd",
+                border: "none",
+              }}
+              type="text"
+              placeholder={t("view.pages.account")}
+              value={email}
+              maxLength={255}
+              onChange={(e) => {
+                const value = e.target.value.trim();
+                setEmail(value);
+              }}
               // required
-              />
+            />
 
             <div className="form-control-position">
               <Mail size={15} color="#c2c6dc" />
             </div>
-            <Label style={{ color: '#c2c6dc !important' }}>
-              {t('view.pages.account')}
+            <Label style={{ color: "#c2c6dc !important" }}>
+              {t("view.pages.account")}
             </Label>
           </FormGroup>
           <FormGroup className="form-label-group position-relative has-icon-left">
-              <Input
-                style={{
-                  backgroundColor: '#262c49',
-                  color: '#ebeefd',
-                  border: 'none'
-                }}
-                type="password"
-                maxLength={255}
-                placeholder={t('view.pages.password')}
-                value={password}
-                onChange={(e) => {
-                  setPassword(e.target.value.replace(/\s/g, ''));
-                }}
+            <Input
+              style={{
+                backgroundColor: "#262c49",
+                color: "#ebeefd",
+                border: "none",
+              }}
+              type="password"
+              maxLength={255}
+              placeholder={t("view.pages.password")}
+              value={password}
+              onChange={(e) => {
+                setPassword(e.target.value.replace(/\s/g, ""));
+              }}
               // required
-              />
+            />
 
             <div className="form-control-position">
               <Lock size={15} color="#c2c6dc" />
             </div>
-            <Label>{t('view.pages.password')}</Label>
+            <Label>{t("view.pages.password")}</Label>
           </FormGroup>
           <FormGroup className="d-flex justify-content-between align-items-center">
             <Checkbox
@@ -153,9 +151,9 @@ const LoginDefault = () => {
               icon={<Check className="vx-icon" size={16} />}
               label={
                 <p
-                  style={{ color: '#c2c6dc', alignItems: 'center', margin: 0 }}
+                  style={{ color: "#c2c6dc", alignItems: "center", margin: 0 }}
                 >
-                  {t('view.pages.save_account')}
+                  {t("view.pages.save_account")}
                 </p>
               }
               checked={remember}
@@ -163,7 +161,7 @@ const LoginDefault = () => {
             />
             <div className="float-right">
               <Link to="/pages/forgot-password">
-                {t('view.pages.forgot_password')}
+                {t("view.pages.forgot_password")}
               </Link>
             </div>
           </FormGroup>
@@ -180,7 +178,7 @@ const LoginDefault = () => {
             </Button.Ripple> */}
             <div className="d-flex justify-content-between">
               <Button.Ripple color="primary" type="submit">
-                {t('view.pages.login')}
+                {t("view.pages.login")}
               </Button.Ripple>
             </div>
           </div>

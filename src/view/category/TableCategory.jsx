@@ -3,8 +3,8 @@ import {
   EditOutlined,
   InfoCircleOutlined,
   PlusOutlined,
-  SearchOutlined
-} from '@ant-design/icons';
+  SearchOutlined,
+} from "@ant-design/icons";
 import {
   AutoComplete,
   Button,
@@ -13,63 +13,62 @@ import {
   Select,
   Space,
   Table,
-  Tooltip
-} from 'antd';
-import 'antd/dist/antd.css';
-import { isEmpty } from 'lodash-es';
-import React, { useEffect, useState } from 'react';
-import { useTranslation } from 'react-i18next';
-import { withRouter } from 'react-router-dom';
-import { reactLocalStorage } from 'reactjs-localstorage';
-import CameraApi from '../../actions/api/camera/CameraApi';
-import DepartmentApi from '../../actions/api/department/DepartmentApi';
-import EventApi from '../../actions/api/event/EventApi';
-import FieldApi from '../../actions/api/field/FieldApi';
-import TagApi from '../../actions/api/tag';
-import VendorApi from '../../actions/api/vendor/VendorApi';
-import Notification from '../../components/vms/notification/Notification';
-import Breadcrumds from '../breadcrumds/Breadcrumds';
-import './../commonStyle/commonInput.scss';
-import './../commonStyle/commonSelect.scss';
-import './../commonStyle/commonTable.scss';
-import ModalEditCategory from './ModalEditCategory';
-import ModalUpdateTag from './ModalUpdateTag';
-import ModalUpdateDepartment from './ModalUpdateDepartment';
-import ModalViewDetail from './ModalViewDetail';
-import './TableCategory.scss';
-import { bodyStyleCard, headStyleCard } from './variables';
+  Tooltip,
+} from "antd";
+import { isEmpty } from "lodash-es";
+import React, { useEffect, useState } from "react";
+import { useTranslation } from "react-i18next";
+import { withRouter } from "react-router-dom";
+import { reactLocalStorage } from "reactjs-localstorage";
+import CameraApi from "../../actions/api/camera/CameraApi";
+import DepartmentApi from "../../actions/api/department/DepartmentApi";
+import EventApi from "../../actions/api/event/EventApi";
+import FieldApi from "../../actions/api/field/FieldApi";
+import TagApi from "../../actions/api/tag";
+import VendorApi from "../../actions/api/vendor/VendorApi";
+import Notification from "../../components/vms/notification/Notification";
+import Breadcrumds from "../breadcrumds/Breadcrumds";
+import "./../commonStyle/commonInput.scss";
+import "./../commonStyle/commonSelect.scss";
+import "./../commonStyle/commonTable.scss";
+import ModalEditCategory from "./ModalEditCategory";
+import ModalUpdateTag from "./ModalUpdateTag";
+import ModalUpdateDepartment from "./ModalUpdateDepartment";
+import ModalViewDetail from "./ModalViewDetail";
+import "./TableCategory.scss";
+import { bodyStyleCard, headStyleCard } from "./variables";
 
 export const CATEGORY_NAME = {
-  EVENT_TYPE: 'EVENT_TYPE',
-  VENDOR: 'VENDOR',
-  CAMERA_TYPE: 'CAMERA_TYPE',
-  FIELD: 'FIELD',
-  TAGS: 'TAGS',
-  DEPARTMENTS: 'DEPARTMENTS'
+  EVENT_TYPE: "EVENT_TYPE",
+  VENDOR: "VENDOR",
+  CAMERA_TYPE: "CAMERA_TYPE",
+  FIELD: "FIELD",
+  TAGS: "TAGS",
+  DEPARTMENTS: "DEPARTMENTS",
 };
 
 const { Option } = Select;
 const TableCategory = () => {
   const { t } = useTranslation();
-  const language = reactLocalStorage.get('language');
+  const language = reactLocalStorage.get("language");
   const [dataOptions, setDataOptions] = useState({});
   const [dataType, setDataType] = useState(CATEGORY_NAME.VENDOR);
   const [selectedCategoryId, setSelectedCategoryId] = useState(null);
   const [selectedUnitId, setSelectedUnitId] = useState(null);
   const [showModal, setShowModal] = useState(false);
-  const [search, setSearch] = useState('');
+  const [search, setSearch] = useState("");
 
   useEffect(() => {
     if (
-      language === 'vn'
-        ? (document.title = 'CCTV | Quản lý danh mục')
-        : (document.title = 'CCTV | Category Management')
+      language === "vn"
+        ? (document.title = "CCTV | Quản lý danh mục")
+        : (document.title = "CCTV | Category Management")
     );
   }, [t]);
 
   useEffect(() => {
     const data = {
-      name: ''
+      name: "",
     };
     fetchOptionsData(data).then((data) => {
       setDataOptions(data);
@@ -78,7 +77,7 @@ const TableCategory = () => {
 
   const handleChange = (value) => {
     setDataType(value);
-    setSearch('')
+    setSearch("");
   };
 
   const getDataByCategory = (dataType) => {
@@ -120,25 +119,25 @@ const TableCategory = () => {
     let name;
 
     if (dataType === CATEGORY_NAME.CAMERA_TYPE) {
-      name = `${t('view.map.camera_type', { cam: t('camera') })}`;
+      name = `${t("view.map.camera_type", { cam: t("camera") })}`;
     }
 
     if (dataType === CATEGORY_NAME.VENDOR) {
-      name = `${t('view.category.camera_vendor', { cam: t('camera') })}`;
+      name = `${t("view.category.camera_vendor", { cam: t("camera") })}`;
     }
 
     if (dataType === CATEGORY_NAME.FIELD) {
-      name = `${t('view.category.field')}`;
+      name = `${t("view.category.field")}`;
     }
 
     if (dataType === CATEGORY_NAME.EVENT_TYPE) {
-      name = `${t('view.category.event_type')}`;
+      name = `${t("view.category.event_type")}`;
     }
     if (dataType === CATEGORY_NAME.TAGS) {
-      name = `${t('view.category.tags')}`;
+      name = `${t("view.category.tags")}`;
     }
     if (dataType === CATEGORY_NAME.DEPARTMENTS) {
-      name = `${t('view.category.department')}`;
+      name = `${t("view.category.department")}`;
     }
 
     return (
@@ -155,37 +154,34 @@ const TableCategory = () => {
             style={{ width: 350, height: 40, marginRight: 18 }}
             placeholder={
               <div>
-                <span> &nbsp;{t('view.map.search')} </span>{' '}
+                <span> &nbsp;{t("view.map.search")} </span>{" "}
                 <SearchOutlined style={{ fontSize: 22 }} />
               </div>
             }
           ></AutoComplete>
-          <Select
-            defaultValue={CATEGORY_NAME.VENDOR}
-            onChange={handleChange}
-          >
+          <Select defaultValue={CATEGORY_NAME.VENDOR} onChange={handleChange}>
             <Option value={CATEGORY_NAME.VENDOR}>
-              {t('view.category.camera_vendor', { cam: t('camera') })}
+              {t("view.category.camera_vendor", { cam: t("camera") })}
             </Option>
             <Option value={CATEGORY_NAME.FIELD}>
-              {t('view.category.field')}
+              {t("view.category.field")}
             </Option>
 
             <Option value={CATEGORY_NAME.CAMERA_TYPE}>
-              {t('view.map.camera_type', { cam: t('camera') })}
+              {t("view.map.camera_type", { cam: t("camera") })}
             </Option>
             <Option value={CATEGORY_NAME.EVENT_TYPE}>
-              {t('view.category.event_type')}
+              {t("view.category.event_type")}
             </Option>
             <Option value={CATEGORY_NAME.TAGS}>
-              {t('view.category.tags')}
+              {t("view.category.tags")}
             </Option>
             <Option value={CATEGORY_NAME.DEPARTMENTS}>
-              {t('view.category.department')}
+              {t("view.category.department")}
             </Option>
           </Select>
 
-          <Tooltip placement="top" title={t('add')}>
+          <Tooltip placement="top" title={t("add")}>
             <Button
               type="primary"
               onClick={() => {
@@ -196,7 +192,6 @@ const TableCategory = () => {
               <PlusOutlined />
             </Button>
           </Tooltip>
-
         </div>
       </div>
     );
@@ -215,39 +210,54 @@ const TableCategory = () => {
   const handleSearch = async (value) => {
     setSearch(value);
     const data = {
-      name: value.replace(/[&\/\\#,+()$~%.^'":*?<>{}]/g, '')
+      name: value.replace(/[&\/\\#,+()$~%.^'":*?<>{}]/g, ""),
     };
     // const dataSearch = await fetchOptionsData(data);
     // setDataOptions(dataSearch);
     let dataSearch;
     if (dataType === CATEGORY_NAME.VENDOR) {
       dataSearch = await VendorApi.getAllVendor(data);
-      setDataOptions((prev) => { return {...prev, vendors: dataSearch}})
+      setDataOptions((prev) => {
+        return { ...prev, vendors: dataSearch };
+      });
     }
 
     if (dataType === CATEGORY_NAME.FIELD) {
       dataSearch = await FieldApi.getAllFeild(data);
-      setDataOptions((prev) => { return {...prev, field: dataSearch}})
+      setDataOptions((prev) => {
+        return { ...prev, field: dataSearch };
+      });
     }
 
     if (dataType === CATEGORY_NAME.CAMERA_TYPE) {
       dataSearch = await CameraApi.getAllCameraTypes(data);
-      setDataOptions((prev) => { return {...prev, cameraTypes: dataSearch}})
+      setDataOptions((prev) => {
+        return { ...prev, cameraTypes: dataSearch };
+      });
     }
 
     if (dataType === CATEGORY_NAME.EVENT_TYPE) {
       dataSearch = await EventApi.getAllEvent(data);
-      setDataOptions((prev) => { return {...prev, eventTypes: dataSearch}})
+      setDataOptions((prev) => {
+        return { ...prev, eventTypes: dataSearch };
+      });
     }
 
     if (dataType === CATEGORY_NAME.TAGS) {
       dataSearch = await TagApi.getAllTags(data);
-      setDataOptions((prev) => { return {...prev, tags: dataSearch}})
+      setDataOptions((prev) => {
+        return { ...prev, tags: dataSearch };
+      });
     }
 
     if (dataType === CATEGORY_NAME.DEPARTMENTS) {
-      dataSearch = await DepartmentApi.getAllDepartment({...data, administrativeUnitUuid:""});
-      setDataOptions((prev) => { return {...prev, departments: dataSearch}})
+      dataSearch = await DepartmentApi.getAllDepartment({
+        ...data,
+        administrativeUnitUuid: "",
+      });
+      setDataOptions((prev) => {
+        return { ...prev, departments: dataSearch };
+      });
     }
   };
 
@@ -262,12 +272,12 @@ const TableCategory = () => {
       isDelete = await CameraApi.deleteCameraType(id);
 
       const notifyMess = {
-        type: 'success',
-        title: '',
-        description: `${t('noti.successfully_delete_camera_type', {
-          delete: t('delete'),
-          cam: t('camera')
-        })}`
+        type: "success",
+        title: "",
+        description: `${t("noti.successfully_delete_camera_type", {
+          delete: t("delete"),
+          cam: t("camera"),
+        })}`,
       };
       isDelete && Notification(notifyMess);
     }
@@ -275,12 +285,12 @@ const TableCategory = () => {
     if (dataType === CATEGORY_NAME.VENDOR) {
       isDelete = await VendorApi.delete(id);
       const notifyMess = {
-        type: 'success',
-        title: '',
-        description: `${t('noti.successfully_delete_camera_vendor', {
-          delete: t('delete'),
-          cam: t('camera')
-        })}`
+        type: "success",
+        title: "",
+        description: `${t("noti.successfully_delete_camera_vendor", {
+          delete: t("delete"),
+          cam: t("camera"),
+        })}`,
       };
       isDelete && Notification(notifyMess);
     }
@@ -288,11 +298,11 @@ const TableCategory = () => {
     if (dataType === CATEGORY_NAME.FIELD) {
       isDelete = await FieldApi.deleteField(id);
       const notifyMess = {
-        type: 'success',
-        title: '',
-        description: `${t('noti.successfully_delete_field', {
-          delete: t('delete')
-        })}`
+        type: "success",
+        title: "",
+        description: `${t("noti.successfully_delete_field", {
+          delete: t("delete"),
+        })}`,
       };
       isDelete && Notification(notifyMess);
     }
@@ -300,11 +310,11 @@ const TableCategory = () => {
     if (dataType === CATEGORY_NAME.EVENT_TYPE) {
       isDelete = await EventApi.deleteEvent(id);
       const notifyMess = {
-        type: 'success',
-        title: '',
-        description: `${t('noti.successfully_delete_event_type', {
-          delete: t('delete')
-        })}`
+        type: "success",
+        title: "",
+        description: `${t("noti.successfully_delete_event_type", {
+          delete: t("delete"),
+        })}`,
       };
       isDelete && Notification(notifyMess);
     }
@@ -312,11 +322,11 @@ const TableCategory = () => {
     if (dataType === CATEGORY_NAME.TAGS) {
       isDelete = await TagApi.deleteTagById(id);
       const notifyMess = {
-        type: 'success',
-        title: '',
-        description: `${t('noti.successfully_delete_tag_type', {
-          delete: t('delete')
-        })}`
+        type: "success",
+        title: "",
+        description: `${t("noti.successfully_delete_tag_type", {
+          delete: t("delete"),
+        })}`,
       };
       isDelete && Notification(notifyMess);
     }
@@ -324,16 +334,16 @@ const TableCategory = () => {
     if (dataType === CATEGORY_NAME.DEPARTMENTS) {
       isDelete = await DepartmentApi.delete(id);
       const notifyMess = {
-        type: 'success',
-        title: '',
-        description: `${t('noti.successfully_delete_dep_type', {
-          delete: t('delete')
-        })}`
+        type: "success",
+        title: "",
+        description: `${t("noti.successfully_delete_dep_type", {
+          delete: t("delete"),
+        })}`,
       };
       isDelete && Notification(notifyMess);
     }
     const data = {
-      name: ''
+      name: "",
     };
     fetchOptionsData(data).then(setDataOptions);
   };
@@ -342,59 +352,60 @@ const TableCategory = () => {
     setSelectedUnitId(null);
   };
 
-  const { vendors, cameraTypes, field, eventTypes, tags, departments } = dataOptions;
+  const { vendors, cameraTypes, field, eventTypes, tags, departments } =
+    dataOptions;
 
   const categoryColumns = [
     {
-      title: `${t('view.storage.NO')}`,
-      key: 'index',
-      className: 'headerColums',
-      width: '10%',
-      render: (text, record, index) => index + 1
+      title: `${t("view.storage.NO")}`,
+      key: "index",
+      className: "headerColums",
+      width: "10%",
+      render: (text, record, index) => index + 1,
     },
 
     {
-      title: `${t('view.category.category_name')}`,
-      dataIndex: 'name',
-      key: 'name',
+      title: `${t("view.category.category_name")}`,
+      dataIndex: "name",
+      key: "name",
       ellipsis: true,
       // width: '50%',
-      className: 'headerColums'
+      className: "headerColums",
     },
 
     {
-      title: `${t('view.storage.action')}`,
-      className: 'headerColums',
-      width: '12%',
+      title: `${t("view.storage.action")}`,
+      className: "headerColums",
+      width: "12%",
       render: (_text, record) => {
         return (
           <Space>
-            <Tooltip placement="top" title={t('view.common_device.edit')}>
+            <Tooltip placement="top" title={t("view.common_device.edit")}>
               <EditOutlined
-                style={{ fontSize: '16px', color: '#6E6B7B' }}
+                style={{ fontSize: "16px", color: "#6E6B7B" }}
                 onClick={() => {
                   setSelectedCategoryId(record.uuid);
                   setShowModal(true);
                 }}
               />
             </Tooltip>
-            <Tooltip placement="top" title={t('delete')}>
+            <Tooltip placement="top" title={t("delete")}>
               <Popconfirm
-                title={t('noti.delete_category', { this: t('this') })}
+                title={t("noti.delete_category", { this: t("this") })}
                 cancelText={t("view.user.detail_list.cancel")}
                 okText={t("view.user.detail_list.confirm")}
                 onConfirm={() => handleDelete(record.uuid, dataType)}
               >
                 <DeleteOutlined
-                  style={{ fontSize: '16px', color: '#6E6B7B' }}
+                  style={{ fontSize: "16px", color: "#6E6B7B" }}
                 />
               </Popconfirm>
             </Tooltip>
 
             {dataType === CATEGORY_NAME.AD_DIVISIONS && (
-              <Tooltip placement="top" title={t('view.common_device.detail')}>
+              <Tooltip placement="top" title={t("view.common_device.detail")}>
                 <InfoCircleOutlined
-                  style={{ fontSize: '16px', color: '#6E6B7B' }}
+                  style={{ fontSize: "16px", color: "#6E6B7B" }}
                   onClick={() => {
                     setSelectedUnitId(record.uuid);
                   }}
@@ -403,35 +414,35 @@ const TableCategory = () => {
             )}
           </Space>
         );
-      }
-    }
+      },
+    },
   ];
 
   const addFieldColumn = {
-    title: `${t('view.category.field')}`,
-    dataIndex: 'fieldName',
-    key: 'fieldName',
-    width: '40%',
+    title: `${t("view.category.field")}`,
+    dataIndex: "fieldName",
+    key: "fieldName",
+    width: "40%",
 
-    className: 'headerColums'
+    className: "headerColums",
   };
 
   const addTagColumns = [
     {
-      title: `${t('view.category.category_name')}`,
-      dataIndex: 'key',
-      key: 'key',
-      className: 'headerColums'
-    }
+      title: `${t("view.category.category_name")}`,
+      dataIndex: "key",
+      key: "key",
+      className: "headerColums",
+    },
   ];
 
   const addDepartmentColumns = [
     {
-      title: `${t('view.category.administrative_unit')}`,
-      dataIndex: 'administrativeName',
-      key: 'administrativeName',
-      className: 'headerColums'
-    }
+      title: `${t("view.category.administrative_unit")}`,
+      dataIndex: "administrativeName",
+      key: "administrativeName",
+      className: "headerColums",
+    },
   ];
 
   if (dataType === CATEGORY_NAME.EVENT_TYPE) {
@@ -456,7 +467,7 @@ const TableCategory = () => {
             setShowModal={setShowModal}
           />
         );
-      }else if (dataType === CATEGORY_NAME.DEPARTMENTS) {
+      } else if (dataType === CATEGORY_NAME.DEPARTMENTS) {
         modalHtml = (
           <ModalUpdateDepartment
             selectedCategoryId={selectedCategoryId}
@@ -480,8 +491,8 @@ const TableCategory = () => {
     <div className="tabs__container--category">
       <Breadcrumds
         url="/app/setting"
-        nameParent={t('breadcrumd.setting')}
-        nameChild={t('view.user.category_management')}
+        nameParent={t("breadcrumd.setting")}
+        nameChild={t("view.user.category_management")}
       />
 
       <Card
@@ -497,7 +508,7 @@ const TableCategory = () => {
           columns={categoryColumns}
           dataSource={getDataByCategory(dataType)}
           locale={{
-            emptyText: `${t('view.user.detail_list.no_valid_results_found')}`
+            emptyText: `${t("view.user.detail_list.no_valid_results_found")}`,
           }}
         />
       </Card>
@@ -509,8 +520,6 @@ const TableCategory = () => {
         />
       )}
     </div>
-
-
   );
 };
 
@@ -521,7 +530,7 @@ async function fetchOptionsData(data) {
     FieldApi.getAllFeild(data),
     EventApi.getAllEvent(data),
     TagApi.getAllTags(data),
-    DepartmentApi.getAllDepartment({...data, administrativeUnitUuid:""}) 
+    DepartmentApi.getAllDepartment({ ...data, administrativeUnitUuid: "" }),
   ]);
 
   return {
@@ -530,7 +539,7 @@ async function fetchOptionsData(data) {
     field: payload[2],
     eventTypes: payload[3],
     tags: payload[4],
-    departments: payload[5]
+    departments: payload[5],
   };
 }
 

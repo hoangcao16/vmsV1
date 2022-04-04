@@ -1,17 +1,16 @@
-import { EditOutlined, SearchOutlined } from '@ant-design/icons';
-import { AutoComplete, Card, Space, Table, Tag, Tooltip } from 'antd';
-import 'antd/dist/antd.css';
-import React, { useEffect, useState } from 'react';
-import { useTranslation } from 'react-i18next';
-import { withRouter } from 'react-router-dom';
+import { EditOutlined, SearchOutlined } from "@ant-design/icons";
+import { AutoComplete, Card, Space, Table, Tag, Tooltip } from "antd";
+import React, { useEffect, useState } from "react";
+import { useTranslation } from "react-i18next";
+import { withRouter } from "react-router-dom";
 import { reactLocalStorage } from "reactjs-localstorage";
-import NVRApi from '../../../actions/api/nvr/NVRApi';
-import Loading from '../../Loading';
-import './../../commonStyle/commonTable.scss';
-import './../../commonStyle/commontextArea.scss';
-import ModalEditNVR from './ModalEditNVR';
-import './styleNVR.scss';
-import { bodyStyleCard, headStyleCard } from './variables';
+import NVRApi from "../../../actions/api/nvr/NVRApi";
+import Loading from "../../Loading";
+import "./../../commonStyle/commonTable.scss";
+import "./../../commonStyle/commontextArea.scss";
+import ModalEditNVR from "./ModalEditNVR";
+import "./styleNVR.scss";
+import { bodyStyleCard, headStyleCard } from "./variables";
 
 const TableNVR = () => {
   const { t } = useTranslation();
@@ -19,8 +18,8 @@ const TableNVR = () => {
   const [listNVR, setListNVR] = useState([]);
   const [loading, setLoading] = useState(false);
   const [size] = useState(50);
-  const [val, setVal] = useState('');
-  const page = 0
+  const [val, setVal] = useState("");
+  const page = 0;
 
   const language = reactLocalStorage.get("language");
 
@@ -35,9 +34,9 @@ const TableNVR = () => {
   useEffect(() => {
     setLoading(true);
     const data = {
-      name: '',
+      name: "",
       page: page,
-      size: size
+      size: size,
     };
     if (!selectedNVRIdEdit) {
       NVRApi.getAllNVR(data).then(setListNVR).finally(setLoading(false));
@@ -54,7 +53,7 @@ const TableNVR = () => {
     const data = {
       name: value.trim(),
       page: page,
-      size: size
+      size: size,
     };
     const dataNVRSearch = await NVRApi.getAllNVR(data);
     setListNVR(dataNVRSearch);
@@ -72,61 +71,68 @@ const TableNVR = () => {
 
   const renderTag = (cellValue) => {
     return (
-      <Tag color={cellValue === 'UP' ? '#1380FF' : '#FF4646'} style={{ color: '#ffffff' }}>{cellValue === 'UP' ? `${t('view.camera.active')}` : `${t('view.camera.inactive')}`}</Tag>
+      <Tag
+        color={cellValue === "UP" ? "#1380FF" : "#FF4646"}
+        style={{ color: "#ffffff" }}
+      >
+        {cellValue === "UP"
+          ? `${t("view.camera.active")}`
+          : `${t("view.camera.inactive")}`}
+      </Tag>
     );
   };
 
   const NVRColumns = [
     {
-      title: `${t('view.category.no')}`,
-      key: 'index',
-      className: 'headerColums',
-      width: '5%',
-      render: (text, record, index) => index + 1
+      title: `${t("view.category.no")}`,
+      key: "index",
+      className: "headerColums",
+      width: "5%",
+      render: (text, record, index) => index + 1,
     },
     {
-      title: `${t('view.common_device.nvr_name')}`,
-      dataIndex: 'name',
-      key: 'name',
-      width: '20%',
-      className: 'headerColums'
-    },
-
-    {
-      title: `${t('view.common_device.desc')}`,
-      dataIndex: 'description',
-      className: 'headerColums',
-      width: '20%',
-      key: 'description'
+      title: `${t("view.common_device.nvr_name")}`,
+      dataIndex: "name",
+      key: "name",
+      width: "20%",
+      className: "headerColums",
     },
 
     {
-      title: `${t('view.common_device.note')}`,
-      dataIndex: 'note',
-      key: 'note',
-      width: '20%',
-      className: 'headerColums'
+      title: `${t("view.common_device.desc")}`,
+      dataIndex: "description",
+      className: "headerColums",
+      width: "20%",
+      key: "description",
     },
 
     {
-      title: `${t('view.common_device.status')}`,
-      dataIndex: 'status',
-      key: 'status',
-      width: '20%',
-      className: 'headerColums',
-      render: renderTag
+      title: `${t("view.common_device.note")}`,
+      dataIndex: "note",
+      key: "note",
+      width: "20%",
+      className: "headerColums",
     },
 
     {
-      title: `${t('view.common_device.action')}`,
-      className: 'headerColums',
-      width: '15%',
+      title: `${t("view.common_device.status")}`,
+      dataIndex: "status",
+      key: "status",
+      width: "20%",
+      className: "headerColums",
+      render: renderTag,
+    },
+
+    {
+      title: `${t("view.common_device.action")}`,
+      className: "headerColums",
+      width: "15%",
       render: (text, record) => {
         return (
           <Space>
-            <Tooltip placement="rightTop" title={t('view.common_device.edit')}>
+            <Tooltip placement="rightTop" title={t("view.common_device.edit")}>
               <EditOutlined
-                style={{ fontSize: '16px', color: '#6E6B7B' }}
+                style={{ fontSize: "16px", color: "#6E6B7B" }}
                 onClick={() => {
                   setSelectedNVRIdEdit(record.uuid);
                 }}
@@ -134,10 +140,9 @@ const TableNVR = () => {
             </Tooltip>
           </Space>
         );
-      }
-    }
+      },
+    },
   ];
-
 
   return (
     <div className="tabs__container--device">
@@ -152,20 +157,19 @@ const TableNVR = () => {
           placeholder={
             <div className="placehoder height-40 justify-content-between d-flex align-items-center">
               <span>
-                {' '}
-                &nbsp;{' '}
-                {t('view.common_device.please_enter_nvr_name', {
-                  plsEnter: t('please_enter')
-                })}{' '}
-              </span>{' '}
-              <SearchOutlined style={{ fontSize: 22, pointer: 'cussor' }} />
+                {" "}
+                &nbsp;{" "}
+                {t("view.common_device.please_enter_nvr_name", {
+                  plsEnter: t("please_enter"),
+                })}{" "}
+              </span>{" "}
+              <SearchOutlined style={{ fontSize: 22, pointer: "cussor" }} />
             </div>
           }
         />
       </div>
       <Card
-        title={t('view.common_device.nvr_list')}
-
+        title={t("view.common_device.nvr_list")}
         bodyStyle={bodyStyleCard}
         headStyle={headStyleCard}
         className="card--listDevice"
@@ -177,7 +181,7 @@ const TableNVR = () => {
           columns={NVRColumns}
           dataSource={listNVR}
           locale={{
-            emptyText: `${t('view.user.detail_list.no_valid_results_found')}`
+            emptyText: `${t("view.user.detail_list.no_valid_results_found")}`,
           }}
         />
       </Card>

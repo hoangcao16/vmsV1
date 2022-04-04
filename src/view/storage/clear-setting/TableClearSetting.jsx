@@ -1,10 +1,9 @@
-import 'antd/dist/antd.css';
-import React, { useEffect } from 'react';
-import { withRouter } from 'react-router-dom';
+import React, { useEffect } from "react";
+import { withRouter } from "react-router-dom";
 
 const TableClearSetting = () => {
   useEffect(() => {
-    document.title = 'CCTV | Cấu hình dọn dẹp';
+    document.title = "CCTV | Cấu hình dọn dẹp";
   }, []);
 
   return (
