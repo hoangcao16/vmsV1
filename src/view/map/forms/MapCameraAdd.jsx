@@ -1,5 +1,6 @@
 import { LoadingOutlined, PlusOutlined } from "@ant-design/icons";
 import { Button, Col, Form, Input, Row, Select, Space, Upload } from "antd";
+import { data } from "jquery";
 import { isEmpty } from "lodash";
 import React, { useEffect, useState } from "react";
 import { useTranslation } from "react-i18next";
@@ -96,10 +97,16 @@ const MapCameraAdd = (props) => {
     beforeUpload,
   ] = useHandleUploadFile(imgFile);
 
-  useEffect(
-    (e) => {
+  useEffect(() => {
+    (async () => {
+      await fetchSelectOptions().then(setFilterOptions);
+
       if (editCam) {
-        setProvinceId(editCam.provinceId);
+        // setProvinceId(editCam.provinceId);
+        await AddressApi.getDistrictByProvinceId(editCam.provinceId).then(setDistrict);
+        if (editCam.districtId) {
+          await AddressApi.getWardByDistrictId(editCam.districtId).then(setWard);
+        }
         form.setFieldsValue({
           uuid: editCam.uuid,
           id: editCam.id,
@@ -157,17 +164,19 @@ const MapCameraAdd = (props) => {
       }
 
       setImgFile(editCam?.avatarFileName ?? "");
-    },
-    [editCam, form, initialLatLgn[0], initialLatLgn[1], selectNewPosition]
-  );
+    })();
+  }, [editCam, form, initialLatLgn[0], initialLatLgn[1], selectNewPosition]);
+
+  const { provinces, zones, vendors, cameraTypes, adDivisions } = filterOptions;
+
 
   const toggleCollapsedCameraForm = () => {
     setIsCollapsedCameraForm(isCollapsedCameraForm ? false : true);
   };
 
-  useEffect(() => {
-    fetchSelectOptions().then(setFilterOptions);
-  }, []);
+  // useEffect(() => {
+  //  fetchSelectOptions().then(setFilterOptions);
+  // }, []);
 
   useEffect(() => {
     setDistrict([]);
@@ -176,17 +185,7 @@ const MapCameraAdd = (props) => {
     if (provinceId) {
       AddressApi.getDistrictByProvinceId(provinceId).then(setDistrict);
     }
-    // if (editCam && editCam.districtId) {
-    //   AddressApi.getWardByDistrictId(editCam.districtId).then(setWard);
-    // }
   }, [provinceId]);
-
-  useEffect(() => {
-    setWard([]);
-    if (editCam && editCam.districtId) {
-      AddressApi.getWardByDistrictId(editCam.districtId).then(setWard);
-    }
-  }, [editCam]);
 
   useEffect(() => {
     setWard([]);
@@ -195,7 +194,6 @@ const MapCameraAdd = (props) => {
     }
   }, [districtId]);
 
-  const { provinces, zones, vendors, cameraTypes, adDivisions } = filterOptions;
 
   const uploadButton = (
     <div>
