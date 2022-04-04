@@ -51,7 +51,7 @@ const TableNVR = () => {
   const handleSearch = async (value) => {
     setVal(value);
     const data = {
-      name: value.trim(),
+      name: value.replace(/[#&]/g, ""),
       page: page,
       size: size,
     };
