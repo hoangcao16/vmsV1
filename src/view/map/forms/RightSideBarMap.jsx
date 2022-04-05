@@ -48,14 +48,22 @@ const RightSideBarMap = (props) => {
   useEffect(() => {
     if (camMetadata && filterType == CamType) {
       const totalPage = Math.ceil(camMetadata.total / PAGE_SIZE);
-      setTotalPage(totalPage);
+      if (totalPage < 1) {
+        setTotalPage(1);
+      } else {
+        setTotalPage(totalPage);
+      }
       setCurrentPage(camMetadata.page);
     }
   }, [camMetadata, currentPage, filterType]);
   useEffect(() => {
     if (adMetadata && filterType == AdministrativeUnitType) {
       const totalPage = Math.ceil(adMetadata.total / PAGE_SIZE);
-      setTotalPage(totalPage);
+      if (totalPage < 1) {
+        setTotalPage(1);
+      } else {
+        setTotalPage(totalPage);
+      }
       setCurrentPage(adMetadata.page);
     }
   }, [adMetadata, filterType]);

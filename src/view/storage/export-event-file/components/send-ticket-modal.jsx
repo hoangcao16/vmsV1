@@ -1,3 +1,4 @@
+/* eslint-disable no-useless-escape */
 import {
   StyledSendTicketModal,
   SendTicketModalHeader,
@@ -5,7 +6,7 @@ import {
   StyledEmailInput,
   ErrorMessage,
 } from "./style";
-import { Row, Col, Radio, Button, Form } from "antd";
+import { Row, Col, Radio, Button } from "antd";
 import React, { useEffect, useState } from "react";
 import { useTranslation } from "react-i18next";
 import { useForm, Controller } from "react-hook-form";

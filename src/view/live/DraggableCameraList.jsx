@@ -47,10 +47,11 @@ const DraggableCameraList = (props) => {
 
   const handleApplyFilterCallback1 = (data) => {
     handleApplyFilterCallback(data);
+    setCurrentPage(1);
   };
   const onPressEnter = (searchValue) => {
     handleSearch(searchValue);
-    setCurrentPage(1)
+    setCurrentPage(1);
   };
 
   const getItemStyle = (isDragging, draggableStyle) => ({
@@ -73,7 +74,7 @@ const DraggableCameraList = (props) => {
 
   let totalPage = Math.ceil(totalCameras / PAGE_SIZE);
   if (totalPage < 1) {
-    totalPage = 1
+    totalPage = 1;
   }
   const handleSelectPreviousPage = () => {
     if (currentPage === 1) {
