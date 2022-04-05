@@ -126,7 +126,7 @@ const AdministrativeUnit = () => {
   const handleSearch = async (value) => {
     setSearch(value);
     const data = {
-      name: value.replace(/[#&]/g, ""),
+      name: value.replace(/[#&%^]/g, ""),
     };
     const dataSearch = await fetchOptionsData(data);
     setDataOptions(dataSearch);
