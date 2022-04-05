@@ -22,6 +22,14 @@ body.dark-layout .form-label-group>textarea:not(:focus):not(:placeholder-shown)~
     // opacity: 1;
 }
 
+.form-label-group {
+    margin-bottom: 2rem;
+    label {
+        font-size: 1.4rem !important;
+        padding: 0 !important;
+    }
+}
+
 a:hover {
     color: #57aeff !important;
 }
