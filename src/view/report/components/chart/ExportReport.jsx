@@ -10,7 +10,6 @@ import exportIcon from "../../../../assets/img/icons/report/file-export 2.png";
 import Notification from "../../../../components/vms/notification/Notification";
 import "./ExportReport.scss";
 
-
 export default function ExportReport(props) {
   const language = reactLocalStorage.get("language");
   const { type } = props;
@@ -30,15 +29,14 @@ export default function ExportReport(props) {
       typeChart: type,
       lang: language,
     };
-    console.log("data", data)
     await ReportApi.getExportData(data).then((value) => {
-      if(value.type === "application/octet-stream"){
+      console.log("value", value);
+      if (value.type === "application/octet-stream") {
         const data = new Blob([value], { type: "application/vnd.ms-excel" });
         fileDownload(
           data,
           `Report_${moment().format("DD.MM.YYYY_HH.mm.ss")}.xlsx`
         );
-
       } else {
         const notifyMess = {
           type: "error",

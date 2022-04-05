@@ -19,7 +19,7 @@ const ReportApi = {
   getExportData: async (body) => {
     let result;
     try {
-      result = await MyService.getRequestData(
+      result = await MyService.getRequestDataBlob(
         "/owl/api/v1/export-excel-data",
         body
       );

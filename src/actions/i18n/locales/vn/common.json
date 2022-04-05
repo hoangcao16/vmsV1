@@ -673,6 +673,7 @@
     "successfully_add_zone": "Bạn đã thêm Zone thành công",
     "successfully_delete_zone": "Bạn đã xóa Zone thành công",
     "255_characters_limit": "Giới hạn 255 ký tự",
+    "100_characters_limit": "Giới hạn 100 ký tự",
     "20_characters_limit": "Giới hạn 20 ký tự",
     "do_not_have_permission_to_view_list_event": "Bạn không có quyền xem danh sách sự kiện",
     "error_get_file_check_again": "Đã xảy ra lỗi trong quá trình lấy danh sách tệp, hãy kiểm tra lại",
@@ -810,7 +811,9 @@
     "sure_to_delete": "Chắc chắn để xóa?",
     "are_you_sure_sent_data_for_this_email": "Bạn có chắc muốn gửi dữ liệu cho Email này?",
     "sent_mail_successful": "Gửi mail thành công",
-    "fail_sent_mail": "Gửi mail thất bại"
+    "fail_sent_mail": "Gửi mail thất bại",
+    "start_greater_end": "Không được chọn thời gian bắt đầu lớn hơn hoặc bằng thời gian kết thúc",
+    "end_smaller_start": "Không được chọn thời gian kết thúc nhỏ hơn hoặc bằng thời gian bắt đầu"
   },
   "breadcrumd": {
     "report": "Quản lý báo cáo",

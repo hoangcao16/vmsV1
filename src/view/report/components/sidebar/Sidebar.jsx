@@ -35,6 +35,7 @@ import { useTranslation } from "react-i18next";
 import { reactLocalStorage } from "reactjs-localstorage";
 import AICameraApi from "../../../../actions/api/ai-camera/AICameraApi.js";
 import WeekPicker from "./WeekPicker";
+import { CloudLightning } from "react-feather";
 
 moment.locale("en");
 
@@ -79,16 +80,14 @@ function Sidebar(props) {
     moment().subtract(4, "weeks")
   );
 
-  // console.log("timeStartWeek", timeStartWeek.format("WW-YYYY"))
-  
   const [timeEndWeek, setTimeEndWeek] = useState(moment());
-  // console.log("timeEndWeek", timeEndWeek.format("WW-YYYY"))
-  // console.log("timeEndWeek", timeEndWeek.subtract(11, "weeks").format("W"))
 
   const [timeStartMonth, setTimeStartMonth] = useState(
     moment().subtract(11, "months")
   );
+  console.log("timeStartMonth", timeStartMonth);
   const [timeEndMonth, setTimeEndMonth] = useState(moment());
+  console.log("timeEndMonth", timeEndMonth);
 
   const [timeStartYear, setTimeStartYear] = useState(
     moment().subtract(4, "years")
@@ -161,6 +160,142 @@ function Sidebar(props) {
       }
     });
   }, []);
+
+  //==================================================================
+
+  useEffect(() => {
+    if (moment(timeEndDay).diff(timeStartDay, "d") >= 12) {
+      form.setFieldsValue({
+        timeEndDay: moment(timeStartDay).add(11, "days"),
+      });
+      setTimeEndDay(form.getFieldValue("timeEndDay"));
+    }
+    if (moment(timeStartDay).diff(timeEndDay, "d") >= 0) {
+      form.setFieldsValue({
+        timeStartDay: "",
+      });
+      const notifyMess = {
+        type: "error",
+        title: "",
+        description: t("noti.start_greater_end"),
+      };
+      Notification(notifyMess);
+      return;
+    }
+  }, [timeStartDay]);
+
+  useEffect(() => {
+    if (moment(timeEndDay).diff(timeStartDay, "d") >= 12) {
+      form.setFieldsValue({
+        timeStartDay: moment(timeEndDay).subtract(11, "days"),
+      });
+      setTimeStartDay(form.getFieldValue("timeStartDay"));
+    }
+    if (moment(timeStartDay).diff(timeEndDay, "d") >= 0) {
+      form.setFieldsValue({
+        timeEndDay: "",
+      });
+      const notifyMess = {
+        type: "error",
+        title: "",
+        description: t("noti.end_smaller_start"),
+      };
+      Notification(notifyMess);
+      return;
+    }
+  }, [timeEndDay]);
+
+  //==================================================================
+
+  useEffect(() => {
+    console.log("end on start", (moment(timeEndMonth).diff(timeStartMonth, "M")))
+    if (moment(timeEndMonth).diff(timeStartMonth, "M") >= 12) {
+      form.setFieldsValue({
+        timeEndMonth: moment(timeStartMonth).add(11, "months"),
+      });
+      setTimeEndMonth(form.getFieldValue("timeEndMonth"));
+    }
+    // if (moment(timeStartMonth).diff(timeEndMonth, "m") >= 0) {
+    //   form.setFieldsValue({
+    //     timeStartMonth: "",
+    //   });
+    //   const notifyMess = {
+    //     type: "error",
+    //     title: "",
+    //     description: t("noti.start_greater_end"),
+    //   };
+    //   Notification(notifyMess);
+    //   return;
+    // }
+  }, [timeStartMonth]);
+
+  useEffect(() => {
+    if (moment(timeEndMonth).diff(timeStartMonth, "M") >= 12) {
+      form.setFieldsValue({
+        timeStartMonth: moment(timeEndMonth).subtract(11, "months"),
+      });
+      setTimeEndMonth(form.getFieldValue("timeEndMonth"));
+    }
+    // if (moment(timeStartMonth).diff(timeEndMonth, "m") >= 0) {
+    //   form.setFieldsValue({
+    //     timeEndMonth: "",
+    //   });
+    //   const notifyMess = {
+    //     type: "error",
+    //     title: "",
+    //     description: t("noti.end_smaller_start"),
+    //   };
+    //   Notification(notifyMess);
+    //   return;
+    // }
+  }, [timeEndMonth]);
+
+  //==================================================================
+  useEffect(() => {
+    if (moment(timeEndYear).diff(timeStartYear, "y") >= 5) {
+      console.log("daunam")
+      form.setFieldsValue({
+        timeEndYear: moment(timeStartYear).add(4, "years"),
+      });
+      setTimeEndYear(form.getFieldValue("timeEndYear"));
+    }
+    if (moment(timeStartYear).diff(timeEndYear, "y") >= 0) {
+      form.setFieldsValue({
+        timeStartYear: "",
+      });
+      const notifyMess = {
+        type: "error",
+        title: "",
+        description: t("noti.start_greater_end"),
+      };
+      Notification(notifyMess);
+      return;
+    }
+  }, [timeStartYear]);
+
+  useEffect(() => {
+    if (moment(timeEndYear).diff(timeStartYear, "y") >= 5) {
+      console.log("cuoinam")
+      form.setFieldsValue({
+        timeStartYear: moment(timeEndYear).subtract(4, "years"),
+      });
+      setTimeStartYear(form.getFieldValue("timeStartYear"));
+    }
+    if (moment(timeStartYear).diff(timeEndYear, "y") >= 0) {
+      form.setFieldsValue({
+        timeEndYear: "",
+      });
+      const notifyMess = {
+        type: "error",
+        title: "",
+        description: t("noti.end_smaller_start"),
+      };
+      Notification(notifyMess);
+      return;
+    }
+  }, [timeEndYear]);
+
+  //==================================================================
 
   useEffect(() => {
     setDistrict([]);
@@ -262,10 +397,6 @@ function Sidebar(props) {
 
     setSelectedRowKeys([dataFilter?.eventList[0]?.uuid]);
   };
-
-  //const blurCity = async (cityIdArr) => {
-
-  // }
 
   const onChangeCity = async (cityIdArr) => {
     if (cityIdArr.length < 1) {
@@ -562,7 +693,6 @@ function Sidebar(props) {
       });
       return;
     }
-
     setTimeStartDay(value);
     if (isEmpty(eventList)) {
       emptyField();
@@ -574,39 +704,11 @@ function Sidebar(props) {
   function onChangeTimeEndDay(value) {
     setTimeStartDay(timeStartDay);
     setTimeEndDay(value);
-    const dk = moment(timeStartDay).add(1, "days");
     if (!value) {
       form.setFieldsValue({
         timeStartDay: timeStartDay,
       });
       return;
-    }
-
-    if (dk > value) {
-      form.setFieldsValue({
-        timeEndDay: "",
-      });
-
-      const language = reactLocalStorage.get("language");
-      if (language === "vn") {
-        const notifyMess = {
-          type: "error",
-          title: "",
-          description:
-            "Khoảng thời gian bạn chọn chưa đúng, vui lòng kiểm tra lại",
-        };
-        Notification(notifyMess);
-        return;
-      } else {
-        const notifyMess = {
-          type: "error",
-          title: "",
-          description:
-            "Time range you choose is not correct, please check again",
-        };
-        Notification(notifyMess);
-        return;
-      }
     }
     if (isEmpty(eventList)) {
       emptyField();
@@ -615,81 +717,37 @@ function Sidebar(props) {
     }
   }
 
-  function disabledDateTimeStartDay(current) {
-    const start = moment(timeEndDay).subtract(11, "days");
-    const end = moment(timeEndDay).subtract(1, "days");
-    return current < start - 1 || current > end;
-  }
-
-  function disabledDateTimeEndDay(current) {
-    const start = moment(timeStartDay).add(1, "days");
-    const end = moment(timeStartDay).add(12, "days");
-    return current > end || current > moment() + 1 || current < start;
-  }
-
   //==================================================================
 
   function onChangeTimeStartMonth(value) {
     if (!value) {
       form.setFieldsValue({
-        timeEndWeek: timeEndWeek,
+        timeEndMonth: timeEndMonth,
       });
       return;
     }
-
     setTimeStartMonth(value);
+    if (isEmpty(eventList)) {
+      emptyField();
+    } else {
+      setSelectedRowKeys(selectedRowKeys);
+    }
   }
 
   function onChangeTimeEndMonth(value) {
+    setTimeStartMonth(timeStartMonth);
     setTimeEndMonth(value);
-
-    const dk = moment(timeStartMonth).add(1, "months");
-
     if (!value) {
       form.setFieldsValue({
         timeStartMonth: timeStartMonth,
       });
       return;
     }
-
-    if (dk > value) {
-      form.setFieldsValue({
-        timeStartMonth: "",
-      });
-
-      const language = reactLocalStorage.get("language");
-      if (language === "vn") {
-        const notifyMess = {
-          type: "error",
-          title: "",
-          description:
-            "Khoảng thời gian bạn chọn chưa đúng, vui lòng kiểm tra lại",
-        };
-        Notification(notifyMess);
-        return;
-      } else {
-        const notifyMess = {
-          type: "error",
-          title: "",
-          description:
-            "Time range you choose is not correct, please check again",
-        };
-        Notification(notifyMess);
-        return;
-      }
+    if (isEmpty(eventList)) {
+      emptyField();
+    } else {
+      setSelectedRowKeys(selectedRowKeys);
     }
-  }
-
-  function disabledDateTimeStartMonth(current) {
-    const start = moment(timeEndMonth).subtract(11, "months");
-    const end = moment(timeEndMonth).subtract(1, "months");
-    return current < start || current > end + 1;
-  }
-
-  function disabledDateTimeEndMonth(current) {
-    const start = moment(timeStartMonth).add(1, "months");
-    const end = moment(timeStartMonth).add(11, "months");
-    return current > moment() + 1 || current < start || current > end + 1;
   }
 
   //==================================================================
@@ -701,59 +759,28 @@ function Sidebar(props) {
       });
       return;
     }
-
     setTimeStartYear(value);
+    if (isEmpty(eventList)) {
+      emptyField();
+    } else {
+      setSelectedRowKeys(selectedRowKeys);
+    }
   }
 
   function onChangeTimeEndYear(value) {
+    setTimeStartYear(timeStartYear);
     setTimeEndYear(value);
-    const dk = moment(timeStartYear).add(1, "years");
-
     if (!value) {
       form.setFieldsValue({
         timeStartYear: timeStartYear,
       });
       return;
     }
-
-    if (dk > value) {
-      form.setFieldsValue({
-        timeStartYear: "",
-      });
-
-      const language = reactLocalStorage.get("language");
-      if (language === "vn") {
-        const notifyMess = {
-          type: "error",
-          title: "",
-          description:
-            "Khoảng thời gian bạn chọn chưa đúng, vui lòng kiểm tra lại",
-        };
-        Notification(notifyMess);
-        return;
-      } else {
-        const notifyMess = {
-          type: "error",
-          title: "",
-          description:
-            "Time range you choose is not correct, please check again",
-        };
-        Notification(notifyMess);
-        return;
-      }
+    if (isEmpty(eventList)) {
+      emptyField();
+    } else {
+      setSelectedRowKeys(selectedRowKeys);
     }
-  }
-
-  function disabledDateTimeStartYear(current) {
-    const start = moment(timeEndYear).subtract(4, "years");
-    const end = moment(timeEndYear).subtract(1, "years");
-    return current < start || current > end + 1;
-  }
-
-  function disabledDateTimeEndYear(current) {
-    const start = moment(timeStartYear).add(1, "years");
-    const end = moment(timeStartYear).add(4, "years");
-    return current > end + 1 || current > moment() + 1 || current < start;
   }
 
   return (
@@ -764,12 +791,41 @@ function Sidebar(props) {
           form={form}
           {...formItemLayout}
           onFieldsChange={() => {
-            // console.log("Formdata", form.getFieldsValue().timeStartWeek)
+            if (isEmpty(form.getFieldsValue().timeStartDay)) {
+              form.setFieldsValue({
+                timeStartDay: timeStartDay,
+              });
+            }
+            if (isEmpty(form.getFieldsValue().timeEndDay)) {
+              form.setFieldsValue({
+                timeEndDay: timeEndDay,
+              });
+            }
+            if (isEmpty(form.getFieldsValue()?.timeStartMonth)) {
+              form.setFieldsValue({
+                timeStartMonth: timeStartMonth,
+              });
+            }
+            if (isEmpty(form.getFieldsValue()?.timeEndMonth)) {
+              form.setFieldsValue({
+                timeEndMonth: timeEndMonth,
+              });
+            }
+            if (isEmpty(form.getFieldsValue()?.timeStartYear)) {
+              form.setFieldsValue({
+                timeStartYear: timeStartYear,
+              });
+            }
+            if (isEmpty(form.getFieldsValue()?.timeEndYear)) {
+              form.setFieldsValue({
+                timeEndYear: timeEndYear,
+              });
+            }
             if (!isEmpty(form.getFieldsValue().timeStartWeek)) {
-              setTimeStartWeek(form.getFieldsValue().timeStartWeek)
+              setTimeStartWeek(form.getFieldsValue().timeStartWeek);
             }
             if (!isEmpty(form.getFieldsValue().timeEndWeek)) {
-              setTimeEndWeek(form.getFieldsValue().timeEndWeek)
+              setTimeEndWeek(form.getFieldsValue().timeEndWeek);
             }
           }}
           style={{ width: "100%", paddingBottom: "30px" }}
@@ -820,7 +876,6 @@ function Sidebar(props) {
                     picker="date"
                     format="DD/MM/YYYY"
                     defaultValue={moment(timeEndDay).subtract(7, "days")}
-                    disabledDate={disabledDateTimeStartDay}
                     dropdownClassName="dropdown__date-picker"
                     onChange={onChangeTimeStartDay}
                   />
@@ -833,7 +888,6 @@ function Sidebar(props) {
                     picker="date"
                     format="DD/MM/YYYY"
                     defaultValue={moment()}
-                    disabledDate={disabledDateTimeEndDay}
                     dropdownClassName="dropdown__date-picker"
                     onChange={onChangeTimeEndDay}
                   />
@@ -850,28 +904,17 @@ function Sidebar(props) {
                     // value={moment().subtract(4, "weeks")}
                     onChange={console.log}
                     typeWeek="StartWeek"
-                    disableDate={(currentWeek) => {
-                      // console.log("currentWeek", currentWeek.year())
-                      return (
-                        // currentWeek.isoWeek() < Number(moment().subtract(11, "weeks").format("W")) || currentWeek.isoWeek() > Number(moment().format("W"))
-                        currentWeek.isoWeek() > Number(timeEndWeek.format("W")) 
-                        // currentWeek.isoWeek() < Number(timeEndWeek.subtract(11, "weeks").format("W"))
-                      );
-                    }}
+                    disableDate={(currentWeek) => {}}
                   />
                 </Form.Item>
               </Col>
               <Col span={12}>
                 <Form.Item name={["timeEndWeek"]}>
-                <WeekPicker
+                  <WeekPicker
                     // value={moment().subtract(4, "weeks")}
                     onChange={console.log}
                     typeWeek="EndWeek"
-                    disableDate={(currentWeek) => {
-                      // return (
-                      //   currentWeek.isoWeek() < Number(moment().subtract(11, "weeks").format("W")) || currentWeek.isoWeek() > Number(moment().format("W"))
-                      // );
-                    }}
+                    disableDate={(currentWeek) => {}}
                   />
                 </Form.Item>
               </Col>
@@ -887,7 +930,6 @@ function Sidebar(props) {
                     picker="month"
                     format="MM/YYYY"
                     defaultValue={moment().subtract(11, "months")}
-                    disabledDate={disabledDateTimeStartMonth}
                     dropdownClassName="dropdown__date-picker"
                     onChange={onChangeTimeStartMonth}
                   />
@@ -900,7 +942,6 @@ function Sidebar(props) {
                     picker="month"
                     format="MM/YYYY"
                     defaultValue={moment()}
-                    disabledDate={disabledDateTimeEndMonth}
                     dropdownClassName="dropdown__date-picker"
                     onChange={onChangeTimeEndMonth}
                   />
@@ -918,7 +959,6 @@ function Sidebar(props) {
                     picker="year"
                     format="YYYY"
                     defaultValue={moment().subtract(4, "year")}
-                    disabledDate={disabledDateTimeStartYear}
                     dropdownClassName="dropdown__date-picker"
                     onChange={onChangeTimeStartYear}
                   />
@@ -931,7 +971,6 @@ function Sidebar(props) {
                     picker="year"
                     format="YYYY"
                     defaultValue={moment()}
-                    disabledDate={disabledDateTimeEndYear}
                     dropdownClassName="dropdown__date-picker"
                     onChange={onChangeTimeEndYear}
                   />
@@ -1023,7 +1062,7 @@ function Sidebar(props) {
                   onChange={(cameraAI) => onChangeCameraAI(cameraAI)}
                   filterOption={filterOption}
                   options={normalizeOptions("name", "uuid", cameraAI)}
-                  placeholder="//API AI"
+                  placeholder="Camera AI"
                 />
               </Form.Item>
             </Col>
