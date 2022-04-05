@@ -129,6 +129,7 @@ const Maps = (props) => {
   const handleApplyFilterCallback = async (filter, type) => {
     setFilterType(type);
     setFilter(filter);
+    setCamMetadata(metadata);
   };
 
   const fetchCameras = async (
