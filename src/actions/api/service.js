@@ -61,6 +61,37 @@ const MyService = {
     return [];
   },
 
+  async getRequestDataBlob(url, data) {
+    return await axios
+        .get(BASE_URL + url,
+            {
+              params: data,
+              headers: {
+                ...getHeadersDownload(),
+                requestId: _uniqueId('cctv')
+              },
+              responseType: 'blob',
+            }
+        )
+        .then((response) => {
+          if (response && response?.data) {
+            let check = this._checkResponse(response);
+            if (!check) {
+              return;
+            }
+            return response.data;
+          }
+        })
+        .catch((e) => {
+          Notification({
+            type: NOTYFY_TYPE.warning,
+            title: '',
+            description: e.toString()
+          });
+          return {};
+        });
+  },
+
   async postRequestData(url, data) {
     const response = await controllerApi.axiosIns
       .post(`${BASE_URL}${url}`, data)

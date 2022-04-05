@@ -24,8 +24,6 @@ export default function ExportReportToMail(props) {
     const initialValue = JSON.parse(saved);
     return initialValue || "";
   });
-  console.log("params", params);
-  console.log("form", form.getFieldsValue().email);
   const [isModalVisible, setIsModalVisible] = useState(false);
   const [email, setEmail] = useState([]); //callAPI get email
   const [emailUuid, setEmailUuid] = useState([]);
@@ -67,7 +65,6 @@ export default function ExportReportToMail(props) {
   };
 
   const handleSubmit = async (value) => {
-    console.log(value);
     confirm();
     // handleOk();
   };
@@ -89,7 +86,7 @@ export default function ExportReportToMail(props) {
           ...params,
           typeChart: type,
           lang: language,
-          emails: form.getFieldsValue().email,
+          emails: form.getFieldsValue().email.toString(),
         };
         ReportApi.getExportDataToMail(data).then((value) => {
           if (value.code == "1300") {
@@ -166,6 +163,7 @@ export default function ExportReportToMail(props) {
                       type="primary"
                       htmlType="submit"
                       className="submit-button"
+                      disabled
                     >
                       {t("view.report.sent")}
                     </Button>
@@ -201,8 +199,8 @@ export default function ExportReportToMail(props) {
                         },
                       }),
                       {
-                        max: 255,
-                        message: `${t("noti.255_characters_limit")}`,
+                        max: 100,
+                        message: `${t("noti.100_characters_limit")}`,
                       },
                     ]}
                   >
