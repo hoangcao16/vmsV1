@@ -118,7 +118,7 @@ const LoginDefault = () => {
             <div className="form-control-position">
               <Mail size={15} color="#c2c6dc" />
             </div>
-            <Label style={{ color: "#c2c6dc !important" }}>
+            <Label>
               {t("view.pages.account")}
             </Label>
           </FormGroup>
@@ -142,7 +142,9 @@ const LoginDefault = () => {
             <div className="form-control-position">
               <Lock size={15} color="#c2c6dc" />
             </div>
-            <Label>{t("view.pages.password")}</Label>
+            <Label>
+              {t("view.pages.password")}
+            </Label>
           </FormGroup>
           <FormGroup className="d-flex justify-content-between align-items-center">
             <Checkbox
