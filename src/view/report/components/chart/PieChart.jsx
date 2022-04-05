@@ -9,7 +9,7 @@ import { loadDataChart } from "../../redux/actions";
 import ExportReport from "./ExportReport";
 import "./pieChart.scss";
 import { COLOR } from "./BarChart";
-
+import ExportReportToMail from "./ExportReportToMail";
 
 const RADIAN = Math.PI / 180;
 
@@ -39,56 +39,21 @@ const renderCustomizedLabel = ({
   );
 };
 
-const total = (data, key) => {
-  const dataTotal = data.map((d) => {
-    return {
-      [key]: d[key],
-    };
-  });
-
-  return dataTotal.reduce(function (prev, cur) {
-    return prev + cur[key];
-  }, 0);
-};
-
-const dataConvert = (dataPieChart, dataApi) => {
-  const dataNoName = dataPieChart[0];
-
-  if (dataNoName.name) {
-    delete dataNoName.name;
-  }
-
-  const keyArr = Object.keys(dataNoName);
-
-  let dataFinal = keyArr.map((k,index) => {
-    return {
-      value: total(dataPieChart, k),
-      name: k,
-      color: COLOR[index],
-    };
-  });
-
-  for (let i = 0; i < dataFinal.length; i++) {
-    dataFinal[i].value = dataApi[i]
-  }
-  return dataFinal;
-};
-
 function PieChartComponents(props) {
-  const [dataPieChart, setDataPieChart] = useState([]);
-  const { t } = useTranslation();
-  useEffect(() => {
-    const dataPieChart = props.chartData;
-    const dataApi = props.per;
-    if (!isEmpty(dataPieChart)) {
-      const dataPieChartConvert = dataConvert(dataPieChart, dataApi);
-      setDataPieChart(dataPieChartConvert);
+  console.log("props", props);
+  const dataPieChart = props.chartData.Percents;
+  let dataConvert = [];
+  if (!isEmpty(dataPieChart)) {
+    for (let key in dataPieChart) {
+      let dataItem = {};
+      console.log(key, dataPieChart[key]);
+      dataItem.name = key;
+      dataItem.value = Number(dataPieChart[key]);
+      dataConvert.push(dataItem);
     }
-  }, [props.chartData]);
-
-  if (isEmpty(dataPieChart)) {
-    return null;
   }
+  console.log("dataConVert", dataConvert);
+  const { t } = useTranslation();
 
   if (props.isLoading) {
     return null;
@@ -106,31 +71,32 @@ function PieChartComponents(props) {
               )} {props.title.toUpperCase()}{" "}
             </h3>
             {permissionCheck("export_report") && (
-              <ExportReport type="rateReport" />
+              <div className="export">
+                <ExportReport type="rateReport" />
+                <ExportReportToMail type="tableReport" />
+              </div>
             )}
           </div>
           <PieChart width={400} height={400}>
             <Pie
-              data={dataPieChart}
+              data={dataConvert}
               cx={200}
               cy={200}
-              // innerRadius={60}
-              // outerRadius={80}
+              labelLine={false}
+              label={renderCustomizedLabel}
               fill="#8884d8"
               dataKey="value"
-              label={renderCustomizedLabel}
-              labelLine={false}
             >
-              {dataPieChart.map((entry, index) => {
-                return <Cell key={`cell-${index}`} fill={entry.color} />;
-              })}
+              {dataConvert.map((entry, index) => (
+                <Cell key={`cell-${index}`} fill={COLOR[index]} />
+              ))}
             </Pie>
           </PieChart>
 
           <div>
-            {dataPieChart.map((p, index) => {
+            {dataConvert.map((p, index) => {
               return (
-                <span style={{ color: `${p?.color}`, padding: 10 }}>
+                <span style={{ color: COLOR[index], padding: 10 }}>
                   {p.name.length > 25 ? (
                     <TooltipAnt placement="top" title={p.name}>
                       {p.name.slice(0, 25)}
@@ -151,7 +117,6 @@ function PieChartComponents(props) {
 const mapStateToProps = (state) => ({
   isLoading: state.chart.isLoading,
   chartData: state.chart.chartData.data,
-  per: state.chart.chartData.dataPieChart,
   error: state.chart.error,
   title: state.chart.title,
   typeChart: state.chart.typeChart,

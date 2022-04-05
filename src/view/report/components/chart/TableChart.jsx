@@ -114,6 +114,9 @@ function TableChart(props) {
     const endDate = moment(format.end, format.dateFormat);
 
     let diff = moment(endDate).diff(startDate, format.unit);
+    if (diff < 0) {
+      diff = -1
+    }
 
     return Array.from(new Array(diff+1)).map((val, key) => {
       const name = startDate.format(format.dateFormat);
@@ -132,6 +135,7 @@ function TableChart(props) {
       dataIndex: "type",
       key: "type",
       fixed: "left",
+      width: "12%",
       render: (val, row) => {
         return {
           props: {
@@ -146,6 +150,7 @@ function TableChart(props) {
       dataIndex: "nameCamera",
       key: "nameCamera",
       fixed: "left",
+      width: "20%",
     },
     ...generateColumn(),
   ];

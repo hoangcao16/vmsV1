@@ -63,7 +63,7 @@ export function* handleDataChartLoad(action) {
       }
       yield put(setDataChart(res));
     } else {
-      const fakeData = { data: []};
+      const fakeData = { data: [], percent: {}};
       yield put(setDataChart(fakeData));
     }
   } catch (error) {
