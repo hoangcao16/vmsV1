@@ -35,7 +35,7 @@ const TableReport = (props) => {
         {!isEmpty(props.chartData) ? (
           <>
             <Chart />
-            {/* <PieChartComponents /> */}
+            <PieChartComponents />
             <BarChartComponent />
           </>
         ) : (

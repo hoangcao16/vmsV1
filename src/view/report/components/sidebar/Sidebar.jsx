@@ -56,7 +56,7 @@ function Sidebar(props) {
 
   const [filterOptions, setFilterOptions] = useState(DATA_FAKE_CAMERA);
 
-  const [provinceId, setProvinceId] = useState(["19"]);
+  const [provinceId, setProvinceId] = useState(["2"]);
 
   const [districts, setDistrict] = useState([]);
 
@@ -85,9 +85,7 @@ function Sidebar(props) {
   const [timeStartMonth, setTimeStartMonth] = useState(
     moment().subtract(11, "months")
   );
-  console.log("timeStartMonth", timeStartMonth);
   const [timeEndMonth, setTimeEndMonth] = useState(moment());
-  console.log("timeEndMonth", timeEndMonth);
 
   const [timeStartYear, setTimeStartYear] = useState(
     moment().subtract(4, "years")
@@ -149,7 +147,7 @@ function Sidebar(props) {
           timeEndMonth: "",
           timeStartYear: "",
           timeEndYear: "",
-          provinceId: ["19"],
+          provinceId: ["2"],
           districtId: "",
           wardId: "",
           fieldId: data?.fields[0]?.uuid,
@@ -208,25 +206,24 @@ function Sidebar(props) {
   //==================================================================
 
   useEffect(() => {
-    console.log("end on start", (moment(timeEndMonth).diff(timeStartMonth, "M")))
     if (moment(timeEndMonth).diff(timeStartMonth, "M") >= 12) {
       form.setFieldsValue({
         timeEndMonth: moment(timeStartMonth).add(11, "months"),
       });
       setTimeEndMonth(form.getFieldValue("timeEndMonth"));
     }
-    // if (moment(timeStartMonth).diff(timeEndMonth, "m") >= 0) {
-    //   form.setFieldsValue({
-    //     timeStartMonth: "",
-    //   });
-    //   const notifyMess = {
-    //     type: "error",
-    //     title: "",
-    //     description: t("noti.start_greater_end"),
-    //   };
-    //   Notification(notifyMess);
-    //   return;
-    // }
+    if (moment(timeStartMonth).diff(timeEndMonth, "m") >= 0) {
+      form.setFieldsValue({
+        timeStartMonth: "",
+      });
+      const notifyMess = {
+        type: "error",
+        title: "",
+        description: t("noti.start_greater_end"),
+      };
+      Notification(notifyMess);
+      return;
+    }
   }, [timeStartMonth]);
 
   useEffect(() => {
@@ -236,24 +233,23 @@ function Sidebar(props) {
       });
       setTimeEndMonth(form.getFieldValue("timeEndMonth"));
     }
-    // if (moment(timeStartMonth).diff(timeEndMonth, "m") >= 0) {
-    //   form.setFieldsValue({
-    //     timeEndMonth: "",
-    //   });
-    //   const notifyMess = {
-    //     type: "error",
-    //     title: "",
-    //     description: t("noti.end_smaller_start"),
-    //   };
-    //   Notification(notifyMess);
-    //   return;
-    // }
+    if (moment(timeStartMonth).diff(timeEndMonth, "m") >= 0) {
+      form.setFieldsValue({
+        timeEndMonth: "",
+      });
+      const notifyMess = {
+        type: "error",
+        title: "",
+        description: t("noti.end_smaller_start"),
+      };
+      Notification(notifyMess);
+      return;
+    }
   }, [timeEndMonth]);
 
   //==================================================================
   useEffect(() => {
     if (moment(timeEndYear).diff(timeStartYear, "y") >= 5) {
-      console.log("daunam")
       form.setFieldsValue({
         timeEndYear: moment(timeStartYear).add(4, "years"),
       });
@@ -275,7 +271,6 @@ function Sidebar(props) {
 
   useEffect(() => {
     if (moment(timeEndYear).diff(timeStartYear, "y") >= 5) {
-      console.log("cuoinam")
       form.setFieldsValue({
         timeStartYear: moment(timeEndYear).subtract(4, "years"),
       });
@@ -986,7 +981,7 @@ function Sidebar(props) {
             <Col span={24}>
               <Form.Item name={["provinceId"]}>
                 <Select
-                  defaultValue={["19"]}
+                  defaultValue={["2"]}
                   mode="multiple"
                   allowClear={false}
                   showSearch
