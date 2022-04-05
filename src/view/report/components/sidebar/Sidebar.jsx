@@ -79,9 +79,11 @@ function Sidebar(props) {
     moment().subtract(4, "weeks")
   );
 
-  console.log("timeStartWeek", timeStartWeek)
-
+  // console.log("timeStartWeek", timeStartWeek.format("WW-YYYY"))
+  
   const [timeEndWeek, setTimeEndWeek] = useState(moment());
+  // console.log("timeEndWeek", timeEndWeek.format("WW-YYYY"))
+  // console.log("timeEndWeek", timeEndWeek.subtract(11, "weeks").format("W"))
 
   const [timeStartMonth, setTimeStartMonth] = useState(
     moment().subtract(11, "months")
@@ -237,7 +239,7 @@ function Sidebar(props) {
     timeStartYear,
     timeEndYear,
     feildIds,
-    cameraAIUuid
+    cameraAIUuid,
   ]);
 
   const emptyField = () => {
@@ -627,71 +629,6 @@ function Sidebar(props) {
 
   //==================================================================
 
-  // function onChangeTimeStartWeek(value, string) {
-  //   if (!value) {
-  //     form.setFieldsValue({
-  //       timeEndWeek: timeEndWeek,
-  //     });
-  //     return;
-  //   }
-
-  //   setTimeStartWeek(value);
-  // }
-
-  // function onChangeTimeEndWeek(value) {
-  //   setTimeEndWeek(value);
-
-  //   const dk = moment(timeStartWeek).add(1, "weeks");
-
-  //   if (!value) {
-  //     form.setFieldsValue({
-  //       timeStartWeek: timeStartWeek,
-  //     });
-  //     return;
-  //   }
-
-  //   if (dk > value) {
-  //     form.setFieldsValue({
-  //       timeStartMonth: "",
-  //     });
-
-  //     const language = reactLocalStorage.get("language");
-  //     if (language === "vn") {
-  //       const notifyMess = {
-  //         type: "error",
-  //         title: "",
-  //         description:
-  //           "Khoảng thời gian bạn chọn chưa đúng, vui lòng kiểm tra lại",
-  //       };
-  //       Notification(notifyMess);
-  //       return;
-  //     } else {
-  //       const notifyMess = {
-  //         type: "error",
-  //         title: "",
-  //         description:
-  //           "Time range you choose is not correct, please check again",
-  //       };
-  //       Notification(notifyMess);
-  //       return;
-  //     }
-  //   }
-  // }
-
-  function disabledDateTimeStartWeek(current) {
-    const start = moment(timeEndWeek).startOf("W").subtract(12, "weeks");
-    const end = moment(timeEndWeek).startOf("W").subtract(0, "weeks");
-    return current < start || current > end;
-  }
-
-  // function disabledDateTimeEndWeek(current) {
-  //   const start = moment(timeEndWeek).endOf('W').add(1, "weeks");
-  //   const end = moment(timeEndWeek).endOf('W').add(4, "weeks");
-  //   return current > moment() + 1 || current < start || current > end + 1;
-  // }
-
-  //==================================================================
-
   function onChangeTimeStartMonth(value) {
     if (!value) {
       form.setFieldsValue({
@@ -826,7 +763,15 @@ function Sidebar(props) {
           className="mt-2 bg-grey"
           form={form}
           {...formItemLayout}
-          // onFieldsChange={() => console.log("Formdata", form.getFieldsValue())}
+          onFieldsChange={() => {
+            // console.log("Formdata", form.getFieldsValue().timeStartWeek)
+            if (!isEmpty(form.getFieldsValue().timeStartWeek)) {
+              setTimeStartWeek(form.getFieldsValue().timeStartWeek)
+            }
+            if (!isEmpty(form.getFieldsValue().timeEndWeek)) {
+              setTimeEndWeek(form.getFieldsValue().timeEndWeek)
+            }
+          }}
           style={{ width: "100%", paddingBottom: "30px" }}
         >
           <label className="optionTitle">
@@ -902,21 +847,30 @@ function Sidebar(props) {
               <Col span={12}>
                 <Form.Item name={["timeStartWeek"]}>
                   <WeekPicker
-                    value={moment(timeStartWeek).format("WT-YYYY")}
+                    // value={moment().subtract(4, "weeks")}
                     onChange={console.log}
+                    typeWeek="StartWeek"
                     disableDate={(currentWeek) => {
-                      // return currentWeek.isoWeek() < 13
+                      // console.log("currentWeek", currentWeek.year())
+                      return (
+                        // currentWeek.isoWeek() < Number(moment().subtract(11, "weeks").format("W")) || currentWeek.isoWeek() > Number(moment().format("W"))
+                        currentWeek.isoWeek() > Number(timeEndWeek.format("W")) 
+                        // currentWeek.isoWeek() < Number(timeEndWeek.subtract(11, "weeks").format("W"))
+                      );
                     }}
                   />
                 </Form.Item>
               </Col>
               <Col span={12}>
                 <Form.Item name={["timeEndWeek"]}>
-                  <WeekPicker
-                    value={moment()}
+                <WeekPicker
+                    // value={moment().subtract(4, "weeks")}
                     onChange={console.log}
+                    typeWeek="EndWeek"
                     disableDate={(currentWeek) => {
-                      // return currentWeek.isoWeek() < 13
+                      // return (
+                      //   currentWeek.isoWeek() < Number(moment().subtract(11, "weeks").format("W")) || currentWeek.isoWeek() > Number(moment().format("W"))
+                      // );
                     }}
                   />
                 </Form.Item>

@@ -806,7 +806,9 @@
     "field_no_data": "This feild has no events",
     "just_number": "This field only allowed numbers",
     "sure_to_delete": "Sure to delete?",
-    "are_you_sure_sent_data_for_this_email": "Are you sure to sent data for this Email?"
+    "are_you_sure_sent_data_for_this_email": "Are you sure to sent data for this Email?",
+    "sent_mail_successful": "Sent mail successful",
+    "fail_sent_mail": "Failed sent mail"
   },
   "breadcrumd": {
     "report": "Report Management",

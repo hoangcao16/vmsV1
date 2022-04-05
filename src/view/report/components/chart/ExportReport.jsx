@@ -30,6 +30,7 @@ export default function ExportReport(props) {
       typeChart: type,
       lang: language,
     };
+    console.log("data", data)
     await ReportApi.getExportData(data).then((value) => {
       if(value.type === "application/octet-stream"){
         const data = new Blob([value], { type: "application/vnd.ms-excel" });
