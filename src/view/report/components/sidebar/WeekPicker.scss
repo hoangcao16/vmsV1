@@ -1,0 +1,10 @@
+.week-input {
+    .ant-picker-cell::before {
+        height: 0 !important;
+    }
+    .ant-picker-cell-disabled {
+        .ant-picker-cell-inner {
+            color: #1380ff !important;
+        }
+    }
+}

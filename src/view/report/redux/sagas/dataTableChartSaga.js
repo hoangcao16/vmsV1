@@ -33,7 +33,7 @@ export function* handleTableDataChartLoad(action) {
     districtIds: !isEmpty(params.districtId)
       ? params?.districtId.toString()
       : "",
-    wardIds: !isEmpty(params.wardId) ? params?.wardId.toString() : [],
+    wardIds: !isEmpty(params.wardId) ? params?.wardId.toString() : "",
     eventUuids: params?.eventList.toString(),
     cameraUuids: !isEmpty(params.cameraUuids)
       ? params?.cameraUuids.toString()

@@ -78,7 +78,7 @@ function Chart(props) {
             {permissionCheck("export_report") && (
               <div className="export">
                 <ExportReport type="trendReport" />
-                <ExportReportToMail />
+                <ExportReportToMail type="trendReport" />
               </div>
             )}
           </div>

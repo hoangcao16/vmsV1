@@ -6,12 +6,26 @@ import {
   filterOption,
   normalizeOptions,
 } from "../../../common/select/CustomSelect";
+import { reactLocalStorage } from "reactjs-localstorage";
+import ReportApi from "../../../../actions/api/report/ReportApi";
+import Notification from "../../../../components/vms/notification/Notification";
 
 const dataType = "";
 
-export default function ExportReportToMail() {
+export default function ExportReportToMail(props) {
+  const language = reactLocalStorage.get("language");
+  const { type } = props;
   const { t } = useTranslation();
   const [form] = Form.useForm();
+  const [params, setParams] = useState(() => {
+    // getting stored value
+    const saved = localStorage.getItem("payloadDataChart");
+
+    const initialValue = JSON.parse(saved);
+    return initialValue || "";
+  });
+  console.log("params", params);
+  console.log("form", form.getFieldsValue().email);
   const [isModalVisible, setIsModalVisible] = useState(false);
   const [email, setEmail] = useState([]); //callAPI get email
   const [emailUuid, setEmailUuid] = useState([]);
@@ -54,7 +68,7 @@ export default function ExportReportToMail() {
 
   const handleSubmit = async (value) => {
     console.log(value);
-    confirm()
+    confirm();
     // handleOk();
   };
 
@@ -66,12 +80,35 @@ export default function ExportReportToMail() {
   function confirm() {
     Modal.confirm({
       title: `${t("view.user.detail_list.confirm")}`,
-      content: `${t("view.user.detail_list.are_you_sure_sent_data_for_this_email")}`,
+      content: `${t("noti.are_you_sure_sent_data_for_this_email")}`,
       okText: `${t("view.user.detail_list.confirm")}`,
       cancelText: `${t("view.map.button_cancel")}`,
       onOk: () => {
         handleOk();
-      }
+        const data = {
+          ...params,
+          typeChart: type,
+          lang: language,
+          emails: form.getFieldsValue().email,
+        };
+        ReportApi.getExportDataToMail(data).then((value) => {
+          if (value.code == "1300") {
+            const notifyMess = {
+              type: "success",
+              title: "",
+              description: `${t("noti.sent_mail_successful")}`,
+            };
+            Notification(notifyMess);
+          } else {
+            const notifyMess = {
+              type: "error",
+              title: "",
+              description: `${t("noti.fail_sent_mail")}`,
+            };
+            Notification(notifyMess);
+          }
+        });
+      },
     });
   }
 
@@ -159,9 +196,7 @@ export default function ExportReportToMail() {
                             return Promise.resolve();
                           }
                           return Promise.reject(
-                            new Error(
-                              `${t("view.report.email_not_valid")}`
-                            )
+                            new Error(`${t("view.report.email_not_valid")}`)
                           );
                         },
                       }),

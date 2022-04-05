@@ -163,8 +163,8 @@ function TableChart(props) {
             </h3>
             {permissionCheck("export_report") && (
               <div className="export">
-                <ExportReport type="rateReport" />
-                <ExportReportToMail />
+                <ExportReport type="tableReport" />
+                <ExportReportToMail type="tableReport" />
               </div>
             )}
           </div>

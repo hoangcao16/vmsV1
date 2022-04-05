@@ -2,30 +2,38 @@ import React, { useEffect, useState, useRef } from "react";
 import moment from "moment";
 import { Dropdown, Input } from "antd";
 import { CalendarOutlined } from "@ant-design/icons";
+import "./WeekPicker.scss";
 
 moment.locale("en");
 
-const WeekPicker = ({ value, onChange, disableDate = () => {} }) => {
-  console.log('value', value)
-  const [currentYear, setCurrentYear] = useState(moment(value).format("TW-YYYY"));
+const WeekPicker = ({ typeWeek, onChange, disableDate = () => {} }) => {
+  let value;
+  if (typeWeek === "EndWeek") {
+    value = moment();
+  } else if (typeWeek === "StartWeek") {
+    value = moment().subtract(4, "weeks");
+  }
+  const [currentYear, setCurrentYear] = useState(
+    moment(value).format("YYYY")
+  );
   const [currentValue, setCurrentValue] = useState(
     moment(value).format("TW-YYYY")
   );
-  console.log("currentValue", currentValue)
   const [visible, setVisible] = useState(false);
   const totalWeeks = moment(currentYear, "YYYY").isoWeeksInYear();
   const ref = useRef(null);
 
+  //close dropdown when click outside
   useEffect(() => {
     const handleClickOutside = (event) => {
-      const parent = ref.current.input.closest('.week-input');
+      const parent = ref.current.input.closest(".week-input");
       if (parent && !parent.contains(event.target)) {
         setVisible(false);
       }
     };
-    document.addEventListener('click', handleClickOutside, true);
+    document.addEventListener("click", handleClickOutside, true);
     return () => {
-      document.removeEventListener('click', handleClickOutside, true);
+      document.removeEventListener("click", handleClickOutside, true);
     };
   });
 
@@ -45,20 +53,21 @@ const WeekPicker = ({ value, onChange, disableDate = () => {} }) => {
     if (disableDate(parseWeek)) {
       return;
     }
-    setVisible(!visible);
     setCurrentValue(parseWeek.format("TW-YYYY"));
+    // setVisible(!visible);
     onChange && onChange(parseWeek);
   };
 
   const customClass = (week) => {
+    
     let classList = "";
     const parseWeek = moment(`${week}-${currentYear}`, "WW-YYYY");
-
+    
     if (
       moment(currentValue, "TW-YYYY").isoWeek() === week &&
       moment(currentValue, "TW-YYYY").year() === Number(currentYear)
-    ) {
-      classList += " ant-picker-cell-in-view ant-picker-cell-selected";
+      ) {
+        classList += " ant-picker-cell-in-view ant-picker-cell-selected";
     }
     if (disableDate(parseWeek)) {
       classList += " ant-picker-cell-disabled";

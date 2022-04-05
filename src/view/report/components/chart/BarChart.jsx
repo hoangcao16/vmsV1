@@ -19,7 +19,7 @@ import "./barChart.scss";
 import ExportReport from "./ExportReport";
 import ExportReportToMail from "./ExportReportToMail";
 
-export const COLOR = ["#eb4034", "#7ccc47", "#425fd4"];
+export const COLOR = ["#eb4034", "#7ccc47", "#425fd4", "#FCFC74", "#FFA45E", "#FB5EFF", "#E8618E", "#3AFFD8", "#973AFF", "#5BFF3A"];
 
 function BarChartComponent(props) {
   let data = [];
@@ -68,7 +68,7 @@ function BarChartComponent(props) {
               {permissionCheck("export_report") && (
                 <div className="export">
                   <ExportReport type="comparativeReport" />
-                  <ExportReportToMail />
+                  <ExportReportToMail type="comparativeReport"/>
                 </div>
               )}
             </div>
