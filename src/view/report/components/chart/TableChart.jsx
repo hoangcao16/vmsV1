@@ -62,11 +62,11 @@ function TableChart(props) {
     switch (props.date.typeTime) {
       case "DAY":
         format = {
-          dateStringFormat: "DDMMYYYY",
-          dateFormat: "DD/MM/YYYY",
+          dateStringFormat: "DDMM",
+          dateFormat: "DD/MM",
           unit: "d",
-          start: "01/01/2022",
-          end: "10/01/2022",
+          start: "01/01",
+          end: "10/01",
         };
         break;
       case "WEEK":
@@ -150,7 +150,7 @@ function TableChart(props) {
       dataIndex: "nameCamera",
       key: "nameCamera",
       fixed: "left",
-      width: "20%",
+      width: "25%",
     },
     ...generateColumn(),
   ];
@@ -178,7 +178,7 @@ function TableChart(props) {
             columns={columns}
             pagination={false}
             className="table-report"
-            scroll={{ x: 1500, y: 500 }}
+            scroll={{ x: 1100, y: 500 }}
           />
         </div>
       )}

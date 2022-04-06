@@ -18,14 +18,18 @@ import "./chart.scss";
 import ExportReport from "./ExportReport";
 import { COLOR } from "./BarChart";
 import ExportReportToMail from "./ExportReportToMail";
+import moment from "moment";
 
 function Chart(props) {
   let data = [];
-
-  if (props.chartData && props.chartData.DataChartEvent) {
-    data = props.chartData.DataChartEvent;
-  } else if (props.chartData && props.chartData.CompareChartEvent) {
-    data = props.chartData.CompareChartEvent;
+  const start = moment(props.chartData?.date?.startDate, "DD/MM/YYYY")
+  const end = moment(props.chartData?.date?.endDate, "DD/MM/YYYY")
+  if (moment(start).diff(end, "d") < 0) {
+    if (props.chartData && props.chartData?.res?.DataChartEvent) {
+      data = props.chartData.res.DataChartEvent;
+    } else if (props.chartData && props.chartData?.res?.CompareChartEvent) {
+      data = props.chartData?.res?.CompareChartEvent;
+    }
   }
 
   const { t } = useTranslation();

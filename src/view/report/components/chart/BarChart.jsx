@@ -18,16 +18,20 @@ import { loadDataChart } from "../../redux/actions";
 import "./barChart.scss";
 import ExportReport from "./ExportReport";
 import ExportReportToMail from "./ExportReportToMail";
+import moment from "moment";
 
 export const COLOR = ["#eb4034", "#7ccc47", "#425fd4", "#FCFC74", "#FFA45E", "#FB5EFF", "#E8618E", "#3AFFD8", "#973AFF", "#5BFF3A"];
 
 function BarChartComponent(props) {
   let data = [];
-
-  if (props.chartData && props.chartData.DataChartEvent) {
-    data = props.chartData.DataChartEvent;
-  } else if (props.chartData && props.chartData.CompareChartEvent) {
-    data = props.chartData.CompareChartEvent;
+  const start = moment(props.chartData?.date?.startDate, "DD/MM/YYYY")
+  const end = moment(props.chartData?.date?.endDate, "DD/MM/YYYY")
+  if (moment(start).diff(end, "d") < 0) {
+    if (props.chartData && props.chartData?.res?.DataChartEvent) {
+      data = props.chartData.res.DataChartEvent;
+    } else if (props.chartData && props.chartData?.res?.CompareChartEvent) {
+      data = props.chartData?.res?.CompareChartEvent;
+    }
   }
 
   const { t } = useTranslation();

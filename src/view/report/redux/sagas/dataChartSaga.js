@@ -44,6 +44,11 @@ export function* handleDataChartLoad(action) {
   try {
     if (!isEmpty(payloadDataChart.eventUuids)) {
       let res
+      const date = {
+        typeTime: params.pickTime.toUpperCase(),
+        startDate: timeStart,
+        endDate: timeEnd,
+      };
       if (
         params.provinceId.length > 1 ||
         (params.districtId && params.districtId.length > 1) ||
@@ -61,7 +66,7 @@ export function* handleDataChartLoad(action) {
           })
         );
       }
-      yield put(setDataChart(res));
+      yield put(setDataChart({res, date}));
     } else {
       const fakeData = { data: [], percent: {}};
       yield put(setDataChart(fakeData));

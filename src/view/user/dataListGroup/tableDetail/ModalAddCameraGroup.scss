@@ -193,3 +193,7 @@
   background-color: #dcdcdc;
   pointer-events: none;
 }
+
+[dir] .ant-table-cell-scrollbar {
+  box-shadow: none;
+}

@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { Button, Modal, Form, Select, Radio, Input, Popconfirm } from "antd";
 import "./ExportReportToMail.scss";
 import { useTranslation } from "react-i18next";
@@ -9,6 +9,7 @@ import {
 import { reactLocalStorage } from "reactjs-localstorage";
 import ReportApi from "../../../../actions/api/report/ReportApi";
 import Notification from "../../../../components/vms/notification/Notification";
+import UserApi from "../../../../actions/api/user/UserApi";
 
 const dataType = "";
 
@@ -25,23 +26,19 @@ export default function ExportReportToMail(props) {
     return initialValue || "";
   });
   const [isModalVisible, setIsModalVisible] = useState(false);
-  const [email, setEmail] = useState([]); //callAPI get email
-  const [emailUuid, setEmailUuid] = useState([]);
+  const [allEmail, setAllEmail] = useState([]); //callAPI get email
   const [message, setMessage] = useState(false);
-
   const [chooseEmail, setChooseEmail] = useState(true);
 
-  const fakeEmail = [
-    { emailId: "1", name: "nguyenvana@gmail.com", uuid: "1" },
-    { emailId: "2", name: "nguyenvanb@gmail.com", uuid: "12" },
-    { emailId: "3", name: "nguyenvanc@gmail.com", uuid: "123" },
-    { emailId: "4", name: "nguyenvand@gmail.com", uuid: "1234" },
-    { emailId: "5", name: "nguyenvane@gmail.com", uuid: "12345" },
-    { emailId: "6", name: "nguyenvanf@gmail.com", uuid: "123456" },
-    { emailId: "7", name: "nguyenvang@gmail.com", uuid: "1234567" },
-    { emailId: "8", name: "nguyenvanh@gmail.com", uuid: "12345678" },
-    { emailId: "9", name: "nguyenvani@gmail.com", uuid: "123456789" },
-  ];
+  useEffect(() => {
+    const data = {
+      page: 1,
+      size: 100000,
+    };
+    UserApi.getAllUser(data).then((result) => {
+      setAllEmail(result.payload)
+    });
+  }, []);
 
   const showModal = () => {
     setIsModalVisible(true);
@@ -88,6 +85,7 @@ export default function ExportReportToMail(props) {
           lang: language,
           emails: form.getFieldsValue().email.toString(),
         };
+        console.log("data", data)
         ReportApi.getExportDataToMail(data).then((value) => {
           if (value.code == "1300") {
             const notifyMess = {
@@ -151,11 +149,12 @@ export default function ExportReportToMail(props) {
                       mode="multiple"
                       allowClear={false}
                       showSearch
-                      dataSource={fakeEmail}
+                      dataSource={allEmail}
                       // onChange={(cameraAI) => onChangeEmail(cameraAI)}
                       filterOption={filterOption}
-                      options={normalizeOptions("name", "uuid", fakeEmail)}
+                      options={normalizeOptions("email", "email", allEmail)}
                       placeholder="Email"
+                      maxTagCount={3}
                     />
                   </Form.Item>
                   <div className="button-wrapper">
@@ -163,7 +162,6 @@ export default function ExportReportToMail(props) {
                       type="primary"
                       htmlType="submit"
                       className="submit-button"
-                      disabled
                     >
                       {t("view.report.sent")}
                     </Button>

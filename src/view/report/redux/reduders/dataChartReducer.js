@@ -5,6 +5,7 @@ const dataChartReducer = (state = { data: [], percent: {}}, action) => {
     return {
       ...state,
       data: action.dataChart,
+      date: action.dataChart,
       percent: action.dataChart,
     };
   }
