@@ -130,6 +130,7 @@ const Maps = (props) => {
     setFilterType(type);
     setFilter(filter);
     setCamMetadata(metadata);
+    setAdMetadata(metadata);
   };
 
   const fetchCameras = async (

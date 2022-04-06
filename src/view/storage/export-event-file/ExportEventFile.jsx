@@ -1,27 +1,13 @@
-import {
-  Col,
-  Input,
-  Popconfirm,
-  Popover,
-  Row,
-  Tooltip,
-  Button,
-  Spin,
-  Space,
-} from "antd";
-import { CloseOutlined, ExclamationCircleOutlined } from "@ant-design/icons";
+import { Col, Popconfirm, Popover, Row, Tooltip, Spin, Space } from "antd";
+import { ExclamationCircleOutlined } from "@ant-design/icons";
 import { saveAs } from "file-saver";
 import { findIndex, isEmpty } from "lodash-es";
 import moment from "moment";
 import React, { useEffect, useRef, useState } from "react";
 import { useTranslation } from "react-i18next";
 import { AiFillVideoCamera } from "react-icons/ai";
-import {
-  AiFillEdit,
-  AiOutlineInfoCircle,
-  MdCenterFocusWeak,
-} from "react-icons/all";
-import { SelectProgessState, ConfirmUpdate } from "./style";
+import { AiOutlineInfoCircle, MdCenterFocusWeak } from "react-icons/all";
+import { ConfirmUpdate } from "./style";
 import {
   FiBookmark,
   FiCamera,
@@ -69,11 +55,10 @@ import { MemoizedHlsPlayer } from "./PlayerHls";
 import { MemoizedTableEventFile } from "./TableEventFile";
 import { MemoizedTableFile } from "./TableFile";
 import { MemoizedThumbnailVideo } from "./ThumbnailVideo";
-import SelectType from "./components/select-type";
 import TicketModal from "./components/ticket-modal";
 import PreviewMap from "./components/mappreview";
+import Viewfiletype4 from "./components/ViewFileType4";
 const AI_SOURCE = process.env.REACT_APP_AI_SOURCE;
-const { TextArea } = Input;
 const ExportEventFile = () => {
   const { t } = useTranslation();
   let defaultEventFile = {
@@ -127,7 +112,7 @@ const ExportEventFile = () => {
   const [urlSnapshot, setUrlSnapshot] = useState("");
   const playerVideo = useRef(null);
   const refCanvas = useRef(null);
-  const [viewFileType, setViewFileType] = useState(0);
+  const [viewFileType, setViewFileType] = useState(4);
   const [isTableView, setIsGridView] = useState(true);
   const [urlVideoTimeline, setUrlVideoTimeline] = useState(null);
   const [playerReady, setPlayerReady] = useState(false);
@@ -228,6 +213,9 @@ const ExportEventFile = () => {
         setDetailAI({
           ...fileCurrent,
         });
+        setProcessState(
+          processingstatusOptions.find((e) => e.value === fileCurrent?.status)
+        );
         const getPlateNumUrl = ExportEventFileApi.downloadAIIntegrationFile(
           fileCurrent.uuid,
           "ImagePlate.jpg"
@@ -1601,8 +1589,38 @@ const ExportEventFile = () => {
   const handleSelectType = (value) => {
     setObjectType(value);
   };
-  const handleSelectProgessState = (value) => {
+  const handleSelectProgessState = async (value) => {
     setProcessState(value);
+    const data = {
+      cameraUuid: detailAI.cameraUuid,
+      uuid: detailAI.uuid,
+      status: value?.value,
+    };
+    try {
+      const isEdit = await AIEventsApi.editInforOfEvent(detailAI.uuid, data);
+
+      if (isEdit) {
+        const notifyMess = {
+          type: "success",
+          title: "",
+          description: `${t("noti.successfully_edit_nvr")}`,
+        };
+        Notification(notifyMess);
+      } else {
+        const notifyMess = {
+          type: "error",
+          title: "",
+          description:
+            "Đã xảy ra lỗi trong quá trình chỉnh sửa, hãy kiểm tra lại",
+        };
+        Notification(notifyMess);
+      }
+    } catch (error) {
+      // message.warning(
+      //   'Đã xảy ra lỗi trong quá trình chỉnh sửa, hãy kiểm tra lại'
+      // );
+      console.log(error);
+    }
   };
   const handleUpdateTHXL = async () => {
     ConfirmUpdate.confirm({
@@ -1726,458 +1744,18 @@ const ExportEventFile = () => {
     if (viewFileType === 4) {
       return (
         <>
-          <Row gutter={[16, 30]} className="eventFileDetail">
-            <Col span={12}>
-              <div className="title">
-                {t("view.ai_events.info")}
-                {/* <Tooltip
-                  placement='bottomLeft'
-                  title={t('view.ai_events.edit_info')}
-                >
-                  <Popover
-                    overlayClassName={`${
-                      checkBtnInfoObjectDisabled()
-                        ? 'fileInfoPopoverHidden'
-                        : 'fileInfoPopover'
-                    }`}
-                    placement='topRight'
-                    title=''
-                    visible={visible}
-                    onVisibleChange={(visible) => setVisible(visible)}
-                    content={
-                      checkBtnInfoObjectDisabled()
-                        ? ''
-                        : renderInfoObjectPopoverContent
-                    }
-                    trigger={`${checkBtnInfoObjectDisabled() ? '' : 'click'}`}
-                  >
-                    <AiFillEdit
-                      className={`${
-                        checkBtnInfoObjectDisabled()
-                          ? 'action__disabled'
-                          : 'action'
-                      }`}
-                      onClick={(e) => {
-                        if (checkBtnInfoObjectDisabled()) return
-                        e.stopPropagation()
-                      }}
-                    />
-                  </Popover>
-                </Tooltip> */}
-              </div>
-              {detailAI.useCase === "zac_vehicle" ? (
-                <ul style={{ listStyleType: "none" }}>
-                  <li
-                    style={{
-                      marginTop: 15,
-                      display: "flex",
-                      alignItems: "center",
-                    }}
-                  >
-                    {t("view.ai_events.type")} :{" "}
-                    {/* {t('view.ai_events.useCase.' + detailAI.useCase)} */}
-                    <SelectType
-                      option={typeObjects}
-                      onChange={(e) => handleSelectType(e)}
-                      value={objectType}
-                    />
-                  </li>
-                  <li style={{ marginTop: 15 }}>
-                    {t("view.ai_events.plateNumber")} :{" "}
-                    {detailAI.plateNumber
-                      ? detailAI.plateNumber
-                      : t("view.ai_events.UnKnow")}
-                  </li>
-                </ul>
-              ) : null}
-              {detailAI.subEventType === "nhandienbienso" ||
-              detailAI.subEventType === "daudo" ||
-              detailAI.subEventType === "vuotdendo" ? (
-                <ul style={{ listStyleType: "none" }}>
-                  <li
-                    style={{
-                      marginTop: 15,
-                      display: "flex",
-                      alignItems: "center",
-                    }}
-                  >
-                    {t("view.ai_events.type")} :{" "}
-                    {/* {t('view.ai_events.type')} : {detailAI.vehicleType} */}
-                    <SelectType
-                      option={typeObjects}
-                      onChange={(e) => handleSelectType(e)}
-                      value={objectType}
-                    />
-                  </li>
-                  <li style={{ marginTop: 15 }}>
-                    {t("view.ai_events.plateNumber")} :{" "}
-                    {detailAI.plateNumber
-                      ? detailAI.plateNumber
-                      : t("view.ai_events.UnKnow")}
-                  </li>
-                </ul>
-              ) : null}
-              {detailAI.useCase === "zac_human" ? (
-                <ul style={{ listStyleType: "none" }}>
-                  <li
-                    style={{
-                      marginTop: 15,
-                      display: "flex",
-                      alignItems: "center",
-                    }}
-                  >
-                    {t("view.ai_events.type")} :{" "}
-                    {/* {t('view.ai_events.useCase.' + detailAI.useCase)} */}
-                    <SelectType
-                      option={typeObjects}
-                      onChange={(e) => handleSelectType(e)}
-                      value={objectType}
-                    />
-                  </li>
-                  <li style={{ marginTop: 15 }}>
-                    {t("view.ai_events.code")} :{" "}
-                    {detailAI.code ? detailAI.code : t("view.ai_events.UnKnow")}
-                  </li>
-                  <li style={{ marginTop: 15 }}>
-                    {t("view.ai_events.name")} :{" "}
-                    {detailAI.name ? detailAI.name : t("view.ai_events.UnKnow")}
-                  </li>
-                  <li style={{ marginTop: 15 }}>
-                    {t("view.ai_events.position")} :{" "}
-                    {detailAI.position
-                      ? detailAI.position
-                      : t("view.ai_events.UnKnow")}
-                  </li>
-                  <li style={{ marginTop: 15 }}>
-                    {t("view.ai_events.department")} :{" "}
-                    {detailAI.departmentName
-                      ? detailAI.departmentName
-                      : t("view.ai_events.UnKnow")}
-                  </li>
-                </ul>
-              ) : null}
-              {detailAI.useCase === "attendance" ? (
-                <ul style={{ listStyleType: "none", display: "inline-block" }}>
-                  <li style={{ marginTop: 15 }}>
-                    {t("view.ai_events.code")} : {detailAI.code}
-                  </li>
-                  <li style={{ marginTop: 15 }}>
-                    {t("view.ai_events.name")} : {detailAI.name}
-                  </li>
-                  <li style={{ marginTop: 15 }}>
-                    {t("view.ai_events.position")} : {detailAI.position}
-                  </li>
-                  <li style={{ marginTop: 15 }}>
-                    {t("view.ai_events.department")} : {detailAI.departmentName}
-                  </li>
-                </ul>
-              ) : null}
-              {/* <div>
-                {t("view.ai_events.plateNumber")} : {eventFileCurrent.plateNumber}
-              </div> */}
-            </Col>
-            <Col span={12}>
-              <div className="title">{t("view.storage.violation_time")}</div>
-              <div>
-                {detailAI != null && detailAI.createdTime === -1
-                  ? ""
-                  : moment(detailAI.createdTime).format("HH:mm DD/MM/YYYY")}
-              </div>
-            </Col>
-            <Col span={12}>
-              <div className="title">{t("view.ai_events.typeObject")}</div>
-              {detailAI?.subEventType ? (
-                <div>{t("view.ai_events." + detailAI.subEventType)}</div>
-              ) : null}
-            </Col>
-            <Col span={12}>
-              <div className="title">{t("view.ai_events.camera_name")}</div>
-              <div>{detailAI?.cameraName}</div>
-            </Col>
-            <Col span={24}>
-              <Row>
-                <Col span={11}>
-                  <div className="title">
-                    {t("view.common_device.note")}
-                    {/* {detailAI.uuid && (
-                  <Tooltip placement='top' title={t('view.common_device.edit')}>
-                    <AiOutlineEdit
-                      className='iconEdit'
-                      onClick={() => {
-                        setEditMode(true)
-                      }}
-                    />
-                  </Tooltip>
-                )}
-                {editMode && (
-                  <Tooltip placement='top' title={t('view.map.button_save')}>
-                    <AiOutlineCheck
-                      className='iconEdit'
-                      onClick={() => saveFileHandler(null, currNode)}
-                    />
-                  </Tooltip>
-                )}
-                {editMode && (
-                  <Tooltip placement='top' title={t('view.map.button_cancel')}>
-                    <AiOutlineClose
-                      className='iconEdit'
-                      onClick={() => cancelChangeNoteHandler()}
-                    />
-                  </Tooltip>
-                )} */}
-                  </div>
-                  <div>
-                    {/* {!editMode && <span>{eventFileCurrent.note}</span>} */}
-                    {/* {editMode && ( */}
-                    <TextArea
-                      // defaultValue={currNode}
-                      value={currNode}
-                      autoSize={true}
-                      onChange={changeNoteHandler}
-                    />
-                    {/* )} */}
-                  </div>
-                </Col>
-                <Col
-                  span={5}
-                  offset={1}
-                  style={{ paddingLeft: "8px", paddingRight: "8px" }}
-                >
-                  <div className="title">{t("view.common_device.state")}</div>
-                  <div>
-                    <SelectProgessState
-                      options={processingstatusOptions}
-                      className="react-select"
-                      classNamePrefix="select-progess-state"
-                      value={processState}
-                      onChange={(value) => handleSelectProgessState(value)}
-                    ></SelectProgessState>
-                  </div>
-                </Col>
-              </Row>
-            </Col>
-            {AI_SOURCE !== "philong" ? (
-              <>
-                <Col span={6}>
-                  <div className="title">{t("view.storage.file_name")}</div>
-                  <div>{detailAI.fileName}</div>
-                </Col>
-                <Col span={12}>
-                  <div className="title">{t("view.storage.path")}</div>
-                  <div className="pathFile">{detailAI.pathFile}</div>
-                </Col>
-              </>
-            ) : null}
-
-            {detailAI.useCase !== "attendance" ? (
-              <Col span={24}>
-                <div className="title">{t("view.ai_events.err_image")}</div>
-                <div>
-                  {AI_SOURCE !== "philong" ? (
-                    <ul>
-                      {imageOther
-                        ? imageOther.map((item, index) => (
-                            <li
-                              key={item.uuid}
-                              style={{
-                                listStyleType: "none",
-                                display: "inline-block",
-                                marginRight: "20px",
-                              }}
-                            >
-                              <div
-                                style={{ width: "90%", paddingBottom: "10px" }}
-                              >
-                                <div
-                                  className="img__item"
-                                  style={{ position: "relative" }}
-                                >
-                                  {item.uuid != detailAI.uuid ? (
-                                    <Popconfirm
-                                      title={t("noti.sure_to_delete")}
-                                      onCancel={(event) => {
-                                        event.stopPropagation();
-                                      }}
-                                      onConfirm={(event) => {
-                                        event.stopPropagation();
-                                        deleteImageHandler(item.uuid);
-                                      }}
-                                    >
-                                      <Button
-                                        className="button-photo-remove"
-                                        size="small"
-                                        type="danger"
-                                        onClick={(event) => {
-                                          event.stopPropagation();
-                                        }}
-                                        style={{
-                                          position: "absolute",
-                                          top: 0,
-                                          right: 0,
-                                          width: "15px",
-                                          height: "15px",
-                                          borderRadius: "50%",
-                                          display: "flex",
-                                          alignItems: "center",
-                                          justifyContent: "center",
-                                          background: "red",
-                                          // padding: '15px'
-                                        }}
-                                      >
-                                        <CloseOutlined style={{}} />
-                                      </Button>
-                                    </Popconfirm>
-                                  ) : null}
-
-                                  <img
-                                    onClick={(event) => {
-                                      event.stopPropagation();
-                                      viewImageAIHandler(item);
-                                    }}
-                                    style={{ width: "120px", height: "120px" }}
-                                    className="cursor-pointer"
-                                    src={"data:image/jpeg;base64," + item.image}
-                                    alt="Avatar"
-                                  />
-                                </div>
-                              </div>
-                            </li>
-                          ))
-                        : null}
-                    </ul>
-                  ) : (
-                    <ul>
-                      {imageOther
-                        ? imageOther.map((item, index) => (
-                            <li
-                              key={item.id}
-                              style={{
-                                listStyleType: "none",
-                                display: "inline-block",
-                                marginRight: "20px",
-                              }}
-                            >
-                              <div
-                                style={{ width: "90%", paddingBottom: "10px" }}
-                              >
-                                <div
-                                  className="img__item"
-                                  style={{ position: "relative" }}
-                                >
-                                  {item.uuid != detailAI.uuid ? (
-                                    <Popconfirm
-                                      title={t("noti.sure_to_delete")}
-                                      onCancel={(event) => {
-                                        event.stopPropagation();
-                                      }}
-                                      onConfirm={(event) => {
-                                        event.stopPropagation();
-                                        deleteImageHandler(item.uuid);
-                                      }}
-                                    >
-                                      {/* <Button className="button-photo-remove" size="small" type="danger"
-                              onClick={event => {
-                                event.stopPropagation();
-                              }}
-                              style={{
-                                position: 'absolute',
-                                top: 0,
-                                right: 0,
-                                width: '15px',
-                                height: '15px',
-                                borderRadius: '50%',
-                                display: 'flex',
-                                alignItems: 'center',
-                                justifyContent: 'center',
-                                background: 'red',
-                                // padding: '15px'
-                              }}
-                            >
-                              <CloseOutlined style={{}} />
-                            </Button> */}
-                                    </Popconfirm>
-                                  ) : null}
-
-                                  {item.type === "mp4" ? (
-                                    <div
-                                      className="img__item"
-                                      onClick={(event) => {
-                                        event.stopPropagation();
-                                        viewImageAIHandler(item);
-                                      }}
-                                    >
-                                      {/* <video id={item.id} refs="rtsp://10.0.0.66:8554/proxy6" /> */}
-                                      <Space size="middle">
-                                        <Spin
-                                          className="video-js"
-                                          size="large"
-                                          id={"spin-slot-" + item.id}
-                                          style={{ display: "none" }}
-                                        />
-                                      </Space>
-                                      <video
-                                        style={{
-                                          width: "120px",
-                                          height: "120px",
-                                        }}
-                                        className="video-container video-container-overlay"
-                                        loop
-                                        autoPlay
-                                      >
-                                        <source
-                                          src={item.url}
-                                          type="video/mp4"
-                                        />
-                                      </video>
-                                    </div>
-                                  ) : (
-                                    <img
-                                      onClick={(event) => {
-                                        event.stopPropagation();
-                                        viewImageAIHandler(item);
-                                      }}
-                                      style={{
-                                        width: "120px",
-                                        height: "120px",
-                                      }}
-                                      className="cursor-pointer"
-                                      src={item.image}
-                                      alt="Avatar"
-                                    />
-                                  )}
-                                </div>
-                              </div>
-                            </li>
-                          ))
-                        : null}
-                    </ul>
-                  )}
-                </div>
-              </Col>
-            ) : null}
-            <Col span={24}>
-              <Row>
-                <Col>
-                  <Button
-                    type="primary"
-                    onClick={handleShowTicketModal}
-                    className="vms-ant-btn"
-                  >
-                    {t("view.common_device.ticket")}
-                  </Button>
-                </Col>
-                <Col className="ml-8">
-                  <Button
-                    type="primary"
-                    className="vms-ant-btn"
-                    onClick={handleUpdateTHXL}
-                  >
-                    {t("view.common_device.update_state_THXL")}
-                  </Button>
-                </Col>
-              </Row>
-            </Col>
-          </Row>
+          <Viewfiletype4
+            handleSelectType={handleSelectType}
+            objectType={objectType}
+            detailAI={detailAI}
+            processState={processState}
+            handleSelectProgessState={handleSelectProgessState}
+            imageOther={imageOther}
+            deleteImageHandler={deleteImageHandler}
+            viewImageAIHandler={viewImageAIHandler}
+            handleShowTicketModal={handleShowTicketModal}
+            // handleUpdateTHXL={handleUpdateTHXL}
+          />
         </>
       );
     } else {

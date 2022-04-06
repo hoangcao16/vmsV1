@@ -16,12 +16,12 @@ const SelectType = ({ value, onChange, option }) => {
 };
 export default SelectType;
 const SelectWrapper = styled(Select)`
-  margin-left: 1rem;
+  /* margin-left: 1rem; */
   flex: 1;
   max-width: 200px;
   .select-type__control {
     min-height: 12px;
-    background-color: #333333;
+    background-color: #191919;
     border-color: #464647;
     .select-type__value-container {
       padding: 2px 8px;
@@ -37,7 +37,7 @@ const SelectWrapper = styled(Select)`
     }
   }
   .select-type__menu {
-    background-color: #333333;
+    background-color: #191919;
     color: #d0e5ff;
   }
   .select-type__option--is-focused {
