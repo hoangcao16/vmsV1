@@ -190,10 +190,19 @@ const MapAdministrativeUnitAdd = (props) => {
           min: 12,
           message: `${t("noti.at_least_10_characters")}`,
         },
-        {
-          max: 22,
-          message: `${t("noti.up_to_20_characters")}`,
-        }
+        () => ({
+          validator(_, value) {
+            const valiValue = document.getElementById("tel").value;
+            if (
+              valiValue.length &&
+              valiValue.startsWith("0") &&
+              valiValue.length <= 20
+            ) {
+              return Promise.resolve();
+            }
+            return Promise.reject(new Error(t("noti.up_to_20_characters")));
+          },
+        })
       );
     }
     return rules;

@@ -231,10 +231,19 @@ const DetailUser = (props) => {
           min: 12,
           message: `${t("noti.at_least_10_characters")}`,
         },
-        {
-          max: 22,
-          message: `${t("noti.up_to_20_characters")}`,
-        }
+        () => ({
+          validator(_, value) {
+            const valiValue = document.getElementById("phone").value;
+            if (
+              valiValue.length &&
+              valiValue.startsWith("0") &&
+              valiValue.length <= 20
+            ) {
+              return Promise.resolve();
+            }
+            return Promise.reject(new Error(t("noti.up_to_20_characters")));
+          },
+        })
       );
     }
     if (name_data === "unit" || name_data === "position") {
@@ -742,19 +751,19 @@ const DetailUser = (props) => {
         <GroupUser id={userUuid} handleReload={handleReload} reload={reload} />
       </div>
 
-        <CameraGroup
-          id={userUuid}
-          handleRefreshCameraPage={handleRefreshCameraPage}
-          reload={reload}
-          isMyInfor={props?.isMyInfor}
-        ></CameraGroup>
+      <CameraGroup
+        id={userUuid}
+        handleRefreshCameraPage={handleRefreshCameraPage}
+        reload={reload}
+        isMyInfor={props?.isMyInfor}
+      ></CameraGroup>
 
-        <Camera
-          id={userUuid}
-          reloadCameraPage={reloadCameraPage}
-          reload={reload}
-          isMyInfor={props?.isMyInfor}
-        />
+      <Camera
+        id={userUuid}
+        reloadCameraPage={reloadCameraPage}
+        reload={reload}
+        isMyInfor={props?.isMyInfor}
+      />
     </div>
   );
 };
