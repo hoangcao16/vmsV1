@@ -17,6 +17,7 @@ const ModalAddEditTagBindCam = (props) => {
   const { t } = useTranslation();
   const { tags = [], setShowModal, showModal, handleSubmit, camId } = props;
   const [formValue, setFormValue] = useState({ tags });
+  console.log("formValue", formValue)
   const [keyOptions, setKeyOptions] = useState([]);
   const [form] = Form.useForm();
 

@@ -85,7 +85,6 @@ export default function ExportReportToMail(props) {
           lang: language,
           emails: form.getFieldsValue().email.toString(),
         };
-        console.log("data", data)
         ReportApi.getExportDataToMail(data).then((value) => {
           if (value.code == "1300") {
             const notifyMess = {
