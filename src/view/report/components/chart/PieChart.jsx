@@ -10,6 +10,7 @@ import ExportReport from "./ExportReport";
 import "./pieChart.scss";
 import { COLOR } from "./BarChart";
 import ExportReportToMail from "./ExportReportToMail";
+import moment from "moment";
 
 const RADIAN = Math.PI / 180;
 
@@ -40,19 +41,22 @@ const renderCustomizedLabel = ({
 };
 
 function PieChartComponents(props) {
-  console.log("props", props);
-  const dataPieChart = props.chartData.Percents;
+  let dataPieChart = []
+  const start = moment(props.chartData?.date?.startDate, "DDMMYYYY")
+  const end = moment(props.chartData?.date?.endDate, "DDMMYYYY")
+  if (moment(start).diff(end, "d") < 0) {
+    dataPieChart = props.chartData?.res?.Percents;
+  } else {
+  }
   let dataConvert = [];
   if (!isEmpty(dataPieChart)) {
     for (let key in dataPieChart) {
       let dataItem = {};
-      console.log(key, dataPieChart[key]);
       dataItem.name = key;
       dataItem.value = Number(dataPieChart[key]);
       dataConvert.push(dataItem);
     }
   }
-  console.log("dataConVert", dataConvert);
   const { t } = useTranslation();
 
   if (props.isLoading) {

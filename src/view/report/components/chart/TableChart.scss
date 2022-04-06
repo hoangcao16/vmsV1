@@ -4,7 +4,7 @@
 .table-chart {
   .table-report {
     .ant-table .ant-table-container .ant-table-tbody .ant-table-row:hover td { 
-      background: #191919 !important;
+      background: #333333 !important;
     }
   }
   background-color: $vms-bg-sub;
@@ -22,14 +22,14 @@
   }
   .ant-table {
     background-color: $vms-bg-sub;
-    border-radius: 12px 12px 0 0;
-    border: 1px solid rgba(234, 240, 247, 0.1);
+    border: 1px solid white;
+    // border: 1px solid rgba(234, 240, 247, 0.1);
 
     .ant-table-body {
-      @include scrollbar-styling(12px, 12px);
+      @include scrollbar-styling(15px, 15px);
       background: $vms-black;
     }
-
+    
     .ant-table-title {
       padding: 13px 16px;
       h4 {
@@ -40,25 +40,30 @@
     .roleRow {
       height: 50px !important;
     }
-
+    
     .ant-table-thead {
       .ant-table-cell {
-        background-color: $vms-bg-3;
+        background-color: #333333;
         padding: 13px 0 11px 16px;
         color: $vms-soft-statuts;
-        border-top: 1px solid rgba(234, 240, 247, 0.1);
-        border-bottom: 1px solid rgba(234, 240, 247, 0.1);
+        border-top: 1px solid white;
+        border-bottom: 1px solid #7e7e7e;
+        border-right: 1px solid #7e7e7e;
+        // border-top: 1px solid rgba(234, 240, 247, 0.1);
+        // border-bottom: 1px solid rgba(234, 240, 247, 0.1);
         font-weight: 600;
       }
     }
-
+    
     .ant-table-tbody {
       .ant-table-cell {
-        background-color: $vms-bg-primary;
+        background-color: #333333;
         padding: 13px 0 11px 16px;
         color: $vms-soft-statuts;
-        border-top: 1px solid rgba(234, 240, 247, 0.1);
-        border-bottom: 1px solid rgba(234, 240, 247, 0.1);
+        border-right: 1px solid #7e7e7e;
+        border-bottom: 1px solid #7e7e7e;
+        // border-top: 1px solid rgba(234, 240, 247, 0.1);
+        // border-bottom: 1px solid rgba(234, 240, 247, 0.1);
       }
 
       .ant-table-cell:last-child {
@@ -91,4 +96,8 @@
       height: 50px !important;
     }
   }
+}
+
+[dir] .ant-table-cell-scrollbar {
+  box-shadow: none;
 }

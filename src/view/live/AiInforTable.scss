@@ -74,3 +74,7 @@
   color: #1380ff !important;
   text-decoration: underline;
 }
+
+[dir] .ant-table-cell-scrollbar {
+  box-shadow: none;
+}

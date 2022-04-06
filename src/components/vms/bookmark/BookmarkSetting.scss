@@ -297,3 +297,7 @@
 .ant-tooltip.ant-tooltip-placement-top {
   z-index: 10000000000;
 }
+
+[dir] .ant-table-cell-scrollbar {
+  box-shadow: none;
+}

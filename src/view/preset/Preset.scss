@@ -676,3 +676,7 @@
   background-color: $vms-main-blue-primary;
   color: white
 }
+
+[dir] .ant-table-cell-scrollbar {
+  box-shadow: none;
+}
