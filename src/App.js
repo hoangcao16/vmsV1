@@ -15,6 +15,8 @@ import enUS from 'antd/lib/locale/en_US';
 
 moment.locale("vi-vn");
 
+vnVN.Empty.description = "Không có dữ liệu";
+
 const language = reactLocalStorage.get("language");
 
 const App = (props) => {
