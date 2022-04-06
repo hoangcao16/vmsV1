@@ -9,6 +9,8 @@ import { default as ExportEventFileApi } from "../../../../actions/api/exporteve
 import { getBase64Text } from "../../../../utility/vms/getBase64Text";
 import "./index.css";
 import SendTicketModal from "./send-ticket-modal";
+import SendEmailApi from "../../../../actions/api/send-email";
+import Notification from "../../../../components/vms/notification/Notification";
 const AI_SOURCE = process.env.REACT_APP_AI_SOURCE;
 
 const PrintSection = ({
@@ -204,13 +206,40 @@ const TicketModal = ({ visible, handleOk, handleCancel, data }) => {
       title: t("view.penalty_ticket.confirm_send"),
       okText: t("view.common_device.agree"),
       cancelText: t("view.common_device.cancel"),
-      onOk() {
-        setSendModalVisible(false);
-        setResetForm(!resetForm);
-      },
       centered: true,
       onCancel() {
         console.log("Cancel");
+      },
+      onOk: async () => {
+        const dataSend = {
+          cameraName: data?.cameraName,
+          cameraUuid: data?.cameraUuid,
+          createdTime: moment(data?.createdTime).format("HH:mm DD/MM/YYYY"),
+          eventName: data?.eventName,
+          money: `${fine} ${totext === "" ? "" : `(${totext} đồng )`}`,
+          overViewUrl: data?.overViewUrl,
+          penaltyTicketId: data?.penaltyTicketId,
+          plateNumber: data?.plateNumber,
+          uuid: data?.uuid,
+          vehicleType: data?.vehicleType,
+          videoUrl: data?.videoUrl,
+          emails: e.email.replace(/\s/g, ""),
+        };
+        try {
+          let isSend = await SendEmailApi.sendEmail(dataSend);
+          if (isSend) {
+            const notifyMess = {
+              type: "success",
+              title: `${t("noti.success")}`,
+              description: `${t("noti.sent_mail_successful")}`,
+            };
+            Notification(notifyMess);
+            setSendModalVisible(false);
+            setResetForm(!resetForm);
+          }
+        } catch (error) {
+          console.log(error);
+        }
       },
     });
   };
@@ -218,6 +247,7 @@ const TicketModal = ({ visible, handleOk, handleCancel, data }) => {
     setSendModalVisible(false);
     setResetForm(!resetForm);
   };
+  //send ticket
   //print
   const handlePrint = useReactToPrint({
     content: () => componentRef.current,
