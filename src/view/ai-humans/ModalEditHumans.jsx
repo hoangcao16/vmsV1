@@ -394,12 +394,27 @@ const ModalEditHumans = (props) => {
                 label={t("view.ai_humans.phone")}
                 rules={[
                   {
-                    min: 10,
-                    message: `${t("noti.at_least_10_characters")}`,
+                    required: true,
+                    message: `${t("view.map.required_field")}`,
                   },
+                  () => ({
+                    validator(_, value) {
+                      const valiValue = document.getElementById("phone").value;
+                      if (
+                        valiValue.length &&
+                        valiValue.startsWith("0") &&
+                        valiValue.length <= 20
+                      ) {
+                        return Promise.resolve();
+                      }
+                      return Promise.reject(
+                        new Error(t("noti.up_to_20_characters"))
+                      );
+                    },
+                  }),
                   {
-                    max: 20,
-                    message: `${t("noti.up_to_20_characters")}`,
+                    min: 12,
+                    message: `${t("noti.at_least_10_characters")}`,
                   },
                 ]}
               >
@@ -423,7 +438,8 @@ const ModalEditHumans = (props) => {
                   },
                   {
                     // pattern: /^[a-zA-Z][a-zA-Z0-9_\.]{3,32}@[a-z]{2,}(\.[a-z]{2,4}){1,2}$/,
-                    pattern: /^[a-zA-Z0-9]+([\._-]?[a-zA-Z0-9]+)*@[a-zA-Z0-9]+([\_-]?[a-zA-Z0-9]+)*(\.[a-zA-Z]{2,4}){1,2}$/,
+                    pattern:
+                      /^[a-zA-Z0-9]+([\._-]?[a-zA-Z0-9]+)*@[a-zA-Z0-9]+([\_-]?[a-zA-Z0-9]+)*(\.[a-zA-Z]{2,4}){1,2}$/,
                     message: `${t(
                       "view.user.detail_list.email_address_required"
                     )}`,

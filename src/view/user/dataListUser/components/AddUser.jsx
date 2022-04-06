@@ -34,6 +34,8 @@ import "./../../../commonStyle/commonInput.scss";
 import "./AddUser.scss";
 import "react-phone-number-input/style.css";
 import PhoneInput from "react-phone-number-input";
+import { isEmpty } from "lodash";
+import { CloudLightning } from "react-feather";
 
 const { Option } = Select;
 
@@ -359,13 +361,25 @@ function AddUser(props) {
                             required: true,
                             message: `${t("view.map.required_field")}`,
                           },
+                          () => ({
+                            validator(_, value) {
+                              const valiValue =
+                                document.getElementById("phone").value;
+                              if (
+                                valiValue.length &&
+                                valiValue.startsWith("0") &&
+                                valiValue.length <= 20
+                              ) {
+                                return Promise.resolve();
+                              }
+                              return Promise.reject(
+                                new Error(t("noti.up_to_20_characters"))
+                              );
+                            },
+                          }),
                           {
-                            min: 10,
+                            min: 12,
                             message: `${t("noti.at_least_10_characters")}`,
-                          },
-                          {
-                            max: 20,
-                            message: `${t("noti.up_to_20_characters")}`,
                           },
                         ]}
                       >
@@ -401,9 +415,8 @@ function AddUser(props) {
                             message: `${t("view.map.required_field")}`,
                           },
                           {
-                            // pattern:
-                            //   /^[a-zA-Z0-9]{1,}[\._-]{0,1}[a-zA-Z0-9]{0,}@[a-z0-9]{2,}(\.[a-z]{2,4}){1,2}$/,
-                            pattern: /^[a-zA-Z0-9]+([\._-]?[a-zA-Z0-9]+)*@[a-zA-Z0-9]+([\_-]?[a-zA-Z0-9]+)*(\.[a-zA-Z]{2,4}){1,2}$/,
+                            pattern:
+                              /^[a-zA-Z0-9]+([\._-]?[a-zA-Z0-9]+)*@[a-zA-Z0-9]+([\_-]?[a-zA-Z0-9]+)*(\.[a-zA-Z]{2,4}){1,2}$/,
                             message: `${t(
                               "view.user.detail_list.email_address_required"
                             )}`,
