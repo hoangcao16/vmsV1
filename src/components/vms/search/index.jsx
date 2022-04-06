@@ -8,10 +8,15 @@ import { useTranslation } from "react-i18next";
 const Search = ({ onPressEnter, toggleOpenFilter, searchValue }) => {
   const { t } = useTranslation();
   const [search, setSearch] = useState(searchValue);
+  const [paste, setPaste] = useState(false);
   const handleChange = (e) => {
-    const value = e.target.value;
+    let value = e.target.value;
     if (value === "") {
       onPressEnter(value);
+    }
+    if (paste) {
+      setPaste(false);
+      value = value.trim();
     }
     setSearch(value);
   };
@@ -24,6 +29,7 @@ const Search = ({ onPressEnter, toggleOpenFilter, searchValue }) => {
   const handlePaste = (e) => {
     const value = e.target.value.trimStart();
     setSearch(value);
+    setPaste(true);
   };
 
   return (
