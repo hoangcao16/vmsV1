@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import { Select, Input, Form } from "antd";
 import {
   filterOption,
@@ -7,6 +7,9 @@ import {
 import { useTranslation } from "react-i18next";
 
 const AdminisUnitFormFilter = (props) => {
+  const { t } = useTranslation();
+  const [paste, setPaste] = useState(false);
+
   let {
     provinces,
     districts,
@@ -17,7 +20,6 @@ const AdminisUnitFormFilter = (props) => {
     points,
     form,
   } = props;
-  const { t } = useTranslation();
 
   return (
     <>
@@ -72,6 +74,15 @@ const AdminisUnitFormFilter = (props) => {
             form.setFieldsValue({
               address: e.target.value.trimStart(),
             });
+            setPaste(true);
+          }}
+          onChange={(e) => {
+            if (paste) {
+              setPaste(false);
+              form.setFieldsValue({
+                address: e.target.value.trim(),
+              });
+            }
           }}
         />
       </Form.Item>
