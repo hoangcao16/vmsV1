@@ -57,7 +57,7 @@ const ModalAddCamera = (props) => {
       wardId: "",
       administrativeUnitUuid: "",
       vendorUuid: "",
-      status: "",
+      recordingStatus: "",
       page: 1,
       size: 1000000,
     };
@@ -79,7 +79,7 @@ const ModalAddCamera = (props) => {
       wardId: "",
       administrativeUnitUuid: "",
       vendorUuid: "",
-      status: "",
+      recordingStatus: "",
       page: 1,
       size: 1000000,
     };
@@ -427,7 +427,7 @@ const ModalAddCamera = (props) => {
             </Col>
 
             <Col span={6}>
-              <Form.Item name="status" label={t("view.common_device.status")}>
+              <Form.Item name="recordingStatus" label={t("view.common_device.status")}>
                 <Select
                   showSearch
                   allowClear
