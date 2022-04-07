@@ -11,6 +11,7 @@ import "./pieChart.scss";
 import { COLOR } from "./BarChart";
 import ExportReportToMail from "./ExportReportToMail";
 import moment from "moment";
+import ConvertDataChart from "../../../../actions/function/MyUltil/ConvertDataChart";
 
 const RADIAN = Math.PI / 180;
 
@@ -41,13 +42,7 @@ const renderCustomizedLabel = ({
 };
 
 function PieChartComponents(props) {
-  let dataPieChart = []
-  const start = moment(props.chartData?.date?.startDate, "DDMMYYYY")
-  const end = moment(props.chartData?.date?.endDate, "DDMMYYYY")
-  if (moment(start).diff(end, "d") < 0) {
-    dataPieChart = props.chartData?.res?.Percents;
-  } else {
-  }
+  let dataPieChart = props.chartData?.res?.Percents
   let dataConvert = [];
   if (!isEmpty(dataPieChart)) {
     for (let key in dataPieChart) {
@@ -120,7 +115,7 @@ function PieChartComponents(props) {
 
 const mapStateToProps = (state) => ({
   isLoading: state.chart.isLoading,
-  chartData: state.chart.chartData.data,
+  chartData: ConvertDataChart(state.chart.chartData.data),
   error: state.chart.error,
   title: state.chart.title,
   typeChart: state.chart.typeChart,
