@@ -54,6 +54,8 @@ const MapAdministrativeUnitAdd = (props) => {
     selectNewPosition,
   } = props;
 
+  console.log("editAdminisUnit", editAdminisUnit)
+
   useEffect(() => {
     (async () => {
       await fetchSelectOptions().then(setFilterOptions);
@@ -85,6 +87,7 @@ const MapAdministrativeUnitAdd = (props) => {
           });
         }
       } else {
+        form.resetFields()
         if (selectNewPosition) {
           form.setFieldsValue({
             long_: initialLatLgn[0],
