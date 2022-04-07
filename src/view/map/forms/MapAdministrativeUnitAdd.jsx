@@ -85,6 +85,8 @@ const MapAdministrativeUnitAdd = (props) => {
         }
       } else {
         form.resetFields()
+        setDistrict([])
+        setWard([])
         if (selectNewPosition) {
           form.setFieldsValue({
             long_: initialLatLgn[0],
