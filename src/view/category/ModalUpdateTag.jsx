@@ -29,9 +29,7 @@ const ModalUpdateTag = (props) => {
     getTagById();
   }, [selectedCategoryId]);
   const showMessage = (selectedCategoryId, response) => {
-    if (
-      permissionCheck("add_category") && !selectedCategoryId
-    ) {
+    if (permissionCheck("add_category") && !selectedCategoryId) {
       const notifyMess = {
         type: "success",
         title: "",
@@ -40,8 +38,8 @@ const ModalUpdateTag = (props) => {
         })}`,
       };
       Notification(notifyMess);
-    } 
-    
+    }
+
     if (permissionCheck("edit_category") && selectedCategoryId) {
       const notifyMess = {
         type: "success",
@@ -112,11 +110,12 @@ const ModalUpdateTag = (props) => {
                         key: e.target.value.trim(),
                       })
                     }
-                    onPaste={(e) =>
+                    onPaste={(e) => {
+                      e.preventDefault();
                       form.setFieldsValue({
-                        key: e.target.value.trimStart(),
-                      })
-                    }
+                        key: e.clipboardData.getData("text").trim(),
+                      });
+                    }}
                   />
                 </Form.Item>
               </Col>

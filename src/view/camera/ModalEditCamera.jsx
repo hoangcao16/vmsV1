@@ -295,9 +295,12 @@ const ModalEditCamera = (props) => {
                       onBlur={(e) =>
                         form.setFieldsValue({ name: e.target.value.trim() })
                       }
-                      onPaste={(e) =>
-                        form.setFieldsValue({ name: e.target.value.trimStart() })
-                      }
+                      onPaste={(e) => {
+                        e.preventDefault();
+                        form.setFieldsValue({
+                          name: e.clipboardData.getData("text").trim(),
+                        });
+                      }}
                     />
                   </Form.Item>
                 </Col>
@@ -322,9 +325,12 @@ const ModalEditCamera = (props) => {
                       onBlur={(e) =>
                         form.setFieldsValue({ code: e.target.value.trim() })
                       }
-                      onPaste={(e) =>
-                        form.setFieldsValue({ code: e.target.value.trimStart() })
-                      }
+                      onPaste={(e) => {
+                        e.preventDefault();
+                        form.setFieldsValue({
+                          code: e.clipboardData.getData("text").trim(),
+                        });
+                      }}
                     />
                   </Form.Item>
                 </Col>
@@ -495,9 +501,12 @@ const ModalEditCamera = (props) => {
                   onBlur={(e) =>
                     form.setFieldsValue({ address: e.target.value.trim() })
                   }
-                  onPaste={(e) =>
-                    form.setFieldsValue({ address: e.target.value.trimStart() })
-                  }
+                  onPaste={(e) => {
+                    e.preventDefault();
+                    form.setFieldsValue({
+                      address: e.clipboardData.getData("text").trim(),
+                    });
+                  }}
                 />
               </Form.Item>
             </Col>
@@ -554,9 +563,12 @@ const ModalEditCamera = (props) => {
                   onBlur={(e) =>
                     form.setFieldsValue({ long_: e.target.value.trim() })
                   }
-                  onPaste={(e) =>
-                    form.setFieldsValue({ long_: e.target.value.trimStart() })
-                  }
+                  onPaste={(e) => {
+                    e.preventDefault();
+                    form.setFieldsValue({
+                      long_: e.clipboardData.getData("text").trim(),
+                    });
+                  }}
                 />
               </Form.Item>
             </Col>
@@ -596,9 +608,12 @@ const ModalEditCamera = (props) => {
                   onBlur={(e) =>
                     form.setFieldsValue({ lat_: e.target.value.trim() })
                   }
-                  onPaste={(e) =>
-                    form.setFieldsValue({ lat_: e.target.value.trimStart() })
-                  }
+                  onPaste={(e) => {
+                    e.preventDefault();
+                    form.setFieldsValue({
+                      lat_: e.clipboardData.getData("text").trim(),
+                    });
+                  }}
                 />
               </Form.Item>
             </Col>
@@ -615,12 +630,15 @@ const ModalEditCamera = (props) => {
                   ({ getFieldValue }) => ({
                     validator(rule, value) {
                       const data = getFieldValue(["port"]);
-                      const regex = /^((6553[0-5])|(655[0-2][0-9])|(65[0-4][0-9]{2})|(6[0-4][0-9]{3})|([1-5][0-9]{4})|([0-5]{0,5})|([0-9]{1,4}))$/
+                      const regex =
+                        /^((6553[0-5])|(655[0-2][0-9])|(65[0-4][0-9]{2})|(6[0-4][0-9]{3})|([1-5][0-9]{4})|([0-5]{0,5})|([0-9]{1,4}))$/;
                       if (data) {
                         if (isFinite(data) && regex.test(data)) {
                           return Promise.resolve();
                         } else {
-                          return Promise.reject(`${t("view.storage.invalid_format")}`);
+                          return Promise.reject(
+                            `${t("view.storage.invalid_format")}`
+                          );
                         }
                       } else {
                         return Promise.resolve();
@@ -639,8 +657,9 @@ const ModalEditCamera = (props) => {
                     });
                   }}
                   onPaste={(e) => {
+                    e.preventDefault();
                     form.setFieldsValue({
-                      port: e.target.value.trimStart(),
+                      port: e.clipboardData.getData("text").trim(),
                     });
                   }}
                   maxLength={255}
@@ -676,9 +695,10 @@ const ModalEditCamera = (props) => {
                     message: `${t("view.map.required_field")}`,
                   },
                   {
-                    pattern: /^(25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\.(25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\.(25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\.(25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)$/,
+                    pattern:
+                      /^(25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\.(25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\.(25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\.(25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)$/,
                     message: `${t("view.map.ip_error")}`,
-                  }
+                  },
                 ]}
               >
                 <Input
@@ -689,9 +709,12 @@ const ModalEditCamera = (props) => {
                   onBlur={(e) =>
                     form.setFieldsValue({ ip: e.target.value.trim() })
                   }
-                  onPaste={(e) =>
-                    form.setFieldsValue({ ip: e.target.value.trimStart() })
-                  }
+                  onPaste={(e) => {
+                    e.preventDefault();
+                    form.setFieldsValue({
+                      ip: e.clipboardData.getData("text").trim(),
+                    });
+                  }}
                 />
               </Form.Item>
             </Col>
@@ -714,9 +737,12 @@ const ModalEditCamera = (props) => {
                   onBlur={(e) =>
                     form.setFieldsValue({ cameraUrl: e.target.value.trim() })
                   }
-                  onPaste={(e) =>
-                    form.setFieldsValue({ cameraUrl: e.target.value.trimStart() })
-                  }
+                  onPaste={(e) => {
+                    e.preventDefault();
+                    form.setFieldsValue({
+                      cameraUrl: e.clipboardData.getData("text").trim(),
+                    });
+                  }}
                 />
               </Form.Item>
               <Col span={24}>
@@ -735,9 +761,12 @@ const ModalEditCamera = (props) => {
                   onBlur={(e) =>
                     form.setFieldsValue({ hlsUrl: e.target.value.trim() })
                   }
-                  onPaste={(e) =>
-                    form.setFieldsValue({ hlsUrl: e.target.value.trimStart() })
-                  }
+                  onPaste={(e) => {
+                    e.preventDefault();
+                    form.setFieldsValue({
+                      hlsUrl: e.clipboardData.getData("text").trim(),
+                    });
+                  }}
                 />
               </Form.Item>
             </Col>

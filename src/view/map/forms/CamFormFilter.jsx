@@ -9,8 +9,6 @@ import { useTranslation } from "react-i18next";
 
 const CameraFormFilter = (props) => {
   const { t } = useTranslation();
-  const [paste, setPaste] = useState(false);
-
 
   let {
     provinces,
@@ -95,18 +93,10 @@ const CameraFormFilter = (props) => {
             });
           }}
           onPaste={(e) => {
+            e.preventDefault();
             form.setFieldsValue({
-              address: e.target.value.trimStart(),
+              address: e.clipboardData.getData("text").trim(),
             });
-            setPaste(true)
-          }}
-          onChange={(e) => {
-            if (paste) {
-              setPaste(false);
-              form.setFieldsValue({
-                address: e.target.value.trim(),
-              });
-            }
           }}
         />
       </Form.Item>

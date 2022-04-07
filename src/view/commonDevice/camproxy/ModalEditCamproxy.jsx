@@ -1,18 +1,18 @@
-import { Button, Col, Form, Input, Modal, Row, Spin } from 'antd';
-import { isEmpty } from 'lodash-es';
-import React, { useEffect, useState } from 'react';
-import { useTranslation } from 'react-i18next';
-import CamproxyApi from '../../../actions/api/camproxy/CamproxyApi';
-import trimObjValues from '../../../actions/function/MyUltil/CheckDataTrim';
-import Notification from '../../../components/vms/notification/Notification';
-import './../../commonStyle/commonForm.scss';
-import './../../commonStyle/commonInput.scss';
-import './../../commonStyle/commonModal.scss';
-import './ModalEditCamproxy.scss';
+import { Button, Col, Form, Input, Modal, Row, Spin } from "antd";
+import { isEmpty } from "lodash-es";
+import React, { useEffect, useState } from "react";
+import { useTranslation } from "react-i18next";
+import CamproxyApi from "../../../actions/api/camproxy/CamproxyApi";
+import trimObjValues from "../../../actions/function/MyUltil/CheckDataTrim";
+import Notification from "../../../components/vms/notification/Notification";
+import "./../../commonStyle/commonForm.scss";
+import "./../../commonStyle/commonInput.scss";
+import "./../../commonStyle/commonModal.scss";
+import "./ModalEditCamproxy.scss";
 
 const formItemLayout = {
   wrapperCol: { span: 24 },
-  labelCol: { span: 24 }
+  labelCol: { span: 24 },
 };
 
 // const DATA_FAKE_CAMPROXY = {
@@ -50,9 +50,9 @@ const ModalEditCamproxy = (props) => {
 
       if (isEdit) {
         const notifyMess = {
-          type: 'success',
-          title: '',
-          description: `${t('noti.successfully_edit_camproxy')}`
+          type: "success",
+          title: "",
+          description: `${t("noti.successfully_edit_camproxy")}`,
         };
         Notification(notifyMess);
       }
@@ -72,15 +72,14 @@ const ModalEditCamproxy = (props) => {
   return (
     <>
       <Modal
-        title={t('view.common_device.edit_camproxy')}
+        title={t("view.common_device.edit_camproxy")}
         visible={isModalVisible}
         onOk={handleSubmit}
         onCancel={handleShowModalEdit}
         style={{ top: 40 }}
         footer={null}
         className="modal--camproxy"
-        maskStyle={{ background: 'rgba(51, 51, 51, 0.9)' }}
-
+        maskStyle={{ background: "rgba(51, 51, 51, 0.9)" }}
       >
         <Form
           className="bg-grey"
@@ -92,28 +91,29 @@ const ModalEditCamproxy = (props) => {
           <Row gutter={24}>
             <Col span={24}>
               <Form.Item
-                label={t('view.common_device.camproxy_name')}
-                name={['name']}
+                label={t("view.common_device.camproxy_name")}
+                name={["name"]}
                 rules={[
                   {
                     required: true,
-                    message: `${t('view.map.required_field')}`
+                    message: `${t("view.map.required_field")}`,
                   },
                   {
                     max: 255,
-                    message: `${t('noti.255_characters_limit')}`
-                  }
+                    message: `${t("noti.255_characters_limit")}`,
+                  },
                 ]}
               >
                 <Input
                   onBlur={(e) => {
                     form.setFieldsValue({
-                      name: e.target.value.trim()
+                      name: e.target.value.trim(),
                     });
                   }}
                   onPaste={(e) => {
+                    e.preventDefault();
                     form.setFieldsValue({
-                      name: e.target.value.trimStart()
+                      name: e.clipboardData.getData("text").trim(),
                     });
                   }}
                 />
@@ -121,28 +121,29 @@ const ModalEditCamproxy = (props) => {
             </Col>
             <Col span={24}>
               <Form.Item
-                label={t('view.common_device.note')}
-                name={['note']}
+                label={t("view.common_device.note")}
+                name={["note"]}
                 rules={[
                   {
                     required: true,
-                    message: `${t('view.map.required_field')}`
+                    message: `${t("view.map.required_field")}`,
                   },
                   {
                     max: 255,
-                    message: `${t('noti.255_characters_limit')}`
-                  }
+                    message: `${t("noti.255_characters_limit")}`,
+                  },
                 ]}
               >
                 <Input
                   onBlur={(e) => {
                     form.setFieldsValue({
-                      note: e.target.value.trim()
+                      note: e.target.value.trim(),
                     });
                   }}
                   onPaste={(e) => {
+                    e.preventDefault();
                     form.setFieldsValue({
-                      note: e.target.value.trimStart()
+                      note: e.clipboardData.getData("text").trim(),
                     });
                   }}
                 />
@@ -150,28 +151,29 @@ const ModalEditCamproxy = (props) => {
             </Col>
             <Col span={24}>
               <Form.Item
-                label={t('view.common_device.desc')}
-                name={['description']}
+                label={t("view.common_device.desc")}
+                name={["description"]}
                 rules={[
                   {
                     required: true,
-                    message: `${t('view.map.required_field')}`
+                    message: `${t("view.map.required_field")}`,
                   },
                   {
                     max: 255,
-                    message: `${t('noti.255_characters_limit')}`
-                  }
+                    message: `${t("noti.255_characters_limit")}`,
+                  },
                 ]}
               >
                 <Input
                   onBlur={(e) => {
                     form.setFieldsValue({
-                      description: e.target.value.trim()
+                      description: e.target.value.trim(),
                     });
                   }}
                   onPaste={(e) => {
+                    e.preventDefault();
                     form.setFieldsValue({
-                      description: e.target.value.trimStart()
+                      description: e.clipboardData.getData("text").trim(),
                     });
                   }}
                 />
@@ -182,7 +184,7 @@ const ModalEditCamproxy = (props) => {
           <Row className="row--submit">
             <div className="submit">
               <Button type="primary" htmlType="submit ">
-                {t('view.user.detail_list.confirm')}
+                {t("view.user.detail_list.confirm")}
               </Button>
             </div>
           </Row>

@@ -48,7 +48,8 @@ const Bookmark = ({
             setName(e.target.value.trim());
           }}
           onPaste={(e) => {
-            setName(e.target.value.trimStart());
+            e.preventDefault();
+            setName(e.clipboardData.getData("text").trim());
           }}
         />
         <p className="bookmark__name-err" style={errStyle}>

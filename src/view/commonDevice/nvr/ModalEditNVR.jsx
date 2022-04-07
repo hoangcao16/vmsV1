@@ -113,8 +113,9 @@ const ModalEditNVR = (props) => {
                     });
                   }}
                   onPaste={(e) => {
+                    e.preventDefault();
                     form.setFieldsValue({
-                      name: e.target.value.trimStart(),
+                      name: e.clipboardData.getData("text").trim(),
                     });
                   }}
                 ></Input>
@@ -142,8 +143,9 @@ const ModalEditNVR = (props) => {
                     });
                   }}
                   onPaste={(e) => {
+                    e.preventDefault();
                     form.setFieldsValue({
-                      note: e.target.value.trimStart(),
+                      note: e.clipboardData.getData("text").trim(),
                     });
                   }}
                 ></TextArea>
@@ -171,8 +173,9 @@ const ModalEditNVR = (props) => {
                     });
                   }}
                   onPaste={(e) => {
+                    e.preventDefault();
                     form.setFieldsValue({
-                      description: e.target.value.trimStart(),
+                      description: e.clipboardData.getData("text").trim(),
                     });
                   }}
                 ></TextArea>

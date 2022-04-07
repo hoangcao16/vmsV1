@@ -389,7 +389,8 @@ const BookmarkSetting = ({
   };
 
   const handlePaste = (e) => {
-    setSearchName(e.target.value.trimStart());
+    e.preventDefault();
+    setSearchName(e.clipboardData.getData("text").trim());
   }
 
   const handleSelectGridType = (gType) => {
@@ -566,7 +567,8 @@ const BookmarkSetting = ({
                             setNewName(e.target.value.trim());
                           }}
                           onPaste={(e) => {
-                            setNewName(e.target.value.trimStart());
+                            e.preventDefault();
+                            setNewName(e.clipboardData.getData("text").trim());
                           }}
                           maxLength={100}
                         />
