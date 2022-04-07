@@ -43,7 +43,7 @@ export default function TableListRoles() {
 
   useEffect(() => {
     let data = {
-      filter: "",
+      filter: search,
       page: page,
       size: size,
     };
@@ -52,7 +52,7 @@ export default function TableListRoles() {
       setRoles(result.payload);
       setTotal(result?.metadata?.total);
     });
-  }, [page, size, reload]);
+  }, [page, size, reload, search]);
 
   const renderHeader = () => {
     return (
