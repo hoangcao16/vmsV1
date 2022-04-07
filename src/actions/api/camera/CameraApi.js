@@ -1,14 +1,13 @@
-import { reactLocalStorage } from 'reactjs-localstorage';
+import { reactLocalStorage } from "reactjs-localstorage";
 import {
   handleErrCodeAuthZ,
   handleErrCodeReport,
-  responseCheckerErrorsController
-} from '../../function/MyUltil/ResponseChecker';
-import MyService from '../service';
-import Notification from './../../../components/vms/notification/Notification';
+  responseCheckerErrorsController,
+} from "../../function/MyUltil/ResponseChecker";
+import MyService from "../service";
+import Notification from "./../../../components/vms/notification/Notification";
 const CameraApi = {
   getAllCamera: async (dataSearch) => {
-
     let result;
 
     try {
@@ -25,7 +24,6 @@ const CameraApi = {
     return result.payload;
   },
   getCameraByTagName: async (dataSearch) => {
-
     let result;
 
     try {
@@ -62,9 +60,7 @@ const CameraApi = {
     let result;
 
     try {
-      result = await MyService.getRequestData(
-        '/owl/api/v1/get-report-camera'
-      );
+      result = await MyService.getRequestData("/owl/api/v1/get-report-camera");
     } catch (error) {
       console.log(JSON.stringify(error));
     }
@@ -95,9 +91,9 @@ const CameraApi = {
     const data = {
       ...dataInput,
 
-      parent: dataInput?.parent === undefined ? '' : dataInput?.parent,
+      parent: dataInput?.parent === undefined ? "" : dataInput?.parent,
       page: 0,
-      size: 10000
+      size: 10000,
     };
     let result;
 
@@ -271,7 +267,7 @@ const CameraApi = {
 
     try {
       result = await MyService.postRequestData(
-        '/cctv-controller-svc/api/v1/cameras',
+        "/cctv-controller-svc/api/v1/cameras",
         cameraPayload
       );
     } catch (error) {
@@ -287,7 +283,7 @@ const CameraApi = {
 
     try {
       result = await MyService.postRequestData(
-        '/cctv-controller-svc/api/v1/camera_groups',
+        "/cctv-controller-svc/api/v1/camera_groups",
         cameraGroupPayload
       );
     } catch (error) {
@@ -304,7 +300,7 @@ const CameraApi = {
 
     try {
       result = await MyService.postRequestData(
-        '/authz/api/v0/groups/set',
+        "/authz/api/v0/groups/set",
         data
       );
     } catch (error) {
@@ -320,7 +316,7 @@ const CameraApi = {
 
     try {
       result = await MyService.postRequestData(
-        '/cctv-controller-svc/api/v1/camera_types',
+        "/cctv-controller-svc/api/v1/camera_types",
         cameraTypePayload
       );
     } catch (error) {
@@ -338,7 +334,7 @@ const CameraApi = {
 
     try {
       result = await MyService.postRequestData(
-        '/authz/api/v0/authorization/add_permission',
+        "/authz/api/v0/authorization/add_permission",
         data
       );
     } catch (error) {
@@ -354,7 +350,7 @@ const CameraApi = {
 
     try {
       result = await MyService.postRequestData(
-        '/authz/api/v0/authorization/remove_permission',
+        "/authz/api/v0/authorization/remove_permission",
         data
       );
     } catch (error) {
@@ -371,7 +367,7 @@ const CameraApi = {
 
     try {
       result = await MyService.postRequestData(
-        '/authz/api/v0/authorization/add_multi_permission',
+        "/authz/api/v0/authorization/add_multi_permission",
         data
       );
     } catch (error) {
@@ -399,31 +395,30 @@ const CameraApi = {
     if (responseCheckerErrorsController(result) === null) {
       return false;
     }
-    const language = reactLocalStorage.get('language')
+    const language = reactLocalStorage.get("language");
     let notifyMess = {};
-    if (language == 'vn') {
+    if (language == "vn") {
       notifyMess = {
-        type: 'success',
-        title: '',
-        description: 'Sửa Camera thành công'
+        type: "success",
+        title: "",
+        description: "Sửa Camera thành công",
       };
     } else {
       notifyMess = {
-        type: 'success',
-        title: '',
-        description: 'Successfully edit Camera'
+        type: "success",
+        title: "",
+        description: "Successfully edit Camera",
       };
     }
     Notification(notifyMess);
     return true;
   },
 
-
   getExportData: async (body) => {
     let result;
     try {
       result = await MyService.postRequestDataBlob(
-        '/owl/api/v1/report-camera',
+        "/owl/api/v1/report-camera",
         body
       );
     } catch (error) {
@@ -431,7 +426,6 @@ const CameraApi = {
     }
     return result;
   },
-
 };
 
 export default CameraApi;

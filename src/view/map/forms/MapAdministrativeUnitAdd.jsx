@@ -54,8 +54,6 @@ const MapAdministrativeUnitAdd = (props) => {
     selectNewPosition,
   } = props;
 
-  console.log("editAdminisUnit", editAdminisUnit)
-
   useEffect(() => {
     (async () => {
       await fetchSelectOptions().then(setFilterOptions);
