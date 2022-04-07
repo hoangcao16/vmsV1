@@ -36,7 +36,7 @@ const RoleUser = (props) => {
     const data = {
       filter: "",
       page: 1,
-      size: "",
+      size: 100000,
     };
 
     UserApi.getAllRole(data).then((result) => {

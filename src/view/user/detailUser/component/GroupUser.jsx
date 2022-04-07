@@ -33,7 +33,10 @@ const GroupUser = (props) => {
   const location = useLocation();
 
   useEffect(() => {
-    UserApi.getAllGroup().then((result) => {
+    const params = {
+      size: 100000,
+    }
+    UserApi.getAllGroup(params).then((result) => {
       setAllGroup(result?.sort(compare));
     });
     UserApi.getGroupByUser({ uuid: props?.id }).then((result) => {

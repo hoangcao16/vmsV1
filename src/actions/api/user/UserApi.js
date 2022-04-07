@@ -105,11 +105,11 @@ const   UserApi = {
 
     return result.payload;
   },
-  getAllGroup: async () => {
+  getAllGroup: async (params) => {
     let result;
 
     try {
-      result = await MyService.getRequestData(`/authz/api/v0/groups`);
+      result = await MyService.getRequestData(`/authz/api/v0/groups`, params);
     } catch (error) {
       console.log(error);
     }
