@@ -137,6 +137,11 @@ export const StyledEventFileDetail = styled(Row)`
   }
   .err_image {
     margin-top: 8px;
+    ul {
+      display: flex;
+      align-items: center;
+      padding-left: 0 !important;
+    }
   }
 `;
 export const TableDetails = styled(Row)`
@@ -235,6 +240,11 @@ export const TableDetails = styled(Row)`
   .editable-cell-value-wrap {
     padding: 5px 12px;
     cursor: pointer;
+    min-height: 32px;
+    min-width: 290px;
+  }
+  .ant-table-tbody > tr.selected > td {
+    background: #333333;
   }
   .editable-row .editable-cell-value-wrap {
     /* padding: 4px 11px; */
@@ -248,6 +258,11 @@ export const TableDetails = styled(Row)`
   }
   .ant-form-item-control-input {
     border-radius: 8px;
+  }
+  .ant-form-item-explain-error {
+    padding-top: 4px;
+    font-size: 10px;
+    min-height: auto;
   }
   .edit-note {
     height: 32px !important;

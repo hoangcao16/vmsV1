@@ -27,7 +27,7 @@ import { useTranslation } from "react-i18next";
 import { NOTYFY_TYPE } from "../../../common/vms/Constant";
 import { cameraRedIconSvg } from "../../../map/camera-red.icon";
 
-const PreviewMap = ({ data, fileCurrent }) => {
+const PreviewMap = ({ data, fileCurrent, listLongLat }) => {
   const { t } = useTranslation();
   const mapboxRef = useRef(null);
   const mapBoxDrawRef = useRef(null);
@@ -38,6 +38,8 @@ const PreviewMap = ({ data, fileCurrent }) => {
   const cameraRedIcon = new Image();
   cameraRedIcon.src =
     "data:image/svg+xml;charset=utf-8;base64," + btoa(cameraRedIconSvg);
+  //mapbox token
+  const mapboxToken = process.env.REACT_APP_MAPBOX_TOKEN;
   //khởi tạo map
   const createNewMarker = (data) => {
     if (_.inRange(data.lat_, -90, 90)) {
@@ -73,6 +75,7 @@ const PreviewMap = ({ data, fileCurrent }) => {
   };
   const showViewMap = () => {
     try {
+      //vietmap token
       mapboxgl.accessToken = process.env.REACT_APP_VIETMAP_TOKEN;
       if (!mapboxRef.current) {
         //khởi tạo map
@@ -136,6 +139,81 @@ const PreviewMap = ({ data, fileCurrent }) => {
         calRatioZoom(marker, currentZoom);
       });
   };
+  function addRoute(coords) {
+    // If a route is already loaded, remove it
+    if (mapboxRef.current.getSource("route")) {
+      mapboxRef.current.removeLayer("route");
+      mapboxRef.current.removeSource("route");
+      mapboxRef.current.addLayer({
+        id: "route",
+        type: "line",
+        source: {
+          type: "geojson",
+          data: {
+            type: "Feature",
+            properties: {},
+            geometry: coords,
+          },
+        },
+        layout: {
+          "line-join": "round",
+          "line-cap": "round",
+        },
+        paint: {
+          "line-color": "#03AA46",
+          "line-width": 8,
+          "line-opacity": 0.8,
+        },
+      });
+    } else {
+      // Add a new layer to the map
+      mapboxRef.current.addLayer({
+        id: "route",
+        type: "line",
+        source: {
+          type: "geojson",
+          data: {
+            type: "Feature",
+            properties: {},
+            geometry: coords,
+          },
+        },
+        layout: {
+          "line-join": "round",
+          "line-cap": "round",
+        },
+        paint: {
+          "line-color": "#03AA46",
+          "line-width": 8,
+          "line-opacity": 0.8,
+        },
+      });
+    }
+  }
+  // Make a Map Matching request
+  async function getMatch(coordinates, profile) {
+    const apiKey = "95f852d9f8c38e08ceacfd456b59059d0618254a50d3854c";
+    // Create the query
+    // const query = await fetch(
+    //   `https://api.mapbox.com/directions/v5/mapbox/${profile}/${coordinates}?geometries=geojson&radiuses=${radiuses}&access_token=${mapboxToken}`,
+    //   { method: "GET" }
+    // );
+    const query = await fetch(
+      `https://maps.vietmap.vn/api/route?${coordinates}&instructions=false&type=json&locale=vi&apikey=${apiKey}&vehicle=${profile}&points_encoded=false&api-version=1.1`,
+      { method: "GET" }
+    );
+    const response = await query.json();
+    console.log(response);
+    // Handle errors
+    if (response.code !== "OK") {
+      console.log(`${response.code} - ${response.message}.`);
+      return;
+    }
+    // Get the coordinates from the response
+    const coords = response.paths[0].points;
+    // Draw the route on the map
+    addRoute(coords);
+  }
   useEffect(() => {
     showViewMap();
     mapboxRef.current &&
@@ -146,7 +224,20 @@ const PreviewMap = ({ data, fileCurrent }) => {
   useEffect(() => {
     setCurrentLan([data.long_, data.lat_]);
     createNewMarker(data);
-  }, [fileCurrent, data]);
+  }, [data]);
+  useEffect(() => {
+    if (listLongLat.length > 1) {
+      const newCoords = listLongLat
+        .map((i) => `&point=${i.join(",")}`)
+        .join("");
+      getMatch(newCoords, "motorcycle");
+    } else {
+      if (mapboxRef.current.getSource("route")) {
+        mapboxRef.current.removeLayer("route");
+        mapboxRef.current.removeSource("route");
+      }
+    }
+  }, [listLongLat]);
   return (
     <>
       <div key="map" id="map" className="view-map-preview"></div>

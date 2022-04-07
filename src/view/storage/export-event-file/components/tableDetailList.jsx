@@ -2,6 +2,11 @@ import React, { useState, useRef, useContext, useEffect } from "react";
 import { Table, Form, Input } from "antd";
 import { TableDetails } from "./style";
 import _ from "lodash";
+import moment from "moment";
+import AIEventsApi from "../../../../actions/api/ai-events/AIEventsApi";
+import Notification from "../../../../components/vms/notification/Notification";
+import { useTranslation } from "react-i18next";
+
 const EditableContext = React.createContext(null);
 
 const EditableCell = ({
@@ -22,17 +27,18 @@ const EditableCell = ({
     }
   }, [editing]);
 
-  const toggleEdit = () => {
+  const toggleEdit = (e) => {
+    e.stopPropagation();
     setEditing(!editing);
     form.setFieldsValue({
       [dataIndex]: record[dataIndex],
     });
   };
 
-  const save = async () => {
+  const save = async (e) => {
     try {
       const values = await form.validateFields();
-      toggleEdit();
+      toggleEdit(e);
       handleSave({ ...record, ...values });
     } catch (errInfo) {
       console.log("Save failed:", errInfo);
@@ -48,12 +54,12 @@ const EditableCell = ({
           margin: 0,
         }}
         name={dataIndex}
-        rules={[
-          {
-            required: true,
-            message: `${title} is required.`,
-          },
-        ]}
+        // rules={[
+        //   {
+        //     required: true,
+        //     message: `${title} is required.`,
+        //   },
+        // ]}
       >
         <Input
           ref={inputRef}
@@ -87,22 +93,26 @@ const EditableRow = ({ index, ...props }) => {
     </Form>
   );
 };
-const TableDetailList = () => {
+const TableDetailList = (props) => {
+  let tracingList = props.tracingList || [];
+  let detailAI = props.detailAI || {};
+  const { t } = useTranslation();
   const datacolumns = [
     {
       title: "Ngày giờ ghi nhận",
-      dataIndex: "time",
-      key: "time",
+      dataIndex: "createdTime",
+      key: "createdTime",
+      render: (text) => <span>{moment(text).format("HH:mm DD/MM/YYYY")}</span>,
     },
     {
       title: "Camera ghi nhận",
-      dataIndex: "camera",
-      key: "camera",
+      dataIndex: "cameraName",
+      key: "cameraName",
     },
     {
       title: "Loại vi phạm",
-      dataIndex: "type",
-      key: "type",
+      dataIndex: "eventName",
+      key: "eventName",
     },
     {
       title: "Địa điểm",
@@ -116,26 +126,39 @@ const TableDetailList = () => {
       editable: true,
     },
   ];
-  const dataSource = [
-    {
-      key: "1",
-      time: "10/10/2020",
-      camera: "edsolabs10",
-      type: "Vuot qua gioi han",
-      address: "Hà Nội",
-      note: "Không vượt quá giới hạn",
-    },
-    {
-      key: "2",
-      time: "10/10/2020",
-      camera: "edsolabs10",
-      type: "Vuot qua gioi han",
-      address: "Hà Nội",
-      note: "Không vượt quá giới hạn",
-    },
-  ];
-  const handleSave = (row) => {
+  const dataSource = tracingList?.payload;
+  // console.log("dataSource", dataSource);
+  const handleSave = async (row) => {
     console.log(row);
+    const data = {
+      cameraUuid: row.cameraUuid,
+      uuid: row.uuid,
+      note: row?.note,
+    };
+    try {
+      const isEdit = await AIEventsApi.editInforOfEvent(detailAI.uuid, data);
+
+      if (isEdit) {
+        const notifyMess = {
+          type: "success",
+          title: "",
+          description: `${t("noti.successfully_edit")}`,
+        };
+        Notification(notifyMess);
+      } else {
+        const notifyMess = {
+          type: "error",
+          title: "",
+          description: `${t("noti.error_edit")}`,
+        };
+        Notification(notifyMess);
+      }
+    } catch (error) {
+      // message.warning(
+      //   'Đã xảy ra lỗi trong quá trình chỉnh sửa, hãy kiểm tra lại'
+      // );
+      console.log(error);
+    }
   };
   const columns = datacolumns.map((col) => {
     if (!col.editable) {
@@ -152,6 +175,11 @@ const TableDetailList = () => {
       }),
     };
   });
+  const onClickRowSelect = (record) => {
+    if (props) {
+      props.onClickRow(record);
+    }
+  };
   return (
     <TableDetails>
       <Table
@@ -161,17 +189,30 @@ const TableDetailList = () => {
             row: EditableRow,
           },
         }}
-        rowClassName={() => "editable-row"}
+        rowClassName={(record, index) => {
+          if (record.uuid === detailAI.uuid) return "editable-row selected";
+          return "editable-row not-selected";
+        }}
+        onRow={(record, rowIndex) => {
+          return {
+            onClick: (event) => {
+              onClickRowSelect(record);
+            },
+          };
+        }}
         dataSource={dataSource}
         columns={columns}
         pagination={false}
-        rowKey="key"
+        rowKey="uuid"
       />
     </TableDetails>
   );
 };
 function tableDetailListPropsAreEqual(prevTblDetailList, nextTblDetailList) {
-  return _.isEqual(prevTblDetailList.dataList, nextTblDetailList.dataList);
+  return (
+    _.isEqual(prevTblDetailList.tracingList, nextTblDetailList.tracingList) &&
+    _.isEqual(prevTblDetailList.detailAI, nextTblDetailList.detailAI)
+  );
 }
 export default TableDetailList;
 export const MemoizedTableDetailList = React.memo(
