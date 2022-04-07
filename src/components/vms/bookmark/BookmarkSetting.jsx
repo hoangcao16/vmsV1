@@ -532,9 +532,7 @@ const BookmarkSetting = ({
                   bookmarks.map((item, idx) => (
                     <div
                       key={idx}
-                      className={`bookmarks__list-item ${
-                        item.id === activeRow ? " active_item" : ""
-                      }`}
+                      className="bookmarks__list-item"
                       onClick={(e) => handleSelectScreen(item)}
                     >
                       <span
