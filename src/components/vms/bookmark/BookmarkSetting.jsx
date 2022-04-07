@@ -404,7 +404,7 @@ const BookmarkSetting = ({
 
   const handleEditMode = (e, item, idx) => {
     const currentItem = item.id
-    bookmarks.map((b, idx, item) => {
+    bookmarks.forEach((b, idx, item) => {
       if (b.id !== currentItem) {
         changeEditModeState(false, idx, item);
       }
