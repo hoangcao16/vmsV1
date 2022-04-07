@@ -43,7 +43,7 @@ export default function TableListGroup() {
 
   useEffect(() => {
     let data = {
-      filter: "",
+      filter: search,
       page: page,
       size: size,
     };
