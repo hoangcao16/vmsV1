@@ -68,7 +68,6 @@ async function fetchSelectOptions() {
 
 const MapCameraAdd = (props) => {
   const { t } = useTranslation();
-  const [paste, setPaste] = useState(false);
   const [form] = Form.useForm();
   const [isCollapsedCameraForm, setIsCollapsedCameraForm] = useState(false);
   const {
@@ -297,18 +296,10 @@ const MapCameraAdd = (props) => {
                   });
                 }}
                 onPaste={(e) => {
+                  e.preventDefault();
                   form.setFieldsValue({
-                    name: e.target.value.trim(),
+                    name: e.clipboardData.getData("text").trim(),
                   });
-                  setPaste(true);
-                }}
-                onChange={(e) => {
-                  if (paste) {
-                    setPaste(false);
-                    form.setFieldsValue({
-                      name: e.target.value.trim(),
-                    });
-                  }
                 }}
               />
             </Form.Item>
@@ -335,18 +326,10 @@ const MapCameraAdd = (props) => {
                   });
                 }}
                 onPaste={(e) => {
+                  e.preventDefault();
                   form.setFieldsValue({
-                    code: e.target.value.trim(),
+                    code: e.clipboardData.getData("text").trim(),
                   });
-                  setPaste(true);
-                }}
-                onChange={(e) => {
-                  if (paste) {
-                    setPaste(false);
-                    form.setFieldsValue({
-                      code: e.target.value.trim(),
-                    });
-                  }
                 }}
               />
             </Form.Item>
@@ -420,18 +403,10 @@ const MapCameraAdd = (props) => {
                   });
                 }}
                 onPaste={(e) => {
+                  e.preventDefault();
                   form.setFieldsValue({
-                    address: e.target.value.trim(),
+                    address: e.clipboardData.getData("text").trim(),
                   });
-                  setPaste(true);
-                }}
-                onChange={(e) => {
-                  if (paste) {
-                    setPaste(false);
-                    form.setFieldsValue({
-                      address: e.target.value.trim(),
-                    });
-                  }
                 }}
               />
             </Form.Item>
@@ -530,16 +505,10 @@ const MapCameraAdd = (props) => {
                   form.setFieldsValue({ long_: e.target.value.trim() })
                 }
                 onPaste={(e) => {
-                  form.setFieldsValue({ long_: e.target.value.trim() });
-                  setPaste(true);
-                }}
-                onChange={(e) => {
-                  if (paste) {
-                    setPaste(false);
-                    form.setFieldsValue({
-                      long_: e.target.value.trim(),
-                    });
-                  }
+                  e.preventDefault();
+                  form.setFieldsValue({
+                    long_: e.clipboardData.getData("text").trim(),
+                  });
                 }}
               />
             </Form.Item>
@@ -579,16 +548,10 @@ const MapCameraAdd = (props) => {
                   form.setFieldsValue({ lat_: e.target.value.trim() })
                 }
                 onPaste={(e) => {
-                  form.setFieldsValue({ lat_: e.target.value.trim() });
-                  setPaste(true);
-                }}
-                onChange={(e) => {
-                  if (paste) {
-                    setPaste(false);
-                    form.setFieldsValue({
-                      lat_: e.target.value.trim(),
-                    });
-                  }
+                  e.preventDefault();
+                  form.setFieldsValue({
+                    lat_: e.clipboardData.getData("text").trim(),
+                  });
                 }}
               />
             </Form.Item>
@@ -633,18 +596,10 @@ const MapCameraAdd = (props) => {
                   });
                 }}
                 onPaste={(e) => {
+                  e.preventDefault();
                   form.setFieldsValue({
-                    port: e.target.value.trim(),
+                    port: e.clipboardData.getData("text").trim(),
                   });
-                  setPaste(true)
-                }}
-                onChange={(e) => {
-                  if (paste) {
-                    setPaste(false);
-                    form.setFieldsValue({
-                      port: e.target.value.trim(),
-                    });
-                  }
                 }}
                 maxLength={255}
               ></Input>
@@ -694,18 +649,10 @@ const MapCameraAdd = (props) => {
                   });
                 }}
                 onPaste={(e) => {
+                  e.preventDefault();
                   form.setFieldsValue({
-                    ip: e.target.value.trim(),
+                    ip: e.clipboardData.getData("text").trim(),
                   });
-                  setPaste(true)
-                }}
-                onChange={(e) => {
-                  if (paste) {
-                    setPaste(false);
-                    form.setFieldsValue({
-                      ip: e.target.value.trim(),
-                    });
-                  }
                 }}
               />
             </Form.Item>
@@ -729,18 +676,10 @@ const MapCameraAdd = (props) => {
                   });
                 }}
                 onPaste={(e) => {
+                  e.preventDefault();
                   form.setFieldsValue({
-                    cameraUrl: e.target.value.trim(),
+                    cameraUrl: e.clipboardData.getData("text").trim(),
                   });
-                  setPaste(true)
-                }}
-                onChange={(e) => {
-                  if (paste) {
-                    setPaste(false);
-                    form.setFieldsValue({
-                      cameraUrl: e.target.value.trim(),
-                    });
-                  }
                 }}
               />
             </Form.Item>
@@ -758,18 +697,10 @@ const MapCameraAdd = (props) => {
                   });
                 }}
                 onPaste={(e) => {
+                  e.preventDefault();
                   form.setFieldsValue({
-                    hlsUrl: e.target.value.trim(),
+                    hlsUrl: e.clipboardData.getData("text").trim(),
                   });
-                  setPaste(true)
-                }}
-                onChange={(e) => {
-                  if (paste) {
-                    setPaste(false);
-                    form.setFieldsValue({
-                      hlsUrl: e.target.value.trim(),
-                    });
-                  }
                 }}
               />
             </Form.Item>
