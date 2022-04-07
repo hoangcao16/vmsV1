@@ -367,9 +367,9 @@ function AddUser(props) {
                                 document.getElementById("phone").value;
                               if (
                                 valiValue.length &&
-                                valiValue.startsWith("0") &&
                                 valiValue.length <= 20
                               ) {
+                                console.log("valiValue", valiValue)
                                 return Promise.resolve();
                               }
                               return Promise.reject(

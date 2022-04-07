@@ -196,7 +196,6 @@ const MapAdministrativeUnitAdd = (props) => {
             const valiValue = document.getElementById("tel").value;
             if (
               valiValue.length &&
-              valiValue.startsWith("0") &&
               valiValue.length <= 20
             ) {
               return Promise.resolve();
