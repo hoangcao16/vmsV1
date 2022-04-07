@@ -403,6 +403,12 @@ const BookmarkSetting = ({
   };
 
   const handleEditMode = (e, item, idx) => {
+    const currentItem = item.id
+    bookmarks.map((b, idx, item) => {
+      if (b.id !== currentItem) {
+        changeEditModeState(false, idx, item);
+      }
+    })
     setNewName(null);
     e.stopPropagation();
     changeEditModeState(true, idx, item);
@@ -526,9 +532,7 @@ const BookmarkSetting = ({
                   bookmarks.map((item, idx) => (
                     <div
                       key={idx}
-                      className={`bookmarks__list-item ${
-                        item.id === activeRow ? " active_item" : ""
-                      }`}
+                      className="bookmarks__list-item"
                       onClick={(e) => handleSelectScreen(item)}
                     >
                       <span
