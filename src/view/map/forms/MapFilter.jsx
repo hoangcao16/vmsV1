@@ -37,7 +37,11 @@ const MapFilter = (props) => {
         setAdDivisions(data.payload);
       }
     });
-    cameraGroupApi.getAll().then((data) => {
+
+    const param = {
+      size: 100000,
+    }
+    cameraGroupApi.getAll(param).then((data) => {
       if (data && data.payload) setCamGroups(data.payload);
     });
   }, []);
