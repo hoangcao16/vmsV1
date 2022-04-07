@@ -1,19 +1,19 @@
-import { Form, Input, Modal, Spin, Button } from 'antd';
-import { isEmpty } from 'lodash-es';
-import React, { useEffect, useState } from 'react';
-import CameraApi from '../../actions/api/camera/CameraApi';
-import Notification from '../../components/vms/notification/Notification';
-import './../commonStyle/commonForm.scss';
-import './../commonStyle/commonInput.scss';
-import './../commonStyle/commonModal.scss';
-import './../commonStyle/commonSelect.scss';
-import './ModalEditCameraGroup.scss';
-import './UploadFile.scss';
-import { useTranslation } from 'react-i18next';
+import { Form, Input, Modal, Spin, Button } from "antd";
+import { isEmpty } from "lodash-es";
+import React, { useEffect, useState } from "react";
+import CameraApi from "../../actions/api/camera/CameraApi";
+import Notification from "../../components/vms/notification/Notification";
+import "./../commonStyle/commonForm.scss";
+import "./../commonStyle/commonInput.scss";
+import "./../commonStyle/commonModal.scss";
+import "./../commonStyle/commonSelect.scss";
+import "./ModalEditCameraGroup.scss";
+import "./UploadFile.scss";
+import { useTranslation } from "react-i18next";
 
 const formItemLayout = {
   wrapperCol: { span: 24 },
-  labelCol: { span: 24 }
+  labelCol: { span: 24 },
 };
 
 export default function ModalEditCameraGroup(props) {
@@ -34,16 +34,16 @@ export default function ModalEditCameraGroup(props) {
 
     const payload = {
       ...value,
-      cameraUuidList: cameraUuidList
+      cameraUuidList: cameraUuidList,
     };
 
     const isUpdate = await CameraApi.updateCameraGroup(dataEdit, payload);
 
     if (isUpdate) {
       const notifyMess = {
-        type: 'success',
-        title: '',
-        description: `${t('noti.successfully_edit_camera_group')}`
+        type: "success",
+        title: "",
+        description: `${t("noti.successfully_edit_camera_group")}`,
       };
       Notification(notifyMess);
       setIsModalVisible(false);
@@ -58,18 +58,17 @@ export default function ModalEditCameraGroup(props) {
   return (
     <div>
       <Modal
-        title={t('view.camera.edit_camera_group', {
-          G: t('G'),
-          g: t('g'),
-          cam: t('camera')
+        title={t("view.camera.edit_camera_group", {
+          G: t("G"),
+          g: t("g"),
+          cam: t("camera"),
         })}
         visible={isModalVisible}
         onOk={handleShowModalEdit}
         onCancel={handleShowModalEdit}
         footer={null}
         className="modal__edit--cameraGroup"
-        maskStyle={{ background: 'rgba(51, 51, 51, 0.9)' }}
-
+        maskStyle={{ background: "rgba(51, 51, 51, 0.9)" }}
       >
         <Form
           className="bg-grey"
@@ -79,62 +78,64 @@ export default function ModalEditCameraGroup(props) {
           initialValues={dataCameraGroup}
         >
           <Form.Item
-            name={['name']}
+            name={["name"]}
             // label="Tên nhóm Camera "
             rules={[
               {
                 required: true,
-                message: `${t('view.map.required_field')}`
+                message: `${t("view.map.required_field")}`,
               },
-              { max: 255, message: `${t('noti.255_characters_limit')}` }
+              { max: 255, message: `${t("noti.255_characters_limit")}` },
             ]}
           >
             <Input
-              placeholder={t('view.camera.please_enter_camera_group_name', {
-                plsEnter: t('please_enter'),
-                cam: t('camera')
+              placeholder={t("view.camera.please_enter_camera_group_name", {
+                plsEnter: t("please_enter"),
+                cam: t("camera"),
               })}
               onBlur={(e) => {
                 form.setFieldsValue({
-                  name: e.target.value.trim()
+                  name: e.target.value.trim(),
                 });
               }}
               onPaste={(e) => {
+                e.preventDefault();
                 form.setFieldsValue({
-                  name: e.target.value.trimStart()
+                  name: e.clipboardData.getData("text").trim(),
                 });
               }}
             />
           </Form.Item>
           <Form.Item
             style={{ paddingTop: 20 }}
-            name={['description']}
+            name={["description"]}
             // label="Tên nhóm Camera "
             rules={[
               {
                 required: true,
-                message: `${t('view.map.required_field')}`
+                message: `${t("view.map.required_field")}`,
               },
-              { max: 255, message: `${t('noti.255_characters_limit')}` }
+              { max: 255, message: `${t("noti.255_characters_limit")}` },
             ]}
           >
-            <Input 
-              placeholder={t('view.user.detail_list.desc')} 
+            <Input
+              placeholder={t("view.user.detail_list.desc")}
               onBlur={(e) => {
                 form.setFieldsValue({
-                  description: e.target.value.trim()
+                  description: e.target.value.trim(),
                 });
               }}
               onPaste={(e) => {
+                e.preventDefault();
                 form.setFieldsValue({
-                  description: e.target.value.trimStart()
+                  description: e.clipboardData.getData("text").trim(),
                 });
               }}
             />
           </Form.Item>
           <div className="btn--submit">
             <Button type="primary" htmlType="submit">
-              {t('view.user.detail_list.confirm')}
+              {t("view.user.detail_list.confirm")}
             </Button>
           </div>
         </Form>

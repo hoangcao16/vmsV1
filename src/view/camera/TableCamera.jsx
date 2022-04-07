@@ -257,7 +257,7 @@ const TableCamera = () => {
   };
 
   const showModalAdd = () => {
-    setSearch(null)
+    setSearch(null);
     setSelectedAdd(true);
     handleSearch();
   };
@@ -755,8 +755,9 @@ const TableCamera = () => {
                     });
                   }}
                   onPaste={(e) => {
+                    e.preventDefault();
                     form.setFieldsValue({
-                      address: e.target.value.trimStart(),
+                      address: e.clipboardData.getData("text").trim(),
                     });
                   }}
                 />

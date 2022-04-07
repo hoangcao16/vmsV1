@@ -55,15 +55,15 @@ const ModalViewEditCategory = (props) => {
   const renderOptionSelectField = () => {
     return fieldData?.map((item) => {
       return (
-          <option value={item.uuid}>
-            {item.name.length > 40
-                ? `${item.name.slice(0, 19)}...${item.name.slice(
-                    item.name.length - 20,
-                    item.name.length
-                )}`
-                : `${item.name}`}
-          </option>
-      )
+        <option value={item.uuid}>
+          {item.name.length > 40
+            ? `${item.name.slice(0, 19)}...${item.name.slice(
+                item.name.length - 20,
+                item.name.length
+              )}`
+            : `${item.name}`}
+        </option>
+      );
     });
   };
 
@@ -198,8 +198,9 @@ const ModalViewEditCategory = (props) => {
                     });
                   }}
                   onPaste={(e) => {
+                    e.preventDefault();
                     form.setFieldsValue({
-                      name: e.target.value.trimStart(),
+                      name: e.clipboardData.getData("text").trim(),
                     });
                   }}
                 />

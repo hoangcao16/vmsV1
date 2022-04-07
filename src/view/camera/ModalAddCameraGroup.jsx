@@ -89,8 +89,9 @@ export default function ModalAddCameraGroup(props) {
                 });
               }}
               onPaste={(e) => {
+                e.preventDefault();
                 form.setFieldsValue({
-                  name: e.target.value.trimStart(),
+                  name: e.clipboardData.getData("text").trim(),
                 });
               }}
             />
@@ -115,8 +116,9 @@ export default function ModalAddCameraGroup(props) {
                 });
               }}
               onPaste={(e) => {
+                e.preventDefault();
                 form.setFieldsValue({
-                  description: e.target.value.trimStart(),
+                  description: e.clipboardData.getData("text").trim(),
                 });
               }}
             />

@@ -62,8 +62,8 @@ function TableChart(props) {
     switch (props.date.typeTime) {
       case "DAY":
         format = {
-          dateStringFormat: "DDMM",
-          dateFormat: "DD/MM",
+          dateStringFormat: "DDMMYYYY",
+          dateFormat: "DD/MM/YYYY",
           unit: "d",
           start: "01/01",
           end: "10/01",
@@ -99,9 +99,10 @@ function TableChart(props) {
     }
 
     if (!isEmpty(props.date.startDate)) {
-      format.start = moment(props.date.startDate, format.dateStringFormat).format(
-        format.dateFormat
-      );
+      format.start = moment(
+        props.date.startDate,
+        format.dateStringFormat
+      ).format(format.dateFormat);
     }
 
     if (!isEmpty(props.date.startDate)) {
@@ -115,12 +116,19 @@ function TableChart(props) {
 
     let diff = moment(endDate).diff(startDate, format.unit);
     if (diff < 0) {
-      diff = -1
+      diff = -1;
     }
 
-    return Array.from(new Array(diff+1)).map((val, key) => {
+    return Array.from(new Array(diff + 1)).map((val, key) => {
       const name = startDate.format(format.dateFormat);
       startDate.add(1, format.unit);
+      if (props.date.typeTime == "DAY") {
+        return {
+          title: moment(name, "DD/MM/YYYY").format("DD/MM"),
+          dataIndex: name,
+          key,
+        };
+      }
       return {
         title: name,
         dataIndex: name,

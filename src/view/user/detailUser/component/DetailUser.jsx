@@ -236,7 +236,6 @@ const DetailUser = (props) => {
             const valiValue = document.getElementById("phone").value;
             if (
               valiValue.length &&
-              valiValue.startsWith("0") &&
               valiValue.length <= 20
             ) {
               return Promise.resolve();

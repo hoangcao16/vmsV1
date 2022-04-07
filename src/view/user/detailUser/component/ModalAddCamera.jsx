@@ -36,11 +36,11 @@ const ModalAddCamera = (props) => {
   const [wards, setWard] = useState([]);
   const [form] = Form.useForm();
   const [name, setName] = useState("");
-  const [id, setId] = useState("");
+  const [wardId, setWardId] = useState("");
 
   const [administrativeUnitUuid, setAdministrativeUnitUuid] = useState("");
   const [vendorUuid, setVendorUuid] = useState("");
-  const [status, setStatus] = useState("");
+  const [recordingStatus, setRecordingStatus] = useState("");
 
   const [filterOptions, setFilterOptions] = useState(DATA_FAKE_CAMERA);
 
@@ -54,10 +54,10 @@ const ModalAddCamera = (props) => {
       name: "",
       provinceId: "",
       districtId: "",
-      id: "",
+      wardId: "",
       administrativeUnitUuid: "",
       vendorUuid: "",
-      status: "",
+      recordingStatus: "",
       page: 1,
       size: 1000000,
     };
@@ -76,10 +76,10 @@ const ModalAddCamera = (props) => {
       name: "",
       provinceId: "",
       districtId: "",
-      id: "",
+      wardId: "",
       administrativeUnitUuid: "",
       vendorUuid: "",
-      status: "",
+      recordingStatus: "",
       page: 1,
       size: 1000000,
     };
@@ -123,10 +123,10 @@ const ModalAddCamera = (props) => {
       name: name,
       provinceId: cityId,
       districtId: "",
-      id: "",
+      wardId: "",
       administrativeUnitUuid: administrativeUnitUuid,
       vendorUuid: vendorUuid,
-      status: status,
+      recordingStatus: recordingStatus,
       page: 1,
       size: 1000000,
     };
@@ -149,11 +149,11 @@ const ModalAddCamera = (props) => {
     const data = {
       provinceId: provinceId,
       districtId: districtId,
-      id: "",
+      wardId: "",
       name: name,
       administrativeUnitUuid: administrativeUnitUuid,
       vendorUuid: vendorUuid,
-      status: status,
+      recordingStatus: recordingStatus,
       page: 1,
       size: 1000000,
     };
@@ -166,16 +166,16 @@ const ModalAddCamera = (props) => {
     });
   };
 
-  const onChangeWard = async (id) => {
-    setId(id);
+  const onChangeWard = async (wardId) => {
+    setWardId(wardId);
     const data = {
       provinceId: provinceId,
       districtId: districtId,
-      id: id,
+      wardId: wardId,
       name: name,
       administrativeUnitUuid: administrativeUnitUuid,
       vendorUuid: vendorUuid,
-      status: status,
+      recordingStatus: recordingStatus,
       page: 1,
       size: 1000000,
     };
@@ -193,11 +193,11 @@ const ModalAddCamera = (props) => {
     const data = {
       provinceId: provinceId,
       districtId: districtId,
-      id: id,
+      wardId: wardId,
       name: name,
-      administrativeUnitUuid: administrativeUnitUuid,
+      administrativeUnitUuid: id,
       vendorUuid: vendorUuid,
-      status: status,
+      recordingStatus: recordingStatus,
       page: 1,
       size: 1000000,
     };
@@ -215,11 +215,11 @@ const ModalAddCamera = (props) => {
     const data = {
       provinceId: provinceId,
       districtId: districtId,
-      id,
+      wardId,
       name: name,
       administrativeUnitUuid: administrativeUnitUuid,
       vendorUuid: vendorUuid,
-      status: status,
+      recordingStatus: recordingStatus,
       page: 1,
       size: 1000000,
     };
@@ -232,16 +232,16 @@ const ModalAddCamera = (props) => {
       setListCamera(data);
     });
   };
-  const onChangeStatus = async (status) => {
-    setStatus(status);
+  const onChangeStatus = async (recordingStatus) => {
+    setRecordingStatus(recordingStatus);
     const data = {
       provinceId: provinceId,
       districtId: districtId,
-      id,
+      wardId,
       name: name,
       administrativeUnitUuid: administrativeUnitUuid,
       vendorUuid: vendorUuid,
-      status: status,
+      recordingStatus: recordingStatus,
       page: 1,
       size: 1000000,
     };
@@ -274,10 +274,10 @@ const ModalAddCamera = (props) => {
       name: value,
       provinceId: provinceId,
       districtId: districtId,
-      id: id,
+      wardId: wardId,
       administrativeUnitUuid: administrativeUnitUuid,
       vendorUuid: vendorUuid,
-      status: status,
+      recordingStatus: recordingStatus,
       page: 1,
       size: 1000000,
     };
@@ -418,7 +418,7 @@ const ModalAddCamera = (props) => {
                   allowClear
                   showSearch
                   dataSource={wards}
-                  onChange={(id) => onChangeWard(id)}
+                  onChange={(wardId) => onChangeWard(wardId)}
                   filterOption={filterOption}
                   options={normalizeOptions("name", "id", wards)}
                   placeholder={t("view.map.ward_id")}
@@ -427,11 +427,11 @@ const ModalAddCamera = (props) => {
             </Col>
 
             <Col span={6}>
-              <Form.Item name="status" label={t("view.common_device.status")}>
+              <Form.Item name="recordingStatus" label={t("view.common_device.status")}>
                 <Select
                   showSearch
                   allowClear
-                  onChange={(id) => onChangeStatus(id)}
+                  onChange={(recordingStatus) => onChangeStatus(recordingStatus)}
                   placeholder={t("view.common_device.status")}
                   // style={{ width: 200 }}
                   filterOption={(input, option) =>

@@ -32,6 +32,7 @@ import { ShowTotal } from "../../../../styled/showTotal";
 import "../../../commonStyle/commonAuto.scss";
 import "../../../commonStyle/commonSelect.scss";
 import "./TableListUser.scss";
+import debounce from "lodash/debounce";
 
 const { Option } = Select;
 const { Text } = Typography;
@@ -89,14 +90,14 @@ const TableListUser = (props) => {
       page: page,
       size: size,
 
-      filter: "",
-      type: "",
+      filter: search,
+      type: unit,
     };
     UserApi.getAllUser(data).then((result) => {
       setListUsers(result.payload);
       setTotal(result?.metadata?.total);
     });
-  }, [page, size]);
+  }, [page, size, search, unit]);
 
   const renderHeader = () => {
     return (
@@ -141,18 +142,6 @@ const TableListUser = (props) => {
 
   const handleSearch = async (value) => {
     setSearch(value);
-    if (value !== null) {
-      const data = {
-        // page: page,
-        // size: size,
-        filter: value.trim(),
-        type: unit,
-      };
-      UserApi.getAllUser(data).then((result) => {
-        setListUsers(result.payload);
-        setTotal(result?.metadata?.total);
-      });
-    }
   };
 
   const handleBlur = (event) => {
@@ -334,7 +323,7 @@ const TableListUser = (props) => {
             <AutoComplete
               className=" full-width height-40"
               value={search}
-              onSearch={handleSearch}
+              onSearch={debounce(handleSearch, 300)}
               onBlur={handleBlur}
               onPaste={handlePaste}
               maxLength={255}

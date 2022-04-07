@@ -19,18 +19,10 @@ import ExportReport from "./ExportReport";
 import { COLOR } from "./BarChart";
 import ExportReportToMail from "./ExportReportToMail";
 import moment from "moment";
+import ConvertDataChart from "../../../../actions/function/MyUltil/ConvertDataChart";
 
 function Chart(props) {
-  let data = [];
-  const start = moment(props.chartData?.date?.startDate, "DD/MM/YYYY")
-  const end = moment(props.chartData?.date?.endDate, "DD/MM/YYYY")
-  if (moment(start).diff(end, "d") < 0) {
-    if (props.chartData && props.chartData?.res?.DataChartEvent) {
-      data = props.chartData.res.DataChartEvent;
-    } else if (props.chartData && props.chartData?.res?.CompareChartEvent) {
-      data = props.chartData?.res?.CompareChartEvent;
-    }
-  }
+  const data = props.chartData?.res?.DataChartEvent;
 
   const { t } = useTranslation();
 
@@ -113,7 +105,7 @@ function Chart(props) {
 
 const mapStateToProps = (state) => ({
   isLoading: state.chart.isLoading,
-  chartData: state.chart.chartData.data,
+  chartData: ConvertDataChart(state.chart.chartData.data),
   error: state.chart.error,
   title: state.chart.title,
   typeChart: state.chart.typeChart,

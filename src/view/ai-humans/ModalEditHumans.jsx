@@ -351,8 +351,9 @@ const ModalEditHumans = (props) => {
                     });
                   }}
                   onPaste={(e) => {
+                    e.preventDefault();
                     form.setFieldsValue({
-                      name: e.target.value.trimStart(),
+                      name: e.clipboardData.getData("text").trim(),
                     });
                   }}
                 />
@@ -381,8 +382,9 @@ const ModalEditHumans = (props) => {
                     });
                   }}
                   onPaste={(e) => {
+                    e.preventDefault();
                     form.setFieldsValue({
-                      code: e.target.value.trimStart(),
+                      code: e.clipboardData.getData("text").trim(),
                     });
                   }}
                 />
@@ -402,7 +404,6 @@ const ModalEditHumans = (props) => {
                       const valiValue = document.getElementById("phone").value;
                       if (
                         valiValue.length &&
-                        valiValue.startsWith("0") &&
                         valiValue.length <= 20
                       ) {
                         return Promise.resolve();
@@ -456,8 +457,9 @@ const ModalEditHumans = (props) => {
                     });
                   }}
                   onPaste={(e) => {
+                    e.preventDefault();
                     form.setFieldsValue({
-                      email: e.target.value.trimStart(),
+                      email: e.clipboardData.getData("text").trim(),
                     });
                   }}
                 />
@@ -484,8 +486,9 @@ const ModalEditHumans = (props) => {
                     });
                   }}
                   onPaste={(e) => {
+                    e.preventDefault();
                     form.setFieldsValue({
-                      position: e.target.value.trimStart(),
+                      position: e.clipboardData.getData("text").trim(),
                     });
                   }}
                 />

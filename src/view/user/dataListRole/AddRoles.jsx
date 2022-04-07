@@ -1,15 +1,15 @@
-import { ArrowLeftOutlined } from '@ant-design/icons';
-import { Button, Card, Col, Form, Input, Row } from 'antd';
-import React from 'react';
-import { useHistory, useRouteMatch, withRouter } from 'react-router-dom';
-import UserApi from '../../../actions/api/user/UserApi';
-import Notification from '../../../components/vms/notification/Notification';
-import './AddRoles.scss';
-import { useTranslation } from 'react-i18next';
+import { ArrowLeftOutlined } from "@ant-design/icons";
+import { Button, Card, Col, Form, Input, Row } from "antd";
+import React from "react";
+import { useHistory, useRouteMatch, withRouter } from "react-router-dom";
+import UserApi from "../../../actions/api/user/UserApi";
+import Notification from "../../../components/vms/notification/Notification";
+import "./AddRoles.scss";
+import { useTranslation } from "react-i18next";
 
 const formItemLayout = {
   wrapperCol: { span: 24 },
-  labelCol: { span: 24 }
+  labelCol: { span: 24 },
 };
 
 function AddRoles(props) {
@@ -20,22 +20,22 @@ function AddRoles(props) {
 
   const handleSubmit = async (value) => {
     const payload = {
-      ...value
+      ...value,
     };
     const roles = await UserApi.createdRoles(payload);
     if (roles?.uuid) {
       const notifyMess = {
-        type: 'success',
-        title: '',
-        description: `${t('noti.successfully_added_data', { add: t('add') })}`
+        type: "success",
+        title: "",
+        description: `${t("noti.successfully_added_data", { add: t("add") })}`,
       };
       Notification(notifyMess);
       history.replace(`roles/detail/${roles?.uuid}`);
     } else {
       const notifyMess = {
-        type: 'error',
-        title: '',
-        description: `${t('noti.unsuccessfully_add_data', { add: t('add') })}`
+        type: "error",
+        title: "",
+        description: `${t("noti.unsuccessfully_add_data", { add: t("add") })}`,
       };
       Notification(notifyMess);
     }
@@ -52,10 +52,10 @@ function AddRoles(props) {
             <div className="d-flex align-items-center">
               <ArrowLeftOutlined className="mr-1" onClick={goBack} />
               <h4 className="font-weight-700">
-                {t('view.user.detail_list.add_new_role', {
-                  add: t('add'),
-                  R: t('R'),
-                  r: t('r')
+                {t("view.user.detail_list.add_new_role", {
+                  add: t("add"),
+                  R: t("R"),
+                  r: t("r"),
                 })}
               </h4>
             </div>
@@ -71,85 +71,87 @@ function AddRoles(props) {
               <Row gutter={24}>
                 <Col span={4}></Col>
                 <Col span={16}>
-                  <Row gutter={24} style={{ width: '100%' }} className="mt-1">
+                  <Row gutter={24} style={{ width: "100%" }} className="mt-1">
                     <Col span={6}>
                       <p>
-                        {t('view.user.detail_list.role_name', {
-                          R: t('R'),
-                          r: t('r')
-                        })}{' '}
+                        {t("view.user.detail_list.role_name", {
+                          R: t("R"),
+                          r: t("r"),
+                        })}{" "}
                         <span color="red">*</span>
                       </p>
                     </Col>
 
                     <Col span={18}>
                       <Form.Item
-                        name={['name']}
+                        name={["name"]}
                         onBlur={(e) => {
                           form.setFieldsValue({
-                            name: e.target.value.trim()
+                            name: e.target.value.trim(),
                           });
                         }}
                         onPaste={(e) => {
+                          e.preventDefault();
                           form.setFieldsValue({
-                            name: e.target.value.trimStart()
+                            name: e.clipboardData.getData("text").trim(),
                           });
                         }}
                         rules={[
                           {
                             required: true,
-                            message: `${t('view.map.required_field')}`
+                            message: `${t("view.map.required_field")}`,
                           },
                           {
                             max: 255,
-                            message: `${t('noti.255_characters_limit')}`
-                          }
+                            message: `${t("noti.255_characters_limit")}`,
+                          },
                         ]}
                       >
                         <Input
                           placeholder={t(
-                            'view.user.detail_list.enter_role_name',
-                            { r: t('r'), plsEnter: t('please_enter') }
+                            "view.user.detail_list.enter_role_name",
+                            { r: t("r"), plsEnter: t("please_enter") }
                           )}
                         />
                       </Form.Item>
                     </Col>
                   </Row>
 
-                  <Row gutter={24} style={{ width: '100%' }} className="mt-1">
+                  <Row gutter={24} style={{ width: "100%" }} className="mt-1">
                     <Col span={6}>
                       <p>
-                        {t('view.user.detail_list.role_desc', {
-                          R: t('R'),
-                          r: t('r')
+                        {t("view.user.detail_list.role_desc", {
+                          R: t("R"),
+                          r: t("r"),
                         })}
                       </p>
                     </Col>
 
                     <Col span={18}>
                       <Form.Item
-                        name={['description']}
+                        name={["description"]}
                         onBlur={(e) => {
                           form.setFieldsValue({
-                            description: e.target.value.trim()
+                            description: e.target.value.trim(),
                           });
                         }}
                         onPaste={(e) => {
+                          e.preventDefault();
                           form.setFieldsValue({
-                            description: e.target.value.trimStart()
+                            description: e.clipboardData.getData("text").trim(),
                           });
                         }}
                         rules={[
                           {
                             max: 255,
-                            message: `${t('noti.255_characters_limit')}`
-                          }
+                            message: `${t("noti.255_characters_limit")}`,
+                          },
                         ]}
                       >
                         <Input
                           placeholder={t(
-                            'view.user.detail_list.enter_role_desc',
-                            { plsEnter: t('please_enter'), r: t('r') }
+                            "view.user.detail_list.enter_role_desc",
+                            { plsEnter: t("please_enter"), r: t("r") }
                           )}
                         />
                       </Form.Item>
@@ -161,7 +163,7 @@ function AddRoles(props) {
               <div
                 className="submit pt-2"
                 style={{
-                  textAlign: 'center'
+                  textAlign: "center",
                 }}
               >
                 <Button
@@ -169,7 +171,7 @@ function AddRoles(props) {
                   htmlType="submit "
                   className="buttonAddRoles"
                 >
-                  {t('view.map.button_save')}
+                  {t("view.map.button_save")}
                 </Button>
               </div>
             </Form>
