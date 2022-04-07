@@ -35,7 +35,6 @@ async function fetchSelectOptions() {
 
 const MapAdministrativeUnitAdd = (props) => {
   const { t } = useTranslation();
-  const [paste, setPaste] = useState(false);
   const [form] = Form.useForm();
   const [imgFile, setImgFile] = useState("");
   const [isCollapsedCameraForm, setIsCollapsedCameraForm] = useState(false);
@@ -264,16 +263,10 @@ const MapAdministrativeUnitAdd = (props) => {
                   form.setFieldsValue({ name: e.target.value.trim() })
                 }
                 onPaste={(e) => {
-                  form.setFieldsValue({ name: e.target.value.trimStart() });
-                  setPaste(true);
-                }}
-                onChange={(e) => {
-                  if (paste) {
-                    setPaste(false);
-                    form.setFieldsValue({
-                      name: e.target.value.trim(),
-                    });
-                  }
+                  e.preventDefault();
+                  form.setFieldsValue({
+                    name: e.clipboardData.getData("text").trim(),
+                  });
                 }}
               />
             </Form.Item>
@@ -297,16 +290,10 @@ const MapAdministrativeUnitAdd = (props) => {
                   form.setFieldsValue({ address: e.target.value.trim() })
                 }
                 onPaste={(e) => {
-                  form.setFieldsValue({ address: e.target.value.trimStart() });
-                  setPaste(true);
-                }}
-                onChange={(e) => {
-                  if (paste) {
-                    setPaste(false);
-                    form.setFieldsValue({
-                      address: e.target.value.trim(),
-                    });
-                  }
+                  e.preventDefault();
+                  form.setFieldsValue({
+                    address: e.clipboardData.getData("text").trim(),
+                  });
                 }}
               />
             </Form.Item>
@@ -423,16 +410,10 @@ const MapAdministrativeUnitAdd = (props) => {
                   form.setFieldsValue({ long_: e.target.value.trim() })
                 }
                 onPaste={(e) => {
-                  form.setFieldsValue({ long_: e.target.value.trimStart() });
-                  setPaste(true);
-                }}
-                onChange={(e) => {
-                  if (paste) {
-                    setPaste(false);
-                    form.setFieldsValue({
-                      long_: e.target.value.trim(),
-                    });
-                  }
+                  e.preventDefault();
+                  form.setFieldsValue({
+                    long_: e.clipboardData.getData("text").trim(),
+                  });
                 }}
               />
             </Form.Item>
@@ -472,16 +453,10 @@ const MapAdministrativeUnitAdd = (props) => {
                   form.setFieldsValue({ lat_: e.target.value.trim() })
                 }
                 onPaste={(e) => {
-                  form.setFieldsValue({ lat_: e.target.value.trimStart() });
-                  setPaste(true);
-                }}
-                onChange={(e) => {
-                  if (paste) {
-                    setPaste(false);
-                    form.setFieldsValue({
-                      lat_: e.target.value.trim(),
-                    });
-                  }
+                  e.preventDefault();
+                  form.setFieldsValue({
+                    lat_: e.clipboardData.getData("text").trim(),
+                  });
                 }}
               />
             </Form.Item>

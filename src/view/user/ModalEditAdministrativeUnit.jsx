@@ -344,8 +344,9 @@ const ModalEditAdministrativeUnit = (props) => {
                         });
                       }}
                       onPaste={(e) => {
+                        e.preventDefault();
                         form.setFieldsValue({
-                          name: e.target.value.trimStart(),
+                          name: e.clipboardData.getData("text").trim(),
                         });
                       }}
                     />
@@ -416,8 +417,9 @@ const ModalEditAdministrativeUnit = (props) => {
                     });
                   }}
                   onPaste={(e) => {
+                    e.preventDefault();
                     form.setFieldsValue({
-                      address: e.target.value.trimStart(),
+                      address: e.clipboardData.getData("text").trim(),
                     });
                   }}
                 />
@@ -516,9 +518,12 @@ const ModalEditAdministrativeUnit = (props) => {
                   onBlur={(e) =>
                     form.setFieldsValue({ long_: e.target.value.trim() })
                   }
-                  onPaste={(e) =>
-                    form.setFieldsValue({ long_: e.target.value.trimStart() })
-                  }
+                  onPaste={(e) => {
+                    e.preventDefault();
+                    form.setFieldsValue({
+                      long_: e.clipboardData.getData("text").trim(),
+                    });
+                  }}
                 />
               </Form.Item>
             </Col>
@@ -558,9 +563,12 @@ const ModalEditAdministrativeUnit = (props) => {
                   onBlur={(e) =>
                     form.setFieldsValue({ lat_: e.target.value.trim() })
                   }
-                  onPaste={(e) =>
-                    form.setFieldsValue({ lat_: e.target.value.trimStart() })
-                  }
+                  onPaste={(e) => {
+                    e.preventDefault();
+                    form.setFieldsValue({
+                      lat_: e.clipboardData.getData("text").trim(),
+                    });
+                  }}
                 />
               </Form.Item>
             </Col>

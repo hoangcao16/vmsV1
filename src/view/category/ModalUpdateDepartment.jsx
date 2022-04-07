@@ -139,11 +139,12 @@ const ModalUpdateDepartment = (props) => {
                         name: e.target.value.trim(),
                       })
                     }
-                    onPaste={(e) =>
+                    onPaste={(e) => {
+                      e.preventDefault();
                       form.setFieldsValue({
-                        name: e.target.value.trimStart(),
-                      })
-                    }
+                        name: e.clipboardData.getData("text").trim(),
+                      });
+                    }}
                   />
                 </Form.Item>
               </Col>

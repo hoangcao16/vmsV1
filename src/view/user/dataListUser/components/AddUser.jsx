@@ -279,8 +279,9 @@ function AddUser(props) {
                             });
                           }}
                           onPaste={(e) => {
+                            e.preventDefault();
                             form.setFieldsValue({
-                              name: e.target.value.trimStart(),
+                              name: e.clipboardData.getData("text").trim(),
                             });
                           }}
                         />
