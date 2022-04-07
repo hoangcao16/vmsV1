@@ -18,22 +18,14 @@ import { loadDataChart } from "../../redux/actions";
 import "./barChart.scss";
 import ExportReport from "./ExportReport";
 import ExportReportToMail from "./ExportReportToMail";
-import moment from "moment";
+import moment from "moment"
+import ConvertDataChart from "../../../../actions/function/MyUltil/ConvertDataChart";
+
 
 export const COLOR = ["#eb4034", "#7ccc47", "#425fd4", "#FCFC74", "#FFA45E", "#FB5EFF", "#E8618E", "#3AFFD8", "#973AFF", "#5BFF3A"];
 
 function BarChartComponent(props) {
-  let data = [];
-  const start = moment(props.chartData?.date?.startDate, "DD/MM/YYYY")
-  const end = moment(props.chartData?.date?.endDate, "DD/MM/YYYY")
-  if (moment(start).diff(end, "d") < 0) {
-    if (props.chartData && props.chartData?.res?.DataChartEvent) {
-      data = props.chartData.res.DataChartEvent;
-    } else if (props.chartData && props.chartData?.res?.CompareChartEvent) {
-      data = props.chartData?.res?.CompareChartEvent;
-    }
-  }
-
+  const data = props.chartData?.res?.DataChartEvent;
   const { t } = useTranslation();
 
   if (props.isLoading) {
@@ -103,7 +95,7 @@ function BarChartComponent(props) {
 
 const mapStateToProps = (state) => ({
   isLoading: state.chart.isLoading,
-  chartData: state.chart.chartData.data,
+  chartData: ConvertDataChart(state.chart.chartData.data),
   error: state.chart.error,
   title: state.chart.title,
   typeChart: state.chart.typeChart,
