@@ -113,7 +113,7 @@ const ExportEventFile = () => {
   const [urlSnapshot, setUrlSnapshot] = useState("");
   const playerVideo = useRef(null);
   const refCanvas = useRef(null);
-  const [viewFileType, setViewFileType] = useState(4);
+  const [viewFileType, setViewFileType] = useState(0);
   const [isTableView, setIsGridView] = useState(true);
   const [urlVideoTimeline, setUrlVideoTimeline] = useState(null);
   const [playerReady, setPlayerReady] = useState(false);
