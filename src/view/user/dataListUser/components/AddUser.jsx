@@ -271,7 +271,7 @@ function AddUser(props) {
                             "view.user.detail_list.please_enter_name",
                             { plsEnter: t("please_enter") }
                           )}
-                          autocomplete="off"
+                          autoComplete="off"
                           maxLength={255}
                           onBlur={(e) => {
                             form.setFieldsValue({
@@ -366,11 +366,8 @@ function AddUser(props) {
                             validator(_, value) {
                               const valiValue =
                                 document.getElementById("phone").value;
-                              if (
-                                valiValue.length &&
-                                valiValue.length <= 20
-                              ) {
-                                console.log("valiValue", valiValue)
+                              if (valiValue.length && valiValue.length <= 20) {
+                                console.log("valiValue", valiValue);
                                 return Promise.resolve();
                               }
                               return Promise.reject(
@@ -410,6 +407,7 @@ function AddUser(props) {
                     <Col span={17}>
                       <Form.Item
                         name={["email"]}
+                        autoComplete="new-password"
                         rules={[
                           {
                             required: true,
@@ -432,7 +430,6 @@ function AddUser(props) {
                       >
                         <Input
                           placeholder="Email"
-                          autocomplete="off"
                           onBlur={(e) => {
                             form.setFieldsValue({
                               email: e.target.value.trim(),
@@ -477,7 +474,7 @@ function AddUser(props) {
                         <Input
                           id="input__password"
                           placeholder={t("view.user.detail_list.password")}
-                          autocomplete="off"
+                          autoComplete="new-password"
                           type="password"
                           onChange={(e) => {
                             form.setFieldsValue({
