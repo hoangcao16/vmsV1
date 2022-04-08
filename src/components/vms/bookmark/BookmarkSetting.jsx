@@ -224,15 +224,15 @@ const BookmarkSetting = ({
 
   useEffect(() => {
     if (showModal == false) {
-      setSearchName(null)
+      setSearchName(null);
       let fakeData = {
         target: {
-          value: ""
-        }
-      }
-      handleInputOnchange(fakeData)
+          value: "",
+        },
+      };
+      handleInputOnchange(fakeData);
     }
-  }, [showModal])
+  }, [showModal]);
 
   const handleInfiniteOnLoad = () => {
     setConfig({
@@ -391,7 +391,7 @@ const BookmarkSetting = ({
   const handlePaste = (e) => {
     e.preventDefault();
     setSearchName(e.clipboardData.getData("text").trim());
-  }
+  };
 
   const handleSelectGridType = (gType) => {
     setCurrentPage(1);
@@ -404,12 +404,12 @@ const BookmarkSetting = ({
   };
 
   const handleEditMode = (e, item, idx) => {
-    const currentItem = item.id
+    const currentItem = item.id;
     bookmarks.forEach((b, idx, item) => {
       if (b.id !== currentItem) {
         changeEditModeState(false, idx, item);
       }
-    })
+    });
     setNewName(null);
     e.stopPropagation();
     changeEditModeState(true, idx, item);
@@ -418,9 +418,25 @@ const BookmarkSetting = ({
   const onRenameCompleted = async (e, item, idx) => {
     e.stopPropagation();
     changeEditModeState(false, idx, item);
-
-    //API
-    const updateItem = { ...item, name: newName };
+    let updateItem;
+    if (newName == "") {
+      Notification({
+        type: NOTYFY_TYPE.error,
+        title: `${t("noti.faid")}`,
+        description: `${t("noti.error_empty_screen_name")}`,
+      });
+      return;
+    } else if (!newName) {
+      updateItem = { ...item, name: item.name };
+      Notification({
+        type: NOTYFY_TYPE.success,
+        title: `${t("noti.success")}`,
+        description: `${t("noti.change_screen_name")}`,
+      });
+      setNewName(item.name);
+    } else {
+      updateItem = { ...item, name: newName };
+    }
     const resData = await bookmarkApi.update(updateItem, item.id);
     if (resData) {
       let tmp = [...bookmarks];
@@ -429,14 +445,8 @@ const BookmarkSetting = ({
         setBookmarks(tmp);
         Notification({
           type: NOTYFY_TYPE.success,
-          title: `${t("noti.change_screen_name")}`,
-          description: `${t("noti.success")}`,
-        });
-      } else {
-        Notification({
-          type: NOTYFY_TYPE.success,
-          title: `${t("noti.change_screen_name")}`,
-          description: `${t("noti.success")}`,
+          title: `${t("noti.success")}`,
+          description: `${t("noti.change_screen_name")}`,
         });
       }
     }
