@@ -84,7 +84,9 @@ const MapAdministrativeUnitAdd = (props) => {
           });
         }
       } else {
-        form.resetFields()
+        form.resetFields();
+        setDistrict([]);
+        setWard([]);
         if (selectNewPosition) {
           form.setFieldsValue({
             long_: initialLatLgn[0],
@@ -194,8 +196,8 @@ const MapAdministrativeUnitAdd = (props) => {
           validator(_, value) {
             const valiValue = document.getElementById("tel").value;
             if (
-              valiValue.length &&
-              valiValue.length <= 20
+              (!valiValue.startsWith("0") && valiValue.length <= 20) ||
+              (valiValue.startsWith("0") && valiValue.length <= 19)
             ) {
               return Promise.resolve();
             }

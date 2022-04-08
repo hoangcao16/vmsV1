@@ -819,5 +819,10 @@
     "report": "Report Management",
     "info": "Information",
     "setting": "Setting"
+  },
+  "AI": {
+    "zac_human": "Hurdles and intrusion (Human detection)",
+    "zac_vehicle": "Hurdles and intrusion (Vehicle detection)",
+    "attendance": "Attendance"
   }
 }

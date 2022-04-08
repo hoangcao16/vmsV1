@@ -1,6 +1,14 @@
 import { Popover, Space, Spin, Tooltip, Button, Modal } from "antd";
 import React, { useEffect, useRef, useState } from "react";
-import { Camera, CloudLightning, Maximize2, Menu, Minimize2, Video, X } from "react-feather";
+import {
+  Camera,
+  CloudLightning,
+  Maximize2,
+  Menu,
+  Minimize2,
+  Video,
+  X,
+} from "react-feather";
 import { useTranslation } from "react-i18next";
 import { connect } from "react-redux";
 import { v4 as uuidV4 } from "uuid";
@@ -35,7 +43,6 @@ const LiveCameraSlot = (props) => {
   const { t } = useTranslation();
   const [showMenus, setShowMenus] = useState({});
   const [showNoti, setShowNoti] = useState({});
-  const [openMenuControl, setOpenMenuControl] = useState(false);
   const [oldRecState, setOldRecState] = useState(false);
   const [countInMinis, setCountInMinis] = useState(0);
   const [startTime, setStartTime] = useState(0);
@@ -155,14 +162,6 @@ const LiveCameraSlot = (props) => {
     return () => clearTimeout(timer.current);
   }, []);
 
-  useEffect(() => {
-    setOpenMenuControl(false);
-  }, [idCamera]);
-
-  useEffect(() => {
-    setOpenMenuControl(false);
-  }, [isMaximize]);
-
   return (
     <>
       <div
@@ -220,7 +219,7 @@ const LiveCameraSlot = (props) => {
                 </>
               );
             } else {
-              return <></>
+              return <></>;
             }
           }
         })}
@@ -283,10 +282,8 @@ const LiveCameraSlot = (props) => {
 
               <Popover
                 placement="top"
-                visible={openMenuControl}
                 content={
                   <MenuControl
-                    setOpenMenuControl={setOpenMenuControl}
                     setCurrentMenuControl={setCurrentMenuControl}
                     slotId={slotId}
                     isOpenModal={currentMenuControl === slotId}
@@ -311,9 +308,6 @@ const LiveCameraSlot = (props) => {
                     <div
                       className="video-toolbar__link"
                       size="small"
-                      onClick={() => {
-                        setOpenMenuControl(!openMenuControl);
-                      }}
                     >
                       <Menu className="video-toolbar__icon" size={12} />
                     </div>
@@ -325,7 +319,6 @@ const LiveCameraSlot = (props) => {
                   className="video-toolbar__link"
                   size="small"
                   onClick={() => {
-                    setOpenMenuControl(false);
                     closeCameraHandler(slotId);
                     setIsOpenModalControlPanel(false);
                   }}

@@ -29,7 +29,6 @@ const LIST_TYPES = {
 
 const Index = (props) => {
   const {
-    setOpenMenuControl,
     isOpenModal,
     setCurrentMenuControl,
     slotId,
@@ -39,7 +38,6 @@ const Index = (props) => {
     isOpenModalControlPanel,
     setIsOpenModalControlPanel,
     changeLiveMode,
-    typeAICamera,
     setTypeAICamera,
   } = props;
   const { t } = useTranslation();
@@ -137,50 +135,10 @@ const Index = (props) => {
         });
         payload.forEach((p) => {
           if (p.rtspStatus === "valid") {
-            switch (p.type) {
-              case "zac_human":
-                if (language == "vn") {
-                  data.push({
-                    ...p,
-                    title: "Vượt rào ảo và xâm nhập (Phát hiện người)",
-                  });
-                  break;
-                } else {
-                  data.push({
-                    ...p,
-                    title: "Hurdles and intrusion (Human detection)",
-                  });
-                  break;
-                }
-              case "zac_vehicle":
-                if (language == "vn") {
-                  data.push({
-                    ...p,
-                    title: "Vượt rào ảo và xâm nhập (Phát hiện phương tiện)",
-                  });
-                  break;
-                } else {
-                  data.push({
-                    ...p,
-                    title: "Hurdles and intrusion (Vehicle detection)",
-                  });
-                  break;
-                }
-              case "attendance":
-                if (language == "vn") {
-                  data.push({
-                    ...p,
-                    title: "Điểm danh",
-                  });
-                  break;
-                } else {
-                  data.push({
-                    ...p,
-                    title: "Attendance",
-                  });
-                  break;
-                }
-            }
+            data.push({
+              ...p,
+              title: t(`AI.${p.type}`),
+            });
           }
         });
         setCameraInfoLists(data);
@@ -245,19 +203,18 @@ const Index = (props) => {
   };
 
   const onClickChangeLiveMode = async (type) => {
-    const emptyData = {cameraUuid: idCamera, useCase: type};
-    const dataBody = JSON.stringify(emptyData);
     setTypeAICamera(type);
-    setOpenMenuControl(false);
     changeLiveMode(slotId, type);
-    dispatch({ type: UPDATE_DATA.LOAD_SUCCESS, dataBody });
+    dispatch({
+      type: UPDATE_DATA.LOAD_SUCCESS,
+      dataBody: { reset: true, cameraUuid: idCamera },
+    });
   };
 
   const handleSelectType = (type) => {
     setTypeActive(type);
     if (type === 4) {
       setIsOpenModalControlPanel(true);
-      setOpenMenuControl(false);
       setCurrentMenuControl(slotId);
       setListType(LIST_TYPES.other);
     }
@@ -265,7 +222,6 @@ const Index = (props) => {
       setIsOpenModalControlPanel(false);
       setOpenModalPresetSetting(true);
       props.openModalPresetSetting(true);
-      setOpenMenuControl(false);
       setListType(LIST_TYPES.other);
     }
     if (type === 2) {

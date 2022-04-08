@@ -821,5 +821,10 @@
     "report": "Quản lý báo cáo",
     "info": "Thông tin cá nhân",
     "setting": "Cài đặt"
+  },
+  "AI": {
+    "zac_human": "Vượt rào ảo và xâm nhập (Phát hiện người)",
+    "zac_vehicle": "Vượt rào ảo và xâm nhập (Phát hiện phương tiện)",
+    "attendance": "Điểm danh"
   }
 }

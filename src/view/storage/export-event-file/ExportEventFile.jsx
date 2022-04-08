@@ -1935,8 +1935,8 @@ const ExportEventFile = () => {
       return (
         <>
           <Viewfiletype4
-            handleSelectType={handleSelectType}
-            objectType={objectType}
+            // handleSelectType={handleSelectType}
+            // objectType={objectType}
             detailAI={detailAI}
             processState={processState}
             handleSelectProgessState={handleSelectProgessState}

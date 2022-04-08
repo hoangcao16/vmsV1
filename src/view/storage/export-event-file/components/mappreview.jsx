@@ -35,7 +35,7 @@ const PreviewMap = ({ data, fileCurrent, listLongLat }) => {
     "data:image/svg+xml;charset=utf-8;base64," + btoa(cameraRedIconSvg);
   //Vietmap Api Key
   const vietmapApiKey = process.env.REACT_APP_VIETMAP_APIKEY;
-  //khởi tạo map
+  //Tạo marker tọa độ hiện tại
   const createNewMarker = (data) => {
     if (_.inRange(data.lat_, -90, 90)) {
       var elem = document.querySelector(".map-camera-marker-node");
@@ -134,54 +134,67 @@ const PreviewMap = ({ data, fileCurrent, listLongLat }) => {
         calRatioZoom(marker, currentZoom);
       });
   };
-  function addRoute(coords) {
+  function addRoute(coords, waypoints) {
     // If a route is already loaded, remove it
     if (mapboxRef.current.getSource("route")) {
       mapboxRef.current.removeLayer("route");
       mapboxRef.current.removeSource("route");
-      mapboxRef.current.addLayer({
-        id: "route",
-        type: "line",
-        source: {
-          type: "geojson",
-          data: {
-            type: "Feature",
-            properties: {},
-            geometry: coords,
-          },
+    }
+    // If a point is already loaded, remove it
+    if (mapboxRef.current.getSource("allpoints")) {
+      mapboxRef.current.removeLayer("allpoints");
+      mapboxRef.current.removeSource("allpoints");
+    }
+    // add a layer for the route
+    mapboxRef.current.addLayer({
+      id: "route",
+      type: "line",
+      source: {
+        type: "geojson",
+        data: {
+          type: "Feature",
+          properties: {},
+          geometry: coords,
         },
-        layout: {
-          "line-join": "round",
-          "line-cap": "round",
-        },
-        paint: {
-          "line-color": "#03AA46",
-          "line-width": 8,
-          "line-opacity": 0.8,
+      },
+      layout: {
+        "line-join": "round",
+        "line-cap": "round",
+      },
+      paint: {
+        "line-color": "#03AA46",
+        "line-width": 8,
+        "line-opacity": 0.8,
+      },
+    });
+    // add a layer for the points
+    if (waypoints?.coordinates.length > 1) {
+      mapboxRef.current.addSource("allpoints", {
+        type: "geojson",
+        data: {
+          type: "FeatureCollection",
+          features: waypoints?.coordinates.map((item) => {
+            return {
+              type: "Feature",
+              geometry: {
+                type: "Point",
+                coordinates: item,
+              },
+            };
+          }),
         },
       });
-    } else {
-      // Add a new layer to the map
       mapboxRef.current.addLayer({
-        id: "route",
-        type: "line",
-        source: {
-          type: "geojson",
-          data: {
-            type: "Feature",
-            properties: {},
-            geometry: coords,
-          },
-        },
-        layout: {
-          "line-join": "round",
-          "line-cap": "round",
-        },
+        id: "allpoints",
+        type: "circle",
+        source: "allpoints",
         paint: {
-          "line-color": "#03AA46",
-          "line-width": 8,
-          "line-opacity": 0.8,
+          "circle-radius": 6,
+          "circle-color": "#fff",
+          "circle-stroke-color": "#00eb33",
+          "circle-stroke-width": 2,
         },
+        filter: ["==", "$type", "Point"],
       });
     }
   }
@@ -197,7 +210,6 @@ const PreviewMap = ({ data, fileCurrent, listLongLat }) => {
       { method: "GET" }
     );
     const response = await query.json();
-    console.log(response);
     // Handle errors
     if (response.code !== "OK") {
       console.log(`${response.code} - ${response.message}.`);
@@ -205,9 +217,11 @@ const PreviewMap = ({ data, fileCurrent, listLongLat }) => {
     }
     // Get the coordinates from the response
     const coords = response.paths[0].points;
+    const waypoints = response.paths[0].snapped_waypoints;
     // Draw the route on the map
-    addRoute(coords);
+    addRoute(coords, waypoints);
   }
+  // Tạo map
   useEffect(() => {
     showViewMap();
     mapboxRef.current &&
@@ -215,10 +229,12 @@ const PreviewMap = ({ data, fileCurrent, listLongLat }) => {
         handleControlZoomMarker();
       });
   }, []);
+  // Tạo marker khi chọn sự kiện
   useEffect(() => {
     setCurrentLan([data.long_, data.lat_]);
     createNewMarker(data);
   }, [data]);
+  // Vẽ route khi truy vết sự kiện
   useEffect(() => {
     if (listLongLat.length > 1) {
       const newCoords = listLongLat
@@ -229,6 +245,10 @@ const PreviewMap = ({ data, fileCurrent, listLongLat }) => {
       if (mapboxRef.current.getSource("route")) {
         mapboxRef.current.removeLayer("route");
         mapboxRef.current.removeSource("route");
+      }
+      if (mapboxRef.current.getSource("allpoints")) {
+        mapboxRef.current.removeLayer("allpoints");
+        mapboxRef.current.removeSource("allpoints");
       }
     }
   }, [listLongLat]);
