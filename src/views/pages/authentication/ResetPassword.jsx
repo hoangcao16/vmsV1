@@ -173,7 +173,10 @@ class ResetPassword extends React.Component {
                 <Card className="rounded-0 mb-0 px-2 py-50 col2_bgColor">
                   <CardHeader className="pb-1 pt-1">
                     <CardTitle>
-                      <h4 className="mb-0 col2_color">
+                      <h4
+                        className="mb-0 col2_color"
+                        style={{ fontSize: "18px" }}
+                      >
                         {t("view.pages.update_password")}
                       </h4>
                     </CardTitle>
@@ -200,7 +203,7 @@ class ResetPassword extends React.Component {
                           }}
                           type="password"
                         />
-                        <Label>{t("view.user.new_password")}</Label>
+                        <Label style={{fontSize: '14px'}}>{t("view.user.new_password")}</Label>
                       </FormGroup>
 
                       <Button.Ripple
