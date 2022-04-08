@@ -358,29 +358,38 @@ const ModalEditAdministrativeUnit = (props) => {
                     name={["tel"]}
                     label={t("view.map.phone_number")}
                     rules={[
-                      {
-                        required: true,
-                        message: `${t("view.map.required_field")}`,
-                      },
-                      {
-                        min: 12,
-                        message: `${t("noti.at_least_10_characters")}`,
-                      },
                       () => ({
                         validator(_, value) {
                           const valiValue =
-                            document.getElementById("tel").value;
-                          if (
-                            (!valiValue.startsWith("0") &&
-                              valiValue.length <= 20) ||
-                            (valiValue.startsWith("0") &&
-                              valiValue.length <= 19)
-                          ) {
-                            return Promise.resolve();
+                            document.getElementById("phone").value;
+
+                          if (!valiValue.length) {
+                            return Promise.reject(t("view.map.required_field"));
                           }
-                          return Promise.reject(
-                            new Error(t("noti.up_to_20_characters"))
-                          );
+
+                          if (!valiValue.startsWith("0")) {
+                            if (valiValue.length < 9) {
+                              return Promise.reject(
+                                new Error(t("noti.at_least_9_characters"))
+                              );
+                            } else if (valiValue.length > 19) {
+                              return Promise.reject(
+                                new Error(t("noti.max_characters", { max: 19 }))
+                              );
+                            }
+                          } else {
+                            if (valiValue.length < 10) {
+                              return Promise.reject(
+                                new Error(t("noti.at_least_10_characters"))
+                              );
+                            } else if (valiValue.length > 20) {
+                              return Promise.reject(
+                                new Error(t("noti.max_characters", { max: 20 }))
+                              );
+                            }
+                          }
+
+                          return Promise.resolve();
                         },
                       }),
                     ]}
