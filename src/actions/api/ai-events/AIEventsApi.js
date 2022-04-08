@@ -1,26 +1,21 @@
-import { handleErrCodeAI } from '../../function/MyUltil/ResponseChecker';
-import AIService from '../ai-service';
+import { handleErrCodeAI } from "../../function/MyUltil/ResponseChecker";
+import AIService from "../ai-service";
 import { reactLocalStorage } from "reactjs-localstorage";
 import { NOTYFY_TYPE } from "../../../view/common/vms/Constant";
-import FileService from '../exporteventfile/fileservice';
+import FileService from "../exporteventfile/fileservice";
 
 const AI_SOURCE = process.env.REACT_APP_AI_SOURCE;
 const language = reactLocalStorage.get("language");
 
 const AIEventsApi = {
-
   getEvents: async (params) => {
-    let url = '/api/v1/ai-events'
-    if(AI_SOURCE === 'philong'){
-      url = '/api/v1/integration-ai-events'
+    let url = "/api/v1/ai-events";
+    if (AI_SOURCE === "philong") {
+      url = "/api/v1/integration-ai-events";
     }
     let result;
     try {
-      result = await AIService.getRequestData(
-        url, params
-
-      );
-
+      result = await AIService.getRequestData(url, params);
     } catch (error) {
       console.log(JSON.stringify(error));
     }
@@ -29,10 +24,28 @@ const AIEventsApi = {
       return [];
     }
 
-    console.log(result)
+    console.log(result);
     return result;
   },
+  getTracingEvents: async (uuid, params) => {
+    let url = "/api/v1/ai-events";
+    if (AI_SOURCE === "philong") {
+      url = `/api/v1/integration-ai-events/tracing-event/${uuid}`;
+    }
+    let result;
+    try {
+      result = await AIService.getRequestData(url, params);
+    } catch (error) {
+      console.log(JSON.stringify(error));
+    }
 
+    if (handleErrCodeAI(result) === null) {
+      return [];
+    }
+
+    console.log(result);
+    return result;
+  },
   getEventsByTrackingId: async (trackingId) => {
     let result;
 
@@ -40,16 +53,15 @@ const AIEventsApi = {
       result = await AIService.getRequestData(
         `/api/v1/ai-events/by-tracking/${trackingId}`
       );
-
     } catch (error) {
       console.log(JSON.stringify(error));
     }
-    
+
     if (handleErrCodeAI(result) === null) {
       return [];
     }
 
-    console.log(result)
+    console.log(result);
     return result;
   },
 
@@ -57,35 +69,29 @@ const AIEventsApi = {
     let result;
 
     try {
-      result = await AIService.getRequestData(
-        `/api/v1/ai-events/${uuid}`
-      );
-
+      result = await AIService.getRequestData(`/api/v1/ai-events/${uuid}`);
     } catch (error) {
       console.log(JSON.stringify(error));
     }
-    
+
     if (handleErrCodeAI(result) === null) {
       return [];
     }
 
-    console.log(result)
+    console.log(result);
     return result;
   },
 
   editInforOfEvent: async (uuid, payload) => {
-    let url = '/api/v1/ai-events/'
+    let url = "/api/v1/ai-events/";
     // let url = '/api/v1/integration-ai-events'
-    console.log(AI_SOURCE)
-    if(AI_SOURCE === 'philong'){
-      url = '/api/v1/integration-ai-events/'
+    console.log(AI_SOURCE);
+    if (AI_SOURCE === "philong") {
+      url = "/api/v1/integration-ai-events/";
     }
     let result;
     try {
-      result = await AIService.putRequestData(
-        url + uuid,
-        payload
-      );
+      result = await AIService.putRequestData(url + uuid, payload);
     } catch (error) {
       console.log(error);
     }
@@ -98,17 +104,15 @@ const AIEventsApi = {
 
   delete: async (uuid) => {
     let result;
-    let url = '/api/v1/ai-events/'
+    let url = "/api/v1/ai-events/";
     // let url = '/api/v1/integration-ai-events'
-    console.log(AI_SOURCE)
-    if(AI_SOURCE === 'philong'){
-      url = '/api/v1/integration-ai-events/'
+    console.log(AI_SOURCE);
+    if (AI_SOURCE === "philong") {
+      url = "/api/v1/integration-ai-events/";
     }
 
     try {
-      result = await AIService.deleteRequestData(
-        `${url}${uuid}`
-      );
+      result = await AIService.deleteRequestData(`${url}${uuid}`);
     } catch (error) {
       console.log(error);
     }
@@ -121,16 +125,17 @@ const AIEventsApi = {
   deleteFileData: async (id) => {
     let result;
     try {
-      result = await AIService.deleteRequestData("/api/v1/ai-events/image/" +id, {
-        fileName: id,
-      });
+      result = await AIService.deleteRequestData(
+        "/api/v1/ai-events/image/" + id,
+        {
+          fileName: id,
+        }
+      );
     } catch (e) {
       return null;
     }
     return result;
   },
-  
-  
 };
 
 export default AIEventsApi;

@@ -17,6 +17,8 @@ const Viewfiletype4 = ({
   deleteImageHandler,
   viewImageAIHandler,
   handleShowTicketModal,
+  tracingList,
+  onClickRow,
   //   handleUpdateTHXL,
 }) => {
   const { t } = useTranslation();
@@ -169,7 +171,7 @@ const Viewfiletype4 = ({
                                     width: "120px",
                                     height: "120px",
                                   }}
-                                  className="video-container video-container-overlay"
+                                  className="video-container video-container-overlay cursor-pointer"
                                   loop
                                   autoPlay
                                 >
@@ -257,7 +259,11 @@ const Viewfiletype4 = ({
           </Row>
         </Col>
       </StyledEventFileDetail>
-      <MemoizedTableDetailList></MemoizedTableDetailList>
+      <MemoizedTableDetailList
+        tracingList={tracingList}
+        detailAI={detailAI}
+        onClickRow={onClickRow}
+      ></MemoizedTableDetailList>
       <ActionButton>
         <Col span={4} offset={20}>
           <Row>
