@@ -366,8 +366,12 @@ function AddUser(props) {
                             validator(_, value) {
                               const valiValue =
                                 document.getElementById("phone").value;
-                              if (valiValue.length && valiValue.length <= 20) {
-                                console.log("valiValue", valiValue);
+                              if (
+                                (!valiValue.startsWith("0") &&
+                                  valiValue.length <= 20) ||
+                                (valiValue.startsWith("0") &&
+                                  valiValue.length <= 19)
+                              ) {
                                 return Promise.resolve();
                               }
                               return Promise.reject(
