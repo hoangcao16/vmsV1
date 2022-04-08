@@ -18,14 +18,26 @@ import { loadDataChart } from "../../redux/actions";
 import "./barChart.scss";
 import ExportReport from "./ExportReport";
 import ExportReportToMail from "./ExportReportToMail";
-import moment from "moment"
+import moment from "moment";
 import ConvertDataChart from "../../../../actions/function/MyUltil/ConvertDataChart";
 
-
-export const COLOR = ["#eb4034", "#7ccc47", "#425fd4", "#FCFC74", "#FFA45E", "#FB5EFF", "#E8618E", "#3AFFD8", "#973AFF", "#5BFF3A"];
+export const COLOR = [
+  "#eb4034",
+  "#7ccc47",
+  "#425fd4",
+  "#FCFC74",
+  "#FFA45E",
+  "#FB5EFF",
+  "#E8618E",
+  "#3AFFD8",
+  "#973AFF",
+  "#5BFF3A",
+];
 
 function BarChartComponent(props) {
-  const data = props.chartData?.res?.DataChartEvent;
+  const data =
+    props.chartData?.res?.DataChartEvent ||
+    props.chartData?.res?.CompareChartEvent;
   const { t } = useTranslation();
 
   if (props.isLoading) {
@@ -64,7 +76,7 @@ function BarChartComponent(props) {
               {permissionCheck("export_report") && (
                 <div className="export">
                   <ExportReport type="comparativeReport" />
-                  <ExportReportToMail type="comparativeReport"/>
+                  <ExportReportToMail type="comparativeReport" />
                 </div>
               )}
             </div>

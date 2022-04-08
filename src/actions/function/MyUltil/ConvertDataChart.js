@@ -3,8 +3,7 @@ import moment from "moment";
 
 export default function ConvertDataChart(data) {
   if (!isEmpty(data)) {
-    let dataChart = data?.res?.DataChartEvent;
-
+    let dataChart = data?.res?.DataChartEvent || data?.res?.CompareChartEvent;
     if (data?.date?.typeTime == "DAY") {
       const start = moment(data?.date?.startDate, "DD/MM/YYYY");
       const end = moment(data?.date?.endDate, "DD/MM/YYYY");
@@ -23,8 +22,7 @@ export default function ConvertDataChart(data) {
         data.res.DataChartEvent = [];
         data.res.Percents = [];
       }
-    }
-     else if (data?.date?.typeTime == "YEAR") {
+    } else if (data?.date?.typeTime == "YEAR") {
       const start = moment(data?.date?.startDate, "YYYY");
       const end = moment(data?.date?.endDate, "YYYY");
       if (!moment(end).diff(start, "y") > 0) {
