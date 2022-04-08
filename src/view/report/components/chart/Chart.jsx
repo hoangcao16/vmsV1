@@ -22,7 +22,9 @@ import moment from "moment";
 import ConvertDataChart from "../../../../actions/function/MyUltil/ConvertDataChart";
 
 function Chart(props) {
-  const data = props.chartData?.res?.DataChartEvent;
+  const data =
+    props.chartData?.res?.DataChartEvent ||
+    props.chartData?.res?.CompareChartEvent;
 
   const { t } = useTranslation();
 
