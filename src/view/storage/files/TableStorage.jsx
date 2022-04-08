@@ -222,7 +222,7 @@ const TableStorage = () => {
   };
 
   const formatDateTime = (ts) =>
-    moment(ts * 1000).format("DD-MM-YYYY HH:mm:ss");
+    moment(ts * 1000).format("DD/MM/YYYY HH:mm:ss");
 
   return (
     <>
