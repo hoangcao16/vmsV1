@@ -68,6 +68,7 @@ const Live = (props) => {
   const [cameras, setCameras] = useState([]);
   const [totalCameras, setTotalCameras] = useState(0);
   const [addedCameras, setAddedCameras] = useState([]);
+  console.log("addedCameras", addedCameras);
   const [filter, setFilter] = useState({});
   const [search, setSearch] = useState("");
   const [liveMode, setLiveMode] = useState(true);
