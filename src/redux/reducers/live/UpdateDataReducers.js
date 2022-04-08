@@ -1,62 +1,42 @@
-import { isEmpty } from "lodash";
 import { UPDATE_DATA } from "../../types/live";
 
 const dataMaxLength = 100;
 
-const dataSource = [];
-const idArray = [];
-let liveModeType = {};
-
-const updateData = (data = [], action) => {
+const updateData = (data = {}, action) => {
   switch (action.type) {
     case UPDATE_DATA.LOAD_SUCCESS:
-      const lastData = [];
-      let changeData = JSON.parse(action.dataBody);
-      dataSource.unshift(changeData);
+      let changeData = action.dataBody;
 
-      if (isEmpty(changeData.cameraUuid)) {
-        dataSource.shift()
+      if (changeData.reset) {
+        data[changeData.cameraUuid] = [];
+
+        return { ...data };
       }
 
-      //reject all data after change liveMode (still keep another cameraUuid's data)
-      if (Object.values(changeData).length <= 2) {
-        liveModeType = changeData.useCase;
-        for (let a = dataSource.length - 1; a >= 0; a--) {
-          if (dataSource[a].cameraUuid == dataSource[0].cameraUuid) {
-            dataSource.splice(a, 1);
-          }
-        }
+      if (!changeData || !changeData.cameraUuid) {
+        return data;
       }
 
-      //reject data are different from liveModeType
-      for (let a = 0; a < dataSource.length; a++) {
-        if (dataSource[a].useCase !== liveModeType) {
-          dataSource.splice(a, 1);
-        }
+      if (!data[changeData.cameraUuid]) {
+        data[changeData.cameraUuid] = [];
       }
 
-      //get list of cameraUuid
-      for (let i = 0; i < dataSource.length; i++) {
-        if (!idArray.includes(dataSource[i].cameraUuid)) {
-          idArray.push(dataSource[i].cameraUuid);
-        }
+      const currentUseCases = data[changeData.cameraUuid].filter(
+        (obj) => obj.useCase === changeData.useCase
+      );
+
+      if (currentUseCases.length >= dataMaxLength) {
+        data[changeData.cameraUuid].pop();
       }
 
-      //make sure cameraUuid's data at most 100 element
-      idArray.forEach((i) => {
-        let dataConvert = [];
-        dataSource.forEach((j) => {
-          if (j.cameraUuid == i) {
-            dataConvert.push(j);
-          }
-        });
+      data[changeData.cameraUuid] = [
+        changeData,
+        ...data[changeData.cameraUuid],
+      ];
 
-        while (dataConvert.length > dataMaxLength) {
-          dataConvert.pop();
-        }
-        lastData.push(...dataConvert);
-      });
-      return lastData;
+      return {
+        ...data,
+      };
     default:
       return data;
   }

@@ -1,7 +1,7 @@
 import "antd/dist/antd.css";
 import Hls from "hls.js";
 import moment from "moment";
-import React, {useEffect, useReducer, useRef, useState} from "react";
+import React, { useEffect, useReducer, useRef, useState } from "react";
 import { DragDropContext, Draggable, Droppable } from "react-beautiful-dnd";
 import { useTranslation } from "react-i18next";
 import { connect, useDispatch } from "react-redux";
@@ -43,7 +43,7 @@ import {
   STEP_SIZE_MINUTE,
 } from "../common/vms/constans/playback";
 import { NOTYFY_TYPE, PAGE_SIZE } from "../common/vms/Constant";
-import { changeZoom, updateData } from "./../../redux/actions/customizer/index";
+import { changeZoom } from "./../../redux/actions/customizer/index";
 import DraggableCameraList from "./DraggableCameraList";
 import LiveCameraSlot from "./LiveCameraSlot";
 import MenuTools from "./MenuTools";
@@ -54,7 +54,10 @@ import { isEmpty } from "lodash";
 
 const mode = process.env.REACT_APP_MODE_VIEW;
 
-const initialDataGrid = [...Array(16).keys()];
+const initialDataGrid = [...Array(16).keys()].map((key) => ({
+  id: key,
+  cameraId: null,
+}));
 let currentGridSize = 16;
 const Live = (props) => {
   const { t } = useTranslation();
@@ -83,10 +86,10 @@ const Live = (props) => {
   const [curSpeed, setCurSpeed] = useState(1);
   const [defaultSize, setDefaultSize] = useState(16);
   const [pcList, setPCList] = useState([]);
-  const pcListRef = useRef(pcList)
+  const pcListRef = useRef(pcList);
 
   let wsOnConnectCallback = function (message) {
-    const dataBody = message.body;
+    const dataBody = JSON.parse(message.body);
     dispatch({ type: UPDATE_DATA.LOAD_SUCCESS, dataBody });
     // called when the client receives a STOMP message from the server
     if (message.body) {
@@ -150,8 +153,8 @@ const Live = (props) => {
   }, []);
 
   useEffect(() => {
-      pcListRef.current = pcList
-  },[pcList]);
+    pcListRef.current = pcList;
+  }, [pcList]);
 
   useEffect(() => {
     fetchCameras(filter, search);
@@ -175,7 +178,7 @@ const Live = (props) => {
         //console.log(">>>>> close connection: ", pcLstTmp[i].pc);
       }
     }
-  }
+  };
 
   /**
    * Hàm này tạo screen với dầy đủ thông tin của từng  camera trên lưới: Ví dụ: tên cam, uuid, id
@@ -260,6 +263,14 @@ const Live = (props) => {
           });
         }
         handleBookmarkOk(screen);
+
+        const { cameraUuids = [] } = screen;
+
+        cameraUuids.forEach((cameraId, index) => {
+          dataGrid[index].cameraId = cameraId;
+
+          setDataGrid([...dataGrid]);
+        });
 
         switch (defaultScreen.gridType) {
           case "1x1":
@@ -775,8 +786,8 @@ const Live = (props) => {
     // Slot được chọn chính là index chứa trong droppableId (xem hàm move)
     if (source.droppableId === "droppable-camera-list") {
       const streamUrl = "http://techslides.com/demos/sample-videos/small.mp4";
-      const des =
-        addedCameras[destination.droppableId.replace("droppable-", "")];
+      const gridID = destination.droppableId.replace("droppable-", "");
+      const des = addedCameras[gridID];
       result = [...addedCameras];
       const camInfoArr = draggableId.split("##_");
 
@@ -789,7 +800,11 @@ const Live = (props) => {
         return;
       }
 
-      result[destination.droppableId.replace("droppable-", "")] = {
+      dataGrid[gridID].cameraId = camInfoArr[0];
+
+      setDataGrid([...dataGrid]);
+
+      result[gridID] = {
         id: des.id,
         name: camInfoArr[1],
         camUuid: camInfoArr[0],
@@ -1361,8 +1376,8 @@ const Live = (props) => {
           if (camUuid !== "") {
             const camFound = selectedItem.camList.find(
               (it, id) => it.cameraUuid === camUuid
-              );
-              let type = selectedItem.viewTypes[idx];
+            );
+            let type = selectedItem.viewTypes[idx];
             cams[idx] = {
               id: idx,
               name: camFound.cameraName,
@@ -1523,7 +1538,7 @@ const Live = (props) => {
     }
   };
 
-  const renderVideoSlot = (originSlotId, provided, snapshot) => {
+  const renderVideoSlot = (originSlotId, provided, snapshot, cameraId) => {
     return (
       <div className="video-toolbar" id={"draggable-video-" + originSlotId}>
         <div
@@ -1536,7 +1551,7 @@ const Live = (props) => {
           )}
         >
           <LiveCameraSlot
-            idCamera={idCurrCameraSelected}
+            idCamera={cameraId}
             slotId={originSlotId}
             setCurrentMenuControl={setCurrentMenuControl}
             currentMenuControl={currentMenuControl}
@@ -1579,33 +1594,31 @@ const Live = (props) => {
             <div className="flex-grow-1 overflow-auto grid-live">
               <div className={"row no-gutters " + rowClass}>
                 {dataGrid &&
-                  dataGrid.map((originSlotId, index) => (
-                    <Droppable
-                      droppableId={"droppable-" + originSlotId}
-                      key={originSlotId}
-                    >
+                  dataGrid.map((obj, index) => (
+                    <Droppable droppableId={"droppable-" + obj.id} key={obj.id}>
                       {(provided, snapshot) => (
                         <div
                           ref={provided.innerRef}
                           {...provided.droppableProps}
-                          id={`droppable-${originSlotId}`}
+                          id={`droppable-${obj.id}`}
                           className={"d-flex h-100 video-col " + colClass}
                         >
                           <div
                             className="video-col-inner w-100 "
                             style={getListStyle(snapshot.isDraggingOver)}
                           >
-                            {addedCameras[originSlotId] && (
+                            {addedCameras[obj.id] && (
                               <Draggable
-                                draggableId={"draggable-video-" + originSlotId}
-                                index={originSlotId}
+                                draggableId={"draggable-video-" + obj.id}
+                                index={obj.id}
                                 disableInteractiveElementBlocking
                               >
                                 {(provided, snapshot) =>
                                   renderVideoSlot(
-                                    originSlotId,
+                                    obj.id,
                                     provided,
-                                    snapshot
+                                    snapshot,
+                                    obj.cameraId
                                   )
                                 }
                               </Draggable>
