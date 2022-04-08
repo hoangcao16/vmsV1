@@ -13,15 +13,10 @@ import {
 import Notification from "../../../../components/vms/notification/Notification";
 
 import {
-  CAM_LIVE_ITEMS,
-  FORM_MAP_ITEM,
   LAT_LNG,
   MAP_STYLES,
   NAVIGATION_CONTROL,
   STYLE_MODE,
-  TRACKING_POINTS,
-  TYPE_CONTEXT_MENU,
-  TYPE_FORM_ACTION_ON_MAP,
 } from "../../../common/vms/constans/map";
 import { useTranslation } from "react-i18next";
 import { NOTYFY_TYPE } from "../../../common/vms/Constant";
@@ -38,8 +33,8 @@ const PreviewMap = ({ data, fileCurrent, listLongLat }) => {
   const cameraRedIcon = new Image();
   cameraRedIcon.src =
     "data:image/svg+xml;charset=utf-8;base64," + btoa(cameraRedIconSvg);
-  //mapbox token
-  const mapboxToken = process.env.REACT_APP_MAPBOX_TOKEN;
+  //Vietmap Api Key
+  const vietmapApiKey = process.env.REACT_APP_VIETMAP_APIKEY;
   //khởi tạo map
   const createNewMarker = (data) => {
     if (_.inRange(data.lat_, -90, 90)) {
@@ -192,14 +187,13 @@ const PreviewMap = ({ data, fileCurrent, listLongLat }) => {
   }
   // Make a Map Matching request
   async function getMatch(coordinates, profile) {
-    const apiKey = "95f852d9f8c38e08ceacfd456b59059d0618254a50d3854c";
     // Create the query
     // const query = await fetch(
     //   `https://api.mapbox.com/directions/v5/mapbox/${profile}/${coordinates}?geometries=geojson&radiuses=${radiuses}&access_token=${mapboxToken}`,
     //   { method: "GET" }
     // );
     const query = await fetch(
-      `https://maps.vietmap.vn/api/route?${coordinates}&instructions=false&type=json&locale=vi&apikey=${apiKey}&vehicle=${profile}&points_encoded=false&api-version=1.1`,
+      `https://maps.vietmap.vn/api/route?${coordinates}&instructions=false&type=json&locale=vi&apikey=${vietmapApiKey}&vehicle=${profile}&points_encoded=false&api-version=1.1`,
       { method: "GET" }
     );
     const response = await query.json();
