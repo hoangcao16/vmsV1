@@ -2,7 +2,7 @@ import React, { useState, useEffect } from "react";
 import { Card, Modal, Table, Tooltip, Typography, Button, Row } from "antd";
 import { useTranslation } from "react-i18next";
 import "./AiInforTable.scss";
-import { connect } from "react-redux";
+import { connect, useDispatch } from "react-redux";
 import { reactLocalStorage } from "reactjs-localstorage";
 import { isEmpty } from "lodash";
 import moment from "moment";
@@ -11,6 +11,7 @@ import Draggable from "react-draggable";
 import ExportEventFileApi from "../../actions/api/exporteventfile/ExportEventFileApi";
 import { getBase64Text } from "../../utility/vms/getBase64Text";
 import AiInforImage from "./AiInforImage";
+import { UPDATE_DATA } from "../../redux/types/live";
 
 const { Text } = Typography;
 const dataType = "";
@@ -60,12 +61,22 @@ export const renderTime = (value) => {
 const AiInforTable = (props) => {
   const { showNotiInfo, isInfoModalVisible, setIsInfoModalVisible, idCamera } =
     props;
+  const { t } = useTranslation();
+  const dispatch = useDispatch();
   const [imageShowing, setImageShowing] = useState(false);
   const [urlImage, setUrlImage] = useState("");
   const [aIData, setAIData] = useState("");
-  const { t } = useTranslation();
   const data = props.updateData;
-  const dataFilter = data.filter((i) => i.cameraUuid === idCamera);
+
+  useEffect(() => {
+    if (!isInfoModalVisible) {
+      dispatch({
+        type: UPDATE_DATA.LOAD_SUCCESS,
+        dataBody: { reset: true, cameraUuid: idCamera },
+      });
+    }
+  }, [isInfoModalVisible]);
+
   const img = async (file) => {
     await ExportEventFileApi.downloadFileAI(
       file.cameraUuid,
@@ -90,6 +101,7 @@ const AiInforTable = (props) => {
       width: "8%",
       render: (text, record, index) => index + 1,
     },
+
     {
       className: "columns--text__color",
       title: `${t("view.live.time")}`,
@@ -141,7 +153,7 @@ const AiInforTable = (props) => {
   ];
 
   const showImage = (row) => {
-    setAIData(row)
+    setAIData(row);
     img(row);
     setImageShowing(true);
   };
@@ -184,7 +196,7 @@ const AiInforTable = (props) => {
         >
           <Table
             columns={columns}
-            dataSource={dataFilter}
+            dataSource={data[idCamera]}
             pagination={false}
             scroll={{ y: 300 }}
           />
