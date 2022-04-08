@@ -1,3 +1,4 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 import { Col, Popconfirm, Popover, Row, Tooltip, Spin, Space } from "antd";
 import { ExclamationCircleOutlined } from "@ant-design/icons";
 import { saveAs } from "file-saver";
@@ -140,7 +141,9 @@ const ExportEventFile = () => {
   const [ticketModalVisible, setTicketModalVisible] = useState(false);
   const zoom = ((window.outerWidth - 10) / window.innerWidth) * 100;
   const [visible, setVisible] = useState(false);
-
+  const [tracingList, setTracingList] = useState([]);
+  const [listLongLat, setListLongLat] = useState([]);
+  const [selectedFiled, setselectedFiled] = useState(null);
   useEffect(() => {
     language === "vn"
       ? (document.title = "CCTV | Xuất sự kiện")
@@ -216,6 +219,10 @@ const ExportEventFile = () => {
         setProcessState(
           processingstatusOptions.find((e) => e.value === fileCurrent?.status)
         );
+        const getViolateUrl = ExportEventFileApi.downloadAIIntegrationFile(
+          fileCurrent.uuid,
+          "ImageViolate.jpg"
+        );
         const getPlateNumUrl = ExportEventFileApi.downloadAIIntegrationFile(
           fileCurrent.uuid,
           "ImagePlate.jpg"
@@ -228,14 +235,14 @@ const ExportEventFile = () => {
           fileCurrent.uuid,
           "Video.mp4"
         );
-        Promise.all([getPlateNumUrl, getVehicleUrl, getVideoUrl])
+        Promise.all([getViolateUrl, getPlateNumUrl, getVehicleUrl, getVideoUrl])
           .then(async (value) => {
             if (!isEmpty(value[0])) {
               const blob = new Blob([value[0].data], { type: "octet/stream" });
               // getBase64Text(blob, (image) => {
               imageOther.push({
-                id: "plate",
-                fileName: "ImagePlate.jpg",
+                id: "violate",
+                fileName: "ImageViolate.jpg",
                 uuid: fileCurrent.uuid,
                 image: URL.createObjectURL(blob),
               });
@@ -245,8 +252,8 @@ const ExportEventFile = () => {
               const blob = new Blob([value[1].data], { type: "octet/stream" });
               // getBase64Text(blob, (image) => {
               imageOther.push({
-                id: "vehicle",
-                fileName: "ImageVehicle.jpg",
+                id: "plate",
+                fileName: "ImagePlate.jpg",
                 uuid: fileCurrent.uuid,
                 image: URL.createObjectURL(blob),
               });
@@ -254,6 +261,17 @@ const ExportEventFile = () => {
             }
             if (!isEmpty(value[2])) {
               const blob = new Blob([value[2].data], { type: "octet/stream" });
+              // getBase64Text(blob, (image) => {
+              imageOther.push({
+                id: "vehicle",
+                fileName: "ImageVehicle.jpg",
+                uuid: fileCurrent.uuid,
+                image: URL.createObjectURL(blob),
+              });
+              // });
+            }
+            if (!isEmpty(value[3])) {
+              const blob = new Blob([value[3].data], { type: "octet/stream" });
               imageOther.push({
                 id: "video",
                 type: "mp4",
@@ -267,34 +285,6 @@ const ExportEventFile = () => {
             console.log("imageOther   []  ", imageOther);
             setImageOther(imageOther);
           });
-        // if (fileCurrent.plateNumberUrl) {
-        //   imageOther.push({
-        //     id: "plate",
-        //     fileName: "ImagePlate.jpg",
-        //     uuid: fileCurrent.uuid,
-        //     image: fileCurrent.plateNumberUrl,
-        //   });
-        // }
-        // if (fileCurrent.vehicleUrl) {
-        //   imageOther.push({
-        //     id: "vehicle",
-        //     fileName: "ImageVehicle.jpg",
-        //     uuid: fileCurrent.uuid,
-        //     image: fileCurrent.vehicleUrl,
-        //   });
-        // }
-
-        // if (fileCurrent.videoUrl) {
-        //   console.log("");
-        //   imageOther.push({
-        //     id: "video",
-        //     type: "mp4",
-        //     fileName: "ImageVehicle.jpg",
-        //     uuid: fileCurrent.uuid,
-        //     url: fileCurrent.videoUrl,
-        //   });
-        // }
-
         setImageAICurrent({
           uuid: fileCurrent.uuid,
           fileName: "ImageViolate.jpg",
@@ -360,7 +350,169 @@ const ExportEventFile = () => {
       }
     }
   }, [fileCurrent]);
+  useEffect(() => {
+    if (viewFileType === 4 && fileCurrent != null && AI_SOURCE === "philong") {
+      const payload = {
+        page: 0,
+        size: 15,
+      };
+      AIEventsApi.getTracingEvents(fileCurrent.uuid, payload)
+        .then((data) => {
+          setTracingList(data);
+          return data.payload;
+        })
+        .then((data) => {
+          const longLats = data.map((item) => {
+            return [item.lat_, item.long_];
+          });
+          setListLongLat(longLats);
+        })
+        .catch((err) => {
+          console.log("getTracingEvents err", err);
+        });
+    }
+  }, [fileCurrent]);
+  useEffect(() => {
+    if (viewFileType === 4 && selectedFiled != null) {
+      let imageOther = [];
+      if (AI_SOURCE === "philong") {
+        setDetailAI({
+          ...selectedFiled,
+        });
+        setProcessState(
+          processingstatusOptions.find((e) => e.value === selectedFiled?.status)
+        );
+        const getViolateUrl = ExportEventFileApi.downloadAIIntegrationFile(
+          selectedFiled.uuid,
+          "ImageViolate.jpg"
+        );
+        const getPlateNumUrl = ExportEventFileApi.downloadAIIntegrationFile(
+          selectedFiled.uuid,
+          "ImagePlate.jpg"
+        );
+        const getVehicleUrl = ExportEventFileApi.downloadAIIntegrationFile(
+          selectedFiled.uuid,
+          "ImageVehicle.jpg"
+        );
+        const getVideoUrl = ExportEventFileApi.downloadAIIntegrationFile(
+          selectedFiled.uuid,
+          "Video.mp4"
+        );
+        Promise.all([getViolateUrl, getPlateNumUrl, getVehicleUrl, getVideoUrl])
+          .then(async (value) => {
+            if (!isEmpty(value[0])) {
+              const blob = new Blob([value[0].data], { type: "octet/stream" });
+              // getBase64Text(blob, (image) => {
+              imageOther.push({
+                id: "violate",
+                fileName: "ImageViolate.jpg",
+                uuid: selectedFiled.uuid,
+                image: URL.createObjectURL(blob),
+              });
+              // });
+            }
+            if (!isEmpty(value[1])) {
+              const blob = new Blob([value[1].data], { type: "octet/stream" });
+              // getBase64Text(blob, (image) => {
+              imageOther.push({
+                id: "plate",
+                fileName: "ImagePlate.jpg",
+                uuid: selectedFiled.uuid,
+                image: URL.createObjectURL(blob),
+              });
+              // });
+            }
+            if (!isEmpty(value[2])) {
+              const blob = new Blob([value[2].data], { type: "octet/stream" });
+              // getBase64Text(blob, (image) => {
+              imageOther.push({
+                id: "vehicle",
+                fileName: "ImageVehicle.jpg",
+                uuid: selectedFiled.uuid,
+                image: URL.createObjectURL(blob),
+              });
+              // });
+            }
+            if (!isEmpty(value[3])) {
+              const blob = new Blob([value[3].data], { type: "octet/stream" });
+              imageOther.push({
+                id: "video",
+                type: "mp4",
+                fileName: "Video.mp4",
+                uuid: selectedFiled.uuid,
+                url: URL.createObjectURL(blob),
+              });
+            }
+          })
+          .then(() => {
+            console.log("imageOther   []  ", imageOther);
+            setImageOther(imageOther);
+          });
+        setImageAICurrent({
+          uuid: selectedFiled.uuid,
+          fileName: "ImageViolate.jpg",
+        });
+      } else {
+        setDetailAI({});
+        if (selectedFiled && selectedFiled.uuid != null) {
+          AIEventsApi.getEventsByTrackingId(selectedFiled.trackingId).then(
+            (data) => {
+              data.payload.map((ef) => {
+                if (ef.thumbnailData != null) {
+                  imageOther.push({
+                    image: ef.thumbnailData,
+                    uuid: ef.uuid,
+                    cameraUuid: ef.cameraUuid,
+                    trackingId: ef.trackingId,
+                    fileName: ef.fileName,
+                  });
+                }
+              });
+            }
+          );
+          setImageOther(imageOther);
 
+          AIEventsApi.getDetailEvent(selectedFiled.uuid).then((data) => {
+            if (data && data.payload) {
+              setDetailAI({
+                ...selectedFiled,
+                code: data.payload.code,
+                name: data.payload.name,
+                position: data.payload.position,
+                note: data.payload.note,
+                plateNumber: data.payload.plateNumber,
+                departmentUuid: data.payload.departmentUuid,
+                departmentName: data.payload.departmentName,
+                typeObject:
+                  data.payload.useCase === "zac_vehicle" ? "vehicle" : "human",
+              });
+              setCurrNode(data?.payload?.note);
+              setProcessState(
+                processingstatusOptions.find(
+                  (e) => e.value === data?.payload?.status
+                )
+              );
+              setObjectType(
+                typeObjects.find(
+                  (e) =>
+                    e.value ===
+                    (data.payload.useCase === "zac_vehicle"
+                      ? "vehicle"
+                      : "human")
+                )
+              );
+              setImageAICurrent({
+                cameraUuid: selectedFiled.cameraUuid,
+                trackingId: selectedFiled.trackingId,
+                uuid: selectedFiled.uuid,
+                fileName: selectedFiled.fileName,
+              });
+            }
+          });
+        }
+      }
+    }
+  }, [selectedFiled]);
   const refresh = () => {
     setCaptureMode(false);
     setUrlSnapshot("");
@@ -371,7 +523,19 @@ const ExportEventFile = () => {
     setFileCurrent(null);
     setIsOpenRootFile(false);
   };
-
+  const onClickTableListEvent = async (row) => {
+    if (row) {
+      console.log("row", row);
+      setCaptureMode(false);
+      setUrlVideoTimeline(null);
+      setUrlSnapshot("");
+      if (viewFileType === 0) {
+        await openFile(row);
+      } else {
+        await openTracingEventFile(row);
+      }
+    }
+  };
   const onClickTableFileHandler = async (row) => {
     if (row) {
       setCaptureMode(false);
@@ -384,7 +548,35 @@ const ExportEventFile = () => {
       }
     }
   };
+  const openTracingEventFile = async (file) => {
+    setselectedFiled({ ...file, fileType: "4" });
+    if (AI_SOURCE === "philong") {
+      await ExportEventFileApi.downloadAIIntegrationFile(
+        file.uuid,
+        "ImageViolate.jpg"
+      ).then(async (result) => {
+        const blob = new Blob([result.data], { type: "octet/stream" });
+        getBase64Text(blob, async (image) => {
+          setUrlSnapshot(image);
+        });
+      });
+    } else {
+      await ExportEventFileApi.downloadFileAI(
+        file.cameraUuid,
+        file.trackingId,
+        file.uuid,
+        file.fileName,
+        4
+      ).then(async (result) => {
+        const blob = new Blob([result.data], { type: "octet/stream" });
+        getBase64Text(blob, async (image) => {
+          setUrlSnapshot(image);
+        });
+      });
 
+      // setUrlSnapshot("data:image/jpeg;base64," + file.thumbnailData);
+    }
+  };
   const openFile = async (file) => {
     setLoading(true);
     try {
@@ -1603,15 +1795,14 @@ const ExportEventFile = () => {
         const notifyMess = {
           type: "success",
           title: "",
-          description: `${t("noti.successfully_edit_nvr")}`,
+          description: `${t("noti.successfully_edit")}`,
         };
         Notification(notifyMess);
       } else {
         const notifyMess = {
           type: "error",
           title: "",
-          description:
-            "Đã xảy ra lỗi trong quá trình chỉnh sửa, hãy kiểm tra lại",
+          description: `${t("noti.error_edit")}`,
         };
         Notification(notifyMess);
       }
@@ -1739,7 +1930,6 @@ const ExportEventFile = () => {
       }
     }
   };
-
   const renderEventFileDetail = () => {
     if (viewFileType === 4) {
       return (
@@ -1754,6 +1944,8 @@ const ExportEventFile = () => {
             deleteImageHandler={deleteImageHandler}
             viewImageAIHandler={viewImageAIHandler}
             handleShowTicketModal={handleShowTicketModal}
+            tracingList={tracingList}
+            onClickRow={onClickTableListEvent}
             // handleUpdateTHXL={handleUpdateTHXL}
           />
         </>
@@ -1994,7 +2186,12 @@ const ExportEventFile = () => {
                       style={{ display: "none" }}
                     />
                   </Space>
-                  <video style={{ width: "100%" }} controls loop>
+                  <video
+                    style={{ width: "100%", height: "100%" }}
+                    controls
+                    loop
+                    src={playerAIVideoUrl ? playerAIVideoUrl : ""}
+                  >
                     <source
                       src={playerAIVideoUrl ? playerAIVideoUrl : ""}
                       type="video/mp4"
@@ -2018,7 +2215,11 @@ const ExportEventFile = () => {
               </div>
             </Col>
             <Col span={8}>
-              <PreviewMap data={detailAI} fileCurrent={fileCurrent} />
+              <PreviewMap
+                data={detailAI}
+                fileCurrent={fileCurrent}
+                listLongLat={listLongLat}
+              />
             </Col>
           </Row>
           <Row className="playControl">

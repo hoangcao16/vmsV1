@@ -813,7 +813,9 @@
     "sent_mail_successful": "Gửi mail thành công",
     "fail_sent_mail": "Gửi mail thất bại",
     "start_greater_end": "Không được chọn thời gian bắt đầu lớn hơn hoặc bằng thời gian kết thúc",
-    "end_smaller_start": "Không được chọn thời gian kết thúc nhỏ hơn hoặc bằng thời gian bắt đầu"
+    "end_smaller_start": "Không được chọn thời gian kết thúc nhỏ hơn hoặc bằng thời gian bắt đầu",
+    "successfully_edit": "Chỉnh sửa thành công",
+    "error_edit": "Đã xảy ra lỗi trong quá trình chỉnh sửa, hãy kiểm tra lại"
   },
   "breadcrumd": {
     "report": "Quản lý báo cáo",
