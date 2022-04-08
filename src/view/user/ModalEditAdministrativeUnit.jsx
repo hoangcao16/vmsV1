@@ -371,8 +371,10 @@ const ModalEditAdministrativeUnit = (props) => {
                           const valiValue =
                             document.getElementById("tel").value;
                           if (
-                            valiValue.length &&
-                            valiValue.length <= 20
+                            (!valiValue.startsWith("0") &&
+                              valiValue.length <= 20) ||
+                            (valiValue.startsWith("0") &&
+                              valiValue.length <= 19)
                           ) {
                             return Promise.resolve();
                           }
