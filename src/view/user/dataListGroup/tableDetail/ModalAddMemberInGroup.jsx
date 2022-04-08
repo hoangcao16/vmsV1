@@ -37,7 +37,7 @@ const ModalAddMemberInGroup = (props) => {
       const data = result?.payload.filter((r) => !selectedId.includes(r.uuid));
       setUser(data);
 
-      setTotal(result?.metadata?.total);
+      setTotal(data.length);
     });
   }, []);
 
@@ -66,7 +66,7 @@ const ModalAddMemberInGroup = (props) => {
       let selectedId = props?.checkedGroup;
       const data = result?.payload.filter((r) => !selectedId.includes(r.uuid));
       setUser(data);
-      setTotal(result?.metadata?.total);
+      setTotal(data.length);
     });
   };
 
