@@ -66,6 +66,11 @@ const PreviewMap = ({ data, fileCurrent, listLongLat }) => {
       mapboxRef.current.flyTo({
         center: [data?.long_, data?.lat_],
       });
+    } else {
+      var elem = document.querySelector(".map-camera-marker-node");
+      if (elem) {
+        elem.remove();
+      }
     }
   };
   const showViewMap = () => {
