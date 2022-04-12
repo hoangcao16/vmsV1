@@ -231,7 +231,7 @@ const DetailUser = (props) => {
           }
 
           if (!valiValue.startsWith("0")) {
-            if (valiValue.length < 9) {
+            if (valiValue.length < 10) {
               return Promise.reject(new Error(t("noti.at_least_9_characters")));
             } else if (valiValue.length > 19) {
               return Promise.reject(
@@ -239,7 +239,7 @@ const DetailUser = (props) => {
               );
             }
           } else {
-            if (valiValue.length < 10) {
+            if (valiValue.length < 11) {
               return Promise.reject(
                 new Error(t("noti.at_least_10_characters"))
               );
