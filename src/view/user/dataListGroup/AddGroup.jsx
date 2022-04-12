@@ -78,7 +78,7 @@ function AddGroup(props) {
                           G: t("G"),
                           g: t("g"),
                         })}{" "}
-                        <span color="red">*</span>
+                        <span style={{ color: "red" }}>*</span>
                       </p>
                     </Col>
 

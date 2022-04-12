@@ -78,7 +78,7 @@ function AddRoles(props) {
                           R: t("R"),
                           r: t("r"),
                         })}{" "}
-                        <span color="red">*</span>
+                        <span style={{ color: "red" }}>*</span>
                       </p>
                     </Col>
 
