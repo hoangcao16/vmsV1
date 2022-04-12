@@ -362,7 +362,6 @@ function AddUser(props) {
                             validator(_, value) {
                               const valiValue =
                                 document.getElementById("phone").value;
-
                               if (!valiValue.length) {
                                 return Promise.reject(
                                   t("view.map.required_field")
@@ -370,7 +369,7 @@ function AddUser(props) {
                               }
 
                               if (!valiValue.startsWith("0")) {
-                                if (valiValue.length < 9) {
+                                if (valiValue.length < 10) {
                                   return Promise.reject(
                                     new Error(t("noti.at_least_9_characters"))
                                   );
@@ -382,7 +381,7 @@ function AddUser(props) {
                                   );
                                 }
                               } else {
-                                if (valiValue.length < 10) {
+                                if (valiValue.length < 11) {
                                   return Promise.reject(
                                     new Error(t("noti.at_least_10_characters"))
                                   );
