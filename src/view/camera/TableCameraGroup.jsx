@@ -297,10 +297,7 @@ function CameraGroup(props) {
             />
           </Tooltip>
           <Popconfirm
-            title={t("noti.delete_camera", {
-              cam: t("camera"),
-              this: t("this"),
-            })}
+            title={t("noti.delete_camera_group")}
             onConfirm={(e) => {
               e.stopPropagation();
               handleDelete(id);

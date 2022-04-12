@@ -349,8 +349,6 @@ const ExportEventFile = () => {
         }
       }
     }
-  }, [fileCurrent]);
-  useEffect(() => {
     if (viewFileType === 4 && fileCurrent != null && AI_SOURCE === "philong") {
       const payload = {
         page: 0,
@@ -522,6 +520,11 @@ const ExportEventFile = () => {
     setEventFileCurrent(defaultEventFile);
     setFileCurrent(null);
     setIsOpenRootFile(false);
+    setListLongLat([]);
+    setDetailAI(defaultEventFile);
+    setImageOther([]);
+    setTracingList([]);
+    setProcessState(processingstatusOptions[0]);
   };
   const onClickTableListEvent = async (row) => {
     if (row) {
@@ -1935,8 +1938,8 @@ const ExportEventFile = () => {
       return (
         <>
           <Viewfiletype4
-            handleSelectType={handleSelectType}
-            objectType={objectType}
+            // handleSelectType={handleSelectType}
+            // objectType={objectType}
             detailAI={detailAI}
             processState={processState}
             handleSelectProgessState={handleSelectProgessState}

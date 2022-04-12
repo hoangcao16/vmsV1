@@ -1,22 +1,22 @@
-import { Button, Card, Col, Form, Input, Row } from 'antd';
-import React, { useEffect } from 'react';
-import { useTranslation } from 'react-i18next';
-import { withRouter } from 'react-router-dom';
-import { reactLocalStorage } from 'reactjs-localstorage';
-import UserApi from '../../actions/api/user/UserApi';
-import Notification from '../../components/vms/notification/Notification';
-import { history } from '../../history';
-import Breadcrumds from '../breadcrumds/Breadcrumds';
-import './ChangePassword.scss';
+import { Button, Card, Col, Form, Input, Row } from "antd";
+import React, { useEffect } from "react";
+import { useTranslation } from "react-i18next";
+import { withRouter } from "react-router-dom";
+import { reactLocalStorage } from "reactjs-localstorage";
+import UserApi from "../../actions/api/user/UserApi";
+import Notification from "../../components/vms/notification/Notification";
+import { history } from "../../history";
+import Breadcrumds from "../breadcrumds/Breadcrumds";
+import "./ChangePassword.scss";
 
 const formItemLayout = {
   wrapperCol: { span: 24 },
-  labelCol: { span: 24 }
+  labelCol: { span: 24 },
 };
 
 function ChangePassword(props) {
   const { t } = useTranslation();
-  const language = reactLocalStorage.get('language')
+  const language = reactLocalStorage.get("language");
   const [form] = Form.useForm();
 
   useEffect(() => {
@@ -28,27 +28,27 @@ function ChangePassword(props) {
   }, [t]);
 
   const handleSubmit = async (value) => {
-    let user = reactLocalStorage.getObject('user', null);
+    let user = reactLocalStorage.getObject("user", null);
     const payload = {
-      ...value
+      ...value,
     };
 
     const isUpdate = await UserApi.updateUser(user?.userUuid, payload);
 
     if (isUpdate) {
       const notifyMess = {
-        type: 'success',
-        title: '',
-        description: `${t('noti.successfully_update_password')}`
+        type: "success",
+        title: "",
+        description: `${t("noti.successfully_update_password")}`,
       };
       Notification(notifyMess);
 
       const isLogout = await UserApi.logout();
 
       if (isLogout) {
-        reactLocalStorage.setObject('user', null);
-        reactLocalStorage.setObject('permissionUser', null);
-        history.push('/pages/login');
+        reactLocalStorage.setObject("user", null);
+        reactLocalStorage.setObject("permissionUser", null);
+        history.push("/pages/login");
       }
     }
   };
@@ -57,13 +57,13 @@ function ChangePassword(props) {
     <div>
       <Breadcrumds
         url="/app/setting"
-        nameParent={t('breadcrumd.setting')}
-        nameChild={t('view.user.change_password')}
+        nameParent={t("breadcrumd.setting")}
+        nameChild={t("view.user.change_password")}
       />
       <div className="ChangePassWord">
         <Card className="ChangePassWord--card">
           <h4 className="font-weight-700 title">
-            {t('view.user.change_password')}
+            {t("view.user.change_password")}
           </h4>
           <div className="ChangePassWord--card--border">
             <Form
@@ -78,36 +78,37 @@ function ChangePassword(props) {
               <Row gutter={24}>
                 <Col span={4}></Col>
                 <Col span={16}>
-                  <Row gutter={24} style={{ width: '100%' }} className="mt-1">
+                  <Row gutter={24} style={{ width: "100%" }} className="mt-1">
                     <Col span={6}>
                       <p>
-                        {t('view.user.new_password')} <span color="red">*</span>
+                        {t("view.user.new_password")}{" "}
+                        <span style={{ color: "red" }}>*</span>
                       </p>
                     </Col>
 
                     <Col span={18}>
                       <Form.Item
-                        name={['password']}
+                        name={["password"]}
                         rules={[
                           {
                             required: true,
-                            message: `${t('view.map.required_field')}`
+                            message: `${t("view.map.required_field")}`,
                           },
                           {
                             min: 8,
                             message: `${t(
-                              'view.user.detail_list.password_length'
-                            )}`
-                          }
+                              "view.user.detail_list.password_length"
+                            )}`,
+                          },
                         ]}
                       >
                         <Input
-                          placeholder={t('view.user.detail_list.password')}
+                          placeholder={t("view.user.detail_list.password")}
                           type="password"
                           maxLength={255}
                           onChange={(e) => {
                             form.setFieldsValue({
-                              password: e.target.value.replace(/\s/g, '')
+                              password: e.target.value.replace(/\s/g, ""),
                             });
                           }}
                         />
@@ -119,7 +120,7 @@ function ChangePassword(props) {
               </Row>
               <div className="buttonChangePassword">
                 <Button type="primary" htmlType="submit ">
-                  {t('view.map.button_save')}
+                  {t("view.map.button_save")}
                 </Button>
               </div>
             </Form>

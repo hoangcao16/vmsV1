@@ -133,7 +133,7 @@ const TableFile = (props) => {
           </Tooltip>
         )}
         {row.isImportant && (
-          <Tooltip placement="bottomLeft" title={t("view.storage.tick")}>
+          <Tooltip placement="bottomLeft" title={t("view.storage.untick")}>
             <FiBookmark
               className="icon-active"
               onClick={(e) => {
@@ -638,6 +638,7 @@ const TableFile = (props) => {
     });
     setSearchParam(searchCaptureFileParamDefault);
     getAllCamera("");
+    setSelectedRowUuid("");
   };
 
   const onChangeCity = (cityId) => {
@@ -1141,7 +1142,6 @@ const TableFile = (props) => {
       }
     }
   };
-
   const renderTableView = () => {
     return (
       <Table
