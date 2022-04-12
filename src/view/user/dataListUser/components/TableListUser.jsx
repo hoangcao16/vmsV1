@@ -50,9 +50,9 @@ export const renderText = (cellValue, row, t) => {
   return (
     <Tooltip placement="top" title={cellValue}>
       <Text>
-        {cellValue.length > 25
-          ? `${cellValue.slice(0, 15)}...${cellValue.slice(
-              cellValue.length - 15,
+        {cellValue.length > 55
+          ? `${cellValue.slice(0, 30)}...${cellValue.slice(
+              cellValue.length - 20,
               cellValue.length
             )}`
           : `${cellValue}`}
