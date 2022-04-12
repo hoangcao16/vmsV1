@@ -106,6 +106,12 @@ function Sidebar(props) {
 
   const [cameraAIUuid, setCameraAIUuid] = useState([]);
 
+  const [chart, setChart] = useState([
+    { name: "line" },
+    { name: "bar" },
+    { name: "pie" },
+  ]);
+
   useEffect(() => {
     fetchSelectOptions().then((data) => {
       setFilterOptions(data);
@@ -212,7 +218,7 @@ function Sidebar(props) {
       });
       setTimeEndMonth(form.getFieldValue("timeEndMonth"));
     }
-    if (moment(timeStartMonth).diff(timeEndMonth, "m") >= 0) {
+    if (moment(timeStartMonth).diff(timeEndMonth, "M") >= 0) {
       form.setFieldsValue({
         timeStartMonth: "",
       });
@@ -233,7 +239,7 @@ function Sidebar(props) {
       });
       setTimeEndMonth(form.getFieldValue("timeEndMonth"));
     }
-    if (moment(timeStartMonth).diff(timeEndMonth, "m") >= 0) {
+    if (moment(timeStartMonth).diff(timeEndMonth, "M") >= 0) {
       form.setFieldsValue({
         timeEndMonth: "",
       });
@@ -671,6 +677,7 @@ function Sidebar(props) {
   };
 
   const onChangeDateTime = async (dateTime) => {
+    console.log("dateTime", dateTime);
     setDatatime(dateTime);
     if (isEmpty(eventList)) {
       emptyField();
@@ -785,6 +792,18 @@ function Sidebar(props) {
           className="mt-2 bg-grey"
           form={form}
           {...formItemLayout}
+          initialValues={{
+            timeStartDay: timeStartDay,
+            timeEndDay: timeEndDay,
+            timeStartWeek: moment().subtract(4, "weeks"),
+            timeEndWeek: moment(),
+            timeStartMonth: timeStartMonth,
+            timeEndMonth: timeEndMonth,
+            timeStartYear: timeStartYear,
+            timeEndYear: timeEndYear,
+            provinceId: provinceId,
+            fieldId: fields,
+          }}
           onFieldsChange={() => {
             if (isEmpty(form.getFieldsValue().timeStartDay)) {
               form.setFieldsValue({
@@ -794,6 +813,16 @@ function Sidebar(props) {
             if (isEmpty(form.getFieldsValue().timeEndDay)) {
               form.setFieldsValue({
                 timeEndDay: timeEndDay,
+              });
+            }
+            if (isEmpty(form.getFieldsValue().timeStartWeek)) {
+              form.setFieldsValue({
+                timeStartWeek: timeStartWeek,
+              });
+            }
+            if (isEmpty(form.getFieldsValue().timeEndWeek)) {
+              form.setFieldsValue({
+                timeEndWeek: timeEndWeek,
               });
             }
             if (isEmpty(form.getFieldsValue()?.timeStartMonth)) {
@@ -815,12 +844,6 @@ function Sidebar(props) {
               form.setFieldsValue({
                 timeEndYear: timeEndYear,
               });
-            }
-            if (!isEmpty(form.getFieldsValue().timeStartWeek)) {
-              setTimeStartWeek(form.getFieldsValue().timeStartWeek);
-            }
-            if (!isEmpty(form.getFieldsValue().timeEndWeek)) {
-              setTimeEndWeek(form.getFieldsValue().timeEndWeek);
             }
           }}
           style={{ width: "100%", paddingBottom: "30px" }}
@@ -953,7 +976,7 @@ function Sidebar(props) {
                     allowClear={false}
                     picker="year"
                     format="YYYY"
-                    defaultValue={moment().subtract(4, "year")}
+                    defaultValue={moment().subtract(4, "years")}
                     dropdownClassName="dropdown__date-picker"
                     onChange={onChangeTimeStartYear}
                   />
@@ -985,7 +1008,7 @@ function Sidebar(props) {
                   mode="multiple"
                   allowClear={false}
                   showSearch
-                  dataSource={provinces}
+                  datasource={provinces}
                   onChange={(cityId) => onChangeCity(cityId)}
                   filterOption={filterOption}
                   options={normalizeOptions("name", "provinceId", provinces)}
@@ -1007,7 +1030,7 @@ function Sidebar(props) {
                       mode="multiple"
                       allowClear={false}
                       showSearch
-                      dataSource={districts}
+                      datasource={districts}
                       onChange={(districtId) => onChangeDistrict(districtId)}
                       filterOption={filterOption}
                       options={normalizeOptions(
@@ -1034,7 +1057,7 @@ function Sidebar(props) {
                       mode="multiple"
                       allowClear={false}
                       showSearch
-                      dataSource={wards}
+                      datasource={wards}
                       filterOption={filterOption}
                       options={normalizeOptions("name", "id", wards)}
                       placeholder={t("view.map.ward_id")}
@@ -1053,7 +1076,7 @@ function Sidebar(props) {
                   mode="multiple"
                   allowClear={false}
                   showSearch
-                  dataSource={cameraAI}
+                  datasource={cameraAI}
                   onChange={(cameraAI) => onChangeCameraAI(cameraAI)}
                   filterOption={filterOption}
                   options={normalizeOptions("name", "uuid", cameraAI)}
@@ -1069,7 +1092,7 @@ function Sidebar(props) {
                 <Select
                   allowClear={false}
                   showSearch
-                  dataSource={fields}
+                  datasource={fields}
                   onChange={(fieldId) => onChangeField(fieldId)}
                   filterOption={filterOption}
                   options={normalizeOptions("name", "uuid", fields)}
@@ -1091,7 +1114,6 @@ function Sidebar(props) {
                     className="table__list--event mt-2 test"
                     rowKey="uuid"
                     columns={eventColumns}
-                    // showHeader={false}
                     pagination={false}
                     dataSource={eventList}
                     rowSelection={rowSelection}

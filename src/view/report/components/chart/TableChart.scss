@@ -3,8 +3,14 @@
 
 .table-chart {
   .table-report {
-    .ant-table .ant-table-container .ant-table-tbody .ant-table-row:hover td { 
+    .ant-table .ant-table-container .ant-table-tbody .ant-table-row:hover td {
       background: #333333 !important;
+    }
+    .ant-table-expanded-row-fixed {
+      background-color: #333333;
+    }
+    .ant-empty-normal {
+      color: white;
     }
   }
   background-color: $vms-bg-sub;
@@ -29,7 +35,7 @@
       @include scrollbar-styling(15px, 15px);
       background: $vms-black;
     }
-    
+
     .ant-table-title {
       padding: 13px 16px;
       h4 {
@@ -40,7 +46,7 @@
     .roleRow {
       height: 50px !important;
     }
-    
+
     .ant-table-thead {
       .ant-table-cell {
         background-color: #333333;
@@ -54,7 +60,7 @@
         font-weight: 600;
       }
     }
-    
+
     .ant-table-tbody {
       .ant-table-cell {
         background-color: #333333;

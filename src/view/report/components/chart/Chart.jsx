@@ -73,12 +73,12 @@ function Chart(props) {
               )} {props.title.toUpperCase()}{" "}
             </h3>
 
-            {permissionCheck("export_report") && (
+            {/* {permissionCheck("export_report") && (
               <div className="export">
                 <ExportReport type="trendReport" />
                 <ExportReportToMail type="trendReport" />
               </div>
-            )}
+            )} */}
           </div>
 
           <LineChart

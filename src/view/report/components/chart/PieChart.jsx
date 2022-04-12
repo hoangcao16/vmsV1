@@ -42,7 +42,7 @@ const renderCustomizedLabel = ({
 };
 
 function PieChartComponents(props) {
-  let dataPieChart = props.chartData?.res?.Percents
+  let dataPieChart = props.chartData?.res?.Percents;
   let dataConvert = [];
   if (!isEmpty(dataPieChart)) {
     for (let key in dataPieChart) {
@@ -69,12 +69,12 @@ function PieChartComponents(props) {
                 "view.report.situation_chart"
               )} {props.title.toUpperCase()}{" "}
             </h3>
-            {permissionCheck("export_report") && (
+            {/* {permissionCheck("export_report") && (
               <div className="export">
                 <ExportReport type="rateReport" />
                 <ExportReportToMail type="tableReport" />
               </div>
-            )}
+            )} */}
           </div>
           <PieChart width={400} height={400}>
             <Pie

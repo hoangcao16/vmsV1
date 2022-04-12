@@ -11,6 +11,8 @@ export function* handleDataChartLoad(action) {
   let timeStart;
   let timeEnd;
 
+  console.log("params", params);
+
   switch (params.pickTime.toUpperCase()) {
     case "MONTH":
       timeStart = moment(params.timeStartMonth._d).format("MMYYYY");
@@ -43,7 +45,7 @@ export function* handleDataChartLoad(action) {
   localStorage.setItem("payloadDataChart", JSON.stringify(payloadDataChart));
   try {
     if (!isEmpty(payloadDataChart.eventUuids)) {
-      let res
+      let res;
       const date = {
         typeTime: params.pickTime.toUpperCase(),
         startDate: timeStart,
@@ -66,9 +68,10 @@ export function* handleDataChartLoad(action) {
           })
         );
       }
-      yield put(setDataChart({res, date}));
+      console.log("Start save data");
+      yield put(setDataChart({ res, date }));
     } else {
-      const fakeData = { data: [], percent: {}};
+      const fakeData = { data: [], percent: {} };
       yield put(setDataChart(fakeData));
     }
   } catch (error) {

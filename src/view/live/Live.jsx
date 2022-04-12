@@ -135,11 +135,7 @@ const Live = (props) => {
   useEffect(() => {
     wsConnect();
 
-    initialDataGrid.forEach((it) =>
-      addedCameras.push({
-        id: it,
-      })
-    );
+    initialDataGrid.forEach((it) => addedCameras.push(it));
     // get default screen and apply it to grid
     fetchDefaultScreen();
     const refreshTokenTimer = setInterval(() => {
