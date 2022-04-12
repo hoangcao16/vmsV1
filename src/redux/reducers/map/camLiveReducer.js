@@ -106,9 +106,15 @@ const camLiveReducer = (state = initialState, action) => {
     case NOT_PERMISSION_VIEW_CAM: {
       const camNoPermis = action.payload;
       const newListCamLive = [...state.listCamLive];
-      const camRemoveIndex = [...newListCamLive].findIndex(
-        (cam) => cam.uuid === camNoPermis.uuid
-      );
+      newListCamLive.forEach((i) => {
+        if (i == null) {
+          i.messError = `bạn không có quyền xem`;
+        }
+        i.uuid = "none";
+      });
+      const camRemoveIndex =
+        [...newListCamLive].findIndex((cam) => cam.uuid === camNoPermis.uuid) ||
+        0;
       if (camRemoveIndex > -1) {
         newListCamLive[camRemoveIndex] = {
           name: newListCamLive[camRemoveIndex].name,
