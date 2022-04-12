@@ -328,6 +328,7 @@
             "time_start_record": "Time starting record",
             "time_end_record": "Time ending record",
             "tick": "Tick important file",
+            "untick": "Untick important file",
             "org": "View original file",
             "view_information": "View file information",
             "download_file": "Download file",

@@ -133,7 +133,7 @@ const TableFile = (props) => {
           </Tooltip>
         )}
         {row.isImportant && (
-          <Tooltip placement="bottomLeft" title={t("view.storage.tick")}>
+          <Tooltip placement="bottomLeft" title={t("view.storage.untick")}>
             <FiBookmark
               className="icon-active"
               onClick={(e) => {
