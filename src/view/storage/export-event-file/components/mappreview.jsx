@@ -67,9 +67,9 @@ const PreviewMap = ({ data, fileCurrent, listLongLat }) => {
         center: [data?.long_, data?.lat_],
       });
     } else {
-      var elem = document.querySelector(".map-camera-marker-node");
-      if (elem) {
-        elem.remove();
+      var element = document.querySelector(".map-camera-marker-node");
+      if (element) {
+        element.remove();
       }
     }
   };
