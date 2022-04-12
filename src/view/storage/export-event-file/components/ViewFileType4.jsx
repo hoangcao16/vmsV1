@@ -8,8 +8,8 @@ import { CloseOutlined } from "@ant-design/icons";
 import { MemoizedTableDetailList } from "./tableDetailList";
 
 const Viewfiletype4 = ({
-  handleSelectType,
-  objectType,
+  // handleSelectType,
+  // objectType,
   detailAI,
   processState,
   handleSelectProgessState,
@@ -23,20 +23,20 @@ const Viewfiletype4 = ({
 }) => {
   const { t } = useTranslation();
   const AI_SOURCE = process.env.REACT_APP_AI_SOURCE;
-  const typeObjects = [
-    {
-      value: "unknow",
-      label: `${t("view.ai_events.type_object.unknow")}`,
-    },
-    {
-      value: "vehicle",
-      label: `${t("view.ai_events.type_object.vehicle")}`,
-    },
-    {
-      value: "human",
-      label: `${t("view.ai_events.type_object.human")}`,
-    },
-  ];
+  // const typeObjects = [
+  //   {
+  //     value: "unknow",
+  //     label: `${t("view.ai_events.type_object.unknow")}`,
+  //   },
+  //   {
+  //     value: "vehicle",
+  //     label: `${t("view.ai_events.type_object.vehicle")}`,
+  //   },
+  //   {
+  //     value: "human",
+  //     label: `${t("view.ai_events.type_object.human")}`,
+  //   },
+  // ];
   const processingstatusOptions = [
     { value: "process", label: "Chưa xử lý" },
     { value: "processed", label: "Đã xử lý" },
@@ -210,11 +210,12 @@ const Viewfiletype4 = ({
               </div>
             </Col>
             <Col span={14}>
-              <SelectType
+              {detailAI?.vehicleType}
+              {/* <SelectType
                 option={typeObjects}
                 onChange={(e) => handleSelectType(e)}
                 value={objectType}
-              />
+              /> */}
             </Col>
           </Row>
           <Row className="detail-item">

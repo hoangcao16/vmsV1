@@ -638,6 +638,7 @@ const TableFile = (props) => {
     });
     setSearchParam(searchCaptureFileParamDefault);
     getAllCamera("");
+    setSelectedRowUuid("");
   };
 
   const onChangeCity = (cityId) => {
@@ -1141,7 +1142,6 @@ const TableFile = (props) => {
       }
     }
   };
-
   const renderTableView = () => {
     return (
       <Table

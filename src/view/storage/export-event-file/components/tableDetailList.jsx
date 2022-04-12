@@ -39,7 +39,9 @@ const EditableCell = ({
     try {
       const values = await form.validateFields();
       toggleEdit(e);
-      handleSave({ ...record, ...values });
+      if (values[dataIndex] !== record[dataIndex]) {
+        handleSave({ ...record, ...values });
+      }
     } catch (errInfo) {
       console.log("Save failed:", errInfo);
     }
@@ -94,6 +96,7 @@ const EditableRow = ({ index, ...props }) => {
   );
 };
 const TableDetailList = (props) => {
+  const [dataSource, setDataSource] = useState([]);
   let tracingList = props.tracingList || [];
   let detailAI = props.detailAI || {};
   const { t } = useTranslation();
@@ -126,19 +129,28 @@ const TableDetailList = (props) => {
       editable: true,
     },
   ];
-  const dataSource = tracingList?.payload;
+  useEffect(() => {
+    setDataSource(tracingList?.payload);
+  }, [tracingList]);
+  // const dataSource = tracingList?.payload;
   // console.log("dataSource", dataSource);
+
+  // Edit note
   const handleSave = async (row) => {
-    console.log(row);
     const data = {
       cameraUuid: row.cameraUuid,
       uuid: row.uuid,
       note: row?.note,
     };
     try {
-      const isEdit = await AIEventsApi.editInforOfEvent(detailAI.uuid, data);
+      const isEdit = await AIEventsApi.editInforOfEvent(row.uuid, data);
 
       if (isEdit) {
+        const newData = [...dataSource];
+        const index = newData.findIndex((item) => row.uuid === item.uuid);
+        const item = newData[index];
+        newData.splice(index, 1, { ...item, ...row });
+        setDataSource(newData);
         const notifyMess = {
           type: "success",
           title: "",
