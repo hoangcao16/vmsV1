@@ -24,6 +24,7 @@ import {
   deleteOneTrackingPoint,
   setSelectedTrackingPoint,
 } from "../../redux/actions/map/trackingPointActions";
+import ExportEventFileApi from "../../actions/api/exporteventfile/ExportEventFileApi";
 import {
   CAM_LIVE_ITEMS,
   FORM_MAP_ITEM,
@@ -42,7 +43,10 @@ import { svg } from "../map/camera.icon";
 import CamInfoPopup from "./CamInfoPopup";
 import ContextMenuPopup from "./ContextMenuPopup";
 import { AdminisUnitIconSvg } from "./icons/adminisUnit.icon";
-
+import { getBase64Text } from "../../utility/vms/getBase64Text";
+import moment from "moment";
+import { v4 as uuidV4 } from "uuid";
+import { captureVideoFrame } from "../../utility/vms/captureVideoFrame";
 const ViewMapOffline = (props) => {
   const { t } = useTranslation();
   const language = reactLocalStorage.get("language");
@@ -330,7 +334,84 @@ const ViewMapOffline = (props) => {
       dispatch(setCamsLiveOnMap({ ...camera, isPlay: false }));
     }
   };
-
+  // Snapshot Camera
+  const setFileName = (type) => {
+    if (type === 0) {
+      return "Cut." + moment().format("DDMMYYYY.hhmmss") + ".mp4";
+    }
+    return "Cap." + moment().format("DDMMYYYY.hhmmss") + ".jpg";
+  };
+  const startSnapshotCamera = (type, camera) => {
+    const cell = document.getElementById("video-slot-" + camera.uuid);
+    const { blob, tBlob } = captureVideoFrame(cell, null, "jpeg");
+    if (blob) {
+      const fileName = setFileName(1);
+      const uuid = uuidV4();
+      const createdDate = new Date();
+      const createdTime = createdDate.getTime();
+      const violationTime = Math.floor(createdDate.setMilliseconds(0) / 1000);
+      let eventFile = {
+        id: "",
+        uuid: uuid,
+        eventUuid: "",
+        eventName: "",
+        name: fileName,
+        violationTime: violationTime,
+        createdTime: createdTime,
+        note: "",
+        cameraUuid: camera.uuid,
+        cameraName: camera.name,
+        type: 1,
+        length: 0,
+        address: "",
+        rootFileUuid: "",
+        pathFile: "",
+        isImportant: false,
+        thumbnailData: [""],
+        nginx_host: "",
+        blob: blob,
+        tBlob: tBlob,
+      };
+      ExportEventFileApi.uploadFile(
+        eventFile.uuid + ".jpeg",
+        eventFile.blob
+      ).then(async (result) => {
+        if (
+          result.data &&
+          result.data.payload &&
+          result.data.payload.fileUploadInfoList.length > 0
+        ) {
+          let path = result.data.payload.fileUploadInfoList[0].path;
+          let { blob, tBlob, ...requestObject } = eventFile;
+          getBase64Text(eventFile.tBlob, async (thumbnailData) => {
+            requestObject = Object.assign({
+              ...requestObject,
+              pathFile: path,
+              thumbnailData: [
+                thumbnailData.replace("data:image/jpeg;base64,", ""),
+              ],
+            });
+            const response = await ExportEventFileApi.createNewEventFile(
+              requestObject
+            );
+            if (response) {
+              Notification({
+                type: NOTYFY_TYPE.success,
+                title: "Playback",
+                description: `${t("noti.successfully_take_photo_and_save")}`,
+              });
+            }
+          });
+        } else {
+          Notification({
+            type: NOTYFY_TYPE.warning,
+            title: "Playback",
+            description: `${t("noti.error_save_file")}`,
+          });
+        }
+      });
+    }
+  };
   const showContextMenuPopup = (lngLat) => {
     const mapCardNode = document.createElement("div");
     mapCardNode.className = "map-popup-node";
@@ -395,7 +476,7 @@ const ViewMapOffline = (props) => {
               dataDetailInfo={camera}
               onClosePopup={handleClosePopup}
               handleEditInfo={handleEditCam}
-              handlePinCam={handlePinCam}
+              startSnapshotCamera={startSnapshotCamera}
             />,
             mapCardNode
           );
@@ -413,8 +494,8 @@ const ViewMapOffline = (props) => {
             if (!props.editMode) {
               Notification({
                 type: NOTYFY_TYPE.warning,
-                title: `${t('noti.view_mode')}`,
-                description: `${t('noti.cannot_update_in_this_mode')}`,
+                title: `${t("noti.view_mode")}`,
+                description: `${t("noti.cannot_update_in_this_mode")}`,
               });
             } else {
               handleDragEndMarker(marker, camera, TYPE_FORM_ACTION_ON_MAP.cam);
@@ -488,8 +569,8 @@ const ViewMapOffline = (props) => {
             if (!props.editMode) {
               Notification({
                 type: NOTYFY_TYPE.warning,
-                title: `${t('noti.view_mode')}`,
-                description: `${t('noti.cannot_update_in_this_mode')}`,
+                title: `${t("noti.view_mode")}`,
+                description: `${t("noti.cannot_update_in_this_mode")}`,
               });
             } else {
               handleDragEndMarker(

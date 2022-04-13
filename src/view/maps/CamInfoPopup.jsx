@@ -15,7 +15,7 @@ const CamInfoPopup = (props) => {
   const {
     type,
     dataDetailInfo,
-    handlePinCam,
+    startSnapshotCamera,
     onClosePopup,
     handleEditInfo,
     trans: t,
@@ -138,7 +138,7 @@ const CamInfoPopup = (props) => {
           >
             <CameraButtonSvg
               onClick={() => {
-                handlePinCam(type, dataDetailInfo);
+                startSnapshotCamera(type, dataDetailInfo);
               }}
             />
           </span>
