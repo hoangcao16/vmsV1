@@ -139,7 +139,6 @@
       }
     }
 
-    
     .ant-table-tbody {
       // max-height: calc(53.2vh - 104px);
       // overflow-y: auto;
@@ -236,5 +235,8 @@
         color: $vms-main-blue-primary;
       }
     }
+  }
+  .btn-disabled {
+    opacity: 0.5;
   }
 }

@@ -1,21 +1,21 @@
-import { SearchOutlined } from '@ant-design/icons';
-import { AutoComplete, Button, Form, Select, Space, Table } from 'antd';
-import { isEmpty } from 'lodash-es';
-import React, { useEffect, useState } from 'react';
-import { useTranslation } from 'react-i18next';
-import AddressApi from '../../actions/api/address/AddressApi';
-import AdDivisionApi from '../../actions/api/advision/AdDivision';
-import CameraApi from '../../actions/api/camera/CameraApi';
-import VendorApi from '../../actions/api/vendor/VendorApi';
-import Notification from '../../components/vms/notification/Notification';
-import { filterOption, normalizeOptions } from '../common/select/CustomSelect';
-import { renderText } from '../user/dataListUser/components/TableListUser';
-import { DATA_FAKE_CAMERA } from './ModalAddCamera';
-import './TableAddCamInCamGroup.scss';
+import { SearchOutlined } from "@ant-design/icons";
+import { AutoComplete, Button, Form, Select, Space, Table } from "antd";
+import { isEmpty } from "lodash-es";
+import React, { useEffect, useState } from "react";
+import { useTranslation } from "react-i18next";
+import AddressApi from "../../actions/api/address/AddressApi";
+import AdDivisionApi from "../../actions/api/advision/AdDivision";
+import CameraApi from "../../actions/api/camera/CameraApi";
+import VendorApi from "../../actions/api/vendor/VendorApi";
+import Notification from "../../components/vms/notification/Notification";
+import { filterOption, normalizeOptions } from "../common/select/CustomSelect";
+import { renderText } from "../user/dataListUser/components/TableListUser";
+import { DATA_FAKE_CAMERA } from "./ModalAddCamera";
+import "./TableAddCamInCamGroup.scss";
 
 const formItemLayout = {
   wrapperCol: { span: 24 },
-  labelCol: { span: 24 }
+  labelCol: { span: 24 },
 };
 
 export default function TableAddCamInCamGroup(props) {
@@ -25,30 +25,30 @@ export default function TableAddCamInCamGroup(props) {
   const [selectedRowKeys, setSelectedRowKeys] = useState([]);
   const [listCamera, setListCamera] = useState([]);
 
-  const [provinceId, setProvinceId] = useState('');
-  const [search, setSearch] = useState('');
+  const [provinceId, setProvinceId] = useState("");
+  const [search, setSearch] = useState("");
   const [districts, setDistrict] = useState([]);
-  const [districtId, setDistrictId] = useState('');
+  const [districtId, setDistrictId] = useState("");
   const [wards, setWard] = useState([]);
   const [form] = Form.useForm();
-  const [name, setName] = useState('');
-  const [id, setId] = useState('');
+  const [name, setName] = useState("");
+  const [id, setId] = useState("");
 
-  const [administrativeUnitUuid, setAdministrativeUnitUuid] = useState('');
+  const [administrativeUnitUuid, setAdministrativeUnitUuid] = useState("");
 
   const [filterOptions, setFilterOptions] = useState(DATA_FAKE_CAMERA);
 
   useEffect(() => {
     let data = {
-      name: '',
-      provinceId: '',
-      districtId: '',
-      id: '',
-      administrativeUnitUuid: '',
-      vendorUuid: '',
-      status: '',
+      name: "",
+      provinceId: "",
+      districtId: "",
+      id: "",
+      administrativeUnitUuid: "",
+      vendorUuid: "",
+      status: "",
       page: 1,
-      size: 100000
+      size: 100000,
     };
     CameraApi.getAllCamera(data).then((result) => {
       let selectedId = props?.camInGroupKey;
@@ -66,7 +66,7 @@ export default function TableAddCamInCamGroup(props) {
   useEffect(() => {
     if (provinceId) {
       AddressApi.getDistrictByProvinceId(provinceId).then(setDistrict);
-      setDistrictId(null)
+      setDistrictId(null);
     }
   }, [provinceId]);
 
@@ -88,11 +88,11 @@ export default function TableAddCamInCamGroup(props) {
     let data = {
       name: name,
       provinceId: cityId,
-      districtId: '',
-      id: '',
+      districtId: "",
+      id: "",
       administrativeUnitUuid: administrativeUnitUuid,
       page: 1,
-      size: 100000
+      size: 100000,
     };
     CameraApi.getAllCamera(data).then((result) => {
       let selectedId = props?.camInGroupKey;
@@ -112,11 +112,11 @@ export default function TableAddCamInCamGroup(props) {
     const data = {
       provinceId: provinceId,
       districtId: districtId,
-      id: '',
+      id: "",
       name: name,
       administrativeUnitUuid: administrativeUnitUuid,
       page: 1,
-      size: 100000
+      size: 100000,
     };
     CameraApi.getAllCamera(data).then((result) => {
       let selectedId = props?.camInGroupKey;
@@ -134,7 +134,7 @@ export default function TableAddCamInCamGroup(props) {
       name: name,
       administrativeUnitUuid: administrativeUnitUuid,
       page: 1,
-      size: 100000
+      size: 100000,
     };
     CameraApi.getAllCamera(data).then((result) => {
       let selectedId = props?.camInGroupKey;
@@ -153,7 +153,7 @@ export default function TableAddCamInCamGroup(props) {
       name: name,
       administrativeUnitUuid: administrativeUnitUuid,
       page: 1,
-      size: 100000
+      size: 100000,
     };
     CameraApi.getAllCamera(data).then((result) => {
       let selectedId = props?.camInGroupKey;
@@ -169,13 +169,13 @@ export default function TableAddCamInCamGroup(props) {
 
   const onSelectChange = (selectedRowKeys) => {
     setSelectedRowKeys([
-      ...new Set(props?.camInGroupKey.concat(selectedRowKeys))
+      ...new Set(props?.camInGroupKey.concat(selectedRowKeys)),
     ]);
   };
 
   const rowSelection = {
     selectedRowKeys,
-    onChange: onSelectChange
+    onChange: onSelectChange,
   };
 
   const handleSearch = async (value) => {
@@ -188,7 +188,7 @@ export default function TableAddCamInCamGroup(props) {
       id: id,
       administrativeUnitUuid: administrativeUnitUuid,
       page: 1,
-      size: 100000
+      size: 100000,
     };
     CameraApi.getAllCamera(data).then((result) => {
       let selectedId = props?.camInGroupKey;
@@ -200,16 +200,16 @@ export default function TableAddCamInCamGroup(props) {
 
   const handleSubmit = async () => {
     const payload = {
-      cameraUuidList: selectedRowKeys
+      cameraUuidList: selectedRowKeys,
     };
 
     const isUpdate = await CameraApi.updateCameraGroup(camGroupUuid, payload);
 
     if (isUpdate) {
       const notifyMess = {
-        type: 'success',
-        title: '',
-        description: `${t('noti.successfully_add_camera_to_group')}`
+        type: "success",
+        title: "",
+        description: `${t("noti.successfully_add_camera_to_group")}`,
       };
       Notification(notifyMess);
       handleAdddCamera(false);
@@ -230,26 +230,26 @@ export default function TableAddCamInCamGroup(props) {
     //   render: (text, record, index) => index + 1
     // },
     {
-      title: 'Camera',
-      dataIndex: 'name',
-      className: 'headerUserColums',
-      width: '40%',
-      render: renderText
+      title: "Camera",
+      dataIndex: "name",
+      className: "headerUserColums",
+      width: "40%",
+      render: renderText,
     },
     {
-      title: `${t('view.map.location')}`,
-      dataIndex: 'address',
-      className: 'headerUserColums',
-      width: '20%',
-      render: renderText
+      title: `${t("view.map.location")}`,
+      dataIndex: "address",
+      className: "headerUserColums",
+      width: "20%",
+      render: renderText,
     },
     {
-      title: `${t('view.map.administrative_unit')}`,
-      dataIndex: 'administrativeUnitName',
-      className: 'headerUserColums',
-      width: '40%',
-      render: renderText
-    }
+      title: `${t("view.map.administrative_unit")}`,
+      dataIndex: "administrativeUnitName",
+      className: "headerUserColums",
+      width: "40%",
+      render: renderText,
+    },
   ];
 
   // const handleSearch = async (value) => {};
@@ -272,24 +272,29 @@ export default function TableAddCamInCamGroup(props) {
         <div
           className="d-flex"
           style={{
-            justifyContent: 'space-between',
-            padding: '8px 16px',
-            alignItem: 'center'
+            justifyContent: "space-between",
+            padding: "8px 16px",
+            alignItem: "center",
           }}
         >
           <h4 className="font-weight-700">
-            {t('view.camera.add_cam_in_group')}
+            {t("view.camera.add_cam_in_group")}
           </h4>
           <div
             className="submit d-flex"
-            style={{ justifyContent: 'space-between', alignItem: 'center' }}
+            style={{ justifyContent: "space-between", alignItem: "center" }}
           >
             <Space>
-              <Button type="primary" onClick={handleSubmit}>
-                {t('view.user.detail_list.confirm')}
+              <Button
+                type="primary"
+                onClick={handleSubmit}
+                disabled={selectedRowKeys?.length > 0 ? false : true}
+                className={selectedRowKeys?.length > 0 ? "" : "btn-disabled"}
+              >
+                {t("view.user.detail_list.confirm")}
               </Button>
               <Button type="primary" onClick={handleCancel}>
-                {t('view.camera.close')}
+                {t("view.camera.close")}
               </Button>
             </Space>
           </div>
@@ -304,7 +309,7 @@ export default function TableAddCamInCamGroup(props) {
             maxLength={255}
             placeholder={
               <div className="placehoder height-40 justify-content-between d-flex align-items-center">
-                <span> &nbsp; {t('view.map.search')} </span>{' '}
+                <span> &nbsp; {t("view.map.search")} </span>{" "}
                 <SearchOutlined style={{ fontSize: 22 }} />
               </div>
             }
@@ -312,51 +317,51 @@ export default function TableAddCamInCamGroup(props) {
         </div>
         <Form className="filter__search" form={form} {...formItemLayout}>
           <div className="address__choose div__1">
-            <Form.Item name={['provinceId']}>
+            <Form.Item name={["provinceId"]}>
               <Select
                 allowClear
                 showSearch
                 dataSource={provinces}
                 onChange={(cityId) => onChangeCity(cityId)}
                 filterOption={filterOption}
-                options={normalizeOptions('name', 'provinceId', provinces)}
-                placeholder={t('view.map.province_id')}
+                options={normalizeOptions("name", "provinceId", provinces)}
+                placeholder={t("view.map.province_id")}
               />
             </Form.Item>
 
-            <Form.Item name={['districtId']}>
+            <Form.Item name={["districtId"]}>
               <Select
                 allowClear
                 showSearch
                 dataSource={districts}
                 onChange={(districtId) => onChangeDistrict(districtId)}
                 filterOption={filterOption}
-                options={normalizeOptions('name', 'districtId', districts)}
-                placeholder={t('view.map.district_id')}
+                options={normalizeOptions("name", "districtId", districts)}
+                placeholder={t("view.map.district_id")}
               />
             </Form.Item>
 
-            <Form.Item name={['wardId']}>
+            <Form.Item name={["wardId"]}>
               <Select
                 allowClear
                 showSearch
                 dataSource={wards}
                 onChange={(id) => onChangeWard(id)}
                 filterOption={filterOption}
-                options={normalizeOptions('name', 'id', wards)}
-                placeholder={t('view.map.ward_id')}
+                options={normalizeOptions("name", "id", wards)}
+                placeholder={t("view.map.ward_id")}
               />
             </Form.Item>
           </div>
           <div className="div__2">
-            <Form.Item name={['administrativeUnitUuid']}>
+            <Form.Item name={["administrativeUnitUuid"]}>
               <Select
                 allowClear
                 onChange={(id) => onChangeUnit(id)}
                 dataSource={adDivisions}
                 filterOption={filterOption}
-                options={normalizeOptions('name', 'uuid', adDivisions)}
-                placeholder={t('view.map.please_choose_administrative_unit')}
+                options={normalizeOptions("name", "uuid", adDivisions)}
+                placeholder={t("view.map.please_choose_administrative_unit")}
               />
             </Form.Item>
           </div>
@@ -378,10 +383,10 @@ export default function TableAddCamInCamGroup(props) {
             title={renderHeader}
             rowSelection={rowSelection}
             pagination={{
-              pageSize: 5
+              pageSize: 5,
             }}
             locale={{
-              emptyText: `${t('view.user.detail_list.no_valid_results_found')}`
+              emptyText: `${t("view.user.detail_list.no_valid_results_found")}`,
             }}
           />
         </div>
@@ -392,10 +397,10 @@ export default function TableAddCamInCamGroup(props) {
 
 async function fetchSelectOptions() {
   const data = {
-    name: '',
-    id: '',
-    provinceId: '',
-    districtId: ''
+    name: "",
+    id: "",
+    provinceId: "",
+    districtId: "",
   };
 
   const provinces = await AddressApi.getAllProvinces();
@@ -406,6 +411,6 @@ async function fetchSelectOptions() {
   return {
     provinces,
     adDivisions,
-    vendors
+    vendors,
   };
 }

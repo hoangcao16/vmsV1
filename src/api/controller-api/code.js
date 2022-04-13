@@ -4,12 +4,12 @@ import { handleForbiddenCode } from "../authz/forbidden";
 
 import { reactLocalStorage } from "reactjs-localstorage";
 
-let language
+let language;
 if (isEmpty(reactLocalStorage.get("language"))) {
-  reactLocalStorage.set("language","vn")
-  language = reactLocalStorage.get("language")
+  reactLocalStorage.set("language", "vn");
+  language = reactLocalStorage.get("language");
 } else {
-  language = reactLocalStorage.get("language")
+  language = reactLocalStorage.get("language");
 }
 
 export const KControllerOk = 700;
@@ -94,9 +94,9 @@ export const handleErrCode = (data, type) => {
       return null;
     case KControllerCannotDelete:
       if (language == "vn") {
-        errCode.description = " Xóa không thành công";
+        errCode.description = "Không thể xóa khu vực được sử dụng bởi Máy ảnh.";
       } else {
-        errCode.description = " Delete failed";
+        errCode.description = "Can not delete zone its in used by Camera.";
       }
       Notification(errCode);
       return null;

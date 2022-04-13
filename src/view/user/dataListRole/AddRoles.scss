@@ -42,15 +42,30 @@
     //begin: submit
     .submit {
       float: unset;
+      padding-top: 32px !important;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      flex-direction: row-reverse;
       .ant-btn {
         background-color: #1380ff !important;
         border: none;
-        padding: 8px 36px;
+        padding: 8px 24px;
         line-height: 16px;
         border-radius: 4px;
 
         span {
           color: #ffffff;
+        }
+      }
+
+      .ant-btn:first-child {
+        margin-left: 16px;
+        background-color: transparent !important;
+        border: 1px solid $vms-main-blue-primary;
+        border-radius: 4px;
+        span {
+          color: $vms-main-blue-primary;
         }
       }
     }
