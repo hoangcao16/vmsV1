@@ -236,7 +236,8 @@
       "in_system": "In system",
       "leader": "Leader",
       "email_not_valid": "Please fill in valid email, separate by ','",
-      "sent": "Sent"
+      "sent": "Sent",
+      "select_week": "Select Week"
     },
     "pages": {
       "login": "Login",

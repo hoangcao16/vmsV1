@@ -71,11 +71,11 @@ function TableChart(props) {
         break;
       case "WEEK":
         format = {
-          dateStringFormat: "DDMMYYYY",
-          dateFormat: "DD/MM/YYYY",
+          dateStringFormat: "WWYYYY",
+          dateFormat: "WW-YYYY",
           unit: "w",
-          start: "01/01/2022",
-          end: "10/01/2022",
+          start: "01-2022",
+          end: "10-2022",
         };
         break;
       case "MONTH":
@@ -165,7 +165,7 @@ function TableChart(props) {
 
   return (
     <>
-      {(props?.typeChart == "all" || props?.typeChart == "table") && (
+      {
         <div className="table-chart">
           <div className="table-chart__title">
             <h3>
@@ -189,7 +189,7 @@ function TableChart(props) {
             scroll={{ x: 1400, y: 500 }}
           />
         </div>
-      )}
+      }
     </>
   );
 }

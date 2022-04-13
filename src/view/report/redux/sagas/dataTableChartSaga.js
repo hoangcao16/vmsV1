@@ -12,6 +12,10 @@ export function* handleTableDataChartLoad(action) {
   let timeEnd;
 
   switch (params.pickTime.toUpperCase()) {
+    case "WEEK":
+      timeStart = moment(params.timeStartWeek._d).format("WWYYYY");
+      timeEnd = moment(params.timeEndWeek._d).format("WWYYYY");
+      break;
     case "MONTH":
       timeStart = moment(params.timeStartMonth._d).format("MMYYYY");
       timeEnd = moment(params.timeEndMonth._d).format("MMYYYY");
@@ -53,7 +57,7 @@ export function* handleTableDataChartLoad(action) {
         startDate: timeStart,
         endDate: timeEnd,
       };
-      yield put(setTableDataChart({res, date}));
+      yield put(setTableDataChart({ res, date }));
     } else {
       const fakeData = { tableChartEvents: [], dateType: {} };
       yield put(setTableDataChart(fakeData));

@@ -31,16 +31,16 @@ const TableReport = (props) => {
   const rendered = () => {
     return (
       <div className="body__content">
-        {!isEmpty(props.tableDataChart) ? <TableChart /> : ""}
         {!isEmpty(props.chartData) ? (
           <>
+            <BarChartComponent />
             <Chart />
             <PieChartComponents />
-            <BarChartComponent />
           </>
         ) : (
           ""
         )}
+        {!isEmpty(props.tableDataChart) ? <TableChart /> : ""}
       </div>
     );
   };

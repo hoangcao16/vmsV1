@@ -62,7 +62,7 @@ function BarChartComponent(props) {
 
   return (
     <>
-      {props?.typeChart == "bar" && (
+      {props?.typeChart.includes("column") && (
         <div className="BarChart">
           <>
             <div className="Chart__title">

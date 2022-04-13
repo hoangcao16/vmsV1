@@ -4,6 +4,9 @@
 .modal--administrative__unit {
   width: 45vw !important;
   top: 56px !important;
+  .margin {
+    margin-bottom: 20px;
+  }
 
   .ant-modal-content {
     border-radius: 12px !important;
@@ -15,7 +18,6 @@
       background-color: $vms-bg-primary;
       padding-bottom: 0;
 
-
       .ant-modal-title {
         border-radius: 12px 12px 0 0;
         background-color: $vms-bg-primary;
@@ -23,7 +25,6 @@
         text-align: center;
         padding: 24px;
         padding-bottom: 0;
-
       }
     }
 
@@ -40,33 +41,33 @@
       .phone__input {
         .ant-form-item-control-input {
           border: $vms-border-gray;
-          .MuiFormControl-root{
+          .MuiFormControl-root {
             height: 40px;
             width: 100%;
-            .MuiInput-root{
+            .MuiInput-root {
               // border: $vms-border-gray;
               height: 40px;
-  
-              .MuiInput-input{
-                border:0 !important;
+
+              .MuiInput-input {
+                border: 0 !important;
                 height: 40px;
                 font-size: 1.4rem;
                 padding: 0;
               }
-              .MuiButtonBase-root{
+              .MuiButtonBase-root {
                 svg {
                   width: 20px;
                 }
               }
             }
-            .css-1480iag-MuiInputBase-root-MuiInput-root{
-              &::after,&::before {
+            .css-1480iag-MuiInputBase-root-MuiInput-root {
+              &::after,
+              &::before {
                 border: 0;
               }
             }
           }
         }
-        
       }
 
       .row--submit {
@@ -160,7 +161,7 @@
   }
 }
 
-.PhoneInputCountrySelect { 
+.PhoneInputCountrySelect {
   background: #191919;
   color: rgba(208, 229, 255, 0.7);
   @include scrollbar-styling(7px, 0);

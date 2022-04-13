@@ -63,7 +63,7 @@ function Chart(props) {
 
   return (
     <>
-      {(props?.typeChart == "all" || props?.typeChart == "line") && (
+      {props?.typeChart.includes("line") && (
         <div className="Chart">
           <div className="Chart__title">
             <h3>

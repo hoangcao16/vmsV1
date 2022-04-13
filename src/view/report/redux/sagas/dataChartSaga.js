@@ -11,9 +11,11 @@ export function* handleDataChartLoad(action) {
   let timeStart;
   let timeEnd;
 
-  console.log("params", params);
-
   switch (params.pickTime.toUpperCase()) {
+    case "WEEK":
+      timeStart = moment(params.timeStartWeek._d).format("WWYYYY");
+      timeEnd = moment(params.timeEndWeek._d).format("WWYYYY");
+      break;
     case "MONTH":
       timeStart = moment(params.timeStartMonth._d).format("MMYYYY");
       timeEnd = moment(params.timeEndMonth._d).format("MMYYYY");
@@ -68,7 +70,6 @@ export function* handleDataChartLoad(action) {
           })
         );
       }
-      console.log("Start save data");
       yield put(setDataChart({ res, date }));
     } else {
       const fakeData = { data: [], percent: {} };

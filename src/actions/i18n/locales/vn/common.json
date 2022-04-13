@@ -237,7 +237,8 @@
       "in_system": "Trong hệ thống",
       "leader": "Lãnh đạo",
       "email_not_valid": "Yêu cầu nhập email hợp lệ, cách nhau bằng dấu ','",
-      "sent": "Gửi"
+      "sent": "Gửi",
+      "select_week": "Chọn thời điểm"
     },
     "pages": {
       "login": "Đăng nhập",

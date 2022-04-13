@@ -180,44 +180,6 @@ const MapAdministrativeUnitAdd = (props) => {
     form.resetFields();
   };
 
-  const validatePhoneNumber = (value) => {
-    let rules = [];
-    if (value == "tel") {
-      rules.push(() => ({
-        validator(_, value) {
-          const valiValue = document.getElementById("phone").value;
-
-          if (!valiValue.length) {
-            return Promise.reject(t("view.map.required_field"));
-          }
-
-          if (!valiValue.startsWith("0")) {
-            if (valiValue.length < 10) {
-              return Promise.reject(new Error(t("noti.at_least_9_characters")));
-            } else if (valiValue.length > 19) {
-              return Promise.reject(
-                new Error(t("noti.max_characters", { max: 19 }))
-              );
-            }
-          } else {
-            if (valiValue.length < 11) {
-              return Promise.reject(
-                new Error(t("noti.at_least_10_characters"))
-              );
-            } else if (valiValue.length > 20) {
-              return Promise.reject(
-                new Error(t("noti.max_characters", { max: 20 }))
-              );
-            }
-          }
-
-          return Promise.resolve();
-        },
-      }));
-    }
-    return rules;
-  };
-
   return (
     <div
       className={
@@ -315,7 +277,40 @@ const MapAdministrativeUnitAdd = (props) => {
             <Form.Item
               label={t("view.map.phone_number")}
               name={["tel"]}
-              rules={validatePhoneNumber("tel")}
+              rules={[
+                () => ({
+                  validator(_, value) {
+                    const valiValue = document.getElementById("phone").value;
+                    if (!valiValue.length) {
+                      return Promise.reject(t("view.map.required_field"));
+                    }
+
+                    if (!valiValue.startsWith("0")) {
+                      if (valiValue.length < 10) {
+                        return Promise.reject(
+                          new Error(t("noti.at_least_9_characters"))
+                        );
+                      } else if (valiValue.length > 19) {
+                        return Promise.reject(
+                          new Error(t("noti.max_characters", { max: 19 }))
+                        );
+                      }
+                    } else {
+                      if (valiValue.length < 11) {
+                        return Promise.reject(
+                          new Error(t("noti.at_least_10_characters"))
+                        );
+                      } else if (valiValue.length > 20) {
+                        return Promise.reject(
+                          new Error(t("noti.max_characters", { max: 20 }))
+                        );
+                      }
+                    }
+
+                    return Promise.resolve();
+                  },
+                }),
+              ]}
             >
               <PhoneInput
                 international={false}

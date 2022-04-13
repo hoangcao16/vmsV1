@@ -9,7 +9,9 @@ import {
   Select,
   Table,
   Tooltip,
+  Checkbox,
 } from "antd";
+
 import { isEmpty } from "lodash";
 import moment from "moment";
 import React, { useEffect, useState } from "react";
@@ -38,6 +40,8 @@ import WeekPicker from "./WeekPicker";
 import { CloudLightning } from "react-feather";
 
 moment.locale("en");
+
+const CheckboxGroup = Checkbox.Group;
 
 const { Option } = Select;
 const formItemLayout = {
@@ -106,11 +110,14 @@ function Sidebar(props) {
 
   const [cameraAIUuid, setCameraAIUuid] = useState([]);
 
-  const [chart, setChart] = useState([
-    { name: "line" },
-    { name: "bar" },
-    { name: "pie" },
-  ]);
+  const chartList = ["column", "line", "circle"];
+  const [chartOptions, setChartOptions] = useState(["line"]);
+  const [indeterminate, setIndeterminate] = useState(true);
+  const [checkAll, setCheckAll] = useState(false);
+  const [checkedPieChart, setCheckedPieChart] = useState(false);
+  const [disabledPieChart, setDisabledPieChart] = useState(false);
+  const [checkedBarChart, setCheckedBarChart] = useState(false);
+  const [disabledBarChart, setDisabledBarChart] = useState(true);
 
   useEffect(() => {
     fetchSelectOptions().then((data) => {
@@ -161,6 +168,7 @@ function Sidebar(props) {
           cameraUuids: [],
         };
         props.callData(clearData(dataDefault));
+        props.changeChart(chartOptions);
       }
     });
   }, []);
@@ -198,6 +206,50 @@ function Sidebar(props) {
     if (moment(timeStartDay).diff(timeEndDay, "d") >= 0) {
       form.setFieldsValue({
         timeEndDay: "",
+      });
+      const notifyMess = {
+        type: "error",
+        title: "",
+        description: t("noti.end_smaller_start"),
+      };
+      Notification(notifyMess);
+      return;
+    }
+  }, [timeEndDay]);
+
+  //==================================================================
+
+  useEffect(() => {
+    if (moment(timeEndWeek).diff(timeStartWeek, "weeks") >= 12) {
+      form.setFieldsValue({
+        timeEndWeek: moment(timeStartWeek).add(11, "weeks"),
+      });
+      setTimeEndWeek(form.getFieldValue("timeEndWeek"));
+    }
+    if (moment(timeStartWeek).diff(timeEndWeek, "weeks") >= 0) {
+      form.setFieldsValue({
+        timeStartWeek: "",
+      });
+      const notifyMess = {
+        type: "error",
+        title: "",
+        description: t("noti.start_greater_end"),
+      };
+      Notification(notifyMess);
+      return;
+    }
+  }, [timeStartWeek]);
+
+  useEffect(() => {
+    if (moment(timeEndWeek).diff(timeStartWeek, "weeks") >= 12) {
+      form.setFieldsValue({
+        timeStartWeek: moment(timeEndWeek).subtract(11, "weeks"),
+      });
+      setTimeStartWeek(form.getFieldValue("timeStartWeek"));
+    }
+    if (moment(timeStartWeek).diff(timeEndWeek, "weeks") >= 0) {
+      form.setFieldsValue({
+        timeEndWeek: "",
       });
       const notifyMess = {
         type: "error",
@@ -254,6 +306,7 @@ function Sidebar(props) {
   }, [timeEndMonth]);
 
   //==================================================================
+
   useEffect(() => {
     if (moment(timeEndYear).diff(timeStartYear, "y") >= 5) {
       form.setFieldsValue({
@@ -381,6 +434,65 @@ function Sidebar(props) {
   const emptyField = () => {
     setSelectedRowKeys(null);
     return;
+  };
+
+  useEffect(() => {
+    let list = chartOptions;
+    if (
+      provinceId.length == 1 &&
+      (!districtId || districtId.length <= 1) &&
+      (!wardId || wardId.length <= 1)
+    ) {
+      list = chartOptions.filter((item) => item !== "column");
+      setCheckedBarChart(false);
+      setDisabledBarChart(true);
+    } else {
+      setCheckedBarChart(true);
+      setDisabledBarChart(false);
+    }
+    if (selectedRowKeys.length <= 1) {
+      list = chartOptions.filter((item) => item !== "circle");
+      setDisabledPieChart(true);
+      setCheckedPieChart(true);
+    } else {
+      setDisabledPieChart(false);
+      setCheckedPieChart(false);
+    }
+    props.changeChart(list);
+  }, [provinceId, districtId, wardId, selectedRowKeys]);
+
+  const onChange = (list) => {
+    setChartOptions(list);
+    setIndeterminate(list.length && list.length < chartList.length);
+    setCheckAll(list.length === chartList.length);
+    if (
+      provinceId.length == 1 &&
+      (!districtId || districtId.length <= 1) &&
+      (!wardId || wardId.length <= 1)
+    ) {
+      list = list.filter((item) => item !== "column");
+      setCheckedBarChart(false);
+      setDisabledBarChart(true);
+    } else {
+      setCheckedBarChart(true);
+      setDisabledBarChart(false);
+    }
+    if (selectedRowKeys.length <= 1) {
+      list = list.filter((item) => item !== "circle");
+      setDisabledPieChart(true);
+      setCheckedPieChart(true);
+    } else {
+      setDisabledPieChart(false);
+      setCheckedPieChart(false);
+    }
+    props.changeChart(list);
+  };
+
+  const onCheckAllChange = (e) => {
+    setChartOptions(e.target.checked ? chartList : []);
+    setIndeterminate(false);
+    setCheckAll(e.target.checked);
+    props.changeChart(e.target.checked ? chartList : []);
   };
 
   const onChangeField = (feildId) => {
@@ -662,22 +774,7 @@ function Sidebar(props) {
     onChange: onSelectChange,
   };
 
-  const onChangeTypeChart = (typeChart) => {
-    let controlTypeChart;
-    if (typeChart == "bar") {
-      controlTypeChart = "bar";
-    } else if (typeChart == "line") {
-      controlTypeChart = "line";
-    } else if (typeChart == "pie") {
-      controlTypeChart = "pie";
-    } else if (typeChart == "table") {
-      controlTypeChart = "table";
-    }
-    props.changeChart(controlTypeChart);
-  };
-
   const onChangeDateTime = async (dateTime) => {
-    console.log("dateTime", dateTime);
     setDatatime(dateTime);
     if (isEmpty(eventList)) {
       emptyField();
@@ -709,6 +806,39 @@ function Sidebar(props) {
     if (!value) {
       form.setFieldsValue({
         timeStartDay: timeStartDay,
+      });
+      return;
+    }
+    if (isEmpty(eventList)) {
+      emptyField();
+    } else {
+      setSelectedRowKeys(selectedRowKeys);
+    }
+  }
+
+  //==================================================================
+
+  function onChangeTimeStartWeek(value) {
+    if (!value) {
+      form.setFieldsValue({
+        timeEndWeek: timeEndWeek,
+      });
+      return;
+    }
+    setTimeStartWeek(value);
+    if (isEmpty(eventList)) {
+      emptyField();
+    } else {
+      setSelectedRowKeys(selectedRowKeys);
+    }
+  }
+
+  function onChangeTimeEndWeek(value) {
+    setTimeStartWeek(timeStartWeek);
+    setTimeEndWeek(value);
+    if (!value) {
+      form.setFieldsValue({
+        timeStartWeek: timeStartWeek,
       });
       return;
     }
@@ -854,15 +984,30 @@ function Sidebar(props) {
           <Row gutter={24} style={{ margin: "5px" }}>
             <Col span={24}>
               <Form.Item name={["pickTypeChart"]}>
-                <Select
-                  placeholder={t("view.report.please_choose_chart_type")}
-                  onChange={(typeChart) => onChangeTypeChart(typeChart)}
+                <Checkbox
+                  indeterminate={indeterminate}
+                  onChange={(typeChart) => onCheckAllChange(typeChart)}
+                  checked={checkAll}
                 >
-                  <Option value="bar">{t("view.report.column")}</Option>
-                  <Option value="line">{t("view.report.line")}</Option>
-                  <Option value="pie">{t("view.report.circle")}</Option>
-                  <Option value="table">{t("view.report.table")}</Option>
-                </Select>
+                  {t("view.report.choose_type_chart")}
+                </Checkbox>
+                <CheckboxGroup value={chartOptions} onChange={onChange}>
+                  <Checkbox value="line">{t("view.report.line")}</Checkbox>
+                  <Checkbox
+                    value="column"
+                    disabled={disabledBarChart}
+                    checked={checkedBarChart}
+                  >
+                    {t("view.report.column")}
+                  </Checkbox>
+                  <Checkbox
+                    value="circle"
+                    disabled={disabledPieChart}
+                    checked={checkedPieChart}
+                  >
+                    {t("view.report.circle")}
+                  </Checkbox>
+                </CheckboxGroup>
               </Form.Item>
             </Col>
           </Row>
@@ -919,9 +1064,8 @@ function Sidebar(props) {
               <Col span={12}>
                 <Form.Item name={["timeStartWeek"]}>
                   <WeekPicker
-                    // value={moment().subtract(4, "weeks")}
-                    onChange={console.log}
-                    typeWeek="StartWeek"
+                    // value={timeStartWeek}
+                    onChange={onChangeTimeStartWeek}
                     disableDate={(currentWeek) => {}}
                   />
                 </Form.Item>
@@ -929,9 +1073,8 @@ function Sidebar(props) {
               <Col span={12}>
                 <Form.Item name={["timeEndWeek"]}>
                   <WeekPicker
-                    // value={moment().subtract(4, "weeks")}
-                    onChange={console.log}
-                    typeWeek="EndWeek"
+                    // value={timeEndWeek}
+                    onChange={onChangeTimeEndWeek}
                     disableDate={(currentWeek) => {}}
                   />
                 </Form.Item>
