@@ -13,7 +13,6 @@ const WeekPicker = ({ value, onChange, disableDate = () => {} }) => {
   const [currentValue, setCurrentValue] = useState(
     moment(value).format("WW-YYYY")
   );
-  console.log("value", moment(value).format("WW-YYYY"));
   const [visible, setVisible] = useState(false);
   const totalWeeks = moment(currentYear, "YYYY").isoWeeksInYear();
   const ref = useRef(null);

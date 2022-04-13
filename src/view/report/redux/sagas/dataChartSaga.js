@@ -28,7 +28,6 @@ export function* handleDataChartLoad(action) {
       timeStart = moment(params.timeStartDay._d).format("DDMMYYYY");
       timeEnd = moment(params.timeEndDay._d).format("DDMMYYYY");
   }
-  console.log("params", timeStart, timeEnd);
 
   const payloadDataChart = {
     typeTime: params.pickTime.toUpperCase(),

@@ -85,7 +85,6 @@ function Sidebar(props) {
   );
 
   const [timeEndWeek, setTimeEndWeek] = useState(moment());
-  console.log("timeEndWeek", moment(timeEndWeek).format("WW-YYYY"));
 
   const [timeStartMonth, setTimeStartMonth] = useState(
     moment().subtract(11, "months")
