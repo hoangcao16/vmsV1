@@ -1,5 +1,8 @@
-import { ArrowLeftOutlined } from "@ant-design/icons";
-import { Button, Card, Col, Form, Input, Row } from "antd";
+import {
+  ArrowLeftOutlined,
+  ExclamationCircleOutlined,
+} from "@ant-design/icons";
+import { Button, Card, Col, Form, Input, Row, Modal } from "antd";
 import React from "react";
 import { useTranslation } from "react-i18next";
 import { useHistory, withRouter } from "react-router-dom";
@@ -39,7 +42,16 @@ function AddGroup(props) {
       Notification(notifyMess);
     }
   };
-
+  function confirm() {
+    Modal.confirm({
+      title: `${t("view.user.detail_list.confirm")}`,
+      icon: <ExclamationCircleOutlined />,
+      content: `${t("noti.cancel")}`,
+      okText: `${t("view.user.detail_list.cancel")}`,
+      cancelText: `${t("view.user.detail_list.back")}`,
+      onOk: goBack,
+    });
+  }
   const goBack = () => {
     props.history.goBack();
   };
@@ -158,6 +170,9 @@ function AddGroup(props) {
                   textAlign: "center",
                 }}
               >
+                <Button className="mr-1" onClick={confirm}>
+                  {t("view.map.button_cancel")}
+                </Button>
                 <Button
                   type="primary"
                   htmlType="submit "
