@@ -133,7 +133,7 @@ const TableHumans = () => {
     const data = {
       page: page,
       pageSize: pageSize,
-      name: value.replace(/[&\/\\#,+()!@=+`~_|$~%.^'":;*?<>{}\[\]\-]/g, ''),
+      name: value.replace(/[#&%^]/g, ""),
     };
     console.log("handleSearch", data);
     AIHumansApi.getAllHumans(data).then((result) => {
