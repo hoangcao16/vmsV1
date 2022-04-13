@@ -434,7 +434,9 @@ const TableCamera = () => {
         const data = new Blob([value], { type: "application/vnd.ms-excel" });
         fileDownload(
           data,
-          `Report_Camera_Info_${moment().format("DD.MM.YYYY_HH.mm.ss")}.xlsx`
+          `${t("view.user.detail_list.report_camera_info")}${moment().format(
+            "HHmmss_DDMMYYYY"
+          )}.xlsx`
         );
       } else {
         const notifyMess = {
