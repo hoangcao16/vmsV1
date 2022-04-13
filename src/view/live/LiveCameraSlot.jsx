@@ -1,5 +1,5 @@
 import { Popover, Space, Spin, Tooltip, Button, Modal } from "antd";
-import React, { useEffect, useRef, useState } from "react";
+import React, { useEffect, useMemo, useRef, useState } from "react";
 import {
   Camera,
   CloudLightning,
@@ -51,6 +51,7 @@ const LiveCameraSlot = (props) => {
   const [isOpenModalControlPanel, setIsOpenModalControlPanel] = useState(false);
   const [typeAICamera, setTypeAICamera] = useState("");
   const [isInfoModalVisible, setIsInfoModalVisible] = useState(false);
+  const [showMenuControl, setShowMenuControl] = useState(false);
   const requestId = useRef(uuidV4());
   const countRef = useRef(countInMinis);
   countRef.current = countInMinis;
@@ -61,6 +62,7 @@ const LiveCameraSlot = (props) => {
   const addedCamerasRef = useRef([...addedCameras]);
   addedCamerasRef.current = [...addedCameras];
   const timer = useRef(null);
+  const ref = useRef(showMenuControl);
 
   const findCameraIndexInGrid = (slotId) => {
     return addedCameras.findIndex((item) => item.id === slotId);
@@ -148,6 +150,15 @@ const LiveCameraSlot = (props) => {
   const maxCount = 10 * 60 * 1000;
 
   useEffect(() => {
+    if (props.openModalPresetSetting) {
+      setShowMenuControl(false);
+    }
+    if (isOpenModalControlPanel) {
+      setShowMenuControl(false);
+    }
+  }, [props.openModalPresetSetting, isOpenModalControlPanel]);
+
+  useEffect(() => {
     if (oldRecState && !recMode) {
       //Change from recording state to stop
       stopCaptureHandler();
@@ -160,6 +171,21 @@ const LiveCameraSlot = (props) => {
 
   useEffect(() => {
     return () => clearTimeout(timer.current);
+  }, []);
+
+  const className = useMemo(() => "control-panel-popover-" + slotId, []);
+
+  useEffect(() => {
+    const handleClickOutside = (event) => {
+      const parent = ref.current?.popupRef?.current?.getElement();
+      if (parent && !parent.contains(event.target)) {
+        setShowMenuControl(false);
+      }
+    };
+    document.addEventListener("click", handleClickOutside, true);
+    return () => {
+      document.removeEventListener("click", handleClickOutside, true);
+    };
   }, []);
 
   return (
@@ -282,6 +308,7 @@ const LiveCameraSlot = (props) => {
 
               <Popover
                 placement="top"
+                visible={showMenuControl}
                 content={
                   <MenuControl
                     setCurrentMenuControl={setCurrentMenuControl}
@@ -297,18 +324,17 @@ const LiveCameraSlot = (props) => {
                     setTypeAICamera={setTypeAICamera}
                   />
                 }
-                overlayClassName="control-panel-popover"
+                ref={ref}
+                overlayClassName={`control-panel-popover ` + className}
                 trigger="click"
+                onClick={() => setShowMenuControl(true)}
               >
                 {!permissionCheckByCamera("setup_preset", idCamera) ||
                 !permissionCheckByCamera("ptz_control", idCamera) ? (
                   <></>
                 ) : (
                   <Tooltip title={t("view.live.menu_preset")}>
-                    <div
-                      className="video-toolbar__link"
-                      size="small"
-                    >
+                    <div className="video-toolbar__link" size="small">
                       <Menu className="video-toolbar__icon" size={12} />
                     </div>
                   </Tooltip>
@@ -359,7 +385,7 @@ const LiveCameraSlot = (props) => {
 };
 
 const mapStateToProps = (state) => ({
-  openModalPresetSetting: state.openModalPresetSetting,
+  openModalPresetSetting: state.openModalPresetSetting.state,
 });
 
 const mapDispatchToProps = (dispatch) => {
