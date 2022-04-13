@@ -26,7 +26,7 @@ import {
 import "antd/dist/antd.css";
 import { isEmpty } from "lodash";
 import debounce from "lodash/debounce";
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useRef } from "react";
 import { useTranslation } from "react-i18next";
 import { useHistory, useRouteMatch, withRouter } from "react-router-dom";
 import { reactLocalStorage } from "reactjs-localstorage";
@@ -95,11 +95,12 @@ const TableCamera = () => {
   const [total, setTotal] = useState(0);
   const [page, setPage] = useState(1);
   const [size, setSize] = useState(10);
-  const [search, setSearch] = useState();
+  const [search, setSearch] = useState("");
   const [unit, setUnit] = useState(UNIT.ALL);
   const [isModalVisible, setIsModalVisible] = useState(false);
   const history = useHistory();
   let { path } = useRouteMatch();
+  const timer = useRef(null);
 
   const formItemLayout = {
     wrapperCol: { span: 24 },
@@ -222,8 +223,6 @@ const TableCamera = () => {
   }, []);
 
   const handleSearch = async (value) => {
-    // setPage(1);
-    // setLoading(true);
     let data = {
       searchType: unit,
       address: address,
@@ -240,7 +239,6 @@ const TableCamera = () => {
 
     setListCamera(result.payload);
     setTotal(result?.metadata?.total);
-    // setLoading(false);
   };
 
   const handleShowModalInfo = () => {
@@ -315,7 +313,6 @@ const TableCamera = () => {
     setSearch(null);
     form.setFieldsValue({ searchForm: null });
 
-    setSearch(value);
     setLoading(true);
     let data = {
       searchType: unit,
@@ -613,6 +610,14 @@ const TableCamera = () => {
     setSize(pageSize);
   };
 
+  const preSearch = (value) => {
+    clearTimeout(timer.current);
+
+    timer.current = setTimeout(() => {
+      handleSearch(value);
+    }, 1000);
+  };
+
   return (
     <>
       <div className="search-filter table--camera__container">
@@ -649,7 +654,7 @@ const TableCamera = () => {
 
         <AutoComplete
           className="full-width search__camera"
-          onSearch={debounce(handleSearch, 1000)}
+          onSearch={preSearch}
           value={search}
           onBlur={handleBlur}
           onPaste={handlePaste}

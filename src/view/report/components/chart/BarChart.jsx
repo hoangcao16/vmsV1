@@ -73,16 +73,16 @@ function BarChartComponent(props) {
                 )} {props.title.toUpperCase()}{" "}
               </h3>
 
-              {permissionCheck("export_report") && (
+              {/* {permissionCheck("export_report") && (
                 <div className="export">
                   <ExportReport type="comparativeReport" />
                   <ExportReportToMail type="comparativeReport" />
                 </div>
-              )}
+              )} */}
             </div>
             <BarChart
               width={870}
-              height={300}
+              height={450}
               data={data}
               margin={{
                 top: 5,

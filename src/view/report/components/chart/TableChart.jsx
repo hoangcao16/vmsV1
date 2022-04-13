@@ -82,7 +82,7 @@ function TableChart(props) {
         format = {
           dateStringFormat: "MMYYYY",
           dateFormat: "MM/YYYY",
-          unit: "m",
+          unit: "M",
           start: "01/2022",
           end: "02/2022",
         };
@@ -105,7 +105,7 @@ function TableChart(props) {
       ).format(format.dateFormat);
     }
 
-    if (!isEmpty(props.date.startDate)) {
+    if (!isEmpty(props.date.endDate)) {
       format.end = moment(props.date.endDate, format.dateStringFormat).format(
         format.dateFormat
       );
@@ -143,7 +143,7 @@ function TableChart(props) {
       dataIndex: "type",
       key: "type",
       fixed: "left",
-      width: "12%",
+      width: 120,
       render: (val, row) => {
         return {
           props: {
@@ -158,7 +158,7 @@ function TableChart(props) {
       dataIndex: "nameCamera",
       key: "nameCamera",
       fixed: "left",
-      width: "25%",
+      width: 220,
     },
     ...generateColumn(),
   ];
@@ -186,7 +186,7 @@ function TableChart(props) {
             columns={columns}
             pagination={false}
             className="table-report"
-            scroll={{ x: 1100, y: 500 }}
+            scroll={{ x: 1400, y: 500 }}
           />
         </div>
       )}
@@ -196,7 +196,6 @@ function TableChart(props) {
 
 const mapStateToProps = (state) => ({
   isLoading: state.chart.isLoading,
-  chartData: state.chart.chartData.data,
   error: state.chart.error,
   title: state.chart.title,
   typeChart: state.chart.typeChart,

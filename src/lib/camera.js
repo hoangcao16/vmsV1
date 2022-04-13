@@ -7,7 +7,7 @@ import {
   updatePlayCamLive,
 } from "../redux/actions/map/camLiveAction";
 import { reactLocalStorage } from "reactjs-localstorage";
-import {getEmail, getToken} from "../api/token";
+import { getEmail, getToken } from "../api/token";
 
 const language = reactLocalStorage.get("language");
 let notifyMess = {};
@@ -25,7 +25,6 @@ if (language === "vn") {
   };
 }
 class CameraService {
-
   closeCamera = (itemId) => {
     const cell = document.getElementById("video-slot-" + itemId);
     if (document.querySelector(`#cam-loading-${itemId}`)) {
@@ -43,7 +42,7 @@ class CameraService {
   async playCameraOnline(cam, slotIdx, dispatch) {
     try {
       if (cam.uuid === "" || cam.uuid == null) {
-        if (language === 'vn') {
+        if (language === "vn") {
           notifyMess.description = "Thông tin Camera không hợp lệ";
           Notification(notifyMess);
           throw new Error("Thông tin Camera không hợp lệ");
@@ -56,16 +55,20 @@ class CameraService {
       //camproxy controller --> camUuid --> http: camprox
       const data = await getServerCamproxyForPlay(cam.uuid);
       if (data === null) {
-        if (language === 'vn') {
-          notifyMess.description = "Bạn không có quyền để xem trực tiếp Camera này";
+        if (language === "vn") {
+          notifyMess.description =
+            "Bạn không có quyền để xem trực tiếp Camera này";
           Notification(notifyMess);
           dispatch && dispatch(viewCamIsNotPermission(cam));
           throw new Error("Bạn không có quyền để xem trực tiếp Camera này");
         } else {
-          notifyMess.description = "You don't have permission to view this Camera in live mode";
+          notifyMess.description =
+            "You don't have permission to view this Camera in live mode";
           Notification(notifyMess);
           dispatch && dispatch(viewCamIsNotPermission(cam));
-          throw new Error("You don't have permission to view this Camera in live mode");
+          throw new Error(
+            "You don't have permission to view this Camera in live mode"
+          );
         }
       }
 
@@ -102,7 +105,7 @@ class CameraService {
 
       const thisTime = new Date().getTime();
       const token =
-          slotIdx + "##" + getToken() + "##" + getEmail() + "##" + thisTime;
+        slotIdx + "##" + getToken() + "##" + getEmail() + "##" + thisTime;
 
       const API = data.camproxyApi;
       pc.createOffer({
@@ -122,11 +125,15 @@ class CameraService {
             if (res) {
               pc.setRemoteDescription(res).then((r) => {});
             } else {
-              if (language === 'vn') {
+              if (language === "vn") {
                 notifyMess.description = "Không thể xem trực tiếp Camera";
                 Notification(notifyMess);
                 dispatch && dispatch(viewCamIsNotPermission(cam));
-                throw new Error("Không thể xem trực tiếp Camera");
+                try {
+                  throw new Error("Không thể xem trực tiếp Camera");
+                } catch (e) {
+                  console.log(e);
+                }
               } else {
                 notifyMess.description = "Cant' view this Camera in live mode";
                 Notification(notifyMess);
@@ -138,7 +145,6 @@ class CameraService {
       });
 
       return pc;
-
     } catch (error) {
       console.log("error:", error);
       dispatch && dispatch(viewCamIsNotPermission(cam));

@@ -1,4 +1,4 @@
-@import '../../assets/scss/core/variables/vms-variable';
+@import "../../assets/scss/core/variables/vms-variable";
 
 .content {
   background-color: $vms-bg-primary !important;
@@ -24,6 +24,7 @@
     width: 170px;
     margin-right: 0 !important;
     li {
+      list-style-type: none;
       a {
         padding: 4px 9px !important;
         width: 172px;

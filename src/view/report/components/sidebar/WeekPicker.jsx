@@ -1,4 +1,4 @@
-import React, { useEffect, useState, useRef } from "react";
+import React, { useEffect, useState, useRef, useMemo } from "react";
 import moment from "moment";
 import { Dropdown, Input } from "antd";
 import { CalendarOutlined } from "@ant-design/icons";
@@ -6,16 +6,8 @@ import "./WeekPicker.scss";
 
 moment.locale("en");
 
-const WeekPicker = ({ typeWeek, onChange, disableDate = () => {} }) => {
-  let value;
-  if (typeWeek === "EndWeek") {
-    value = moment();
-  } else if (typeWeek === "StartWeek") {
-    value = moment().subtract(4, "weeks");
-  }
-  const [currentYear, setCurrentYear] = useState(
-    moment(value).format("YYYY")
-  );
+const WeekPicker = ({ value, onChange, disableDate = () => {} }) => {
+  const [currentYear, setCurrentYear] = useState(moment(value).format("YYYY"));
   const [currentValue, setCurrentValue] = useState(
     moment(value).format("TW-YYYY")
   );
@@ -23,10 +15,20 @@ const WeekPicker = ({ typeWeek, onChange, disableDate = () => {} }) => {
   const totalWeeks = moment(currentYear, "YYYY").isoWeeksInYear();
   const ref = useRef(null);
 
+  const className = useMemo(
+    () => "week-input-" + Math.floor(Math.random() * 1000),
+    []
+  );
+
   //close dropdown when click outside
   useEffect(() => {
     const handleClickOutside = (event) => {
-      const parent = ref.current.input.closest(".week-input");
+      const parent = ref.current.input.closest(`.${className}`);
+      console.log("parent", parent);
+      console.log(
+        "parent.contains(event.target)",
+        parent.contains(event.target)
+      );
       if (parent && !parent.contains(event.target)) {
         setVisible(false);
       }
@@ -59,15 +61,14 @@ const WeekPicker = ({ typeWeek, onChange, disableDate = () => {} }) => {
   };
 
   const customClass = (week) => {
-    
     let classList = "";
     const parseWeek = moment(`${week}-${currentYear}`, "WW-YYYY");
-    
+
     if (
       moment(currentValue, "TW-YYYY").isoWeek() === week &&
       moment(currentValue, "TW-YYYY").year() === Number(currentYear)
-      ) {
-        classList += " ant-picker-cell-in-view ant-picker-cell-selected";
+    ) {
+      classList += " ant-picker-cell-in-view ant-picker-cell-selected";
     }
     if (disableDate(parseWeek)) {
       classList += " ant-picker-cell-disabled";
@@ -119,11 +120,11 @@ const WeekPicker = ({ typeWeek, onChange, disableDate = () => {} }) => {
   return (
     <Dropdown
       visible={visible}
-      getPopupContainer={() => document.querySelector(".week-input")}
+      getPopupContainer={() => document.querySelector(`.${className}`)}
       overlay={<WeekPanel />}
     >
       <Input
-        className="week-input"
+        className={`week-input ` + className}
         onFocus={() => setVisible(true)}
         ref={ref}
         value={currentValue}
