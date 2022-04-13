@@ -574,6 +574,8 @@ const TableFile = (props) => {
       });
     }
     props.onSearch(dataParam);
+    setSearchParam(dataParam);
+    setPage(iPage);
   };
 
   const handleQuickSearchBlur = (event) => {
@@ -610,6 +612,8 @@ const TableFile = (props) => {
         props.onSearch({ ...searchCaptureFileParamDefault, searchType: "all" });
       }
     }
+    setPage(iPage);
+    setPageSize(iPageSize);
   }, [props.viewFileType]);
 
   const clearAllValueHandler = () => {
@@ -1473,6 +1477,8 @@ const TableFile = (props) => {
                     <FiSearch
                       className="icon"
                       onClick={() => {
+                        setPage(iPage);
+                        setPageSize(iPageSize);
                         onAdvanceSearchHandler(iPage, iPageSize, searchParam);
                       }}
                     />
