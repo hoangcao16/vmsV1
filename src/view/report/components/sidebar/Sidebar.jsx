@@ -489,10 +489,31 @@ function Sidebar(props) {
   };
 
   const onCheckAllChange = (e) => {
+    let list;
     setChartOptions(e.target.checked ? chartList : []);
     setIndeterminate(false);
     setCheckAll(e.target.checked);
-    props.changeChart(e.target.checked ? chartList : []);
+    if (
+      provinceId.length == 1 &&
+      (!districtId || districtId.length <= 1) &&
+      (!wardId || wardId.length <= 1)
+    ) {
+      list = chartList.filter((item) => item !== "column");
+      setCheckedBarChart(false);
+      setDisabledBarChart(true);
+    } else {
+      setCheckedBarChart(true);
+      setDisabledBarChart(false);
+    }
+    if (selectedRowKeys.length <= 1) {
+      list = chartList.filter((item) => item !== "circle");
+      setDisabledPieChart(true);
+      setCheckedPieChart(true);
+    } else {
+      setDisabledPieChart(false);
+      setCheckedPieChart(false);
+    }
+    props.changeChart(e.target.checked ? list : []);
   };
 
   const onChangeField = (feildId) => {
