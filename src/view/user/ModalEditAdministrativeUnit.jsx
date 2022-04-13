@@ -331,6 +331,7 @@ const ModalEditAdministrativeUnit = (props) => {
                         message: `${t("view.map.required_field")}`,
                       },
                     ]}
+                    className="margin"
                   >
                     <Input
                       placeholder={t(
@@ -355,14 +356,12 @@ const ModalEditAdministrativeUnit = (props) => {
 
                 <Col span={24}>
                   <Form.Item
-                    name={["tel"]}
-                    label={t("view.map.phone_number")}
+                    name={["phone"]}
                     rules={[
                       () => ({
                         validator(_, value) {
                           const valiValue =
                             document.getElementById("phone").value;
-
                           if (!valiValue.length) {
                             return Promise.reject(t("view.map.required_field"));
                           }

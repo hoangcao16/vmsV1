@@ -3,7 +3,8 @@ import moment from "moment";
 
 export default function ConvertDataChart(data) {
   if (!isEmpty(data)) {
-    let dataChart = data?.res?.DataChartEvent || data?.res?.CompareChartEvent;
+    let dataChart =
+      data?.res?.DataChartEvent || data?.res?.CompareChartEvent || [];
     if (data?.date?.typeTime == "DAY") {
       const start = moment(data?.date?.startDate, "DD/MM/YYYY");
       const end = moment(data?.date?.endDate, "DD/MM/YYYY");
@@ -12,6 +13,13 @@ export default function ConvertDataChart(data) {
           i.time = moment(i.time, "DD/MM/YYYY").format("DD/MM");
         });
       } else {
+        data.res.DataChartEvent = [];
+        data.res.Percents = [];
+      }
+    } else if (data?.date?.typeTime == "WEEK") {
+      const start = moment(data?.date?.startDate, "WW-YYYY");
+      const end = moment(data?.date?.endDate, "WW-YYYY");
+      if (!moment(end).diff(start, "w") > 0) {
         data.res.DataChartEvent = [];
         data.res.Percents = [];
       }

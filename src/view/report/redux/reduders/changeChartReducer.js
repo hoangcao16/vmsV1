@@ -1,6 +1,6 @@
 import { CHANGE_CHART } from "../constants";
 
-const changeChartReducer = (state = "all", action) => {
+const changeChartReducer = (state = [], action) => {
   switch (action.type) {
     case CHANGE_CHART.LOAD_SUCCESS:
       return action.data;
