@@ -32,7 +32,7 @@ export default function TableAddCamInCamGroup(props) {
   const [wards, setWard] = useState([]);
   const [form] = Form.useForm();
   const [name, setName] = useState("");
-  const [id, setId] = useState("");
+  const [wardId, setWardId] = useState("");
 
   const [administrativeUnitUuid, setAdministrativeUnitUuid] = useState("");
 
@@ -43,7 +43,7 @@ export default function TableAddCamInCamGroup(props) {
       name: "",
       provinceId: "",
       districtId: "",
-      id: "",
+      wardId: "",
       administrativeUnitUuid: "",
       vendorUuid: "",
       status: "",
@@ -89,7 +89,7 @@ export default function TableAddCamInCamGroup(props) {
       name: name,
       provinceId: cityId,
       districtId: "",
-      id: "",
+      wardId: "",
       administrativeUnitUuid: administrativeUnitUuid,
       page: 1,
       size: 100000,
@@ -112,7 +112,7 @@ export default function TableAddCamInCamGroup(props) {
     const data = {
       provinceId: provinceId,
       districtId: districtId,
-      id: "",
+      wardId: "",
       name: name,
       administrativeUnitUuid: administrativeUnitUuid,
       page: 1,
@@ -126,11 +126,11 @@ export default function TableAddCamInCamGroup(props) {
   };
 
   const onChangeWard = async (id) => {
-    setId(id);
+    setWardId(id);
     const data = {
       provinceId: provinceId,
       districtId: districtId,
-      id: id,
+      wardId: id,
       name: name,
       administrativeUnitUuid: administrativeUnitUuid,
       page: 1,
@@ -149,9 +149,9 @@ export default function TableAddCamInCamGroup(props) {
     const data = {
       provinceId: provinceId,
       districtId: districtId,
-      id: id,
+      wardId: wardId,
       name: name,
-      administrativeUnitUuid: administrativeUnitUuid,
+      administrativeUnitUuid: id,
       page: 1,
       size: 100000,
     };
@@ -185,7 +185,7 @@ export default function TableAddCamInCamGroup(props) {
       name: value,
       provinceId: provinceId,
       districtId: districtId,
-      id: id,
+      wardId: wardId,
       administrativeUnitUuid: administrativeUnitUuid,
       page: 1,
       size: 100000,
