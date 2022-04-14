@@ -70,6 +70,7 @@ export function* handleDataChartLoad(action) {
           })
         );
       }
+      console.log("resNormal", res);
       yield put(setDataChart({ res, date }));
     } else {
       const fakeData = { data: [], percent: {} };

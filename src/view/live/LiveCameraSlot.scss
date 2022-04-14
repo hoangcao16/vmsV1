@@ -1,32 +1,43 @@
-.bell {
+.bellWrapper {
+  .bell {
     position: absolute;
     top: 30px;
     left: 10px;
     z-index: 11;
     line-height: 18px;
+    display: flex;
+    align-items: center;
     &-button {
-        background-color: rgba(255, 255, 255, 0);
-        border: none;
-        height: 24px;
-        width: 24px;
-        &__icon {
-            position: absolute;
-            top: 50%;
-            left: 60%;
-            transform: translate(-50%, -50%);
-            color: red !important;
-            opacity: 1;
-            font-size: 18px;
-        }
+      background-color: rgba(255, 255, 255, 0);
+      border: none;
+      height: 24px;
+      width: 24px;
+      &__icon {
+        position: absolute;
+        top: 50%;
+        left: 60%;
+        transform: translate(-50%, -50%);
+        color: red !important;
+        opacity: 1;
+        font-size: 18px;
+      }
     }
     &-button:hover {
-        background-color: rgba(255, 255, 255, 0);
-        border: none;
-        height: 24px;
-        width: 24px;
+      background-color: rgba(255, 255, 255, 0);
+      border: none;
+      height: 24px;
+      width: 24px;
     }
+  }
+  .number {
+    background-color: red;
+    border-radius: 10px;
+    color: white;
+    height: 20px;
+    padding: 0 3px;
+  }
 }
 
 .dpn {
-    display: none;
+  display: none;
 }

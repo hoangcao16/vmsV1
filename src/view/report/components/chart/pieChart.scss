@@ -10,10 +10,10 @@
   flex-direction: column;
   background-color: $vms-bg-sub;
 
-  &__title {
-    padding: 15px;
+  .Chart__title {
+    padding: 15px 5px;
     justify-content: space-between;
-    align-items: center;
+    align-items: left;
     display: flex;
     width: 100%;
   }

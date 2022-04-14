@@ -40,6 +40,8 @@ const LiveCameraSlot = (props) => {
     reloadLiveMenuTool,
     changeLiveMode,
   } = props;
+  console.log("idCamera", idCamera);
+  console.log("updateData", props.updateData);
   const { t } = useTranslation();
   const [showMenus, setShowMenus] = useState({});
   const [showNoti, setShowNoti] = useState({});
@@ -224,7 +226,7 @@ const LiveCameraSlot = (props) => {
           if (cam.id === slotId) {
             if (["zac_vehicle", "zac_human", "attendance"].includes(cam.type)) {
               return (
-                <>
+                <div className="bellWrapper">
                   <div className={`bell ${notiCss}`}>
                     <Tooltip
                       placement="right"
@@ -241,8 +243,11 @@ const LiveCameraSlot = (props) => {
                         <BellFilled className="bell-button__icon" />
                       </Button>
                     </Tooltip>
+                    <div className="number">
+                      {props.updateData?.[idCamera].length}
+                    </div>
                   </div>
-                </>
+                </div>
               );
             } else {
               return <></>;
@@ -386,6 +391,7 @@ const LiveCameraSlot = (props) => {
 
 const mapStateToProps = (state) => ({
   openModalPresetSetting: state.openModalPresetSetting.state,
+  updateData: state.updateData,
 });
 
 const mapDispatchToProps = (dispatch) => {

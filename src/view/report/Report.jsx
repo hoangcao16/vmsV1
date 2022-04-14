@@ -17,6 +17,7 @@ import Sidebar from "./components/sidebar/Sidebar";
 import "./Report.scss";
 
 const TableReport = (props) => {
+  console.log(props.chartData);
   const { t } = useTranslation();
   const language = reactLocalStorage.get("language");
 
