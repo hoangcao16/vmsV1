@@ -100,6 +100,7 @@ const TableCamera = () => {
   const [isModalVisible, setIsModalVisible] = useState(false);
   const history = useHistory();
   let { path } = useRouteMatch();
+  const timer = useRef(null);
 
   const formItemLayout = {
     wrapperCol: { span: 24 },
@@ -609,6 +610,14 @@ const TableCamera = () => {
     setSize(pageSize);
   };
 
+  const preSearch = (value) => {
+    clearTimeout(timer.current);
+
+    timer.current = setTimeout(() => {
+      handleSearch(value);
+    }, 1000);
+  };
+
   return (
     <>
       <div className="search-filter table--camera__container">
@@ -645,9 +654,11 @@ const TableCamera = () => {
 
         <AutoComplete
           className="full-width search__camera"
-          onSearch={debounce(handleSearch, 1000)}
+          onSearch={preSearch}
+          value={search}
           onBlur={handleBlur}
           onPaste={handlePaste}
+          onChange={(e) => setSearch(e)}
           maxLength={255}
           placeholder={
             <div className="placeholder justify-content-between d-flex align-items-center">

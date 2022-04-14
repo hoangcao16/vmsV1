@@ -21,7 +21,7 @@ import {
   Typography,
 } from "antd";
 import { isEmpty } from "lodash-es";
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import { useTranslation } from "react-i18next";
 import { useHistory, useRouteMatch } from "react-router-dom";
 import { reactLocalStorage } from "reactjs-localstorage";
@@ -97,7 +97,7 @@ const TableListUser = (props) => {
       setListUsers(result.payload);
       setTotal(result?.metadata?.total);
     });
-  }, [page, size, search, unit]);
+  }, [page, size]);
 
   const renderHeader = () => {
     return (
@@ -142,6 +142,17 @@ const TableListUser = (props) => {
 
   const handleSearch = async (value) => {
     setSearch(value);
+    const data = {
+      page: page,
+      size: size,
+
+      filter: value,
+      type: unit,
+    };
+    UserApi.getAllUser(data).then((result) => {
+      setListUsers(result.payload);
+      setTotal(result?.metadata?.total);
+    });
   };
 
   const handleBlur = (event) => {
@@ -289,6 +300,16 @@ const TableListUser = (props) => {
     setSize(pageSize);
   };
 
+  const timer = useRef(null);
+
+  const preSearch = (value) => {
+    clearTimeout(timer.current);
+
+    timer.current = setTimeout(() => {
+      handleSearch(value);
+    }, 1000);
+  };
+
   return (
     <div className="user__list--tab mt-2">
       <Row gutter={24} className="userTableContent__menu-search">
@@ -322,10 +343,11 @@ const TableListUser = (props) => {
           <Form className="bg-grey searchData search--user">
             <AutoComplete
               className=" full-width height-40"
+              onSearch={preSearch}
               value={search}
-              onSearch={debounce(handleSearch, 300)}
               onBlur={handleBlur}
               onPaste={handlePaste}
+              onChange={(e) => setSearch(e)}
               maxLength={255}
               placeholder={
                 <div className="placehoder height-40 justify-content-between d-flex align-items-center">

@@ -1,5 +1,5 @@
 import { AutoComplete, Modal } from "antd";
-import { isEmpty } from "lodash";
+import { debounce, isEmpty } from "lodash";
 import React, { useEffect, useState } from "react";
 import { ChevronRight } from "react-feather";
 import { useTranslation } from "react-i18next";
@@ -349,8 +349,7 @@ const Index = (props) => {
           {/* <div className="menu-control-container__right__search"> */}
           {listType !== LIST_TYPES.viewSetting && (
             <AutoComplete
-              value={search}
-              onSearch={handleSearch}
+              onSearch={debounce(handleSearch, 1000)}
               onBlur={handleBlur}
               maxLength={100}
               className=" full-width height-40 read search__camera-group"

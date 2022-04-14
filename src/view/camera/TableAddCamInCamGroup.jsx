@@ -11,6 +11,7 @@ import Notification from "../../components/vms/notification/Notification";
 import { filterOption, normalizeOptions } from "../common/select/CustomSelect";
 import { renderText } from "../user/dataListUser/components/TableListUser";
 import { DATA_FAKE_CAMERA } from "./ModalAddCamera";
+import debounce from "lodash/debounce";
 import "./TableAddCamInCamGroup.scss";
 
 const formItemLayout = {
@@ -308,8 +309,7 @@ export default function TableAddCamInCamGroup(props) {
         <div className="d-flex justify-content-between">
           <AutoComplete
             className="searchData full-width height-40"
-            onSearch={handleSearch}
-            value={search}
+            onSearch={debounce(handleSearch, 1000)}
             onBlur={handleBlur}
             onPaste={handlePaste}
             maxLength={255}

@@ -109,7 +109,7 @@ const CameraApi = {
       return [];
     }
 
-    return result.payload;
+    return result?.payload;
   },
 
   getGroupCameraById: async (camGroupUuid) => {

@@ -8,6 +8,7 @@ import "./../../commonStyle/commontextArea.scss";
 import ModalEditCamproxy from "./ModalEditCamproxy";
 import { bodyStyleCard, headStyleCard } from "./variables";
 import { useTranslation } from "react-i18next";
+import { debounce } from "lodash";
 
 const TableCamproxy = () => {
   const { t } = useTranslation();
@@ -127,10 +128,9 @@ const TableCamproxy = () => {
         <AutoComplete
           maxLength={255}
           className=" full-width height-40"
-          onSearch={handleSearch}
+          onSearch={debounce(handleSearch, 1000)}
           onBlur={handleBlur}
           onPaste={handlePaste}
-          value={val}
           placeholder={
             <div className="placehoder height-40 justify-content-between d-flex align-items-center">
               <span>
