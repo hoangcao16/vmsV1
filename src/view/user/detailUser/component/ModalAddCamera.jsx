@@ -1,6 +1,6 @@
 import { SearchOutlined } from "@ant-design/icons";
 import { AutoComplete, Col, Form, Modal, Row, Select, Table, Tag } from "antd";
-import { isEmpty } from "lodash";
+import { debounce, isEmpty } from "lodash";
 import React, { useEffect, useState } from "react";
 import { useTranslation } from "react-i18next";
 import AddressApi from "../../../../actions/api/address/AddressApi";
@@ -100,7 +100,7 @@ const ModalAddCamera = (props) => {
     if (provinceId) {
       AddressApi.getDistrictByProvinceId(provinceId).then(setDistrict);
       setWard([]);
-      setDistrictId(null)
+      setDistrictId(null);
     }
   }, [provinceId]);
 
@@ -353,8 +353,7 @@ const ModalAddCamera = (props) => {
         <div className="d-flex justify-content-between">
           <AutoComplete
             className=" full-width height-40"
-            value={search}
-            onSearch={handleSearch}
+            onSearch={debounce(handleSearch, 1000)}
             onBlur={handleBlur}
             maxLength={255}
             placeholder={
@@ -427,11 +426,16 @@ const ModalAddCamera = (props) => {
             </Col>
 
             <Col span={6}>
-              <Form.Item name="recordingStatus" label={t("view.common_device.status")}>
+              <Form.Item
+                name="recordingStatus"
+                label={t("view.common_device.status")}
+              >
                 <Select
                   showSearch
                   allowClear
-                  onChange={(recordingStatus) => onChangeStatus(recordingStatus)}
+                  onChange={(recordingStatus) =>
+                    onChangeStatus(recordingStatus)
+                  }
                   placeholder={t("view.common_device.status")}
                   // style={{ width: 200 }}
                   filterOption={(input, option) =>

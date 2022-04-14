@@ -91,7 +91,6 @@ const TableHumans = () => {
             maxLength={255}
             className=" full-width height-40 read search__camera-group"
             onSearch={debounce(handleSearch, 1000)}
-            value={valueSearch}
             onBlur={(e) => setValueSearch(e.target.value.trim())}
             onPaste={(e) => setValueSearch(e.target.value.trimStart())}
             placeholder={

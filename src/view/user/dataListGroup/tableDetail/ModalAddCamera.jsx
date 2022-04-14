@@ -1,6 +1,6 @@
 import { SearchOutlined } from "@ant-design/icons";
 import { AutoComplete, Col, Form, Modal, Row, Select, Table, Tag } from "antd";
-import { isEmpty } from "lodash";
+import { debounce, isEmpty } from "lodash";
 import React, { useEffect, useState } from "react";
 import { useTranslation } from "react-i18next";
 import AddressApi from "../../../../actions/api/address/AddressApi";
@@ -27,6 +27,7 @@ const ModalAddCamera = (props) => {
   const [isModalVisible, setIsModalVisible] = useState(selectedAdd);
   const [selectedRowKeys, setSelectedRowKeys] = useState([]);
   const [listCamera, setListCamera] = useState([]);
+  console.log("listCamera", listCamera);
   const [loading, setLoading] = useState(false);
   const [provinceId, setProvinceId] = useState("");
 
@@ -297,7 +298,7 @@ const ModalAddCamera = (props) => {
       size: 1000000,
     };
 
-    CameraApi.getAllCamera(data).then((result) => {
+    await CameraApi.getAllCamera(data).then((result) => {
       let selectedId = props?.checkedGroups;
 
       const data = result.filter((r) => !selectedId.includes(r.uuid));
@@ -351,15 +352,20 @@ const ModalAddCamera = (props) => {
     setSearch(value);
   };
 
+  const handlePaste = (event) => {
+    const value = event.target.value.trimStart();
+    setSearch(value);
+  };
+
   const renderHeader = () => {
     return (
       <>
         <div className="d-flex justify-content-between">
           <AutoComplete
             className=" full-width height-40"
-            value={search}
-            onSearch={handleSearch}
+            onSearch={debounce(handleSearch, 1000)}
             onBlur={handleBlur}
+            onPaste={handlePaste}
             maxLength={255}
             placeholder={
               <div className="placehoder height-40 justify-content-between d-flex align-items-center">
@@ -531,8 +537,8 @@ const ModalAddCamera = (props) => {
     },
     {
       title: `${t("view.camera.camera_type", { cam: t("camera") })}`,
-      dataIndex: "code",
-      key: "code",
+      dataIndex: "cameraTypeName",
+      key: "cameraTypeName",
       className: "headerUserColums",
     },
     {

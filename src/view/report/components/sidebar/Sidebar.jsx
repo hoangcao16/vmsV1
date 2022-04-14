@@ -103,7 +103,6 @@ function Sidebar(props) {
   const [eventList, setEventList] = useState([]);
 
   const [selectedRowKeys, setSelectedRowKeys] = useState([]);
-  console.log("selectedRowKeys", selectedRowKeys);
 
   const [feildIds, setFeildIds] = useState([]);
 

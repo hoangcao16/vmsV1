@@ -9,6 +9,7 @@ import CameraApi from "../../../../actions/api/camera/CameraApi";
 import UserApi from "../../../../actions/api/user/UserApi";
 import Notification from "../../../../components/vms/notification/Notification";
 import "./ModalAddPermissionOthers.scss";
+import debounce from "lodash/debounce";
 
 const { TreeNode } = Tree;
 
@@ -227,7 +228,9 @@ const ModalAddPermissionOthers = (props) => {
 
   const loop = (data) =>
     data.map((item) => {
-      const index = item.name.toLowerCase().indexOf(option.searchValue.toLowerCase());
+      const index = item.name
+        .toLowerCase()
+        .indexOf(option.searchValue.toLowerCase());
       const beforeStr = item.name.substr(0, index);
       const afterStr = item.name.substr(index + option.searchValue.length);
       const title =
@@ -322,8 +325,7 @@ const ModalAddPermissionOthers = (props) => {
         maskStyle={{ background: "rgba(51, 51, 51, 0.9)" }}
       >
         <AutoComplete
-          value={search}
-          onSearch={handleSearch}
+          onSearch={debounce(handleSearch, 1000)}
           onBlur={handleBlur}
           maxLength={255}
           style={{ marginBottom: 20 }}

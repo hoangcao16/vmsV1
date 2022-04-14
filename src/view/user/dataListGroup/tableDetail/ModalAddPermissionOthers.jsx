@@ -1,32 +1,33 @@
-import { SearchOutlined } from '@ant-design/icons';
-import { AutoComplete, Modal, Tree } from 'antd';
-import { isEmpty } from 'lodash-es';
-import React, { useEffect, useState } from 'react';
-import { useTranslation } from 'react-i18next';
-import { reactLocalStorage } from 'reactjs-localstorage';
-import CameraApi from '../../../../actions/api/camera/CameraApi';
-import UserApi from '../../../../actions/api/user/UserApi';
-import Notification from '../../../../components/vms/notification/Notification';
-import './ModalAddPermissionOthers.scss';
+import { SearchOutlined } from "@ant-design/icons";
+import { AutoComplete, Modal, Tree } from "antd";
+import { isEmpty } from "lodash-es";
+import React, { useEffect, useState } from "react";
+import { useTranslation } from "react-i18next";
+import { reactLocalStorage } from "reactjs-localstorage";
+import CameraApi from "../../../../actions/api/camera/CameraApi";
+import UserApi from "../../../../actions/api/user/UserApi";
+import Notification from "../../../../components/vms/notification/Notification";
+import "./ModalAddPermissionOthers.scss";
+import debounce from "lodash/debounce";
 
 const { TreeNode } = Tree;
 
 const ModalAddPermissionOthers = (props) => {
   const { handleShowModalAdd, selectedAdd, checkedPermission } = props;
   const { t } = useTranslation();
-  const [search, setSearch] = useState('');
+  const [search, setSearch] = useState("");
   const [isModalVisible, setIsModalVisible] = useState(selectedAdd);
   const [selectedRowKeys, setSelectedRowKeys] = useState([]);
   const [menuListCode, setMenuListCode] = useState([]);
   const [treeData, setTreeData] = useState([]);
   const [treeNodeCamList, setTreeNodeCamList] = useState([]);
-  const language = reactLocalStorage.get('language')
+  const language = reactLocalStorage.get("language");
   const [isEmpt, setIsEmpty] = useState(false);
   const [option, setOption] = useState({
     expandedKeys: [],
-    searchValue: '',
+    searchValue: "",
     autoExpandParent: true,
-    defaultExpandAll: true
+    defaultExpandAll: true,
   });
 
   const { expandedKeys, autoExpandParent, defaultExpandAll } = option;
@@ -34,10 +35,10 @@ const ModalAddPermissionOthers = (props) => {
   useEffect(() => {
     const data = {
       lang: language,
-    }
+    };
     UserApi.getAllPermissionGroup(data).then((result) => {
       const dataRemoveMonitoring = result.payload.filter(
-        (r) => r.code !== 'monitoring'
+        (r) => r.code !== "monitoring"
       );
 
       const newData = dataRemoveMonitoring.map((p) => {
@@ -47,9 +48,9 @@ const ModalAddPermissionOthers = (props) => {
           children: p.permissions.map((p) => {
             return {
               code: p.code,
-              name: p.name
+              name: p.name,
             };
-          })
+          }),
         };
       });
 
@@ -78,19 +79,19 @@ const ModalAddPermissionOthers = (props) => {
       subject: `user_g@${props?.groupCode}`,
       object: `user_g@${props?.groupCode}`,
       action: dataAdd[0],
-      actions: dataAdd
+      actions: dataAdd,
     };
 
     const payloadRemove = dataRemove.map((dr) => {
       return {
         subject: `user_g@${props?.groupCode}`,
         object: `user_g@${props?.groupCode}`,
-        action: dr
+        action: dr,
       };
     });
 
     const dataRM = {
-      policies: payloadRemove
+      policies: payloadRemove,
     };
     let isAdd, isRemove;
 
@@ -104,9 +105,9 @@ const ModalAddPermissionOthers = (props) => {
 
     if (isAdd || isRemove) {
       const notifyMess = {
-        type: 'success',
-        title: '',
-        description: `${t('noti.successfully_edit_permission')}`
+        type: "success",
+        title: "",
+        description: `${t("noti.successfully_edit_permission")}`,
       };
       Notification(notifyMess);
     }
@@ -134,7 +135,7 @@ const ModalAddPermissionOthers = (props) => {
     setOption({
       ...option,
       expandedKeys,
-      autoExpandParent: true
+      autoExpandParent: true,
     });
   };
 
@@ -203,7 +204,7 @@ const ModalAddPermissionOthers = (props) => {
       setOption({
         ...option,
         expandedKeys: [],
-        searchValue: value
+        searchValue: value,
       });
       setTreeNodeCamList(treeData);
       return;
@@ -231,13 +232,15 @@ const ModalAddPermissionOthers = (props) => {
     setOption({
       ...option,
       expandedKeys,
-      searchValue: value
+      searchValue: value,
     });
   };
 
   const loop = (data) =>
     data.map((item) => {
-      const index = item.name.toLowerCase().indexOf(option.searchValue.toLowerCase());
+      const index = item.name
+        .toLowerCase()
+        .indexOf(option.searchValue.toLowerCase());
       const beforeStr = item.name.substr(0, index);
       const afterStr = item.name.substr(index + option.searchValue.length);
       const title =
@@ -289,10 +292,10 @@ const ModalAddPermissionOthers = (props) => {
 
   function unsign(str) {
     return str
-      .normalize('NFD')
-      .replace(/[\u0300-\u036f]/g, '')
-      .replace(/đ/g, 'd')
-      .replace(/Đ/g, 'D')
+      .normalize("NFD")
+      .replace(/[\u0300-\u036f]/g, "")
+      .replace(/đ/g, "d")
+      .replace(/Đ/g, "D")
       .toLowerCase()
       .trim();
   }
@@ -300,12 +303,12 @@ const ModalAddPermissionOthers = (props) => {
   const onCheck = (checkedKeysValue) => {
     setMenuListCode(checkedKeysValue);
     const dataRemove = [
-      'monitoring',
-      'nvr',
-      'configuration',
-      'map',
-      'storage',
-      'user'
+      "monitoring",
+      "nvr",
+      "configuration",
+      "map",
+      "storage",
+      "user",
     ];
 
     const data = checkedKeysValue.filter((c) => !dataRemove.includes(c));
@@ -321,36 +324,35 @@ const ModalAddPermissionOthers = (props) => {
   return (
     <>
       <Modal
-        title={t('view.user.detail_list.add_permission', { add: t('add') })}
+        title={t("view.user.detail_list.add_permission", { add: t("add") })}
         className="modal__add-permission-other--in-group-user"
         visible={isModalVisible}
         onOk={handleSubmit}
         onCancel={handleCancel}
         style={{ top: 30, height: 790, borderRadius: 10 }}
         width={1000}
-        okText={t('view.map.button_save')}
-        cancelText={t('view.map.button_cancel')}
-        maskStyle={{ background: 'rgba(51, 51, 51, 0.9)' }}
+        okText={t("view.map.button_save")}
+        cancelText={t("view.map.button_cancel")}
+        maskStyle={{ background: "rgba(51, 51, 51, 0.9)" }}
       >
         <AutoComplete
           style={{ marginBottom: 20 }}
           className=" full-width height-40 read search__camera-group"
-          value={search}
-          onSearch={handleSearch}
+          onSearch={debounce(handleSearch, 1000)}
           onBlur={handleBlur}
           maxLength={255}
           placeholder={
             <div className="placehoder height-40 justify-content-between d-flex align-items-center">
-              <span style={{ opacity: '0.5' }}>
-                {' '}
-                &nbsp; {t('view.map.search')}{' '}
-              </span>{' '}
-              <SearchOutlined style={{ fontSize: 20, color: '#E3F0FF' }} />
+              <span style={{ opacity: "0.5" }}>
+                {" "}
+                &nbsp; {t("view.map.search")}{" "}
+              </span>{" "}
+              <SearchOutlined style={{ fontSize: 20, color: "#E3F0FF" }} />
             </div>
           }
         />
         <Tree
-          style={{ backgroundColor: '#191919' }}
+          style={{ backgroundColor: "#191919" }}
           checkable
           className="treeData"
           onCheck={onCheck}
@@ -363,8 +365,8 @@ const ModalAddPermissionOthers = (props) => {
         </Tree>
 
         {isEmpt && (
-          <div className="text-center" style={{ color: 'white' }}>
-            {t('view.user.detail_list.no_valid_results_found')}
+          <div className="text-center" style={{ color: "white" }}>
+            {t("view.user.detail_list.no_valid_results_found")}
           </div>
         )}
       </Modal>

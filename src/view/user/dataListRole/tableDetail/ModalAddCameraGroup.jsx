@@ -1,5 +1,6 @@
 import { SearchOutlined } from "@ant-design/icons";
 import { AutoComplete, Modal, Table } from "antd";
+import { debounce } from "lodash";
 import React, { useEffect, useState } from "react";
 import { useTranslation } from "react-i18next";
 import CameraApi from "../../../../actions/api/camera/CameraApi";
@@ -90,8 +91,7 @@ const ModalAddCameraGroup = (props) => {
         <div className="d-flex justify-content-between">
           <AutoComplete
             className=" full-width height-40"
-            value={search}
-            onSearch={handleSearch}
+            onSearch={debounce(handleSearch, 1000)}
             onBlur={handleBlur}
             maxLength={255}
             placeholder={

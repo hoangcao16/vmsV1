@@ -8,6 +8,7 @@ import Notification from "../../components/vms/notification/Notification";
 import { renderText } from "../user/dataListUser/components/TableListUser";
 import ModalViewDetail from "./ModalViewDetail";
 import "./TableListCamInCamGroup.scss";
+import debounce from "lodash/debounce";
 
 export default function TableListCamInCamGroup(props) {
   const { t } = useTranslation();
@@ -160,7 +161,6 @@ export default function TableListCamInCamGroup(props) {
 
   const handlePaste = (event) => {
     const value = event.target.value.trimStart();
-
     setSearch(value);
   };
 
@@ -181,8 +181,7 @@ export default function TableListCamInCamGroup(props) {
 
           <AutoComplete
             className=" full-width height-40 read search__camera-group ml-2"
-            onSearch={handleSearch}
-            value={search}
+            onSearch={debounce(handleSearch, 1000)}
             onBlur={handleBlur}
             onPaste={handlePaste}
             maxLength={255}

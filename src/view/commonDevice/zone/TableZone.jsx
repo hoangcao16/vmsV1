@@ -28,6 +28,7 @@ import { bodyStyleCard, headStyleCard } from "./variables";
 import { useTranslation } from "react-i18next";
 import "./zoneStyle.scss";
 import { ShowTotal } from "../../../styled/showTotal";
+import { debounce } from "lodash";
 
 export const DATA_FAKE_ZONE_SEARCH = {
   provinces: [{ name: "", provinceId: "" }],
@@ -252,9 +253,8 @@ const TableZone = () => {
       <div className="search mt-2">
         <AutoComplete
           maxLength={255}
-          value={val}
           className=" full-width height-40"
-          onSearch={handleSearch}
+          onSearch={debounce(handleSearch, 1000)}
           onBlur={handleBlur}
           onPaste={handlePaste}
           placeholder={

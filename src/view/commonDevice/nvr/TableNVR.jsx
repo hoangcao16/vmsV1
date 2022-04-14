@@ -1,5 +1,6 @@
 import { EditOutlined, SearchOutlined } from "@ant-design/icons";
 import { AutoComplete, Card, Space, Table, Tag, Tooltip } from "antd";
+import { debounce } from "lodash";
 import React, { useEffect, useState } from "react";
 import { useTranslation } from "react-i18next";
 import { withRouter } from "react-router-dom";
@@ -150,8 +151,7 @@ const TableNVR = () => {
         <AutoComplete
           maxLength={255}
           className=" full-width height-40"
-          value={val}
-          onSearch={handleSearch}
+          onSearch={debounce(handleSearch, 1000)}
           onBlur={handleBlur}
           onPaste={handlePaste}
           placeholder={

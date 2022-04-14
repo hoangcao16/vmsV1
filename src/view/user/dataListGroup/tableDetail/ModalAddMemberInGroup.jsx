@@ -1,21 +1,21 @@
-import { SearchOutlined } from '@ant-design/icons';
-import { AutoComplete, Modal, Table } from 'antd';
-import { debounce } from 'lodash';
-import React, { useEffect, useState } from 'react';
-import { useTranslation } from 'react-i18next';
-import UserApi from '../../../../actions/api/user/UserApi';
-import Notification from '../../../../components/vms/notification/Notification';
-import { ShowTotal } from '../../../../styled/showTotal';
-import { renderText } from '../../dataListUser/components/TableListUser';
+import { SearchOutlined } from "@ant-design/icons";
+import { AutoComplete, Modal, Table } from "antd";
+import { debounce } from "lodash";
+import React, { useEffect, useState } from "react";
+import { useTranslation } from "react-i18next";
+import UserApi from "../../../../actions/api/user/UserApi";
+import Notification from "../../../../components/vms/notification/Notification";
+import { ShowTotal } from "../../../../styled/showTotal";
+import { renderText } from "../../dataListUser/components/TableListUser";
 // import { ShowTotal } from '../../../../styled/showTotal';
-import './ModalAddMemberInGroup.scss';
+import "./ModalAddMemberInGroup.scss";
 
 const ModalAddMemberInGroup = (props) => {
   const { handleShowModalAdd, selectedAdd } = props;
 
   const [isModalVisible, setIsModalVisible] = useState(selectedAdd);
   const [selectedRowKeys, setSelectedRowKeys] = useState([]);
-  const [search, setSearch] = useState('');
+  const [search, setSearch] = useState("");
 
   const [user, setUser] = useState([]);
 
@@ -28,9 +28,9 @@ const ModalAddMemberInGroup = (props) => {
   useEffect(() => {
     let data = {
       filter: search,
-      type: 'all',
+      type: "all",
       page: 0,
-      size: 0
+      size: 0,
     };
     UserApi.getAllUser(data).then((result) => {
       let selectedId = props?.checkedGroup;
@@ -44,13 +44,13 @@ const ModalAddMemberInGroup = (props) => {
   const onSelectChange = (selectedRowKeys) => {
     // setSelectedRowKeys([...props?.checkedGroup, ...selectedRowKeys]);
     setSelectedRowKeys([
-      ...new Set(props?.checkedGroup.concat(selectedRowKeys))
+      ...new Set(props?.checkedGroup.concat(selectedRowKeys)),
     ]);
   };
 
   const rowSelection = {
     selectedRowKeys,
-    onChange: onSelectChange
+    onChange: onSelectChange,
   };
   // const hasSelected = selectedRowKeys.length - props.checkedGroup.length > 0;
 
@@ -58,9 +58,9 @@ const ModalAddMemberInGroup = (props) => {
     setSearch(value);
     let data = {
       filter: value,
-      type: 'all',
+      type: "all",
       page: 0,
-      size: 0
+      size: 0,
     };
     UserApi.getAllUser(data).then((result) => {
       let selectedId = props?.checkedGroup;
@@ -73,16 +73,16 @@ const ModalAddMemberInGroup = (props) => {
   const handleSubmit = async () => {
     const payload = {
       user_uuids: selectedRowKeys,
-      group_uuid: props?.groupUuid
+      group_uuid: props?.groupUuid,
     };
 
     const isAdd = await UserApi.addMemberInGroups(payload);
 
     if (isAdd) {
       const notifyMess = {
-        type: 'success',
-        title: '',
-        description: `${t('noti.successfully_add_menber')}`
+        type: "success",
+        title: "",
+        description: `${t("noti.successfully_add_menber")}`,
       };
       Notification(notifyMess);
     }
@@ -101,19 +101,18 @@ const ModalAddMemberInGroup = (props) => {
         <div className="d-flex justify-content-between">
           <AutoComplete
             className=" full-width height-40"
-            value={search}
-            onSearch={handleSearch}
+            onSearch={debounce(handleSearch, 1000)}
             onBlur={handleBlur}
             maxLength={255}
             placeholder={
               <div className="placehoder height-40 justify-content-between d-flex align-items-center">
-                <span style={{ opacity: '0.5' }}>
-                  {' '}
-                  &nbsp;{' '}
-                  {t('view.user.detail_list.please_enter_search_keyword', {
-                    plsEnter: t('please_enter')
-                  })}{' '}
-                </span>{' '}
+                <span style={{ opacity: "0.5" }}>
+                  {" "}
+                  &nbsp;{" "}
+                  {t("view.user.detail_list.please_enter_search_keyword", {
+                    plsEnter: t("please_enter"),
+                  })}{" "}
+                </span>{" "}
                 <SearchOutlined style={{ fontSize: 22 }} />
               </div>
             }
@@ -145,45 +144,45 @@ const ModalAddMemberInGroup = (props) => {
 
   const columns = [
     {
-      title: `${t('view.user.detail_list.member_name')}`,
-      dataIndex: 'name',
-      className: 'name',
-      ellipsis: true
+      title: `${t("view.user.detail_list.member_name")}`,
+      dataIndex: "name",
+      className: "name",
+      ellipsis: true,
     },
     {
-      title: 'Email',
-      dataIndex: 'email',
-      className: 'headerUserColums',
+      title: "Email",
+      dataIndex: "email",
+      className: "headerUserColums",
       render: renderText,
-      ellipsis: true
+      ellipsis: true,
     },
     {
-      title: `${t('view.user.detail_list.dob')}`,
-      dataIndex: 'date_of_birth',
-      className: 'headerUserColums',
-      render: renderText
+      title: `${t("view.user.detail_list.dob")}`,
+      dataIndex: "date_of_birth",
+      className: "headerUserColums",
+      render: renderText,
     },
     {
-      title: `${t('view.user.detail_list.phone_number')}`,
-      dataIndex: 'phone',
-      className: 'headerUserColums',
-      render: renderText
-    }
+      title: `${t("view.user.detail_list.phone_number")}`,
+      dataIndex: "phone",
+      className: "headerUserColums",
+      render: renderText,
+    },
   ];
 
   return (
     <>
       <Modal
-        title={t('view.user.detail_list.add_member', { add: t('add') })}
+        title={t("view.user.detail_list.add_member", { add: t("add") })}
         className="modal__add-member--in-group-user"
         visible={isModalVisible}
         onOk={handleSubmit}
         onCancel={handleShowModalAdd}
         style={{ top: 30, height: 790, borderRadius: 10 }}
         width={1000}
-        okText={t('view.map.button_save')}
-        cancelText={t('view.map.button_cancel')}
-        maskStyle={{ background: 'rgba(51, 51, 51, 0.9)' }}
+        okText={t("view.map.button_save")}
+        cancelText={t("view.map.button_cancel")}
+        maskStyle={{ background: "rgba(51, 51, 51, 0.9)" }}
       >
         <Table
           className="tableAddMember"
@@ -206,21 +205,21 @@ const ModalAddMemberInGroup = (props) => {
             showTotal: (total, range) => {
               return (
                 <ShowTotal className="show--total">
-                  {t('view.user.detail_list.viewing')} {range[0]}{' '}
-                  {t('view.user.detail_list.to')} {range[1]}{' '}
-                  {t('view.user.detail_list.out_of')} {total}{' '}
-                  {t('view.user.detail_list.indexes')}
+                  {t("view.user.detail_list.viewing")} {range[0]}{" "}
+                  {t("view.user.detail_list.to")} {range[1]}{" "}
+                  {t("view.user.detail_list.out_of")} {total}{" "}
+                  {t("view.user.detail_list.indexes")}
                 </ShowTotal>
               );
-            }
+            },
           }}
           // scroll={{ y: 300 }}
           rowSelection={rowSelection}
           rowClassName={(includes) =>
-            props?.checkedGroup.includes(includes?.uuid) ? 'disabled-row' : ''
+            props?.checkedGroup.includes(includes?.uuid) ? "disabled-row" : ""
           }
           locale={{
-            emptyText: `${t('view.user.detail_list.no_valid_results_found')}`
+            emptyText: `${t("view.user.detail_list.no_valid_results_found")}`,
           }}
         />
       </Modal>

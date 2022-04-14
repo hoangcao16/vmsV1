@@ -30,6 +30,7 @@ import "./AdministrativeUnit.scss";
 import ModalEditAdministrativeUnit from "./ModalEditAdministrativeUnit";
 import ModalViewDetail from "./ModalViewDetail";
 import { bodyStyleCard, headStyleCard } from "./variables";
+import debounce from "lodash/debounce";
 
 export const CATEGORY_NAME = {
   AD_DIVISIONS: "AD_DIVISIONS",
@@ -84,8 +85,7 @@ const AdministrativeUnit = () => {
         <div className="search__toolbar">
           <AutoComplete
             className="searchInputCamproxy"
-            value={search}
-            onSearch={handleSearch}
+            onSearch={debounce(handleSearch, 1000)}
             onBlur={handleBlur}
             onPaste={handlePaste}
             maxLength={255}
@@ -120,8 +120,8 @@ const AdministrativeUnit = () => {
   };
 
   const handlePaste = (event) => {
-    setSearch(event.target.value.trimStart())
-  }
+    setSearch(event.target.value.trimStart());
+  };
 
   const handleSearch = async (value) => {
     setSearch(value);
