@@ -63,7 +63,7 @@ function PieChartComponents(props) {
     <>
       {props?.typeChart.includes("circle") && (
         <div className="PieChart">
-          <div className="PieChart__title">
+          <div className="Chart__title">
             <h3>
               {" "}
               {t(

@@ -111,8 +111,8 @@ function Sidebar(props) {
   const [cameraAIUuid, setCameraAIUuid] = useState([]);
 
   const chartList = ["column", "line", "circle"];
-  const [chartOptions, setChartOptions] = useState(["line"]);
-  const [indeterminate, setIndeterminate] = useState(true);
+  const [chartOptions, setChartOptions] = useState([]);
+  const [indeterminate, setIndeterminate] = useState(false);
   const [checkAll, setCheckAll] = useState(false);
   const [checkedPieChart, setCheckedPieChart] = useState(false);
   const [disabledPieChart, setDisabledPieChart] = useState(false);

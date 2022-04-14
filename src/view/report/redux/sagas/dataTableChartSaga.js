@@ -57,6 +57,7 @@ export function* handleTableDataChartLoad(action) {
         startDate: timeStart,
         endDate: timeEnd,
       };
+      console.log("resTable", res);
       yield put(setTableDataChart({ res, date }));
     } else {
       const fakeData = { tableChartEvents: [], dateType: {} };
