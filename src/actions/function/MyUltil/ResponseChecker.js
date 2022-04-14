@@ -4,10 +4,10 @@ import Notification from "../../../components/vms/notification/Notification";
 import { handleForbiddenCode } from "../../../api/authz/forbidden";
 import { reactLocalStorage } from "reactjs-localstorage";
 
-const language = reactLocalStorage.get('language')
+const language = reactLocalStorage.get("language");
 
-export function responseCheckerErrorsController(result,type) {
-  return handleErrCode(result,type);
+export function responseCheckerErrorsController(result, type) {
+  return handleErrCode(result, type);
 }
 
 export function responseCheckerErrors(result) {
@@ -32,7 +32,7 @@ const AuthZAccountAlreadyExists = 609;
 export const handleErrCodeAuthZ = (data) => {
   const { code, message, deny_permission_codes, error } = data || {};
   let errCode = {};
-  if (language == 'vn') {
+  if (language == "vn") {
     errCode = {
       type: "error",
       title: "Mã lỗi: " + code,
@@ -53,7 +53,7 @@ export const handleErrCodeAuthZ = (data) => {
       return data;
 
     case AuthZStatusBadRequest:
-      if (language == 'vn') {
+      if (language == "vn") {
         errCode.description = "Vui lòng kiểm tra lại Tài khoản hoặc Mật khẩu";
       } else {
         errCode.description = "Please recheck your account or password";
@@ -62,7 +62,7 @@ export const handleErrCodeAuthZ = (data) => {
       return null;
 
     case AuthZStatusUnauthorized:
-      if (language == 'vn') {
+      if (language == "vn") {
         errCode.description = "Vui lòng kiểm tra lại Tài khoản hoặc Mật khẩu";
       } else {
         errCode.description = "Please recheck your account or password";
@@ -70,7 +70,7 @@ export const handleErrCodeAuthZ = (data) => {
       Notification(errCode);
       return null;
     case AuthZStatusNotFound:
-      if (language == 'vn') {
+      if (language == "vn") {
         errCode.description = "Vui lòng kiểm tra lại Tài khoản hoặc Mật khẩu";
       } else {
         errCode.description = "Please recheck your account or password";
@@ -78,7 +78,20 @@ export const handleErrCodeAuthZ = (data) => {
       Notification(errCode);
       return null;
     case AuthZStatusConflict:
-      errCode.description = message;
+      if (language == "vn") {
+        const groupname = message.substring(
+          message.indexOf("name ") + 5,
+          message.indexOf(" already exists")
+        );
+        const fieldname =
+          message.substring(0, message.indexOf(" with name")) === "Role"
+            ? "Vai trò"
+            : "Nhóm";
+        errCode.description =
+          fieldname + " có tên " + groupname + " đã tồn tại";
+      } else {
+        errCode.description = message;
+      }
       Notification(errCode);
       return null;
     case AuthZStatusForbidden:
@@ -89,7 +102,7 @@ export const handleErrCodeAuthZ = (data) => {
       Notification(errCode);
       return null;
     case AuthZWrongPass:
-      if (language == 'vn') {
+      if (language == "vn") {
         errCode.description = "Vui lòng kiểm tra lại Mật khẩu";
       } else {
         errCode.description = "Please recheck your password";
@@ -97,7 +110,7 @@ export const handleErrCodeAuthZ = (data) => {
       Notification(errCode);
       return null;
     case AuthZAccountNotExists:
-      if (language == 'vn') {
+      if (language == "vn") {
         errCode.description = "Email không tồn tại trong hệ thống";
       } else {
         errCode.description = "Email does't exist in the system database";
@@ -105,7 +118,7 @@ export const handleErrCodeAuthZ = (data) => {
       Notification(errCode);
       return null;
     case AuthZAccountAlreadyExists:
-      if (language == 'vn') {
+      if (language == "vn") {
         errCode.description = "Email này hiện đang không hoạt động";
       } else {
         errCode.description = "This email is currently inactive";
@@ -113,7 +126,7 @@ export const handleErrCodeAuthZ = (data) => {
       Notification(errCode);
       return null;
     default:
-      if (language == 'vn') {
+      if (language == "vn") {
         errCode.description = "Server không phản hồi";
       } else {
         errCode.description = "Server not responding";
@@ -137,7 +150,7 @@ const TIME_OUT = 810;
 export const handleErrCodeMonitorCtrl = (data) => {
   if (isEmpty(data)) {
     let errCode = {};
-    if (language == 'vn') {
+    if (language == "vn") {
       errCode = {
         type: "error",
         title: "Mã lỗi: Không xác định",
@@ -155,7 +168,7 @@ export const handleErrCodeMonitorCtrl = (data) => {
   }
   const { code, message, deny_permission_codes } = data;
   let errCode = {};
-  if (language == 'vn') {
+  if (language == "vn") {
     errCode = {
       type: "error",
       title: "Mã lỗi: " + code,
@@ -214,7 +227,7 @@ export const handleErrCodeMonitorCtrl = (data) => {
       return null;
 
     default:
-      if (language == 'vn') {
+      if (language == "vn") {
         errCode.description = "Không xác định";
       } else {
         errCode.description = "Unknown";
@@ -230,7 +243,7 @@ const REPORT_BAD_REQUEST = 1301;
 export const handleErrCodeReport = (data) => {
   if (!data) {
     let errCode = {};
-    if (language == 'vn') {
+    if (language == "vn") {
       errCode = {
         type: "error",
         title: "Mã lỗi: Không xác định",
@@ -248,7 +261,7 @@ export const handleErrCodeReport = (data) => {
   }
   const { code, message, payload, deny_permission_codes } = data;
   let errCode = {};
-  if (language == 'vn') {
+  if (language == "vn") {
     errCode = {
       type: "error",
       title: "Mã lỗi: " + code,
@@ -272,7 +285,7 @@ export const handleErrCodeReport = (data) => {
       handleForbiddenCode(deny_permission_codes);
       return null;
     default:
-      if (language == 'vn') {
+      if (language == "vn") {
         errCode.description = "Không xác định";
       } else {
         errCode.description = "Unknown";
@@ -293,7 +306,7 @@ const AI_INTERNAL_SERVER_ERROR = 1706;
 export const handleErrCodeAI = (data) => {
   if (isEmpty(data)) {
     let errCode = {};
-    if (language == 'vn') {
+    if (language == "vn") {
       errCode = {
         type: "error",
         title: "Mã lỗi: Không xác định",
@@ -311,7 +324,7 @@ export const handleErrCodeAI = (data) => {
   }
   const { code, message, payload } = data;
   let errCode = {};
-  if (language == 'vn') {
+  if (language == "vn") {
     errCode = {
       type: "error",
       title: "Mã lỗi: " + code,
@@ -333,10 +346,8 @@ export const handleErrCodeAI = (data) => {
       return null;
     case AI_NOT_FOUND:
       errCode.description = `${
-        language === "vn"
-          ? "Config không tồn tại"
-          : "Config does not exist"
-    }`;
+        language === "vn" ? "Config không tồn tại" : "Config does not exist"
+      }`;
       Notification(errCode);
       return null;
     case AI_CANNOT_DELETE_ENTITY:
@@ -344,15 +355,15 @@ export const handleErrCodeAI = (data) => {
       Notification(errCode);
       return null;
     case AI_DUPLICATE_ENTITY:
-        errCode.description = `${
-          language === "vn"
-            ? "Đã có mã nhân viên trong hệ thống"
-            : "Duplicate code"
+      errCode.description = `${
+        language === "vn"
+          ? "Đã có mã nhân viên trong hệ thống"
+          : "Duplicate code"
       }`;
-        Notification(errCode);
-        return null;
+      Notification(errCode);
+      return null;
     default:
-      if (language == 'vn') {
+      if (language == "vn") {
         errCode.description = "Không xác định";
       } else {
         errCode.description = "Unknown";
