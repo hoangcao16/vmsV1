@@ -49,6 +49,7 @@ export default function TableAddCamInCamGroup(props) {
       status: "",
       page: 1,
       size: 100000,
+      checkCameraGroupExists: true,
     };
     CameraApi.getAllCamera(data).then((result) => {
       let selectedId = props?.camInGroupKey;
@@ -93,6 +94,7 @@ export default function TableAddCamInCamGroup(props) {
       administrativeUnitUuid: administrativeUnitUuid,
       page: 1,
       size: 100000,
+      checkCameraGroupExists: true,
     };
     CameraApi.getAllCamera(data).then((result) => {
       let selectedId = props?.camInGroupKey;
@@ -117,6 +119,7 @@ export default function TableAddCamInCamGroup(props) {
       administrativeUnitUuid: administrativeUnitUuid,
       page: 1,
       size: 100000,
+      checkCameraGroupExists: true,
     };
     CameraApi.getAllCamera(data).then((result) => {
       let selectedId = props?.camInGroupKey;
@@ -135,6 +138,7 @@ export default function TableAddCamInCamGroup(props) {
       administrativeUnitUuid: administrativeUnitUuid,
       page: 1,
       size: 100000,
+      checkCameraGroupExists: true,
     };
     CameraApi.getAllCamera(data).then((result) => {
       let selectedId = props?.camInGroupKey;
@@ -154,6 +158,7 @@ export default function TableAddCamInCamGroup(props) {
       administrativeUnitUuid: id,
       page: 1,
       size: 100000,
+      checkCameraGroupExists: true,
     };
     CameraApi.getAllCamera(data).then((result) => {
       let selectedId = props?.camInGroupKey;
@@ -189,6 +194,7 @@ export default function TableAddCamInCamGroup(props) {
       administrativeUnitUuid: administrativeUnitUuid,
       page: 1,
       size: 100000,
+      checkCameraGroupExists: true,
     };
     CameraApi.getAllCamera(data).then((result) => {
       let selectedId = props?.camInGroupKey;
