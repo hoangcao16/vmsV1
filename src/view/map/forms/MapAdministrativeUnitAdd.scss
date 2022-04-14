@@ -1,20 +1,44 @@
 @import "../../../assets/scss/core/variables/vms-variable";
 @import "../../../assets/scss/core/mixins/vms-mixins";
-
 .PhoneInputCountrySelect {
-  background: #191919;
-  color: rgba(208, 229, 255, 0.7);
-  @include scrollbar-styling(7px, 0);
-  &::-webkit-scrollbar-track {
-    background-color: $vms-bg-3;
-    box-shadow: inset 1px 0 $vms-bg-3;
-  }
+    background: #191919;
+    color: rgba(208, 229, 255, 0.7);
+    @include scrollbar-styling(7px, 0);
+    &::-webkit-scrollbar-track {
+        background-color: $vms-bg-3;
+        box-shadow: inset 1px 0 $vms-bg-3;
+    }
 }
 
 .PhoneInputCountryIconImg {
-  color: rgba(208, 229, 255, 0.7);
+    color: rgba(208, 229, 255, 0.7);
 }
 
 .PhoneInputCountry {
-  margin-left: 10px;
+    margin-left: 10px;
+}
+
+.intl-tel-input {
+    width: 100%;
+}
+
+.intl-tel-input.allow-dropdown input {
+    width: 100%;
+    padding-top: 8px;
+    padding-bottom: 8px;
+    background: #333333;
+    border: 1px solid #EAF0F61A;
+    border-radius: 4px;
+    outline: none;
+    color: rgba(208, 229, 255, 0.7);
+    &::placeholder {
+        color: rgba(208, 229, 255, 0.7);
+    }
+    &:focus {
+        box-shadow: 0 0 0 2px rgba(87, 168, 233, .2);
+    }
+}
+
+[dir=ltr] .intl-tel-input .country-list {
+    background-color: #333333 !important;
 }
