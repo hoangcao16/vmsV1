@@ -25,13 +25,21 @@ export const COLOR = [
   "#eb4034",
   "#7ccc47",
   "#425fd4",
-  "#FCFC74",
+  "#E5BBFA",
   "#FFA45E",
   "#FB5EFF",
   "#E8618E",
   "#3AFFD8",
   "#973AFF",
   "#5BFF3A",
+  "#EB7853",
+  "#B9F542",
+  "#F7E4D0",
+
+  "#C2B4ED",
+  "#EDD461",
+  "#E0641A",
+  "#22B5E0",
 ];
 
 function BarChartComponent(props) {

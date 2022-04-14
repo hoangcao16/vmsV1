@@ -280,7 +280,7 @@ const MapAdministrativeUnitAdd = (props) => {
               rules={[
                 () => ({
                   validator(_, value) {
-                    const valiValue = document.getElementById("phone").value;
+                    const valiValue = document.getElementById("tel").value;
                     if (!valiValue.length) {
                       return Promise.reject(t("view.map.required_field"));
                     }

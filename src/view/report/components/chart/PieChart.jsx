@@ -34,9 +34,10 @@ const renderCustomizedLabel = ({
       y={y}
       fill="white"
       textAnchor={x > cx ? "start" : "end"}
-      dominantBaseline="central"
+      dominantBaseline="insideTopLeft"
+      fontSize={12}
     >
-      {`${(percent * 100).toFixed(2)}%`}
+      {percent < 0.01 ? "" : `${(percent * 100).toFixed(2)}%`}
     </text>
   );
 };
@@ -98,10 +99,10 @@ function PieChartComponents(props) {
                 <span style={{ color: COLOR[index], padding: 10 }}>
                   {p.name.length > 25 ? (
                     <TooltipAnt placement="top" title={p.name}>
-                      {p.name.slice(0, 25)}
+                      {`${p.name.slice(0, 25)}: ${p.value}%`}
                     </TooltipAnt>
                   ) : (
-                    p.name
+                    `${p.name}: ${p.value}%`
                   )}
                 </span>
               );

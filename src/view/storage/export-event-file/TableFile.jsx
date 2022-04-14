@@ -556,6 +556,7 @@ const TableFile = (props) => {
   };
 
   const onQuickSearchHandler = (value) => {
+    console.log("value", value);
     value = value.trim();
     let dataParam = {};
     if (props.viewFileType === 2) {
