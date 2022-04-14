@@ -133,7 +133,7 @@ const TableHumans = () => {
     const data = {
       page: page,
       pageSize: pageSize,
-      name: value.replace(/[#&%^]/g, ""),
+      name: encodeURIComponent(value),
     };
     console.log("handleSearch", data);
     AIHumansApi.getAllHumans(data).then((result) => {
