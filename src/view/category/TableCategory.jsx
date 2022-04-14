@@ -210,7 +210,7 @@ const TableCategory = () => {
   const handleSearch = async (value) => {
     setSearch(value);
     const data = {
-      name: value.replace(/[#&%^]/g, ""),
+      name: encodeURIComponent(value),
     };
     // const dataSearch = await fetchOptionsData(data);
     // setDataOptions(dataSearch);

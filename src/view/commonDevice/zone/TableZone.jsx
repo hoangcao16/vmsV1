@@ -123,7 +123,7 @@ const TableZone = () => {
     setVal(value);
 
     const data = {
-      name: value.replace(/[#&%^]/g, ""),
+      name: encodeURIComponent(value),
       districtId: "",
       id: "",
       provinceId: "",

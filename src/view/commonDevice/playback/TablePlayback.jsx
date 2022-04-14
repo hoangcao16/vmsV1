@@ -42,7 +42,7 @@ const TablePlayback = () => {
   const handleSearch = async (value) => {
     setVal(value);
     const data = {
-      name: value.replace(/[#&%^]/g, ""),
+      name: encodeURIComponent(value),
       page: page,
       size: size,
     };
