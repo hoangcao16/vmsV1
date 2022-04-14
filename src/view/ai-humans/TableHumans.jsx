@@ -90,7 +90,7 @@ const TableHumans = () => {
           <AutoComplete
             maxLength={255}
             className=" full-width height-40 read search__camera-group"
-            onSearch={handleSearch}
+            onSearch={debounce(handleSearch, 1000)}
             value={valueSearch}
             onBlur={(e) => setValueSearch(e.target.value.trim())}
             onPaste={(e) => setValueSearch(e.target.value.trimStart())}

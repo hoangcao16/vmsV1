@@ -282,10 +282,7 @@ const MapAdministrativeUnitAdd = (props) => {
               rules={[
                 () => ({
                   validator(_, value) {
-                    const valiValue =
-                      document.querySelector(".phone-number").value;
-                    console.log(form.getFieldsValue().tel);
-
+                    const valiValue = document.getElementById("tel").value;
                     if (!valiValue.length) {
                       return Promise.reject(t("view.map.required_field"));
                     }

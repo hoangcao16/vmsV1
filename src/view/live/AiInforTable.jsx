@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import { Card, Modal, Table, Tooltip, Typography, Button, Row } from "antd";
 import { useTranslation } from "react-i18next";
 import "./AiInforTable.scss";
@@ -171,7 +171,7 @@ const AiInforTable = (props) => {
     return <div className="table__title">{name}</div>;
   };
 
-  const draggleRef = React.createRef();
+  const draggleRef = useRef();
 
   return (
     <>

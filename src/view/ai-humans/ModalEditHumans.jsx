@@ -398,7 +398,6 @@ const ModalEditHumans = (props) => {
                   () => ({
                     validator(_, value) {
                       const valiValue = document.getElementById("phone").value;
-
                       if (!valiValue.length) {
                         return Promise.reject(t("view.map.required_field"));
                       }

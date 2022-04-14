@@ -450,7 +450,7 @@ function Sidebar(props) {
       setCheckedBarChart(true);
       setDisabledBarChart(false);
     }
-    if (selectedRowKeys.length <= 1) {
+    if (selectedRowKeys && selectedRowKeys.length <= 1) {
       list = chartOptions.filter((item) => item !== "circle");
       setDisabledPieChart(true);
       setCheckedPieChart(true);
@@ -477,7 +477,7 @@ function Sidebar(props) {
       setCheckedBarChart(true);
       setDisabledBarChart(false);
     }
-    if (selectedRowKeys.length <= 1) {
+    if (selectedRowKeys && selectedRowKeys.length <= 1) {
       list = list.filter((item) => item !== "circle");
       setDisabledPieChart(true);
       setCheckedPieChart(true);
@@ -505,7 +505,7 @@ function Sidebar(props) {
       setCheckedBarChart(true);
       setDisabledBarChart(false);
     }
-    if (selectedRowKeys.length <= 1) {
+    if (selectedRowKeys && selectedRowKeys.length <= 1) {
       list = chartList.filter((item) => item !== "circle");
       setDisabledPieChart(true);
       setCheckedPieChart(true);

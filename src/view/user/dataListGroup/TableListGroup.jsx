@@ -15,6 +15,7 @@ import {
   Tooltip,
 } from "antd";
 import { event } from "jquery";
+import { debounce } from "lodash";
 import React, { useEffect, useState } from "react";
 import { useTranslation } from "react-i18next";
 import { useHistory, useRouteMatch } from "react-router-dom";
@@ -181,7 +182,7 @@ export default function TableListGroup() {
   const handlePaste = (event) => {
     const value = event.target.value.trimStart();
     setSearch(value);
-  }
+  };
 
   return (
     <div className="groupTableContent">
@@ -189,8 +190,7 @@ export default function TableListGroup() {
         <Col span={24}>
           <AutoComplete
             className=" full-width height-40"
-            value={search}
-            onSearch={handleSearch}
+            onSearch={debounce(handleSearch, 1000)}
             onBlur={handleBlur}
             onPaste={handlePaste}
             maxLength={255}

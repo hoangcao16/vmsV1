@@ -37,6 +37,7 @@ import ModalUpdateDepartment from "./ModalUpdateDepartment";
 import ModalViewDetail from "./ModalViewDetail";
 import "./TableCategory.scss";
 import { bodyStyleCard, headStyleCard } from "./variables";
+import debounce from "lodash/debounce";
 
 export const CATEGORY_NAME = {
   EVENT_TYPE: "EVENT_TYPE",
@@ -146,8 +147,7 @@ const TableCategory = () => {
         <div className="search__toolbar">
           <AutoComplete
             className="searchInputCamproxy"
-            value={search}
-            onSearch={handleSearch}
+            onSearch={debounce(handleSearch, 1000)}
             onBlur={handleBlur}
             onPaste={handlePaste}
             maxLength={255}
