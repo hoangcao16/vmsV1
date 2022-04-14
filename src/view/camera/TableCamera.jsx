@@ -308,7 +308,6 @@ const TableCamera = () => {
   }
 
   const onChangeTypeFilter = async (value) => {
-    document.getElementById("rc_select_1").value = "";
     setUnit(value);
     setSearch(null);
     form.setFieldsValue({ searchForm: null });
@@ -538,6 +537,7 @@ const TableCamera = () => {
                 onClick={() => {
                   setSelectedCameraIdEdit(item.uuid);
                   showModalEdit();
+                  // handleSearch(search);
                 }}
               />
             </Tooltip>
