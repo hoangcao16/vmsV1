@@ -103,6 +103,7 @@ function Sidebar(props) {
   const [eventList, setEventList] = useState([]);
 
   const [selectedRowKeys, setSelectedRowKeys] = useState([]);
+  console.log("selectedRowKeys", selectedRowKeys);
 
   const [feildIds, setFeildIds] = useState([]);
 
@@ -132,7 +133,7 @@ function Sidebar(props) {
 
         setFeildIds(data?.fields[0]?.uuid);
         if (isEmpty(data?.fields[0]?.eventList)) {
-          setSelectedRowKeys(null);
+          setSelectedRowKeys([]);
           return;
         } else if (
           !isEmpty(data?.fields[0]?.eventList) &&
@@ -432,7 +433,7 @@ function Sidebar(props) {
   ]);
 
   const emptyField = () => {
-    setSelectedRowKeys(null);
+    setSelectedRowKeys([]);
     return;
   };
 
@@ -450,7 +451,7 @@ function Sidebar(props) {
       setCheckedBarChart(true);
       setDisabledBarChart(false);
     }
-    if (selectedRowKeys && selectedRowKeys.length <= 1) {
+    if (selectedRowKeys.length <= 1) {
       list = chartOptions.filter((item) => item !== "circle");
       setDisabledPieChart(true);
       setCheckedPieChart(true);
@@ -477,7 +478,7 @@ function Sidebar(props) {
       setCheckedBarChart(true);
       setDisabledBarChart(false);
     }
-    if (selectedRowKeys && selectedRowKeys.length <= 1) {
+    if (selectedRowKeys.length <= 1) {
       list = list.filter((item) => item !== "circle");
       setDisabledPieChart(true);
       setCheckedPieChart(true);
@@ -505,7 +506,7 @@ function Sidebar(props) {
       setCheckedBarChart(true);
       setDisabledBarChart(false);
     }
-    if (selectedRowKeys && selectedRowKeys.length <= 1) {
+    if (selectedRowKeys.length <= 1) {
       list = chartList.filter((item) => item !== "circle");
       setDisabledPieChart(true);
       setCheckedPieChart(true);
@@ -525,7 +526,7 @@ function Sidebar(props) {
       setEventList(dataFilter.eventList);
     } else {
       setEventList(dataFilter.eventList);
-      setSelectedRowKeys(null);
+      setSelectedRowKeys([]);
       return;
     }
 

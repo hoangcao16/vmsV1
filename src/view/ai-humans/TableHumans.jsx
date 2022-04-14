@@ -59,7 +59,7 @@ const TableHumans = () => {
   const [listHumans, setListHumans] = useState([]);
   const [page, setPage] = useState(1);
   const [pageSize, setPageSize] = useState(10);
-  const [valueSearch, setValueSearch] = useState();
+  const [valueSearch, setValueSearch] = useState("");
 
   useEffect(() => {
     if (
