@@ -45,7 +45,9 @@ const camLiveReducer = (state = initialState, action) => {
         newListCamLive[camLeakIndex] = action.payload;
       } else {
         if (newListCamLive.length > 3) {
-          newListCamLive[0] = action.payload;
+          const nodeList = document.querySelectorAll(".map__live-card");
+          nodeList[0].parentNode.insertBefore(nodeList[0], null);
+          newListCamLive[nodeList[0].id] = action.payload;
         } else {
           newListCamLive.push(action.payload);
         }
