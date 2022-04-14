@@ -72,7 +72,7 @@ const ModalEditAdministrativeUnit = (props) => {
           loadAvatarHandler(data?.avatarFileName).then();
         }
         setAdUnit(data);
-
+        setAvatarFileName(data.avatarFileName);
         setProvinceId(data.provinceId);
         setDistrictId(data.districtId);
         return;
@@ -204,7 +204,7 @@ const ModalEditAdministrativeUnit = (props) => {
 
   const validatePhoneNumber = (value) => {
     const pattern = /^[+]*[(]{0,1}[0-9]{1,3}[)]{0,1}[-\s\./0-9]*$/g;
-    if (!pattern.test(value) && value.length >= 10) {
+    if (pattern.test(value) && value.length >= 10) {
       const notifyMess = {
         type: NOTYFY_TYPE.error,
         description: `${t("noti.phone_number_format_is_not_correct")}`,
