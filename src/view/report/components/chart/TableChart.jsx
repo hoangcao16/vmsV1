@@ -13,6 +13,7 @@ import { isEmpty } from "lodash";
 function TableChart(props) {
   const { t } = useTranslation();
   let dataSource = props.dataTableChart || [];
+  console.log("props.dataTableChart", dataSource);
   dataSource.sort(function (a, b) {
     if (a.eventUuid < b.eventUuid) {
       return -1;
@@ -143,22 +144,13 @@ function TableChart(props) {
       dataIndex: "type",
       key: "type",
       fixed: "left",
-      width: 120,
-      render: (val, row) => {
-        return {
-          props: {
-            ...mergeColumn(row.eventUuid),
-          },
-          children: <b>{val}</b>,
-        };
-      },
+      onCell: (_, index) => mergeColumn(_.eventUuid),
     },
     {
       title: `${t("view.camera.camera_name", { cam: t("camera") })}`,
       dataIndex: "nameCamera",
       key: "nameCamera",
       fixed: "left",
-      width: 220,
     },
     ...generateColumn(),
   ];
@@ -186,7 +178,7 @@ function TableChart(props) {
             columns={columns}
             pagination={false}
             className="table-report"
-            scroll={{ x: 1400, y: 500 }}
+            scroll={{ x: 1500, y: 500 }}
           />
         </div>
       }

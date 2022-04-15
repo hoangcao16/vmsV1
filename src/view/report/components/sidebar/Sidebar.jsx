@@ -142,9 +142,6 @@ function Sidebar(props) {
           arr[0] = data?.fields[0]?.eventList[0]?.uuid;
           if (!isEmpty(data?.fields[0]?.eventList[1]?.uuid)) {
             arr[1] = data?.fields[0]?.eventList[1]?.uuid;
-            if (!isEmpty(data?.fields[0]?.eventList[2]?.uuid)) {
-              arr[2] = data?.fields[0]?.eventList[2]?.uuid;
-            }
           }
           setSelectedRowKeys(arr);
         }
