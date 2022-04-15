@@ -80,10 +80,10 @@ export function* saveListCamLiveAction(action) {
     if (resp && resp.code === STATUS_CODE.SUCCESS) {
       yield put(saveListCamLiveSuccess(resp.payload));
       notifyMess.type = NOTYFY_TYPE.success;
-      if (language === "vn") { 
+      if (language === "vn") {
         notifyMess.description = "Lưu Camera trực tuyến thành công";
       } else {
-        notifyMess.description = "Successfully saved online Camera"
+        notifyMess.description = "Successfully saved online Camera";
       }
       Notification(notifyMess);
     } else {
@@ -119,10 +119,12 @@ export function* updateListCamLiveAction(action) {
     if (resp && resp.code === STATUS_CODE.SUCCESS) {
       yield put(updateListCamLiveSuccess(resp.payload));
       notifyMess.type = NOTYFY_TYPE.success;
-      if (language === "vn") { 
-        notifyMess.description = "Cập nhật thông tin Camra trực tuyến thành công";
+      if (language === "vn") {
+        notifyMess.description =
+          "Cập nhật thông tin Camera trực tuyến thành công";
       } else {
-        notifyMess.description = "Successfully updated online Camera information"
+        notifyMess.description =
+          "Successfully updated online Camera information";
       }
       Notification(notifyMess);
     } else {
@@ -158,10 +160,11 @@ export function* deleteListCamLiveAction(action) {
     if (code === STATUS_CODE.SUCCESS) {
       yield put(deleteListCamLiveSuccess({}));
       notifyMess.type = NOTYFY_TYPE.success;
-      if (language === "vn") { 
+      if (language === "vn") {
         notifyMess.description = "Xóa thông tin Camera trực tuyến thành công";
       } else {
-        notifyMess.description = "Successfully delete online Camera information"
+        notifyMess.description =
+          "Successfully delete online Camera information";
       }
       Notification(notifyMess);
     } else {
