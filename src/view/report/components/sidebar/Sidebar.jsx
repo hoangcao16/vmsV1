@@ -449,7 +449,7 @@ function Sidebar(props) {
       (!districtId || districtId.length <= 1) &&
       (!wardId || wardId.length <= 1)
     ) {
-      list = chartOptions.filter((item) => item !== "column");
+      list = list.filter((item) => item !== "column");
       setCheckedBarChart(false);
       setDisabledBarChart(true);
     } else {
@@ -457,7 +457,7 @@ function Sidebar(props) {
       setDisabledBarChart(false);
     }
     if (selectedRowKeys.length <= 1) {
-      list = chartOptions.filter((item) => item !== "circle");
+      list = list.filter((item) => item !== "circle");
       setDisabledPieChart(true);
       setCheckedPieChart(true);
     } else {
