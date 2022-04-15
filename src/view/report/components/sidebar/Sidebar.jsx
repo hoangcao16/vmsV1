@@ -464,8 +464,6 @@ function Sidebar(props) {
       setDisabledPieChart(false);
       setCheckedPieChart(false);
     }
-
-    console.log("list", list);
     props.changeChart(list);
   }, [provinceId, districtId, wardId, selectedRowKeys]);
 
