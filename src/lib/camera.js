@@ -84,6 +84,7 @@ class CameraService {
         if (cell) {
           cell.srcObject = event.streams[0];
           cell.autoplay = true;
+          cell.muted = true;
           cell.controls = false;
           cell.style = "width:100%;height:100%;display:block;object-fit:fill;";
         }
