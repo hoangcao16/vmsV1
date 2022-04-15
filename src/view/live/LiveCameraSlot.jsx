@@ -40,8 +40,6 @@ const LiveCameraSlot = (props) => {
     reloadLiveMenuTool,
     changeLiveMode,
   } = props;
-  console.log("idCamera", idCamera);
-  console.log("updateData", props.updateData);
   const { t } = useTranslation();
   const [showMenus, setShowMenus] = useState({});
   const [showNoti, setShowNoti] = useState({});
