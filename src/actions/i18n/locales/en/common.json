@@ -237,7 +237,8 @@
       "leader": "Leader",
       "email_not_valid": "Please fill in valid email, separate by ','",
       "sent": "Sent",
-      "select_week": "Select Week"
+      "select_week": "Select Week",
+      "check_range_time": "Please check the time interval"
     },
     "pages": {
       "login": "Login",

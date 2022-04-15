@@ -15,6 +15,7 @@ import TableChart from "./components/chart/TableChart";
 import FeatureInfo from "./components/featureInfo/FeatureInfo";
 import Sidebar from "./components/sidebar/Sidebar";
 import "./Report.scss";
+import moment from "moment";
 
 const TableReport = (props) => {
   const [sidebarData, setSidebarData] = useState([]);
@@ -29,11 +30,81 @@ const TableReport = (props) => {
     );
   }, [t]);
 
+  let format = {
+    dateStringFormat: "DDMMYYYY",
+    dateFormat: "DD/MM/YYYY",
+    unit: "d",
+    start: "01/01/2022",
+    end: "10/01/2022",
+  };
+
+  switch (props.date.typeTime) {
+    case "WEEK":
+      format = {
+        dateStringFormat: "WWYYYY",
+        dateFormat: "WW-YYYY",
+        unit: "w",
+        start: "01-2022",
+        end: "10-2022",
+      };
+      break;
+    case "MONTH":
+      format = {
+        dateStringFormat: "MMYYYY",
+        dateFormat: "MM/YYYY",
+        unit: "M",
+        start: "01/2022",
+        end: "02/2022",
+      };
+      break;
+    case "YEAR":
+      format = {
+        dateStringFormat: "YYYY",
+        dateFormat: "YYYY",
+        unit: "y",
+        start: "2018",
+        end: "2022",
+      };
+      break;
+    default:
+      format = {
+        dateStringFormat: "DDMMYYYY",
+        dateFormat: "DD/MM/YYYY",
+        unit: "d",
+        start: "01/01",
+        end: "10/01",
+      };
+      break;
+  }
+
+  if (!isEmpty(props.date.startDate)) {
+    format.start = moment(props.date.startDate, format.dateStringFormat).format(
+      format.dateFormat
+    );
+  }
+
+  if (!isEmpty(props.date.endDate)) {
+    format.end = moment(props.date.endDate, format.dateStringFormat).format(
+      format.dateFormat
+    );
+  }
+
+  const startDate = moment(format.start, format.dateFormat);
+  const endDate = moment(format.end, format.dateFormat);
+  console.log("startDate", startDate);
+  console.log("endDate", endDate);
+
   const rendered = () => {
     if (sidebarData.selectedRowKeys?.length == 0) {
       return <div className="body__noContent">{t("noti.field_no_data")}</div>;
     } else if (isEmpty(sidebarData.feildIds)) {
       return <div className="body__noContent">{t("noti.no_feild")}</div>;
+    } else if (startDate >= endDate) {
+      return (
+        <div className="body__noContent">
+          {t("view.report.check_range_time")}
+        </div>
+      );
     } else {
       return (
         <div className="body__content">
@@ -46,7 +117,11 @@ const TableReport = (props) => {
           ) : (
             ""
           )}
-          {!isEmpty(props.tableDataChart) ? <TableChart /> : ""}
+          {!isEmpty(props.tableDataChart) ? (
+            <TableChart sidebarData={sidebarData} />
+          ) : (
+            ""
+          )}
         </div>
       );
     }
@@ -76,6 +151,7 @@ const mapStateToProps = (state) => ({
   isLoading: state.chart.isLoading,
   chartData: state.chart.chartData,
   tableDataChart: state.chart.dataTableChart,
+  date: state.chart?.dataTableChart?.date,
 });
 
 export default connect(mapStateToProps)(withRouter(TableReport));
