@@ -349,6 +349,7 @@ const MapCameraAdd = (props) => {
                 placeholder={t("view.map.please_choose_camera_type", {
                   cam: t("camera"),
                 })}
+                getPopupContainer={(triggerNode) => triggerNode.parentNode}
               />
             </Form.Item>
           </Col>
@@ -369,6 +370,7 @@ const MapCameraAdd = (props) => {
                 placeholder={t("view.map.please_enter_name_vendor", {
                   plsEnter: t("please_enter"),
                 })}
+                getPopupContainer={(triggerNode) => triggerNode.parentNode}
               />
             </Form.Item>
           </Col>
@@ -382,6 +384,7 @@ const MapCameraAdd = (props) => {
                 filterOption={filterOption}
                 options={normalizeOptions("name", "uuid", adDivisions || [])}
                 placeholder={t("view.map.please_choose_administrative_unit")}
+                getPopupContainer={(triggerNode) => triggerNode.parentNode}
               />
             </Form.Item>
           </Col>
@@ -430,6 +433,7 @@ const MapCameraAdd = (props) => {
                   provinces || []
                 )}
                 placeholder={t("view.map.province_id")}
+                getPopupContainer={(triggerNode) => triggerNode.parentNode}
               />
             </Form.Item>
           </Col>
@@ -452,6 +456,7 @@ const MapCameraAdd = (props) => {
                   districts || []
                 )}
                 placeholder={t("view.map.district_id")}
+                getPopupContainer={(triggerNode) => triggerNode.parentNode}
               />
             </Form.Item>
           </Col>
@@ -465,6 +470,7 @@ const MapCameraAdd = (props) => {
                 filterOption={filterOption}
                 options={normalizeOptions("name", "id", wards || [])}
                 placeholder={t("view.map.ward_id")}
+                getPopupContainer={(triggerNode) => triggerNode.parentNode}
               />
             </Form.Item>
           </Col>
@@ -622,6 +628,7 @@ const MapCameraAdd = (props) => {
                 placeholder={t("view.map.please_enter_zone", {
                   plsEnter: t("please_enter"),
                 })}
+                getPopupContainer={(triggerNode) => triggerNode.parentNode}
               />
             </Form.Item>
           </Col>

@@ -347,6 +347,7 @@ const ModalAddCamera = (props) => {
                   placeholder={t("view.map.please_choose_camera_type", {
                     cam: t("camera"),
                   })}
+                  getPopupContainer={(triggerNode) => triggerNode.parentNode}
                 />
               </Form.Item>
             </Col>
@@ -369,6 +370,7 @@ const ModalAddCamera = (props) => {
                   placeholder={t("view.map.choose_vendor", {
                     plsEnter: t("please_enter"),
                   })}
+                  getPopupContainer={(triggerNode) => triggerNode.parentNode}
                 />
               </Form.Item>
             </Col>
@@ -391,6 +393,7 @@ const ModalAddCamera = (props) => {
                   filterOption={filterOption}
                   options={normalizeOptions("name", "provinceId", provinces)}
                   placeholder={t("view.map.province_id")}
+                  getPopupContainer={(triggerNode) => triggerNode.parentNode}
                 />
               </Form.Item>
             </Col>
@@ -413,6 +416,7 @@ const ModalAddCamera = (props) => {
                   filterOption={filterOption}
                   options={normalizeOptions("name", "districtId", districts)}
                   placeholder={t("view.map.district_id")}
+                  getPopupContainer={(triggerNode) => triggerNode.parentNode}
                 />
               </Form.Item>
             </Col>
@@ -430,6 +434,7 @@ const ModalAddCamera = (props) => {
                   options={normalizeOptions("name", "id", wards)}
                   placeholder={t("view.map.ward_id")}
                   allowClear
+                  getPopupContainer={(triggerNode) => triggerNode.parentNode}
                 />
               </Form.Item>
             </Col>
@@ -475,6 +480,7 @@ const ModalAddCamera = (props) => {
                   filterOption={filterOption}
                   options={normalizeOptions("name", "uuid", adDivisions)}
                   placeholder={t("view.map.please_choose_administrative_unit")}
+                  getPopupContainer={(triggerNode) => triggerNode.parentNode}
                 />
               </Form.Item>
             </Col>
@@ -638,6 +644,7 @@ const ModalAddCamera = (props) => {
                     plsEnter: t("please_enter"),
                   })}
                   allowClear
+                  getPopupContainer={(triggerNode) => triggerNode.parentNode}
                 />
               </Form.Item>
             </Col>

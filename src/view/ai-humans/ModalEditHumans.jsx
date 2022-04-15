@@ -9,8 +9,8 @@ import {
   Row,
   Spin,
   Upload,
+  Select
 } from "antd";
-import Select from "react-select";
 import { isEmpty } from "lodash-es";
 import React, { useEffect, useState } from "react";
 import { useTranslation } from "react-i18next";
@@ -286,12 +286,12 @@ const ModalEditHumans = (props) => {
   }
 
   const onChangeDepId = async (uuid) => {
-    setDepartmentId(uuid.value);
+    setDepartmentId(uuid);
   };
 
   const onChangeADUnitId = async (ADUnitId) => {
     setDepartments([]);
-    setAdministrativeUnitUuid(ADUnitId.value);
+    setAdministrativeUnitUuid(ADUnitId);
     form.setFieldsValue({ departmentUuid: null });
   };
 
@@ -510,7 +510,7 @@ const ModalEditHumans = (props) => {
                 label={t("view.department.administrative")}
                 rules={[]}
               >
-                {/* <Select
+                <Select
                   showSearch
                   dataSource={administrativeUnits}
                   onChange={(administrativeUnitUuid) => onChangeADUnitId(administrativeUnitUuid)}
@@ -522,8 +522,9 @@ const ModalEditHumans = (props) => {
                   )}
                   allowClear
                   placeholder={t("view.department.administrative")}
-                /> */}
-                <Select
+                  getPopupContainer={(triggerNode) => triggerNode.parentNode}
+                />
+                {/* <Select
                   classNamePrefix="select"
                   placeholder={t("view.department.administrative")}
                   isSearchable
@@ -535,7 +536,7 @@ const ModalEditHumans = (props) => {
                     "uuid",
                     administrativeUnits
                   )}
-                />
+                /> */}
               </Form.Item>
             </Col>
             <Col span={6}>
@@ -544,15 +545,16 @@ const ModalEditHumans = (props) => {
                 label={t("view.ai_events.department")}
                 rules={[]}
               >
-                {/* <Select
+                <Select
                   showSearch
                   dataSource={departments}
                   onChange={(aDUnitId) => onChangeDepId(aDUnitId)}
                   filterOption={filterOption}
                   options={normalizeOptions("name", "administrativeUnitUuid", departments)}
                   placeholder={t("view.ai_events.department")}
-                /> */}
-                <Select
+                  getPopupContainer={(triggerNode) => triggerNode.parentNode}
+                />
+                {/* <Select
                   placeholder={t("view.ai_events.department")}
                   classNamePrefix="select"
                   isSearchable
@@ -562,7 +564,7 @@ const ModalEditHumans = (props) => {
                     "administrativeUnitUuid",
                     departments
                   )}
-                />
+                /> */}
               </Form.Item>
             </Col>
           </Row>
