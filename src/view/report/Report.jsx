@@ -1,6 +1,6 @@
 import "antd/dist/antd.css";
 import { isEmpty } from "lodash";
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import { useTranslation } from "react-i18next";
 import { connect } from "react-redux";
 import { withRouter } from "react-router-dom";
@@ -17,6 +17,7 @@ import Sidebar from "./components/sidebar/Sidebar";
 import "./Report.scss";
 
 const TableReport = (props) => {
+  const [sidebarData, setSidebarData] = useState([]);
   const { t } = useTranslation();
   const language = reactLocalStorage.get("language");
 
@@ -29,20 +30,26 @@ const TableReport = (props) => {
   }, [t]);
 
   const rendered = () => {
-    return (
-      <div className="body__content">
-        {!isEmpty(props.chartData) ? (
-          <>
-            <BarChartComponent />
-            <Chart />
-            <PieChartComponents />
-          </>
-        ) : (
-          ""
-        )}
-        {!isEmpty(props.tableDataChart) ? <TableChart /> : ""}
-      </div>
-    );
+    if (sidebarData.selectedRowKeys?.length == 0) {
+      return <div className="body__noContent">{t("noti.field_no_data")}</div>;
+    } else if (isEmpty(sidebarData.feildIds)) {
+      return <div className="body__noContent">{t("noti.no_feild")}</div>;
+    } else {
+      return (
+        <div className="body__content">
+          {!isEmpty(props.chartData) ? (
+            <>
+              <BarChartComponent />
+              <Chart />
+              <PieChartComponents />
+            </>
+          ) : (
+            ""
+          )}
+          {!isEmpty(props.tableDataChart) ? <TableChart /> : ""}
+        </div>
+      );
+    }
   };
 
   return (
@@ -57,7 +64,7 @@ const TableReport = (props) => {
         <div className="body">
           {!props.isLoading ? rendered() : <Loading />}
           <div className="body__slidebar">
-            <Sidebar />
+            <Sidebar setSidebarData={setSidebarData} />
           </div>
         </div>
       </div>

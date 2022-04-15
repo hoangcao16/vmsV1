@@ -173,6 +173,15 @@ function Sidebar(props) {
     });
   }, []);
 
+  useEffect(() => {
+    let array = {
+      cameraAI: cameraAI,
+      selectedRowKeys: selectedRowKeys,
+      feildIds: feildIds,
+    };
+    props.setSidebarData(array);
+  }, [feildIds, cameraAI, selectedRowKeys]);
+
   //==================================================================
 
   useEffect(() => {
