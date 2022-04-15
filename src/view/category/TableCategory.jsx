@@ -79,6 +79,7 @@ const TableCategory = () => {
   const handleChange = (value) => {
     setDataType(value);
     setSearch("");
+    handleSearch("")
   };
 
   const getDataByCategory = (dataType) => {
@@ -151,6 +152,8 @@ const TableCategory = () => {
             onBlur={handleBlur}
             onPaste={handlePaste}
             maxLength={255}
+            value={search}
+            onChange={(value) => setSearch(value)}
             style={{ width: 350, height: 40, marginRight: 18 }}
             placeholder={
               <div>
