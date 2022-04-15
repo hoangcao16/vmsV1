@@ -9,24 +9,26 @@ import {
   MinusOutlined,
   PlusOutlined,
   RightOutlined,
-  UpOutlined
+  UpOutlined,
 } from "@ant-design/icons";
 import {
   AutoComplete,
   Button,
-  Image, Select, Space,
+  Image,
+  Select,
+  Space,
   Spin,
   Table,
-  Tooltip
+  Tooltip,
 } from "antd";
 import { arrayMoveImmutable } from "array-move";
 import { isEmpty } from "lodash";
-import React, {useEffect, useLayoutEffect, useRef, useState} from "react";
+import React, { useEffect, useLayoutEffect, useRef, useState } from "react";
 import { useTranslation } from "react-i18next";
 import {
   sortableContainer,
   sortableElement,
-  sortableHandle
+  sortableHandle,
 } from "react-sortable-hoc";
 import playCamApi from "../../api/camproxy/cameraApi";
 import ptzControllerApi from "../../api/ptz/ptzController";
@@ -35,7 +37,7 @@ import Notification from "../../components/vms/notification/Notification";
 import getServerCamproxyForPlay from "../../utility/vms/camera";
 import { NOTYFY_TYPE } from "../common/vms/Constant";
 import "./Preset.scss";
-import {getEmail, getToken} from "../../api/token";
+import { getEmail, getToken } from "../../api/token";
 
 const Preset = (props) => {
   const { idCamera } = props;
@@ -68,8 +70,8 @@ const Preset = (props) => {
   const pcListRef = useRef(pcList);
 
   useEffect(() => {
-    pcListRef.current = pcList
-  },[pcList]);
+    pcListRef.current = pcList;
+  }, [pcList]);
 
   const closeAllRTCPeerConnection = () => {
     // CLOSE ALL STREAM
@@ -79,7 +81,7 @@ const Preset = (props) => {
         pcLstTmp[i].pc.close();
       }
     }
-  }
+  };
 
   const closeRTCPeerConnection = (slotIdx) => {
     // CLOSE STREAM
@@ -94,7 +96,7 @@ const Preset = (props) => {
       }
     }
     setPCList([...pcLstTmp]);
-  }
+  };
 
   const convertRowsPreset = (data) => {
     return data.map((row, index) => {
@@ -128,7 +130,7 @@ const Preset = (props) => {
       };
     });
 
-    const newConvert = [...newPresetTourData]
+    const newConvert = [...newPresetTourData];
 
     return newConvert;
   };
@@ -234,7 +236,6 @@ const Preset = (props) => {
     }
   }, [rowsPreset.length]);
 
-  
   useEffect(() => {
     if (isPlayCamera) {
       playCameraOnline(idCamera);
@@ -323,8 +324,8 @@ const Preset = (props) => {
     if (camUuid === "" || camUuid == null) {
       Notification({
         type: NOTYFY_TYPE.warning,
-        title: `${t('view.user.detail_list.view_online')}`,
-        description: `${t('noti.unidentified_camera')}`,
+        title: `${t("view.user.detail_list.view_online")}`,
+        description: `${t("noti.unidentified_camera")}`,
       });
       return;
     }
@@ -332,8 +333,8 @@ const Preset = (props) => {
     if (data == null) {
       Notification({
         type: NOTYFY_TYPE.warning,
-        title: `${t('view.user.detail_list.view_online')}`,
-        description: `${t('noti.error_camera_address')}`,
+        title: `${t("view.user.detail_list.view_online")}`,
+        description: `${t("noti.error_camera_address")}`,
       });
       return;
     }
@@ -348,6 +349,7 @@ const Preset = (props) => {
       if (cell) {
         cell.srcObject = event.streams[0];
         cell.autoplay = true;
+        cell.muted = true;
         cell.controls = false;
         cell.style = "width:100%;height:100%;display:block;object-fit:cover;";
         spin.style.display = "none";
@@ -380,8 +382,8 @@ const Preset = (props) => {
               spin.style.display = "none";
               Notification({
                 type: NOTYFY_TYPE.warning,
-                title: `${t('view.user.detail_list.view_online')}`,
-                description: `${t('noti.fail_accept_offer_from_server')}`,
+                title: `${t("view.user.detail_list.view_online")}`,
+                description: `${t("noti.fail_accept_offer_from_server")}`,
               });
             }
           });
@@ -737,30 +739,26 @@ const Preset = (props) => {
         }
         setIsAddNewPresetTour(true);
 
-
-
-
         let params = {
           cameraUuid: idCamera,
         };
 
-       await getAllPresetTour(params);
-
+        await getAllPresetTour(params);
 
         document.getElementById("name__preset-tour").value = "new preset tour";
 
         const warnNotyfi = {
           type: NOTYFY_TYPE.success,
           title: `${t("noti.success")}`,
-          description: `${t('noti.successfully_add_preset')}`,
+          description: `${t("noti.successfully_add_preset")}`,
           duration: 2,
         };
         Notification(warnNotyfi);
       } catch (error) {
         const warnNotyfi = {
           type: NOTYFY_TYPE.warning,
-          title: `${t('noti.faid')}`,
-          description: `${t('noti.ERROR')}`,
+          title: `${t("noti.faid")}`,
+          description: `${t("noti.ERROR")}`,
           duration: 2,
         };
         Notification(warnNotyfi);
@@ -807,8 +805,8 @@ const Preset = (props) => {
       } catch (error) {
         const warnNotyfi = {
           type: NOTYFY_TYPE.warning,
-          title: `${t('noti.faid')}`,
-          description: `${t('noti.ERROR')}`,
+          title: `${t("noti.faid")}`,
+          description: `${t("noti.ERROR")}`,
           duration: 2,
         };
         Notification(warnNotyfi);
@@ -825,7 +823,7 @@ const Preset = (props) => {
       //validate
       const warnNotyfi = {
         type: NOTYFY_TYPE.warning,
-        title: `${t('noti.faid')}`,
+        title: `${t("noti.faid")}`,
         description: "Độ dài tên cần lớn hơn 0 nhỏ hơn 100 kí tự",
         duration: 2,
       };
@@ -876,7 +874,7 @@ const Preset = (props) => {
       } catch (error) {
         const warnNotyfi = {
           type: NOTYFY_TYPE.warning,
-          description: `${t('noti.ERROR')}`,
+          description: `${t("noti.ERROR")}`,
           duration: 2,
         };
         Notification(warnNotyfi);
@@ -906,7 +904,6 @@ const Preset = (props) => {
   };
 
   const onChangeOptionSetPresetInPresetTour = async (data, option) => {
-
     setSelectPresetTour(data);
     if (data === "none") {
       setVisiblePresetInPresetTour(false);
@@ -966,8 +963,7 @@ const Preset = (props) => {
     if (isEmpty(value)) {
       const warnNotyfi = {
         type: NOTYFY_TYPE.warning,
-        description:
-          `${t('noti.fail_change_preset_tour_name')}`,
+        description: `${t("noti.fail_change_preset_tour_name")}`,
         duration: 2,
       };
       Notification(warnNotyfi);
@@ -1208,7 +1204,7 @@ const Preset = (props) => {
               <option value={20}>20</option>
               <option value={30}>30</option>
             </select>
-            <span>{t('view.ai_config.second')}</span>
+            <span>{t("view.ai_config.second")}</span>
           </div>
         );
       },
@@ -1405,7 +1401,9 @@ const Preset = (props) => {
               scroll={{ y: 240 }}
               className="preset__table"
               locale={{
-                emptyText: `${t('view.user.detail_list.no_valid_results_found')}`
+                emptyText: `${t(
+                  "view.user.detail_list.no_valid_results_found"
+                )}`,
               }}
             />
           ) : (
@@ -1435,7 +1433,7 @@ const Preset = (props) => {
 
             <Option value="none">{t("view.live.add_new_preset_tour")}</Option>
             <Option value="@@" disabled style={{ color: "#191919", margin: 0 }}>
-              {t('preset.choose_one_preset_tour')}
+              {t("preset.choose_one_preset_tour")}
             </Option>
             {presetTourSelect}
           </Select>
@@ -1519,7 +1517,6 @@ const Preset = (props) => {
                   row: DraggableBodyRow,
                 },
               }}
-
             />
           </>
         </div>

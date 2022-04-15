@@ -1,3 +1,4 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 import React, { useState, useEffect, useRef } from "react";
 import { Maximize2, Minimize2, X } from "react-feather";
 import { useSelector, useDispatch } from "react-redux";
@@ -29,7 +30,6 @@ const MapCamItemLive = (props) => {
   };
   const [pcList, setPCList] = useState([]);
   const pcListRef = useRef(pcList);
-
   useEffect(() => {
     return () => {
       closeAllRTCPeerConnection();
@@ -137,13 +137,12 @@ const MapCamItemLive = (props) => {
     }
     setPCList([...pcLstTmp]);
   };
-
   useEffect(() => {
     if (camLive && !camLive.isPlay) {
       currentRef.current.style.border = "";
       setLoading(true);
     } else {
-      if (selectedIds.includes(slotId) && camLive?.isPlay) {
+      if (selectedIds === slotId && camLive?.isPlay) {
         currentRef.current.style.border = "1px solid yellow";
       } else {
         currentRef.current.style.border = "";

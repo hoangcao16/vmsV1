@@ -7,7 +7,7 @@ import { connect } from "react-redux";
 import EditableTagGroup from "./EditableTagGroup";
 
 const SearchCamItem = (props) => {
-  const {t } = useTranslation()
+  const { t } = useTranslation();
   const searchCamRef = useRef(null);
   const [expandSearch, setExpandSearch] = useState(false);
   const handleExpandSearchBar = () => {
@@ -57,6 +57,8 @@ const mapStateToProps = (state) => ({
   cameraTags: state.quickSearch.cameraTags,
 });
 
-const mapDispatchToProps = (dispatch) => {};
+const mapDispatchToProps = (dispatch) => {
+  return {};
+};
 
 export default connect(mapStateToProps, mapDispatchToProps)(SearchCamItem);

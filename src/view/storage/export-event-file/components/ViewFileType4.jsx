@@ -66,7 +66,7 @@ const Viewfiletype4 = ({
                             className="img__item"
                             style={{ position: "relative" }}
                           >
-                            {item.uuid != detailAI.uuid ? (
+                            {item.uuid !== detailAI.uuid ? (
                               <Popconfirm
                                 title={t("noti.sure_to_delete")}
                                 onCancel={(event) => {
@@ -136,7 +136,7 @@ const Viewfiletype4 = ({
                             className="img__item"
                             style={{ position: "relative" }}
                           >
-                            {item.uuid != detailAI.uuid ? (
+                            {item.uuid !== detailAI.uuid ? (
                               <Popconfirm
                                 title={t("noti.sure_to_delete")}
                                 onCancel={(event) => {

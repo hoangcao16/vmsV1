@@ -30,7 +30,7 @@ const initialState = {
   errors: null,
   camLiveObject: {},
   listCamLive: [],
-  selectedIds: [],
+  selectedIds: null,
   playbackSeekTime: null,
 };
 
@@ -45,9 +45,13 @@ const camLiveReducer = (state = initialState, action) => {
         newListCamLive[camLeakIndex] = action.payload;
       } else {
         if (newListCamLive.length > 3) {
-          const nodeList = document.querySelectorAll(".map__live-card");
-          nodeList[0].parentNode.insertBefore(nodeList[0], null);
-          newListCamLive[nodeList[0].id] = action.payload;
+          if (state.selectedIds !== null) {
+            newListCamLive[state.selectedIds] = action.payload;
+          } else {
+            const nodeList = document.querySelectorAll(".map__live-card");
+            nodeList[0].parentNode.insertBefore(nodeList[0], null);
+            newListCamLive[nodeList[0].id] = action.payload;
+          }
         } else {
           newListCamLive.push(action.payload);
         }
@@ -78,18 +82,15 @@ const camLiveReducer = (state = initialState, action) => {
       let newSelectedIds = state.selectedIds;
       if (camRemoveIndex > -1) {
         newListCamLive[camRemoveIndex] = "";
-        const fIdx = newSelectedIds.findIndex(
-          (it, idx) => it === camRemoveIndex
-        );
-        if (fIdx > -1) {
-          newSelectedIds.splice(fIdx, 1);
+        if (newSelectedIds === camRemoveIndex) {
+          newSelectedIds = null;
         }
       }
       setCamLiveStorage(cloneDeep(newListCamLive));
       return {
         ...state,
         listCamLive: [...newListCamLive],
-        selectedIds: [...newSelectedIds],
+        selectedIds: newSelectedIds,
       };
     }
 
@@ -160,24 +161,24 @@ const camLiveReducer = (state = initialState, action) => {
 
     case SELECT_OR_DESELECT_CAMERA_LIVE: {
       let newSelectedIds = state.selectedIds;
-      if (newSelectedIds.includes(action.payload)) {
-        const fIdx = newSelectedIds.findIndex(
-          (it, idx) => it === action.payload
-        );
-        newSelectedIds.splice(fIdx, 1);
+      if (newSelectedIds === action.payload) {
+        newSelectedIds = null;
       } else {
-        newSelectedIds.push(action.payload);
+        newSelectedIds = action.payload;
       }
 
-      return { ...state, selectedIds: [...newSelectedIds] };
+      return { ...state, selectedIds: newSelectedIds };
     }
 
     case DESELECT_CAMERA_LIVE: {
       let newSelectedIds = state.selectedIds;
-      const fIdx = newSelectedIds.findIndex((it, idx) => it === action.payload);
-      newSelectedIds.splice(fIdx, 1);
+      if (newSelectedIds === action.payload) {
+        newSelectedIds = null;
+      } else {
+        newSelectedIds = action.payload;
+      }
 
-      return { ...state, selectedIds: [...newSelectedIds] };
+      return { ...state, selectedIds: newSelectedIds };
     }
 
     case SET_PLAYBACK_HLS: {

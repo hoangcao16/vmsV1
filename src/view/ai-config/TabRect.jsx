@@ -182,12 +182,14 @@ const TabRect = (props) => {
   };
 
   const handleBlurInputNameUuid = (e, record) => {
-    document.getElementById(`input-name-uuid-${record.key}`).value = e.target.value.trim();
-  }
+    document.getElementById(`input-name-uuid-${record.key}`).value =
+      e.target.value.trim();
+  };
 
   const handlePasteInputNameUuid = (e, record) => {
-    document.getElementById(`input-name-uuid-${record.key}`).value = e.target.value.trimStart();
-  }
+    document.getElementById(`input-name-uuid-${record.key}`).value =
+      e.target.value.trimStart();
+  };
 
   const handleCloseRenameUuid = (e, record) => {
     // e.stopPropagation();
@@ -655,6 +657,7 @@ const TabRect = (props) => {
       if (video) {
         video.srcObject = event.streams[0];
         video.autoplay = true;
+        video.muted = true;
         video.controls = false;
         video.style = "width:100%;height:100%;display:block;object-fit:cover;";
         spin.style.display = "none";
