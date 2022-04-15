@@ -12,6 +12,7 @@ import MapCameraList from "./MapCameraList";
 import HeaderRightSideBar from "./HeaderRightSideBar";
 import MapFilter from "./MapFilter";
 import "./RightSideBar.scss";
+import { isEmpty } from "lodash";
 const RightSideBarMap = (props) => {
   const { listCamera: cameras, metadata: camMetadata } = useSelector(
     (state) => state.map.camera
@@ -46,7 +47,7 @@ const RightSideBarMap = (props) => {
   };
 
   useEffect(() => {
-    if (camMetadata && filterType == CamType) {
+    if (!isEmpty(camMetadata) && filterType == CamType) {
       const totalPage = Math.ceil(camMetadata.total / PAGE_SIZE);
       if (totalPage < 1) {
         setTotalPage(1);
@@ -57,7 +58,7 @@ const RightSideBarMap = (props) => {
     }
   }, [camMetadata, currentPage, filterType]);
   useEffect(() => {
-    if (adMetadata && filterType == AdministrativeUnitType) {
+    if (!isEmpty(adMetadata) && filterType == AdministrativeUnitType) {
       const totalPage = Math.ceil(adMetadata.total / PAGE_SIZE);
       if (totalPage < 1) {
         setTotalPage(1);
