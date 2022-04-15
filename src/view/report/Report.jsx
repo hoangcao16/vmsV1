@@ -115,11 +115,7 @@ const TableReport = (props) => {
           ) : (
             ""
           )}
-          {!isEmpty(props.tableDataChart) ? (
-            <TableChart sidebarData={sidebarData} />
-          ) : (
-            ""
-          )}
+          {!isEmpty(props.tableDataChart) ? <TableChart /> : ""}
         </div>
       );
     }
