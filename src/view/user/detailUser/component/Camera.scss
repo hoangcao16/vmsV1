@@ -45,7 +45,6 @@ button.ant-btn.btnInfo {
         margin-bottom: 0;
         line-height: 40px;
         font-size: 16px;
-
       }
 
       .ant-btn {
@@ -79,7 +78,7 @@ button.ant-btn.btnInfo {
 
     //end: title table
     .ant-table-content {
-      @include scrollbar-styling(0,12px)
+      @include scrollbar-styling(0, 12px);
     }
     //begin: head table
     .ant-table-thead {
@@ -102,7 +101,6 @@ button.ant-btn.btnInfo {
         }
         &:last-child {
           width: 6%;
-
         }
       }
     }
@@ -166,7 +164,9 @@ button.ant-btn.btnInfo {
 
     //end: head table
   }
-
+  .headerUserColums {
+    padding: 5px 0 5px 16px !important;
+  }
   @include paginationShowTotal;
   li.ant-pagination-item:nth-last-child(3) {
     box-shadow: none !important;

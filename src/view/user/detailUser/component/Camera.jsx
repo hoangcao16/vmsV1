@@ -607,32 +607,33 @@ export default function Camera(props) {
       className: "headerUserColums",
       dataIndex: "cam_name",
       fixed: "left",
-      width: "15%"
+      width: "15%",
     },
     {
       title: `${t("view.map.camera_group", { cam: t("camera") })}`,
       className: "headerUserColums",
       dataIndex: "cam_name_group",
-      width: "15%"
+      width: "15%",
     },
     {
       title: `${t("R")}`,
       className: "headerUserColums",
       dataIndex: "role_cam_group",
       render: renderRole,
-      width: "15%"
+      width: "15%",
     },
     {
       title: `${t("G")}`,
       className: "headerUserColums",
       dataIndex: "user_cam_group",
       render: userGroup,
-      width: "15%"
+      width: "15%",
     },
     {
       title: `${t("view.user.detail_list.view_online")}`,
       className: "headerUserColums",
       dataIndex: "view_online",
+      width: "8%",
 
       render: (text, record) => {
         return <Space>{viewOnline(record)}</Space>;
@@ -642,7 +643,7 @@ export default function Camera(props) {
       title: `${t("view.user.detail_list.view_offline")}`,
       className: "headerUserColums",
       dataIndex: "view_offline",
-
+      width: "8%",
       render: (text, record) => {
         return <Space>{viewOffline(record)}</Space>;
       },
@@ -651,7 +652,7 @@ export default function Camera(props) {
       title: `${t("view.user.detail_list.preset_setting")}`,
       className: "headerUserColums",
       dataIndex: "setup_preset",
-
+      width: "8%",
       render: (text, record) => {
         return <Space>{setupPreset(record)}</Space>;
       },
@@ -660,7 +661,7 @@ export default function Camera(props) {
       title: `${t("view.user.detail_list.control")}`,
       className: "headerUserColums",
       dataIndex: "ptz_control",
-
+      width: "8%",
       render: (text, record) => {
         return <Space>{ptzControl(record)}</Space>;
       },
