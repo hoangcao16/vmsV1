@@ -91,8 +91,6 @@ const TableReport = (props) => {
 
   const startDate = moment(format.start, format.dateFormat);
   const endDate = moment(format.end, format.dateFormat);
-  console.log("startDate", startDate);
-  console.log("endDate", endDate);
 
   const rendered = () => {
     if (sidebarData.selectedRowKeys?.length == 0) {
@@ -117,11 +115,7 @@ const TableReport = (props) => {
           ) : (
             ""
           )}
-          {!isEmpty(props.tableDataChart) ? (
-            <TableChart sidebarData={sidebarData} />
-          ) : (
-            ""
-          )}
+          {!isEmpty(props.tableDataChart) ? <TableChart /> : ""}
         </div>
       );
     }

@@ -18,7 +18,6 @@ function TableChart(props) {
     type: 0,
     location: 0,
   };
-  const selectedRowKeys = props?.sidebarData?.selectedRowKeys;
 
   useEffect(() => {
     processParseData();
