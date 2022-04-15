@@ -238,7 +238,8 @@
       "leader": "Lãnh đạo",
       "email_not_valid": "Yêu cầu nhập email hợp lệ, cách nhau bằng dấu ','",
       "sent": "Gửi",
-      "select_week": "Chọn thời điểm"
+      "select_week": "Chọn thời điểm",
+      "check_range_time": "Hãy kiểm tra lại khoảng thời gian"
     },
     "pages": {
       "login": "Đăng nhập",

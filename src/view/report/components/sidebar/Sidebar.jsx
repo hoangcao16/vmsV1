@@ -171,12 +171,12 @@ function Sidebar(props) {
   }, []);
 
   useEffect(() => {
-    let array = {
+    let data = {
       cameraAI: cameraAI,
       selectedRowKeys: selectedRowKeys,
       feildIds: feildIds,
     };
-    props.setSidebarData(array);
+    props.setSidebarData(data);
   }, [feildIds, cameraAI, selectedRowKeys]);
 
   //==================================================================

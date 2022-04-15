@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect, useRef, useState } from "react";
 import { Table } from "antd";
 import { connect } from "react-redux";
 import { loadTableDataChart } from "../../redux/actions";
@@ -12,43 +12,76 @@ import { isEmpty } from "lodash";
 
 function TableChart(props) {
   const { t } = useTranslation();
-  let dataSource = props.dataTableChart || [];
-  console.log("props.dataTableChart", dataSource);
-  dataSource.sort(function (a, b) {
-    if (a.eventUuid < b.eventUuid) {
-      return -1;
-    }
-    if (a.eventUuid > b.eventUuid) {
-      return 1;
-    }
-    return 0;
-  });
+  const dataSource = props.dataTableChart || [];
+  const [parseData, setParseData] = useState([]);
+  const nextIndex = {
+    type: 0,
+    location: 0,
+  };
+  const selectedRowKeys = props?.sidebarData?.selectedRowKeys;
 
-  const existedId = {};
-  const mergeColumn = (eventUuid) => {
+  useEffect(() => {
+    processParseData();
+  }, [props.dataTableChart]);
+
+  const processParseData = () => {
+    let newData = [];
+    const uniqueEvent = Array.from(
+      new Set(dataSource.map((item) => item.eventUuid))
+    );
+
+    uniqueEvent.forEach((eventId) => {
+      const listEvents = dataSource.filter((obj) => obj.eventUuid === eventId);
+      listEvents.sort((a, b) => (a.nameLocation > b.nameLocation ? -1 : 1));
+      newData = [...newData, ...listEvents];
+    });
+
+    setParseData(newData);
+  };
+
+  const mergeColumn = (row, index) => {
+    if (nextIndex.type >= dataSource.length) {
+      nextIndex.type = 0;
+    }
+
     const totalRows = dataSource.filter(
-      (obj) => obj.eventUuid === eventUuid
-    ).length;
+      (obj) => obj.eventUuid === row.eventUuid
+    );
 
-    if (!existedId[eventUuid] || existedId[eventUuid] < 1) {
-      existedId[eventUuid] = 1;
-
+    if (index === 0 || index === nextIndex.type) {
+      nextIndex.type += totalRows.length;
       return {
-        rowSpan: totalRows,
-        colSpan: 1,
+        rowSpan: totalRows.length,
+      };
+    } else {
+      return {
+        rowSpan: 0,
+        colSpan: 0,
       };
     }
+  };
 
-    existedId[eventUuid]++;
-
-    if (existedId[eventUuid] >= totalRows) {
-      existedId[eventUuid] = 0;
+  const mergeColumnLocation = (row, index) => {
+    if (nextIndex.location >= dataSource.length) {
+      nextIndex.location = 0;
     }
 
-    return {
-      rowSpan: 0,
-      colSpan: 0,
-    };
+    const totalRows = dataSource.filter(
+      (obj) =>
+        obj.eventUuid === row.eventUuid && obj.nameLocation === row.nameLocation
+    );
+
+    if (index === 0 || index === nextIndex.location) {
+      nextIndex.location += totalRows.length;
+      return {
+        rowSpan: totalRows.length,
+      };
+    } else {
+      return {
+        rowSpan: 0,
+        colSpan: 0,
+      };
+    }
   };
 
   const generateColumn = () => {
@@ -61,15 +94,6 @@ function TableChart(props) {
     };
 
     switch (props.date.typeTime) {
-      case "DAY":
-        format = {
-          dateStringFormat: "DDMMYYYY",
-          dateFormat: "DD/MM/YYYY",
-          unit: "d",
-          start: "01/01",
-          end: "10/01",
-        };
-        break;
       case "WEEK":
         format = {
           dateStringFormat: "WWYYYY",
@@ -95,6 +119,15 @@ function TableChart(props) {
           unit: "y",
           start: "2018",
           end: "2022",
+        };
+        break;
+      default:
+        format = {
+          dateStringFormat: "DDMMYYYY",
+          dateFormat: "DD/MM/YYYY",
+          unit: "d",
+          start: "01/01",
+          end: "10/01",
         };
         break;
     }
@@ -125,12 +158,18 @@ function TableChart(props) {
       startDate.add(1, format.unit);
       if (props.date.typeTime == "DAY") {
         return {
+          width: 100,
+          align: "center",
+          className: "p-0",
           title: moment(name, "DD/MM/YYYY").format("DD/MM"),
           dataIndex: name,
           key,
         };
       }
       return {
+        width: 100,
+        align: "center",
+        className: "p-0",
         title: name,
         dataIndex: name,
         key,
@@ -144,13 +183,23 @@ function TableChart(props) {
       dataIndex: "type",
       key: "type",
       fixed: "left",
-      onCell: (_, index) => mergeColumn(_.eventUuid),
+      width: 150,
+      onCell: (_, index) => mergeColumn(_, index),
+    },
+    {
+      title: `${t("view.map.location")}`,
+      dataIndex: "nameLocation",
+      key: "nameLocation",
+      fixed: "left",
+      width: 150,
+      onCell: (_, index) => mergeColumnLocation(_, index),
     },
     {
       title: `${t("view.camera.camera_name", { cam: t("camera") })}`,
       dataIndex: "nameCamera",
       key: "nameCamera",
       fixed: "left",
+      width: 100,
     },
     ...generateColumn(),
   ];
@@ -174,11 +223,11 @@ function TableChart(props) {
             )}
           </div>
           <Table
-            dataSource={dataSource}
+            dataSource={parseData}
             columns={columns}
             pagination={false}
             className="table-report"
-            scroll={{ x: 1500, y: 500 }}
+            scroll={{ x: "max-content", y: 500 }}
           />
         </div>
       }
