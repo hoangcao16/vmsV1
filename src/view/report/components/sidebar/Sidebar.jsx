@@ -60,7 +60,7 @@ function Sidebar(props) {
 
   const [filterOptions, setFilterOptions] = useState(DATA_FAKE_CAMERA);
 
-  const [provinceId, setProvinceId] = useState(["2"]);
+  const [provinceId, setProvinceId] = useState(["19"]);
 
   const [districts, setDistrict] = useState([]);
 
@@ -157,7 +157,7 @@ function Sidebar(props) {
           timeEndMonth: "",
           timeStartYear: "",
           timeEndYear: "",
-          provinceId: ["2"],
+          provinceId: ["19"],
           districtId: "",
           wardId: "",
           fieldId: data?.fields[0]?.uuid,
@@ -1174,7 +1174,7 @@ function Sidebar(props) {
             <Col span={24}>
               <Form.Item name={["provinceId"]}>
                 <Select
-                  defaultValue={["2"]}
+                  defaultValue={["19"]}
                   mode="multiple"
                   allowClear={false}
                   showSearch
