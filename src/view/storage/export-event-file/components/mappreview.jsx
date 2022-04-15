@@ -241,11 +241,11 @@ const PreviewMap = ({ data, fileCurrent, listLongLat }) => {
   }, [data]);
   // Vẽ route khi truy vết sự kiện
   useEffect(() => {
-    if (listLongLat.length > 1) {
-      const newCoords = listLongLat
-        .map((i) => `&point=${i.join(",")}`)
-        .join("");
-      getMatch(newCoords, "motorcycle");
+    const newCoords = listLongLat.map((i) => `&point=${i.join(",")}`);
+    const set = new Set(newCoords);
+    if (listLongLat.length > 1 && Array.from(set).length > 1) {
+      const coords = [...set].join("");
+      getMatch(coords, "motorcycle");
     } else {
       if (mapboxRef.current.getSource("route")) {
         mapboxRef.current.removeLayer("route");
