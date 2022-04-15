@@ -812,6 +812,7 @@
     "successfully_edit_camera_group": "Sửa nhóm Camera thành công",
     "browser_not_support_video": "Trình duyệt của bạn không hỗ trợ thẻ video",
     "field_no_data": "Lĩnh vực này không có sự kiện",
+    "no_feild": "Hệ thống chưa có sự kiện nào",
     "just_number": "Trường này chỉ được nhập số",
     "sure_to_delete": "Chắc chắn để xóa?",
     "are_you_sure_sent_data_for_this_email": "Bạn có chắc muốn gửi dữ liệu cho Email này?",

@@ -13,7 +13,6 @@ import { isEmpty } from "lodash";
 function TableChart(props) {
   const { t } = useTranslation();
   let dataSource = props.dataTableChart || [];
-  console.log("props.dataTableChart", dataSource);
   dataSource.sort(function (a, b) {
     if (a.eventUuid < b.eventUuid) {
       return -1;
