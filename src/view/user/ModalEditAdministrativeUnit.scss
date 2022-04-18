@@ -178,3 +178,21 @@
 .PhoneInputCountry {
   margin-left: 10px;
 }
+
+.custom_wrapper {
+  height: 40px;
+  display: flex;
+  align-items: center;
+  .custom_required_feild {
+    color: #e3f0ff !important;
+    font-weight: 500 !important;
+  }
+
+  .custom_required_feild_red {
+    margin-right: 5px;
+    font-size: 14px;
+    font-family: SimSun, sans-serif;
+    line-height: 1;
+    color: #ff4d4f !important;
+  }
+}

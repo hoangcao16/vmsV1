@@ -1,5 +1,5 @@
-import { responseCheckerErrorsController } from '../../function/MyUltil/ResponseChecker';
-import MyService from '../service';
+import { responseCheckerErrorsController } from "../../function/MyUltil/ResponseChecker";
+import MyService from "../service";
 
 const AdDivisionApi = {
   getAllAdDivision: async (data) => {
@@ -21,7 +21,6 @@ const AdDivisionApi = {
   },
   getAdDivisionByUuid: async (uuid) => {
     let result;
-
     try {
       result = await MyService.getRequestData(
         `/cctv-controller-svc/api/v1/administrative_units/${uuid}`
@@ -33,7 +32,6 @@ const AdDivisionApi = {
     if (responseCheckerErrorsController(result) === null) {
       return [];
     }
-
     return result.payload;
   },
   editAdDivision: async (uuid, advisionPayload) => {
@@ -59,7 +57,7 @@ const AdDivisionApi = {
 
     try {
       result = await MyService.postRequestData(
-        '/cctv-controller-svc/api/v1/administrative_units',
+        "/cctv-controller-svc/api/v1/administrative_units",
         adDivisionPayload
       );
     } catch (error) {
@@ -84,7 +82,7 @@ const AdDivisionApi = {
       return false;
     }
     return true;
-  }
+  },
 };
 
 export default AdDivisionApi;
