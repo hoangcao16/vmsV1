@@ -282,7 +282,10 @@ const MapAdministrativeUnitAdd = (props) => {
               rules={[
                 () => ({
                   validator(_, value) {
-                    const valiValue = document.getElementById("tel").value;
+                    const valiValue =
+                      document.querySelector(".phone-number").value;
+                    console.log(form.getFieldsValue().tel);
+
                     if (!valiValue.length) {
                       return Promise.reject(t("view.map.required_field"));
                     }
@@ -314,12 +317,28 @@ const MapAdministrativeUnitAdd = (props) => {
                 }),
               ]}
             >
-              <PhoneInput
+              {/* <PhoneInput
                 international={false}
                 defaultCountry="VN"
                 placeholder={t("view.map.please_enter_your_phone_number", {
                   plsEnter: t("please_enter"),
                 })}
+              /> */}
+
+              <IntlTelInput
+                containerClassName="intl-tel-input"
+                inputClassName="phone-number"
+                preferredCountries={["vn"]}
+                placeholder={t("view.map.please_enter_your_phone_number", {
+                  plsEnter: t("please_enter"),
+                })}
+                input
+                type="tel"
+                onPhoneNumberChange={(status, phoneNumber, country) => {
+                  form.setFieldsValue({
+                    tel: phoneNumber.replace(/[^0-9+_)(]/g, ""),
+                  });
+                }}
               />
             </Form.Item>
           </Col>
