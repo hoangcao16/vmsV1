@@ -277,6 +277,7 @@ const MapAdministrativeUnitAdd = (props) => {
         <Row gutter={12}>
           <Col span={24}>
             <Form.Item
+              className="tel"
               label={t("view.map.phone_number")}
               name={["tel"]}
               rules={[
@@ -336,7 +337,7 @@ const MapAdministrativeUnitAdd = (props) => {
                 type="tel"
                 onPhoneNumberChange={(status, phoneNumber, country) => {
                   form.setFieldsValue({
-                    tel: phoneNumber.replace(/[^0-9+_)(]/g, ""),
+                    tel: phoneNumber.replace(/[^0-9+)(-]/g, ""),
                   });
                 }}
               />
