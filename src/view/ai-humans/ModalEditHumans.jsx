@@ -9,7 +9,7 @@ import {
   Row,
   Spin,
   Upload,
-  Select
+  Select,
 } from "antd";
 import { isEmpty } from "lodash-es";
 import React, { useEffect, useState } from "react";
@@ -32,6 +32,8 @@ import AdDivisionApi from "../../actions/api/advision/AdDivision";
 import { filterOption, normalizeOptions } from "../common/select/CustomSelect";
 import "./ModalEditHumans.scss";
 import "../common/reactSelect/CustomReactSelect.scss";
+import PhoneInput from "react-phone-number-input";
+import "react-phone-number-input/style.css";
 import { red } from "@mui/material/colors";
 const AI_URL = process.env.REACT_APP_AI_BASE_URL;
 const DATA_FAKE_UNIT = {
@@ -391,9 +393,14 @@ const ModalEditHumans = (props) => {
               </Form.Item>
             </Col>
             <Col span={6}>
+              <div className="custom_wrapper">
+                <span className="custom_required_feild_red">* </span>
+                <span className="custom_required_feild">
+                  {t("view.ai_humans.phone")}
+                </span>
+              </div>
               <Form.Item
                 name={["phone"]}
-                label={t("view.ai_humans.phone")}
                 rules={[
                   () => ({
                     validator(_, value) {
@@ -429,12 +436,12 @@ const ModalEditHumans = (props) => {
                   }),
                 ]}
               >
-                <Input
+                <PhoneInput
+                  international={false}
+                  defaultCountry="VN"
                   placeholder={t("view.map.please_enter_your_phone_number", {
                     plsEnter: t("please_enter"),
                   })}
-                  onKeyDown={(evt) => evt.key === "e" && evt.preventDefault()}
-                  type="number"
                 />
               </Form.Item>
             </Col>
@@ -513,7 +520,9 @@ const ModalEditHumans = (props) => {
                 <Select
                   showSearch
                   dataSource={administrativeUnits}
-                  onChange={(administrativeUnitUuid) => onChangeADUnitId(administrativeUnitUuid)}
+                  onChange={(administrativeUnitUuid) =>
+                    onChangeADUnitId(administrativeUnitUuid)
+                  }
                   filterOption={filterOption}
                   options={normalizeOptions(
                     "name",
@@ -550,7 +559,11 @@ const ModalEditHumans = (props) => {
                   dataSource={departments}
                   onChange={(aDUnitId) => onChangeDepId(aDUnitId)}
                   filterOption={filterOption}
-                  options={normalizeOptions("name", "administrativeUnitUuid", departments)}
+                  options={normalizeOptions(
+                    "name",
+                    "administrativeUnitUuid",
+                    departments
+                  )}
                   placeholder={t("view.ai_events.department")}
                   getPopupContainer={(triggerNode) => triggerNode.parentNode}
                 />

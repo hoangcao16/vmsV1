@@ -1,107 +1,125 @@
 @import "../../assets/scss/vms.scss";
 .modal__edit--humans {
-    max-width: 960px;
-    .ant-modal-content {
-        border-radius: 12px !important;
+  max-width: 960px;
+  .ant-modal-content {
+    border-radius: 12px !important;
+    background-color: $vms-bg-primary;
+    .ant-modal-header {
+      padding: 0;
+      background-color: $vms-bg-primary;
+      border-bottom: 0;
+      .ant-modal-title {
+        border-radius: 12px 12px 0 0;
         background-color: $vms-bg-primary;
-        .ant-modal-header {
-            padding: 0;
-            background-color: $vms-bg-primary;
-            border-bottom: 0;
-            .ant-modal-title {
-                border-radius: 12px 12px 0 0;
-                background-color: $vms-bg-primary;
-                color: $vms-status;
-                text-align: center;
-                padding-left: 32px;
-                font-size: 2rem;
-            }
-        }
-        .ant-modal-body {
-            width: 100%;
-            // background-color: $vms-bg-sub;
-            background-color: $vms-bg-primary;
-            padding: 14px 32px 30px !important;
-            border-radius: 0 0 12px 12px;
-            label {
-                color: $vms-soft-statuts;
-            }
-            .ant-form-item-control-input {
-                border-radius: 6px;
-                input {
-                    // background-color: $vms-bg-sub !important;
-                    // background-color: $vms-bg-primary !important;
-                    &::placeholder {
-                        color: $vms-status-05 !important;
-                    }
-                }
-            }
-            .ant-form-item-control-input-content {
-                height: 100%;
-                select {
-                    height: 100%;
-                    width: 100%;
-                    background-color: $vms-bg-sub;
-                    border-radius: 6px;
-                    padding: 8px;
-                    color: $vms-status;
-                    outline: none;
-                    border: $vms-border-gray;
-                }
-            }
-            button {
-                padding: 8px 46px;
-                height: 100%;
-                background-color: $vms-main-blue-primary;
-                border-radius: 6px;
-                border: none;
-                span {
-                    color: $vms-status;
-                }
-            }
-        }
-        .footer__modal {
-            border: 0;
-            margin-top: 24px;
-            button {
-                border: 0;
-                border-radius: 6px;
-                padding: 8px 32px;
-                &:hover {
-                    box-shadow: 0 0 8px $vms-main-blue-primary;
-                }
-            }
-            button:first-child {
-                background-color: transparent;
-                border: 1px solid $vms-main-blue-primary;
-                margin-right: 12px;
-                span {
-                    color: $vms-main-blue-primary;
-                }
-            }
-            button:last-child {
-                background-color: $vms-main-blue-primary;
-                border: 1px solid $vms-main-blue-primary;
-                span {
-                    color: $vms-status;
-                }
-            }
-        }
+        color: $vms-status;
+        text-align: center;
+        padding-left: 32px;
+        font-size: 2rem;
+      }
     }
+    .ant-modal-body {
+      width: 100%;
+      // background-color: $vms-bg-sub;
+      background-color: $vms-bg-primary;
+      padding: 14px 32px 30px !important;
+      border-radius: 0 0 12px 12px;
+      label {
+        color: $vms-soft-statuts;
+      }
+      .ant-form-item-control-input {
+        border-radius: 6px;
+        input {
+          // background-color: $vms-bg-sub !important;
+          // background-color: $vms-bg-primary !important;
+          &::placeholder {
+            color: $vms-status-05 !important;
+          }
+        }
+      }
+      .ant-form-item-control-input-content {
+        height: 100%;
+        select {
+          height: 100%;
+          width: 100%;
+          background-color: $vms-bg-sub;
+          border-radius: 6px;
+          padding: 8px;
+          color: $vms-status;
+          outline: none;
+          border: $vms-border-gray;
+        }
+      }
+      button {
+        padding: 8px 46px;
+        height: 100%;
+        background-color: $vms-main-blue-primary;
+        border-radius: 6px;
+        border: none;
+        span {
+          color: $vms-status;
+        }
+      }
+    }
+    .footer__modal {
+      border: 0;
+      margin-top: 24px;
+      button {
+        border: 0;
+        border-radius: 6px;
+        padding: 8px 32px;
+        &:hover {
+          box-shadow: 0 0 8px $vms-main-blue-primary;
+        }
+      }
+      button:first-child {
+        background-color: transparent;
+        border: 1px solid $vms-main-blue-primary;
+        margin-right: 12px;
+        span {
+          color: $vms-main-blue-primary;
+        }
+      }
+      button:last-child {
+        background-color: $vms-main-blue-primary;
+        border: 1px solid $vms-main-blue-primary;
+        span {
+          color: $vms-status;
+        }
+      }
+    }
+  }
 }
 
 .upload__img {
-    width: 161.28px;
-    height: 220px;
-    display: flex;
-    border: 2px solid #191919;
-    flex-direction: column;
-    text-align: center;
-    justify-content: center;
-    border-radius: 6px;
+  width: 161.28px;
+  height: 220px;
+  display: flex;
+  border: 2px solid #191919;
+  flex-direction: column;
+  text-align: center;
+  justify-content: center;
+  border-radius: 6px;
 }
 
 .upload-photo {
-    padding: 0 12px !important;
-    width: 100%;
+  padding: 0 12px !important;
+  width: 100%;
+}
+
+.custom_wrapper {
+  height: 40px;
+  display: flex;
+  align-items: center;
+  .custom_required_feild {
+    color: #e3f0ff !important;
+    font-weight: 500 !important;
+  }
+
+  .custom_required_feild_red {
+    margin-right: 5px;
+    font-size: 14px;
+    font-family: SimSun, sans-serif;
+    line-height: 1;
+    color: #ff4d4f !important;
+  }
 }

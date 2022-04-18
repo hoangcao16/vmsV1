@@ -202,61 +202,47 @@ const ModalEditAdministrativeUnit = (props) => {
     return <Loading />;
   }
 
-  const validatePhoneNumber = (value) => {
-    const pattern = /^[+]*[(]{0,1}[0-9]{1,3}[)]{0,1}[-\s\./0-9]*$/g;
-    if (pattern.test(value) && value.length >= 10) {
-      const notifyMess = {
-        type: NOTYFY_TYPE.error,
-        description: `${t("noti.phone_number_format_is_not_correct")}`,
-      };
-      Notification(notifyMess);
-      return false;
-    }
-    return true;
-  };
-
   const handleSubmit = async (value) => {
-    if (validatePhoneNumber(value?.tel)) {
-      const payload = {
-        ...value,
-        tel: value?.tel,
-        avatarFileName: avatarFileName,
-        lat_: +value?.lat_,
-        long_: +value?.long_,
-      };
+    console.log("value", value);
+    const payload = {
+      ...value,
+      phone: value?.phone,
+      avatarFileName: avatarFileName,
+      lat_: +value?.lat_,
+      long_: +value?.long_,
+    };
 
-      try {
-        if (selectedCategoryId !== null) {
-          const isEdit = await AdDivisionApi.editAdDivision(
-            props.selectedCategoryId,
-            payload
-          );
+    try {
+      if (selectedCategoryId !== null) {
+        const isEdit = await AdDivisionApi.editAdDivision(
+          props.selectedCategoryId,
+          payload
+        );
 
-          if (isEdit) {
-            const notifyMess = {
-              type: "success",
-              title: "",
-              description: `${t("noti.successfully_edit_administrative_unit")}`,
-            };
-            Notification(notifyMess);
-          }
-        } else {
-          const isAdd = await AdDivisionApi.addAdDivision(payload);
-
-          if (isAdd) {
-            const notifyMess = {
-              type: "success",
-              title: "",
-              description: `${t("noti.successfully_add_administrative")}`,
-            };
-            Notification(notifyMess);
-          }
+        if (isEdit) {
+          const notifyMess = {
+            type: "success",
+            title: "",
+            description: `${t("noti.successfully_edit_administrative_unit")}`,
+          };
+          Notification(notifyMess);
         }
+      } else {
+        const isAdd = await AdDivisionApi.addAdDivision(payload);
 
-        setShowModal(false);
-      } catch (error) {
-        console.log(error);
+        if (isAdd) {
+          const notifyMess = {
+            type: "success",
+            title: "",
+            description: `${t("noti.successfully_add_administrative")}`,
+          };
+          Notification(notifyMess);
+        }
       }
+
+      setShowModal(false);
+    } catch (error) {
+      console.log(error);
     }
   };
 
@@ -355,13 +341,20 @@ const ModalEditAdministrativeUnit = (props) => {
                 </Col>
 
                 <Col span={24}>
+                  <div className="custom_wrapper">
+                    <span className="custom_required_feild_red">* </span>
+                    <span className="custom_required_feild">
+                      {t("view.ai_humans.phone")}
+                    </span>
+                  </div>
                   <Form.Item
-                    name={["phone"]}
+                    name={["tel"]}
+                    // label={t("view.ai_humans.phone")}
                     rules={[
                       () => ({
                         validator(_, value) {
                           const valiValue =
-                            document.getElementById("phone").value;
+                            document.getElementById("tel").value;
                           if (!valiValue.length) {
                             return Promise.reject(t("view.map.required_field"));
                           }
@@ -398,7 +391,9 @@ const ModalEditAdministrativeUnit = (props) => {
                       defaultCountry="VN"
                       placeholder={t(
                         "view.map.please_enter_your_phone_number",
-                        { plsEnter: t("please_enter") }
+                        {
+                          plsEnter: t("please_enter"),
+                        }
                       )}
                     />
                   </Form.Item>
