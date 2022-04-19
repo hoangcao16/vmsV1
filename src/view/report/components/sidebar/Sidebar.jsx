@@ -38,7 +38,7 @@ import { reactLocalStorage } from "reactjs-localstorage";
 import AICameraApi from "../../../../actions/api/ai-camera/AICameraApi.js";
 import WeekPicker from "./WeekPicker";
 import { CloudLightning } from "react-feather";
-
+const { RangePicker } = DatePicker;
 moment.locale("en");
 
 const CheckboxGroup = Checkbox.Group;
@@ -941,7 +941,9 @@ function Sidebar(props) {
       setSelectedRowKeys(selectedRowKeys);
     }
   }
-
+  //disabled week date
+  const disabledStartWeekDate = (current) => {};
+  const disabledEndWeekDate = (current) => {};
   return (
     <div className="sidebar">
       <div className="sidebarOption">
@@ -1090,20 +1092,32 @@ function Sidebar(props) {
             <Row gutter={24} style={{ margin: "5px" }}>
               <Col span={12}>
                 <Form.Item name={["timeStartWeek"]}>
-                  <WeekPicker
+                  <DatePicker
+                    onChange={onChangeTimeStartWeek}
+                    picker="week"
+                    disabledDate={disabledStartWeekDate}
+                    dropdownClassName="dropdown__week-picker"
+                  />
+                  {/* <WeekPicker
                     // value={timeStartWeek}
                     onChange={onChangeTimeStartWeek}
                     disableDate={(currentWeek) => {}}
-                  />
+                  /> */}
                 </Form.Item>
               </Col>
               <Col span={12}>
                 <Form.Item name={["timeEndWeek"]}>
-                  <WeekPicker
+                  <DatePicker
+                    onChange={onChangeTimeEndWeek}
+                    picker="week"
+                    disabledDate={disabledEndWeekDate}
+                    dropdownClassName="dropdown__week-picker"
+                  />
+                  {/* <WeekPicker
                     // value={timeEndWeek}
                     onChange={onChangeTimeEndWeek}
                     disableDate={(currentWeek) => {}}
-                  />
+                  /> */}
                 </Form.Item>
               </Col>
             </Row>

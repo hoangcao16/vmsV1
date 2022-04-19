@@ -286,7 +286,14 @@
     }
   }
 }
-
+.dropdown__week-picker {
+  .ant-picker-cell {
+    color: #1671f1;
+  }
+  .ant-picker-week-panel-row:hover td {
+    background: #191919;
+  }
+}
 .chartType {
   color: #1380ff !important;
   font-size: 12px;
