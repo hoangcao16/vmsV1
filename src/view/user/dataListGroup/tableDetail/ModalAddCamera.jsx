@@ -36,7 +36,7 @@ const ModalAddCamera = (props) => {
   const [wards, setWard] = useState([]);
   const [form] = Form.useForm();
   const [name, setName] = useState("");
-  const [id, setId] = useState("");
+  const [wardId, setWardId] = useState("");
 
   const [administrativeUnitUuid, setAdministrativeUnitUuid] = useState("");
   const [vendorUuid, setVendorUuid] = useState("");
@@ -56,7 +56,7 @@ const ModalAddCamera = (props) => {
       name: "",
       provinceId: "",
       districtId: "",
-      id: "",
+      wardId: "",
       administrativeUnitUuid: "",
       vendorUuid: "",
       status: "",
@@ -79,7 +79,7 @@ const ModalAddCamera = (props) => {
       name: "",
       provinceId: "",
       districtId: "",
-      id: "",
+      wardId: "",
       administrativeUnitUuid: "",
       vendorUuid: "",
       status: "",
@@ -128,7 +128,7 @@ const ModalAddCamera = (props) => {
       name: name,
       provinceId: cityId,
       districtId: "",
-      id: "",
+      wardId: "",
       administrativeUnitUuid: administrativeUnitUuid,
       vendorUuid: vendorUuid,
       status: status,
@@ -156,7 +156,7 @@ const ModalAddCamera = (props) => {
     const data = {
       provinceId: provinceId,
       districtId: districtId,
-      id: "",
+      wardId: "",
       name: name,
       administrativeUnitUuid: administrativeUnitUuid,
       vendorUuid: vendorUuid,
@@ -175,12 +175,12 @@ const ModalAddCamera = (props) => {
     setLoading(false);
   };
 
-  const onChangeWard = async (id) => {
-    setId(id);
+  const onChangeWard = async (wardId) => {
+    setWardId(wardId);
     const data = {
       provinceId: provinceId,
       districtId: districtId,
-      id: id,
+      wardId: wardId,
       name: name,
       administrativeUnitUuid: administrativeUnitUuid,
       vendorUuid: vendorUuid,
@@ -204,9 +204,9 @@ const ModalAddCamera = (props) => {
     const data = {
       provinceId: provinceId,
       districtId: districtId,
-      id: id,
+      wardId: wardId,
       name: name,
-      administrativeUnitUuid: administrativeUnitUuid,
+      administrativeUnitUuid: id,
       vendorUuid: vendorUuid,
       status: status,
       page: 1,
@@ -227,7 +227,7 @@ const ModalAddCamera = (props) => {
     const data = {
       provinceId: provinceId,
       districtId: districtId,
-      id,
+      wardId,
       name: name,
       administrativeUnitUuid: administrativeUnitUuid,
       vendorUuid: vendorUuid,
@@ -250,7 +250,7 @@ const ModalAddCamera = (props) => {
     const data = {
       provinceId: provinceId,
       districtId: districtId,
-      id,
+      wardId,
       name: name,
       administrativeUnitUuid: administrativeUnitUuid,
       vendorUuid: vendorUuid,
@@ -290,7 +290,7 @@ const ModalAddCamera = (props) => {
       name: value,
       provinceId: provinceId,
       districtId: districtId,
-      id: id,
+      wardId: wardId,
       administrativeUnitUuid: administrativeUnitUuid,
       vendorUuid: vendorUuid,
       status: status,
