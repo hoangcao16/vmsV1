@@ -271,6 +271,17 @@ export const TableDetails = styled(Row)`
       box-shadow: none !important;
     }
   }
+  .ant-form-item-has-error {
+    .ant-form-item-control {
+      .ant-form-item-control-input {
+        .ant-form-item-control-input-content {
+          .edit-note {
+            border-color: #ff4d4f !important;
+          }
+        }
+      }
+    }
+  }
 `;
 export const ActionButton = styled(Row)`
   width: 100%;
