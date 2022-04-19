@@ -18,6 +18,7 @@ const EditableCell = ({
   handleSave,
   ...restProps
 }) => {
+  const { t } = useTranslation();
   const [editing, setEditing] = useState(false);
   const inputRef = useRef(null);
   const form = useContext(EditableContext);
@@ -56,12 +57,14 @@ const EditableCell = ({
           margin: 0,
         }}
         name={dataIndex}
-        // rules={[
-        //   {
-        //     required: true,
-        //     message: `${title} is required.`,
-        //   },
-        // ]}
+        rules={[
+          //   {
+          //     required: true,
+          //     message: `${title} is required.`,
+          //   },
+          { max: 255, message: t("view.map.max_length_255") },
+        ]}
+        onClick={(e) => e.stopPropagation()}
       >
         <Input
           ref={inputRef}
