@@ -1,4 +1,4 @@
-import { DATA_CHART } from '../constants';
+import { DATA_CHART } from "../constants";
 
 const errorReducer = (state = null, action) => {
   switch (action.type) {

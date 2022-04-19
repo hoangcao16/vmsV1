@@ -239,7 +239,11 @@
       "email_not_valid": "Please fill in valid email, separate by ','",
       "sent": "Sent",
       "select_week": "Select Week",
-      "check_range_time": "Please check the time interval"
+      "check_range_time": "Please check the time interval",
+      "days": "days",
+      "weeks": "weeks",
+      "months": "months",
+      "years": "years"
     },
     "pages": {
       "login": "Login",
@@ -821,7 +825,8 @@
     "start_greater_end": "Can't choose time start greater than or equal to time end",
     "end_smaller_start": "Can't choose time end smaller than or equal to time start",
     "successfully_edit": "Successfully edited",
-    "error_edit": "An error occurred during editing, please check again"
+    "error_edit": "An error occurred during editing, please check again",
+    "check_date_range_again": "Please check date range again. The time picker can't pass {{number}} {{type}}"
   },
   "breadcrumd": {
     "report": "Report Management",
