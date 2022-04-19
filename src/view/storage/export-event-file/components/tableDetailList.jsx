@@ -140,7 +140,7 @@ const TableDetailList = (props) => {
     const data = {
       cameraUuid: row.cameraUuid,
       uuid: row.uuid,
-      note: row?.note,
+      note: row?.note?.trim(),
     };
     try {
       const isEdit = await AIEventsApi.editInforOfEvent(row.uuid, data);
@@ -149,7 +149,7 @@ const TableDetailList = (props) => {
         const newData = [...dataSource];
         const index = newData.findIndex((item) => row.uuid === item.uuid);
         const item = newData[index];
-        newData.splice(index, 1, { ...item, ...row });
+        newData.splice(index, 1, { ...item, ...row, note: row?.note?.trim() });
         setDataSource(newData);
         const notifyMess = {
           type: "success",
