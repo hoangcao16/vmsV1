@@ -626,7 +626,9 @@
       "require-email": "Enter/paste email address",
       "validate-email": "Enter malformed email e.g. abc@gmail.com, xyz@gmail.com",
       "send-a-ticket": "Send ticket",
-      "click-to-view-video": "Click to view video"
+      "click-to-view-video": "Click to view video",
+      "email-addr": "Email address",
+      "select-recipients": "Select recipients"
     }
   },
 
