@@ -370,14 +370,14 @@ export const handleErrCode = ({
       return null;
     case PTZ_FAILSE:
       if (language === "vn") {
-        errCode.description = "Hành động không thành công";
+        errCode.description = "Camera không hỗ trợ chức năng này";
       } else {
-        errCode.description = "Action is not success";
+        errCode.description = "The camera does not support this function";
       }
       Notification(errCode);
       return null;
     case PTZ_CAMERA_NO_CONNECT:
-      if (language === 'vn') {
+      if (language === "vn") {
         errCode.description = "Không gửi được lệnh cho Camera";
       } else {
         errCode.description = "Can't send command to camera";
@@ -385,7 +385,7 @@ export const handleErrCode = ({
       Notification(errCode);
       return null;
     case PTZ_PRESET_NO_EXIST:
-      if (language === 'vn') {
+      if (language === "vn") {
         errCode.description = "Điểm preset chưa được lưu trên Camera";
       } else {
         errCode.description = "Preset point did not be saved on Camera";
@@ -393,7 +393,7 @@ export const handleErrCode = ({
       Notification(errCode);
       return null;
     case PTZ_PRESET_OUT_OF_RANGE:
-      if (language === 'vn') {
+      if (language === "vn") {
         errCode.description = "Giới hạn số lượng điểm preset";
       } else {
         errCode.description = "Limit of the number of preset points";
@@ -401,7 +401,7 @@ export const handleErrCode = ({
       Notification(errCode);
       return null;
     case PTZ_NO_SUPPORT:
-      if (language === 'vn') {
+      if (language === "vn") {
         errCode.description = "Không hỗ trợ hành động";
       } else {
         errCode.description = "This action is not supported";
@@ -409,15 +409,16 @@ export const handleErrCode = ({
       Notification(errCode);
       return null;
     case PTZ_NO_EXIST:
-      if (language === 'vn') {
-        errCode.description = "Chưa có PTZ Onvif nào được cấu hình tại Zone này";
+      if (language === "vn") {
+        errCode.description =
+          "Chưa có PTZ Onvif nào được cấu hình tại Zone này";
       } else {
         errCode.description = "No PTZ Onvif is configured in this Zone";
       }
       Notification(errCode);
       return null;
     case PTZ_CONNECTED_NOT_EXIST:
-      if (language === 'vn') {
+      if (language === "vn") {
         errCode.description = "Không có PTZ Onvif nào trực tuyến tại Zone này";
       } else {
         errCode.description = "No online PTZ Onvif in this Zone";
@@ -425,7 +426,7 @@ export const handleErrCode = ({
       Notification(errCode);
       return null;
     case PTZ_NOT_RESPONSE:
-      if (language === 'vn') {
+      if (language === "vn") {
         errCode.description = "PTZ Onvif không phải hồi";
       } else {
         errCode.description = "PTZ Onvif is not responding";
@@ -433,7 +434,7 @@ export const handleErrCode = ({
       Notification(errCode);
       return null;
     case PTZ_CANT_READ_RESPONSE:
-      if (language === 'vn') {
+      if (language === "vn") {
         errCode.description = "Không đọc được phản hồi từ PTZ Onvif";
       } else {
         errCode.description = "Can't read response from";
@@ -441,7 +442,7 @@ export const handleErrCode = ({
       Notification(errCode);
       return null;
     case PTZ_LOGIN_FAILSE:
-      if (language === 'vn') {
+      if (language === "vn") {
         errCode.description = "Đăng nhập để điều khiển Camera không thành công";
       } else {
         errCode.description = "Login to control Camera failed";
@@ -449,7 +450,7 @@ export const handleErrCode = ({
       Notification(errCode);
       return null;
     case PTZ_PARAM_MISSING:
-      if (language === 'vn') {
+      if (language === "vn") {
         errCode.description = "Thiếu thông tin về Camera";
       } else {
         errCode.description = "Camera information is missing";
@@ -457,15 +458,17 @@ export const handleErrCode = ({
       Notification(errCode);
       return null;
     case PTZ_ACTION_MISSING:
-      if (language === 'vn') {
-        errCode.description = "Không tìm được hành động phù hợp (PTZ Onvif). Liên hệ quản trị viên";
+      if (language === "vn") {
+        errCode.description =
+          "Không tìm được hành động phù hợp (PTZ Onvif). Liên hệ quản trị viên";
       } else {
-        errCode.description = "No appropriate action was found (PTZ Onvif). Please contact administrator";
+        errCode.description =
+          "No appropriate action was found (PTZ Onvif). Please contact administrator";
       }
       Notification(errCode);
       return null;
     case CANT_INSERT_DATABASE:
-      if (language === 'vn') {
+      if (language === "vn") {
         errCode.description = "Không thêm được vào cơ sở dữ liệu";
       } else {
         errCode.description = "Can't insert to database";
@@ -473,7 +476,7 @@ export const handleErrCode = ({
       Notification(errCode);
       return null;
     case CANT_UPDATE_DATABASE:
-      if (language === 'vn') {
+      if (language === "vn") {
         errCode.description = "Không cập nhật được vào cơ sở dữ liệu";
       } else {
         errCode.description = "Can't update to database";
@@ -481,7 +484,7 @@ export const handleErrCode = ({
       Notification(errCode);
       return null;
     case CANT_DELETE_DATABASE:
-      if (language === 'vn') {
+      if (language === "vn") {
         errCode.description = "Không xóa được cơ sở dữ liệu";
       } else {
         errCode.description = "Can't delete database";
@@ -489,7 +492,7 @@ export const handleErrCode = ({
       Notification(errCode);
       return null;
     case ISAPI_CANT_FIND_CHANEL:
-      if (language === 'vn') {
+      if (language === "vn") {
         errCode.description = "Không tìm được kênh của Camera";
       } else {
         errCode.description = "Can't find Camera's channel";
@@ -497,7 +500,7 @@ export const handleErrCode = ({
       Notification(errCode);
       return null;
     case SCAN_EMPTY:
-      if (language === 'vn') {
+      if (language === "vn") {
         errCode.description = "Không tìm thấy thiết bị nào";
       } else {
         errCode.description = "Can't find any device";
@@ -505,7 +508,7 @@ export const handleErrCode = ({
       Notification(errCode);
       return null;
     case SCAN_FAILED:
-      if (language === 'vn') {
+      if (language === "vn") {
         errCode.description = "Không quét được";
       } else {
         errCode.description = "Can't scan";
@@ -513,7 +516,7 @@ export const handleErrCode = ({
       Notification(errCode);
       return null;
     default:
-      if (language === 'vn') {
+      if (language === "vn") {
         errCode.description = "Không xác định";
       } else {
         errCode.description = "Unknown";
@@ -525,7 +528,7 @@ export const handleErrCode = ({
 
 export const handleDeleteErrCode = ({ code, message, payload }) => {
   let errCode = {};
-  if (language === 'vn') {
+  if (language === "vn") {
     errCode = {
       type: "error",
       title: "Mã lỗi: " + code,
@@ -542,7 +545,7 @@ export const handleDeleteErrCode = ({ code, message, payload }) => {
     case OKE:
       return { code, message, payload };
     default:
-      if (language === 'vn') {
+      if (language === "vn") {
         errCode.description = "Không xác định";
       } else {
         errCode.description = "Unknown";
