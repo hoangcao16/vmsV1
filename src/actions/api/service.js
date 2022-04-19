@@ -1,19 +1,19 @@
-import { reactLocalStorage } from 'reactjs-localstorage';
-import controllerApi from '../../api/controller-api/api';
-import Notification from '../../components/vms/notification/Notification';
-import { history } from '../../history';
+import { reactLocalStorage } from "reactjs-localstorage";
+import controllerApi from "../../api/controller-api/api";
+import Notification from "../../components/vms/notification/Notification";
+import { history } from "../../history";
 import axios from "axios";
 import _uniqueId from "lodash/uniqueId";
-import {NOTYFY_TYPE} from "../../view/common/vms/Constant";
+import { NOTYFY_TYPE } from "../../view/common/vms/Constant";
 
 const BASE_URL = process.env.REACT_APP_BASE_URL;
 
 const getHeadersDownload = () => {
   let headers = {
-    Accept: 'application/json',
-    'Content-Type': 'application/json; charset=utf-8'
+    Accept: "application/json",
+    "Content-Type": "application/json; charset=utf-8",
   };
-  let user = reactLocalStorage.getObject('user', null);
+  let user = reactLocalStorage.getObject("user", null);
   if (user !== null) {
     let token = user.token;
     if (token) {
@@ -33,8 +33,8 @@ const MyService = {
       response.data.code === 179 ||
       response.data.code === 180
     ) {
-      reactLocalStorage.remove('user');
-      history.push('/pages/login');
+      reactLocalStorage.remove("user");
+      history.push("/pages/login");
       return false;
     }
     return true;
@@ -43,18 +43,17 @@ const MyService = {
   async getRequestData(url, queryParams) {
     const response = await controllerApi.axiosIns
       .get(`${BASE_URL}${url}`, {
-        params: queryParams
+        params: queryParams,
       })
 
       .catch((error) => {
         const notifyMess = {
-          type: 'error',
-          title: '',
-          description: error.response.data.errors.message
+          type: "error",
+          title: "",
+          description: error.response.data.errors.message,
         };
         Notification(notifyMess);
       });
-
     if (response && response.data) {
       return response.data;
     }
@@ -63,33 +62,31 @@ const MyService = {
 
   async getRequestDataBlob(url, data) {
     return await axios
-        .get(BASE_URL + url,
-            {
-              params: data,
-              headers: {
-                ...getHeadersDownload(),
-                requestId: _uniqueId('cctv')
-              },
-              responseType: 'blob',
-            }
-        )
-        .then((response) => {
-          if (response && response?.data) {
-            let check = this._checkResponse(response);
-            if (!check) {
-              return;
-            }
-            return response.data;
+      .get(BASE_URL + url, {
+        params: data,
+        headers: {
+          ...getHeadersDownload(),
+          requestId: _uniqueId("cctv"),
+        },
+        responseType: "blob",
+      })
+      .then((response) => {
+        if (response && response?.data) {
+          let check = this._checkResponse(response);
+          if (!check) {
+            return;
           }
-        })
-        .catch((e) => {
-          Notification({
-            type: NOTYFY_TYPE.warning,
-            title: '',
-            description: e.toString()
-          });
-          return {};
+          return response.data;
+        }
+      })
+      .catch((e) => {
+        Notification({
+          type: NOTYFY_TYPE.warning,
+          title: "",
+          description: e.toString(),
         });
+        return {};
+      });
   },
 
   async postRequestData(url, data) {
@@ -97,9 +94,9 @@ const MyService = {
       .post(`${BASE_URL}${url}`, data)
       .catch((error) => {
         const notifyMess = {
-          type: 'error',
-          title: '',
-          description: error.response.data.error
+          type: "error",
+          title: "",
+          description: error.response.data.error,
         };
         Notification(notifyMess);
       });
@@ -114,32 +111,30 @@ const MyService = {
 
   async postRequestDataBlob(url, data) {
     return await axios
-        .post(BASE_URL + url, data,
-            {
-              headers: {
-                ...getHeadersDownload(),
-                requestId: _uniqueId('cctv')
-              },
-              responseType: 'blob',
-            }
-        )
-        .then((response) => {
-          if (response && response?.data) {
-            let check = this._checkResponse(response);
-            if (!check) {
-              return;
-            }
-            return response.data;
+      .post(BASE_URL + url, data, {
+        headers: {
+          ...getHeadersDownload(),
+          requestId: _uniqueId("cctv"),
+        },
+        responseType: "blob",
+      })
+      .then((response) => {
+        if (response && response?.data) {
+          let check = this._checkResponse(response);
+          if (!check) {
+            return;
           }
-        })
-        .catch((e) => {
-          Notification({
-            type: NOTYFY_TYPE.warning,
-            title: '',
-            description: e.toString()
-          });
-          return {};
+          return response.data;
+        }
+      })
+      .catch((e) => {
+        Notification({
+          type: NOTYFY_TYPE.warning,
+          title: "",
+          description: e.toString(),
         });
+        return {};
+      });
   },
 
   async putRequestData(url, data) {
@@ -147,9 +142,9 @@ const MyService = {
       .put(`${BASE_URL}${url}`, data)
       .catch((error) => {
         const notifyMess = {
-          type: 'error',
-          title: '',
-          description: error.response.data.errors.message
+          type: "error",
+          title: "",
+          description: error.response.data.errors.message,
         };
         Notification(notifyMess);
       });
@@ -168,9 +163,9 @@ const MyService = {
       .delete(`${BASE_URL}${url}`)
       .catch((error) => {
         const notifyMess = {
-          type: 'error',
-          title: '',
-          description: error.response.data.errors.message
+          type: "error",
+          title: "",
+          description: error.response.data.errors.message,
         };
         Notification(notifyMess);
       });
@@ -182,7 +177,7 @@ const MyService = {
       }
       return response.data;
     }
-  }
+  },
 };
 
 export default MyService;

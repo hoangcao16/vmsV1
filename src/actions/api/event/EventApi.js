@@ -1,5 +1,5 @@
-import { responseCheckerErrorsController } from '../../function/MyUltil/ResponseChecker';
-import MyService from '../service';
+import { responseCheckerErrorsController } from "../../function/MyUltil/ResponseChecker";
+import MyService from "../service";
 
 const EventApi = {
   getAllEvent: async (data) => {
@@ -12,7 +12,7 @@ const EventApi = {
       console.log(error);
     }
 
-    if (responseCheckerErrorsController(result, 'noMessage') === null) {
+    if (responseCheckerErrorsController(result, "noMessage") === null) {
       return [];
     }
     return result.payload;
@@ -76,7 +76,7 @@ const EventApi = {
       return false;
     }
     return true;
-  }
+  },
 };
 
 export default EventApi;

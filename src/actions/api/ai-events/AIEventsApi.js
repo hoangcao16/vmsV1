@@ -3,6 +3,7 @@ import AIService from "../ai-service";
 import { reactLocalStorage } from "reactjs-localstorage";
 import { NOTYFY_TYPE } from "../../../view/common/vms/Constant";
 import FileService from "../exporteventfile/fileservice";
+import MyService from "../service";
 
 const AI_SOURCE = process.env.REACT_APP_AI_SOURCE;
 const language = reactLocalStorage.get("language");
@@ -24,7 +25,6 @@ const AIEventsApi = {
       return [];
     }
 
-    console.log(result);
     return result;
   },
   getTracingEvents: async (uuid, params) => {
@@ -135,6 +135,19 @@ const AIEventsApi = {
       return null;
     }
     return result;
+  },
+
+  getAiEvent: async (params) => {
+    let result;
+    try {
+      result = await MyService.getRequestData(
+        `/cctv-controller-svc/api/v1/events-ai?name=&type=${params}`
+      );
+    } catch (error) {
+      console.log(error);
+    }
+
+    return result.payload;
   },
 };
 
