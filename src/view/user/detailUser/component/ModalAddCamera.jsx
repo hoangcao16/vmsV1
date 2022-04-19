@@ -116,7 +116,8 @@ const ModalAddCamera = (props) => {
 
   const onChangeCity = async (cityId) => {
     setProvinceId(cityId);
-
+    setDistrictId(null);
+    setWardId(null);
     await resetDistrictAndWardData();
 
     let data = {
@@ -145,6 +146,7 @@ const ModalAddCamera = (props) => {
 
   const onChangeDistrict = async (districtId) => {
     setDistrictId(districtId);
+    setWardId(null);
     await resetWardData();
     const data = {
       provinceId: provinceId,
