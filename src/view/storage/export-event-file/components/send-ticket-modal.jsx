@@ -12,15 +12,15 @@ import { useTranslation } from "react-i18next";
 import { useForm, Controller } from "react-hook-form";
 const OutSideSystemOptions = [
   {
-    label: "Hệ thống 1",
+    label: "Đội CSGT số 1",
     value: 1,
   },
   {
-    label: "Hệ thống 2",
+    label: "Đội CSGT số 2",
     value: 2,
   },
   {
-    label: "Hệ thống 3",
+    label: "Đội CSGT số 3",
     value: 3,
   },
 ];
@@ -84,6 +84,7 @@ const SendTicketModal = ({
                       options={OutSideSystemOptions}
                       className="react-select"
                       classNamePrefix="select-outside-system"
+                      placeholder={t("view.penalty_ticket.select-recipients")}
                     />
                   ) : (
                     <Controller
@@ -103,6 +104,7 @@ const SendTicketModal = ({
                             autoSize={true}
                             maxLength={100}
                             {...field}
+                            placeholder={t("view.penalty_ticket.email-addr")}
                             data-type={errors?.email ? "error" : "normal"}
                           />
                           <ErrorMessage>{errors.email?.message}</ErrorMessage>
