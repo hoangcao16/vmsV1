@@ -278,4 +278,7 @@ export const ActionButton = styled(Row)`
   .ml-8 {
     margin-left: 8px;
   }
+  .ant-btn-primary[disabled] {
+    background-color: #888 !important;
+  }
 `;

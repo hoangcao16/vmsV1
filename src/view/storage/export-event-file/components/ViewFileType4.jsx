@@ -270,6 +270,11 @@ const Viewfiletype4 = ({
           <Row>
             <Col>
               <Button
+                disabled={
+                  processState.value === processingstatusOptions[2].value
+                    ? true
+                    : false
+                }
                 type="primary"
                 onClick={handleShowTicketModal}
                 className="vms-ant-btn"
