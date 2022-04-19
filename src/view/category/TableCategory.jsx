@@ -38,7 +38,7 @@ import ModalViewDetail from "./ModalViewDetail";
 import "./TableCategory.scss";
 import { bodyStyleCard, headStyleCard } from "./variables";
 import debounce from "lodash/debounce";
-
+const AI_SOURCE = process.env.REACT_APP_AI_SOURCE;
 export const CATEGORY_NAME = {
   EVENT_TYPE: "EVENT_TYPE",
   VENDOR: "VENDOR",
@@ -79,7 +79,7 @@ const TableCategory = () => {
   const handleChange = (value) => {
     setDataType(value);
     setSearch("");
-    handleSearch("")
+    handleSearch("");
   };
 
   const getDataByCategory = (dataType) => {
@@ -179,9 +179,11 @@ const TableCategory = () => {
             <Option value={CATEGORY_NAME.TAGS}>
               {t("view.category.tags")}
             </Option>
-            <Option value={CATEGORY_NAME.DEPARTMENTS}>
-              {t("view.category.department")}
-            </Option>
+            {AI_SOURCE === "edso" && (
+              <Option value={CATEGORY_NAME.DEPARTMENTS}>
+                {t("view.category.department")}
+              </Option>
+            )}
           </Select>
 
           <Tooltip placement="top" title={t("add")}>

@@ -43,7 +43,7 @@ const SendTicketModal = ({
     control,
     reset,
     formState: { errors },
-  } = useForm({ mode: "all", defaultValues: defaultValues });
+  } = useForm({ defaultValues: defaultValues });
   useEffect(() => {
     reset(defaultValues);
     // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -90,9 +90,14 @@ const SendTicketModal = ({
                     <Controller
                       name="email"
                       rules={{
+                        // pattern: {
+                        //   value:
+                        //     /^([a-zA-Z0-9]+([\._-]?[a-zA-Z0-9]+)*@[a-zA-Z0-9]+([\_-]?[a-zA-Z0-9]+)*(\.[a-zA-Z]{2,4}){1,2})+(\s*[,]\s*([a-zA-Z0-9]+([\._-]?[a-zA-Z0-9]+)*@[a-zA-Z0-9]+([\_-]?[a-zA-Z0-9]+)*(\.[a-zA-Z]{2,4}){1,2})+)*$/,
+                        //   message: t("view.penalty_ticket.validate-email"),
+                        // },
                         pattern: {
                           value:
-                            /^([a-zA-Z0-9]+([\._-]?[a-zA-Z0-9]+)*@[a-zA-Z0-9]+([\_-]?[a-zA-Z0-9]+)*(\.[a-zA-Z]{2,4}){1,2})+(\s*[,]\s*([a-zA-Z0-9]+([\._-]?[a-zA-Z0-9]+)*@[a-zA-Z0-9]+([\_-]?[a-zA-Z0-9]+)*(\.[a-zA-Z]{2,4}){1,2})+)*$/,
+                            /^(([a-zA-Z0-9_\-\.]+)@([a-zA-Z0-9_\-\.]+)\.([a-zA-Z]{2,5}){1,25})+(\s*[,.]\s*(([a-zA-Z0-9_\-\.]+)@([a-zA-Z0-9_\-\.]+)\.([a-zA-Z]{2,5}){1,25})+)*$/,
                           message: t("view.penalty_ticket.validate-email"),
                         },
                         required: t("view.penalty_ticket.require-email"),
