@@ -242,6 +242,7 @@ export const TableDetails = styled(Row)`
     cursor: pointer;
     min-height: 32px;
     min-width: 290px;
+    max-width: 400px;
   }
   .ant-table-tbody > tr.selected > td {
     background: #333333;
@@ -265,7 +266,9 @@ export const TableDetails = styled(Row)`
     min-height: auto;
   }
   .edit-note {
-    height: 32px !important;
+    /* height: 32px !important; */
+    min-width: 290px;
+    max-width: 400px;
     &:hover,
     &:focus {
       box-shadow: none !important;
@@ -276,6 +279,7 @@ export const TableDetails = styled(Row)`
       .ant-form-item-control-input {
         .ant-form-item-control-input-content {
           .edit-note {
+            background-color: #333333;
             border-color: #ff4d4f !important;
           }
         }

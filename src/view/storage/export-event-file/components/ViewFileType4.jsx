@@ -2,7 +2,7 @@ import React from "react";
 import { Row, Col, Popconfirm, Button, Space, Spin } from "antd";
 import { StyledEventFileDetail, ActionButton } from "./style";
 import { useTranslation } from "react-i18next";
-import SelectType from "./select-type";
+// import SelectType from "./select-type";
 import "./../../../commonStyle/commonPopconfirm.scss";
 import { CloseOutlined } from "@ant-design/icons";
 import { MemoizedTableDetailList } from "./tableDetailList";
@@ -12,13 +12,14 @@ const Viewfiletype4 = ({
   // objectType,
   detailAI,
   processState,
-  handleSelectProgessState,
+  // handleSelectProgessState,
   imageOther,
   deleteImageHandler,
   viewImageAIHandler,
   handleShowTicketModal,
   tracingList,
   onClickRow,
+  editNoteUpdate,
   //   handleUpdateTHXL,
 }) => {
   const { t } = useTranslation();
@@ -37,7 +38,6 @@ const Viewfiletype4 = ({
   //     label: `${t("view.ai_events.type_object.human")}`,
   //   },
   // ];
-  console.log("detailAI", detailAI);
   const processingstatusOptions = [
     {
       value: "process",
@@ -276,6 +276,7 @@ const Viewfiletype4 = ({
         tracingList={tracingList}
         detailAI={detailAI}
         onClickRow={onClickRow}
+        editNoteUpdate={editNoteUpdate}
       ></MemoizedTableDetailList>
       <ActionButton>
         <Col span={4} offset={20}>

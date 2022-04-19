@@ -55,8 +55,8 @@ const PrintSection = ({
               {t("view.penalty_ticket.vehicle_type")}
             </td>
             <td style={{ paddingBottom: "16px", textAlign: "left" }}>
-              {data?.typeObject &&
-                t("view.ai_events.type_object." + data?.typeObject)}
+              {data?.vehicleType && data?.vehicleType}
+              {/* t("view.ai_events.type_object." + data?.typeObject)} */}
             </td>
           </tr>
           <tr>
@@ -113,7 +113,7 @@ const PrintSection = ({
               {t("view.penalty_ticket.violation_type")}
             </td>
             <td style={{ paddingBottom: "16px", textAlign: "left" }}>
-              {data?.subEventType && t("view.ai_events." + data?.subEventType)}
+              {data?.eventType && t("view.ai_events." + data?.eventType)}
             </td>
           </tr>
           <tr>
@@ -189,7 +189,13 @@ const PrintSection = ({
     </div>
   );
 };
-const TicketModal = ({ visible, handleOk, handleCancel, data }) => {
+const TicketModal = ({
+  visible,
+  handleOk,
+  handleCancel,
+  data,
+  handleSelectProgessState,
+}) => {
   const { t } = useTranslation();
   const componentRef = useRef();
   const [fine, setFine] = useState("");
@@ -201,6 +207,20 @@ const TicketModal = ({ visible, handleOk, handleCancel, data }) => {
   const handleOpenSendModal = () => {
     setSendModalVisible(true);
   };
+  const processingstatusOptions = [
+    {
+      value: "process",
+      label: `${t("view.ai_events.processing-status.process")}`,
+    },
+    {
+      value: "processed",
+      label: `${t("view.ai_events.processing-status.processed")}`,
+    },
+    {
+      value: "not_processed",
+      label: `${t("view.ai_events.processing-status.not_processed")}`,
+    },
+  ];
   const handleSendTicket = (e) => {
     StyledConfirmSend.confirm({
       title: t("view.penalty_ticket.confirm_send"),
@@ -228,6 +248,7 @@ const TicketModal = ({ visible, handleOk, handleCancel, data }) => {
         try {
           let isSend = await SendEmailApi.sendEmail(dataSend);
           if (isSend) {
+            handleSelectProgessState(processingstatusOptions[1]);
             const notifyMess = {
               type: "success",
               title: `${t("noti.success")}`,

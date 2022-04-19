@@ -34,7 +34,6 @@ import {
   normalizeOptions,
 } from "../../common/select/CustomSelect";
 import locale from "antd/lib/date-picker/locale/vi_VN";
-const AI_SOURCE = process.env.REACT_APP_AI_SOURCE;
 
 const TableFile = (props) => {
   const { t } = useTranslation();
@@ -109,7 +108,9 @@ const TableFile = (props) => {
       return value;
     }
   };
-
+  const renderStatus = (value) => {
+    return t(`view.ai_events.processing-status.${value}`);
+  };
   const renderSubtype = (value) => {
     return (
       <Tooltip title={value}>
@@ -334,7 +335,7 @@ const TableFile = (props) => {
         {
           title: `${t("view.storage.event")}`,
           width: 120,
-          dataIndex: "subEventType",
+          dataIndex: "eventType",
           render: renderSubtype,
         },
         // {
@@ -369,12 +370,13 @@ const TableFile = (props) => {
           dataIndex: "status",
           key: "status",
           width: 160,
-          render: renderName,
+          render: renderStatus,
         },
         {
           title: `${t("view.storage.note")}`,
           width: 160,
           dataIndex: "note",
+          render: renderName,
         },
       ];
     } else {
@@ -940,7 +942,7 @@ const TableFile = (props) => {
                               <li className="eventName">{value.eventName}</li>
                             ) : (
                               <li className="eventName">
-                                {t("view.ai_events." + value.subEventType)}
+                                {t("view.ai_events." + value.eventType)}
                               </li>
                             )}
                             {value.fileName ? (

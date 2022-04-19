@@ -8,7 +8,7 @@ import Notification from "../../../../components/vms/notification/Notification";
 import { useTranslation } from "react-i18next";
 
 const EditableContext = React.createContext(null);
-
+const { TextArea } = Input;
 const EditableCell = ({
   title,
   editable,
@@ -66,7 +66,9 @@ const EditableCell = ({
         ]}
         onClick={(e) => e.stopPropagation()}
       >
-        <Input
+        <TextArea
+          autoSize={true}
+          maxLength={255}
           ref={inputRef}
           onPressEnter={save}
           onBlur={save}
@@ -102,41 +104,41 @@ const TableDetailList = (props) => {
   const [dataSource, setDataSource] = useState([]);
   let tracingList = props.tracingList || [];
   let detailAI = props.detailAI || {};
+  const { editNoteUpdate } = props;
   const { t } = useTranslation();
   const datacolumns = [
     {
-      title: "Ngày giờ ghi nhận",
+      title: t("view.penalty_ticket.violation_datetime"),
       dataIndex: "createdTime",
       key: "createdTime",
       render: (text) => <span>{moment(text).format("HH:mm DD/MM/YYYY")}</span>,
     },
     {
-      title: "Camera ghi nhận",
+      title: t("view.live.camera_record"),
       dataIndex: "cameraName",
       key: "cameraName",
     },
     {
-      title: "Loại vi phạm",
+      title: t("view.penalty_ticket.violation_type"),
       dataIndex: "eventName",
       key: "eventName",
     },
     {
-      title: "Địa điểm",
+      title: t("view.map.address"),
       dataIndex: "address",
       key: "address",
     },
     {
-      title: "Ghi chú",
+      title: t("view.common_device.note"),
       dataIndex: "note",
       key: "note",
       editable: true,
+      width: "30%",
     },
   ];
   useEffect(() => {
-    setDataSource(tracingList?.payload);
+    setDataSource(tracingList);
   }, [tracingList]);
-  // const dataSource = tracingList?.payload;
-  // console.log("dataSource", dataSource);
 
   // Edit note
   const handleSave = async (row) => {
@@ -157,9 +159,10 @@ const TableDetailList = (props) => {
         const notifyMess = {
           type: "success",
           title: "",
-          description: `${t("noti.successfully_edit")}`,
+          description: `${t("noti.successfully_edit_note")}`,
         };
         Notification(notifyMess);
+        editNoteUpdate(row);
       } else {
         const notifyMess = {
           type: "error",

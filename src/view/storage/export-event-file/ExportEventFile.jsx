@@ -366,8 +366,8 @@ const ExportEventFile = () => {
       };
       AIEventsApi.getTracingEvents(fileCurrent.uuid, payload)
         .then((data) => {
-          setTracingList(data);
-          return data.payload;
+          setTracingList(data?.payload);
+          return data?.payload;
         })
         .then((data) => {
           const longLats = data.map((item) => {
@@ -1805,12 +1805,29 @@ const ExportEventFile = () => {
       const isEdit = await AIEventsApi.editInforOfEvent(detailAI.uuid, data);
 
       if (isEdit) {
-        const notifyMess = {
-          type: "success",
-          title: "",
-          description: `${t("noti.successfully_edit")}`,
-        };
-        Notification(notifyMess);
+        // const notifyMess = {
+        //   type: "success",
+        //   title: "",
+        //   description: `${t("noti.successfully_edit_status")}`,
+        // };
+        // Notification(notifyMess);
+        const copyTracingList = JSON.parse(JSON.stringify(tracingList));
+        const copyListFiles = JSON.parse(JSON.stringify(listFiles));
+        const tracingIndex = copyTracingList?.findIndex((item) => {
+          return item.uuid === detailAI.uuid;
+        });
+        const listFilesIndex = copyListFiles?.findIndex((item) => {
+          return item.uuid === detailAI.uuid;
+        });
+        if (tracingIndex !== -1) {
+          copyTracingList[tracingIndex].status = value?.value;
+          setTracingList(copyTracingList);
+        }
+        if (listFilesIndex !== -1) {
+          copyListFiles[listFilesIndex].status = value?.value;
+          setListFiles(copyListFiles);
+        }
+        setDetailAI({ ...detailAI, status: value?.value });
       } else {
         const notifyMess = {
           type: "error",
@@ -1825,6 +1842,25 @@ const ExportEventFile = () => {
       // );
       console.log(error);
     }
+  };
+  const editNoteUpdate = async (event) => {
+    const copyTracingList = JSON.parse(JSON.stringify(tracingList));
+    const copyListFiles = JSON.parse(JSON.stringify(listFiles));
+    const tracingIndex = copyTracingList?.findIndex((item) => {
+      return item.uuid === event.uuid;
+    });
+    const listFilesIndex = copyListFiles?.findIndex((item) => {
+      return item.uuid === event.uuid;
+    });
+    if (tracingIndex !== -1) {
+      copyTracingList[tracingIndex].note = event.note;
+      setTracingList(copyTracingList);
+    }
+    if (listFilesIndex !== -1) {
+      copyListFiles[listFilesIndex].note = event.note;
+      setListFiles(copyListFiles);
+    }
+    setDetailAI({ ...detailAI, note: event.note });
   };
   const handleUpdateTHXL = async () => {
     ConfirmUpdate.confirm({
@@ -1959,6 +1995,7 @@ const ExportEventFile = () => {
             handleShowTicketModal={handleShowTicketModal}
             tracingList={tracingList}
             onClickRow={onClickTableListEvent}
+            editNoteUpdate={editNoteUpdate}
             // handleUpdateTHXL={handleUpdateTHXL}
           />
         </>
@@ -2471,6 +2508,7 @@ const ExportEventFile = () => {
         handleOk={handleOk}
         handleCancel={handleCancel}
         data={detailAI}
+        handleSelectProgessState={handleSelectProgessState}
       />
     </>
   );
