@@ -282,6 +282,7 @@ const MapCameraAdd = (props) => {
               label={t("view.map.camera_name", { cam: t("camera") })}
               rules={[
                 { required: true, message: t("view.map.required_field") },
+                { max: 255, message: t("view.map.max_length_255") },
               ]}
             >
               <Input
@@ -289,7 +290,7 @@ const MapCameraAdd = (props) => {
                   plsEnter: t("please_enter"),
                   cam: t("camera"),
                 })}
-                maxLength={255}
+                // maxLength={255}
                 onBlur={(e) => {
                   form.setFieldsValue({
                     name: e.target.value.trim(),

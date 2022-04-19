@@ -197,7 +197,8 @@
       "please_enter_original_url": "{{plsEnter}} URL gốc",
       "save_live_camera": "Lưu {{cam}} trực tuyến",
       "hls_url": "HLS URL",
-      "please_enter_hls_url": "{{plsEnter}} HLS URL"
+      "please_enter_hls_url": "{{plsEnter}} HLS URL",
+      "max_length_255": "Độ dài tối đa 255 ký tự"
     },
     "maps": {
       "add_camera": "{{add}} mới {{cam}}",

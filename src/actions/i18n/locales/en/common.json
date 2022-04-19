@@ -196,7 +196,8 @@
       "please_enter_original_url": "{{plsEnter}} Original URL",
       "save_live_camera": "Save Live {{cam}}",
       "hls_url": "HLS URL",
-      "please_enter_hls_url": "{{plsEnter}} HLS URL"
+      "please_enter_hls_url": "{{plsEnter}} HLS URL",
+      "max_length_255": "Max length 255"
     },
     "maps": {
       "not_provide": "Not provide",
