@@ -485,7 +485,6 @@ const TableFile = (props) => {
 
   useEffect(() => {
     AIEventsApi.getAiEvent(AI_SOURCE).then((data) => {
-      console.log("data", data);
       setEventAi(data);
     });
   }, []);
