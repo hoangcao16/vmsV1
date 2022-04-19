@@ -598,7 +598,12 @@
       "UnKnow": "UnKnow",
       "camera_name": "Camera",
       "typeObject": "Type",
-      "delete": "delete"
+      "delete": "delete",
+      "processing-status": {
+        "process": "Process",
+        "processed": "Processed",
+        "not_processed": "Cancel"
+      }
     },
     "department": {
       "administrative": "Aministrative Unit",
