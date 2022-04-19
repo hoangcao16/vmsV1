@@ -98,12 +98,13 @@ const SendTicketModal = ({
                         required: t("view.penalty_ticket.require-email"),
                       }}
                       control={control}
-                      render={({ field }) => (
+                      render={({ field: { onChange, value } }) => (
                         <>
                           <StyledEmailInput
                             autoSize={true}
                             maxLength={100}
-                            {...field}
+                            onChange={(e) => onChange(e.target.value?.trim())}
+                            value={value}
                             placeholder={t("view.penalty_ticket.email-addr")}
                             data-type={errors?.email ? "error" : "normal"}
                           />

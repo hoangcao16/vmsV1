@@ -833,7 +833,8 @@
     "fail_sent_mail": "Gửi mail thất bại",
     "start_greater_end": "Không được chọn thời gian bắt đầu lớn hơn hoặc bằng thời gian kết thúc",
     "end_smaller_start": "Không được chọn thời gian kết thúc nhỏ hơn hoặc bằng thời gian bắt đầu",
-    "successfully_edit": "Chỉnh sửa thành công",
+    "successfully_edit_status": "Chỉnh sửa trạng thái thành công",
+    "successfully_edit_note": "Chỉnh sửa ghi chú thành công",
     "error_edit": "Đã xảy ra lỗi trong quá trình chỉnh sửa, hãy kiểm tra lại",
     "check_date_range_again": "Vui lòng chọn lại khoảng thời gian. Thời gian chọn không vượt quá {{number}} {{type}}"
   },
