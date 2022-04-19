@@ -37,10 +37,20 @@ const Viewfiletype4 = ({
   //     label: `${t("view.ai_events.type_object.human")}`,
   //   },
   // ];
+  console.log("detailAI", detailAI);
   const processingstatusOptions = [
-    { value: "process", label: "Chưa xử lý" },
-    { value: "processed", label: "Đã xử lý" },
-    { value: "not_processed", label: "Hủy" },
+    {
+      value: "process",
+      label: `${t("view.ai_events.processing-status.process")}`,
+    },
+    {
+      value: "processed",
+      label: `${t("view.ai_events.processing-status.processed")}`,
+    },
+    {
+      value: "not_processed",
+      label: `${t("view.ai_events.processing-status.not_processed")}`,
+    },
   ];
   const hasImage = imageOther.find((item) => item.type === "mp4");
   return (
@@ -249,13 +259,15 @@ const Viewfiletype4 = ({
               <div className="title">{t("view.common_device.state")} : </div>
             </Col>
             <Col span={14}>
-              <SelectType
+              {detailAI?.status &&
+                t(`view.ai_events.processing-status.${detailAI.status}`)}
+              {/* <SelectType
                 option={processingstatusOptions}
                 // className="react-select"
                 // classNamePrefix="select-progess-state"
                 value={processState}
                 onChange={(value) => handleSelectProgessState(value)}
-              ></SelectType>
+              ></SelectType> */}
             </Col>
           </Row>
         </Col>
@@ -271,7 +283,7 @@ const Viewfiletype4 = ({
             <Col>
               <Button
                 disabled={
-                  processState.value === processingstatusOptions[2].value
+                  processState?.value === processingstatusOptions[2]?.value
                     ? true
                     : false
                 }

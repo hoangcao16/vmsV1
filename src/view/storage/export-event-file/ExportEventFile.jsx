@@ -101,9 +101,18 @@ const ExportEventFile = () => {
     },
   ];
   const processingstatusOptions = [
-    { value: "process", label: "Chưa xử lý" },
-    { value: "processed", label: "Đã xử lý" },
-    { value: "not_processed", label: "Hủy" },
+    {
+      value: "process",
+      label: `${t("view.ai_events.processing-status.process")}`,
+    },
+    {
+      value: "processed",
+      label: `${t("view.ai_events.processing-status.processed")}`,
+    },
+    {
+      value: "not_processed",
+      label: `${t("view.ai_events.processing-status.not_processed")}`,
+    },
   ];
 
   const language = reactLocalStorage.get("language");

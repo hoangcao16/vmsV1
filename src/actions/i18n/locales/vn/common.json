@@ -599,7 +599,12 @@
       "UnKnow": "Không xác định",
       "camera_name": "Camera ghi nhận",
       "typeObject": "Loại sự kiện",
-      "delete": "Xóa"
+      "delete": "Xóa",
+      "processing-status": {
+        "process": "Chưa xử lý",
+        "processed": "Đã xử lý",
+        "not_processed": "Hủy"
+      }
     },
     "department": {
       "administrative": "Đơn vị hành chính",
