@@ -37,9 +37,10 @@ import { useTranslation } from "react-i18next";
 import { reactLocalStorage } from "reactjs-localstorage";
 import AICameraApi from "../../../../actions/api/ai-camera/AICameraApi.js";
 import WeekPicker from "./WeekPicker";
-import { CloudLightning } from "react-feather";
+import "moment/locale/vi";
 const { RangePicker } = DatePicker;
-moment.locale("en");
+
+moment.locale("vi-vn");
 
 const CheckboxGroup = Checkbox.Group;
 
@@ -179,181 +180,195 @@ function Sidebar(props) {
     props.setSidebarData(data);
   }, [feildIds, cameraAI, selectedRowKeys]);
 
-  //==================================================================
-
   useEffect(() => {
-    if (moment(timeEndDay).diff(timeStartDay, "d") >= 12) {
-      form.setFieldsValue({
-        timeEndDay: moment(timeStartDay).add(11, "days"),
-      });
-      setTimeEndDay(form.getFieldValue("timeEndDay"));
-    }
-    if (moment(timeStartDay).diff(timeEndDay, "d") >= 0) {
-      form.setFieldsValue({
-        timeStartDay: "",
-      });
-      const notifyMess = {
-        type: "error",
-        title: "",
-        description: t("noti.start_greater_end"),
-      };
-      Notification(notifyMess);
-      return;
-    }
-  }, [timeStartDay]);
+    setTimeStartDay(moment().subtract(7, "days"));
+    setTimeEndDay(moment());
 
-  useEffect(() => {
-    if (moment(timeEndDay).diff(timeStartDay, "d") >= 12) {
-      form.setFieldsValue({
-        timeStartDay: moment(timeEndDay).subtract(11, "days"),
-      });
-      setTimeStartDay(form.getFieldValue("timeStartDay"));
-    }
-    if (moment(timeStartDay).diff(timeEndDay, "d") >= 0) {
-      form.setFieldsValue({
-        timeEndDay: "",
-      });
-      const notifyMess = {
-        type: "error",
-        title: "",
-        description: t("noti.end_smaller_start"),
-      };
-      Notification(notifyMess);
-      return;
-    }
-  }, [timeEndDay]);
+    setTimeStartWeek(moment().subtract(4, "weeks"));
+    setTimeEndWeek(moment());
+
+    setTimeStartMonth(moment().subtract(11, "months"));
+    setTimeEndMonth(moment());
+
+    setTimeStartYear(moment().subtract(4, "years"));
+    setTimeEndYear(moment());
+  }, [dataTime]);
 
   //==================================================================
 
-  useEffect(() => {
-    if (moment(timeEndWeek).diff(timeStartWeek, "weeks") >= 12) {
-      form.setFieldsValue({
-        timeEndWeek: moment(timeStartWeek).add(11, "weeks"),
-      });
-      setTimeEndWeek(form.getFieldValue("timeEndWeek"));
-    }
-    if (moment(timeStartWeek).diff(timeEndWeek, "weeks") >= 0) {
-      form.setFieldsValue({
-        timeStartWeek: "",
-      });
-      const notifyMess = {
-        type: "error",
-        title: "",
-        description: t("noti.start_greater_end"),
-      };
-      Notification(notifyMess);
-      return;
-    }
-  }, [timeStartWeek]);
+  // useEffect(() => {
+  //   if (moment(timeEndDay).diff(timeStartDay, "d") >= 12) {
+  //     form.setFieldsValue({
+  //       timeEndDay: moment(timeStartDay).add(11, "days"),
+  //     });
+  //     setTimeEndDay(form.getFieldValue("timeEndDay"));
+  //   }
+  //   if (moment(timeStartDay).diff(timeEndDay, "d") >= 0) {
+  //     form.setFieldsValue({
+  //       timeStartDay: "",
+  //     });
+  //     const notifyMess = {
+  //       type: "error",
+  //       title: "",
+  //       description: t("noti.start_greater_end"),
+  //     };
+  //     Notification(notifyMess);
+  //     return;
+  //   }
+  // }, [timeStartDay]);
 
-  useEffect(() => {
-    if (moment(timeEndWeek).diff(timeStartWeek, "weeks") >= 12) {
-      form.setFieldsValue({
-        timeStartWeek: moment(timeEndWeek).subtract(11, "weeks"),
-      });
-      setTimeStartWeek(form.getFieldValue("timeStartWeek"));
-    }
-    if (moment(timeStartWeek).diff(timeEndWeek, "weeks") >= 0) {
-      form.setFieldsValue({
-        timeEndWeek: "",
-      });
-      const notifyMess = {
-        type: "error",
-        title: "",
-        description: t("noti.end_smaller_start"),
-      };
-      Notification(notifyMess);
-      return;
-    }
-  }, [timeEndWeek]);
-
-  //==================================================================
-
-  useEffect(() => {
-    if (moment(timeEndMonth).diff(timeStartMonth, "M") >= 12) {
-      form.setFieldsValue({
-        timeEndMonth: moment(timeStartMonth).add(11, "months"),
-      });
-      setTimeEndMonth(form.getFieldValue("timeEndMonth"));
-    }
-    if (moment(timeStartMonth).diff(timeEndMonth, "M") >= 0) {
-      form.setFieldsValue({
-        timeStartMonth: "",
-      });
-      const notifyMess = {
-        type: "error",
-        title: "",
-        description: t("noti.start_greater_end"),
-      };
-      Notification(notifyMess);
-      return;
-    }
-  }, [timeStartMonth]);
-
-  useEffect(() => {
-    if (moment(timeEndMonth).diff(timeStartMonth, "M") >= 12) {
-      form.setFieldsValue({
-        timeStartMonth: moment(timeEndMonth).subtract(11, "months"),
-      });
-      setTimeEndMonth(form.getFieldValue("timeEndMonth"));
-    }
-    if (moment(timeStartMonth).diff(timeEndMonth, "M") >= 0) {
-      form.setFieldsValue({
-        timeEndMonth: "",
-      });
-      const notifyMess = {
-        type: "error",
-        title: "",
-        description: t("noti.end_smaller_start"),
-      };
-      Notification(notifyMess);
-      return;
-    }
-  }, [timeEndMonth]);
+  // useEffect(() => {
+  //   if (moment(timeEndDay).diff(timeStartDay, "d") >= 12) {
+  //     form.setFieldsValue({
+  //       timeStartDay: moment(timeEndDay).subtract(11, "days"),
+  //     });
+  //     setTimeStartDay(form.getFieldValue("timeStartDay"));
+  //   }
+  //   if (moment(timeStartDay).diff(timeEndDay, "d") >= 0) {
+  //     form.setFieldsValue({
+  //       timeEndDay: "",
+  //     });
+  //     const notifyMess = {
+  //       type: "error",
+  //       title: "",
+  //       description: t("noti.end_smaller_start"),
+  //     };
+  //     Notification(notifyMess);
+  //     return;
+  //   }
+  // }, [timeEndDay]);
 
   //==================================================================
 
-  useEffect(() => {
-    if (moment(timeEndYear).diff(timeStartYear, "y") >= 5) {
-      form.setFieldsValue({
-        timeEndYear: moment(timeStartYear).add(4, "years"),
-      });
-      setTimeEndYear(form.getFieldValue("timeEndYear"));
-    }
-    if (moment(timeStartYear).diff(timeEndYear, "y") >= 0) {
-      form.setFieldsValue({
-        timeStartYear: "",
-      });
-      const notifyMess = {
-        type: "error",
-        title: "",
-        description: t("noti.start_greater_end"),
-      };
-      Notification(notifyMess);
-      return;
-    }
-  }, [timeStartYear]);
+  // useEffect(() => {
+  //   if (moment(timeEndWeek).diff(timeStartWeek, "weeks") >= 12) {
+  //     form.setFieldsValue({
+  //       timeEndWeek: moment(timeStartWeek).add(11, "weeks"),
+  //     });
+  //     setTimeEndWeek(form.getFieldValue("timeEndWeek"));
+  //   }
+  //   if (moment(timeStartWeek).diff(timeEndWeek, "weeks") >= 0) {
+  //     form.setFieldsValue({
+  //       timeStartWeek: "",
+  //     });
+  //     const notifyMess = {
+  //       type: "error",
+  //       title: "",
+  //       description: t("noti.start_greater_end"),
+  //     };
+  //     Notification(notifyMess);
+  //     return;
+  //   }
+  // }, [timeStartWeek]);
 
-  useEffect(() => {
-    if (moment(timeEndYear).diff(timeStartYear, "y") >= 5) {
-      form.setFieldsValue({
-        timeStartYear: moment(timeEndYear).subtract(4, "years"),
-      });
-      setTimeStartYear(form.getFieldValue("timeStartYear"));
-    }
-    if (moment(timeStartYear).diff(timeEndYear, "y") >= 0) {
-      form.setFieldsValue({
-        timeEndYear: "",
-      });
-      const notifyMess = {
-        type: "error",
-        title: "",
-        description: t("noti.end_smaller_start"),
-      };
-      Notification(notifyMess);
-      return;
-    }
-  }, [timeEndYear]);
+  // useEffect(() => {
+  //   if (moment(timeEndWeek).diff(timeStartWeek, "weeks") >= 12) {
+  //     form.setFieldsValue({
+  //       timeStartWeek: moment(timeEndWeek).subtract(11, "weeks"),
+  //     });
+  //     setTimeStartWeek(form.getFieldValue("timeStartWeek"));
+  //   }
+  //   if (moment(timeStartWeek).diff(timeEndWeek, "weeks") >= 0) {
+  //     form.setFieldsValue({
+  //       timeEndWeek: "",
+  //     });
+  //     const notifyMess = {
+  //       type: "error",
+  //       title: "",
+  //       description: t("noti.end_smaller_start"),
+  //     };
+  //     Notification(notifyMess);
+  //     return;
+  //   }
+  // }, [timeEndWeek]);
+
+  //==================================================================
+
+  // useEffect(() => {
+  //   if (moment(timeEndMonth).diff(timeStartMonth, "M") >= 12) {
+  //     form.setFieldsValue({
+  //       timeEndMonth: moment(timeStartMonth).add(11, "months"),
+  //     });
+  //     setTimeEndMonth(form.getFieldValue("timeEndMonth"));
+  //   }
+  //   if (moment(timeStartMonth).diff(timeEndMonth, "M") >= 0) {
+  //     form.setFieldsValue({
+  //       timeStartMonth: "",
+  //     });
+  //     const notifyMess = {
+  //       type: "error",
+  //       title: "",
+  //       description: t("noti.start_greater_end"),
+  //     };
+  //     Notification(notifyMess);
+  //     return;
+  //   }
+  // }, [timeStartMonth]);
+
+  // useEffect(() => {
+  //   if (moment(timeEndMonth).diff(timeStartMonth, "M") >= 12) {
+  //     form.setFieldsValue({
+  //       timeStartMonth: moment(timeEndMonth).subtract(11, "months"),
+  //     });
+  //     setTimeEndMonth(form.getFieldValue("timeEndMonth"));
+  //   }
+  //   if (moment(timeStartMonth).diff(timeEndMonth, "M") >= 0) {
+  //     form.setFieldsValue({
+  //       timeEndMonth: "",
+  //     });
+  //     const notifyMess = {
+  //       type: "error",
+  //       title: "",
+  //       description: t("noti.end_smaller_start"),
+  //     };
+  //     Notification(notifyMess);
+  //     return;
+  //   }
+  // }, [timeEndMonth]);
+
+  //==================================================================
+
+  // useEffect(() => {
+  //   if (moment(timeEndYear).diff(timeStartYear, "y") >= 5) {
+  //     form.setFieldsValue({
+  //       timeEndYear: moment(timeStartYear).add(4, "years"),
+  //     });
+  //     setTimeEndYear(form.getFieldValue("timeEndYear"));
+  //   }
+  //   if (moment(timeStartYear).diff(timeEndYear, "y") >= 0) {
+  //     form.setFieldsValue({
+  //       timeStartYear: "",
+  //     });
+  //     const notifyMess = {
+  //       type: "error",
+  //       title: "",
+  //       description: t("noti.start_greater_end"),
+  //     };
+  //     Notification(notifyMess);
+  //     return;
+  //   }
+  // }, [timeStartYear]);
+
+  // useEffect(() => {
+  //   if (moment(timeEndYear).diff(timeStartYear, "y") >= 5) {
+  //     form.setFieldsValue({
+  //       timeStartYear: moment(timeEndYear).subtract(4, "years"),
+  //     });
+  //     setTimeStartYear(form.getFieldValue("timeStartYear"));
+  //   }
+  //   if (moment(timeStartYear).diff(timeEndYear, "y") >= 0) {
+  //     form.setFieldsValue({
+  //       timeEndYear: "",
+  //     });
+  //     const notifyMess = {
+  //       type: "error",
+  //       title: "",
+  //       description: t("noti.end_smaller_start"),
+  //     };
+  //     Notification(notifyMess);
+  //     return;
+  //   }
+  // }, [timeEndYear]);
 
   //==================================================================
 
@@ -417,7 +432,38 @@ function Sidebar(props) {
       eventList: selectedRowKeys,
       cameraUuids: cameraAIUuid,
     };
+    // const data2 = {
+    //   pickTime: "",
+    //   timeStartDay: "",
+    //   timeEndDay: "",
+    //   timeStartWeek: "",
+    //   timeEndWeek: "",
+    //   timeStartMonth: "",
+    //   timeEndMonth: "",
+    //   timeStartYear: "",
+    //   timeEndYear: "",
+    //   provinceId: "",
+    //   districtId: "",
+    //   wardId: "",
+    //   fieldId: "",
+    //   eventList: "",
+    //   cameraUuids: "",
+    // };
+    // if (
+    //   (dataTime == "day" && moment(timeEndDay).diff(timeStartDay, "d") >= 12) ||
+    //   (dataTime == "week" &&
+    //     moment(timeEndWeek)
+    //       .endOf("weeks")
+    //       .diff(moment(timeStartWeek).startOf("weeks"), "d") >=
+    //       7 * 12) ||
+    //   (dataTime == "month" &&
+    //     moment(timeEndMonth).diff(timeStartMonth, "M") >= 12) ||
+    //   (dataTime == "year" && moment(timeEndYear).diff(timeStartYear, "y") >= 5)
+    // ) {
+    //   props.callData(data2);
+    // } else {
     props.callData(clearData(data));
+    // }
     return;
   }, [
     selectedRowKeys,
@@ -774,26 +820,6 @@ function Sidebar(props) {
       }
     }
     setSelectedRowKeys(selectedRowKeys);
-
-    //Call API
-    const data = {
-      pickTime: dataTime,
-      timeStartDay: timeStartDay,
-      timeEndDay: timeEndDay,
-      timeStartWeek: timeStartWeek,
-      timeEndWeek: timeEndWeek,
-      timeStartMonth: timeStartMonth,
-      timeEndMonth: timeEndMonth,
-      timeStartYear: timeStartYear,
-      timeEndYear: timeEndYear,
-      provinceId: provinceId,
-      districtId: districtId,
-      wardId: wardId,
-      fieldId: feildIds,
-      eventList: selectedRowKeys,
-      cameraUuids: cameraAIUuid,
-    };
-    props.callData(clearData(data));
   };
 
   const rowSelection = {
@@ -820,26 +846,55 @@ function Sidebar(props) {
       return;
     }
     setTimeStartDay(value);
-    if (isEmpty(eventList)) {
-      emptyField();
-    } else {
-      setSelectedRowKeys(selectedRowKeys);
+    if (moment(value).diff(timeEndDay, "d") >= 0) {
+      const notifyMess = {
+        type: "error",
+        title: "",
+        description: t("noti.start_greater_end"),
+      };
+      Notification(notifyMess);
+      return;
+    } else if (moment(timeEndDay).diff(value, "d") >= 12) {
+      const notifyMess = {
+        type: "error",
+        title: "",
+        description: t("noti.check_date_range_again", {
+          number: 12,
+          type: t("view.report.days"),
+        }),
+      };
+      Notification(notifyMess);
+      return;
     }
   }
 
   function onChangeTimeEndDay(value) {
-    setTimeStartDay(timeStartDay);
-    setTimeEndDay(value);
     if (!value) {
       form.setFieldsValue({
         timeStartDay: timeStartDay,
       });
       return;
     }
-    if (isEmpty(eventList)) {
-      emptyField();
-    } else {
-      setSelectedRowKeys(selectedRowKeys);
+    setTimeEndDay(value);
+    if (moment(timeStartDay).diff(value, "d") >= 0) {
+      const notifyMess = {
+        type: "error",
+        title: "",
+        description: t("noti.start_greater_end"),
+      };
+      Notification(notifyMess);
+      return;
+    } else if (moment(value).diff(timeStartDay, "d") >= 12) {
+      const notifyMess = {
+        type: "error",
+        title: "",
+        description: t("noti.check_date_range_again", {
+          number: 12,
+          type: t("view.report.days"),
+        }),
+      };
+      Notification(notifyMess);
+      return;
     }
   }
 
@@ -853,26 +908,69 @@ function Sidebar(props) {
       return;
     }
     setTimeStartWeek(value);
-    if (isEmpty(eventList)) {
-      emptyField();
-    } else {
-      setSelectedRowKeys(selectedRowKeys);
+    if (moment(value).diff(timeEndWeek, "w") >= 0) {
+      const notifyMess = {
+        type: "error",
+        title: "",
+        description: t("noti.start_greater_end"),
+      };
+      Notification(notifyMess);
+      return;
+    } else if (
+      moment(timeEndWeek)
+        .endOf("weeks")
+        .diff(moment(value).startOf("weeks"), "d") >=
+      7 * 12
+    ) {
+      const notifyMess = {
+        type: "error",
+        title: "",
+        description: t("noti.check_date_range_again", {
+          number: 12,
+          type: t("view.report.weeks"),
+        }),
+      };
+      Notification(notifyMess);
+      return;
     }
   }
 
   function onChangeTimeEndWeek(value) {
-    setTimeStartWeek(timeStartWeek);
-    setTimeEndWeek(value);
     if (!value) {
       form.setFieldsValue({
         timeStartWeek: timeStartWeek,
       });
       return;
     }
-    if (isEmpty(eventList)) {
-      emptyField();
-    } else {
-      setSelectedRowKeys(selectedRowKeys);
+    setTimeEndWeek(value);
+    if (moment(timeStartWeek).diff(value, "w") >= 0) {
+      const notifyMess = {
+        type: "error",
+        title: "",
+        description: t("noti.start_greater_end"),
+      };
+      Notification(notifyMess);
+      return;
+    } else if (
+      moment(value)
+        .endOf("weeks")
+        .diff(moment(timeStartWeek).startOf("weeks"), "d") >=
+      7 * 12
+    ) {
+      form.setFieldsValue({
+        timeEndWeek: timeEndWeek,
+      });
+      setTimeEndWeek(timeEndWeek);
+      const notifyMess = {
+        type: "error",
+        title: "",
+        description: t("noti.check_date_range_again", {
+          number: 12,
+          type: t("view.report.weeks"),
+        }),
+      };
+      Notification(notifyMess);
+      return;
     }
   }
 
@@ -886,26 +984,55 @@ function Sidebar(props) {
       return;
     }
     setTimeStartMonth(value);
-    if (isEmpty(eventList)) {
-      emptyField();
-    } else {
-      setSelectedRowKeys(selectedRowKeys);
+    if (moment(value).diff(timeEndMonth, "M") >= 0) {
+      const notifyMess = {
+        type: "error",
+        title: "",
+        description: t("noti.start_greater_end"),
+      };
+      Notification(notifyMess);
+      return;
+    } else if (moment(timeEndMonth).diff(value, "M") >= 12) {
+      const notifyMess = {
+        type: "error",
+        title: "",
+        description: t("noti.check_date_range_again", {
+          number: 12,
+          type: t("view.report.months"),
+        }),
+      };
+      Notification(notifyMess);
+      return;
     }
   }
 
   function onChangeTimeEndMonth(value) {
-    setTimeStartMonth(timeStartMonth);
-    setTimeEndMonth(value);
     if (!value) {
       form.setFieldsValue({
         timeStartMonth: timeStartMonth,
       });
       return;
     }
-    if (isEmpty(eventList)) {
-      emptyField();
-    } else {
-      setSelectedRowKeys(selectedRowKeys);
+    setTimeEndMonth(value);
+    if (moment(timeStartMonth).diff(value, "M") >= 0) {
+      const notifyMess = {
+        type: "error",
+        title: "",
+        description: t("noti.start_greater_end"),
+      };
+      Notification(notifyMess);
+      return;
+    } else if (moment(value).diff(timeStartMonth, "M") >= 12) {
+      const notifyMess = {
+        type: "error",
+        title: "",
+        description: t("noti.check_date_range_again", {
+          number: 12,
+          type: t("view.report.months"),
+        }),
+      };
+      Notification(notifyMess);
+      return;
     }
   }
 
@@ -919,31 +1046,58 @@ function Sidebar(props) {
       return;
     }
     setTimeStartYear(value);
-    if (isEmpty(eventList)) {
-      emptyField();
-    } else {
-      setSelectedRowKeys(selectedRowKeys);
+    if (moment(value).diff(timeEndYear, "y") >= 0) {
+      const notifyMess = {
+        type: "error",
+        title: "",
+        description: t("noti.start_greater_end"),
+      };
+      Notification(notifyMess);
+      return;
+    } else if (moment(timeEndYear).diff(value, "y") >= 5) {
+      const notifyMess = {
+        type: "error",
+        title: "",
+        description: t("noti.check_date_range_again", {
+          number: 5,
+          type: t("view.report.years"),
+        }),
+      };
+      Notification(notifyMess);
+      return;
     }
   }
 
   function onChangeTimeEndYear(value) {
-    setTimeStartYear(timeStartYear);
-    setTimeEndYear(value);
     if (!value) {
       form.setFieldsValue({
         timeStartYear: timeStartYear,
       });
       return;
     }
-    if (isEmpty(eventList)) {
-      emptyField();
-    } else {
-      setSelectedRowKeys(selectedRowKeys);
+    setTimeEndYear(value);
+    if (moment(timeStartYear).diff(value, "y") >= 0) {
+      const notifyMess = {
+        type: "error",
+        title: "",
+        description: t("noti.start_greater_end"),
+      };
+      Notification(notifyMess);
+      return;
+    } else if (moment(value).diff(timeStartYear, "y") >= 5) {
+      const notifyMess = {
+        type: "error",
+        title: "",
+        description: t("noti.check_date_range_again", {
+          number: 5,
+          type: t("view.report.years"),
+        }),
+      };
+      Notification(notifyMess);
+      return;
     }
   }
-  //disabled week date
-  const disabledStartWeekDate = (current) => {};
-  const disabledEndWeekDate = (current) => {};
+
   return (
     <div className="sidebar">
       <div className="sidebarOption">
@@ -1095,7 +1249,7 @@ function Sidebar(props) {
                   <DatePicker
                     onChange={onChangeTimeStartWeek}
                     picker="week"
-                    disabledDate={disabledStartWeekDate}
+                    format="WW-YYYY"
                     dropdownClassName="dropdown__week-picker"
                   />
                   {/* <WeekPicker
@@ -1110,7 +1264,7 @@ function Sidebar(props) {
                   <DatePicker
                     onChange={onChangeTimeEndWeek}
                     picker="week"
-                    disabledDate={disabledEndWeekDate}
+                    format="WW-YYYY"
                     dropdownClassName="dropdown__week-picker"
                   />
                   {/* <WeekPicker

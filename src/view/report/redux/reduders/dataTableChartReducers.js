@@ -5,7 +5,7 @@ const dataTableChartReducer = (state = { data: [], date: {} }, action) => {
     return {
       ...state,
       data: action.dataChart.res.payload,
-      date: action.dataChart?.date
+      date: action.dataChart?.date,
     };
   }
   return state;

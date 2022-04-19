@@ -10,8 +10,8 @@ import "./components/@vuexy/rippleButton/RippleButton";
 import Router from "./Router";
 import "antd/dist/antd.css";
 import { reactLocalStorage } from "reactjs-localstorage";
-import vnVN from 'antd/lib/locale/vi_VN';
-import enUS from 'antd/lib/locale/en_US';
+import vnVN from "antd/lib/locale/vi_VN";
+import enUS from "antd/lib/locale/en_US";
 
 moment.locale("vi-vn");
 

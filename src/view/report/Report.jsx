@@ -97,7 +97,15 @@ const TableReport = (props) => {
       return <div className="body__noContent">{t("noti.field_no_data")}</div>;
     } else if (isEmpty(sidebarData.feildIds)) {
       return <div className="body__noContent">{t("noti.no_feild")}</div>;
-    } else if (startDate >= endDate) {
+    } else if (
+      startDate >= endDate ||
+      (props.date.typeTime == "DAY" && endDate.diff(startDate, "d") >= 12) ||
+      (props.date.typeTime == "WEEK" &&
+        endDate.endOf("weeks").diff(startDate.startOf("weeks"), "d") >=
+          7 * 12) ||
+      (props.date.typeTime == "MONTH" && endDate.diff(startDate, "M") >= 12) ||
+      (props.date.typeTime == "YEAR" && endDate.diff(startDate, "y") >= 5)
+    ) {
       return (
         <div className="body__noContent">
           {t("view.report.check_range_time")}
