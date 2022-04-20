@@ -57,6 +57,7 @@ const AdministrativeUnit = () => {
   useEffect(() => {
     const data = {
       name: "",
+      size: 1000,
     };
     fetchOptionsData(data).then((data) => {
       setDataOptions(data);
@@ -127,6 +128,7 @@ const AdministrativeUnit = () => {
     setSearch(value);
     const data = {
       name: encodeURIComponent(value),
+      size: 1000,
       // name: value.replace(/[#&%^]/g, ""),
     };
     const dataSearch = await fetchOptionsData(data);
@@ -151,6 +153,7 @@ const AdministrativeUnit = () => {
     isDelete && Notification(notifyMess);
     const data = {
       name: "",
+      size: 1000,
     };
     fetchOptionsData(data).then(setDataOptions);
   };

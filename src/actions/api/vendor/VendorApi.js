@@ -1,5 +1,5 @@
-import { responseCheckerErrorsController } from '../../function/MyUltil/ResponseChecker';
-import MyService from '../service';
+import { responseCheckerErrorsController } from "../../function/MyUltil/ResponseChecker";
+import MyService from "../service";
 
 const VendorApi = {
   getAllVendor: async (data) => {
@@ -7,7 +7,9 @@ const VendorApi = {
 
     try {
       result = await MyService.getRequestData(
-        `/cctv-controller-svc/api/v1/vendors?name=${data?.name}`
+        `/cctv-controller-svc/api/v1/vendors?name=${data?.name}${
+          data?.size ? `&size=${data?.size}` : ""
+        }`
       );
     } catch (error) {
       console.log(error);
@@ -60,7 +62,7 @@ const VendorApi = {
 
     try {
       result = await MyService.postRequestData(
-        '/cctv-controller-svc/api/v1/vendors',
+        "/cctv-controller-svc/api/v1/vendors",
         vendorPayload
       );
     } catch (error) {
@@ -86,7 +88,7 @@ const VendorApi = {
       return false;
     }
     return true;
-  }
+  },
 };
 
 export default VendorApi;

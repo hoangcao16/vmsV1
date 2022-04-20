@@ -6,7 +6,9 @@ const EventApi = {
     let result;
     try {
       result = await MyService.getRequestData(
-        `/cctv-controller-svc/api/v1/events?name=${data?.name}`
+        `/cctv-controller-svc/api/v1/events?name=${data?.name}${
+          data?.size ? `&size=${data?.size}` : ""
+        }`
       );
     } catch (error) {
       console.log(error);

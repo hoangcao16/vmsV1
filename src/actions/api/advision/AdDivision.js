@@ -7,7 +7,9 @@ const AdDivisionApi = {
 
     try {
       result = await MyService.getRequestData(
-        `/cctv-controller-svc/api/v1/administrative_units?name=${data?.name}`
+        `/cctv-controller-svc/api/v1/administrative_units?name=${data?.name}${
+          data?.size ? `&size=${data?.size}` : ""
+        }`
       );
     } catch (error) {
       console.log(error);
