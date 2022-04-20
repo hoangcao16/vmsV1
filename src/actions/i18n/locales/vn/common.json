@@ -198,7 +198,8 @@
       "save_live_camera": "Lưu {{cam}} trực tuyến",
       "hls_url": "HLS URL",
       "please_enter_hls_url": "{{plsEnter}} HLS URL",
-      "max_length_255": "Độ dài tối đa 255 ký tự"
+      "max_length_255": "Độ dài tối đa 255 ký tự",
+      "max_length_100": "Độ dài tối đa 100 ký tự"
     },
     "maps": {
       "add_camera": "{{add}} mới {{cam}}",
@@ -629,7 +630,7 @@
       "violation_proof": "Bằng chứng vi phạm",
       "violation_img": "Hình ảnh vi phạm",
       "confirm_send": "Bạn có chắc chắn gửi phiếu phạt này",
-      "ticket_num": "Mã phiếu phạt",
+      "ticket_num": "Số phiếu phạt",
       "recipients": "Nơi nhận",
       "outside-the-system": "Ngoài hệ thống",
       "leader": "Lãnh đạo",

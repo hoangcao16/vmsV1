@@ -68,7 +68,16 @@ const TableFile = (props) => {
     searchType: "",
     searchValue: "",
   };
-
+  const processingstatusOptions = [
+    {
+      value: "process",
+      label: `${t("view.ai_events.processing-status.process")}`,
+    },
+    {
+      value: "processed",
+      label: `${t("view.ai_events.processing-status.processed")}`,
+    },
+  ];
   const formItemLayout = {
     wrapperCol: { span: 24 },
     labelCol: { span: 24 },
@@ -650,6 +659,8 @@ const TableFile = (props) => {
       eventType: null,
       fileName: null,
       quickSearch: "",
+      status: null,
+      penaltyTicketId: null,
     });
     setSearchParam(searchCaptureFileParamDefault);
     getAllCamera("");
@@ -728,7 +739,16 @@ const TableFile = (props) => {
     });
     setSearchParam(dataParam);
   };
-
+  const onPenaltyTicketId = (event) => {
+    form.setFieldsValue({
+      penaltyTicketId: event.target.value.trim(),
+    });
+    const dataParam = Object.assign({
+      ...searchParam,
+      penaltyTicketId: event.target.value.trim(),
+    });
+    setSearchParam(dataParam);
+  };
   const onChangeUnit = (unitId) => {
     const dataParam = Object.assign({
       ...searchParam,
@@ -751,7 +771,10 @@ const TableFile = (props) => {
     const dataParam = Object.assign({ ...searchParam, eventType: type });
     setSearchParam(dataParam);
   };
-
+  const onChangeProcessStatus = (status) => {
+    const dataParam = Object.assign({ ...searchParam, status: status });
+    setSearchParam(dataParam);
+  };
   const onChangeCamera = (cameraUuid) => {
     const dataParam = Object.assign({ ...searchParam, cameraUuid: cameraUuid });
     setSearchParam(dataParam);
@@ -1375,7 +1398,7 @@ const TableFile = (props) => {
                 </Form.Item>
               </Col>
             </Row>
-            {props.viewFileType === 4 && (
+            {props.viewFileType === 4 && AI_SOURCE === "edso" && (
               <Row
                 gutter={24}
                 className="itemRow"
@@ -1410,7 +1433,6 @@ const TableFile = (props) => {
                 </Col>
               </Row>
             )}
-
             <Row
               gutter={24}
               className="itemRow"
@@ -1469,6 +1491,41 @@ const TableFile = (props) => {
                   </Form.Item>
                 )}
               </Col>
+              <Col span={8}>
+                {props.viewFileType === 4 && (
+                  <Form.Item name={["status"]}>
+                    <Select
+                      allowClear
+                      showSearch
+                      onChange={(type) => onChangeProcessStatus(type)}
+                      filterOption={filterOption}
+                      options={processingstatusOptions}
+                      placeholder={t("view.common_device.status")}
+                    />
+                  </Form.Item>
+                )}
+              </Col>
+            </Row>
+            <Row
+              gutter={24}
+              className="itemRow"
+              style={!useAdvanceSearch ? { display: "none" } : {}}
+            >
+              <Col span={8}>
+                {props.viewFileType === 4 && (
+                  <Form.Item
+                    name={["penaltyTicketId"]}
+                    rules={[{ required: false }]}
+                  >
+                    <Input
+                      placeholder={t("view.penalty_ticket.ticket_num")}
+                      onChange={onPenaltyTicketId}
+                      maxLength={255}
+                    />
+                  </Form.Item>
+                )}
+              </Col>
+              <Col span={8}></Col>
               <Col span={8}>
                 <Tooltip
                   placement="bottom"

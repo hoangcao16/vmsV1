@@ -59,7 +59,7 @@ const ModalAddCamera = (props) => {
       wardId: "",
       administrativeUnitUuid: "",
       vendorUuid: "",
-      status: "",
+      recordingStatus: "",
       page: 1,
       size: 1000000,
     };
@@ -84,7 +84,7 @@ const ModalAddCamera = (props) => {
       wardId: "",
       administrativeUnitUuid: "",
       vendorUuid: "",
-      status: "",
+      recordingStatus: "",
       page: 1,
       size: 1000000,
     };
@@ -123,7 +123,8 @@ const ModalAddCamera = (props) => {
 
   const onChangeCity = async (cityId) => {
     setProvinceId(cityId);
-
+    setDistrictId(null);
+    setWardId(null);
     await resetDistrictAndWardData();
 
     let data = {
@@ -133,7 +134,7 @@ const ModalAddCamera = (props) => {
       wardId: "",
       administrativeUnitUuid: administrativeUnitUuid,
       vendorUuid: vendorUuid,
-      status: status,
+      recordingStatus: status,
       page: 1,
       size: 1000000,
     };
@@ -154,6 +155,7 @@ const ModalAddCamera = (props) => {
 
   const onChangeDistrict = async (districtId) => {
     setDistrictId(districtId);
+    setWardId(null);
     await resetWardData();
     const data = {
       provinceId: provinceId,
@@ -162,7 +164,7 @@ const ModalAddCamera = (props) => {
       name: name,
       administrativeUnitUuid: administrativeUnitUuid,
       vendorUuid: vendorUuid,
-      status: status,
+      recordingStatus: status,
       page: 1,
       size: 1000000,
     };
@@ -186,7 +188,7 @@ const ModalAddCamera = (props) => {
       name: name,
       administrativeUnitUuid: administrativeUnitUuid,
       vendorUuid: vendorUuid,
-      status: status,
+      recordingStatus: status,
       page: 1,
       size: 1000000,
     };
@@ -210,7 +212,7 @@ const ModalAddCamera = (props) => {
       name: name,
       administrativeUnitUuid: id,
       vendorUuid: vendorUuid,
-      status: status,
+      recordingStatus: status,
       page: 1,
       size: 1000000,
     };
@@ -234,7 +236,7 @@ const ModalAddCamera = (props) => {
       name: name,
       administrativeUnitUuid: administrativeUnitUuid,
       vendorUuid: vendorUuid,
-      status: status,
+      recordingStatus: status,
       page: 1,
       size: 1000000,
     };
@@ -258,7 +260,7 @@ const ModalAddCamera = (props) => {
       name: name,
       administrativeUnitUuid: administrativeUnitUuid,
       vendorUuid: vendorUuid,
-      status: status,
+      recordingStatus: status,
       page: 1,
       size: 1000000,
     };
@@ -297,7 +299,7 @@ const ModalAddCamera = (props) => {
       wardId: wardId,
       administrativeUnitUuid: administrativeUnitUuid,
       vendorUuid: vendorUuid,
-      status: status,
+      recordingStatus: status,
       page: 1,
       size: 1000000,
     };

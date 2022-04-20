@@ -90,12 +90,21 @@ const SendTicketModal = ({
                     <Controller
                       name="email"
                       rules={{
+                        // pattern: {
+                        //   value:
+                        //     /^([a-zA-Z0-9]+([\._-]?[a-zA-Z0-9]+)*@[a-zA-Z0-9]+([\_-]?[a-zA-Z0-9]+)*(\.[a-zA-Z]{2,4}){1,2})+(\s*[,]\s*([a-zA-Z0-9]+([\._-]?[a-zA-Z0-9]+)*@[a-zA-Z0-9]+([\_-]?[a-zA-Z0-9]+)*(\.[a-zA-Z]{2,4}){1,2})+)*$/,
+                        //   message: t("view.penalty_ticket.validate-email"),
+                        // },
                         pattern: {
                           value:
-                            /^([a-zA-Z0-9]+([\._-]?[a-zA-Z0-9]+)*@[a-zA-Z0-9]+([\_-]?[a-zA-Z0-9]+)*(\.[a-zA-Z]{2,4}){1,2})+(\s*[,]\s*([a-zA-Z0-9]+([\._-]?[a-zA-Z0-9]+)*@[a-zA-Z0-9]+([\_-]?[a-zA-Z0-9]+)*(\.[a-zA-Z]{2,4}){1,2})+)*$/,
+                            /^([a-zA-Z0-9]+([\._-]?[a-zA-Z0-9]+)@([a-zA-Z0-9]+)+(\.[a-zA-Z]{2,5}){1,2})+(\s*[,]\s*([a-zA-Z0-9]+([\._-]?[a-zA-Z0-9]+)@([a-zA-Z0-9]+)+(\.[a-zA-Z]{2,5}){1,2}))*$/,
                           message: t("view.penalty_ticket.validate-email"),
                         },
                         required: t("view.penalty_ticket.require-email"),
+                        max: {
+                          value: 100,
+                          message: t("view.map.max_length_100"),
+                        },
                       }}
                       control={control}
                       render={({ field: { onChange, value } }) => (

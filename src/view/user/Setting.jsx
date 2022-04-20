@@ -24,6 +24,7 @@ import "./../../assets/scss/pages/account-settings.scss";
 import ChangePassword from "./ChangePassword";
 import "./Setting.scss";
 import AdministrativeUnit from "./AdministrativeUnit";
+const AI_SOURCE = process.env.REACT_APP_AI_SOURCE;
 
 const Account = React.lazy(() => import("./Account"));
 
@@ -120,20 +121,24 @@ function AccountSettings() {
               </span>
             </NavLink>
           </li>
-          <li>
-            <NavLink to={`${path}/ai-config`}>
-              <span className="d-md-inline-block d-none align-middle ml-1">
-                {t("view.ai_config.config")}
-              </span>
-            </NavLink>
-          </li>
-          <li>
-            <NavLink to={`${path}/humans`}>
-              <span className="d-md-inline-block d-none align-middle ml-1">
-                {t("view.ai_humans.face")}
-              </span>
-            </NavLink>
-          </li>
+          {AI_SOURCE === "edso" && (
+            <>
+              <li>
+                <NavLink to={`${path}/ai-config`}>
+                  <span className="d-md-inline-block d-none align-middle ml-1">
+                    {t("view.ai_config.config")}
+                  </span>
+                </NavLink>
+              </li>
+              <li>
+                <NavLink to={`${path}/humans`}>
+                  <span className="d-md-inline-block d-none align-middle ml-1">
+                    {t("view.ai_humans.face")}
+                  </span>
+                </NavLink>
+              </li>
+            </>
+          )}
 
           <li onClick={handleLogout}>
             <span
