@@ -101,7 +101,7 @@ const SendTicketModal = ({
                           message: t("view.penalty_ticket.validate-email"),
                         },
                         required: t("view.penalty_ticket.require-email"),
-                        max: {
+                        maxLength: {
                           value: 100,
                           message: t("view.map.max_length_100"),
                         },
@@ -111,7 +111,6 @@ const SendTicketModal = ({
                         <>
                           <StyledEmailInput
                             autoSize={true}
-                            maxLength={100}
                             onChange={(e) => onChange(e.target.value?.trim())}
                             value={value}
                             placeholder={t("view.penalty_ticket.email-addr")}

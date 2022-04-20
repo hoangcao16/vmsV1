@@ -1,16 +1,16 @@
-import { MinusCircleOutlined, PlusOutlined } from '@ant-design/icons';
-import { Button, Col, Form, Modal, Row } from 'antd';
-import _ from 'lodash';
-import React, { useEffect, useState } from 'react';
-import { useTranslation } from 'react-i18next';
-import TagsInput from 'react-tagsinput';
-import 'react-tagsinput/react-tagsinput.css';
-import TagApi from '../../actions/api/tag';
-import { CustomSelect } from '../common/select/CustomSelect';
-import './ModalAddEditTagBindCam.scss';
+import { MinusCircleOutlined, PlusOutlined } from "@ant-design/icons";
+import { Button, Col, Form, Modal, Row } from "antd";
+import _ from "lodash";
+import React, { useEffect, useState } from "react";
+import { useTranslation } from "react-i18next";
+import TagsInput from "react-tagsinput";
+import "react-tagsinput/react-tagsinput.css";
+import TagApi from "../../actions/api/tag";
+import { CustomSelect } from "../common/select/CustomSelect";
+import "./ModalAddEditTagBindCam.scss";
 const formItemLayout = {
   wrapperCol: { span: 24 },
-  labelCol: { span: 24 }
+  labelCol: { span: 24 },
 };
 
 const ModalAddEditTagBindCam = (props) => {
@@ -23,20 +23,21 @@ const ModalAddEditTagBindCam = (props) => {
   useEffect(() => {
     (async () => {
       try {
-        const response = await TagApi.getAllTags();
+        const data = {
+          name: "",
+        };
+        const response = await TagApi.getAllTags(data);
         if (response) {
           setKeyOptions(response);
         }
       } catch (error) {}
     })();
   }, []);
-
   const handleChangeKey = (value, key) => {
     const { tags } = formValue;
     Object.assign(tags[key], { key: value });
     setFormValue({ tags });
   };
-
   const handleDisable = () => {
     const { tags } = formValue;
     let disable = false;
@@ -48,14 +49,14 @@ const ModalAddEditTagBindCam = (props) => {
     }
     return disable;
   };
-
+  console.log(formValue);
   return (
     <>
       <Modal
         title={
           camId
-            ? `${t('view.camera.edit_tag')}`
-            : `${t('view.camera.add_new_tag')}`
+            ? `${t("view.camera.edit_tag")}`
+            : `${t("view.camera.add_new_tag")}`
         }
         visible={showModal}
         onCancel={() => {
@@ -81,19 +82,20 @@ const ModalAddEditTagBindCam = (props) => {
                       <Col span={8}>
                         <Form.Item
                           {...restField}
-                          name={[name, 'key']}
-                          fieldKey={[fieldKey, 'key']}
+                          name={[name, "key"]}
+                          fieldKey={[fieldKey, "key"]}
                           rules={[
                             {
                               required: true,
-                                 message: `${t("view.map.required_field")}`,
-                            }
+                              message: `${t("view.map.required_field")}`,
+                            },
                           ]}
                         >
                           <CustomSelect
                             dataSource={keyOptions}
                             labelField="key"
                             valueField="key"
+                            placeholder={t("view.category.tags")}
                             onChange={(value) => {
                               handleChangeKey(value, key);
                             }}
@@ -103,20 +105,20 @@ const ModalAddEditTagBindCam = (props) => {
                       <Col span={14}>
                         <Form.Item
                           {...restField}
-                          name={[name, 'value']}
-                          fieldKey={[fieldKey, 'value']}
+                          name={[name, "value"]}
+                          fieldKey={[fieldKey, "value"]}
                           className="tag-input-item"
                           rules={[
                             {
                               required: true,
-                                 message: `${t("view.map.required_field")}`,
-                            }
+                              message: `${t("view.map.required_field")}`,
+                            },
                           ]}
                         >
                           <TagsInput
                             onlyUnique
                             inputProps={{
-                              placeholder: `${t("view.camera.add_new_tag")}`
+                              placeholder: `${t("view.camera.add_new_tag")}`,
                             }}
                             onChange={(value) => {
                               const { tags } = _.cloneDeep(formValue);
@@ -148,24 +150,24 @@ const ModalAddEditTagBindCam = (props) => {
                       type="default"
                       onClick={() => {
                         add({
-                          key: '',
-                          value: []
+                          key: null,
+                          value: [],
                         });
                         setFormValue({
                           tags: [
                             ...formValue?.tags,
                             {
-                              key: '',
-                              value: []
-                            }
-                          ]
+                              key: null,
+                              value: [],
+                            },
+                          ],
                         });
                       }}
                       block
                       icon={<PlusOutlined />}
                       disabled={handleDisable()}
                     >
-                      {t('view.camera.add_new_tag')}
+                      {t("view.camera.add_new_tag")}
                     </Button>
                   </Form.Item>
                 </Col>
@@ -178,10 +180,10 @@ const ModalAddEditTagBindCam = (props) => {
                 setShowModal(false);
               }}
             >
-              {t('view.camera.close')}
+              {t("view.camera.close")}
             </Button>
             <Button htmlType="submit">
-              {t('view.user.detail_list.confirm')}
+              {t("view.user.detail_list.confirm")}
             </Button>
           </div>
         </Form>

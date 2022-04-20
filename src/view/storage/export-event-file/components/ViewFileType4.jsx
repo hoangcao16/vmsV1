@@ -53,6 +53,15 @@ const Viewfiletype4 = ({
     },
   ];
   const hasImage = imageOther.find((item) => item.type === "mp4");
+  const isDisabled = () => {
+    if (processState?.value === processingstatusOptions[2]?.value) {
+      return true;
+    }
+    if (detailAI?.uuid === "") {
+      return true;
+    }
+    return false;
+  };
   return (
     <>
       <StyledEventFileDetail className="eventDetail4">
@@ -283,11 +292,7 @@ const Viewfiletype4 = ({
           <Row>
             <Col>
               <Button
-                disabled={
-                  processState?.value === processingstatusOptions[2]?.value
-                    ? true
-                    : false
-                }
+                disabled={isDisabled()}
                 type="primary"
                 onClick={handleShowTicketModal}
                 className="vms-ant-btn"
