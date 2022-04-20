@@ -1,43 +1,49 @@
 @import "../../assets/scss/core/variables/vms-variable";
 .modal__update-tag {
-    max-width: 1000px;
-    .ant-modal-body {
-        .btn-add-tag {
-            background: gainsboro !important;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            & span {
-                color: black !important
-            }
-            &:hover {
-                border: 1px solid $vms-main-blue-primary;
-            }
-            &:hover span {
-                color: $vms-main-blue-primary !important;
-            }
-        }
-        .tag-input-item {
-            text-align: left;
-            .ant-form-item-control-input {
-                background: #333333 !important;
-                .react-tagsinput {
-                    background: #333333 !important;
-                    .react-tagsinput-tag {
-                        color: white;
-                        background: black;
-                        word-break: break-all
-                    }
-                }
-            }
-        }
+  max-width: 1000px;
+  .ant-modal-body {
+    .btn-add-tag {
+      background: gainsboro !important;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      & span {
+        color: black !important;
+      }
+      &:hover {
+        border: 1px solid $vms-main-blue-primary;
+      }
+      &:hover span {
+        color: $vms-main-blue-primary !important;
+      }
     }
+    .tag-input-item {
+      text-align: left;
+      .ant-form-item-control-input {
+        background: #333333 !important;
+        .react-tagsinput {
+          background: #333333 !important;
+          .react-tagsinput-tag {
+            color: white;
+            background: black;
+            word-break: break-all;
+          }
+        }
+      }
+    }
+  }
 }
 
-[dir] .ant-select-show-search.ant-select:not(.ant-select-customize-input) .ant-select-selector {
-    min-height: 42px !important;
+[dir]
+  .ant-select-show-search.ant-select:not(.ant-select-customize-input)
+  .ant-select-selector {
+  min-height: 42px !important;
 }
 
 [dir] .react-tagsinput-input {
-    width: auto;
+  width: auto;
+}
+.ant-select-selection-placeholder {
+  z-index: 999;
+  color: #818c99 !important;
 }

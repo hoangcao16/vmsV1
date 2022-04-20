@@ -56,6 +56,7 @@ const CANT_INSERT_DATABASE = 1080;
 const CANT_UPDATE_DATABASE = 1081;
 const CANT_DELETE_DATABASE = 1082;
 const ISAPI_CANT_FIND_CHANEL = 1085;
+const PRESET_EXIST_IN_PRESET_TOUR = 1086;
 const SCAN_EMPTY = 1090;
 const SCAN_FAILED = 1091;
 const StatusForbidden = 605;
@@ -496,6 +497,16 @@ export const handleErrCode = ({
         errCode.description = "Không tìm được kênh của Camera";
       } else {
         errCode.description = "Can't find Camera's channel";
+      }
+      Notification(errCode);
+      return null;
+    case PRESET_EXIST_IN_PRESET_TOUR:
+      if (language === "vn") {
+        errCode.description =
+          "Điểm preset tồn tại trong preset-tour, vui lòng xóa điểm preset trong preset-tour hoặc xóa preset-tour đó!";
+      } else {
+        errCode.description =
+          "The preset point exists in the preset-tour, please delete the preset point in the preset-tour or delete the preset-tour!";
       }
       Notification(errCode);
       return null;

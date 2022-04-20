@@ -32,10 +32,14 @@ const EditableCell = ({
     e.stopPropagation();
     setEditing(!editing);
     form.setFieldsValue({
-      [dataIndex]: record[dataIndex],
+      [dataIndex]: record[dataIndex].trim(),
     });
   };
-
+  const handleChange = (e) => {
+    form.setFieldsValue({
+      [dataIndex]: e.target.value.trimStart(),
+    });
+  };
   const save = async (e) => {
     try {
       const values = await form.validateFields();
@@ -57,20 +61,14 @@ const EditableCell = ({
           margin: 0,
         }}
         name={dataIndex}
-        rules={[
-          //   {
-          //     required: true,
-          //     message: `${title} is required.`,
-          //   },
-          { max: 255, message: t("view.map.max_length_255") },
-        ]}
+        rules={[{ max: 255, message: t("view.map.max_length_255") }]}
         onClick={(e) => e.stopPropagation()}
       >
         <TextArea
           autoSize={true}
-          maxLength={255}
           ref={inputRef}
           onPressEnter={save}
+          onChange={handleChange}
           onBlur={save}
           className="edit-note"
         />
