@@ -70,6 +70,7 @@ const TableCategory = () => {
   useEffect(() => {
     const data = {
       name: "",
+      size: 1000,
     };
     fetchOptionsData(data).then((data) => {
       setDataOptions(data);
@@ -216,6 +217,7 @@ const TableCategory = () => {
     setSearch(value);
     const data = {
       name: encodeURIComponent(value),
+      size: 1000,
     };
     // const dataSearch = await fetchOptionsData(data);
     // setDataOptions(dataSearch);
@@ -349,6 +351,7 @@ const TableCategory = () => {
     }
     const data = {
       name: "",
+      size: 1000,
     };
     fetchOptionsData(data).then(setDataOptions);
   };

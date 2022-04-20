@@ -1,5 +1,5 @@
-import { responseCheckerErrorsController } from '../../function/MyUltil/ResponseChecker';
-import MyService from '../service';
+import { responseCheckerErrorsController } from "../../function/MyUltil/ResponseChecker";
+import MyService from "../service";
 
 const DepartmentApi = {
   getAllDepartment: async (data) => {
@@ -7,7 +7,11 @@ const DepartmentApi = {
 
     try {
       result = await MyService.getRequestData(
-        `/cctv-controller-svc/api/v1/departments?name=${data?.name}&administrativeUnitUuid=${data?.administrativeUnitUuid}`
+        `/cctv-controller-svc/api/v1/departments?name=${
+          data?.name
+        }&administrativeUnitUuid=${data?.administrativeUnitUuid}${
+          data?.size ? `&size=${data?.size}` : ""
+        }`
       );
     } catch (error) {
       console.log(error);
@@ -59,7 +63,7 @@ const DepartmentApi = {
 
     try {
       result = await MyService.postRequestData(
-        '/cctv-controller-svc/api/v1/departments',
+        "/cctv-controller-svc/api/v1/departments",
         DepartmentPayload
       );
     } catch (error) {
@@ -84,7 +88,7 @@ const DepartmentApi = {
       return false;
     }
     return true;
-  }
+  },
 };
 
 export default DepartmentApi;

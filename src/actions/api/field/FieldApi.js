@@ -1,12 +1,14 @@
-import { responseCheckerErrorsController } from '../../function/MyUltil/ResponseChecker';
-import MyService from '../service';
+import { responseCheckerErrorsController } from "../../function/MyUltil/ResponseChecker";
+import MyService from "../service";
 
 const FieldApi = {
   getAllFeild: async (data) => {
     let result;
     try {
       result = await MyService.getRequestData(
-        `/cctv-controller-svc/api/v1/event_fields?name=${data?.name}`
+        `/cctv-controller-svc/api/v1/event_fields?name=${data?.name}${
+          data?.size ? `&size=${data?.size}` : ""
+        }`
       );
     } catch (error) {
       console.log(error);
@@ -76,7 +78,7 @@ const FieldApi = {
       return false;
     }
     return true;
-  }
+  },
 };
 
 export default FieldApi;

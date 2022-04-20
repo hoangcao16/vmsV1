@@ -25,6 +25,7 @@ const ModalAddEditTagBindCam = (props) => {
       try {
         const data = {
           name: "",
+          size: 1000,
         };
         const response = await TagApi.getAllTags(data);
         if (response) {
