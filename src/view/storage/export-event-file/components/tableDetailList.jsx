@@ -32,12 +32,12 @@ const EditableCell = ({
     e.stopPropagation();
     setEditing(!editing);
     form.setFieldsValue({
-      [dataIndex]: record[dataIndex].trim(),
+      [dataIndex]: record[dataIndex]?.trim(),
     });
   };
   const handleChange = (e) => {
     form.setFieldsValue({
-      [dataIndex]: e.target.value.trimStart(),
+      [dataIndex]: e.target.value?.trimStart(),
     });
   };
   const save = async (e) => {

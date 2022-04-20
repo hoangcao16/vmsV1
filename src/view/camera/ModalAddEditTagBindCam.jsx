@@ -50,7 +50,6 @@ const ModalAddEditTagBindCam = (props) => {
     }
     return disable;
   };
-  console.log(formValue);
   return (
     <>
       <Modal
@@ -126,6 +125,7 @@ const ModalAddEditTagBindCam = (props) => {
                               tags[key].value = value;
                               setFormValue({ tags });
                             }}
+                            addOnBlur={true}
                           />
                         </Form.Item>
                       </Col>
