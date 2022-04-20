@@ -37,6 +37,7 @@ const ModalAddCamera = (props) => {
   const [form] = Form.useForm();
   const [name, setName] = useState("");
   const [wardId, setWardId] = useState("");
+
   const [administrativeUnitUuid, setAdministrativeUnitUuid] = useState("");
   const [vendorUuid, setVendorUuid] = useState("");
   const [status, setStatus] = useState("");

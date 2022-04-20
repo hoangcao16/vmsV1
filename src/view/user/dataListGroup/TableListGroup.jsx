@@ -113,7 +113,7 @@ export default function TableListGroup() {
       const notifyMess = {
         type: "success",
         title: "",
-        description: `${t("noti.successfully_deleted_group")}`,
+        description: t("noti.successfully_deleted_group", { g: t("g") }),
       };
       Notification(notifyMess);
     }

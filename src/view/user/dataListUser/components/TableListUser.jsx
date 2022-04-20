@@ -202,6 +202,7 @@ const TableListUser = (props) => {
         filter: "",
         type: unit,
       };
+      setPage(1);
       UserApi.getAllUser(data).then((result) => {
         setListUsers(result.payload);
         setTotal(result?.metadata?.total);

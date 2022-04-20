@@ -25,6 +25,7 @@ import {
   MdClear,
 } from "react-icons/all";
 import { FiBookmark, FiFilm, FiImage, FiSearch } from "react-icons/fi";
+import AIEventsApi from "../../../actions/api/ai-events/AIEventsApi.js";
 import AddressApi from "../../../actions/api/address/AddressApi";
 import adDivisionApi from "../../../api/controller-api/adDivisionApi";
 import cameraApi from "../../../api/controller-api/cameraApi";
@@ -35,6 +36,7 @@ import {
 } from "../../common/select/CustomSelect";
 import locale from "antd/lib/date-picker/locale/vi_VN";
 const AI_SOURCE = process.env.REACT_APP_AI_SOURCE;
+
 const TableFile = (props) => {
   const { t } = useTranslation();
   const typeList = [
@@ -455,6 +457,7 @@ const TableFile = (props) => {
   const [selectedRowUuid, setSelectedRowUuid] = useState("");
   const [startDate, setStartDate] = useState(null);
   const [endDate, setEndDate] = useState(null);
+  const [eventAi, setEventAi] = useState(eventListAI);
 
   const onClickRowSelect = (record) => {
     if (props) {
@@ -488,6 +491,13 @@ const TableFile = (props) => {
         });
     }
   };
+
+  useEffect(() => {
+    AIEventsApi.getAiEvent(AI_SOURCE).then((data) => {
+      console.log("data", data);
+      setEventAi(data);
+    });
+  }, []);
 
   useEffect(() => {
     AddressApi.getAllProvinces().then(setProvinceList);
@@ -567,7 +577,6 @@ const TableFile = (props) => {
   };
 
   const onQuickSearchHandler = (value) => {
-    console.log("value", value);
     value = value.trim();
     let dataParam = {};
     if (props.viewFileType === 2) {
@@ -1431,7 +1440,7 @@ const TableFile = (props) => {
               style={!useAdvanceSearch ? { display: "none" } : {}}
             >
               <Col span={8}>
-                {props.viewFileType >= 1 && props.viewFileType != 4 && (
+                {props.viewFileType >= 1 && props.viewFileType !== 4 && (
                   <Form.Item name={["type"]}>
                     <Select
                       allowClear
@@ -1457,7 +1466,7 @@ const TableFile = (props) => {
                 )}
               </Col>
               <Col span={8}>
-                {props.viewFileType >= 2 && props.viewFileType != 4 && (
+                {props.viewFileType >= 2 && props.viewFileType !== 4 && (
                   <Form.Item name={["eventType"]}>
                     <Select
                       allowClear
@@ -1477,7 +1486,7 @@ const TableFile = (props) => {
                       showSearch
                       onChange={(type) => onChangeSubEventType(type)}
                       filterOption={filterOption}
-                      options={normalizeOptions("name", "type", eventListAI)}
+                      options={normalizeOptions("name", "uuid", eventAi)}
                       placeholder={t("view.storage.event_type")}
                     />
                   </Form.Item>
