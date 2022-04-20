@@ -200,24 +200,22 @@ export default function TableListCamInCamGroup(props) {
     );
   };
   return (
-    <div>
+    <>
       {isEmpty(camGroupUuid) ? null : (
-        <div>
-          <Table
-            className="table__list--cam-in-cam-group"
-            rowKey="uuid"
-            columns={columns}
-            dataSource={camInGroup}
-            title={renderHeader}
-            // scroll={{ y: 300 }}
-            pagination={{
-              pageSize: 8,
-            }}
-            locale={{
-              emptyText: `${t("view.user.detail_list.no_valid_results_found")}`,
-            }}
-          />
-        </div>
+        <Table
+          className="table__list--cam-in-cam-group"
+          rowKey="uuid"
+          columns={columns}
+          dataSource={camInGroup}
+          title={renderHeader}
+          // scroll={{ y: 300 }}
+          pagination={{
+            pageSize: 8,
+          }}
+          locale={{
+            emptyText: `${t("view.user.detail_list.no_valid_results_found")}`,
+          }}
+        />
       )}
       {selectedCameraId && (
         <ModalViewDetail
@@ -225,6 +223,6 @@ export default function TableListCamInCamGroup(props) {
           handleShowModal={handleShowModalInfo}
         />
       )}
-    </div>
+    </>
   );
 }

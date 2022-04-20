@@ -13,7 +13,14 @@
 }
 
 .table__list--camera-add {
+  height: 100%;
+  .ant-spin-nested-loading,
+  .ant-spin-container,
+  .ant-table-empty {
+    height: 100% !important;
+  }
   .ant-table {
+    height: calc(100% - 58px);
     background-color: $vms-bg-primary;
     border-radius: 0 12px 12px 0;
     border: 1px solid rgba(234, 240, 247, 0.1);
@@ -96,7 +103,7 @@
 
     //end: title table
     .ant-table-content {
-      height: calc(51.5px + 41.8vh);
+      // height: calc(64.5px + 41.8vh);
     }
 
     //begin: head table
