@@ -377,27 +377,25 @@ export default function TableAddCamInCamGroup(props) {
   };
 
   return (
-    <div>
+    <>
       {isEmpty(camGroupUuid) ? null : (
-        <div>
-          <Table
-            className="table__list--camera-add"
-            rowKey="uuid"
-            columns={columns}
-            // scroll={{ y: 1000 }}
-            dataSource={listCamera}
-            title={renderHeader}
-            rowSelection={rowSelection}
-            pagination={{
-              pageSize: 5,
-            }}
-            locale={{
-              emptyText: `${t("view.user.detail_list.no_valid_results_found")}`,
-            }}
-          />
-        </div>
+        <Table
+          className="table__list--camera-add"
+          rowKey="uuid"
+          columns={columns}
+          // scroll={{ y: 1000 }}
+          dataSource={listCamera}
+          title={renderHeader}
+          rowSelection={rowSelection}
+          pagination={{
+            pageSize: 5,
+          }}
+          locale={{
+            emptyText: `${t("view.user.detail_list.no_valid_results_found")}`,
+          }}
+        />
       )}
-    </div>
+    </>
   );
 }
 
