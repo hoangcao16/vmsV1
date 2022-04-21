@@ -79,7 +79,7 @@ export default function ModalEditCameraGroup(props) {
         >
           <Form.Item
             name={["name"]}
-            // label="Tên nhóm Camera "
+            label={t("view.camera.camera_group_name")}
             rules={[
               {
                 required: true,
@@ -109,7 +109,7 @@ export default function ModalEditCameraGroup(props) {
           <Form.Item
             style={{ paddingTop: 20 }}
             name={["description"]}
-            // label="Tên nhóm Camera "
+            label={t("view.user.detail_list.desc")}
             rules={[
               {
                 required: true,
