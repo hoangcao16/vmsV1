@@ -1,9 +1,11 @@
-@import '../../assets/scss/core/variables/vms-variable';
+@import "../../assets/scss/core/variables/vms-variable";
 
 .ant-popconfirm {
-
   .ant-popover-arrow-content {
     background-color: $vms-bg-sub;
+    &::before {
+      background: transparent !important;
+    }
   }
 
   .ant-popover-inner {
