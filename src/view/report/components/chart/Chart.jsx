@@ -25,13 +25,23 @@ function Chart(props) {
   const data =
     props.chartData?.res?.DataChartEvent ||
     props.chartData?.res?.CompareChartEvent;
-
+  const datafloat = data.map((item) => {
+    let arr = [];
+    arr = Object.fromEntries(
+      Object.entries(item).filter(([key]) => key !== "time")
+    );
+    const keyArr = Object.keys(arr);
+    keyArr.forEach((key) => {
+      item[key] = parseFloat(item[key]);
+    });
+    return item;
+  });
   const { t } = useTranslation();
 
   if (props.isLoading) {
     return null;
   }
-  const dataConvert = (dataMap) => {
+  const dataConvert = (data) => {
     if (isEmpty(data)) {
       return;
     }
@@ -84,7 +94,7 @@ function Chart(props) {
           <LineChart
             width={870}
             height={300}
-            data={data}
+            data={datafloat}
             margin={{
               top: 5,
               right: 30,
@@ -97,7 +107,7 @@ function Chart(props) {
             <YAxis />
             <Tooltip />
             <Legend />
-            {dataConvert(data)}
+            {dataConvert(datafloat)}
           </LineChart>
         </div>
       )}

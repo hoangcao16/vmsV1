@@ -865,6 +865,9 @@
 
   .ant-popover-arrow-content {
     background-color: $vms-bg-sub;
+    &::before {
+      background: transparent !important;
+    }
   }
 }
 
@@ -888,6 +891,9 @@
 
   .ant-popover-arrow-content {
     background-color: $vms-bg-sub;
+    &::before {
+      background: transparent !important;
+    }
   }
 }
 

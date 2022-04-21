@@ -47,7 +47,17 @@ function BarChartComponent(props) {
     props.chartData?.res?.DataChartEvent ||
     props.chartData?.res?.CompareChartEvent;
   const { t } = useTranslation();
-
+  const datafloat = data.map((item) => {
+    let arr = [];
+    arr = Object.fromEntries(
+      Object.entries(item).filter(([key]) => key !== "time")
+    );
+    const keyArr = Object.keys(arr);
+    keyArr.forEach((key) => {
+      item[key] = parseFloat(item[key]);
+    });
+    return item;
+  });
   if (props.isLoading) {
     return null;
   }
@@ -91,7 +101,7 @@ function BarChartComponent(props) {
             <BarChart
               width={870}
               height={450}
-              data={data}
+              data={datafloat}
               margin={{
                 top: 5,
                 right: 30,
@@ -104,7 +114,7 @@ function BarChartComponent(props) {
               <YAxis />
               <Tooltip />
               <Legend />
-              {dataConvert(data)}
+              {dataConvert(datafloat)}
             </BarChart>
           </>
         </div>

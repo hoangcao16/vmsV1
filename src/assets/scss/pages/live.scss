@@ -1,6 +1,6 @@
 @import "../core/variables/vms-variable.scss";
 @import "../core/variables/z-index";
-@import '../core/mixins/vms-mixins';
+@import "../core/mixins/vms-mixins";
 
 .live-map-wrapper {
   height: 100vh;
@@ -26,6 +26,9 @@
   .ant-popover-arrow {
     .ant-popover-arrow-content {
       background-color: $vms-bg-primary;
+      &::before {
+        background: transparent !important;
+      }
     }
   }
   .ant-popover-inner {
@@ -64,6 +67,18 @@
             align-items: center;
             input {
               height: 100%;
+              & ::-webkit-input-placeholder {
+                color: $vms-status-05;
+              }
+              & ::-moz-placeholder {
+                color: $vms-status-05;
+              }
+              & :-ms-input-placeholder {
+                color: $vms-status-05;
+              }
+              & ::-ms-input-placeholder {
+                color: $vms-status-05;
+              }
               & ::placeholder {
                 color: $vms-status-05;
               }
@@ -239,7 +254,8 @@
     position: absolute;
     width: 100%;
     height: 100%;
-    object-fit: fill;
+    -o-object-fit: fill;
+       object-fit: fill;
     z-index: $zindex-video;
   }
 
@@ -414,7 +430,10 @@
     z-index: $zindex-playback_control_datetime;
     background-color: #1e1e1e;
 
-    & .ant-picker-time-panel-column > li.ant-picker-time-panel-cell .ant-picker-time-panel-cell-inner {
+    &
+      .ant-picker-time-panel-column
+      > li.ant-picker-time-panel-cell
+      .ant-picker-time-panel-cell-inner {
       color: white;
     }
   }
@@ -470,7 +489,7 @@
       margin: 0;
       align-items: center;
       width: 19vw;
-      &>a {
+      & > a {
         flex: 1;
         height: 24px;
         width: 24px;
@@ -493,7 +512,7 @@
           }
           &:hover {
             transition: 0.3s;
-              box-shadow: 0 0 8px 2px $vms-main-blue-primary;
+            box-shadow: 0 0 8px 2px $vms-main-blue-primary;
           }
         }
         .choosed {
@@ -506,7 +525,7 @@
     }
     .container--change {
       flex: 3;
-      .toolbar__ptz--control{
+      .toolbar__ptz--control {
         display: flex;
         justify-content: space-evenly;
         .toolbar__ptz--direction {
@@ -523,7 +542,7 @@
               background-color: $vms-main-blue-primary;
               border: 0;
               border-radius: 4px;
-              span{
+              span {
                 svg {
                   color: $vms-status;
                 }
@@ -548,13 +567,13 @@
           .toolbar__ptz {
             margin: 0;
             // .ant-select-disabled{
-            .ant-select-selector{
+            .ant-select-selector {
               width: 120px;
 
               background-color: $vms-bg-primary;
               border: $vms-border-gray;
               border-radius: 8px;
-              .ant-select-selection-item{
+              .ant-select-selection-item {
                 max-width: 100px;
 
                 overflow: hidden;
@@ -563,47 +582,58 @@
               }
             }
             // }
-            .ant-select-clear{
+            .ant-select-clear {
               background-color: transparent;
             }
-            .ant-select-selection-placeholder{
+            .ant-select-selection-placeholder {
               color: $vms-status-05;
             }
-            
           }
         }
       }
 
-      .playback-menu-tool{
+      .playback-menu-tool {
         margin: 0;
-        .play-control__left{
+        .play-control__left {
           flex: 3;
           display: flex;
           justify-content: space-evenly;
           margin: 0;
-          .ant-picker{
+          .ant-picker {
             margin-right: 8px;
             margin-left: 8px;
             background-color: $vms-bg-3;
             height: 36px;
+            input::-webkit-input-placeholder {
+              color: $vms-status-07;
+            }
+            input::-moz-placeholder {
+              color: $vms-status-07;
+            }
+            input:-ms-input-placeholder {
+              color: $vms-status-07;
+            }
+            input::-ms-input-placeholder {
+              color: $vms-status-07;
+            }
             input::placeholder {
               color: $vms-status-07;
             }
           }
         }
-        .playControl{
+        .playControl {
           flex: 2;
           // justify-content: space-evenly;
-          .playIconContainer{
+          .playIconContainer {
             flex: 1;
             display: flex;
             justify-content: center;
             margin: 0;
-            svg{
+            svg {
               font-size: 20px;
             }
           }
-          .playIcon2Container{
+          .playIcon2Container {
             flex: 1;
             margin: 0;
             display: flex;
@@ -619,36 +649,32 @@
               display: flex;
               justify-content: center;
               align-items: center;
-              svg{
+              svg {
                 padding: 0;
                 font-size: 30px;
               }
             }
-            
-            
           }
         }
-        .play-control__right{
-          flex:3;
+        .play-control__right {
+          flex: 3;
           display: flex;
           justify-content: space-around;
           margin: 0;
           align-items: center;
-          >div:first-child span{
-
+          > div:first-child span {
             color: $vms-main-card !important;
-
           }
           .speed {
-            margin: 0;  
+            margin: 0;
             .speed__title {
               color: $vms-main-card;
               margin-right: 16px;
-            }      
-            .speed__value{
+            }
+            .speed__value {
               color: $vms-main-blue-primary;
-            }  
-            .speed__control{
+            }
+            .speed__control {
               display: flex;
               flex-direction: column;
               margin-left: 4px;
@@ -678,8 +704,20 @@
         height: 36px;
         background-color: $vms-bg-3;
         border-radius: 8px;
-        padding:0 12px;
+        padding: 0 12px;
         border: $vms-border-gray;
+        &::-webkit-input-placeholder {
+          color: $vms-status-05;
+        }
+        &::-moz-placeholder {
+          color: $vms-status-05;
+        }
+        &:-ms-input-placeholder {
+          color: $vms-status-05;
+        }
+        &::-ms-input-placeholder {
+          color: $vms-status-05;
+        }
         &::placeholder {
           color: $vms-status-05;
         }
@@ -711,7 +749,7 @@
     margin-top: 48px;
     // padding-right: 24px;
 
-    .slider__markers-seekTime{
+    .slider__markers-seekTime {
       height: 28px;
       line-height: 28px;
       position: absolute;
@@ -725,7 +763,7 @@
       }
       &::after {
         // background-color: red;
-        content: '';
+        content: "";
         position: absolute;
         width: 0;
         height: 0;
@@ -741,18 +779,19 @@
     .slider {
       position: relative;
       background-color: $vms-bg-sub;
-      #sliderheader{
+      #sliderheader {
         position: absolute;
         background-color: $vms-bg-sub;
       }
       #slider__markers {
         position: relative;
+        cursor: -webkit-grab;
         cursor: grab;
         width: calc(100% + 48px);
         left: -24px;
         background-color: $vms-bg-primary;
-        .slider__marker::before{
-          border:0;
+        .slider__marker::before {
+          border: 0;
           background-color: rgba(182, 198, 215, 0.5);
           // height: 2px;
           width: 2px;
@@ -761,29 +800,28 @@
           background-color: rgba(182, 198, 215, 0.5);
           border: 1px solid rgba(182, 198, 215, 0.5);
         }
-        
       }
-      .slider__marker-hour{
+      .slider__marker-hour {
         color: $vms-status-05;
       }
-      .slider__marker-date{
+      .slider__marker-date {
         color: $vms-status-05;
       }
-      
-      .slider__zoom{
+
+      .slider__zoom {
         z-index: 1001;
         display: flex;
         flex-direction: column;
         height: 70px;
         width: 35px;
         left: -24px;
-        &>span {
+        & > span {
           flex: 1;
           display: flex;
           justify-content: center;
           align-items: center;
           border: $vms-border-gray;
-          &:hover{
+          &:hover {
             background-color: $vms-main-blue-primary;
             // border-radius: 8px;
             transition: 0.3s;
@@ -793,14 +831,14 @@
           }
         }
       }
-      &::after{
+      &::after {
         background-color: $vms-main-blue-primary;
-        border-radius:2px;
+        border-radius: 2px;
         width: 10px;
         height: 20px;
         left: 50%;
         top: 50%;
-        transform: translate(-50%,-50%);
+        transform: translate(-50%, -50%);
       }
     }
   }
