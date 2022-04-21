@@ -17,9 +17,8 @@ import "./ModalPresetSetting.scss";
 import cameraAIApi from "../../../actions/api/live/CameraAIApi";
 import { reactLocalStorage } from "reactjs-localstorage";
 import { UPDATE_DATA } from "../../../redux/types/live";
-
+const AI_SOURCE = process.env.REACT_APP_AI_SOURCE;
 const language = reactLocalStorage.get("language");
-
 const LIST_TYPES = {
   preset: "preset",
   presetTour: "presetTour",
@@ -46,57 +45,114 @@ const Index = (props) => {
     permissionCheckByCamera("setup_preset", idCamera) &&
     permissionCheckByCamera("ptz_control", idCamera)
   ) {
-    CONTROL_TYPES = [
-      {
-        name: "Preset",
-        type: 1,
-        icon: <ChevronRight />,
-      },
-      {
-        name: "Preset tour",
-        type: 2,
-        icon: <ChevronRight />,
-      },
-      {
-        name: `${t("view.live.preset_setting")}`,
-        type: 3,
-      },
-      { name: `${t("view.live.open_control_panel")}`, type: 4 },
-      { name: `${t("view.live.view_by_setting")}`, type: 5 },
-    ];
+    if (AI_SOURCE === "edso") {
+      CONTROL_TYPES = [
+        {
+          name: "Preset",
+          type: 1,
+          icon: <ChevronRight />,
+        },
+        {
+          name: "Preset tour",
+          type: 2,
+          icon: <ChevronRight />,
+        },
+        {
+          name: `${t("view.live.preset_setting")}`,
+          type: 3,
+        },
+        { name: `${t("view.live.open_control_panel")}`, type: 4 },
+        { name: `${t("view.live.view_by_setting")}`, type: 5 },
+      ];
+    } else {
+      CONTROL_TYPES = [
+        {
+          name: "Preset",
+          type: 1,
+          icon: <ChevronRight />,
+        },
+        {
+          name: "Preset tour",
+          type: 2,
+          icon: <ChevronRight />,
+        },
+        {
+          name: `${t("view.live.preset_setting")}`,
+          type: 3,
+        },
+        { name: `${t("view.live.open_control_panel")}`, type: 4 },
+      ];
+    }
   } else if (!permissionCheckByCamera("setup_preset", idCamera)) {
-    CONTROL_TYPES = [
-      {
-        name: "Preset",
-        type: 1,
-        icon: <ChevronRight />,
-      },
-      {
-        name: "Preset tour",
-        type: 2,
-        icon: <ChevronRight />,
-      },
-      { name: `${t("view.live.open_control_panel")}`, type: 4 },
-      { name: `${t("view.live.view_by_setting")}`, type: 5 },
-    ];
+    if (AI_SOURCE === "edso") {
+      CONTROL_TYPES = [
+        {
+          name: "Preset",
+          type: 1,
+          icon: <ChevronRight />,
+        },
+        {
+          name: "Preset tour",
+          type: 2,
+          icon: <ChevronRight />,
+        },
+        { name: `${t("view.live.open_control_panel")}`, type: 4 },
+        { name: `${t("view.live.view_by_setting")}`, type: 5 },
+      ];
+    } else {
+      CONTROL_TYPES = [
+        {
+          name: "Preset",
+          type: 1,
+          icon: <ChevronRight />,
+        },
+        {
+          name: "Preset tour",
+          type: 2,
+          icon: <ChevronRight />,
+        },
+        { name: `${t("view.live.open_control_panel")}`, type: 4 },
+        // { name: `${t("view.live.view_by_setting")}`, type: 5 },
+      ];
+    }
   } else if (!permissionCheckByCamera("ptz_control", idCamera)) {
-    CONTROL_TYPES = [
-      {
-        name: "Preset",
-        type: 1,
-        icon: <ChevronRight />,
-      },
-      {
-        name: "Preset tour",
-        type: 2,
-        icon: <ChevronRight />,
-      },
-      {
-        name: `${t("view.live.preset_setting")}`,
-        type: 3,
-      },
-      { name: `${t("view.live.view_by_setting")}`, type: 5 },
-    ];
+    if (AI_SOURCE === "edso") {
+      CONTROL_TYPES = [
+        {
+          name: "Preset",
+          type: 1,
+          icon: <ChevronRight />,
+        },
+        {
+          name: "Preset tour",
+          type: 2,
+          icon: <ChevronRight />,
+        },
+        {
+          name: `${t("view.live.preset_setting")}`,
+          type: 3,
+        },
+        { name: `${t("view.live.view_by_setting")}`, type: 5 },
+      ];
+    } else {
+      CONTROL_TYPES = [
+        {
+          name: "Preset",
+          type: 1,
+          icon: <ChevronRight />,
+        },
+        {
+          name: "Preset tour",
+          type: 2,
+          icon: <ChevronRight />,
+        },
+        {
+          name: `${t("view.live.preset_setting")}`,
+          type: 3,
+        },
+        // { name: `${t("view.live.view_by_setting")}`, type: 5 },
+      ];
+    }
   }
   const dispatch = useDispatch();
   const [typeActive, setTypeActive] = useState(1);

@@ -59,7 +59,8 @@
       "please_enter_new_camera_group_name": "Nhập tên nhóm Camera mới",
       "please_enter_camera_group_name": "Nhập tên nhóm Camera",
       "add_camera_group": "Thêm Camera vào nhóm Camera",
-      "camera_group_name": "Tên nhóm Camera"
+      "camera_group_name": "Tên nhóm Camera",
+      "move": "Di chuyển"
     },
     "category": {
       "camera_vendor": "Hãng {{cam}}",
@@ -797,6 +798,7 @@
     "successfully_delete_preset": "Bạn đã xoá preset thành công",
     "successfully_delete_preset_tour": "Bạn đã xoá preset tour thành công",
     "successfully_add_preset": "Bạn đã thêm mới preset thành công",
+    "successfully_edit_preset_tour": "Bạn đã chỉnh sửa preset tour thành công",
     "successfully_change_preset_name": "Bạn đã sửa tên preset thành công",
     "successfully_change_preset_tour_name": "Bạn đã sửa tên preset tour thành công",
     "fail_change_preset_tour_name": "Cập nhập tên không thành công, vui lòng kiểm tra lại tên preset tour",
