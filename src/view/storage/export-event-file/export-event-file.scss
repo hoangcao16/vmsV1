@@ -706,6 +706,9 @@
       line-height: 20px;
       color: $vms-status-07;
     }
+    .ant-table-tbody > tr > td:last-child {
+      text-align: left;
+    }
     .ant-table-cell-row-hover {
       background: transparent !important;
     }

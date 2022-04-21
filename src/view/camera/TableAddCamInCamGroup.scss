@@ -19,6 +19,9 @@
   .ant-table-empty {
     height: 100% !important;
   }
+  .ant-table-pagination {
+    max-height: 58px !important;
+  }
   .ant-table {
     height: calc(100% - 58px);
     background-color: $vms-bg-primary;

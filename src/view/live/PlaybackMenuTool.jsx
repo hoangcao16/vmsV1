@@ -32,7 +32,7 @@ const PlaybackMenuTool = ({
     if (seekToDate) {
       setNeedToPlayImmediately(true);
       const seekDateTime = moment(
-        seekToDate.format("DD/MM/YYYY").toString() + "T" + timeString
+        moment(seekToDate).format("YYYY-MM-DD").toString() + "T" + timeString
       ).unix();
       playbackCameraSeekTimeCallback(seekDateTime);
     }
