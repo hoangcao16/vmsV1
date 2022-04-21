@@ -42,15 +42,27 @@ const TableEventFile = (props) => {
     props.onDeleteEventFile(uuid);
   };
 
-  const changeEditModeHandler = (uuid, editMode) => {
-    let newDataList = [...dataList];
-    const index = findIndex(newDataList, (item) => item.uuid === uuid);
-    if (index !== -1) {
-      newDataList[index] = Object.assign({
-        ...newDataList[index],
-        editMode: editMode,
-      });
-      props.onChangeEditModeHandler(newDataList);
+  const changeEditModeHandler = (uuid, row, editMode) => {
+    if (editMode) {
+      let newDataList = [...dataList];
+      const index = findIndex(newDataList, (item) => item.uuid === uuid);
+      if (index !== -1) {
+        newDataList[index] = Object.assign({
+          ...newDataList[index],
+          editMode: editMode,
+        });
+        props.onChangeEditModeHandler(newDataList);
+      }
+    } else {
+      let newDataList = [...dataList];
+      const index = findIndex(newDataList, (item) => item.uuid === uuid);
+      if (index !== -1) {
+        newDataList[index] = Object.assign({
+          ...row,
+          editMode: editMode,
+        });
+        props.onChangeEditModeHandler(newDataList);
+      }
     }
   };
 
@@ -61,7 +73,7 @@ const TableEventFile = (props) => {
           <Tooltip placement="top" title={t("view.user.detail_list.edit")}>
             <AiOutlineEdit
               className="icon"
-              onClick={() => changeEditModeHandler(row?.uuid, true)}
+              onClick={() => changeEditModeHandler(row?.uuid, row, true)}
             />
           </Tooltip>
 
@@ -109,7 +121,7 @@ const TableEventFile = (props) => {
           <Tooltip placement="top" title={t("view.user.detail_list.cancel")}>
             <AiOutlineClose
               className="icon"
-              onClick={() => changeEditModeHandler(row?.uuid, false)}
+              onClick={() => changeEditModeHandler(row?.uuid, row, false)}
             />
           </Tooltip>
         )}

@@ -247,6 +247,9 @@ export const TableDetails = styled(Row)`
   .ant-table-tbody > tr.selected > td {
     background: #333333;
   }
+  .ant-table-tbody > tr > td:last-child {
+    text-align: left;
+  }
   .editable-row .editable-cell-value-wrap {
     /* padding: 4px 11px; */
     border: 1px solid transparent;
@@ -269,6 +272,7 @@ export const TableDetails = styled(Row)`
     /* height: 32px !important; */
     min-width: 290px;
     max-width: 400px;
+    text-align: left !important;
     &:hover,
     &:focus {
       box-shadow: none !important;
