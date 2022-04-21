@@ -798,7 +798,7 @@ const Preset = (props) => {
         const warnNotyfi = {
           type: NOTYFY_TYPE.success,
           title: `${t("noti.success")}`,
-          description: `${t("noti.successfully_add_preset")}`,
+          description: `${t("noti.successfully_edit_preset_tour")}`,
           duration: 2,
         };
         Notification(warnNotyfi);
@@ -1026,7 +1026,7 @@ const Preset = (props) => {
       const warnNotyfi = {
         type: NOTYFY_TYPE.success,
         title: `${t("noti.success")}`,
-        description: `${t("noti.successfully_change_preset")}`,
+        description: `${t("noti.successfully_edit_preset_tour")}`,
         duration: 2,
       };
       Notification(warnNotyfi);
@@ -1132,7 +1132,7 @@ const Preset = (props) => {
         // const record = record;
         return (
           <Space>
-            <Tooltip placement="top" title={t("view.camera.camera_detail")}>
+            <Tooltip placement="top" title={t("view.camera.move")}>
               <Button
                 icon={<EyeOutlined />}
                 onClick={(e) => handleCallPreset(record)}

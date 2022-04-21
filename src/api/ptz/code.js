@@ -283,9 +283,9 @@ export const handleErrCode = ({
       return null;
     case LIST_POINT_OUT_OF_RANGE:
       if (language === "vn") {
-        errCode.description = "Số lượng điểm quay ngoài khoảng 2-255";
+        errCode.description = "Phải có ít nhất 2 presets trong preset tour";
       } else {
-        errCode.description = "Number of rotation points out of range 2 - 255";
+        errCode.description = "Must have at least 2 presets in preset tour";
       }
       Notification(errCode);
       return null;
@@ -500,16 +500,6 @@ export const handleErrCode = ({
       }
       Notification(errCode);
       return null;
-    case PRESET_EXIST_IN_PRESET_TOUR:
-      if (language === "vn") {
-        errCode.description =
-          "Điểm preset tồn tại trong preset-tour, vui lòng xóa điểm preset trong preset-tour hoặc xóa preset-tour đó!";
-      } else {
-        errCode.description =
-          "The preset point exists in the preset-tour, please delete the preset point in the preset-tour or delete the preset-tour!";
-      }
-      Notification(errCode);
-      return null;
     case SCAN_EMPTY:
       if (language === "vn") {
         errCode.description = "Không tìm thấy thiết bị nào";
@@ -555,6 +545,15 @@ export const handleDeleteErrCode = ({ code, message, payload }) => {
   switch (code) {
     case OKE:
       return { code, message, payload };
+    case PRESET_EXIST_IN_PRESET_TOUR:
+      if (language === "vn") {
+        errCode.description = "Không xóa được do preset đã được sử dụng";
+      } else {
+        errCode.description = "Cannot delete because preset is already in use";
+      }
+      console.log("ye");
+      Notification(errCode);
+      return null;
     default:
       if (language === "vn") {
         errCode.description = "Không xác định";

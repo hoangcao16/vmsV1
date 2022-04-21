@@ -59,7 +59,8 @@
       "please_enter_new_camera_group_name": "Please enter new Camera group name",
       "please_enter_camera_group_name": "Please enter Camera group name",
       "add_camera_group": "Add Camera to Camera group",
-      "camera_group_name": "Camera group name"
+      "camera_group_name": "Camera group name",
+      "move": "Move"
     },
     "category": {
       "camera_vendor": "{{cam}} vendor",
@@ -795,6 +796,7 @@
     "successfully_delete_preset": "Successfully deleted preset",
     "successfully_delete_preset_tour": "Successfully deleted preset tour",
     "successfully_add_preset": "Successfully added preset",
+    "successfully_edit_preset_tour": "Successfully edited the tour preset",
     "successfully_change_preset_name": "Successfully changed preset name",
     "successfully_change_preset_tour_name": "Successfully changed preset tour name",
     "fail_change_preset_tour_name": "Failed updated, please check preset tour name again",
