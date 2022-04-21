@@ -93,10 +93,40 @@ export const handleErrCode = (data, type) => {
       Notification(errCode);
       return null;
     case KControllerCannotDelete:
-      if (language == "vn") {
-        errCode.description = "Không thể xóa khu vực được sử dụng bởi Máy ảnh.";
+      let item;
+      let usedby;
+      const groupname = message.substring(
+        message.indexOf("delete ") + 7,
+        message.indexOf(" with uuid")
+      );
+      const usedby_uuid = message.substring(
+        message.indexOf("used by ") + 8,
+        message.indexOf(".")
+      );
+      if (groupname === "vendor") {
+        item = "hãng camera";
+      } else if (groupname === "event field") {
+        item = "lĩnh vực";
+      } else if (groupname === "camera type") {
+        item = "loại camera";
+      } else if (groupname === "Event") {
+        item = "loại sự kiện";
+      } else if (groupname === "TagsKey ") {
+        item = "loại nhãn";
       } else {
-        errCode.description = "Can not delete zone its in used by Camera.";
+        item = "";
+      }
+      if (usedby_uuid === "Camera") {
+        usedby = "bởi máy ảnh.";
+      } else if (usedby_uuid === "event") {
+        usedby = ".";
+      } else {
+        usedby = ".";
+      }
+      if (language == "vn") {
+        errCode.description = `Không thể xóa ${item} được sử dụng ${usedby}`;
+      } else {
+        errCode.description = message;
       }
       Notification(errCode);
       return null;
