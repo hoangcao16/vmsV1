@@ -1,6 +1,7 @@
 import { Button, Input, Tag, Tooltip } from "antd";
 import React from "react";
 import { connect } from "react-redux";
+import { reactLocalStorage } from "reactjs-localstorage";
 import { loadCameraTags } from "./redux/actions/listCameraTagsAction";
 import SelectWithHiddenSelectedOptions from "./SelectTag";
 class EditableTagGroup extends React.Component {
@@ -13,19 +14,18 @@ class EditableTagGroup extends React.Component {
     addonValue: "",
   };
 
-
   escFunction = (event) => {
-    if(event.keyCode === 27 && this.state.inputValue ==='#') {
-      this.setState({ isShowSuggestions:false,inputValue:'' });
+    if (event.keyCode === 27 && this.state.inputValue === "#") {
+      this.setState({ isShowSuggestions: false, inputValue: "" });
     }
-  }
+  };
 
   componentDidMount() {
     this.props.callDataCameraTag(this.state.tags);
     document.addEventListener("keydown", this.escFunction, false);
   }
 
-  componentWillUnmount(){
+  componentWillUnmount() {
     document.removeEventListener("keydown", this.escFunction, false);
   }
 
@@ -55,7 +55,7 @@ class EditableTagGroup extends React.Component {
 
   handleInputConfirm = () => {
     const state = this.state;
-    const inputValue = state.addonValue + ' ' + state.inputValue;
+    const inputValue = state.addonValue + " " + state.inputValue;
     let tags = state.tags;
     if (inputValue && tags.indexOf(inputValue) === -1) {
       tags = [...tags, inputValue.trim()];
@@ -97,9 +97,17 @@ class EditableTagGroup extends React.Component {
       addonValue,
     } = this.state;
 
+    const lang = reactLocalStorage.get("language");
     return (
       <>
-        <div style={{ height: "100%", width: "100%", position: "relative", overflow: "auto" }}>
+        <div
+          style={{
+            height: "100%",
+            width: "100%",
+            position: "relative",
+            overflow: "auto",
+          }}
+        >
           {tags.map((tag, index) => {
             const isLongTag = tag.length > 20;
             const tagElem = (
@@ -145,12 +153,12 @@ class EditableTagGroup extends React.Component {
               onClick={this.showInput}
               style={{ height: "100%" }}
             >
-              + New Tag
+              {lang == "vn" ? "+ Nhãn mới" : "+ New Tag"}
             </Button>
           )}
         </div>
         {isShowSuggestions && (
-          <div style={{ marginTop: '4px' }}>
+          <div style={{ marginTop: "4px" }}>
             <SelectWithHiddenSelectedOptions
               handlePickData={this.handlePickData}
               allTags={tags}
