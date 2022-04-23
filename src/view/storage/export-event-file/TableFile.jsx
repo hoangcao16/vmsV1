@@ -1,4 +1,5 @@
-import { SearchOutlined } from "@ant-design/icons";
+/* eslint-disable react-hooks/exhaustive-deps */
+import { SearchOutlined } from '@ant-design/icons';
 import {
   AutoComplete,
   Col,
@@ -11,30 +12,30 @@ import {
   Select,
   Table,
   Tooltip,
-} from "antd";
-import _ from "lodash";
-import { findIndex } from "lodash-es";
-import debounce from "lodash/debounce";
-import moment from "moment";
-import React, { useEffect, useState } from "react";
-import { useTranslation } from "react-i18next";
+} from 'antd';
+import _ from 'lodash';
+import { findIndex } from 'lodash-es';
+import debounce from 'lodash/debounce';
+import moment from 'moment';
+import React, { useEffect, useState } from 'react';
+import { useTranslation } from 'react-i18next';
 import {
   BsThreeDotsVertical,
   IoChevronDownOutline,
   IoChevronUpOutline,
   MdClear,
-} from "react-icons/all";
-import { FiBookmark, FiFilm, FiImage, FiSearch } from "react-icons/fi";
-import AIEventsApi from "../../../actions/api/ai-events/AIEventsApi.js";
-import AddressApi from "../../../actions/api/address/AddressApi";
-import adDivisionApi from "../../../api/controller-api/adDivisionApi";
-import cameraApi from "../../../api/controller-api/cameraApi";
-import cameraGroupApi from "../../../api/controller-api/cameraGroupApi";
+} from 'react-icons/all';
+import { FiBookmark, FiFilm, FiImage, FiSearch } from 'react-icons/fi';
+import AIEventsApi from '../../../actions/api/ai-events/AIEventsApi.js';
+import AddressApi from '../../../actions/api/address/AddressApi';
+import adDivisionApi from '../../../api/controller-api/adDivisionApi';
+import cameraApi from '../../../api/controller-api/cameraApi';
+import cameraGroupApi from '../../../api/controller-api/cameraGroupApi';
 import {
   filterOption,
   normalizeOptions,
-} from "../../common/select/CustomSelect";
-import locale from "antd/lib/date-picker/locale/vi_VN";
+} from '../../common/select/CustomSelect';
+import locale from 'antd/lib/date-picker/locale/vi_VN';
 const AI_SOURCE = process.env.REACT_APP_AI_SOURCE;
 
 const TableFile = (props) => {
@@ -42,11 +43,11 @@ const TableFile = (props) => {
   const typeList = [
     {
       id: 0,
-      name: "Video",
+      name: 'Video',
     },
     {
       id: 1,
-      name: `${t("view.user.detail_list.image")}`,
+      name: `${t('view.user.detail_list.image')}`,
     },
   ];
 
@@ -55,27 +56,27 @@ const TableFile = (props) => {
     size: 15,
     startRecordTime: -1,
     endRecordTime: -1,
-    address: "",
-    provinceId: "",
-    districtId: "",
-    wardId: "",
-    administrativeUnitUuid: "",
+    address: '',
+    provinceId: '',
+    districtId: '',
+    wardId: '',
+    administrativeUnitUuid: '',
     fileType: 0,
-    cameraGroupUuid: "",
-    cameraUuid: "",
+    cameraGroupUuid: '',
+    cameraUuid: '',
     type: -1,
-    eventUuid: "",
-    searchType: "",
-    searchValue: "",
+    eventUuid: '',
+    searchType: '',
+    searchValue: '',
   };
   const processingstatusOptions = [
     {
-      value: "process",
-      label: `${t("view.ai_events.processing-status.process")}`,
+      value: 'process',
+      label: `${t('view.ai_events.processing-status.process')}`,
     },
     {
-      value: "processed",
-      label: `${t("view.ai_events.processing-status.processed")}`,
+      value: 'processed',
+      label: `${t('view.ai_events.processing-status.processed')}`,
     },
   ];
   const formItemLayout = {
@@ -87,20 +88,22 @@ const TableFile = (props) => {
   const eventList = props.eventList || [];
   const eventListAI = props.eventListAI || [];
   const total = props.total;
+  const nextselected = props.nextselected;
+  const nextpage = props.nextpage;
 
   const renderType = (value) => {
     return !value || value === 0 ? (
-      <FiFilm className="iconType" />
+      <FiFilm className='iconType' />
     ) : (
-      <FiImage className="iconType" />
+      <FiImage className='iconType' />
     );
   };
 
   const renderTime = (value) => {
     if (value <= 9999999999) {
-      return moment(value * 1000).format("HH:mm DD/MM/YYYY");
+      return moment(value * 1000).format('HH:mm DD/MM/YYYY');
     } else {
-      return moment(value).format("HH:mm DD/MM/YYYY");
+      return moment(value).format('HH:mm DD/MM/YYYY');
     }
   };
 
@@ -110,7 +113,7 @@ const TableFile = (props) => {
         <Tooltip title={value}>
           <span>
             {value.substr(0, 15) +
-              "..." +
+              '...' +
               value.substr(value.length - 15, value.length - 1)}
           </span>
         </Tooltip>
@@ -125,18 +128,18 @@ const TableFile = (props) => {
   const renderSubtype = (value) => {
     return (
       <Tooltip title={value}>
-        <span>{t("view.ai_events." + value)}</span>
+        <span>{t('view.ai_events.' + value)}</span>
       </Tooltip>
     );
   };
 
   const renderSetImportantAction = (row) => {
     return (
-      <div className="actionEventFile">
+      <div className='actionEventFile'>
         {!row.isImportant && (
-          <Tooltip placement="bottomLeft" title={t("view.storage.tick")}>
+          <Tooltip placement='bottomLeft' title={t('view.storage.tick')}>
             <FiBookmark
-              className="icon"
+              className='icon'
               onClick={(e) => {
                 e.stopPropagation();
                 onSetImportantFileHandler(row?.uuid, true);
@@ -145,9 +148,9 @@ const TableFile = (props) => {
           </Tooltip>
         )}
         {row.isImportant && (
-          <Tooltip placement="bottomLeft" title={t("view.storage.untick")}>
+          <Tooltip placement='bottomLeft' title={t('view.storage.untick')}>
             <FiBookmark
-              className="icon-active"
+              className='icon-active'
               onClick={(e) => {
                 e.stopPropagation();
                 onSetImportantFileHandler(row?.uuid, false);
@@ -161,9 +164,9 @@ const TableFile = (props) => {
 
   const renderSelectContent = (name, fieldName) => {
     return (
-      <div className="event-select">
-        <span className="event-name">{name}</span>&nbsp;
-        <span className="field-name">{fieldName}</span>
+      <div className='event-select'>
+        <span className='event-name'>{name}</span>&nbsp;
+        <span className='field-name'>{fieldName}</span>
       </div>
     );
   };
@@ -179,7 +182,7 @@ const TableFile = (props) => {
         }}
         filterOption={filterOption}
         // options={normalizeOptions("name", "uuid", eventList)}
-        placeholder={t("view.category.event_type")}
+        placeholder={t('view.category.event_type')}
         defaultValue={row?.eventUuid ? row?.eventUuid : null}
         options={eventList.map((e) => ({
           value: e.uuid,
@@ -191,17 +194,17 @@ const TableFile = (props) => {
 
   const renderSetEventAction = (row) => {
     return (
-      <div className="actionEventFileInActive">
-        <Tooltip placement="bottomLeft" title={t("view.storage.set_event")}>
+      <div className='actionEventFileInActive'>
+        <Tooltip placement='bottomLeft' title={t('view.storage.set_event')}>
           <Popover
-            overlayClassName="actionEventFilePopover"
-            placement="right"
-            title=""
+            overlayClassName='actionEventFilePopover'
+            placement='right'
+            title=''
             content={() => renderPopoverContent(row)}
-            trigger="click"
+            trigger='click'
           >
             <BsThreeDotsVertical
-              className="icon"
+              className='icon'
               onClick={(e) => {
                 e.stopPropagation();
               }}
@@ -216,137 +219,137 @@ const TableFile = (props) => {
     if (props.viewFileType === 0) {
       return [
         {
-          title: `${t("view.storage.type")}`,
-          dataIndex: "type",
-          key: "type",
+          title: `${t('view.storage.type')}`,
+          dataIndex: 'type',
+          key: 'type',
           width: 60,
-          fixed: "left",
+          fixed: 'left',
           render: renderType,
         },
         {
-          title: `${t("view.storage.file_name")}`,
-          dataIndex: "name",
-          key: "name",
+          title: `${t('view.storage.file_name')}`,
+          dataIndex: 'name',
+          key: 'name',
           width: 200,
           render: renderName,
         },
         {
-          title: "Camera",
-          dataIndex: "cameraName",
-          key: "cameraName",
+          title: 'Camera',
+          dataIndex: 'cameraName',
+          key: 'cameraName',
           width: 240,
           render: renderName,
         },
         {
-          title: `${t("view.storage.created_time")}`,
+          title: `${t('view.storage.created_time')}`,
           width: 160,
-          dataIndex: "startRecordTime",
+          dataIndex: 'startRecordTime',
           render: renderTime,
         },
       ];
     } else if (props.viewFileType === 1) {
       return [
         {
-          title: `${t("view.storage.type")}`,
-          dataIndex: "type",
-          key: "type",
+          title: `${t('view.storage.type')}`,
+          dataIndex: 'type',
+          key: 'type',
           width: 60,
-          fixed: "left",
+          fixed: 'left',
           render: renderType,
         },
         {
-          title: `${t("view.storage.file_name")}`,
-          dataIndex: "name",
-          key: "name",
+          title: `${t('view.storage.file_name')}`,
+          dataIndex: 'name',
+          key: 'name',
           width: 240,
           render: renderName,
         },
         {
-          title: "Camera",
-          dataIndex: "cameraName",
-          key: "cameraName",
+          title: 'Camera',
+          dataIndex: 'cameraName',
+          key: 'cameraName',
           width: 240,
           render: renderName,
         },
         {
-          title: `${t("view.storage.created_time")}`,
+          title: `${t('view.storage.created_time')}`,
           width: 160,
-          dataIndex: "createdTime",
+          dataIndex: 'createdTime',
           render: renderTime,
         },
         {
-          title: "",
-          dataIndex: "",
-          key: "action",
-          align: "right",
+          title: '',
+          dataIndex: '',
+          key: 'action',
+          align: 'right',
           width: 50,
-          fixed: "right",
+          fixed: 'right',
           render: renderSetEventAction,
         },
       ];
     } else if (props.viewFileType === 2) {
       return [
         {
-          title: `${t("view.storage.type")}`,
-          dataIndex: "type",
-          key: "type",
+          title: `${t('view.storage.type')}`,
+          dataIndex: 'type',
+          key: 'type',
           width: 60,
-          fixed: "left",
+          fixed: 'left',
           render: renderType,
         },
         {
-          title: `${t("view.storage.event")}`,
+          title: `${t('view.storage.event')}`,
           width: 240,
-          dataIndex: "eventName",
+          dataIndex: 'eventName',
           render: renderName,
         },
         {
-          title: `${t("view.storage.file_name")}`,
-          dataIndex: "name",
-          key: "name",
-          width: 240,
-          render: renderName,
-        },
-        {
-          title: "Camera",
-          dataIndex: "cameraName",
-          key: "cameraName",
+          title: `${t('view.storage.file_name')}`,
+          dataIndex: 'name',
+          key: 'name',
           width: 240,
           render: renderName,
         },
         {
-          title: `${t("view.storage.created_time")}`,
+          title: 'Camera',
+          dataIndex: 'cameraName',
+          key: 'cameraName',
+          width: 240,
+          render: renderName,
+        },
+        {
+          title: `${t('view.storage.created_time')}`,
           width: 160,
-          dataIndex: "createdTime",
+          dataIndex: 'createdTime',
           render: renderTime,
         },
         {
-          title: "",
-          dataIndex: "",
-          key: "action",
-          align: "right",
+          title: '',
+          dataIndex: '',
+          key: 'action',
+          align: 'right',
           width: 50,
-          fixed: "right",
+          fixed: 'right',
           render: renderSetImportantAction,
         },
       ];
     } else if (props.viewFileType === 4) {
       return [
         {
-          title: `${t("view.storage.type")}`,
-          dataIndex: "type",
-          key: "type",
+          title: `${t('view.storage.type')}`,
+          dataIndex: 'type',
+          key: 'type',
           width: 60,
-          fixed: "left",
+          fixed: 'left',
           render: () => {
-            return <FiImage className="iconType" />;
+            return <FiImage className='iconType' />;
           },
         },
 
         {
-          title: `${t("view.storage.event")}`,
+          title: `${t('view.storage.event')}`,
           width: 120,
-          dataIndex: "eventType",
+          dataIndex: 'eventType',
           render: renderSubtype,
         },
         // {
@@ -357,82 +360,82 @@ const TableFile = (props) => {
         //     render: renderName,
         // },
         {
-          title: `${t("view.ai_events.camera_name")}`,
-          dataIndex: "cameraName",
-          key: "cameraName",
+          title: `${t('view.ai_events.camera_name')}`,
+          dataIndex: 'cameraName',
+          key: 'cameraName',
           width: 240,
           render: renderName,
         },
         {
-          title: `${t("view.storage.violation_time")}`,
+          title: `${t('view.storage.violation_time')}`,
           width: 160,
-          dataIndex: "createdTime",
+          dataIndex: 'createdTime',
           render: renderTime,
         },
         {
-          title: `${t("view.penalty_ticket.ticket_num")}`,
-          dataIndex: "penaltyTicketId",
-          key: "penaltyTicketId",
+          title: `${t('view.penalty_ticket.ticket_num')}`,
+          dataIndex: 'penaltyTicketId',
+          key: 'penaltyTicketId',
           width: 200,
           render: renderName,
         },
         {
-          title: `${t("view.common_device.status")}`,
-          dataIndex: "status",
-          key: "status",
+          title: `${t('view.common_device.status')}`,
+          dataIndex: 'status',
+          key: 'status',
           width: 160,
           render: renderStatus,
         },
         {
-          title: `${t("view.storage.note")}`,
+          title: `${t('view.storage.note')}`,
           width: 160,
-          dataIndex: "note",
+          dataIndex: 'note',
           render: renderName,
         },
       ];
     } else {
       return [
         {
-          title: `${t("view.storage.type")}`,
-          dataIndex: "type",
-          key: "type",
+          title: `${t('view.storage.type')}`,
+          dataIndex: 'type',
+          key: 'type',
           width: 60,
-          fixed: "left",
+          fixed: 'left',
           render: renderType,
         },
         {
-          title: `${t("view.storage.file_name")}`,
-          dataIndex: "name",
-          key: "name",
+          title: `${t('view.storage.file_name')}`,
+          dataIndex: 'name',
+          key: 'name',
           width: 240,
           render: renderName,
         },
         {
-          title: "Camera",
-          dataIndex: "cameraName",
-          key: "cameraName",
+          title: 'Camera',
+          dataIndex: 'cameraName',
+          key: 'cameraName',
           width: 240,
           render: renderName,
         },
         {
-          title: `${t("view.storage.event")}`,
+          title: `${t('view.storage.event')}`,
           width: 240,
-          dataIndex: "eventName",
+          dataIndex: 'eventName',
           render: renderName,
         },
         {
-          title: `${t("view.storage.created_time")}`,
+          title: `${t('view.storage.created_time')}`,
           width: 160,
-          dataIndex: "createdTime",
+          dataIndex: 'createdTime',
           render: renderTime,
         },
         {
-          title: "",
-          dataIndex: "",
-          key: "action",
-          align: "right",
+          title: '',
+          dataIndex: '',
+          key: 'action',
+          align: 'right',
           width: 50,
-          fixed: "right",
+          fixed: 'right',
           render: renderSetImportantAction,
         },
       ];
@@ -454,7 +457,7 @@ const TableFile = (props) => {
   const [pageSize, setPageSize] = useState(iPageSize);
   const [useAdvanceSearch, setUseAdvanceSearch] = useState(false);
   let timerIdentifier = null;
-  const [selectedRowUuid, setSelectedRowUuid] = useState("");
+  const [selectedRowUuid, setSelectedRowUuid] = useState('');
   const [startDate, setStartDate] = useState(null);
   const [endDate, setEndDate] = useState(null);
   const [eventAi, setEventAi] = useState(eventListAI);
@@ -465,11 +468,21 @@ const TableFile = (props) => {
       props.onClickRow(record);
     }
   };
-
+  useEffect(() => {
+    if (nextselected !== null) {
+      setSelectedRowUuid(nextselected);
+    }
+  }, [nextselected]);
+  useEffect(() => {
+    if (nextpage !== null) {
+      setPage(page + 1);
+      onAdvanceSearchHandler(page + 1, pageSize, searchParam);
+    }
+  }, [nextpage]);
   const getAllCamera = (cameraGroupUuid) => {
-    if (cameraGroupUuid === "") {
+    if (cameraGroupUuid === '') {
       cameraApi
-        .getAll({ page: 0, size: 1000000, sort_by: "name", order_by: "asc" })
+        .getAll({ page: 0, size: 1000000, sort_by: 'name', order_by: 'asc' })
         .then((data) => {
           if (data && data.payload) {
             setCameraList(data.payload);
@@ -480,8 +493,8 @@ const TableFile = (props) => {
         .getAll({
           page: 0,
           size: 1000000,
-          sort_by: "name",
-          order_by: "asc",
+          sort_by: 'name',
+          order_by: 'asc',
           cameraGroupUuid: cameraGroupUuid,
         })
         .then((data) => {
@@ -501,20 +514,20 @@ const TableFile = (props) => {
   useEffect(() => {
     AddressApi.getAllProvinces().then(setProvinceList);
     adDivisionApi
-      .getAll({ page: 0, size: 1000000, sort_by: "name", order_by: "asc" })
+      .getAll({ page: 0, size: 1000000, sort_by: 'name', order_by: 'asc' })
       .then((data) => {
         if (data && data.payload) {
           setAdminUnitList(data.payload);
         }
       });
-    getAllCamera("");
+    getAllCamera('');
     cameraGroupApi
       .getAll({
-        parent: "all",
+        parent: 'all',
         page: 0,
         size: 1000000,
-        sort_by: "name",
-        order_by: "asc",
+        sort_by: 'name',
+        order_by: 'asc',
       })
       .then((data) => {
         if (data && data.payload) {
@@ -531,7 +544,7 @@ const TableFile = (props) => {
         ...newListFile[index],
         isImportant: isImportant,
       });
-      props.onEditFile(newListFile[index], newListFile, "mark_important_file");
+      props.onEditFile(newListFile[index], newListFile, 'mark_important_file');
     }
   };
 
@@ -544,11 +557,11 @@ const TableFile = (props) => {
       if (index !== -1) {
         newListFile[index] = Object.assign({
           ...newListFile[index],
-          tableName: "event_file",
+          tableName: 'event_file',
           eventUuid: eventUuid,
           eventName: eventName,
         });
-        props.onEditFile(newListFile[index], newListFile, "");
+        props.onEditFile(newListFile[index], newListFile, '');
       }
     }
   };
@@ -556,8 +569,8 @@ const TableFile = (props) => {
   const onAdvanceSearchHandler = (currPage, currPageSize, currSearchParam) => {
     let dataParam = {};
     if (props.viewFileType === 2) {
-      let eventUuid = "notnull";
-      if (currSearchParam.eventUuid !== "")
+      let eventUuid = 'notnull';
+      if (currSearchParam.eventUuid !== '')
         eventUuid = currSearchParam.eventUuid;
       dataParam = Object.assign({
         ...currSearchParam,
@@ -579,17 +592,17 @@ const TableFile = (props) => {
     value = value.trim();
     let dataParam = {};
     if (props.viewFileType === 2) {
-      let eventUuid = "notnull";
+      let eventUuid = 'notnull';
       dataParam = Object.assign({
         ...searchParam,
-        searchType: "all",
+        searchType: 'all',
         searchValue: value,
         eventUuid: eventUuid,
       });
     } else {
       dataParam = Object.assign({
         ...searchParam,
-        searchType: "all",
+        searchType: 'all',
         searchValue: value,
       });
     }
@@ -625,11 +638,11 @@ const TableFile = (props) => {
       if (props.viewFileType === 2) {
         props.onSearch({
           ...searchCaptureFileParamDefault,
-          searchType: "all",
-          eventUuid: "notnull",
+          searchType: 'all',
+          eventUuid: 'notnull',
         });
       } else {
-        props.onSearch({ ...searchCaptureFileParamDefault, searchType: "all" });
+        props.onSearch({ ...searchCaptureFileParamDefault, searchType: 'all' });
       }
     }
     setPage(iPage);
@@ -644,7 +657,7 @@ const TableFile = (props) => {
       provinceId: null,
       districtId: null,
       wardId: null,
-      address: "",
+      address: '',
       administrativeUnitUuid: null,
       cameraUuid: null,
       cameraGroupUuid: null,
@@ -658,13 +671,13 @@ const TableFile = (props) => {
       eventName: null,
       eventType: null,
       fileName: null,
-      quickSearch: "",
+      quickSearch: '',
       status: null,
       penaltyTicketId: null,
     });
     setSearchParam(searchCaptureFileParamDefault);
-    getAllCamera("");
-    setSelectedRowUuid("");
+    getAllCamera('');
+    setSelectedRowUuid('');
   };
 
   const onChangeCity = (cityId) => {
@@ -795,10 +808,10 @@ const TableFile = (props) => {
 
   const onChangeStartDate = (moment) => {
     if (moment) {
-      moment.set("hour", 0);
-      moment.set("minute", 0);
-      moment.set("second", 0);
-      moment.set("millisecond", 1);
+      moment.set('hour', 0);
+      moment.set('minute', 0);
+      moment.set('second', 0);
+      moment.set('millisecond', 1);
       if (endDate && moment.isAfter(endDate)) {
         form.setFieldsValue({
           startDate: null,
@@ -825,10 +838,10 @@ const TableFile = (props) => {
 
   const onChangeEndDate = (moment) => {
     if (moment) {
-      moment.set("hour", 23);
-      moment.set("minute", 59);
-      moment.set("second", 59);
-      moment.set("millisecond", 999);
+      moment.set('hour', 23);
+      moment.set('minute', 59);
+      moment.set('second', 59);
+      moment.set('millisecond', 999);
       if (startDate && startDate.isAfter(moment)) {
         form.setFieldsValue({
           endDate: null,
@@ -863,34 +876,34 @@ const TableFile = (props) => {
     if (listFiles) {
       if (props.viewFileType < 2) {
         return (
-          <div className="gridFileContainer">
-            <div className="data">
+          <div className='gridFileContainer'>
+            <div className='data'>
               {listFiles.map((value, i) => (
-                <div className="box" key={i}>
+                <div className='box' key={i}>
                   <div
-                    className="gridFileImage"
+                    className='gridFileImage'
                     key={i}
                     onClick={() => props.onClickRow(value)}
                   >
                     <img
-                      className="imageFile"
+                      className='imageFile'
                       src={
-                        "data:image/jpeg;base64," +
+                        'data:image/jpeg;base64,' +
                         (value.thumbnailData && value.thumbnailData.length > 0
                           ? value.thumbnailData[0]
-                          : "")
+                          : '')
                       }
                       alt={
                         value.thumbnailData && value.thumbnailData.length > 0
                           ? value.name
-                          : ""
+                          : ''
                       }
                     />
                     {value && value.name && value.name.length > 30 ? (
                       <Tooltip title={value.name}>
-                        <span className="nameFile">
+                        <span className='nameFile'>
                           {value.name.substr(0, 14) +
-                            "..." +
+                            '...' +
                             value.name.substr(
                               value.name.length - 15,
                               value.name.length - 1
@@ -898,7 +911,7 @@ const TableFile = (props) => {
                         </span>
                       </Tooltip>
                     ) : (
-                      <span className="nameFile">{value.name}</span>
+                      <span className='nameFile'>{value.name}</span>
                     )}
                   </div>
                 </div>
@@ -929,37 +942,37 @@ const TableFile = (props) => {
         );
       } else if (props.viewFileType === 4) {
         return (
-          <div className="gridEventFileContainer">
+          <div className='gridEventFileContainer'>
             {listFiles.map((value, i) => {
               return (
-                <div key={i} className="gridEventFileItem">
-                  <Row gutter={[16, 0]} className="row1">
+                <div key={i} className='gridEventFileItem'>
+                  <Row gutter={[16, 0]} className='row1'>
                     <Col span={8}>
                       <div
-                        className="gridFileImage"
+                        className='gridFileImage'
                         onClick={() => props.onClickRow(value)}
                       >
                         {value.overViewUrl ? (
                           <img
-                            className="imageFile"
+                            className='imageFile'
                             src={value.overViewUrl}
-                            alt={value.overViewUrl ? value.overViewUrl : ""}
+                            alt={value.overViewUrl ? value.overViewUrl : ''}
                           />
                         ) : (
                           <img
-                            className="imageFile"
+                            className='imageFile'
                             src={
-                              "data:image/jpeg;base64," +
+                              'data:image/jpeg;base64,' +
                               (value.thumbnailData &&
                               value.thumbnailData.length > 0
                                 ? value.thumbnailData
-                                : "")
+                                : '')
                             }
                             alt={
                               value.thumbnailData &&
                               value.thumbnailData.length > 0
                                 ? value.name
-                                : ""
+                                : ''
                             }
                           />
                         )}
@@ -970,21 +983,21 @@ const TableFile = (props) => {
                         <Col span={24}>
                           <ul>
                             {value.eventName ? (
-                              <li className="eventName">{value.eventName}</li>
+                              <li className='eventName'>{value.eventName}</li>
                             ) : (
-                              <li className="eventName">
-                                {t("view.ai_events." + value.eventType)}
+                              <li className='eventName'>
+                                {t('view.ai_events.' + value.eventType)}
                               </li>
                             )}
                             {value.fileName ? (
-                              <li className="name">{value.fileName}</li>
+                              <li className='name'>{value.fileName}</li>
                             ) : null}
                             {value.pathFile ? (
-                              <li className="pathFile">{value.pathFile}</li>
+                              <li className='pathFile'>{value.pathFile}</li>
                             ) : null}
-                            <li className="createdTime">
+                            <li className='createdTime'>
                               {moment(+value.createdTime).format(
-                                "HH:mm DD/MM/YYYY"
+                                'HH:mm DD/MM/YYYY'
                               )}
                             </li>
                           </ul>
@@ -992,17 +1005,17 @@ const TableFile = (props) => {
                       </Row>
                     </Col>
                   </Row>
-                  <Row gutter={[16, 0]} className="row2">
+                  <Row gutter={[16, 0]} className='row2'>
                     <Col span={8}>
                       <ul>
-                        <li className="cameraName">
+                        <li className='cameraName'>
                           {value &&
                           value.cameraName &&
                           value.cameraName.length > 24 ? (
                             <Tooltip title={value.cameraName}>
                               <span>
                                 {value.cameraName.substr(0, 10) +
-                                  "..." +
+                                  '...' +
                                   value.cameraName.substr(
                                     value.cameraName.length - 10,
                                     value.cameraName.length - 1
@@ -1017,7 +1030,7 @@ const TableFile = (props) => {
                     </Col>
                     <Col span={16}>
                       <ul>
-                        <li className="address">{value.address}</li>
+                        <li className='address'>{value.address}</li>
                       </ul>
                     </Col>
                   </Row>
@@ -1052,30 +1065,30 @@ const TableFile = (props) => {
         );
       } else {
         return (
-          <div className="gridEventFileContainer">
+          <div className='gridEventFileContainer'>
             {listFiles.map((value, i) => {
               return (
-                <div key={i} className="gridEventFileItem">
-                  <Row gutter={[16, 0]} className="row1">
+                <div key={i} className='gridEventFileItem'>
+                  <Row gutter={[16, 0]} className='row1'>
                     <Col span={8}>
                       <div
-                        className="gridFileImage"
+                        className='gridFileImage'
                         onClick={() => props.onClickRow(value)}
                       >
                         <img
-                          className="imageFile"
+                          className='imageFile'
                           src={
-                            "data:image/jpeg;base64," +
+                            'data:image/jpeg;base64,' +
                             (value.thumbnailData &&
                             value.thumbnailData.length > 0
                               ? value.thumbnailData[0]
-                              : "")
+                              : '')
                           }
                           alt={
                             value.thumbnailData &&
                             value.thumbnailData.length > 0
                               ? value.name
-                              : ""
+                              : ''
                           }
                         />
                       </div>
@@ -1084,12 +1097,12 @@ const TableFile = (props) => {
                       <Row gutter={[0, 8]}>
                         <Col span={24}>
                           <ul>
-                            <li className="eventName">{value.eventName}</li>
-                            <li className="name">{value.name}</li>
-                            <li className="pathFile">{value.pathFile}</li>
-                            <li className="createdTime">
+                            <li className='eventName'>{value.eventName}</li>
+                            <li className='name'>{value.name}</li>
+                            <li className='pathFile'>{value.pathFile}</li>
+                            <li className='createdTime'>
                               {moment(+value.violationTime * 1000).format(
-                                "HH:mm DD/MM/YYYY"
+                                'HH:mm DD/MM/YYYY'
                               )}
                             </li>
                           </ul>
@@ -1097,10 +1110,10 @@ const TableFile = (props) => {
                       </Row>
                     </Col>
                     <Col span={1}>
-                      <div className="actionEventFile">
+                      <div className='actionEventFile'>
                         {!value.isImportant && (
                           <FiBookmark
-                            className="icon"
+                            className='icon'
                             onClick={(e) => {
                               e.stopPropagation();
                               onSetImportantFileHandler(value.uuid, true);
@@ -1109,7 +1122,7 @@ const TableFile = (props) => {
                         )}
                         {value.isImportant && (
                           <FiBookmark
-                            className="icon-active"
+                            className='icon-active'
                             onClick={(e) => {
                               e.stopPropagation();
                               onSetImportantFileHandler(value.uuid, false);
@@ -1119,17 +1132,17 @@ const TableFile = (props) => {
                       </div>
                     </Col>
                   </Row>
-                  <Row gutter={[16, 0]} className="row2">
+                  <Row gutter={[16, 0]} className='row2'>
                     <Col span={8}>
                       <ul>
-                        <li className="cameraName">
+                        <li className='cameraName'>
                           {value &&
                           value.cameraName &&
                           value.cameraName.length > 24 ? (
                             <Tooltip title={value.cameraName}>
                               <span>
                                 {value.cameraName.substr(0, 10) +
-                                  "..." +
+                                  '...' +
                                   value.cameraName.substr(
                                     value.cameraName.length - 10,
                                     value.cameraName.length - 1
@@ -1144,7 +1157,7 @@ const TableFile = (props) => {
                     </Col>
                     <Col span={16}>
                       <ul>
-                        <li className="address">{value.address}</li>
+                        <li className='address'>{value.address}</li>
                       </ul>
                     </Col>
                   </Row>
@@ -1180,15 +1193,22 @@ const TableFile = (props) => {
       }
     }
   };
+  useEffect(() => {
+    const data = {
+      page: page,
+      totalpage: Math.ceil(total / pageSize),
+    };
+    props.TableView(data);
+  }, [page, total]);
   const renderTableView = () => {
     return (
       <Table
-        className="table__list--file height-table"
+        className='table__list--file height-table'
         rowClassName={(record, rowIndex) => {
-          if (record.uuid === selectedRowUuid) return "selected";
-          return "not-selected";
+          if (record.uuid === selectedRowUuid) return 'selected';
+          return 'not-selected';
         }}
-        rowKey="uuid"
+        rowKey='uuid'
         columns={fileColumns}
         dataSource={listFiles}
         onRow={(record, rowIndex) => {
@@ -1226,17 +1246,17 @@ const TableFile = (props) => {
   return (
     <>
       <Form
-        className="bg-grey formSearch"
+        className='bg-grey formSearch'
         form={form}
         {...formItemLayout}
-        style={{ width: "100%", paddingBottom: "30px" }}
+        style={{ width: '100%', paddingBottom: '30px' }}
       >
-        <Row gutter={24} className="itemRow">
+        <Row gutter={24} className='itemRow'>
           <Col span={23}>
-            <Row gutter={24} className="itemRow">
+            <Row gutter={24} className='itemRow'>
               <Col span={24}>
                 <div>
-                  <Form.Item name={["quickSearch"]} className="search__bar">
+                  <Form.Item name={['quickSearch']} className='search__bar'>
                     <AutoComplete
                       maxLength={255}
                       onBlur={handleQuickSearchBlur}
@@ -1245,8 +1265,8 @@ const TableFile = (props) => {
                       placeholder={
                         <>
                           <SearchOutlined />
-                          <span className="placeholder__text">
-                            {t("view.map.search")}
+                          <span className='placeholder__text'>
+                            {t('view.map.search')}
                           </span>
                         </>
                       }
@@ -1257,63 +1277,63 @@ const TableFile = (props) => {
             </Row>
             <Row
               gutter={24}
-              className="itemRow"
-              style={!useAdvanceSearch ? { display: "none" } : {}}
+              className='itemRow'
+              style={!useAdvanceSearch ? { display: 'none' } : {}}
             >
               <Col span={8}>
-                <Form.Item name={["provinceId"]}>
+                <Form.Item name={['provinceId']}>
                   <Select
                     allowClear
                     showSearch
                     onChange={(cityId) => onChangeCity(cityId)}
                     filterOption={filterOption}
                     options={normalizeOptions(
-                      "name",
-                      "provinceId",
+                      'name',
+                      'provinceId',
                       provinceList
                     )}
-                    placeholder={t("view.map.province_id")}
+                    placeholder={t('view.map.province_id')}
                   />
                 </Form.Item>
               </Col>
               <Col span={8}>
-                <Form.Item name={["districtId"]}>
+                <Form.Item name={['districtId']}>
                   <Select
                     allowClear
                     showSearch
                     onChange={(districtId) => onChangeDistrict(districtId)}
                     filterOption={filterOption}
                     options={normalizeOptions(
-                      "name",
-                      "districtId",
+                      'name',
+                      'districtId',
                       districtList
                     )}
-                    placeholder={t("view.map.district_id")}
+                    placeholder={t('view.map.district_id')}
                   />
                 </Form.Item>
               </Col>
               <Col span={8}>
-                <Form.Item name={["wardId"]}>
+                <Form.Item name={['wardId']}>
                   <Select
                     allowClear
                     showSearch
                     onChange={(id) => onChangeWard(id)}
                     filterOption={filterOption}
-                    options={normalizeOptions("name", "id", wardList)}
-                    placeholder={t("view.map.ward_id")}
+                    options={normalizeOptions('name', 'id', wardList)}
+                    placeholder={t('view.map.ward_id')}
                   />
                 </Form.Item>
               </Col>
             </Row>
             <Row
               gutter={24}
-              className="itemRow"
-              style={!useAdvanceSearch ? { display: "none" } : {}}
+              className='itemRow'
+              style={!useAdvanceSearch ? { display: 'none' } : {}}
             >
               <Col span={16}>
-                <Form.Item name={["address"]} rules={[{ required: false }]}>
+                <Form.Item name={['address']} rules={[{ required: false }]}>
                   <Input
-                    placeholder={t("view.storage.street")}
+                    placeholder={t('view.storage.street')}
                     onChange={onChangeAddress}
                     maxLength={255}
                     onBlur={handleAddressBlur}
@@ -1326,106 +1346,106 @@ const TableFile = (props) => {
                 </Form.Item>
               </Col>
               <Col span={8}>
-                <Form.Item name={["administrativeUnitUuid"]}>
+                <Form.Item name={['administrativeUnitUuid']}>
                   <Select
                     showSearch
                     allowClear
                     onChange={(id) => onChangeUnit(id)}
                     filterOption={filterOption}
-                    options={normalizeOptions("name", "uuid", adminUnitList)}
-                    placeholder={t("view.map.administrative_unit")}
+                    options={normalizeOptions('name', 'uuid', adminUnitList)}
+                    placeholder={t('view.map.administrative_unit')}
                   />
                 </Form.Item>
               </Col>
             </Row>
             <Row
               gutter={24}
-              className="itemRow"
-              style={!useAdvanceSearch ? { display: "none" } : {}}
+              className='itemRow'
+              style={!useAdvanceSearch ? { display: 'none' } : {}}
             >
               <Col span={12}>
-                <Form.Item name={["cameraGroupUuid"]}>
+                <Form.Item name={['cameraGroupUuid']}>
                   <Select
                     allowClear
                     showSearch
                     onChange={(uuid) => onChangeCameraGroup(uuid)}
                     filterOption={filterOption}
-                    options={normalizeOptions("name", "uuid", cameraGroupList)}
-                    placeholder={t("view.map.camera_group", {
-                      cam: t("camera"),
+                    options={normalizeOptions('name', 'uuid', cameraGroupList)}
+                    placeholder={t('view.map.camera_group', {
+                      cam: t('camera'),
                     })}
                   />
                 </Form.Item>
               </Col>
               <Col span={12}>
-                <Form.Item name={["cameraUuid"]}>
+                <Form.Item name={['cameraUuid']}>
                   <Select
                     allowClear
                     showSearch
                     onChange={(uuid) => onChangeCamera(uuid)}
                     filterOption={filterOption}
-                    options={normalizeOptions("name", "uuid", cameraList)}
-                    placeholder="Camera"
+                    options={normalizeOptions('name', 'uuid', cameraList)}
+                    placeholder='Camera'
                   />
                 </Form.Item>
               </Col>
             </Row>
             <Row
               gutter={24}
-              className="itemRow"
-              style={!useAdvanceSearch ? { display: "none" } : {}}
+              className='itemRow'
+              style={!useAdvanceSearch ? { display: 'none' } : {}}
             >
               <Col span={8}>
-                <Form.Item name={["startDate"]}>
+                <Form.Item name={['startDate']}>
                   <DatePicker
                     onChange={onChangeStartDate}
-                    placeholder={t("view.storage.from_date")}
-                    style={{ width: "100%" }}
+                    placeholder={t('view.storage.from_date')}
+                    style={{ width: '100%' }}
                     locale={locale}
-                    format="DD/MM/YYYY"
+                    format='DD/MM/YYYY'
                   />
                 </Form.Item>
               </Col>
               <Col span={8}>
-                <Form.Item name={["endDate"]}>
+                <Form.Item name={['endDate']}>
                   <DatePicker
                     onChange={onChangeEndDate}
-                    placeholder={t("view.storage.to_date")}
-                    style={{ width: "100%" }}
+                    placeholder={t('view.storage.to_date')}
+                    style={{ width: '100%' }}
                     locale={locale}
-                    format="DD/MM/YYYY"
+                    format='DD/MM/YYYY'
                   />
                 </Form.Item>
               </Col>
             </Row>
-            {props.viewFileType === 4 && AI_SOURCE === "edso" && (
+            {props.viewFileType === 4 && AI_SOURCE === 'edso' && (
               <Row
                 gutter={24}
-                className="itemRow"
-                style={!useAdvanceSearch ? { display: "none" } : {}}
+                className='itemRow'
+                style={!useAdvanceSearch ? { display: 'none' } : {}}
               >
                 <Col span={8}>
-                  <Form.Item name={["fileName"]} rules={[{ required: false }]}>
+                  <Form.Item name={['fileName']} rules={[{ required: false }]}>
                     <Input
-                      placeholder={t("view.storage.file_name")}
+                      placeholder={t('view.storage.file_name')}
                       onChange={onFileName}
                       maxLength={255}
                     />
                   </Form.Item>
                 </Col>
                 <Col span={8}>
-                  <Form.Item name={["code"]} rules={[{ required: false }]}>
+                  <Form.Item name={['code']} rules={[{ required: false }]}>
                     <Input
-                      placeholder={t("view.ai_humans.code")}
+                      placeholder={t('view.ai_humans.code')}
                       onChange={onCode}
                       maxLength={255}
                     />
                   </Form.Item>
                 </Col>
                 <Col span={8}>
-                  <Form.Item name={["name"]} rules={[{ required: false }]}>
+                  <Form.Item name={['name']} rules={[{ required: false }]}>
                     <Input
-                      placeholder={t("view.ai_humans.name")}
+                      placeholder={t('view.ai_humans.name')}
                       onChange={onName}
                       maxLength={255}
                     />
@@ -1435,29 +1455,29 @@ const TableFile = (props) => {
             )}
             <Row
               gutter={24}
-              className="itemRow"
-              style={!useAdvanceSearch ? { display: "none" } : {}}
+              className='itemRow'
+              style={!useAdvanceSearch ? { display: 'none' } : {}}
             >
               <Col span={8}>
                 {props.viewFileType >= 1 && props.viewFileType !== 4 && (
-                  <Form.Item name={["type"]}>
+                  <Form.Item name={['type']}>
                     <Select
                       allowClear
                       showSearch
                       onChange={(id) => onChangeType(id)}
                       filterOption={filterOption}
-                      options={normalizeOptions("name", "id", typeList)}
-                      placeholder={t("view.storage.file_type")}
+                      options={normalizeOptions('name', 'id', typeList)}
+                      placeholder={t('view.storage.file_type')}
                     />
                   </Form.Item>
                 )}
                 {props.viewFileType === 4 && (
                   <Form.Item
-                    name={["plateNumber"]}
+                    name={['plateNumber']}
                     rules={[{ required: false }]}
                   >
                     <Input
-                      placeholder={t("view.ai_events.plateNumber")}
+                      placeholder={t('view.ai_events.plateNumber')}
                       onChange={onPlateNumber}
                       maxLength={255}
                     />
@@ -1466,41 +1486,41 @@ const TableFile = (props) => {
               </Col>
               <Col span={8}>
                 {props.viewFileType >= 2 && props.viewFileType !== 4 && (
-                  <Form.Item name={["eventType"]}>
+                  <Form.Item name={['eventType']}>
                     <Select
                       allowClear
                       showSearch
                       onChange={(uuid) => onChangeEventType(uuid)}
                       filterOption={filterOption}
-                      options={normalizeOptions("name", "uuid", eventList)}
-                      placeholder={t("view.storage.event_type")}
+                      options={normalizeOptions('name', 'uuid', eventList)}
+                      placeholder={t('view.storage.event_type')}
                     />
                   </Form.Item>
                 )}
 
                 {props.viewFileType === 4 && (
-                  <Form.Item name={["eventType"]}>
+                  <Form.Item name={['eventType']}>
                     <Select
                       allowClear
                       showSearch
                       onChange={(type) => onChangeSubEventType(type)}
                       filterOption={filterOption}
-                      options={normalizeOptions("name", "uuid", eventAi)}
-                      placeholder={t("view.storage.event_type")}
+                      options={normalizeOptions('name', 'uuid', eventAi)}
+                      placeholder={t('view.storage.event_type')}
                     />
                   </Form.Item>
                 )}
               </Col>
               <Col span={8}>
                 {props.viewFileType === 4 && (
-                  <Form.Item name={["status"]}>
+                  <Form.Item name={['status']}>
                     <Select
                       allowClear
                       showSearch
                       onChange={(type) => onChangeProcessStatus(type)}
                       filterOption={filterOption}
                       options={processingstatusOptions}
-                      placeholder={t("view.common_device.status")}
+                      placeholder={t('view.common_device.status')}
                     />
                   </Form.Item>
                 )}
@@ -1508,17 +1528,17 @@ const TableFile = (props) => {
             </Row>
             <Row
               gutter={24}
-              className="itemRow"
-              style={!useAdvanceSearch ? { display: "none" } : {}}
+              className='itemRow'
+              style={!useAdvanceSearch ? { display: 'none' } : {}}
             >
               <Col span={8}>
                 {props.viewFileType === 4 && (
                   <Form.Item
-                    name={["penaltyTicketId"]}
+                    name={['penaltyTicketId']}
                     rules={[{ required: false }]}
                   >
                     <Input
-                      placeholder={t("view.penalty_ticket.ticket_num")}
+                      placeholder={t('view.penalty_ticket.ticket_num')}
                       onChange={onPenaltyTicketId}
                       maxLength={255}
                     />
@@ -1528,22 +1548,22 @@ const TableFile = (props) => {
               <Col span={8}></Col>
               <Col span={8}>
                 <Tooltip
-                  placement="bottom"
-                  title={t("view.map.btn_remove_filter")}
+                  placement='bottom'
+                  title={t('view.map.btn_remove_filter')}
                 >
-                  <div className="search">
+                  <div className='search'>
                     <MdClear
-                      className="icon"
+                      className='icon'
                       onClick={() => {
                         clearAllValueHandler();
                       }}
                     />
                   </div>
                 </Tooltip>
-                <Tooltip placement="bottom" title={t("view.map.btn_apply")}>
-                  <div className="search">
+                <Tooltip placement='bottom' title={t('view.map.btn_apply')}>
+                  <div className='search'>
                     <FiSearch
-                      className="icon"
+                      className='icon'
                       onClick={() => {
                         setPage(iPage);
                         setPageSize(iPageSize);
@@ -1555,17 +1575,17 @@ const TableFile = (props) => {
               </Col>
             </Row>
           </Col>
-          <Col span={1} className="dropdown">
-            <div className="iconContainer">
+          <Col span={1} className='dropdown'>
+            <div className='iconContainer'>
               {!useAdvanceSearch && (
                 <IoChevronDownOutline
-                  className="icon"
+                  className='icon'
                   onClick={onAdvanceSearchDisplayHandler}
                 />
               )}
               {useAdvanceSearch && (
                 <IoChevronUpOutline
-                  className="icon"
+                  className='icon'
                   onClick={onAdvanceSearchDisplayHandler}
                 />
               )}
@@ -1573,7 +1593,7 @@ const TableFile = (props) => {
           </Col>
         </Row>
       </Form>
-      <div className="tableData">
+      <div className='tableData'>
         {props.isTableView && renderTableView()}
         {!props.isTableView && renderGridView()}
       </div>
@@ -1586,7 +1606,9 @@ function tableFilePropsAreEqual(prevTableFile, nextTableFile) {
     _.isEqual(prevTableFile.isTableView, nextTableFile.isTableView) &&
     _.isEqual(prevTableFile.viewFileType, nextTableFile.viewFileType) &&
     _.isEqual(prevTableFile.listFiles, nextTableFile.listFiles) &&
-    _.isEqual(prevTableFile.total, nextTableFile.total)
+    _.isEqual(prevTableFile.total, nextTableFile.total) &&
+    _.isEqual(prevTableFile.nextselected, nextTableFile.nextselected) &&
+    _.isEqual(prevTableFile.nextpage, nextTableFile.nextpage)
   );
 }
 

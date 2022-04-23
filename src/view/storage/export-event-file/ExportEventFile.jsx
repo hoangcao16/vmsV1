@@ -1,15 +1,15 @@
 /* eslint-disable no-unused-vars */
 /* eslint-disable react-hooks/exhaustive-deps */
-import { Col, Popconfirm, Popover, Row, Tooltip, Spin, Space } from "antd";
-import { ExclamationCircleOutlined } from "@ant-design/icons";
-import { saveAs } from "file-saver";
-import { findIndex, isEmpty } from "lodash-es";
-import moment from "moment";
-import React, { useEffect, useRef, useState } from "react";
-import { useTranslation } from "react-i18next";
-import { AiFillVideoCamera } from "react-icons/ai";
-import { AiOutlineInfoCircle, MdCenterFocusWeak } from "react-icons/all";
-import { ConfirmUpdate } from "./style";
+import { Col, Popconfirm, Popover, Row, Tooltip, Spin, Space } from 'antd';
+import { ExclamationCircleOutlined } from '@ant-design/icons';
+import { saveAs } from 'file-saver';
+import { findIndex, isEmpty } from 'lodash-es';
+import moment from 'moment';
+import React, { useEffect, useRef, useState } from 'react';
+import { useTranslation } from 'react-i18next';
+import { AiFillVideoCamera } from 'react-icons/ai';
+import { AiOutlineInfoCircle, MdCenterFocusWeak } from 'react-icons/all';
+import { ConfirmUpdate } from './style';
 import {
   FiBookmark,
   FiCamera,
@@ -24,103 +24,103 @@ import {
   FiPlay,
   FiRewind,
   FiScissors,
-} from "react-icons/fi";
-import { RiCalendarTodoLine, RiDeleteBinLine } from "react-icons/ri";
-import { reactLocalStorage } from "reactjs-localstorage";
-import { v4 as uuidV4 } from "uuid";
-import AIEventsApi from "../../../actions/api/ai-events/AIEventsApi";
+} from 'react-icons/fi';
+import { RiCalendarTodoLine, RiDeleteBinLine } from 'react-icons/ri';
+import { reactLocalStorage } from 'reactjs-localstorage';
+import { v4 as uuidV4 } from 'uuid';
+import AIEventsApi from '../../../actions/api/ai-events/AIEventsApi';
 import {
   default as deleteExportEventFileApi,
   default as ExportEventFileApi,
-} from "../../../actions/api/exporteventfile/ExportEventFileApi";
-import permissionCheck from "../../../actions/function/MyUltil/PermissionCheck";
-import cheetahSvcApi from "../../../api/cheetah/fileApi";
-import eventApi from "../../../api/controller-api/eventApi";
-import lionSvcApi from "../../../api/lion/cameraApi";
-import playbackApi from "../../../api/playback/cameraApi";
-import imagePoster from "../../../assets/event/videoposter.png";
-import Notification from "../../../components/vms/notification/Notification";
-import { captureVideoFrame } from "../../../utility/vms/captureVideoFrame";
-import { getBase64Text } from "../../../utility/vms/getBase64Text";
-import { NOTYFY_TYPE } from "../../common/vms/Constant";
-import Loading from "../../Loading";
-import "./../../commonStyle/commonDatePicker.scss";
-import "./../../commonStyle/commonForm.scss";
-import "./../../commonStyle/commonInput.scss";
-import "./../../commonStyle/commonPopconfirm.scss";
-import "./../../commonStyle/commonSelect.scss";
-import "./../../commonStyle/commonTable.scss";
-import "./export-event-file.scss";
-import { MemoizedInfoObjectPopoverContent } from "./InfoObjectPopoverContent";
-import { MemoizedInfoPopoverContent } from "./InfoPopoverContent";
-import { MemoizedHlsPlayer } from "./PlayerHls";
-import { MemoizedTableEventFile } from "./TableEventFile";
-import { MemoizedTableFile } from "./TableFile";
-import { MemoizedThumbnailVideo } from "./ThumbnailVideo";
-import TicketModal from "./components/ticket-modal";
-import PreviewMap from "./components/mappreview";
-import Viewfiletype4 from "./components/ViewFileType4";
+} from '../../../actions/api/exporteventfile/ExportEventFileApi';
+import permissionCheck from '../../../actions/function/MyUltil/PermissionCheck';
+import cheetahSvcApi from '../../../api/cheetah/fileApi';
+import eventApi from '../../../api/controller-api/eventApi';
+import lionSvcApi from '../../../api/lion/cameraApi';
+import playbackApi from '../../../api/playback/cameraApi';
+import imagePoster from '../../../assets/event/videoposter.png';
+import Notification from '../../../components/vms/notification/Notification';
+import { captureVideoFrame } from '../../../utility/vms/captureVideoFrame';
+import { getBase64Text } from '../../../utility/vms/getBase64Text';
+import { NOTYFY_TYPE } from '../../common/vms/Constant';
+import Loading from '../../Loading';
+import './../../commonStyle/commonDatePicker.scss';
+import './../../commonStyle/commonForm.scss';
+import './../../commonStyle/commonInput.scss';
+import './../../commonStyle/commonPopconfirm.scss';
+import './../../commonStyle/commonSelect.scss';
+import './../../commonStyle/commonTable.scss';
+import './export-event-file.scss';
+import { MemoizedInfoObjectPopoverContent } from './InfoObjectPopoverContent';
+import { MemoizedInfoPopoverContent } from './InfoPopoverContent';
+import { MemoizedHlsPlayer } from './PlayerHls';
+import { MemoizedTableEventFile } from './TableEventFile';
+import { MemoizedTableFile } from './TableFile';
+import { MemoizedThumbnailVideo } from './ThumbnailVideo';
+import TicketModal from './components/ticket-modal';
+import PreviewMap from './components/mappreview';
+import Viewfiletype4 from './components/ViewFileType4';
 const AI_SOURCE = process.env.REACT_APP_AI_SOURCE;
 const ExportEventFile = () => {
   const { t } = useTranslation();
   let defaultEventFile = {
-    id: "",
-    uuid: "",
-    eventUuid: "",
-    eventName: "",
-    name: "",
+    id: '',
+    uuid: '',
+    eventUuid: '',
+    eventName: '',
+    name: '',
     violationTime: -1,
     createdTime: -1,
-    note: "",
-    cameraUuid: "",
-    cameraName: "",
+    note: '',
+    cameraUuid: '',
+    cameraName: '',
     type: -1,
     length: 0,
-    address: "",
-    rootFileUuid: "",
-    pathFile: "",
+    address: '',
+    rootFileUuid: '',
+    pathFile: '',
     isImportant: false,
-    thumbnailData: [""],
-    nginx_host: "",
+    thumbnailData: [''],
+    nginx_host: '',
     blob: null,
     isSaved: false,
     tBlob: null,
   };
   const typeObjects = [
     {
-      value: "unknow",
-      label: `${t("view.ai_events.type_object.unknow")}`,
+      value: 'unknow',
+      label: `${t('view.ai_events.type_object.unknow')}`,
     },
     {
-      value: "vehicle",
-      label: `${t("view.ai_events.type_object.vehicle")}`,
+      value: 'vehicle',
+      label: `${t('view.ai_events.type_object.vehicle')}`,
     },
     {
-      value: "human",
-      label: `${t("view.ai_events.type_object.human")}`,
+      value: 'human',
+      label: `${t('view.ai_events.type_object.human')}`,
     },
   ];
   const processingstatusOptions = [
     {
-      value: "process",
-      label: `${t("view.ai_events.processing-status.process")}`,
+      value: 'process',
+      label: `${t('view.ai_events.processing-status.process')}`,
     },
     {
-      value: "processed",
-      label: `${t("view.ai_events.processing-status.processed")}`,
+      value: 'processed',
+      label: `${t('view.ai_events.processing-status.processed')}`,
     },
     {
-      value: "not_processed",
-      label: `${t("view.ai_events.processing-status.not_processed")}`,
+      value: 'not_processed',
+      label: `${t('view.ai_events.processing-status.not_processed')}`,
     },
   ];
 
-  const language = reactLocalStorage.get("language");
-  const [playerSrc, setPlayerSrc] = useState("");
+  const language = reactLocalStorage.get('language');
+  const [playerSrc, setPlayerSrc] = useState('');
   //const [volumeVideo, setVolumeVideo] = useState(0.45);
   const [duration, setDuration] = useState(0);
   let playbackRate = 1;
-  const [urlSnapshot, setUrlSnapshot] = useState("");
+  const [urlSnapshot, setUrlSnapshot] = useState('');
   const playerVideo = useRef(null);
   const refCanvas = useRef(null);
   const [viewFileType, setViewFileType] = useState(0);
@@ -129,7 +129,7 @@ const ExportEventFile = () => {
   const [playerReady, setPlayerReady] = useState(false);
   const [captureMode, setCaptureMode] = useState(false);
   const [listEventFiles, setListEventFiles] = useState([]);
-  const [downloadFileName, setDownloadFileName] = useState("");
+  const [downloadFileName, setDownloadFileName] = useState('');
   const [eventFileCurrent, setEventFileCurrent] = useState(defaultEventFile);
   const [fileCurrent, setFileCurrent] = useState(null);
   const [imageAICurrent, setImageAICurrent] = useState(null);
@@ -143,7 +143,7 @@ const ExportEventFile = () => {
   const [imageOther, setImageOther] = useState([]);
   const [playerAIVideoUrl, setPlayerAIVideoUrl] = useState(false);
   const [playerReadyAIVideo, setPlayerReadyAIVideo] = useState(false);
-  const [currNode, setCurrNode] = useState("");
+  const [currNode, setCurrNode] = useState('');
   const [editMode, setEditMode] = useState(false);
   const [detailAI, setDetailAI] = useState(defaultEventFile);
   const [processState, setProcessState] = useState(processingstatusOptions[0]);
@@ -154,42 +154,47 @@ const ExportEventFile = () => {
   const [tracingList, setTracingList] = useState([]);
   const [listLongLat, setListLongLat] = useState([]);
   const [selectedFiled, setselectedFiled] = useState(null);
+  const [nextselected, setNextselected] = useState(null);
+  const [nextpage, setNextpage] = useState(null);
+
+  const [currentEventTablePage, setCurrentEventTablePage] = useState(null);
+  const [totalEventTablePage, setTotalEventTablePage] = useState(null);
   useEffect(() => {
-    language === "vn"
-      ? (document.title = "CCTV | Xuất sự kiện")
-      : (document.title = "CCTV | Export Event");
+    language === 'vn'
+      ? (document.title = 'CCTV | Xuất sự kiện')
+      : (document.title = 'CCTV | Export Event');
   }, [t]);
 
   useEffect(() => {
     eventApi
-      .getAll({ page: 0, size: 1000000, sort_by: "name", order_by: "asc" })
+      .getAll({ page: 0, size: 1000000, sort_by: 'name', order_by: 'asc' })
       .then((data) => {
         if (data && data.payload) {
           setEventList(data.payload);
         }
       });
 
-    if (AI_SOURCE === "philong") {
+    if (AI_SOURCE === 'philong') {
       const dataEventList = [
         {
           id: 0,
-          type: "nhandienbienso",
-          name: `${t("view.ai_events.nhandienbienso")}`,
+          type: 'nhandienbienso',
+          name: `${t('view.ai_events.nhandienbienso')}`,
         },
         {
           id: 0,
-          type: "damdong",
-          name: `${t("view.ai_events.damdong")}`,
+          type: 'damdong',
+          name: `${t('view.ai_events.damdong')}`,
         },
         {
           id: 0,
-          type: "vuotdendo",
-          name: `${t("view.ai_events.vuotdendo")}`,
+          type: 'vuotdendo',
+          name: `${t('view.ai_events.vuotdendo')}`,
         },
         {
           id: 0,
-          type: "daudo",
-          name: `${t("view.ai_events.daudo")}`,
+          type: 'daudo',
+          name: `${t('view.ai_events.daudo')}`,
         },
       ];
       setEventListAI(dataEventList);
@@ -197,18 +202,18 @@ const ExportEventFile = () => {
       const dataEventList = [
         {
           id: 0,
-          type: "first_seen",
-          name: `${t("view.ai_events.attendance")}`,
+          type: 'first_seen',
+          name: `${t('view.ai_events.attendance')}`,
         },
         {
           id: 0,
-          type: "just_crossed",
-          name: `${t("view.ai_events.line_crossing")}`,
+          type: 'just_crossed',
+          name: `${t('view.ai_events.line_crossing')}`,
         },
         {
           id: 0,
-          type: "intruding",
-          name: `${t("view.ai_events.intruding")}`,
+          type: 'intruding',
+          name: `${t('view.ai_events.intruding')}`,
         },
       ];
       setEventListAI(dataEventList);
@@ -220,9 +225,9 @@ const ExportEventFile = () => {
   }, [viewFileType]);
   useEffect(() => {
     if (viewFileType === 4 && fileCurrent != null) {
-      console.log("fileCurrent", fileCurrent);
+      console.log('fileCurrent', fileCurrent);
       let imageOther = [];
-      if (AI_SOURCE === "philong") {
+      if (AI_SOURCE === 'philong') {
         setDetailAI({
           ...fileCurrent,
         });
@@ -231,73 +236,73 @@ const ExportEventFile = () => {
         );
         const getViolateUrl = ExportEventFileApi.downloadAIIntegrationFile(
           fileCurrent.uuid,
-          "ImageViolate.jpg"
+          'ImageViolate.jpg'
         );
         const getPlateNumUrl = ExportEventFileApi.downloadAIIntegrationFile(
           fileCurrent.uuid,
-          "ImagePlate.jpg"
+          'ImagePlate.jpg'
         );
         const getVehicleUrl = ExportEventFileApi.downloadAIIntegrationFile(
           fileCurrent.uuid,
-          "ImageVehicle.jpg"
+          'ImageVehicle.jpg'
         );
         const getVideoUrl = ExportEventFileApi.downloadAIIntegrationFile(
           fileCurrent.uuid,
-          "Video.mp4"
+          'Video.mp4'
         );
         Promise.all([getViolateUrl, getPlateNumUrl, getVehicleUrl, getVideoUrl])
           .then(async (value) => {
             if (!isEmpty(value[0])) {
-              const blob = new Blob([value[0].data], { type: "octet/stream" });
+              const blob = new Blob([value[0].data], { type: 'octet/stream' });
               // getBase64Text(blob, (image) => {
               imageOther.push({
-                id: "violate",
-                fileName: "ImageViolate.jpg",
+                id: 'violate',
+                fileName: 'ImageViolate.jpg',
                 uuid: fileCurrent.uuid,
                 image: URL.createObjectURL(blob),
               });
               // });
             }
             if (!isEmpty(value[1])) {
-              const blob = new Blob([value[1].data], { type: "octet/stream" });
+              const blob = new Blob([value[1].data], { type: 'octet/stream' });
               // getBase64Text(blob, (image) => {
               imageOther.push({
-                id: "plate",
-                fileName: "ImagePlate.jpg",
+                id: 'plate',
+                fileName: 'ImagePlate.jpg',
                 uuid: fileCurrent.uuid,
                 image: URL.createObjectURL(blob),
               });
               // });
             }
             if (!isEmpty(value[2])) {
-              const blob = new Blob([value[2].data], { type: "octet/stream" });
+              const blob = new Blob([value[2].data], { type: 'octet/stream' });
               // getBase64Text(blob, (image) => {
               imageOther.push({
-                id: "vehicle",
-                fileName: "ImageVehicle.jpg",
+                id: 'vehicle',
+                fileName: 'ImageVehicle.jpg',
                 uuid: fileCurrent.uuid,
                 image: URL.createObjectURL(blob),
               });
               // });
             }
             if (!isEmpty(value[3])) {
-              const blob = new Blob([value[3].data], { type: "octet/stream" });
+              const blob = new Blob([value[3].data], { type: 'octet/stream' });
               imageOther.push({
-                id: "video",
-                type: "mp4",
-                fileName: "Video.mp4",
+                id: 'video',
+                type: 'mp4',
+                fileName: 'Video.mp4',
                 uuid: fileCurrent.uuid,
                 url: URL.createObjectURL(blob),
               });
             }
           })
           .then(() => {
-            console.log("imageOther   []  ", imageOther);
+            console.log('imageOther   []  ', imageOther);
             setImageOther(imageOther);
           });
         setImageAICurrent({
           uuid: fileCurrent.uuid,
-          fileName: "ImageViolate.jpg",
+          fileName: 'ImageViolate.jpg',
         });
       } else {
         setDetailAI({});
@@ -331,7 +336,7 @@ const ExportEventFile = () => {
                 departmentUuid: data.payload.departmentUuid,
                 departmentName: data.payload.departmentName,
                 typeObject:
-                  data.payload.useCase === "zac_vehicle" ? "vehicle" : "human",
+                  data.payload.useCase === 'zac_vehicle' ? 'vehicle' : 'human',
               });
               setCurrNode(data?.payload?.note);
               setProcessState(
@@ -343,9 +348,9 @@ const ExportEventFile = () => {
                 typeObjects.find(
                   (e) =>
                     e.value ===
-                    (data.payload.useCase === "zac_vehicle"
-                      ? "vehicle"
-                      : "human")
+                    (data.payload.useCase === 'zac_vehicle'
+                      ? 'vehicle'
+                      : 'human')
                 )
               );
               setImageAICurrent({
@@ -359,7 +364,7 @@ const ExportEventFile = () => {
         }
       }
     }
-    if (viewFileType === 4 && fileCurrent != null && AI_SOURCE === "philong") {
+    if (viewFileType === 4 && fileCurrent != null && AI_SOURCE === 'philong') {
       const payload = {
         page: 0,
         size: 15,
@@ -376,14 +381,14 @@ const ExportEventFile = () => {
           setListLongLat(longLats);
         })
         .catch((err) => {
-          console.log("getTracingEvents err", err);
+          console.log('getTracingEvents err', err);
         });
     }
   }, [fileCurrent]);
   useEffect(() => {
     if (viewFileType === 4 && selectedFiled != null) {
       let imageOther = [];
-      if (AI_SOURCE === "philong") {
+      if (AI_SOURCE === 'philong') {
         setDetailAI({
           ...selectedFiled,
         });
@@ -392,73 +397,73 @@ const ExportEventFile = () => {
         );
         const getViolateUrl = ExportEventFileApi.downloadAIIntegrationFile(
           selectedFiled.uuid,
-          "ImageViolate.jpg"
+          'ImageViolate.jpg'
         );
         const getPlateNumUrl = ExportEventFileApi.downloadAIIntegrationFile(
           selectedFiled.uuid,
-          "ImagePlate.jpg"
+          'ImagePlate.jpg'
         );
         const getVehicleUrl = ExportEventFileApi.downloadAIIntegrationFile(
           selectedFiled.uuid,
-          "ImageVehicle.jpg"
+          'ImageVehicle.jpg'
         );
         const getVideoUrl = ExportEventFileApi.downloadAIIntegrationFile(
           selectedFiled.uuid,
-          "Video.mp4"
+          'Video.mp4'
         );
         Promise.all([getViolateUrl, getPlateNumUrl, getVehicleUrl, getVideoUrl])
           .then(async (value) => {
             if (!isEmpty(value[0])) {
-              const blob = new Blob([value[0].data], { type: "octet/stream" });
+              const blob = new Blob([value[0].data], { type: 'octet/stream' });
               // getBase64Text(blob, (image) => {
               imageOther.push({
-                id: "violate",
-                fileName: "ImageViolate.jpg",
+                id: 'violate',
+                fileName: 'ImageViolate.jpg',
                 uuid: selectedFiled.uuid,
                 image: URL.createObjectURL(blob),
               });
               // });
             }
             if (!isEmpty(value[1])) {
-              const blob = new Blob([value[1].data], { type: "octet/stream" });
+              const blob = new Blob([value[1].data], { type: 'octet/stream' });
               // getBase64Text(blob, (image) => {
               imageOther.push({
-                id: "plate",
-                fileName: "ImagePlate.jpg",
+                id: 'plate',
+                fileName: 'ImagePlate.jpg',
                 uuid: selectedFiled.uuid,
                 image: URL.createObjectURL(blob),
               });
               // });
             }
             if (!isEmpty(value[2])) {
-              const blob = new Blob([value[2].data], { type: "octet/stream" });
+              const blob = new Blob([value[2].data], { type: 'octet/stream' });
               // getBase64Text(blob, (image) => {
               imageOther.push({
-                id: "vehicle",
-                fileName: "ImageVehicle.jpg",
+                id: 'vehicle',
+                fileName: 'ImageVehicle.jpg',
                 uuid: selectedFiled.uuid,
                 image: URL.createObjectURL(blob),
               });
               // });
             }
             if (!isEmpty(value[3])) {
-              const blob = new Blob([value[3].data], { type: "octet/stream" });
+              const blob = new Blob([value[3].data], { type: 'octet/stream' });
               imageOther.push({
-                id: "video",
-                type: "mp4",
-                fileName: "Video.mp4",
+                id: 'video',
+                type: 'mp4',
+                fileName: 'Video.mp4',
                 uuid: selectedFiled.uuid,
                 url: URL.createObjectURL(blob),
               });
             }
           })
           .then(() => {
-            console.log("imageOther   []  ", imageOther);
+            console.log('imageOther   []  ', imageOther);
             setImageOther(imageOther);
           });
         setImageAICurrent({
           uuid: selectedFiled.uuid,
-          fileName: "ImageViolate.jpg",
+          fileName: 'ImageViolate.jpg',
         });
       } else {
         setDetailAI({});
@@ -492,7 +497,7 @@ const ExportEventFile = () => {
                 departmentUuid: data.payload.departmentUuid,
                 departmentName: data.payload.departmentName,
                 typeObject:
-                  data.payload.useCase === "zac_vehicle" ? "vehicle" : "human",
+                  data.payload.useCase === 'zac_vehicle' ? 'vehicle' : 'human',
               });
               setCurrNode(data?.payload?.note);
               setProcessState(
@@ -504,9 +509,9 @@ const ExportEventFile = () => {
                 typeObjects.find(
                   (e) =>
                     e.value ===
-                    (data.payload.useCase === "zac_vehicle"
-                      ? "vehicle"
-                      : "human")
+                    (data.payload.useCase === 'zac_vehicle'
+                      ? 'vehicle'
+                      : 'human')
                 )
               );
               setImageAICurrent({
@@ -523,7 +528,7 @@ const ExportEventFile = () => {
   }, [selectedFiled]);
   const refresh = () => {
     setCaptureMode(false);
-    setUrlSnapshot("");
+    setUrlSnapshot('');
     setUrlVideoTimeline(null);
     setPlayerReady(false);
     setListEventFiles([]);
@@ -538,10 +543,10 @@ const ExportEventFile = () => {
   };
   const onClickTableListEvent = async (row) => {
     if (row) {
-      console.log("row", row);
+      console.log('row', row);
       setCaptureMode(false);
       setUrlVideoTimeline(null);
-      setUrlSnapshot("");
+      setUrlSnapshot('');
       if (viewFileType === 0) {
         await openFile(row);
       } else {
@@ -553,7 +558,7 @@ const ExportEventFile = () => {
     if (row) {
       setCaptureMode(false);
       setUrlVideoTimeline(null);
-      setUrlSnapshot("");
+      setUrlSnapshot('');
       if (viewFileType === 0) {
         await openFile(row);
       } else {
@@ -562,13 +567,13 @@ const ExportEventFile = () => {
     }
   };
   const openTracingEventFile = async (file) => {
-    setselectedFiled({ ...file, fileType: "4" });
-    if (AI_SOURCE === "philong") {
+    setselectedFiled({ ...file, fileType: '4' });
+    if (AI_SOURCE === 'philong') {
       await ExportEventFileApi.downloadAIIntegrationFile(
         file.uuid,
-        "ImageViolate.jpg"
+        'ImageViolate.jpg'
       ).then(async (result) => {
-        const blob = new Blob([result.data], { type: "octet/stream" });
+        const blob = new Blob([result.data], { type: 'octet/stream' });
         getBase64Text(blob, async (image) => {
           setUrlSnapshot(image);
         });
@@ -581,7 +586,7 @@ const ExportEventFile = () => {
         file.fileName,
         4
       ).then(async (result) => {
-        const blob = new Blob([result.data], { type: "octet/stream" });
+        const blob = new Blob([result.data], { type: 'octet/stream' });
         getBase64Text(blob, async (image) => {
           setUrlSnapshot(image);
         });
@@ -612,7 +617,7 @@ const ExportEventFile = () => {
           })
         );
 
-        setOriginalFile({ ...file, tableName: "file" });
+        setOriginalFile({ ...file, tableName: 'file' });
         // Play file
         await playFile(file);
 
@@ -621,8 +626,8 @@ const ExportEventFile = () => {
     } catch (e) {
       Notification({
         type: NOTYFY_TYPE.warning,
-        title: `${t("noti.archived_file")}`,
-        description: `${t("noti.error_get_file_check_again")}`,
+        title: `${t('noti.archived_file')}`,
+        description: `${t('noti.error_get_file_check_again')}`,
       });
     } finally {
       setLoading(false);
@@ -630,7 +635,7 @@ const ExportEventFile = () => {
   };
 
   const playFile = async (file) => {
-    let user = reactLocalStorage.getObject("user", null);
+    let user = reactLocalStorage.getObject('user', null);
     if (user !== undefined && user !== null) {
       setLoading(true);
       const playbackPermissionReq = {
@@ -645,9 +650,9 @@ const ExportEventFile = () => {
           playbackPermissionReq
         );
         if (checkPerRes) {
-          console.log("checkPerRes    ", checkPerRes);
+          console.log('checkPerRes    ', checkPerRes);
           const playReq = {
-            fileAbsName: file.path + "/" + file.name,
+            fileAbsName: file.path + '/' + file.name,
             domain: file.domain,
             userId: user.userUuid,
             token: checkPerRes.token,
@@ -660,15 +665,15 @@ const ExportEventFile = () => {
           if (payload) {
             let videoSrc =
               checkPerRes.playbackUrl +
-              "/play/hls/" +
+              '/play/hls/' +
               payload.reqUuid +
-              "/index.m3u8";
+              '/index.m3u8';
             setDownloadFileName(file.name);
             setDuration(file.length);
-            setFileCurrent({ ...file, tableName: "file" });
+            setFileCurrent({ ...file, tableName: 'file' });
             setPlayerReady(true);
             setPlayerSrc(videoSrc);
-            playHandler("default");
+            playHandler('default');
 
             // Call Nginx to get blob data of file
             // await ExportEventFileApi.getFileData(file.id, file.fileType, file.nginx_host).then(async (result) => {
@@ -688,7 +693,7 @@ const ExportEventFile = () => {
           }
         }
       } catch (e) {
-        console.log("e:", e.toString());
+        console.log('e:', e.toString());
       } finally {
         setLoading(false);
       }
@@ -697,32 +702,32 @@ const ExportEventFile = () => {
 
   const openEventFile = async (file) => {
     if (viewFileType === 1 || viewFileType === 2) {
-      setFileCurrent({ ...file, tableName: "event_file" });
+      setFileCurrent({ ...file, tableName: 'event_file' });
     } else if (viewFileType === 3) {
       setFileCurrent({ ...file });
     } else if (viewFileType === 4) {
-      setFileCurrent({ ...file, fileType: "4" });
+      setFileCurrent({ ...file, fileType: '4' });
     }
 
     if (file.type === 1) {
       //setUrlSnapshot("data:image/jpeg;base64," + file.thumbnailData[0]);
       // Call Nginx to get blob data of file
       await ExportEventFileApi.downloadFile(
-        file.uuid + ".jpeg",
+        file.uuid + '.jpeg',
         file.type
       ).then(async (result) => {
-        const blob = new Blob([result.data], { type: "octet/stream" });
+        const blob = new Blob([result.data], { type: 'octet/stream' });
         getBase64Text(blob, async (image) => {
           setUrlSnapshot(image);
         });
       });
     } else if (viewFileType === 4) {
-      if (AI_SOURCE === "philong") {
+      if (AI_SOURCE === 'philong') {
         await ExportEventFileApi.downloadAIIntegrationFile(
           file.uuid,
-          "ImageViolate.jpg"
+          'ImageViolate.jpg'
         ).then(async (result) => {
-          const blob = new Blob([result.data], { type: "octet/stream" });
+          const blob = new Blob([result.data], { type: 'octet/stream' });
           getBase64Text(blob, async (image) => {
             setUrlSnapshot(image);
           });
@@ -735,7 +740,7 @@ const ExportEventFile = () => {
           file.fileName,
           4
         ).then(async (result) => {
-          const blob = new Blob([result.data], { type: "octet/stream" });
+          const blob = new Blob([result.data], { type: 'octet/stream' });
           getBase64Text(blob, async (image) => {
             setUrlSnapshot(image);
           });
@@ -744,7 +749,7 @@ const ExportEventFile = () => {
         // setUrlSnapshot("data:image/jpeg;base64," + file.thumbnailData);
       }
     } else {
-      if (file.tableName === "file") {
+      if (file.tableName === 'file') {
         // Play file
         await playFile(file);
       } else {
@@ -753,8 +758,8 @@ const ExportEventFile = () => {
       }
     }
     if (viewFileType === 4) {
-      if (AI_SOURCE === "philong") {
-        setDownloadFileName("ImageViolate.jpg");
+      if (AI_SOURCE === 'philong') {
+        setDownloadFileName('ImageViolate.jpg');
       } else {
         setDownloadFileName(file.fileName);
       }
@@ -767,7 +772,7 @@ const ExportEventFile = () => {
 
   const playEventFile = async (row) => {
     setUrlVideoTimeline(null);
-    let user = reactLocalStorage.getObject("user", null);
+    let user = reactLocalStorage.getObject('user', null);
     if (user !== undefined && user !== null) {
       const playbackPermissionReq = {
         cameraUuid: row.cameraUuid,
@@ -795,15 +800,15 @@ const ExportEventFile = () => {
           if (payload) {
             let videoSrc =
               checkPerRes.playbackUrl +
-              "/play/hls/" +
+              '/play/hls/' +
               payload.reqUuid +
-              "/index.m3u8";
+              '/index.m3u8';
             setDownloadFileName(row.name);
             setDuration(row.length);
-            setFileCurrent({ ...row, tableName: "event_file" });
+            setFileCurrent({ ...row, tableName: 'event_file' });
             setPlayerReady(true);
             setPlayerSrc(videoSrc);
-            playHandler("default");
+            playHandler('default');
 
             // Call Nginx to get blob data of file
             // await ExportEventFileApi.getFileData(row.id, row.type, row.nginx_host).then(async (result) => {
@@ -823,7 +828,7 @@ const ExportEventFile = () => {
           }
         }
       } catch (e) {
-        console.log("e:", e.toString());
+        console.log('e:', e.toString());
       } finally {
         setLoading(false);
       }
@@ -835,13 +840,13 @@ const ExportEventFile = () => {
     setLoading(true);
     try {
       let perToCheck = [];
-      if (viewFileType === 0) perToCheck.push("view_record_file");
-      if (viewFileType === 1) perToCheck.push("view_capture_file");
-      if (viewFileType === 2) perToCheck.push("view_event_file");
+      if (viewFileType === 0) perToCheck.push('view_record_file');
+      if (viewFileType === 1) perToCheck.push('view_capture_file');
+      if (viewFileType === 2) perToCheck.push('view_event_file');
       if (viewFileType === 3) {
-        perToCheck.push("view_record_file");
-        perToCheck.push("view_capture_file");
-        perToCheck.push("view_event_file");
+        perToCheck.push('view_record_file');
+        perToCheck.push('view_capture_file');
+        perToCheck.push('view_event_file');
       }
       let per = true;
       perToCheck.forEach((p) => {
@@ -855,8 +860,8 @@ const ExportEventFile = () => {
               if (data.payload.length === 0) {
                 Notification({
                   type: NOTYFY_TYPE.warning,
-                  title: `${t("noti.archived_file")}`,
-                  description: `${t("noti.no_valid_results_found")}`,
+                  title: `${t('noti.archived_file')}`,
+                  description: `${t('noti.no_valid_results_found')}`,
                 });
                 setListFiles([]);
                 setTotal(0);
@@ -880,8 +885,8 @@ const ExportEventFile = () => {
               if (data.payload.length === 0) {
                 Notification({
                   type: NOTYFY_TYPE.warning,
-                  title: `${t("noti.archived_file")}`,
-                  description: `${t("noti.no_valid_results_found")}`,
+                  title: `${t('noti.archived_file')}`,
+                  description: `${t('noti.no_valid_results_found')}`,
                 });
                 setListFiles([]);
                 setTotal(0);
@@ -906,8 +911,8 @@ const ExportEventFile = () => {
                 if (data.payload.length === 0) {
                   Notification({
                     type: NOTYFY_TYPE.warning,
-                    title: `${t("noti.archived_file")}`,
-                    description: `${t("noti.no_valid_results_found")}`,
+                    title: `${t('noti.archived_file')}`,
+                    description: `${t('noti.no_valid_results_found')}`,
                   });
                   setListFiles([]);
                   setTotal(0);
@@ -934,32 +939,35 @@ const ExportEventFile = () => {
               if (data.payload.length === 0) {
                 Notification({
                   type: NOTYFY_TYPE.warning,
-                  title: `${t("noti.archived_file")}`,
-                  description: `${t("noti.no_valid_results_found")}`,
+                  title: `${t('noti.archived_file')}`,
+                  description: `${t('noti.no_valid_results_found')}`,
                 });
                 setListFiles([]);
                 setTotal(0);
                 return;
               }
-              setListFiles(
-                data.payload.map((f) => {
-                  const { important, ...file } = f;
-                  return {
-                    ...file,
-                    subEventType: f.eventType,
-                    isImportant: f.important,
-                  };
-                })
-              );
+              const converdata = data.payload.map((f) => {
+                const { important, ...file } = f;
+                return {
+                  ...file,
+                  subEventType: f.eventType,
+                  isImportant: f.important,
+                };
+              });
+              setListFiles(converdata);
               setTotal(data.metadata.total);
+              if (nextpage !== null) {
+                onClickTableFileHandler(converdata[0]);
+                setNextselected(converdata[0].uuid);
+              }
             }
           });
         }
       } else {
         Notification({
           type: NOTYFY_TYPE.warning,
-          title: `${t("noti.archived_file")}`,
-          description: `${t("noti.do_not_have_permission_to_action")}`,
+          title: `${t('noti.archived_file')}`,
+          description: `${t('noti.do_not_have_permission_to_action')}`,
         });
         setListFiles([]);
         setTotal(0);
@@ -967,8 +975,8 @@ const ExportEventFile = () => {
     } catch (e) {
       Notification({
         type: NOTYFY_TYPE.warning,
-        title: `${t("noti.archived_file")}`,
-        description: `${t("noti.error_search_file")}`,
+        title: `${t('noti.archived_file')}`,
+        description: `${t('noti.error_search_file')}`,
       });
       console.log(e);
       setListFiles([]);
@@ -980,9 +988,9 @@ const ExportEventFile = () => {
 
   const setFileName = (type) => {
     if (type === 0) {
-      return "Cut." + moment().format("DDMMYYYY.hhmmss") + ".mp4";
+      return 'Cut.' + moment().format('DDMMYYYY.hhmmss') + '.mp4';
     }
-    return "Cap." + moment().format("DDMMYYYY.hhmmss") + ".jpg";
+    return 'Cap.' + moment().format('DDMMYYYY.hhmmss') + '.jpg';
   };
 
   let addDataToEvent = (row, vFileType) => {
@@ -1013,7 +1021,7 @@ const ExportEventFile = () => {
       const { blob, tBlob } = captureVideoFrame(
         playerVideo.current,
         refCanvas.current,
-        "jpeg"
+        'jpeg'
       );
       const lstEf = [...listEventFiles];
       const fileName = setFileName(1);
@@ -1043,11 +1051,11 @@ const ExportEventFile = () => {
         (el) => el.uuid === eventFileCurrent.uuid
       );
       if (!isExistEl && eventFileCurrent && fileCurrent) {
-        const cbLeft = document.getElementById("cb-left");
-        const cbRight = document.getElementById("cb-right");
-        const sTime = cbLeft.getAttribute("data-start_time");
-        const eTime = cbRight.getAttribute("data-end_time");
-        const fileName = fileCurrent.path + "/" + fileCurrent.name;
+        const cbLeft = document.getElementById('cb-left');
+        const cbRight = document.getElementById('cb-right');
+        const sTime = cbLeft.getAttribute('data-start_time');
+        const eTime = cbRight.getAttribute('data-end_time');
+        const fileName = fileCurrent.path + '/' + fileCurrent.name;
         const captureFileReq = {
           startCaptureTime: +sTime,
           stopCaptureTime: +eTime,
@@ -1064,7 +1072,7 @@ const ExportEventFile = () => {
             length: captureFileRes.payload.length,
             pathFile:
               captureFileRes.payload.path +
-              "/" +
+              '/' +
               captureFileRes.payload.fileName,
             thumbnailData: captureFileRes.payload.thumbnailData,
             nginx_host: captureFileRes.payload.nginx_host,
@@ -1078,8 +1086,8 @@ const ExportEventFile = () => {
           if (response && response.payload) {
             Notification({
               type: NOTYFY_TYPE.success,
-              title: `${t("noti.archived_file")}`,
-              description: `${t("noti.successfully_add_file")}`,
+              title: `${t('noti.archived_file')}`,
+              description: `${t('noti.successfully_add_file')}`,
             });
             eventFile = { ...eventFile, id: response.payload.id };
             const lstEf = [...listEventFiles];
@@ -1095,42 +1103,42 @@ const ExportEventFile = () => {
     } catch (e) {
       Notification({
         type: NOTYFY_TYPE.warning,
-        title: `${t("noti.archived_file")}`,
-        description: `${t("noti.error_cut_file")}`,
+        title: `${t('noti.archived_file')}`,
+        description: `${t('noti.error_cut_file')}`,
       });
-      console.log("e:", e.toString());
+      console.log('e:', e.toString());
     } finally {
       setLoading(false);
     }
   };
 
   const playHandler = (cmd) => {
-    const pauseEle = document.getElementById("video-control-pause");
-    const playEle = document.getElementById("video-control-play");
-    if (cmd === "default") {
-      pauseEle.style.display = "none";
-      playEle.style.display = "block";
+    const pauseEle = document.getElementById('video-control-pause');
+    const playEle = document.getElementById('video-control-play');
+    if (cmd === 'default') {
+      pauseEle.style.display = 'none';
+      playEle.style.display = 'block';
       playbackRate = 1;
       playerVideo.current.defaultPlaybackRate = playbackRate;
       playerVideo.current.playbackRate = playbackRate;
-    } else if (cmd === "play") {
-      const cbRight = document.getElementById("cb-right");
-      let eTime = cbRight.getAttribute("data-end_time");
+    } else if (cmd === 'play') {
+      const cbRight = document.getElementById('cb-right');
+      let eTime = cbRight.getAttribute('data-end_time');
       if (playerVideo.current.currentTime < +eTime) {
-        pauseEle.style.display = "block";
-        playEle.style.display = "none";
+        pauseEle.style.display = 'block';
+        playEle.style.display = 'none';
         playerVideo.current.play();
       }
-    } else if (cmd === "pause") {
-      pauseEle.style.display = "none";
-      playEle.style.display = "block";
+    } else if (cmd === 'pause') {
+      pauseEle.style.display = 'none';
+      playEle.style.display = 'block';
       playerVideo.current.pause();
-    } else if (cmd === "decrease_rate") {
+    } else if (cmd === 'decrease_rate') {
       if (playbackRate === 0.125) return;
       playbackRate = playbackRate / 2;
       playerVideo.current.defaultPlaybackRate = playbackRate;
       playerVideo.current.playbackRate = playbackRate;
-    } else if (cmd === "increase_rate") {
+    } else if (cmd === 'increase_rate') {
       if (playbackRate === 16) return;
       playbackRate = playbackRate * 2;
       playerVideo.current.defaultPlaybackRate = playbackRate;
@@ -1141,32 +1149,32 @@ const ExportEventFile = () => {
   const downloadFileHandler = async () => {
     if (downloadFileName) {
       let per = true;
-      let perStr = "";
+      let perStr = '';
       switch (viewFileType) {
         case 0:
-          perStr = "download_record_file";
+          perStr = 'download_record_file';
           break;
         case 1:
-          perStr = "download_capture_file";
+          perStr = 'download_capture_file';
           break;
         case 2:
-          perStr = "download_event_file";
+          perStr = 'download_event_file';
           break;
         case 4:
-          perStr = "download_event_file";
+          perStr = 'download_event_file';
           break;
         case 3:
-          if (fileCurrent.tableName === "file") {
-            perStr = "download_record_file";
-          } else if (fileCurrent.eventUuid !== "") {
-            perStr = "download_event_file";
+          if (fileCurrent.tableName === 'file') {
+            perStr = 'download_record_file';
+          } else if (fileCurrent.eventUuid !== '') {
+            perStr = 'download_event_file';
           } else {
-            perStr = "download_capture_file";
+            perStr = 'download_capture_file';
           }
           break;
         default:
       }
-      if (perStr !== "") {
+      if (perStr !== '') {
         per = permissionCheck(perStr);
       }
       if (per) {
@@ -1175,27 +1183,27 @@ const ExportEventFile = () => {
         } else {
           setLoading(true);
           try {
-            if (fileCurrent.tableName === "file") {
+            if (fileCurrent.tableName === 'file') {
               // Call Nginx to get blob data of file
               await ExportEventFileApi.downloadFileNginx(
                 fileCurrent.id,
                 fileCurrent.fileType,
                 fileCurrent.nginx_host
               ).then(async (result) => {
-                const blob = new Blob([result.data], { type: "octet/stream" });
+                const blob = new Blob([result.data], { type: 'octet/stream' });
                 const url = window.URL.createObjectURL(blob);
                 saveAs(url, downloadFileName);
               });
             } else {
-              if (fileCurrent.fileType === "4") {
-                if (AI_SOURCE === "philong") {
-                  console.log("imageAICurrent          ", imageAICurrent);
+              if (fileCurrent.fileType === '4') {
+                if (AI_SOURCE === 'philong') {
+                  console.log('imageAICurrent          ', imageAICurrent);
                   await ExportEventFileApi.downloadAIIntegrationFile(
                     imageAICurrent.uuid,
                     imageAICurrent.fileName
                   ).then(async (result) => {
                     const blob = new Blob([result.data], {
-                      type: "octet/stream",
+                      type: 'octet/stream',
                     });
                     const url = window.URL.createObjectURL(blob);
                     saveAs(url, imageAICurrent.fileName);
@@ -1209,7 +1217,7 @@ const ExportEventFile = () => {
                     4
                   ).then(async (result) => {
                     const blob = new Blob([result.data], {
-                      type: "octet/stream",
+                      type: 'octet/stream',
                     });
                     const url = window.URL.createObjectURL(blob);
                     saveAs(url, downloadFileName);
@@ -1224,7 +1232,7 @@ const ExportEventFile = () => {
                   fileCurrent.nginx_host
                 ).then(async (result) => {
                   const blob = new Blob([result.data], {
-                    type: "octet/stream",
+                    type: 'octet/stream',
                   });
                   const url = window.URL.createObjectURL(blob);
                   saveAs(url, downloadFileName);
@@ -1235,8 +1243,8 @@ const ExportEventFile = () => {
           } catch (e) {
             Notification({
               type: NOTYFY_TYPE.warning,
-              title: `${t("noti.archived_file")}`,
-              description: `${t("noti.error_download_file")}`,
+              title: `${t('noti.archived_file')}`,
+              description: `${t('noti.error_download_file')}`,
             });
           } finally {
             setLoading(false);
@@ -1246,8 +1254,8 @@ const ExportEventFile = () => {
       } else {
         Notification({
           type: NOTYFY_TYPE.warning,
-          title: `${t("noti.archived_file")}`,
-          description: `${t("noti.do_not_have_permission_to_action")}`,
+          title: `${t('noti.archived_file')}`,
+          description: `${t('noti.do_not_have_permission_to_action')}`,
         });
       }
     }
@@ -1273,8 +1281,8 @@ const ExportEventFile = () => {
     } catch (e) {
       Notification({
         type: NOTYFY_TYPE.warning,
-        title: `${t("noti.archived_file")}`,
-        description: `${t("noti.error_open_file")}`,
+        title: `${t('noti.archived_file')}`,
+        description: `${t('noti.error_open_file')}`,
       });
     } finally {
       setLoading(false);
@@ -1289,8 +1297,8 @@ const ExportEventFile = () => {
     if (deleteFileDataRes && deleteFileDataRes.code === 1700) {
       Notification({
         type: NOTYFY_TYPE.success,
-        title: `${t("noti.archived_file")}`,
-        description: `${t("noti.successfully_delete_file")}`,
+        title: `${t('noti.archived_file')}`,
+        description: `${t('noti.successfully_delete_file')}`,
       });
       const updatedImageOther = imageOther.filter((item) => item.uuid !== uuid);
 
@@ -1298,8 +1306,8 @@ const ExportEventFile = () => {
     } else {
       Notification({
         type: NOTYFY_TYPE.warning,
-        title: `${t("noti.archived_file")}`,
-        description: `${t("noti.do_not_have_permission_to_action")}`,
+        title: `${t('noti.archived_file')}`,
+        description: `${t('noti.do_not_have_permission_to_action')}`,
       });
     }
     setLoading(false);
@@ -1307,23 +1315,23 @@ const ExportEventFile = () => {
 
   const viewImageAIHandler = async (item) => {
     setLoading(true);
-    if (AI_SOURCE === "philong") {
-      if (item.type === "mp4") {
+    if (AI_SOURCE === 'philong') {
+      if (item.type === 'mp4') {
         setImageAICurrent({
           uuid: item.uuid,
-          fileName: "Video.mp4",
+          fileName: 'Video.mp4',
         });
-        console.log("item.url _______", item.url);
+        console.log('item.url _______', item.url);
         setPlayerAIVideoUrl(item.url);
         setPlayerReadyAIVideo(true);
-        setUrlSnapshot("");
+        setUrlSnapshot('');
       } else {
-        console.log("item   ", item);
+        console.log('item   ', item);
         await ExportEventFileApi.downloadAIIntegrationFile(
           item.uuid,
           item.fileName
         ).then(async (result) => {
-          const blob = new Blob([result.data], { type: "octet/stream" });
+          const blob = new Blob([result.data], { type: 'octet/stream' });
           getBase64Text(blob, async (image) => {
             setUrlSnapshot(image);
           });
@@ -1341,7 +1349,7 @@ const ExportEventFile = () => {
         item.fileName,
         4
       ).then(async (result) => {
-        const blob = new Blob([result.data], { type: "octet/stream" });
+        const blob = new Blob([result.data], { type: 'octet/stream' });
         getBase64Text(blob, async (image) => {
           setUrlSnapshot(image);
         });
@@ -1359,8 +1367,8 @@ const ExportEventFile = () => {
 
   const deleteFileHandler = async () => {
     let response = null;
-    if (fileCurrent.uuid !== "") {
-      if (fileCurrent.tableName === "file") {
+    if (fileCurrent.uuid !== '') {
+      if (fileCurrent.tableName === 'file') {
         const deletePhysicalFileRes =
           await deleteExportEventFileApi.deletePhysicalFile(fileCurrent.uuid);
         if (deletePhysicalFileRes && +deletePhysicalFileRes.code === 800) {
@@ -1368,8 +1376,8 @@ const ExportEventFile = () => {
           if (response) {
             Notification({
               type: NOTYFY_TYPE.success,
-              title: `${t("noti.archived_file")}`,
-              description: `${t("noti.successfully_delete_file")}`,
+              title: `${t('noti.archived_file')}`,
+              description: `${t('noti.successfully_delete_file')}`,
             });
             const updatedListFile = listFiles.filter(
               (item) => item.uuid !== fileCurrent.uuid
@@ -1389,14 +1397,14 @@ const ExportEventFile = () => {
             isSuccess = true;
           }
         } else {
-          if (fileCurrent.fileType === "4") {
+          if (fileCurrent.fileType === '4') {
             const delete_file = await AIEventsApi.delete(fileCurrent.uuid);
 
             if (delete_file) {
               Notification({
                 type: NOTYFY_TYPE.success,
-                title: `${t("noti.archived_file")}`,
-                description: `${t("noti.successfully_delete_file")}`,
+                title: `${t('noti.archived_file')}`,
+                description: `${t('noti.successfully_delete_file')}`,
               });
               const updatedListFile = listFiles.filter(
                 (item) => item.uuid !== fileCurrent.uuid
@@ -1409,20 +1417,20 @@ const ExportEventFile = () => {
             const deleteFileDataRes = await ExportEventFileApi.deleteFileData(
               fileCurrent.pathFile
             );
-            if (deleteFileDataRes && deleteFileDataRes.code === "1600") {
+            if (deleteFileDataRes && deleteFileDataRes.code === '1600') {
               isSuccess = true;
             }
           }
 
           // Image
         }
-        if (isSuccess && fileCurrent.fileType !== "4") {
+        if (isSuccess && fileCurrent.fileType !== '4') {
           response = await ExportEventFileApi.deleteEventFile(fileCurrent.uuid);
           if (response) {
             Notification({
               type: NOTYFY_TYPE.success,
-              title: `${t("noti.archived_file")}`,
-              description: `${t("noti.successfully_delete_file")}`,
+              title: `${t('noti.archived_file')}`,
+              description: `${t('noti.successfully_delete_file')}`,
             });
             const updatedListFile = listFiles.filter(
               (item) => item.uuid !== fileCurrent.uuid
@@ -1437,13 +1445,13 @@ const ExportEventFile = () => {
 
   const editFileHandler = async (file, dataList, perStr) => {
     let per = true;
-    if (perStr !== "") {
+    if (perStr !== '') {
       per = permissionCheck(perStr);
     }
     if (per) {
       let response = null;
       let { ...requestObject } = file;
-      if (requestObject.tableName === "file") {
+      if (requestObject.tableName === 'file') {
         response = await ExportEventFileApi.updateFile(
           requestObject,
           requestObject.uuid
@@ -1457,8 +1465,8 @@ const ExportEventFile = () => {
       if (response) {
         Notification({
           type: NOTYFY_TYPE.success,
-          title: `${t("noti.archived_file")}`,
-          description: `${t("noti.successfully_edit_file")}`,
+          title: `${t('noti.archived_file')}`,
+          description: `${t('noti.successfully_edit_file')}`,
         });
         if (viewFileType === 3 && !requestObject.isImportant) {
           refresh();
@@ -1482,17 +1490,17 @@ const ExportEventFile = () => {
     } else {
       Notification({
         type: NOTYFY_TYPE.warning,
-        title: `${t("noti.archived_file")}`,
-        description: `${t("noti.do_not_have_permission_to_action")}`,
+        title: `${t('noti.archived_file')}`,
+        description: `${t('noti.do_not_have_permission_to_action')}`,
       });
     }
   };
 
   const editFileOnPopoverHandler = async (isImportant, note) => {
     if (fileCurrent) {
-      let perStr = "";
-      if (isImportant !== null) perStr = "mark_important_file";
-      if (note !== null) perStr = "edit_file_note";
+      let perStr = '';
+      if (isImportant !== null) perStr = 'mark_important_file';
+      if (note !== null) perStr = 'edit_file_note';
       const per = permissionCheck(perStr);
       if (per) {
         let requestObject = Object.assign({ ...fileCurrent });
@@ -1506,7 +1514,7 @@ const ExportEventFile = () => {
           requestObject = Object.assign({ ...requestObject, note: note });
         }
         let response = null;
-        if (requestObject.tableName === "file") {
+        if (requestObject.tableName === 'file') {
           response = await ExportEventFileApi.updateFile(
             requestObject,
             requestObject.uuid
@@ -1521,8 +1529,8 @@ const ExportEventFile = () => {
         if (response) {
           Notification({
             type: NOTYFY_TYPE.success,
-            title: `${t("noti.archived_file")}`,
-            description: `${t("noti.successfully_edit_file")}`,
+            title: `${t('noti.archived_file')}`,
+            description: `${t('noti.successfully_edit_file')}`,
           });
           const dataList = [...listFiles];
           if (viewFileType === 3 && !requestObject.isImportant) {
@@ -1551,8 +1559,8 @@ const ExportEventFile = () => {
       } else {
         Notification({
           type: NOTYFY_TYPE.warning,
-          title: `${t("noti.archived_file")}`,
-          description: `${t("noti.do_not_have_permission_to_action")}`,
+          title: `${t('noti.archived_file')}`,
+          description: `${t('noti.do_not_have_permission_to_action')}`,
         });
       }
     }
@@ -1560,12 +1568,12 @@ const ExportEventFile = () => {
 
   const originalHandler = async () => {
     // In case play capture file
-    if (urlSnapshot === "") {
+    if (urlSnapshot === '') {
       // Play file
       await playFile(originalFile);
     }
     setCaptureMode(false);
-    setUrlSnapshot("");
+    setUrlSnapshot('');
     setFileCurrent(originalFile);
   };
 
@@ -1575,14 +1583,14 @@ const ExportEventFile = () => {
 
     if (eventFile.type === 0) {
       //Video type
-      setUrlSnapshot("");
+      setUrlSnapshot('');
       setListEventFiles([...dataList]);
       // Play event file
       await playEventFile(eventFile);
     } else {
       //Image type
       if (eventFile.isSaved) {
-        setUrlSnapshot("data:image/jpeg;base64," + eventFile.thumbnailData[0]);
+        setUrlSnapshot('data:image/jpeg;base64,' + eventFile.thumbnailData[0]);
         setListEventFiles([...dataList]);
       } else {
         if (eventFile.blob) {
@@ -1611,7 +1619,7 @@ const ExportEventFile = () => {
           const deleteFileDataRes = await ExportEventFileApi.deleteFileData(
             listEventFiles[index].pathFile
           );
-          if (deleteFileDataRes && deleteFileDataRes.code === "1600") {
+          if (deleteFileDataRes && deleteFileDataRes.code === '1600') {
             isSuccess = true;
           }
         }
@@ -1620,14 +1628,14 @@ const ExportEventFile = () => {
           if (response) {
             Notification({
               type: NOTYFY_TYPE.success,
-              title: `${t("noti.archived_file")}`,
-              description: `${t("noti.successfully_delete_file")}`,
+              title: `${t('noti.archived_file')}`,
+              description: `${t('noti.successfully_delete_file')}`,
             });
             const updatedListFile = listEventFiles.filter(
               (item) => item.uuid !== uuid
             );
             setListEventFiles([...updatedListFile]);
-            setUrlSnapshot("");
+            setUrlSnapshot('');
             refresh();
           }
         }
@@ -1636,7 +1644,7 @@ const ExportEventFile = () => {
           (item) => item.uuid !== uuid
         );
         setListEventFiles([...updatedListFile]);
-        setUrlSnapshot("");
+        setUrlSnapshot('');
       }
     }
   };
@@ -1651,8 +1659,8 @@ const ExportEventFile = () => {
     if (response) {
       Notification({
         type: NOTYFY_TYPE.success,
-        title: `${t("noti.archived_file")}`,
-        description: `${t("noti.successfully_edit_file")}`,
+        title: `${t('noti.archived_file')}`,
+        description: `${t('noti.successfully_edit_file')}`,
       });
       const index = findIndex(
         dataList,
@@ -1680,7 +1688,7 @@ const ExportEventFile = () => {
           departmentUuid: data.payload.departmentUuid,
           departmentName: data.payload.departmentName,
           typeObject:
-            data.payload.useCase === "zac_vehicle" ? "vehicle" : "human",
+            data.payload.useCase === 'zac_vehicle' ? 'vehicle' : 'human',
         });
       }
     });
@@ -1688,7 +1696,7 @@ const ExportEventFile = () => {
 
   const saveEventFileHandler = (eventFile, dataList) => {
     ExportEventFileApi.uploadFile(
-      eventFile.uuid + ".jpeg",
+      eventFile.uuid + '.jpeg',
       eventFile.blob
     ).then(async (result) => {
       if (
@@ -1704,7 +1712,7 @@ const ExportEventFile = () => {
             pathFile: path,
             isSaved: true,
             thumbnailData: [
-              thumbnailData.replace("data:image/jpeg;base64,", ""),
+              thumbnailData.replace('data:image/jpeg;base64,', ''),
             ],
           });
           const response = await ExportEventFileApi.createNewEventFile(
@@ -1713,8 +1721,8 @@ const ExportEventFile = () => {
           if (response) {
             Notification({
               type: NOTYFY_TYPE.success,
-              title: `${t("noti.archived_file")}`,
-              description: `${t("noti.successfully_add_file")}`,
+              title: `${t('noti.archived_file')}`,
+              description: `${t('noti.successfully_add_file')}`,
             });
             let newDataList = [...dataList];
             const index = findIndex(
@@ -1728,20 +1736,20 @@ const ExportEventFile = () => {
       } else {
         Notification({
           type: NOTYFY_TYPE.warning,
-          title: `${t("noti.archived_file")}`,
-          description: `${t("noti.error_save_file")}`,
+          title: `${t('noti.archived_file')}`,
+          description: `${t('noti.error_save_file')}`,
         });
       }
     });
   };
 
   const checkDisabled = () => {
-    if (captureMode) return "disabled";
-    if (urlSnapshot) return "disabled";
-    if (viewFileType === 4) return "disabled";
-    if (!fileCurrent) return "disabled";
-    if (fileCurrent.uuid === "") return "disabled";
-    return "";
+    if (captureMode) return 'disabled';
+    if (urlSnapshot) return 'disabled';
+    if (viewFileType === 4) return 'disabled';
+    if (!fileCurrent) return 'disabled';
+    if (fileCurrent.uuid === '') return 'disabled';
+    return '';
   };
 
   const checkBtnCaptureDisabled = () => {
@@ -1750,42 +1758,42 @@ const ExportEventFile = () => {
     if (captureMode) return false;
     if (urlSnapshot) return false;
     if (!fileCurrent) return false;
-    return fileCurrent.uuid !== "";
+    return fileCurrent.uuid !== '';
   };
 
   const checkBtnDeleteDisabled = () => {
-    if (captureMode) return "disabled";
-    if (!fileCurrent) return "disabled";
-    if (fileCurrent.uuid === "") return "disabled";
-    return "";
+    if (captureMode) return 'disabled';
+    if (!fileCurrent) return 'disabled';
+    if (fileCurrent.uuid === '') return 'disabled';
+    return '';
   };
 
   const checkBtnDownloadDisabled = () => {
-    if (!fileCurrent) return "disabled";
-    if (fileCurrent.uuid === "") return "disabled";
-    return "";
+    if (!fileCurrent) return 'disabled';
+    if (fileCurrent.uuid === '') return 'disabled';
+    return '';
   };
 
   const checkBtnEditRootFileDisabled = () => {
     if (viewFileType === 0) return false;
     if (viewFileType === 4) return false;
     if (!fileCurrent) return false;
-    return !(fileCurrent.uuid === "" || fileCurrent.rootFileUuid === "");
+    return !(fileCurrent.uuid === '' || fileCurrent.rootFileUuid === '');
   };
 
   const checkBtnInfoDisabled = () => {
-    if (captureMode) return "disabled";
-    if (viewFileType === 4) return "disabled";
-    if (!fileCurrent) return "disabled";
-    if (fileCurrent.uuid === "") return "disabled";
-    return "";
+    if (captureMode) return 'disabled';
+    if (viewFileType === 4) return 'disabled';
+    if (!fileCurrent) return 'disabled';
+    if (fileCurrent.uuid === '') return 'disabled';
+    return '';
   };
 
   const checkBtnInfoObjectDisabled = () => {
-    if (captureMode) return "disabled";
-    if (!fileCurrent) return "disabled";
-    if (fileCurrent.uuid === "") return "disabled";
-    return "";
+    if (captureMode) return 'disabled';
+    if (!fileCurrent) return 'disabled';
+    if (fileCurrent.uuid === '') return 'disabled';
+    return '';
   };
 
   const changeNoteHandler = (event) => {
@@ -1830,9 +1838,9 @@ const ExportEventFile = () => {
         setDetailAI({ ...detailAI, status: value?.value });
       } else {
         const notifyMess = {
-          type: "error",
-          title: "",
-          description: `${t("noti.error_edit")}`,
+          type: 'error',
+          title: '',
+          description: `${t('noti.error_edit')}`,
         };
         Notification(notifyMess);
       }
@@ -1864,11 +1872,11 @@ const ExportEventFile = () => {
   };
   const handleUpdateTHXL = async () => {
     ConfirmUpdate.confirm({
-      title: t("view.common_device.want_to_change?"),
+      title: t('view.common_device.want_to_change?'),
       icon: <ExclamationCircleOutlined />,
       centered: true,
-      okText: t("view.common_device.agree"),
-      cancelText: t("view.common_device.cancel"),
+      okText: t('view.common_device.agree'),
+      cancelText: t('view.common_device.cancel'),
       onOk: async () => {
         const data = {
           cameraUuid: detailAI.cameraUuid,
@@ -1886,17 +1894,17 @@ const ExportEventFile = () => {
 
           if (isEdit) {
             const notifyMess = {
-              type: "success",
-              title: "",
-              description: `${t("noti.successfully_edit_nvr")}`,
+              type: 'success',
+              title: '',
+              description: `${t('noti.successfully_edit_nvr')}`,
             };
             Notification(notifyMess);
           } else {
             const notifyMess = {
-              type: "error",
-              title: "",
+              type: 'error',
+              title: '',
               description:
-                "Đã xảy ra lỗi trong quá trình chỉnh sửa, hãy kiểm tra lại",
+                'Đã xảy ra lỗi trong quá trình chỉnh sửa, hãy kiểm tra lại',
             };
             Notification(notifyMess);
           }
@@ -1908,7 +1916,7 @@ const ExportEventFile = () => {
         }
       },
       onCancel() {
-        console.log("Cancel");
+        console.log('Cancel');
       },
     });
   };
@@ -1916,7 +1924,22 @@ const ExportEventFile = () => {
     setCurrNode(eventFileCurrent.note);
     setEditMode(false);
   };
-
+  const TableView = (data) => {
+    setCurrentEventTablePage(data?.page);
+    setTotalEventTablePage(data?.totalpage);
+  };
+  // button next to select next row
+  const onNext = async () => {
+    const index = listFiles.findIndex((item) => {
+      return item.uuid === fileCurrent.uuid;
+    });
+    if (index < listFiles.length - 1) {
+      onClickTableFileHandler(listFiles[index + 1]);
+      setNextselected(listFiles[index + 1].uuid);
+    } else {
+      setNextpage(Math.random());
+    }
+  };
   const saveFileHandler = (isImportant, note) => {
     // props.onEditFile(isImportant, note);
     editNoteHandler(note);
@@ -1925,8 +1948,8 @@ const ExportEventFile = () => {
 
   const editNoteHandler = async (note) => {
     if (eventFileCurrent) {
-      let perStr = "";
-      if (note !== null) perStr = "edit_file_note";
+      let perStr = '';
+      if (note !== null) perStr = 'edit_file_note';
       const per = permissionCheck(perStr);
 
       if (per) {
@@ -1943,8 +1966,8 @@ const ExportEventFile = () => {
         if (response) {
           Notification({
             type: NOTYFY_TYPE.success,
-            title: `${t("noti.archived_file")}`,
-            description: `${t("noti.successfully_edit_file")}`,
+            title: `${t('noti.archived_file')}`,
+            description: `${t('noti.successfully_edit_file')}`,
           });
           const dataList = [...listFiles];
           if (viewFileType === 3 && !requestObject.isImportant) {
@@ -1973,8 +1996,8 @@ const ExportEventFile = () => {
       } else {
         Notification({
           type: NOTYFY_TYPE.warning,
-          title: `${t("noti.archived_file")}`,
-          description: `${t("noti.do_not_have_permission_to_action")}`,
+          title: `${t('noti.archived_file')}`,
+          description: `${t('noti.do_not_have_permission_to_action')}`,
         });
       }
     }
@@ -1996,6 +2019,10 @@ const ExportEventFile = () => {
             tracingList={tracingList}
             onClickRow={onClickTableListEvent}
             editNoteUpdate={editNoteUpdate}
+            onNext={onNext}
+            totalEventTablePage={totalEventTablePage}
+            currentEventTablePage={currentEventTablePage}
+            listFiles={listFiles}
             // handleUpdateTHXL={handleUpdateTHXL}
           />
         </>
@@ -2003,56 +2030,56 @@ const ExportEventFile = () => {
     } else {
       return (
         <>
-          <Row gutter={[16, 30]} className="eventFileDetail">
+          <Row gutter={[16, 30]} className='eventFileDetail'>
             <Col span={6}>
-              <div className="title">{t("view.storage.file_name")}</div>
+              <div className='title'>{t('view.storage.file_name')}</div>
               <div>{eventFileCurrent.name}</div>
             </Col>
             <Col span={6}>
-              <div className="title">{t("view.storage.event")}</div>
+              <div className='title'>{t('view.storage.event')}</div>
               <div>{eventFileCurrent.eventName}</div>
             </Col>
             <Col span={12}>
-              <div className="title">{t("view.storage.path")}</div>
-              <div className="pathFile">{eventFileCurrent.pathFile}</div>
+              <div className='title'>{t('view.storage.path')}</div>
+              <div className='pathFile'>{eventFileCurrent.pathFile}</div>
             </Col>
             <Col span={6}>
-              <div className="title">{t("view.storage.violation_time")}</div>
+              <div className='title'>{t('view.storage.violation_time')}</div>
               <div>
                 {eventFileCurrent.violationTime === -1
-                  ? ""
+                  ? ''
                   : moment(eventFileCurrent.violationTime * 1000).format(
-                      "HH:mm DD/MM/YYYY"
+                      'HH:mm DD/MM/YYYY'
                     )}
               </div>
             </Col>
             <Col span={6}>
-              <div className="title">{t("view.storage.created_time")}</div>
+              <div className='title'>{t('view.storage.created_time')}</div>
               <div>
                 {eventFileCurrent.createdTime === -1
-                  ? ""
+                  ? ''
                   : moment(eventFileCurrent.createdTime).format(
-                      "HH:mm DD/MM/YYYY"
+                      'HH:mm DD/MM/YYYY'
                     )}
               </div>
             </Col>
             <Col span={12}>
-              <div className="title">
-                {t("view.storage.camera_name", { cam: t("camera") })}
+              <div className='title'>
+                {t('view.storage.camera_name', { cam: t('camera') })}
               </div>
               <div>{eventFileCurrent.cameraName}</div>
             </Col>
             <Col span={6}>
-              <div className="title">{t("view.storage.type")}</div>
+              <div className='title'>{t('view.storage.type')}</div>
               <div>
-                {eventFileCurrent.type === 0 && <FiFilm className="iconType" />}
+                {eventFileCurrent.type === 0 && <FiFilm className='iconType' />}
                 {eventFileCurrent.type === 1 && (
-                  <FiImage className="iconType" />
+                  <FiImage className='iconType' />
                 )}
               </div>
             </Col>
             <Col span={6}>
-              <div className="title">{t("view.storage.length")}</div>
+              <div className='title'>{t('view.storage.length')}</div>
               <div>
                 {eventFileCurrent.length
                   ? new Date(+eventFileCurrent.length * 1000)
@@ -2062,11 +2089,11 @@ const ExportEventFile = () => {
               </div>
             </Col>
             <Col span={12}>
-              <div className="title">{t("view.storage.address")}</div>
+              <div className='title'>{t('view.storage.address')}</div>
               <div>{eventFileCurrent.address}</div>
             </Col>
             <Col span={6}>
-              <div className="title">{t("view.storage.note")}</div>
+              <div className='title'>{t('view.storage.note')}</div>
               <div>{eventFileCurrent.note}</div>
             </Col>
           </Row>
@@ -2112,78 +2139,78 @@ const ExportEventFile = () => {
   return (
     <>
       <Row>
-        <Col span={8} className="FileListContainer">
-          <Row className="rowMode">
-            <Col span={12} className="sourceView">
+        <Col span={8} className='FileListContainer'>
+          <Row className='rowMode'>
+            <Col span={12} className='sourceView'>
               <Tooltip
-                placement="bottomLeft"
-                title={t("view.storage.daily_archive_files_list")}
+                placement='bottomLeft'
+                title={t('view.storage.daily_archive_files_list')}
               >
-                <div className="iconContainer">
+                <div className='iconContainer'>
                   <FiDatabase
-                    className={`icon ${viewFileType === 0 ? "iconActive" : ""}`}
+                    className={`icon ${viewFileType === 0 ? 'iconActive' : ''}`}
                     onClick={() => setViewFileType(0)}
                   />
                 </div>
               </Tooltip>
               <Tooltip
-                placement="bottomLeft"
-                title={t("view.storage.captured_files_list")}
+                placement='bottomLeft'
+                title={t('view.storage.captured_files_list')}
               >
-                <div className="iconContainer">
+                <div className='iconContainer'>
                   <MdCenterFocusWeak
-                    className={`icon ${viewFileType === 1 ? "iconActive" : ""}`}
+                    className={`icon ${viewFileType === 1 ? 'iconActive' : ''}`}
                     onClick={() => setViewFileType(1)}
                   />
                 </div>
               </Tooltip>
               <Tooltip
-                placement="bottomLeft"
-                title={t("view.storage.event_files_list")}
+                placement='bottomLeft'
+                title={t('view.storage.event_files_list')}
               >
-                <div className="iconContainer">
+                <div className='iconContainer'>
                   <RiCalendarTodoLine
-                    className={`icon ${viewFileType === 2 ? "iconActive" : ""}`}
+                    className={`icon ${viewFileType === 2 ? 'iconActive' : ''}`}
                     onClick={() => setViewFileType(2)}
                   />
                 </div>
               </Tooltip>
               <Tooltip
-                placement="bottomLeft"
-                title={t("view.storage.important_files_list")}
+                placement='bottomLeft'
+                title={t('view.storage.important_files_list')}
               >
-                <div className="iconContainer">
+                <div className='iconContainer'>
                   <FiBookmark
-                    className={`icon ${viewFileType === 3 ? "iconActive" : ""}`}
+                    className={`icon ${viewFileType === 3 ? 'iconActive' : ''}`}
                     onClick={() => setViewFileType(3)}
                   />
                 </div>
               </Tooltip>
               <Tooltip
-                placement="bottomLeft"
-                title={t("view.ai_events.event_files_list")}
+                placement='bottomLeft'
+                title={t('view.ai_events.event_files_list')}
               >
-                <div className="iconContainer">
+                <div className='iconContainer'>
                   <AiFillVideoCamera
-                    className={`icon ${viewFileType === 4 ? "iconActive" : ""}`}
+                    className={`icon ${viewFileType === 4 ? 'iconActive' : ''}`}
                     onClick={() => setViewFileType(4)}
                   />
                 </div>
               </Tooltip>
             </Col>
-            <Col span={12} className="modeView">
-              <Tooltip placement="bottom" title={t("view.storage.list_view")}>
-                <div className="iconContainer">
+            <Col span={12} className='modeView'>
+              <Tooltip placement='bottom' title={t('view.storage.list_view')}>
+                <div className='iconContainer'>
                   <FiList
-                    className={`icon ${isTableView ? "iconActive" : ""}`}
+                    className={`icon ${isTableView ? 'iconActive' : ''}`}
                     onClick={() => setIsGridView(!isTableView)}
                   />
                 </div>
               </Tooltip>
-              <Tooltip placement="bottom" title={t("view.storage.grid_view")}>
-                <div className="iconContainer">
+              <Tooltip placement='bottom' title={t('view.storage.grid_view')}>
+                <div className='iconContainer'>
                   <FiGrid
-                    className={`icon ${!isTableView ? "iconActive" : ""}`}
+                    className={`icon ${!isTableView ? 'iconActive' : ''}`}
                     onClick={() => setIsGridView(!isTableView)}
                   />
                 </div>
@@ -2201,15 +2228,18 @@ const ExportEventFile = () => {
             onClickRow={onClickTableFileHandler}
             onSearch={onSearchHandler}
             onEditFile={editFileHandler}
+            nextselected={nextselected}
+            nextpage={nextpage}
+            TableView={TableView}
           />
         </Col>
-        <Col span={16} className="viewFileContainer">
-          <Row className="screenView">
+        <Col span={16} className='viewFileContainer'>
+          <Row className='screenView'>
             <Col span={16}>
-              <div className="displayScreen">
+              <div className='displayScreen'>
                 <div
                   className={`iconPoster ${
-                    playerReady && !urlSnapshot ? "" : "hidden"
+                    playerReady && !urlSnapshot ? '' : 'hidden'
                   }`}
                 >
                   <MemoizedHlsPlayer
@@ -2221,46 +2251,46 @@ const ExportEventFile = () => {
                   />
                 </div>
                 <div
-                  style={{ width: "100%", height: "100%" }}
+                  style={{ width: '100%', height: '100%' }}
                   className={`iconPoster ${
                     !playerReady && playerReadyAIVideo && !urlSnapshot
-                      ? ""
-                      : "hidden"
+                      ? ''
+                      : 'hidden'
                   }`}
                 >
-                  <Space size="larger">
+                  <Space size='larger'>
                     <Spin
-                      className="video-js"
-                      size="large"
-                      id={"spin-slot-10"}
-                      style={{ display: "none" }}
+                      className='video-js'
+                      size='large'
+                      id={'spin-slot-10'}
+                      style={{ display: 'none' }}
                     />
                   </Space>
                   <video
-                    style={{ width: "100%", height: "100%" }}
+                    style={{ width: '100%', height: '100%' }}
                     controls
                     loop
-                    src={playerAIVideoUrl ? playerAIVideoUrl : ""}
+                    src={playerAIVideoUrl ? playerAIVideoUrl : ''}
                   >
                     <source
-                      src={playerAIVideoUrl ? playerAIVideoUrl : ""}
-                      type="video/mp4"
+                      src={playerAIVideoUrl ? playerAIVideoUrl : ''}
+                      type='video/mp4'
                     />
                   </video>
                 </div>
                 <img
                   className={`iconPoster ${
                     !playerReadyAIVideo && !playerReady && !urlSnapshot
-                      ? ""
-                      : "hidden"
+                      ? ''
+                      : 'hidden'
                   }`}
                   src={imagePoster}
-                  alt=""
+                  alt=''
                 />
                 <img
-                  className={`iconPoster ${urlSnapshot ? "" : "hidden"}`}
+                  className={`iconPoster ${urlSnapshot ? '' : 'hidden'}`}
                   src={`${urlSnapshot ? urlSnapshot : imagePoster}`}
-                  alt=""
+                  alt=''
                 />
               </div>
             </Col>
@@ -2272,21 +2302,21 @@ const ExportEventFile = () => {
               />
             </Col>
           </Row>
-          <Row className="playControl">
+          <Row className='playControl'>
             <Col span={7} />
-            <Col className="actionControl" span={10}>
+            <Col className='actionControl' span={10}>
               <div
                 className={`disable-select ${
                   checkDisabled()
-                    ? "playIconContainer__disabled"
-                    : "playIconContainer"
+                    ? 'playIconContainer__disabled'
+                    : 'playIconContainer'
                 }`}
               >
                 <FiRewind
-                  className="playIcon"
+                  className='playIcon'
                   onClick={() => {
                     if (checkDisabled()) return;
-                    playHandler("decrease_rate");
+                    playHandler('decrease_rate');
                   }}
                 />
               </div>
@@ -2296,31 +2326,31 @@ const ExportEventFile = () => {
               <div
                 className={`disable-select ${
                   checkDisabled()
-                    ? "playIcon2Container__disabled"
-                    : "playIcon2Container"
+                    ? 'playIcon2Container__disabled'
+                    : 'playIcon2Container'
                 }`}
                 onClick={() => {
                   if (checkDisabled()) return;
-                  const playEle = document.getElementById("video-control-play");
-                  if (playEle.style.display === "none") {
-                    playHandler("pause");
+                  const playEle = document.getElementById('video-control-play');
+                  if (playEle.style.display === 'none') {
+                    playHandler('pause');
                   } else {
-                    playHandler("play");
+                    playHandler('play');
                   }
                 }}
               >
                 <FiPause
-                  id="video-control-pause"
-                  className="playIcon2"
-                  style={{ display: "none" }}
+                  id='video-control-pause'
+                  className='playIcon2'
+                  style={{ display: 'none' }}
                   // onClick={() => {
                   //   if (checkDisabled()) return;
                   //   playHandler("pause");
                   // }}
                 />
                 <FiPlay
-                  id="video-control-play"
-                  className="playIcon2"
+                  id='video-control-play'
+                  className='playIcon2'
                   // onClick={() => {
                   //   if (checkDisabled()) return;
                   //   playHandler("play");
@@ -2333,35 +2363,35 @@ const ExportEventFile = () => {
               <div
                 className={`disable-select ${
                   checkDisabled()
-                    ? "playIconContainer__disabled"
-                    : "playIconContainer"
+                    ? 'playIconContainer__disabled'
+                    : 'playIconContainer'
                 }`}
               >
                 <FiFastForward
-                  className="playIcon"
+                  className='playIcon'
                   onClick={() => {
                     if (checkDisabled()) return;
-                    playHandler("increase_rate");
+                    playHandler('increase_rate');
                   }}
                 />
               </div>
             </Col>
-            <Col span={7} className="captureContainer">
+            <Col span={7} className='captureContainer'>
               {checkDisabled() &&
                 viewFileType === 0 &&
                 eventFileCurrent.type !== -1 && (
-                  <Tooltip placement="bottomLeft" title={t("view.storage.org")}>
-                    <span className="ogLabel" onClick={originalHandler}>
+                  <Tooltip placement='bottomLeft' title={t('view.storage.org')}>
+                    <span className='ogLabel' onClick={originalHandler}>
                       ORG
                     </span>
                   </Tooltip>
                 )}
               {checkBtnEditRootFileDisabled() && (
-                <Tooltip placement="bottomLeft" title={t("view.storage.org")}>
+                <Tooltip placement='bottomLeft' title={t('view.storage.org')}>
                   <span
-                    className="ogLabel"
+                    className='ogLabel'
                     onClick={() => {
-                      if (fileCurrent.tableName === "file") {
+                      if (fileCurrent.tableName === 'file') {
                         editRootFileHandler(fileCurrent.uuid).then();
                       } else {
                         editRootFileHandler(fileCurrent.rootFileUuid).then();
@@ -2373,25 +2403,25 @@ const ExportEventFile = () => {
                 </Tooltip>
               )}
               <Tooltip
-                placement="bottomLeft"
-                title={t("view.storage.view_information")}
+                placement='bottomLeft'
+                title={t('view.storage.view_information')}
               >
                 <Popover
                   overlayClassName={`${
                     checkBtnInfoDisabled()
-                      ? "fileInfoPopoverHidden"
-                      : "fileInfoPopover"
+                      ? 'fileInfoPopoverHidden'
+                      : 'fileInfoPopover'
                   }`}
-                  placement="topRight"
-                  title=""
+                  placement='topRight'
+                  title=''
                   content={
-                    checkBtnInfoDisabled() ? "" : renderInfoPopoverContent
+                    checkBtnInfoDisabled() ? '' : renderInfoPopoverContent
                   }
-                  trigger={`${checkBtnInfoDisabled() ? "" : "click"}`}
+                  trigger={`${checkBtnInfoDisabled() ? '' : 'click'}`}
                 >
                   <AiOutlineInfoCircle
                     className={`${
-                      checkBtnInfoDisabled() ? "action__disabled" : "action"
+                      checkBtnInfoDisabled() ? 'action__disabled' : 'action'
                     }`}
                     onClick={(e) => {
                       if (checkBtnInfoDisabled()) return;
@@ -2401,12 +2431,12 @@ const ExportEventFile = () => {
                 </Popover>
               </Tooltip>
               <Tooltip
-                placement="bottomLeft"
-                title={t("view.storage.download_file")}
+                placement='bottomLeft'
+                title={t('view.storage.download_file')}
               >
                 <FiDownload
                   className={`${
-                    checkBtnDownloadDisabled() ? "action__disabled" : "action"
+                    checkBtnDownloadDisabled() ? 'action__disabled' : 'action'
                   }`}
                   onClick={() => {
                     if (checkBtnDownloadDisabled()) return;
@@ -2416,11 +2446,11 @@ const ExportEventFile = () => {
               </Tooltip>
               {checkBtnCaptureDisabled() && (
                 <Tooltip
-                  placement="bottomLeft"
-                  title={t("view.storage.cut_file")}
+                  placement='bottomLeft'
+                  title={t('view.storage.cut_file')}
                 >
                   <FiScissors
-                    className="action"
+                    className='action'
                     onClick={() => {
                       captureVideoHandler().then();
                     }}
@@ -2429,22 +2459,22 @@ const ExportEventFile = () => {
               )}
               {checkBtnCaptureDisabled() && (
                 <Tooltip
-                  placement="bottomLeft"
-                  title={t("view.storage.capture_snapshot")}
+                  placement='bottomLeft'
+                  title={t('view.storage.capture_snapshot')}
                 >
                   <FiCamera
-                    className="action"
+                    className='action'
                     onClick={() => {
                       captureSnapshotHandler();
                     }}
                   />
                 </Tooltip>
               )}
-              <Tooltip placement="bottomLeft" title={t("view.storage.delete")}>
+              <Tooltip placement='bottomLeft' title={t('view.storage.delete')}>
                 <Popconfirm
-                  title={t("noti.delete_file", { this: t("this") })}
-                  cancelText={t("view.user.detail_list.cancel")}
-                  okText={t("view.user.detail_list.confirm")}
+                  title={t('noti.delete_file', { this: t('this') })}
+                  cancelText={t('view.user.detail_list.cancel')}
+                  okText={t('view.user.detail_list.confirm')}
                   onConfirm={() => {
                     if (checkBtnDeleteDisabled()) return;
                     deleteFileHandler().then((r) => {});
@@ -2452,7 +2482,7 @@ const ExportEventFile = () => {
                 >
                   <RiDeleteBinLine
                     className={`${
-                      checkBtnDeleteDisabled() ? "action__disabled" : "action"
+                      checkBtnDeleteDisabled() ? 'action__disabled' : 'action'
                     }`}
                   />
                 </Popconfirm>
@@ -2466,11 +2496,11 @@ const ExportEventFile = () => {
           {/*</Row>*/}
           <Row
             style={{
-              margin: "25px 0px",
-              display: `${checkDisabled() ? "none" : "inherit"}`,
+              margin: '25px 0px',
+              display: `${checkDisabled() ? 'none' : 'inherit'}`,
             }}
           >
-            <Col span={23} style={{ margin: "auto" }}>
+            <Col span={23} style={{ margin: 'auto' }}>
               {fileCurrent && (
                 <MemoizedThumbnailVideo
                   duration={duration}
@@ -2482,12 +2512,12 @@ const ExportEventFile = () => {
                 />
               )}
             </Col>
-            <canvas ref={refCanvas} className="snapshotCanvas" />
+            <canvas ref={refCanvas} className='snapshotCanvas' />
           </Row>
           <Row>
             {viewFileType === 0 && (
               <MemoizedTableEventFile
-                key="uuid"
+                key='uuid'
                 dataList={[...listEventFiles]}
                 eventList={[...eventList]}
                 onClickRow={clickTableEventFileHandler}

@@ -1,11 +1,11 @@
-import React from "react";
-import { Row, Col, Popconfirm, Button, Space, Spin } from "antd";
-import { StyledEventFileDetail, ActionButton } from "./style";
-import { useTranslation } from "react-i18next";
+import React from 'react';
+import { Row, Col, Popconfirm, Button, Space, Spin } from 'antd';
+import { StyledEventFileDetail, ActionButton } from './style';
+import { useTranslation } from 'react-i18next';
 // import SelectType from "./select-type";
-import "./../../../commonStyle/commonPopconfirm.scss";
-import { CloseOutlined } from "@ant-design/icons";
-import { MemoizedTableDetailList } from "./tableDetailList";
+import './../../../commonStyle/commonPopconfirm.scss';
+import { CloseOutlined } from '@ant-design/icons';
+import { MemoizedTableDetailList } from './tableDetailList';
 
 const Viewfiletype4 = ({
   // handleSelectType,
@@ -20,6 +20,10 @@ const Viewfiletype4 = ({
   tracingList,
   onClickRow,
   editNoteUpdate,
+  onNext,
+  currentEventTablePage,
+  totalEventTablePage,
+  listFiles,
   //   handleUpdateTHXL,
 }) => {
   const { t } = useTranslation();
@@ -40,54 +44,69 @@ const Viewfiletype4 = ({
   // ];
   const processingstatusOptions = [
     {
-      value: "process",
-      label: `${t("view.ai_events.processing-status.process")}`,
+      value: 'process',
+      label: `${t('view.ai_events.processing-status.process')}`,
     },
     {
-      value: "processed",
-      label: `${t("view.ai_events.processing-status.processed")}`,
+      value: 'processed',
+      label: `${t('view.ai_events.processing-status.processed')}`,
     },
     {
-      value: "not_processed",
-      label: `${t("view.ai_events.processing-status.not_processed")}`,
+      value: 'not_processed',
+      label: `${t('view.ai_events.processing-status.not_processed')}`,
     },
   ];
-  const hasImage = imageOther.find((item) => item.type === "mp4");
+  const hasImage = imageOther.find((item) => item.type === 'mp4');
   const isDisabled = () => {
     if (processState?.value === processingstatusOptions[2]?.value) {
       return true;
     }
-    if (detailAI?.uuid === "") {
+    if (detailAI?.uuid === '') {
+      return true;
+    }
+    return false;
+  };
+  const isNextDisabled = () => {
+    const index = listFiles.findIndex((item) => {
+      return item?.uuid === detailAI?.uuid;
+    });
+    if (detailAI?.uuid === '') {
+      return true;
+    }
+    if (
+      totalEventTablePage === currentEventTablePage &&
+      index === listFiles.length - 1
+    ) {
       return true;
     }
     return false;
   };
   return (
     <>
-      <StyledEventFileDetail className="eventDetail4">
+      <StyledEventFileDetail className='eventDetail4'>
         <Col span={14}>
-          <div className="title">{t("view.ai_events.err_image")}</div>
-          <div className="err_image">
-            {AI_SOURCE !== "philong" ? (
+          <div className='title'>{t('view.ai_events.err_image')}</div>
+          <div className='err_image'>
+            {AI_SOURCE !== 'philong' ? (
               <ul>
                 {imageOther
                   ? imageOther.map((item, index) => (
                       <li
                         key={item.uuid}
                         style={{
-                          listStyleType: "none",
-                          display: "inline-block",
-                          marginRight: "20px",
+                          listStyleType: 'none',
+                          display: 'inline-block',
+                          marginRight: '20px',
                         }}
                       >
-                        <div style={{ width: "90%", paddingBottom: "10px" }}>
+                        <div style={{ width: '90%', paddingBottom: '10px' }}>
                           <div
-                            className="img__item"
-                            style={{ position: "relative" }}
+                            className='img__item'
+                            style={{ position: 'relative' }}
                           >
                             {item.uuid !== detailAI.uuid ? (
                               <Popconfirm
-                                title={t("noti.sure_to_delete")}
+                                title={t('noti.sure_to_delete')}
                                 onCancel={(event) => {
                                   event.stopPropagation();
                                 }}
@@ -97,23 +116,23 @@ const Viewfiletype4 = ({
                                 }}
                               >
                                 <Button
-                                  className="button-photo-remove"
-                                  size="small"
-                                  type="danger"
+                                  className='button-photo-remove'
+                                  size='small'
+                                  type='danger'
                                   onClick={(event) => {
                                     event.stopPropagation();
                                   }}
                                   style={{
-                                    position: "absolute",
+                                    position: 'absolute',
                                     top: 0,
                                     right: 0,
-                                    width: "15px",
-                                    height: "15px",
-                                    borderRadius: "50%",
-                                    display: "flex",
-                                    alignItems: "center",
-                                    justifyContent: "center",
-                                    background: "red",
+                                    width: '15px',
+                                    height: '15px',
+                                    borderRadius: '50%',
+                                    display: 'flex',
+                                    alignItems: 'center',
+                                    justifyContent: 'center',
+                                    background: 'red',
                                     // padding: '15px'
                                   }}
                                 >
@@ -127,10 +146,10 @@ const Viewfiletype4 = ({
                                 event.stopPropagation();
                                 viewImageAIHandler(item);
                               }}
-                              style={{ width: "120px", height: "120px" }}
-                              className="cursor-pointer"
-                              src={"data:image/jpeg;base64," + item.image}
-                              alt="Avatar"
+                              style={{ width: '120px', height: '120px' }}
+                              className='cursor-pointer'
+                              src={'data:image/jpeg;base64,' + item.image}
+                              alt='Avatar'
                             />
                           </div>
                         </div>
@@ -145,19 +164,19 @@ const Viewfiletype4 = ({
                       <li
                         key={item.id}
                         style={{
-                          listStyleType: "none",
-                          display: "inline-block",
-                          marginRight: "20px",
+                          listStyleType: 'none',
+                          display: 'inline-block',
+                          marginRight: '20px',
                         }}
                       >
-                        <div style={{ width: "90%", paddingBottom: "10px" }}>
+                        <div style={{ width: '90%', paddingBottom: '10px' }}>
                           <div
-                            className="img__item"
-                            style={{ position: "relative" }}
+                            className='img__item'
+                            style={{ position: 'relative' }}
                           >
                             {item.uuid !== detailAI.uuid ? (
                               <Popconfirm
-                                title={t("noti.sure_to_delete")}
+                                title={t('noti.sure_to_delete')}
                                 onCancel={(event) => {
                                   event.stopPropagation();
                                 }}
@@ -168,33 +187,33 @@ const Viewfiletype4 = ({
                               ></Popconfirm>
                             ) : null}
 
-                            {item.type === "mp4" ? (
+                            {item.type === 'mp4' ? (
                               <div
-                                className="img__item"
+                                className='img__item'
                                 onClick={(event) => {
                                   event.stopPropagation();
                                   viewImageAIHandler(item);
                                 }}
                               >
                                 {/* <video id={item.id} refs="rtsp://10.0.0.66:8554/proxy6" /> */}
-                                <Space size="middle">
+                                <Space size='middle'>
                                   <Spin
-                                    className="video-js"
-                                    size="large"
-                                    id={"spin-slot-" + item.id}
-                                    style={{ display: "none" }}
+                                    className='video-js'
+                                    size='large'
+                                    id={'spin-slot-' + item.id}
+                                    style={{ display: 'none' }}
                                   />
                                 </Space>
                                 <video
                                   style={{
-                                    width: "120px",
-                                    height: "120px",
+                                    width: '120px',
+                                    height: '120px',
                                   }}
-                                  className="video-container video-container-overlay cursor-pointer"
+                                  className='video-container video-container-overlay cursor-pointer'
                                   loop
                                   autoPlay
                                 >
-                                  <source src={item.url} type="video/mp4" />
+                                  <source src={item.url} type='video/mp4' />
                                 </video>
                               </div>
                             ) : (
@@ -204,12 +223,12 @@ const Viewfiletype4 = ({
                                   viewImageAIHandler(item);
                                 }}
                                 style={{
-                                  width: "120px",
-                                  height: "120px",
+                                  width: '120px',
+                                  height: '120px',
                                 }}
-                                className="cursor-pointer"
+                                className='cursor-pointer'
                                 src={item.image}
-                                alt="Avatar"
+                                alt='Avatar'
                               />
                             )}
                           </div>
@@ -222,10 +241,10 @@ const Viewfiletype4 = ({
           </div>
         </Col>
         <Col span={10}>
-          <Row className="detail-item">
+          <Row className='detail-item'>
             <Col span={10}>
-              <div className="title">
-                {t("view.penalty_ticket.vehicle_type")} :{" "}
+              <div className='title'>
+                {t('view.penalty_ticket.vehicle_type')} :{' '}
               </div>
             </Col>
             <Col span={14}>
@@ -237,35 +256,35 @@ const Viewfiletype4 = ({
               /> */}
             </Col>
           </Row>
-          <Row className="detail-item">
+          <Row className='detail-item'>
             <Col span={10}>
-              <div className="title">{t("view.ai_events.plateNumber")} : </div>
+              <div className='title'>{t('view.ai_events.plateNumber')} : </div>
             </Col>
             <Col span={14}>
               {detailAI.plateNumber
                 ? detailAI.plateNumber
-                : t("view.ai_events.UnKnow")}
+                : t('view.ai_events.UnKnow')}
             </Col>
           </Row>
-          <Row className="detail-item">
+          <Row className='detail-item'>
             <Col span={10}>
-              <div className="title">Video :</div>
+              <div className='title'>Video :</div>
             </Col>
             <Col span={14}>
               {hasImage ? (
                 <a
                   href={detailAI.videoUrl}
-                  target="_blank"
-                  rel="noopener noreferrer"
+                  target='_blank'
+                  rel='noopener noreferrer'
                 >
                   Link
                 </a>
               ) : null}
             </Col>
           </Row>
-          <Row className="detail-item">
+          <Row className='detail-item'>
             <Col span={10}>
-              <div className="title">{t("view.common_device.state")} : </div>
+              <div className='title'>{t('view.common_device.state')} : </div>
             </Col>
             <Col span={14}>
               {detailAI?.status &&
@@ -288,27 +307,28 @@ const Viewfiletype4 = ({
         editNoteUpdate={editNoteUpdate}
       ></MemoizedTableDetailList>
       <ActionButton>
-        <Col span={4} offset={20}>
+        <Col span={6} offset={18}>
           <Row>
             <Col>
               <Button
                 disabled={isDisabled()}
-                type="primary"
+                type='primary'
                 onClick={handleShowTicketModal}
-                className="vms-ant-btn"
+                className='vms-ant-btn'
               >
-                {t("view.common_device.ticket")}
+                {t('view.common_device.ticket')}
               </Button>
             </Col>
-            {/* <Col className="ml-8">
+            <Col className='ml-8'>
               <Button
-                type="primary"
-                className="vms-ant-btn"
-                onClick={handleUpdateTHXL}
+                type='primary'
+                className='vms-ant-btn'
+                onClick={onNext}
+                disabled={isNextDisabled()}
               >
-                {t("view.common_device.update_state_THXL")}
+                Chuyển
               </Button>
-            </Col> */}
+            </Col>
           </Row>
         </Col>
       </ActionButton>
