@@ -80,7 +80,7 @@ const TableCategory = () => {
   const handleChange = (value) => {
     setDataType(value);
     setSearch('');
-    handleSearch('');
+    handleSearch('', value);
   };
 
   const getDataByCategory = (dataType) => {
@@ -149,7 +149,7 @@ const TableCategory = () => {
         <div className='search__toolbar'>
           <AutoComplete
             className='searchInputCamproxy'
-            onSearch={handleSearch}
+            onSearch={(e) => handleSearch(e, dataType)}
             onBlur={handleBlur}
             onPaste={handlePaste}
             maxLength={255}
@@ -212,15 +212,15 @@ const TableCategory = () => {
     const value = event.target.value.trimStart();
     setSearch(value);
   };
-  const handleSearch = (query) => {
+  const handleSearch = (query, dataType) => {
     setSearch(query);
-    debounceSearch(query);
+    debounceSearch(query, dataType);
   };
   const debounceSearch = useCallback(
-    debounce((query) => handleSearchDB(query), 500),
+    debounce((query, dataType) => handleSearchDB(query, dataType), 500),
     []
   );
-  const handleSearchDB = async (value) => {
+  const handleSearchDB = async (value, dataType) => {
     const data = {
       name: encodeURIComponent(value),
       size: 1000,
