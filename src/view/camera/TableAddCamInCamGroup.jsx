@@ -1,18 +1,18 @@
-import { SearchOutlined } from "@ant-design/icons";
-import { AutoComplete, Button, Form, Select, Space, Table } from "antd";
-import { isEmpty } from "lodash-es";
-import React, { useEffect, useState } from "react";
-import { useTranslation } from "react-i18next";
-import AddressApi from "../../actions/api/address/AddressApi";
-import AdDivisionApi from "../../actions/api/advision/AdDivision";
-import CameraApi from "../../actions/api/camera/CameraApi";
-import VendorApi from "../../actions/api/vendor/VendorApi";
-import Notification from "../../components/vms/notification/Notification";
-import { filterOption, normalizeOptions } from "../common/select/CustomSelect";
-import { renderText } from "../user/dataListUser/components/TableListUser";
-import { DATA_FAKE_CAMERA } from "./ModalAddCamera";
-import debounce from "lodash/debounce";
-import "./TableAddCamInCamGroup.scss";
+import { SearchOutlined } from '@ant-design/icons';
+import { AutoComplete, Button, Form, Select, Space, Table } from 'antd';
+import { isEmpty } from 'lodash-es';
+import React, { useEffect, useState } from 'react';
+import { useTranslation } from 'react-i18next';
+import AddressApi from '../../actions/api/address/AddressApi';
+import AdDivisionApi from '../../actions/api/advision/AdDivision';
+import CameraApi from '../../actions/api/camera/CameraApi';
+import VendorApi from '../../actions/api/vendor/VendorApi';
+import Notification from '../../components/vms/notification/Notification';
+import { filterOption, normalizeOptions } from '../common/select/CustomSelect';
+import { renderText } from '../user/dataListUser/components/TableListUser';
+import { DATA_FAKE_CAMERA } from './ModalAddCamera';
+import debounce from 'lodash/debounce';
+import './TableAddCamInCamGroup.scss';
 
 const formItemLayout = {
   wrapperCol: { span: 24 },
@@ -26,28 +26,28 @@ export default function TableAddCamInCamGroup(props) {
   const [selectedRowKeys, setSelectedRowKeys] = useState([]);
   const [listCamera, setListCamera] = useState([]);
 
-  const [provinceId, setProvinceId] = useState("");
-  const [search, setSearch] = useState("");
+  const [provinceId, setProvinceId] = useState('');
+  const [search, setSearch] = useState('');
   const [districts, setDistrict] = useState([]);
-  const [districtId, setDistrictId] = useState("");
+  const [districtId, setDistrictId] = useState('');
   const [wards, setWard] = useState([]);
   const [form] = Form.useForm();
-  const [name, setName] = useState("");
-  const [wardId, setWardId] = useState("");
+  const [name, setName] = useState('');
+  const [wardId, setWardId] = useState('');
 
-  const [administrativeUnitUuid, setAdministrativeUnitUuid] = useState("");
+  const [administrativeUnitUuid, setAdministrativeUnitUuid] = useState('');
 
   const [filterOptions, setFilterOptions] = useState(DATA_FAKE_CAMERA);
 
   useEffect(() => {
     let data = {
-      name: "",
-      provinceId: "",
-      districtId: "",
-      wardId: "",
-      administrativeUnitUuid: "",
-      vendorUuid: "",
-      status: "",
+      name: '',
+      provinceId: '',
+      districtId: '',
+      wardId: '',
+      administrativeUnitUuid: '',
+      vendorUuid: '',
+      status: '',
       page: 1,
       size: 100000,
       checkCameraGroupExists: true,
@@ -90,8 +90,8 @@ export default function TableAddCamInCamGroup(props) {
     let data = {
       name: name,
       provinceId: cityId,
-      districtId: "",
-      wardId: "",
+      districtId: '',
+      wardId: '',
       administrativeUnitUuid: administrativeUnitUuid,
       page: 1,
       size: 100000,
@@ -115,7 +115,7 @@ export default function TableAddCamInCamGroup(props) {
     const data = {
       provinceId: provinceId,
       districtId: districtId,
-      wardId: "",
+      wardId: '',
       name: name,
       administrativeUnitUuid: administrativeUnitUuid,
       page: 1,
@@ -214,9 +214,9 @@ export default function TableAddCamInCamGroup(props) {
 
     if (isUpdate) {
       const notifyMess = {
-        type: "success",
-        title: "",
-        description: `${t("noti.successfully_add_camera_to_group")}`,
+        type: 'success',
+        title: '',
+        description: `${t('noti.successfully_add_camera_to_group')}`,
       };
       Notification(notifyMess);
       handleAdddCamera(false);
@@ -237,24 +237,24 @@ export default function TableAddCamInCamGroup(props) {
     //   render: (text, record, index) => index + 1
     // },
     {
-      title: "Camera",
-      dataIndex: "name",
-      className: "headerUserColums",
-      width: "40%",
+      title: 'Camera',
+      dataIndex: 'name',
+      className: 'headerUserColums',
+      width: '40%',
       render: renderText,
     },
     {
-      title: `${t("view.map.location")}`,
-      dataIndex: "address",
-      className: "headerUserColums",
-      width: "20%",
+      title: `${t('view.map.location')}`,
+      dataIndex: 'address',
+      className: 'headerUserColums',
+      width: '20%',
       render: renderText,
     },
     {
-      title: `${t("view.map.administrative_unit")}`,
-      dataIndex: "administrativeUnitName",
-      className: "headerUserColums",
-      width: "40%",
+      title: `${t('view.map.administrative_unit')}`,
+      dataIndex: 'administrativeUnitName',
+      className: 'headerUserColums',
+      width: '40%',
       render: renderText,
     },
   ];
@@ -277,97 +277,97 @@ export default function TableAddCamInCamGroup(props) {
     return (
       <>
         <div
-          className="d-flex"
+          className='d-flex'
           style={{
-            justifyContent: "space-between",
-            padding: "8px 16px",
-            alignItem: "center",
+            justifyContent: 'space-between',
+            padding: '8px 16px',
+            alignItem: 'center',
           }}
         >
-          <h4 className="font-weight-700">
-            {t("view.camera.add_cam_in_group")}
+          <h4 className='font-weight-700'>
+            {t('view.camera.add_cam_in_group')}
           </h4>
           <div
-            className="submit d-flex"
-            style={{ justifyContent: "space-between", alignItem: "center" }}
+            className='submit d-flex'
+            style={{ justifyContent: 'space-between', alignItem: 'center' }}
           >
             <Space>
               <Button
-                type="primary"
+                type='primary'
                 onClick={handleSubmit}
                 disabled={selectedRowKeys?.length > 0 ? false : true}
-                className={selectedRowKeys?.length > 0 ? "" : "btn-disabled"}
+                className={selectedRowKeys?.length > 0 ? '' : 'btn-disabled'}
               >
-                {t("view.user.detail_list.confirm")}
+                {t('view.user.detail_list.confirm')}
               </Button>
-              <Button type="primary" onClick={handleCancel}>
-                {t("view.camera.close")}
+              <Button type='primary' onClick={handleCancel}>
+                {t('view.camera.close')}
               </Button>
             </Space>
           </div>
         </div>
-        <div className="d-flex justify-content-between">
+        <div className='d-flex justify-content-between'>
           <AutoComplete
-            className="searchData full-width height-40"
+            className='searchData full-width height-40'
             onSearch={debounce(handleSearch, 1000)}
             onBlur={handleBlur}
             onPaste={handlePaste}
             maxLength={255}
             placeholder={
-              <div className="placehoder height-40 justify-content-between d-flex align-items-center">
-                <span> &nbsp; {t("view.map.search")} </span>{" "}
+              <div className='placehoder height-40 justify-content-between d-flex align-items-center'>
+                <span> &nbsp; {t('view.map.search')} </span>{' '}
                 <SearchOutlined style={{ fontSize: 22 }} />
               </div>
             }
           />
         </div>
-        <Form className="filter__search" form={form} {...formItemLayout}>
-          <div className="address__choose div__1">
-            <Form.Item name={["provinceId"]}>
+        <Form className='filter__search' form={form} {...formItemLayout}>
+          <div className='address__choose div__1'>
+            <Form.Item name={['provinceId']}>
               <Select
                 allowClear
                 showSearch
                 dataSource={provinces}
                 onChange={(cityId) => onChangeCity(cityId)}
                 filterOption={filterOption}
-                options={normalizeOptions("name", "provinceId", provinces)}
-                placeholder={t("view.map.province_id")}
+                options={normalizeOptions('name', 'provinceId', provinces)}
+                placeholder={t('view.map.province_id')}
               />
             </Form.Item>
 
-            <Form.Item name={["districtId"]}>
+            <Form.Item name={['districtId']}>
               <Select
                 allowClear
                 showSearch
                 dataSource={districts}
                 onChange={(districtId) => onChangeDistrict(districtId)}
                 filterOption={filterOption}
-                options={normalizeOptions("name", "districtId", districts)}
-                placeholder={t("view.map.district_id")}
+                options={normalizeOptions('name', 'districtId', districts)}
+                placeholder={t('view.map.district_id')}
               />
             </Form.Item>
 
-            <Form.Item name={["wardId"]}>
+            <Form.Item name={['wardId']}>
               <Select
                 allowClear
                 showSearch
                 dataSource={wards}
                 onChange={(id) => onChangeWard(id)}
                 filterOption={filterOption}
-                options={normalizeOptions("name", "id", wards)}
-                placeholder={t("view.map.ward_id")}
+                options={normalizeOptions('name', 'id', wards)}
+                placeholder={t('view.map.ward_id')}
               />
             </Form.Item>
           </div>
-          <div className="div__2">
-            <Form.Item name={["administrativeUnitUuid"]}>
+          <div className='div__2'>
+            <Form.Item name={['administrativeUnitUuid']}>
               <Select
                 allowClear
                 onChange={(id) => onChangeUnit(id)}
                 dataSource={adDivisions}
                 filterOption={filterOption}
-                options={normalizeOptions("name", "uuid", adDivisions)}
-                placeholder={t("view.map.please_choose_administrative_unit")}
+                options={normalizeOptions('name', 'uuid', adDivisions)}
+                placeholder={t('view.map.please_choose_administrative_unit')}
               />
             </Form.Item>
           </div>
@@ -380,8 +380,8 @@ export default function TableAddCamInCamGroup(props) {
     <>
       {isEmpty(camGroupUuid) ? null : (
         <Table
-          className="table__list--camera-add"
-          rowKey="uuid"
+          className='table__list--camera-add'
+          rowKey='uuid'
           columns={columns}
           // scroll={{ y: 1000 }}
           dataSource={listCamera}
@@ -389,9 +389,10 @@ export default function TableAddCamInCamGroup(props) {
           rowSelection={rowSelection}
           pagination={{
             pageSize: 5,
+            showSizeChanger: false,
           }}
           locale={{
-            emptyText: `${t("view.user.detail_list.no_valid_results_found")}`,
+            emptyText: `${t('view.user.detail_list.no_valid_results_found')}`,
           }}
         />
       )}
@@ -401,10 +402,10 @@ export default function TableAddCamInCamGroup(props) {
 
 async function fetchSelectOptions() {
   const data = {
-    name: "",
-    id: "",
-    provinceId: "",
-    districtId: "",
+    name: '',
+    id: '',
+    provinceId: '',
+    districtId: '',
   };
 
   const provinces = await AddressApi.getAllProvinces();

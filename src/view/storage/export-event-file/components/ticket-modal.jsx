@@ -1,16 +1,16 @@
-import { Button } from "antd";
-import { StyledTicketModal, StyledInput, StyledConfirmSend } from "./style";
-import React, { useRef, useEffect, useState } from "react";
-import { useTranslation } from "react-i18next";
-import { useReactToPrint } from "react-to-print";
-import moment from "moment";
-import { getText } from "./toVND";
-import { default as ExportEventFileApi } from "../../../../actions/api/exporteventfile/ExportEventFileApi";
-import { getBase64Text } from "../../../../utility/vms/getBase64Text";
-import "./index.css";
-import SendTicketModal from "./send-ticket-modal";
-import SendEmailApi from "../../../../actions/api/send-email";
-import Notification from "../../../../components/vms/notification/Notification";
+import { Button } from 'antd';
+import { StyledTicketModal, StyledInput, StyledConfirmSend } from './style';
+import React, { useRef, useEffect, useState } from 'react';
+import { useTranslation } from 'react-i18next';
+import { useReactToPrint } from 'react-to-print';
+import moment from 'moment';
+import { getText } from './toVND';
+import { default as ExportEventFileApi } from '../../../../actions/api/exporteventfile/ExportEventFileApi';
+import { getBase64Text } from '../../../../utility/vms/getBase64Text';
+import './index.css';
+import SendTicketModal from './send-ticket-modal';
+import SendEmailApi from '../../../../actions/api/send-email';
+import Notification from '../../../../components/vms/notification/Notification';
 const AI_SOURCE = process.env.REACT_APP_AI_SOURCE;
 
 const PrintSection = ({
@@ -25,36 +25,36 @@ const PrintSection = ({
   return (
     <div
       ref={componentRef}
-      style={{ padding: "16px", boxSizing: "border-box" }}
-      id="print-me"
+      style={{ padding: '16px', boxSizing: 'border-box' }}
+      id='print-me'
     >
-      <div style={{ textAlign: "center", marginBottom: "16px" }}>
+      <div style={{ textAlign: 'center', marginBottom: '16px' }}>
         <div
           style={{
-            width: "100%",
-            fontSize: "20px",
-            fontWeight: "bold",
+            width: '100%',
+            fontSize: '20px',
+            fontWeight: 'bold',
           }}
         >
-          {t("view.penalty_ticket.ticket")}
+          {t('view.penalty_ticket.ticket')}
         </div>
-        <div style={{ fontSize: "14px" }}>
-          {t("view.penalty_ticket.num")}: {data?.penaltyTicketId}
+        <div style={{ fontSize: '14px' }}>
+          {t('view.penalty_ticket.num')}: {data?.penaltyTicketId}
         </div>
       </div>
-      <table style={{ width: "100%", borderCollapse: "collapse" }}>
+      <table style={{ width: '100%', borderCollapse: 'collapse' }}>
         <tbody>
           <tr>
             <td
               style={{
-                width: "30%",
-                paddingBottom: "16px",
-                fontWeight: "bold",
+                width: '30%',
+                paddingBottom: '16px',
+                fontWeight: 'bold',
               }}
             >
-              {t("view.penalty_ticket.vehicle_type")}
+              {t('view.penalty_ticket.vehicle_type')}
             </td>
-            <td style={{ paddingBottom: "16px", textAlign: "left" }}>
+            <td style={{ paddingBottom: '16px', textAlign: 'left' }}>
               {data?.vehicleType && data?.vehicleType}
               {/* t("view.ai_events.type_object." + data?.typeObject)} */}
             </td>
@@ -62,130 +62,131 @@ const PrintSection = ({
           <tr>
             <td
               style={{
-                width: "30%",
-                paddingBottom: "16px",
-                fontWeight: "bold",
+                width: '30%',
+                paddingBottom: '16px',
+                fontWeight: 'bold',
               }}
             >
-              {t("view.ai_events.plateNumber")}
+              {t('view.ai_events.plateNumber')}
             </td>
-            <td style={{ paddingBottom: "16px", textAlign: "left" }}>
-              {data?.plateNumber ? data?.plateNumber : "Không xác định"}
+            <td style={{ paddingBottom: '16px', textAlign: 'left' }}>
+              {data?.plateNumber ? data?.plateNumber : 'Không xác định'}
             </td>
           </tr>
           <tr>
             <td
               style={{
-                width: "30%",
-                paddingBottom: "16px",
-                fontWeight: "bold",
+                width: '30%',
+                paddingBottom: '16px',
+                fontWeight: 'bold',
               }}
             >
-              {t("view.live.camera_record")}
+              {t('view.live.camera_record')}
             </td>
-            <td style={{ paddingBottom: "16px", textAlign: "left" }}>
+            <td style={{ paddingBottom: '16px', textAlign: 'left' }}>
               {data?.cameraName}
             </td>
           </tr>
           <tr>
             <td
               style={{
-                width: "30%",
-                paddingBottom: "16px",
-                fontWeight: "bold",
+                width: '30%',
+                paddingBottom: '16px',
+                fontWeight: 'bold',
               }}
             >
-              {t("view.penalty_ticket.violation_datetime")}
+              {t('view.penalty_ticket.violation_datetime')}
             </td>
-            <td style={{ paddingBottom: "16px", textAlign: "left" }}>
+            <td style={{ paddingBottom: '16px', textAlign: 'left' }}>
               {data?.createdTime &&
-                moment(data?.createdTime).format("HH:mm DD/MM/YYYY")}
+                moment(data?.createdTime).format('HH:mm DD/MM/YYYY')}
             </td>
           </tr>
           <tr>
             <td
               style={{
-                width: "30%",
-                paddingBottom: "16px",
-                fontWeight: "bold",
+                width: '30%',
+                paddingBottom: '16px',
+                fontWeight: 'bold',
               }}
             >
-              {t("view.penalty_ticket.violation_type")}
+              {t('view.penalty_ticket.violation_type')}
             </td>
-            <td style={{ paddingBottom: "16px", textAlign: "left" }}>
-              {data?.eventType && t("view.ai_events." + data?.eventType)}
+            <td style={{ paddingBottom: '16px', textAlign: 'left' }}>
+              {data?.eventType && t('view.ai_events.' + data?.eventType)}
             </td>
           </tr>
           <tr>
             <td
               style={{
-                width: "30%",
-                paddingBottom: "16px",
-                fontWeight: "bold",
+                width: '30%',
+                paddingBottom: '16px',
+                fontWeight: 'bold',
               }}
             >
-              {t("view.penalty_ticket.total_fine")}
+              {t('view.penalty_ticket.total_fine')}
             </td>
-            <td style={{ paddingBottom: "16px", textAlign: "left" }}>
-              <span style={{ display: "inline-flex" }}>
+            <td style={{ paddingBottom: '16px', textAlign: 'left' }}>
+              <span style={{ display: 'inline-flex' }}>
                 <StyledInput
-                  placeholder="............................"
+                  placeholder='............................'
                   value={fine}
-                  type="number"
+                  type='number'
                   onChange={(e) => handleSetFine(e)}
                 />
+                <span className='fine'>{fine}</span>
                 <span>&nbsp;đồng&nbsp;</span>
               </span>
-              ({t("view.penalty_ticket.to_text")}: {totext}{" "}
-              {totext === "" ? "" : "đồng"})
+              ({t('view.penalty_ticket.to_text')}: {totext}{' '}
+              {totext === '' ? '' : 'đồng'})
             </td>
           </tr>
           <tr>
             <td
               style={{
-                verticalAlign: "top",
-                paddingBottom: "16px",
-                fontWeight: "bold",
+                verticalAlign: 'top',
+                paddingBottom: '16px',
+                fontWeight: 'bold',
               }}
             >
-              {t("view.penalty_ticket.violation_proof")}
+              {t('view.penalty_ticket.violation_proof')}
             </td>
             <td>
-              {urlSnapshot !== "" ? (
-                <div style={{ paddingBottom: "16px", textAlign: "left" }}>
-                  <div>{t("view.penalty_ticket.violation_img")}:</div>
+              {urlSnapshot !== '' ? (
+                <div style={{ paddingBottom: '16px', textAlign: 'left' }}>
+                  <div>{t('view.penalty_ticket.violation_img')}:</div>
                   <div>
                     <img
-                      style={{ maxWidth: "200px", height: "120px" }}
-                      className="cursor-pointer"
+                      style={{ maxWidth: '200px', height: '120px' }}
+                      className='cursor-pointer'
                       src={urlSnapshot}
-                      alt="violation-img"
+                      alt='violation-img'
                     />
                   </div>
                 </div>
               ) : (
-                ""
+                ''
               )}
               {data?.videoUrl ? (
-                <div className="violation_video" style={{ textAlign: "left" }}>
-                  Video:{" "}
+                <div className='violation_video' style={{ textAlign: 'left' }}>
+                  Video:{' '}
                   <a
-                    className="video-link"
+                    className='video-link'
                     href={data.videoUrl}
-                    target="_blank"
-                    rel="noopener noreferrer"
+                    target='_blank'
+                    rel='noopener noreferrer'
                   >
-                    {t("view.penalty_ticket.click-to-view-video")}
+                    {t('view.penalty_ticket.click-to-view-video')}
                   </a>
                 </div>
               ) : (
-                ""
+                ''
               )}
             </td>
           </tr>
         </tbody>
       </table>
-      <div className="pagebreak"></div>
+      <div className='pagebreak'></div>
     </div>
   );
 };
@@ -198,9 +199,9 @@ const TicketModal = ({
 }) => {
   const { t } = useTranslation();
   const componentRef = useRef();
-  const [fine, setFine] = useState("");
-  const [totext, setTotext] = useState("");
-  const [urlSnapshot, setUrlSnapshot] = useState("");
+  const [fine, setFine] = useState('');
+  const [totext, setTotext] = useState('');
+  const [urlSnapshot, setUrlSnapshot] = useState('');
   // Send Ticket Modal
   const [sendModalVisible, setSendModalVisible] = useState(false);
   const [resetForm, setResetForm] = useState(false);
@@ -209,50 +210,50 @@ const TicketModal = ({
   };
   const processingstatusOptions = [
     {
-      value: "process",
-      label: `${t("view.ai_events.processing-status.process")}`,
+      value: 'process',
+      label: `${t('view.ai_events.processing-status.process')}`,
     },
     {
-      value: "processed",
-      label: `${t("view.ai_events.processing-status.processed")}`,
+      value: 'processed',
+      label: `${t('view.ai_events.processing-status.processed')}`,
     },
     {
-      value: "not_processed",
-      label: `${t("view.ai_events.processing-status.not_processed")}`,
+      value: 'not_processed',
+      label: `${t('view.ai_events.processing-status.not_processed')}`,
     },
   ];
   const handleSendTicket = (e) => {
     StyledConfirmSend.confirm({
-      title: t("view.penalty_ticket.confirm_send"),
-      okText: t("view.common_device.agree"),
-      cancelText: t("view.common_device.cancel"),
+      title: t('view.penalty_ticket.confirm_send'),
+      okText: t('view.common_device.agree'),
+      cancelText: t('view.common_device.cancel'),
       centered: true,
       onCancel() {
-        console.log("Cancel");
+        console.log('Cancel');
       },
       onOk: async () => {
         const dataSend = {
           cameraName: data?.cameraName,
           cameraUuid: data?.cameraUuid,
-          createdTime: moment(data?.createdTime).format("HH:mm DD/MM/YYYY"),
+          createdTime: moment(data?.createdTime).format('HH:mm DD/MM/YYYY'),
           eventName: data?.eventName,
-          money: `${fine} ${totext === "" ? "" : `(${totext} đồng )`}`,
+          money: `${fine} ${totext === '' ? '' : `(${totext} đồng )`}`,
           overViewUrl: data?.overViewUrl,
           penaltyTicketId: data?.penaltyTicketId,
           plateNumber: data?.plateNumber,
           uuid: data?.uuid,
           vehicleType: data?.vehicleType,
           videoUrl: data?.videoUrl,
-          emails: e.email.replace(/\s/g, ""),
+          emails: e.email.replace(/\s/g, ''),
         };
         try {
           let isSend = await SendEmailApi.sendEmail(dataSend);
           if (isSend) {
             handleSelectProgessState(processingstatusOptions[1]);
             const notifyMess = {
-              type: "success",
-              title: `${t("noti.success")}`,
-              description: `${t("noti.sent_mail_successful")}`,
+              type: 'success',
+              title: `${t('noti.success')}`,
+              description: `${t('noti.sent_mail_successful')}`,
             };
             Notification(notifyMess);
             setSendModalVisible(false);
@@ -275,22 +276,22 @@ const TicketModal = ({
   });
   const handleSetFine = (e) => {
     setFine(e.target.value);
-    if (e.target.value !== "" && !isNaN(parseFloat(e.target.value))) {
+    if (e.target.value !== '' && !isNaN(parseFloat(e.target.value))) {
       const text = getText(parseFloat(e.target.value));
       setTotext(text.charAt(0).toUpperCase() + text.slice(1));
     } else {
-      setTotext("");
+      setTotext('');
     }
   };
   useEffect(() => {
     (async () => {
       if (parseFloat(data?.fileType) === 4) {
-        if (AI_SOURCE === "philong") {
+        if (AI_SOURCE === 'philong') {
           await ExportEventFileApi.downloadAIIntegrationFile(
             data.uuid,
-            "ImageViolate.jpg"
+            'ImageViolate.jpg'
           ).then(async (result) => {
-            const blob = new Blob([result.data], { type: "octet/stream" });
+            const blob = new Blob([result.data], { type: 'octet/stream' });
             getBase64Text(blob, async (image) => {
               setUrlSnapshot(image);
             });
@@ -303,7 +304,7 @@ const TicketModal = ({
             data.fileName,
             4
           ).then(async (result) => {
-            const blob = new Blob([result.data], { type: "octet/stream" });
+            const blob = new Blob([result.data], { type: 'octet/stream' });
             getBase64Text(blob, async (image) => {
               setUrlSnapshot(image);
             });
@@ -314,7 +315,9 @@ const TicketModal = ({
       }
     })();
   }, [data]);
-
+  useEffect(() => {
+    setFine('');
+  }, [visible]);
   return (
     <>
       <StyledTicketModal
@@ -323,23 +326,23 @@ const TicketModal = ({
         width={1000}
         onCancel={handleCancel}
         footer={[
-          <Button key="print" type="primary" onClick={handlePrint}>
-            {t("view.penalty_ticket.print_ticket")}
+          <Button key='print' type='primary' onClick={handlePrint}>
+            {t('view.penalty_ticket.print_ticket')}
           </Button>,
           <Button
-            key="send"
-            type="primary"
+            key='send'
+            type='primary'
             // loading={loading}
             onClick={handleOpenSendModal}
           >
-            {t("view.penalty_ticket.send_ticket")}
+            {t('view.penalty_ticket.send_ticket')}
           </Button>,
           <Button
             // loading={loading}
-            key="back"
+            key='back'
             onClick={handleCancel}
           >
-            {t("view.camera.close")}
+            {t('view.camera.close')}
           </Button>,
         ]}
       >
