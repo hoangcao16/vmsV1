@@ -78,11 +78,8 @@ function Sidebar(props) {
   const [timeStartDay, setTimeStartDay] = useState(
     moment().subtract(7, "days")
   );
-  console.log("timeStartDay", moment(timeStartDay).format("DD/MM hh:mm:ss"));
 
   const [timeEndDay, setTimeEndDay] = useState(moment());
-
-  console.log("timeEndDay", moment(timeEndDay).format("DD/MM hh:mm:ss"));
 
   const [timeStartWeek, setTimeStartWeek] = useState(
     moment().subtract(4, "weeks")
