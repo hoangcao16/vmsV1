@@ -45,7 +45,8 @@ export const COLOR = [
 function BarChartComponent(props) {
   const data =
     props.chartData?.res?.DataChartEvent ||
-    props.chartData?.res?.CompareChartEvent;
+    props.chartData?.res?.CompareChartEvent ||
+    [];
   const { t } = useTranslation();
   const datafloat = data.map((item) => {
     let arr = [];

@@ -78,8 +78,11 @@ function Sidebar(props) {
   const [timeStartDay, setTimeStartDay] = useState(
     moment().subtract(7, "days")
   );
+  console.log("timeStartDay", moment(timeStartDay).format("DD/MM hh:mm:ss"));
 
   const [timeEndDay, setTimeEndDay] = useState(moment());
+
+  console.log("timeEndDay", moment(timeEndDay).format("DD/MM hh:mm:ss"));
 
   const [timeStartWeek, setTimeStartWeek] = useState(
     moment().subtract(4, "weeks")
@@ -683,7 +686,8 @@ function Sidebar(props) {
       return;
     }
     setTimeStartDay(value);
-    if (moment(value).diff(timeEndDay, "d") > 0) {
+
+    if (moment(value).diff(timeEndDay, "hours") > 0) {
       const notifyMess = {
         type: "error",
         title: "",
@@ -713,7 +717,7 @@ function Sidebar(props) {
       return;
     }
     setTimeEndDay(value);
-    if (moment(timeStartDay).diff(value, "d") > 0) {
+    if (moment(timeStartDay).diff(value, "hours") > 0) {
       const notifyMess = {
         type: "error",
         title: "",
@@ -829,7 +833,7 @@ function Sidebar(props) {
       return;
     }
     setTimeStartMonth(value);
-    if (moment(value).diff(timeEndMonth, "M") > 0) {
+    if (moment(value).diff(timeEndMonth, "d") > 0) {
       const notifyMess = {
         type: "error",
         title: "",
@@ -859,7 +863,7 @@ function Sidebar(props) {
       return;
     }
     setTimeEndMonth(value);
-    if (moment(timeStartMonth).diff(value, "M") > 0) {
+    if (moment(timeStartMonth).diff(value, "d") > 0) {
       const notifyMess = {
         type: "error",
         title: "",
@@ -891,7 +895,7 @@ function Sidebar(props) {
       return;
     }
     setTimeStartYear(value);
-    if (moment(value).diff(timeEndYear, "y") > 0) {
+    if (moment(value).diff(timeEndYear, "d") > 0) {
       const notifyMess = {
         type: "error",
         title: "",
@@ -921,7 +925,7 @@ function Sidebar(props) {
       return;
     }
     setTimeEndYear(value);
-    if (moment(timeStartYear).diff(value, "y") > 0) {
+    if (moment(timeStartYear).diff(value, "d") > 0) {
       const notifyMess = {
         type: "error",
         title: "",
