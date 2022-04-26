@@ -1093,6 +1093,7 @@ function Sidebar(props) {
               <Col span={12}>
                 <Form.Item name={["timeStartWeek"]}>
                   <DatePicker
+                    allowClear={false}
                     onChange={onChangeTimeStartWeek}
                     picker="week"
                     format="WW-YYYY"
@@ -1108,6 +1109,7 @@ function Sidebar(props) {
               <Col span={12}>
                 <Form.Item name={["timeEndWeek"]}>
                   <DatePicker
+                    allowClear={false}
                     onChange={onChangeTimeEndWeek}
                     picker="week"
                     format="WW-YYYY"
