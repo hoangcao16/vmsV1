@@ -1,6 +1,6 @@
-import styled from "styled-components";
-import { Modal, Input, Row } from "antd";
-import Select from "react-select";
+import styled from 'styled-components';
+import { Modal, Input, Row } from 'antd';
+import Select from 'react-select';
 
 const { TextArea } = Input;
 export const StyledTicketModal = styled(Modal)`
@@ -102,7 +102,7 @@ export const StyledOutSideSelect = styled(Select)`
   }
 `;
 export const StyledEmailInput = styled(TextArea)`
-  &[data-type="error"] {
+  &[data-type='error'] {
     border-color: #ff0000 !important;
     box-shadow: 0 0 0 2px #ff181833 !important;
   }

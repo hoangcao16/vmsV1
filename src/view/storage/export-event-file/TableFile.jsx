@@ -480,28 +480,59 @@ const TableFile = (props) => {
     }
   }, [nextpage]);
   const getAllCamera = (cameraGroupUuid) => {
-    if (cameraGroupUuid === '') {
-      cameraApi
-        .getAll({ page: 0, size: 1000000, sort_by: 'name', order_by: 'asc' })
-        .then((data) => {
-          if (data && data.payload) {
-            setCameraList(data.payload);
-          }
-        });
+    if (props.viewFileType === 4) {
+      if (cameraGroupUuid === '') {
+        cameraApi
+          .getAllAI({
+            page: 0,
+            size: 1000000,
+            sort_by: 'name',
+            order_by: 'asc',
+          })
+          .then((data) => {
+            if (data && data.payload) {
+              setCameraList(data.payload);
+            }
+          });
+      } else {
+        cameraApi
+          .getAllAI({
+            page: 0,
+            size: 1000000,
+            sort_by: 'name',
+            order_by: 'asc',
+            cameraGroupUuid: cameraGroupUuid,
+          })
+          .then((data) => {
+            if (data && data.payload) {
+              setCameraList(data.payload);
+            }
+          });
+      }
     } else {
-      cameraApi
-        .getAll({
-          page: 0,
-          size: 1000000,
-          sort_by: 'name',
-          order_by: 'asc',
-          cameraGroupUuid: cameraGroupUuid,
-        })
-        .then((data) => {
-          if (data && data.payload) {
-            setCameraList(data.payload);
-          }
-        });
+      if (cameraGroupUuid === '') {
+        cameraApi
+          .getAll({ page: 0, size: 1000000, sort_by: 'name', order_by: 'asc' })
+          .then((data) => {
+            if (data && data.payload) {
+              setCameraList(data.payload);
+            }
+          });
+      } else {
+        cameraApi
+          .getAll({
+            page: 0,
+            size: 1000000,
+            sort_by: 'name',
+            order_by: 'asc',
+            cameraGroupUuid: cameraGroupUuid,
+          })
+          .then((data) => {
+            if (data && data.payload) {
+              setCameraList(data.payload);
+            }
+          });
+      }
     }
   };
 

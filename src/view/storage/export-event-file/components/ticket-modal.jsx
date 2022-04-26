@@ -35,10 +35,11 @@ const PrintSection = ({
             fontSize: '20px',
             fontWeight: 'bold',
           }}
+          className='title-print'
         >
           {t('view.penalty_ticket.ticket')}
         </div>
-        <div style={{ fontSize: '14px' }}>
+        <div style={{ fontSize: '14px' }} className='ticket-number'>
           {t('view.penalty_ticket.num')}: {data?.penaltyTicketId}
         </div>
       </div>
@@ -134,8 +135,14 @@ const PrintSection = ({
                   type='number'
                   onChange={(e) => handleSetFine(e)}
                 />
-                <span className='fine'>{fine}</span>
-                <span>&nbsp;đồng&nbsp;</span>
+                {fine === '' ? (
+                  ''
+                ) : (
+                  <>
+                    <span className='fine'>{fine}</span>
+                    <span>&nbsp;đồng&nbsp;</span>
+                  </>
+                )}
               </span>
               ({t('view.penalty_ticket.to_text')}: {totext}{' '}
               {totext === '' ? '' : 'đồng'})
@@ -275,12 +282,24 @@ const TicketModal = ({
     content: () => componentRef.current,
   });
   const handleSetFine = (e) => {
-    setFine(e.target.value);
-    if (e.target.value !== '' && !isNaN(parseFloat(e.target.value))) {
-      const text = getText(parseFloat(e.target.value));
-      setTotext(text.charAt(0).toUpperCase() + text.slice(1));
+    if (e?.target?.value?.length > 10) {
+      const value = e.target.value.slice(0, 10);
+      setFine(parseFloat(value));
+      if (value !== '' && !isNaN(parseFloat(value))) {
+        const text = getText(parseFloat(value));
+        setTotext(text?.charAt(0)?.toUpperCase() + text?.slice(1));
+      } else {
+        setTotext('');
+      }
     } else {
-      setTotext('');
+      const value = e.target.value;
+      setFine(parseFloat(value));
+      if (value !== '' && !isNaN(parseFloat(value))) {
+        const text = getText(parseFloat(value));
+        setTotext(text?.charAt(0)?.toUpperCase() + text?.slice(1));
+      } else {
+        setTotext('');
+      }
     }
   };
   useEffect(() => {
@@ -317,6 +336,7 @@ const TicketModal = ({
   }, [data]);
   useEffect(() => {
     setFine('');
+    setTotext('');
   }, [visible]);
   return (
     <>
