@@ -98,7 +98,7 @@ const TableReport = (props) => {
     } else if (isEmpty(sidebarData.feildIds)) {
       return <div className="body__noContent">{t("noti.no_feild")}</div>;
     } else if (
-      startDate >= endDate ||
+      startDate > endDate ||
       (props.date.typeTime == "DAY" && endDate.diff(startDate, "d") >= 12) ||
       (props.date.typeTime == "WEEK" &&
         endDate.endOf("weeks").diff(startDate.startOf("weeks"), "d") >=
