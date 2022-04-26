@@ -85,7 +85,14 @@ function Sidebar(props) {
     moment().subtract(4, "weeks")
   );
 
+  console.log(
+    "timeStartWeek",
+    moment(timeStartWeek).startOf("week").format("DD/MM")
+  );
+
   const [timeEndWeek, setTimeEndWeek] = useState(moment());
+
+  console.log("timeEndWeek", moment(timeEndWeek).endOf("week").format("DD/MM"));
 
   const [timeStartMonth, setTimeStartMonth] = useState(
     moment().subtract(11, "months")
@@ -240,138 +247,6 @@ function Sidebar(props) {
 
   //==================================================================
 
-  // useEffect(() => {
-  //   if (moment(timeEndWeek).diff(timeStartWeek, "weeks") >= 12) {
-  //     form.setFieldsValue({
-  //       timeEndWeek: moment(timeStartWeek).add(11, "weeks"),
-  //     });
-  //     setTimeEndWeek(form.getFieldValue("timeEndWeek"));
-  //   }
-  //   if (moment(timeStartWeek).diff(timeEndWeek, "weeks") >= 0) {
-  //     form.setFieldsValue({
-  //       timeStartWeek: "",
-  //     });
-  //     const notifyMess = {
-  //       type: "error",
-  //       title: "",
-  //       description: t("noti.start_greater_end"),
-  //     };
-  //     Notification(notifyMess);
-  //     return;
-  //   }
-  // }, [timeStartWeek]);
-
-  // useEffect(() => {
-  //   if (moment(timeEndWeek).diff(timeStartWeek, "weeks") >= 12) {
-  //     form.setFieldsValue({
-  //       timeStartWeek: moment(timeEndWeek).subtract(11, "weeks"),
-  //     });
-  //     setTimeStartWeek(form.getFieldValue("timeStartWeek"));
-  //   }
-  //   if (moment(timeStartWeek).diff(timeEndWeek, "weeks") >= 0) {
-  //     form.setFieldsValue({
-  //       timeEndWeek: "",
-  //     });
-  //     const notifyMess = {
-  //       type: "error",
-  //       title: "",
-  //       description: t("noti.end_smaller_start"),
-  //     };
-  //     Notification(notifyMess);
-  //     return;
-  //   }
-  // }, [timeEndWeek]);
-
-  //==================================================================
-
-  // useEffect(() => {
-  //   if (moment(timeEndMonth).diff(timeStartMonth, "M") >= 12) {
-  //     form.setFieldsValue({
-  //       timeEndMonth: moment(timeStartMonth).add(11, "months"),
-  //     });
-  //     setTimeEndMonth(form.getFieldValue("timeEndMonth"));
-  //   }
-  //   if (moment(timeStartMonth).diff(timeEndMonth, "M") >= 0) {
-  //     form.setFieldsValue({
-  //       timeStartMonth: "",
-  //     });
-  //     const notifyMess = {
-  //       type: "error",
-  //       title: "",
-  //       description: t("noti.start_greater_end"),
-  //     };
-  //     Notification(notifyMess);
-  //     return;
-  //   }
-  // }, [timeStartMonth]);
-
-  // useEffect(() => {
-  //   if (moment(timeEndMonth).diff(timeStartMonth, "M") >= 12) {
-  //     form.setFieldsValue({
-  //       timeStartMonth: moment(timeEndMonth).subtract(11, "months"),
-  //     });
-  //     setTimeEndMonth(form.getFieldValue("timeEndMonth"));
-  //   }
-  //   if (moment(timeStartMonth).diff(timeEndMonth, "M") >= 0) {
-  //     form.setFieldsValue({
-  //       timeEndMonth: "",
-  //     });
-  //     const notifyMess = {
-  //       type: "error",
-  //       title: "",
-  //       description: t("noti.end_smaller_start"),
-  //     };
-  //     Notification(notifyMess);
-  //     return;
-  //   }
-  // }, [timeEndMonth]);
-
-  //==================================================================
-
-  // useEffect(() => {
-  //   if (moment(timeEndYear).diff(timeStartYear, "y") >= 5) {
-  //     form.setFieldsValue({
-  //       timeEndYear: moment(timeStartYear).add(4, "years"),
-  //     });
-  //     setTimeEndYear(form.getFieldValue("timeEndYear"));
-  //   }
-  //   if (moment(timeStartYear).diff(timeEndYear, "y") >= 0) {
-  //     form.setFieldsValue({
-  //       timeStartYear: "",
-  //     });
-  //     const notifyMess = {
-  //       type: "error",
-  //       title: "",
-  //       description: t("noti.start_greater_end"),
-  //     };
-  //     Notification(notifyMess);
-  //     return;
-  //   }
-  // }, [timeStartYear]);
-
-  // useEffect(() => {
-  //   if (moment(timeEndYear).diff(timeStartYear, "y") >= 5) {
-  //     form.setFieldsValue({
-  //       timeStartYear: moment(timeEndYear).subtract(4, "years"),
-  //     });
-  //     setTimeStartYear(form.getFieldValue("timeStartYear"));
-  //   }
-  //   if (moment(timeStartYear).diff(timeEndYear, "y") >= 0) {
-  //     form.setFieldsValue({
-  //       timeEndYear: "",
-  //     });
-  //     const notifyMess = {
-  //       type: "error",
-  //       title: "",
-  //       description: t("noti.end_smaller_start"),
-  //     };
-  //     Notification(notifyMess);
-  //     return;
-  //   }
-  // }, [timeEndYear]);
-
-  //==================================================================
-
   useEffect(() => {
     setDistrict([]);
     if (provinceId.length === 1) {
@@ -432,38 +307,7 @@ function Sidebar(props) {
       eventList: selectedRowKeys,
       cameraUuids: cameraAIUuid,
     };
-    // const data2 = {
-    //   pickTime: "",
-    //   timeStartDay: "",
-    //   timeEndDay: "",
-    //   timeStartWeek: "",
-    //   timeEndWeek: "",
-    //   timeStartMonth: "",
-    //   timeEndMonth: "",
-    //   timeStartYear: "",
-    //   timeEndYear: "",
-    //   provinceId: "",
-    //   districtId: "",
-    //   wardId: "",
-    //   fieldId: "",
-    //   eventList: "",
-    //   cameraUuids: "",
-    // };
-    // if (
-    //   (dataTime == "day" && moment(timeEndDay).diff(timeStartDay, "d") >= 12) ||
-    //   (dataTime == "week" &&
-    //     moment(timeEndWeek)
-    //       .endOf("weeks")
-    //       .diff(moment(timeStartWeek).startOf("weeks"), "d") >=
-    //       7 * 12) ||
-    //   (dataTime == "month" &&
-    //     moment(timeEndMonth).diff(timeStartMonth, "M") >= 12) ||
-    //   (dataTime == "year" && moment(timeEndYear).diff(timeStartYear, "y") >= 5)
-    // ) {
-    //   props.callData(data2);
-    // } else {
     props.callData(clearData(data));
-    // }
     return;
   }, [
     selectedRowKeys,
@@ -846,7 +690,7 @@ function Sidebar(props) {
       return;
     }
     setTimeStartDay(value);
-    if (moment(value).diff(timeEndDay, "d") >= 0) {
+    if (moment(value).diff(timeEndDay, "d") > 0) {
       const notifyMess = {
         type: "error",
         title: "",
@@ -876,7 +720,7 @@ function Sidebar(props) {
       return;
     }
     setTimeEndDay(value);
-    if (moment(timeStartDay).diff(value, "d") >= 0) {
+    if (moment(timeStartDay).diff(value, "d") > 0) {
       const notifyMess = {
         type: "error",
         title: "",
@@ -908,7 +752,11 @@ function Sidebar(props) {
       return;
     }
     setTimeStartWeek(value);
-    if (moment(value).diff(timeEndWeek, "w") >= 0) {
+    if (
+      moment(value)
+        .startOf("weeks")
+        .diff(moment(timeEndWeek).startOf("weeks"), "d") > 0
+    ) {
       const notifyMess = {
         type: "error",
         title: "",
@@ -943,7 +791,11 @@ function Sidebar(props) {
       return;
     }
     setTimeEndWeek(value);
-    if (moment(timeStartWeek).diff(value, "w") >= 0) {
+    if (
+      moment(timeStartWeek)
+        .startOf("weeks")
+        .diff(moment(value).startOf("weeks"), "d") > 0
+    ) {
       const notifyMess = {
         type: "error",
         title: "",
@@ -984,7 +836,7 @@ function Sidebar(props) {
       return;
     }
     setTimeStartMonth(value);
-    if (moment(value).diff(timeEndMonth, "M") >= 0) {
+    if (moment(value).diff(timeEndMonth, "M") > 0) {
       const notifyMess = {
         type: "error",
         title: "",
@@ -1014,7 +866,7 @@ function Sidebar(props) {
       return;
     }
     setTimeEndMonth(value);
-    if (moment(timeStartMonth).diff(value, "M") >= 0) {
+    if (moment(timeStartMonth).diff(value, "M") > 0) {
       const notifyMess = {
         type: "error",
         title: "",
@@ -1046,7 +898,7 @@ function Sidebar(props) {
       return;
     }
     setTimeStartYear(value);
-    if (moment(value).diff(timeEndYear, "y") >= 0) {
+    if (moment(value).diff(timeEndYear, "y") > 0) {
       const notifyMess = {
         type: "error",
         title: "",
@@ -1076,7 +928,7 @@ function Sidebar(props) {
       return;
     }
     setTimeEndYear(value);
-    if (moment(timeStartYear).diff(value, "y") >= 0) {
+    if (moment(timeStartYear).diff(value, "y") > 0) {
       const notifyMess = {
         type: "error",
         title: "",
