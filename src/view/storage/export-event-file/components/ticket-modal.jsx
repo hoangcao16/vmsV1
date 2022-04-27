@@ -284,7 +284,7 @@ const TicketModal = ({
   const handleSetFine = (e) => {
     if (e?.target?.value?.length > 10) {
       const value = e.target.value.slice(0, 10);
-      setFine(parseFloat(value));
+      setFine(value);
       if (value !== '' && !isNaN(parseFloat(value))) {
         const text = getText(parseFloat(value));
         setTotext(text?.charAt(0)?.toUpperCase() + text?.slice(1));
@@ -293,7 +293,7 @@ const TicketModal = ({
       }
     } else {
       const value = e.target.value;
-      setFine(parseFloat(value));
+      setFine(value);
       if (value !== '' && !isNaN(parseFloat(value))) {
         const text = getText(parseFloat(value));
         setTotext(text?.charAt(0)?.toUpperCase() + text?.slice(1));
