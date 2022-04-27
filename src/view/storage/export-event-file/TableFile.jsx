@@ -727,14 +727,20 @@ const TableFile = (props) => {
   const onChangeCity = (cityId) => {
     form.setFieldsValue({ districtId: null, wardId: null });
     setWardList([]);
-    AddressApi.getDistrictByProvinceId(cityId).then(setDistrictList);
+    setDistrictList([]);
+    if (cityId) {
+      AddressApi.getDistrictByProvinceId(cityId).then(setDistrictList);
+    }
     const dataParam = Object.assign({ ...searchParam, provinceId: cityId });
     setSearchParam(dataParam);
   };
 
   const onChangeDistrict = (districtId) => {
     form.setFieldsValue({ wardId: null });
-    AddressApi.getWardByDistrictId(districtId).then(setWardList);
+    setWardList([]);
+    if (districtId) {
+      AddressApi.getWardByDistrictId(districtId).then(setWardList);
+    }
     const dataParam = Object.assign({ ...searchParam, districtId: districtId });
     setSearchParam(dataParam);
   };
