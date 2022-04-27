@@ -246,7 +246,10 @@
       "days": "ngày",
       "weeks": "tuần",
       "months": "tháng",
-      "years": "năm"
+      "years": "năm",
+      "province": "tỉnh/thành phố",
+      "district": "quận/huyện",
+      "ward": "phường/xã"
     },
     "pages": {
       "login": "Đăng nhập",
@@ -839,7 +842,9 @@
     "successfully_edit_status": "Chỉnh sửa trạng thái thành công",
     "successfully_edit_note": "Chỉnh sửa ghi chú thành công",
     "error_edit": "Đã xảy ra lỗi trong quá trình chỉnh sửa, hãy kiểm tra lại",
-    "check_date_range_again": "Vui lòng chọn lại khoảng thời gian. Thời gian chọn không vượt quá {{number}} {{type}}"
+    "check_date_range_again": "Vui lòng chọn lại khoảng thời gian. Thời gian chọn không vượt quá {{number}} {{type}}",
+    "not_exeed_5": "Số lượng {{ele}} không được vượt quá 5",
+    "event_greater_than_1": "Số lượng sự kiện phải lớn hơn 1"
   },
   "breadcrumd": {
     "report": "Quản lý báo cáo",

@@ -245,7 +245,10 @@
       "days": "days",
       "weeks": "weeks",
       "months": "months",
-      "years": "years"
+      "years": "years",
+      "province": "province",
+      "district": "district",
+      "ward": "ward"
     },
     "pages": {
       "login": "Login",
@@ -837,7 +840,9 @@
     "successfully_edit_status": "Edit status successful",
     "successfully_edit_note": "Editing note successfully",
     "error_edit": "An error occurred during editing, please check again",
-    "check_date_range_again": "Please check date range again. The time picker can't pass {{number}} {{type}}"
+    "check_date_range_again": "Please check date range again. The time picker can't pass {{number}} {{type}}",
+    "not_exeed_5": "The number of {{ele}} must not exceed 5",
+    "event_greater_than_1": "Number of events must be greater than 1"
   },
   "breadcrumd": {
     "report": "Report Management",
