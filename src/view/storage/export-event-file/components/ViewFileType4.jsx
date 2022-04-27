@@ -326,7 +326,7 @@ const Viewfiletype4 = ({
                 onClick={onNext}
                 disabled={isNextDisabled()}
               >
-                Chuyển
+                {t('view.common_device.move')}
               </Button>
             </Col>
           </Row>

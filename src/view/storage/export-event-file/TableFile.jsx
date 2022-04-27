@@ -26,6 +26,7 @@ import {
   MdClear,
 } from 'react-icons/all';
 import { FiBookmark, FiFilm, FiImage, FiSearch } from 'react-icons/fi';
+import { defaultTo, get } from 'lodash';
 import AIEventsApi from '../../../actions/api/ai-events/AIEventsApi.js';
 import AddressApi from '../../../actions/api/address/AddressApi';
 import adDivisionApi from '../../../api/controller-api/adDivisionApi';
@@ -50,7 +51,19 @@ const TableFile = (props) => {
       name: `${t('view.user.detail_list.image')}`,
     },
   ];
-
+  const normalizeEventOptions = (labelField, valueField, dataSource) => {
+    if (dataSource != null) {
+      return dataSource
+        .sort((a, b) =>
+          defaultTo(get(a, labelField), '').localeCompare(get(b, labelField))
+        )
+        .map((r) => ({
+          value: get(r, valueField),
+          label: `${t('view.ai_events.' + r?.uuid)}`,
+        }));
+    }
+    return [];
+  };
   const searchCaptureFileParamDefault = {
     page: 1,
     size: 15,
@@ -127,7 +140,7 @@ const TableFile = (props) => {
   };
   const renderSubtype = (value) => {
     return (
-      <Tooltip title={value}>
+      <Tooltip title={t('view.ai_events.' + value)}>
         <span>{t('view.ai_events.' + value)}</span>
       </Tooltip>
     );
@@ -983,30 +996,25 @@ const TableFile = (props) => {
                         className='gridFileImage'
                         onClick={() => props.onClickRow(value)}
                       >
-                        {value.overViewUrl ? (
+                        {/* {value.overViewUrl ? (
                           <img
                             className='imageFile'
                             src={value.overViewUrl}
-                            alt={value.overViewUrl ? value.overViewUrl : ''}
+                            alt='Thumbnail OverView Img'
                           />
-                        ) : (
-                          <img
-                            className='imageFile'
-                            src={
-                              'data:image/jpeg;base64,' +
-                              (value.thumbnailData &&
-                              value.thumbnailData.length > 0
-                                ? value.thumbnailData
-                                : '')
-                            }
-                            alt={
-                              value.thumbnailData &&
-                              value.thumbnailData.length > 0
-                                ? value.name
-                                : ''
-                            }
-                          />
-                        )}
+                        ) : ( */}
+                        <img
+                          className='imageFile'
+                          src={
+                            'data:image/jpeg;base64,' +
+                            (value.thumbnailData &&
+                            value.thumbnailData.length > 0
+                              ? value.thumbnailData
+                              : '')
+                          }
+                          alt='Thumbnail OverView Img'
+                        />
+                        {/* )} */}
                       </div>
                     </Col>
                     <Col span={15}>
@@ -1523,7 +1531,7 @@ const TableFile = (props) => {
                       showSearch
                       onChange={(uuid) => onChangeEventType(uuid)}
                       filterOption={filterOption}
-                      options={normalizeOptions('name', 'uuid', eventList)}
+                      options={normalizeEventOptions('name', 'uuid', eventList)}
                       placeholder={t('view.storage.event_type')}
                     />
                   </Form.Item>
@@ -1536,7 +1544,7 @@ const TableFile = (props) => {
                       showSearch
                       onChange={(type) => onChangeSubEventType(type)}
                       filterOption={filterOption}
-                      options={normalizeOptions('name', 'uuid', eventAi)}
+                      options={normalizeEventOptions('name', 'uuid', eventAi)}
                       placeholder={t('view.storage.event_type')}
                     />
                   </Form.Item>
