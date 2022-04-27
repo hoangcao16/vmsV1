@@ -10,6 +10,7 @@ import {
   Table,
   Tooltip,
   Checkbox,
+  ConfigProvider,
 } from "antd";
 
 import { isEmpty } from "lodash";
@@ -34,13 +35,16 @@ import "./../../../../view/commonStyle/commonInput.scss";
 import "./../../../../view/commonStyle/commonSelect.scss";
 import "./sidebar.scss";
 import { useTranslation } from "react-i18next";
-import { reactLocalStorage } from "reactjs-localstorage";
 import AICameraApi from "../../../../actions/api/ai-camera/AICameraApi.js";
 import WeekPicker from "./WeekPicker";
-import "moment/locale/vi";
-const { RangePicker } = DatePicker;
+import "moment/locale/en-gb";
+import locale from "antd/es/locale/en_GB";
 
-moment.locale("vi-vn");
+moment.locale("en-gb", {
+  week: {
+    dow: 1,
+  },
+});
 
 const CheckboxGroup = Checkbox.Group;
 
@@ -454,22 +458,12 @@ function Sidebar(props) {
       }
       return;
     } else if (cityIdArr.length > 5) {
-      const language = reactLocalStorage.get("language");
-      if (language === "vn") {
-        const notifyMess = {
-          type: "error",
-          title: "",
-          description: "Số lượng tỉnh/thành phố không được vượt quá 5",
-        };
-        Notification(notifyMess);
-      } else {
-        const notifyMess = {
-          type: "error",
-          title: "",
-          description: `The number of province must not exceed 5`,
-        };
-        Notification(notifyMess);
-      }
+      const notifyMess = {
+        type: "error",
+        title: "",
+        description: t("noti.not_exeed_5", { ele: t("view.report.province") }),
+      };
+      Notification(notifyMess);
       cityIdArr.pop();
       setProvinceId(cityIdArr);
       return;
@@ -505,22 +499,12 @@ function Sidebar(props) {
 
       return;
     } else if (districtIdArr.length > 5) {
-      const language = reactLocalStorage.get("language");
-      if (language === "vn") {
-        const notifyMess = {
-          type: "error",
-          title: "",
-          description: "Số lượng quận/huyện không được vượt quá 5",
-        };
-        Notification(notifyMess);
-      } else {
-        const notifyMess = {
-          type: "error",
-          title: "",
-          description: `The number of district must not exceed 5`,
-        };
-        Notification(notifyMess);
-      }
+      const notifyMess = {
+        type: "error",
+        title: "",
+        description: t("noti.not_exeed_5", { ele: t("view.report.district") }),
+      };
+      Notification(notifyMess);
       districtIdArr.pop();
       setDistrictId(districtIdArr);
       return;
@@ -559,22 +543,12 @@ function Sidebar(props) {
 
       return;
     } else if (wardIdArr.length > 5) {
-      const language = reactLocalStorage.get("language");
-      if (language === "vn") {
-        const notifyMess = {
-          type: "error",
-          title: "",
-          description: "Số lượng phường/xã không được vượt quá 5",
-        };
-        Notification(notifyMess);
-      } else {
-        const notifyMess = {
-          type: "error",
-          title: "",
-          description: `The number of ward must not exceed 5`,
-        };
-        Notification(notifyMess);
-      }
+      const notifyMess = {
+        type: "error",
+        title: "",
+        description: t("noti.not_exeed_5", { ele: t("view.report.ward") }),
+      };
+      Notification(notifyMess);
       wardIdArr.pop();
       setWardId(wardIdArr);
       return;
@@ -637,24 +611,13 @@ function Sidebar(props) {
 
   const onSelectChange = (selectedRowKeys) => {
     if (selectedRowKeys.length < 1) {
-      const language = reactLocalStorage.get("language");
-      if (language === "vn") {
-        const notifyMess = {
-          type: "error",
-          title: "",
-          description: `Số lượng sự kiện phải lớn hơn từ 1`,
-        };
-        Notification(notifyMess);
-        return;
-      } else {
-        const notifyMess = {
-          type: "error",
-          title: "",
-          description: `Number of events must be greater than 1`,
-        };
-        Notification(notifyMess);
-        return;
-      }
+      const notifyMess = {
+        type: "error",
+        title: "",
+        description: t("noti.event_greater_than_1"),
+      };
+      Notification(notifyMess);
+      return;
     }
     setSelectedRowKeys(selectedRowKeys);
   };
@@ -947,6 +910,9 @@ function Sidebar(props) {
   return (
     <div className="sidebar">
       <div className="sidebarOption">
+        <ConfigProvider locale={locale}>
+          <DatePicker picker="week" />
+        </ConfigProvider>
         <Form
           className="mt-2 bg-grey"
           form={form}
@@ -1092,13 +1058,15 @@ function Sidebar(props) {
             <Row gutter={24} style={{ margin: "5px" }}>
               <Col span={12}>
                 <Form.Item name={["timeStartWeek"]}>
-                  <DatePicker
-                    allowClear={false}
-                    onChange={onChangeTimeStartWeek}
-                    picker="week"
-                    format="WW-YYYY"
-                    dropdownClassName="dropdown__week-picker"
-                  />
+                  <ConfigProvider locale={locale}>
+                    <DatePicker
+                      allowClear={false}
+                      onChange={onChangeTimeStartWeek}
+                      defaultValue={moment(timeEndWeek).subtract(4, "weeks")}
+                      picker="week"
+                      dropdownClassName="dropdown__week-picker"
+                    />
+                  </ConfigProvider>
                   {/* <WeekPicker
                     // value={timeStartWeek}
                     onChange={onChangeTimeStartWeek}
@@ -1108,13 +1076,15 @@ function Sidebar(props) {
               </Col>
               <Col span={12}>
                 <Form.Item name={["timeEndWeek"]}>
-                  <DatePicker
-                    allowClear={false}
-                    onChange={onChangeTimeEndWeek}
-                    picker="week"
-                    format="WW-YYYY"
-                    dropdownClassName="dropdown__week-picker"
-                  />
+                  <ConfigProvider locale={locale}>
+                    <DatePicker
+                      allowClear={false}
+                      onChange={onChangeTimeEndWeek}
+                      defaultValue={moment()}
+                      picker="week"
+                      dropdownClassName="dropdown__week-picker"
+                    />
+                  </ConfigProvider>
                   {/* <WeekPicker
                     // value={timeEndWeek}
                     onChange={onChangeTimeEndWeek}
