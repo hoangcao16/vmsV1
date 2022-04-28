@@ -1027,13 +1027,13 @@ const TableFile = (props) => {
                       <Row gutter={[0, 8]}>
                         <Col span={24}>
                           <ul>
-                            {value.eventName ? (
-                              <li className='eventName'>{value.eventName}</li>
-                            ) : (
-                              <li className='eventName'>
-                                {t('view.ai_events.' + value.eventType)}
-                              </li>
-                            )}
+                            {/* {value.eventName ? ( */}
+                            {/* <li className='eventName'>{value.eventName}</li> */}
+                            {/* // ) : ( */}
+                            <li className='eventName'>
+                              {t('view.ai_events.' + value?.eventType)}
+                            </li>
+                            {/* // )} */}
                             {value.fileName ? (
                               <li className='name'>{value.fileName}</li>
                             ) : null}

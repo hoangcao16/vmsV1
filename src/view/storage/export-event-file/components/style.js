@@ -301,3 +301,19 @@ export const ActionButton = styled(Row)`
     background-color: #888 !important;
   }
 `;
+export const VideoOverlay = styled.li`
+  position: relative;
+  img {
+    -webkit-filter: blur(5px); /* Safari 6.0 - 9.0 */
+    filter: blur(5px);
+  }
+  .play_icon {
+    position: absolute;
+    left: 0px;
+    right: 0px;
+    margin: 0px auto;
+    font-size: 42px;
+    top: 50%;
+    transform: translateY(-50%);
+  }
+`;

@@ -1,18 +1,16 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import { Row, Col, Popconfirm, Button, Space, Spin } from 'antd';
-import { StyledEventFileDetail, ActionButton } from './style';
+import { StyledEventFileDetail, ActionButton, VideoOverlay } from './style';
 import { useTranslation } from 'react-i18next';
 // import SelectType from "./select-type";
 import './../../../commonStyle/commonPopconfirm.scss';
-import { CloseOutlined } from '@ant-design/icons';
+import { CloseOutlined, PlayCircleOutlined } from '@ant-design/icons';
 import { MemoizedTableDetailList } from './tableDetailList';
+import ExportEventFileApi from '../../../../actions/api/exporteventfile/ExportEventFileApi';
 
 const Viewfiletype4 = ({
-  // handleSelectType,
-  // objectType,
   detailAI,
   processState,
-  // handleSelectProgessState,
   imageOther,
   deleteImageHandler,
   viewImageAIHandler,
@@ -24,24 +22,14 @@ const Viewfiletype4 = ({
   currentEventTablePage,
   totalEventTablePage,
   listFiles,
-  //   handleUpdateTHXL,
 }) => {
   const { t } = useTranslation();
   const AI_SOURCE = process.env.REACT_APP_AI_SOURCE;
-  // const typeObjects = [
-  //   {
-  //     value: "unknow",
-  //     label: `${t("view.ai_events.type_object.unknow")}`,
-  //   },
-  //   {
-  //     value: "vehicle",
-  //     label: `${t("view.ai_events.type_object.vehicle")}`,
-  //   },
-  //   {
-  //     value: "human",
-  //     label: `${t("view.ai_events.type_object.human")}`,
-  //   },
-  // ];
+  const [loading, setLoading] = useState(false);
+  const [videoErrorURL, setVideoErrorURL] = useState(null);
+  useEffect(() => {
+    setVideoErrorURL(null);
+  }, [detailAI]);
   const processingstatusOptions = [
     {
       value: 'process',
@@ -56,7 +44,8 @@ const Viewfiletype4 = ({
       label: `${t('view.ai_events.processing-status.not_processed')}`,
     },
   ];
-  const hasImage = imageOther.find((item) => item.type === 'mp4');
+  // const hasImage = imageOther.find((item) => item.type === 'mp4');
+  const hasVideo = detailAI?.videoUrl ? true : false;
   const isDisabled = () => {
     if (processState?.value === processingstatusOptions[2]?.value) {
       return true;
@@ -80,6 +69,28 @@ const Viewfiletype4 = ({
       return true;
     }
     return false;
+  };
+  const downloadVideo = async () => {
+    if (!videoErrorURL) {
+      setLoading(true);
+      await ExportEventFileApi.downloadAIIntegrationFile(
+        detailAI?.uuid,
+        'Video.mp4'
+      )
+        .then(async (result) => {
+          const blob = new Blob([result.data], { type: 'octet/stream' });
+          setVideoErrorURL({
+            id: 'video',
+            type: 'mp4',
+            fileName: 'Video.mp4',
+            uuid: detailAI?.uuid,
+            url: URL.createObjectURL(blob),
+          });
+        })
+        .finally(() => {
+          setLoading(false);
+        });
+    }
   };
   return (
     <>
@@ -156,6 +167,75 @@ const Viewfiletype4 = ({
                       </li>
                     ))
                   : null}
+                {hasVideo && !videoErrorURL ? (
+                  <VideoOverlay
+                    className='cursor-pointer'
+                    style={{
+                      listStyleType: 'none',
+                      display: 'inline-block',
+                      marginRight: '20px',
+                    }}
+                    onClick={downloadVideo}
+                  >
+                    <div style={{ width: '90%', paddingBottom: '10px' }}>
+                      <div
+                        className='img__item'
+                        style={{ position: 'relative' }}
+                      >
+                        <Spin spinning={loading}>
+                          <img
+                            style={{ width: '120px', height: '120px' }}
+                            src={imageOther[0]?.image}
+                            alt='Avatar'
+                          />
+                        </Spin>
+                        <PlayCircleOutlined className='play_icon' />
+                      </div>
+                    </div>
+                  </VideoOverlay>
+                ) : null}
+                {hasVideo && videoErrorURL ? (
+                  <VideoOverlay
+                    className='cursor-pointer'
+                    style={{
+                      listStyleType: 'none',
+                      display: 'inline-block',
+                      marginRight: '20px',
+                    }}
+                  >
+                    <div style={{ width: '90%', paddingBottom: '10px' }}>
+                      <div
+                        className='img__item'
+                        style={{ position: 'relative' }}
+                      >
+                        <div
+                          className='img__item'
+                          onClick={(event) => {
+                            event.stopPropagation();
+                            viewImageAIHandler(videoErrorURL);
+                          }}
+                        >
+                          {videoErrorURL && (
+                            <video
+                              style={{
+                                width: '120px',
+                                height: '120px',
+                              }}
+                              className='video-container video-container-overlay cursor-pointer video-error'
+                              loop
+                              autoPlay
+                            >
+                              <source
+                                src={videoErrorURL.url}
+                                type='video/mp4'
+                              />{' '}
+                            </video>
+                          )}
+                        </div>
+                      </div>
+                    </div>
+                  </VideoOverlay>
+                ) : null}
               </ul>
             ) : (
               <ul>
@@ -236,6 +316,75 @@ const Viewfiletype4 = ({
                       </li>
                     ))
                   : null}
+                {hasVideo && !videoErrorURL ? (
+                  <VideoOverlay
+                    className='cursor-pointer'
+                    style={{
+                      listStyleType: 'none',
+                      display: 'inline-block',
+                      marginRight: '20px',
+                    }}
+                    onClick={downloadVideo}
+                  >
+                    <div style={{ width: '90%', paddingBottom: '10px' }}>
+                      <div
+                        className='img__item'
+                        style={{ position: 'relative' }}
+                      >
+                        <Spin spinning={loading}>
+                          <img
+                            style={{ width: '120px', height: '120px' }}
+                            src={imageOther[0]?.image}
+                            alt='Avatar'
+                          />
+                        </Spin>
+                        <PlayCircleOutlined className='play_icon' />
+                      </div>
+                    </div>
+                  </VideoOverlay>
+                ) : null}
+                {hasVideo && videoErrorURL ? (
+                  <VideoOverlay
+                    className='cursor-pointer'
+                    style={{
+                      listStyleType: 'none',
+                      display: 'inline-block',
+                      marginRight: '20px',
+                    }}
+                  >
+                    <div style={{ width: '90%', paddingBottom: '10px' }}>
+                      <div
+                        className='img__item'
+                        style={{ position: 'relative' }}
+                      >
+                        <div
+                          className='img__item'
+                          onClick={(event) => {
+                            event.stopPropagation();
+                            viewImageAIHandler(videoErrorURL);
+                          }}
+                        >
+                          {videoErrorURL && (
+                            <video
+                              style={{
+                                width: '120px',
+                                height: '120px',
+                              }}
+                              className='video-container video-container-overlay cursor-pointer video-error'
+                              loop
+                              autoPlay
+                            >
+                              <source
+                                src={videoErrorURL.url}
+                                type='video/mp4'
+                              />{' '}
+                            </video>
+                          )}
+                        </div>
+                      </div>
+                    </div>
+                  </VideoOverlay>
+                ) : null}
               </ul>
             )}
           </div>
@@ -271,7 +420,7 @@ const Viewfiletype4 = ({
               <div className='title'>Video :</div>
             </Col>
             <Col span={14}>
-              {hasImage ? (
+              {hasVideo ? (
                 <a
                   href={detailAI.videoUrl}
                   target='_blank'

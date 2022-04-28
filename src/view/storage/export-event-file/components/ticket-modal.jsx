@@ -5,13 +5,10 @@ import { useTranslation } from 'react-i18next';
 import { useReactToPrint } from 'react-to-print';
 import moment from 'moment';
 import { getText } from './toVND';
-import { default as ExportEventFileApi } from '../../../../actions/api/exporteventfile/ExportEventFileApi';
-import { getBase64Text } from '../../../../utility/vms/getBase64Text';
 import './index.css';
 import SendTicketModal from './send-ticket-modal';
 import SendEmailApi from '../../../../actions/api/send-email';
 import Notification from '../../../../components/vms/notification/Notification';
-const AI_SOURCE = process.env.REACT_APP_AI_SOURCE;
 
 const PrintSection = ({
   componentRef,
@@ -49,6 +46,7 @@ const PrintSection = ({
             <td
               style={{
                 width: '30%',
+                paddingLeft: '2rem',
                 paddingBottom: '16px',
                 fontWeight: 'bold',
               }}
@@ -64,6 +62,7 @@ const PrintSection = ({
             <td
               style={{
                 width: '30%',
+                paddingLeft: '2rem',
                 paddingBottom: '16px',
                 fontWeight: 'bold',
               }}
@@ -78,6 +77,7 @@ const PrintSection = ({
             <td
               style={{
                 width: '30%',
+                paddingLeft: '2rem',
                 paddingBottom: '16px',
                 fontWeight: 'bold',
               }}
@@ -92,6 +92,7 @@ const PrintSection = ({
             <td
               style={{
                 width: '30%',
+                paddingLeft: '2rem',
                 paddingBottom: '16px',
                 fontWeight: 'bold',
               }}
@@ -107,6 +108,7 @@ const PrintSection = ({
             <td
               style={{
                 width: '30%',
+                paddingLeft: '2rem',
                 paddingBottom: '16px',
                 fontWeight: 'bold',
               }}
@@ -121,6 +123,7 @@ const PrintSection = ({
             <td
               style={{
                 width: '30%',
+                paddingLeft: '2rem',
                 paddingBottom: '16px',
                 fontWeight: 'bold',
               }}
@@ -133,6 +136,7 @@ const PrintSection = ({
                   placeholder='............................'
                   value={fine}
                   type='number'
+                  min={0}
                   onChange={(e) => handleSetFine(e)}
                 />
                 {fine === '' ? (
@@ -154,6 +158,7 @@ const PrintSection = ({
                 verticalAlign: 'top',
                 paddingBottom: '16px',
                 fontWeight: 'bold',
+                paddingLeft: '2rem',
               }}
             >
               {t('view.penalty_ticket.violation_proof')}
@@ -203,12 +208,12 @@ const TicketModal = ({
   handleCancel,
   data,
   handleSelectProgessState,
+  imageViolate,
 }) => {
   const { t } = useTranslation();
   const componentRef = useRef();
   const [fine, setFine] = useState('');
   const [totext, setTotext] = useState('');
-  const [urlSnapshot, setUrlSnapshot] = useState('');
   // Send Ticket Modal
   const [sendModalVisible, setSendModalVisible] = useState(false);
   const [resetForm, setResetForm] = useState(false);
@@ -282,7 +287,9 @@ const TicketModal = ({
     content: () => componentRef.current,
   });
   const handleSetFine = (e) => {
-    if (e?.target?.value?.length > 10) {
+    if (parseFloat(e.target.value) < 0) {
+      setFine(0);
+    } else if (e?.target?.value?.length > 10) {
       const value = e.target.value.slice(0, 10);
       setFine(value);
       if (value !== '' && !isNaN(parseFloat(value))) {
@@ -302,38 +309,6 @@ const TicketModal = ({
       }
     }
   };
-  useEffect(() => {
-    (async () => {
-      if (parseFloat(data?.fileType) === 4) {
-        if (AI_SOURCE === 'philong') {
-          await ExportEventFileApi.downloadAIIntegrationFile(
-            data.uuid,
-            'ImageViolate.jpg'
-          ).then(async (result) => {
-            const blob = new Blob([result.data], { type: 'octet/stream' });
-            getBase64Text(blob, async (image) => {
-              setUrlSnapshot(image);
-            });
-          });
-        } else {
-          await ExportEventFileApi.downloadFileAI(
-            data.cameraUuid,
-            data.trackingId,
-            data.uuid,
-            data.fileName,
-            4
-          ).then(async (result) => {
-            const blob = new Blob([result.data], { type: 'octet/stream' });
-            getBase64Text(blob, async (image) => {
-              setUrlSnapshot(image);
-            });
-          });
-
-          // setUrlSnapshot("data:image/jpeg;base64," + file.thumbnailData);
-        }
-      }
-    })();
-  }, [data]);
   useEffect(() => {
     setFine('');
     setTotext('');
@@ -372,7 +347,7 @@ const TicketModal = ({
           fine={fine}
           handleSetFine={handleSetFine}
           totext={totext}
-          urlSnapshot={urlSnapshot}
+          urlSnapshot={imageViolate}
         />
         <SendTicketModal
           sendModalVisible={sendModalVisible}
