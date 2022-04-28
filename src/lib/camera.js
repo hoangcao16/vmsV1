@@ -8,6 +8,7 @@ import {
 } from "../redux/actions/map/camLiveAction";
 import { reactLocalStorage } from "reactjs-localstorage";
 import { getEmail, getToken } from "../api/token";
+import {randomString} from "../utility/vms/randomString";
 
 const language = reactLocalStorage.get("language");
 let notifyMess = {};
@@ -73,8 +74,9 @@ class CameraService {
       }
 
       const pc = new RTCPeerConnection();
+      let peerCode = randomString(10);
       pc.addTransceiver("video");
-      pc.oniceconnectionstatechange = () => {};
+
       // const spin = document.getElementById('spin-slot-' + slotIdx)
       pc.ontrack = (event) => {
         //binding and play
@@ -107,6 +109,34 @@ class CameraService {
       const thisTime = new Date().getTime();
       const token =
         slotIdx + "##" + getToken() + "##" + getEmail() + "##" + thisTime;
+      let dc = pc.createDataChannel(token);
+
+      pc.ondatachannel = (event) => {
+        dc = event.channel;
+        dc.onopen = () => {
+          console.log(">>>>> ondatachannel -> onopen, data: ", token);
+        };
+        let dcTimeout = null;
+        dc.onmessage = (evt) => {
+          console.log(">>>>> ondatachannel -> onmessage:" + evt)
+          dcTimeout = setTimeout(function() {
+            if (dc == null && dcTimeout != null) {
+              dcTimeout = null;
+              return
+            }
+            const message = 'Ping from: ' + peerCode;
+            if (dc.readyState === "open") {
+              dc.send(message);
+              console.log(">>>>> ondatachannel -> onmessage, send message: ", message);
+            }
+          }, 1000);
+        }
+        dc.onclose = () => {
+          clearTimeout(dcTimeout);
+          dcTimeout = null;
+          console.log(">>>>> ondatachannel -> onclose, data: ", token);
+        };
+      };
 
       const API = data.camproxyApi;
       pc.createOffer({
@@ -145,7 +175,7 @@ class CameraService {
           });
       });
 
-      return pc;
+      return {pc, dc};
     } catch (error) {
       console.log("error:", error);
       dispatch && dispatch(viewCamIsNotPermission(cam));

@@ -50,19 +50,20 @@ const MapCamItemLive = (props) => {
       if (camLive && !camLive.isPlay && !camLive.messError) {
         CameraService.closeCamera(slotId);
         closeRTCPeerConnection(slotId);
-        CameraService.playCameraOnline(camLive, slotId, dispatch).then((pc) => {
+        CameraService.playCameraOnline(camLive, slotId, dispatch).then(({pc, dc}) => {
           if (pc instanceof RTCPeerConnection) {
             let pcLstTmp = [...pcList];
             let isExist = false;
             for (let i = 0; i < pcLstTmp.length; i++) {
               if (pcLstTmp[i].slotIdx === slotId) {
+                pcLstTmp[i].dc = dc;
                 pcLstTmp[i].pc = pc;
                 isExist = true;
                 break;
               }
             }
             if (!isExist) {
-              pcLstTmp.push({ slotIdx: slotId, pc: pc });
+              pcLstTmp.push({ slotIdx: slotId, pc: pc, dc: dc });
             }
             setPCList([...pcLstTmp]);
           }
@@ -118,6 +119,8 @@ const MapCamItemLive = (props) => {
     let pcLstTmp = [...pcListRef.current];
     for (let i = 0; i < pcLstTmp.length; i++) {
       if (pcLstTmp[i].pc) {
+        console.log(">>>>> close Data Chanel: ", pcLstTmp[i].dc);
+        pcLstTmp[i].dc.close();
         pcLstTmp[i].pc.close();
       }
     }
@@ -129,6 +132,8 @@ const MapCamItemLive = (props) => {
     for (let i = 0; i < pcLstTmp.length; i++) {
       if (pcLstTmp[i].slotIdx === slotIdx) {
         if (pcLstTmp[i].pc) {
+          console.log(">>>>> close Data Chanel: ", pcLstTmp[i].dc);
+          pcLstTmp[i].dc.close();
           pcLstTmp[i].pc.close();
           pcLstTmp.splice(i, 1);
         }
