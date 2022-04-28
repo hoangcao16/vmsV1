@@ -51,6 +51,7 @@ import { getEmail, getToken } from "../../api/token";
 import * as StompJs from "@stomp/stompjs";
 import { UPDATE_DATA } from "../../redux/types/live";
 import { isEmpty } from "lodash";
+import {randomString} from "../../utility/vms/randomString";
 
 const mode = process.env.REACT_APP_MODE_VIEW;
 
@@ -170,8 +171,9 @@ const Live = (props) => {
     let pcLstTmp = [...pcListRef.current];
     for (let i = 0; i < pcLstTmp.length; i++) {
       if (pcLstTmp[i].pc) {
+        pcLstTmp[i].dc.close();
         pcLstTmp[i].pc.close();
-        //console.log(">>>>> close connection: ", pcLstTmp[i].pc);
+        //console.log(">>>>> close Data Chanel: ", pcLstTmp[i].dc);
       }
     }
   };
@@ -327,9 +329,15 @@ const Live = (props) => {
       setPCList((prevValue) => {
         let pcLstTmp = [...prevValue];
         let isExist = false;
+        //console.log(">>>>> pcLstTmp: ", pcLstTmp);
         for (let i = 0; i < pcLstTmp.length; i++) {
           if (pcLstTmp[i].slotIdx === slotIdx) {
             isExist = true;
+            if (pcLstTmp[i].pc) {
+              pcLstTmp[i].dc.close();
+              pcLstTmp[i].pc.close();
+              pcLstTmp.splice(i, 1);
+            }
             break;
           }
         }
@@ -371,6 +379,8 @@ const Live = (props) => {
         ],
       };
       const pc = new RTCPeerConnection();
+      let peerCode = randomString(10);
+
       pc.setConfiguration(restartConfig);
       pc.addTransceiver("video");
       const spin = document.getElementById("spin-slot-" + slotIdx);
@@ -390,27 +400,32 @@ const Live = (props) => {
       const thisTime = new Date().getTime();
       const token =
         slotIdx + "##" + getToken() + "##" + getEmail() + "##" + thisTime;
+      let dc = pc.createDataChannel(token);
 
-      pc.oniceconnectionstatechange = function (event) {
-        if (
-          pc.iceConnectionState === "failed" ||
-          pc.iceConnectionState === "disconnected" ||
-          pc.iceConnectionState === "closed"
-        ) {
-          // Handle the failure
-          console.log(
-            ">>>>> ice connection state: ",
-            pc.signalingState,
-            ", data: ",
-            token
-          );
+      pc.ondatachannel = (event) => {
+        dc = event.channel;
+        dc.onopen = () => {
+          console.log(">>>>> ondatachannel -> onopen, data: ", token);
+        };
+        let dcTimeout = null;
+        dc.onmessage = (evt) => {
+          console.log(">>>>> ondatachannel -> onmessage:" + evt)
+          dcTimeout = setTimeout(function() {
+            if (dc == null && dcTimeout != null) {
+              dcTimeout = null;
+              return
+            }
+            const message = 'Ping from: ' + peerCode;
+            if (dc.readyState === "open") {
+              dc.send(message);
+              console.log(">>>>> ondatachannel -> onmessage, send message: ", message);
+            }
+          }, 1000);
         }
-      };
-
-      pc.ondatachannel = function (ev) {
-        console.log("Data channel is created!");
-        ev.channel.onopen = function () {
-          console.log("Data channel is open and ready to be used.");
+        dc.onclose = () => {
+          clearTimeout(dcTimeout);
+          dcTimeout = null;
+          console.log(">>>>> ondatachannel -> onclose, data: ", token);
         };
       };
 
@@ -418,7 +433,7 @@ const Live = (props) => {
         switch (pc.connectionState) {
           case "connected":
             // The connection has become fully connected
-            console.log(">>>>> connection state: connected, data: ", token);
+            //console.log(">>>>> connection state: connected, data: ", token);
             break;
           case "disconnected":
             console.log(">>>>> connection state: disconnected, data: ", token);
@@ -431,18 +446,9 @@ const Live = (props) => {
             break;
           case "closed":
             // The connection has been closed
-            console.log(">>>>> connection state: closed, data: ", token);
+            //console.log(">>>>> connection state: closed, data: ", token);
             break;
         }
-      };
-
-      pc.onsignalingstatechange = function (event) {
-        console.log(
-          ">>>>> signal state: ",
-          pc.signalingState,
-          ", data: ",
-          token
-        );
       };
 
       const API = data.camproxyApi;
@@ -480,20 +486,23 @@ const Live = (props) => {
         .catch((e) => console.log(e))
         .finally(() => {});
 
-      let pcLstTmp = [...pcList];
-      let isExist = false;
-      for (let i = 0; i < pcLstTmp.length; i++) {
-        if (pcLstTmp[i].slotIdx === slotIdx) {
-          pcLstTmp[i].pc = pc;
-          pcLstTmp[i].viewType = type;
-          isExist = true;
-          break;
+      setPCList((prevValue) => {
+        let pcLstTmp = [...prevValue];
+        let isExist = false;
+        for (let i = 0; i < pcLstTmp.length; i++) {
+          if (pcLstTmp[i].slotIdx === slotIdx) {
+            pcLstTmp[i].pc = pc;
+            pcLstTmp[i].dc = dc;
+            pcLstTmp[i].viewType = type;
+            isExist = true;
+            break;
+          }
         }
-      }
-      if (!isExist) {
-        pcLstTmp.push({ slotIdx: slotIdx, pc: pc, viewType: type });
-      }
-      setPCList([...pcLstTmp]);
+        if (!isExist) {
+          pcLstTmp.push({ slotIdx: slotIdx, pc: pc, viewType: type, dc: dc });
+        }
+        return pcLstTmp;
+      });
     } else {
       const API = data.camproxyApi;
       const { token } = data;
@@ -1236,6 +1245,8 @@ const Live = (props) => {
       for (let i = 0; i < pcLstTmp.length; i++) {
         if (pcLstTmp[i].slotIdx === slotIdx) {
           if (pcLstTmp[i].pc) {
+            console.log(">>>> Close RTCPeerConnection: ", pcLstTmp[i].slotIdx);
+            pcLstTmp[i].dc.close();
             pcLstTmp[i].pc.close();
             pcLstTmp.splice(i, 1);
           }

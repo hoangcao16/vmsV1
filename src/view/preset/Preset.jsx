@@ -38,6 +38,7 @@ import getServerCamproxyForPlay from "../../utility/vms/camera";
 import { NOTYFY_TYPE } from "../common/vms/Constant";
 import "./Preset.scss";
 import { getEmail, getToken } from "../../api/token";
+import {randomString} from "../../utility/vms/randomString";
 
 const Preset = (props) => {
   const { idCamera } = props;
@@ -78,6 +79,8 @@ const Preset = (props) => {
     let pcLstTmp = [...pcListRef.current];
     for (let i = 0; i < pcLstTmp.length; i++) {
       if (pcLstTmp[i].pc) {
+        console.log(">>>>> close Data Chanel: ", pcLstTmp[i].dc);
+        pcLstTmp[i].dc.close();
         pcLstTmp[i].pc.close();
       }
     }
@@ -89,6 +92,8 @@ const Preset = (props) => {
     for (let i = 0; i < pcLstTmp.length; i++) {
       if (pcLstTmp[i].slotIdx === slotIdx) {
         if (pcLstTmp[i].pc) {
+          console.log(">>>>> close Data Chanel: ", pcLstTmp[i].dc);
+          pcLstTmp[i].dc.close();
           pcLstTmp[i].pc.close();
           pcLstTmp.splice(i, 1);
         }
@@ -340,8 +345,9 @@ const Preset = (props) => {
     }
 
     const pc = new RTCPeerConnection();
+    let peerCode = randomString(10);
     pc.addTransceiver("video");
-    pc.oniceconnectionstatechange = () => {};
+
     const spin = document.getElementById("spin-slot-1");
     pc.ontrack = (event) => {
       //binding and play
@@ -358,6 +364,34 @@ const Preset = (props) => {
 
     const thisTime = new Date().getTime();
     const token = "0##" + getToken() + "##" + getEmail() + "##" + thisTime;
+    let dc = pc.createDataChannel(token);
+
+    pc.ondatachannel = (event) => {
+      dc = event.channel;
+      dc.onopen = () => {
+        console.log(">>>>> ondatachannel -> onopen, data: ", token);
+      };
+      let dcTimeout = null;
+      dc.onmessage = (evt) => {
+        console.log(">>>>> ondatachannel -> onmessage:" + evt)
+        dcTimeout = setTimeout(function() {
+          if (dc == null && dcTimeout != null) {
+            dcTimeout = null;
+            return
+          }
+          const message = 'Ping from: ' + peerCode;
+          if (dc.readyState === "open") {
+            dc.send(message);
+            console.log(">>>>> ondatachannel -> onmessage, send message: ", message);
+          }
+        }, 1000);
+      }
+      dc.onclose = () => {
+        clearTimeout(dcTimeout);
+        dcTimeout = null;
+        console.log(">>>>> ondatachannel -> onclose, data: ", token);
+      };
+    };
 
     const API = data.camproxyApi;
 
@@ -398,13 +432,14 @@ const Preset = (props) => {
     let isExist = false;
     for (let i = 0; i < pcLstTmp.length; i++) {
       if (pcLstTmp[i].slotIdx === 0) {
+        pcLstTmp[i].dc = dc;
         pcLstTmp[i].pc = pc;
         isExist = true;
         break;
       }
     }
     if (!isExist) {
-      pcLstTmp.push({ slotIdx: 0, pc: pc });
+      pcLstTmp.push({ slotIdx: 0, pc: pc, dc: dc });
     }
     setPCList([...pcLstTmp]);
   };
