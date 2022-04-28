@@ -156,6 +156,7 @@ const ExportEventFile = () => {
   const [selectedFiled, setselectedFiled] = useState(null);
   const [nextselected, setNextselected] = useState(null);
   const [nextpage, setNextpage] = useState(null);
+  const [imageViolate, setImageViolate] = useState(null);
 
   const [currentEventTablePage, setCurrentEventTablePage] = useState(null);
   const [totalEventTablePage, setTotalEventTablePage] = useState(null);
@@ -246,11 +247,11 @@ const ExportEventFile = () => {
           fileCurrent.uuid,
           'ImageVehicle.jpg'
         );
-        const getVideoUrl = ExportEventFileApi.downloadAIIntegrationFile(
-          fileCurrent.uuid,
-          'Video.mp4'
-        );
-        Promise.all([getViolateUrl, getPlateNumUrl, getVehicleUrl, getVideoUrl])
+        // const getVideoUrl = ExportEventFileApi.downloadAIIntegrationFile(
+        //   fileCurrent.uuid,
+        //   'Video.mp4'
+        // );
+        Promise.all([getViolateUrl, getPlateNumUrl, getVehicleUrl])
           .then(async (value) => {
             if (!isEmpty(value[0])) {
               const blob = new Blob([value[0].data], { type: 'octet/stream' });
@@ -261,6 +262,7 @@ const ExportEventFile = () => {
                 uuid: fileCurrent.uuid,
                 image: URL.createObjectURL(blob),
               });
+              setImageViolate(URL.createObjectURL(blob));
               // });
             }
             if (!isEmpty(value[1])) {
@@ -285,16 +287,16 @@ const ExportEventFile = () => {
               });
               // });
             }
-            if (!isEmpty(value[3])) {
-              const blob = new Blob([value[3].data], { type: 'octet/stream' });
-              imageOther.push({
-                id: 'video',
-                type: 'mp4',
-                fileName: 'Video.mp4',
-                uuid: fileCurrent.uuid,
-                url: URL.createObjectURL(blob),
-              });
-            }
+            // if (!isEmpty(value[3])) {
+            //   const blob = new Blob([value[3].data], { type: 'octet/stream' });
+            //   imageOther.push({
+            //     id: 'video',
+            //     type: 'mp4',
+            //     fileName: 'Video.mp4',
+            //     uuid: fileCurrent.uuid,
+            //     url: URL.createObjectURL(blob),
+            //   });
+            // }
           })
           .then(() => {
             console.log('imageOther   []  ', imageOther);
@@ -407,11 +409,11 @@ const ExportEventFile = () => {
           selectedFiled.uuid,
           'ImageVehicle.jpg'
         );
-        const getVideoUrl = ExportEventFileApi.downloadAIIntegrationFile(
-          selectedFiled.uuid,
-          'Video.mp4'
-        );
-        Promise.all([getViolateUrl, getPlateNumUrl, getVehicleUrl, getVideoUrl])
+        // const getVideoUrl = ExportEventFileApi.downloadAIIntegrationFile(
+        //   selectedFiled.uuid,
+        //   'Video.mp4'
+        // );
+        Promise.all([getViolateUrl, getPlateNumUrl, getVehicleUrl])
           .then(async (value) => {
             if (!isEmpty(value[0])) {
               const blob = new Blob([value[0].data], { type: 'octet/stream' });
@@ -446,16 +448,16 @@ const ExportEventFile = () => {
               });
               // });
             }
-            if (!isEmpty(value[3])) {
-              const blob = new Blob([value[3].data], { type: 'octet/stream' });
-              imageOther.push({
-                id: 'video',
-                type: 'mp4',
-                fileName: 'Video.mp4',
-                uuid: selectedFiled.uuid,
-                url: URL.createObjectURL(blob),
-              });
-            }
+            // if (!isEmpty(value[3])) {
+            //   const blob = new Blob([value[3].data], { type: 'octet/stream' });
+            //   imageOther.push({
+            //     id: 'video',
+            //     type: 'mp4',
+            //     fileName: 'Video.mp4',
+            //     uuid: selectedFiled.uuid,
+            //     url: URL.createObjectURL(blob),
+            //   });
+            // }
           })
           .then(() => {
             console.log('imageOther   []  ', imageOther);
@@ -701,6 +703,7 @@ const ExportEventFile = () => {
   };
 
   const openEventFile = async (file) => {
+    setLoading(true);
     if (viewFileType === 1 || viewFileType === 2) {
       setFileCurrent({ ...file, tableName: 'event_file' });
     } else if (viewFileType === 3) {
@@ -768,6 +771,7 @@ const ExportEventFile = () => {
     }
 
     addDataToEvent(file, 1);
+    setLoading(false);
   };
 
   const playEventFile = async (row) => {
@@ -2539,6 +2543,7 @@ const ExportEventFile = () => {
         handleCancel={handleCancel}
         data={detailAI}
         handleSelectProgessState={handleSelectProgessState}
+        imageViolate={imageViolate}
       />
     </>
   );

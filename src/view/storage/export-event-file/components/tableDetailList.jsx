@@ -1,11 +1,11 @@
-import React, { useState, useRef, useContext, useEffect } from "react";
-import { Table, Form, Input } from "antd";
-import { TableDetails } from "./style";
-import _ from "lodash";
-import moment from "moment";
-import AIEventsApi from "../../../../actions/api/ai-events/AIEventsApi";
-import Notification from "../../../../components/vms/notification/Notification";
-import { useTranslation } from "react-i18next";
+import React, { useState, useRef, useContext, useEffect } from 'react';
+import { Table, Form, Input } from 'antd';
+import { TableDetails } from './style';
+import _ from 'lodash';
+import moment from 'moment';
+import AIEventsApi from '../../../../actions/api/ai-events/AIEventsApi';
+import Notification from '../../../../components/vms/notification/Notification';
+import { useTranslation } from 'react-i18next';
 
 const EditableContext = React.createContext(null);
 const { TextArea } = Input;
@@ -48,7 +48,7 @@ const EditableCell = ({
         handleSave({ ...record, ...values });
       }
     } catch (errInfo) {
-      console.log("Save failed:", errInfo);
+      console.log('Save failed:', errInfo);
     }
   };
 
@@ -61,7 +61,7 @@ const EditableCell = ({
           margin: 0,
         }}
         name={dataIndex}
-        rules={[{ max: 255, message: t("view.map.max_length_255") }]}
+        rules={[{ max: 255, message: t('view.map.max_length_255') }]}
         onClick={(e) => e.stopPropagation()}
       >
         <TextArea
@@ -70,12 +70,12 @@ const EditableCell = ({
           onPressEnter={save}
           onChange={handleChange}
           onBlur={save}
-          className="edit-note"
+          className='edit-note'
         />
       </Form.Item>
     ) : (
       <div
-        className="editable-cell-value-wrap"
+        className='editable-cell-value-wrap'
         // style={{
         //   paddingRight: 24,
         // }}
@@ -106,32 +106,33 @@ const TableDetailList = (props) => {
   const { t } = useTranslation();
   const datacolumns = [
     {
-      title: t("view.penalty_ticket.violation_datetime"),
-      dataIndex: "createdTime",
-      key: "createdTime",
-      render: (text) => <span>{moment(text).format("HH:mm DD/MM/YYYY")}</span>,
+      title: t('view.penalty_ticket.violation_datetime'),
+      dataIndex: 'createdTime',
+      key: 'createdTime',
+      render: (text) => <span>{moment(text).format('HH:mm DD/MM/YYYY')}</span>,
     },
     {
-      title: t("view.live.camera_record"),
-      dataIndex: "cameraName",
-      key: "cameraName",
+      title: t('view.live.camera_record'),
+      dataIndex: 'cameraName',
+      key: 'cameraName',
     },
     {
-      title: t("view.penalty_ticket.violation_type"),
-      dataIndex: "eventName",
-      key: "eventName",
+      title: t('view.penalty_ticket.violation_type'),
+      dataIndex: 'eventType',
+      key: 'eventType',
+      render: (text) => <span>{t('view.ai_events.' + text)}</span>,
     },
     {
-      title: t("view.map.address"),
-      dataIndex: "address",
-      key: "address",
+      title: t('view.map.address'),
+      dataIndex: 'address',
+      key: 'address',
     },
     {
-      title: t("view.common_device.note"),
-      dataIndex: "note",
-      key: "note",
+      title: t('view.common_device.note'),
+      dataIndex: 'note',
+      key: 'note',
       editable: true,
-      width: "30%",
+      width: '30%',
     },
   ];
   useEffect(() => {
@@ -155,17 +156,17 @@ const TableDetailList = (props) => {
         newData.splice(index, 1, { ...item, ...row, note: row?.note?.trim() });
         setDataSource(newData);
         const notifyMess = {
-          type: "success",
-          title: "",
-          description: `${t("noti.successfully_edit_note")}`,
+          type: 'success',
+          title: '',
+          description: `${t('noti.successfully_edit_note')}`,
         };
         Notification(notifyMess);
         editNoteUpdate(row);
       } else {
         const notifyMess = {
-          type: "error",
-          title: "",
-          description: `${t("noti.error_edit")}`,
+          type: 'error',
+          title: '',
+          description: `${t('noti.error_edit')}`,
         };
         Notification(notifyMess);
       }
@@ -206,8 +207,8 @@ const TableDetailList = (props) => {
           },
         }}
         rowClassName={(record, index) => {
-          if (record.uuid === detailAI.uuid) return "editable-row selected";
-          return "editable-row not-selected";
+          if (record.uuid === detailAI.uuid) return 'editable-row selected';
+          return 'editable-row not-selected';
         }}
         onRow={(record, rowIndex) => {
           return {
@@ -219,7 +220,7 @@ const TableDetailList = (props) => {
         dataSource={dataSource}
         columns={columns}
         pagination={false}
-        rowKey="uuid"
+        rowKey='uuid'
       />
     </TableDetails>
   );
