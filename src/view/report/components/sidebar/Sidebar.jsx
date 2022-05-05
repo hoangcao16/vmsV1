@@ -910,9 +910,6 @@ function Sidebar(props) {
   return (
     <div className="sidebar">
       <div className="sidebarOption">
-        <ConfigProvider locale={locale}>
-          <DatePicker picker="week" />
-        </ConfigProvider>
         <Form
           className="mt-2 bg-grey"
           form={form}
