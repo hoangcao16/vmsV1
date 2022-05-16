@@ -25,17 +25,22 @@ function Chart(props) {
   const data =
     props.chartData?.res?.DataChartEvent ||
     props.chartData?.res?.CompareChartEvent;
-  const datafloat = data.map((item) => {
-    let arr = [];
-    arr = Object.fromEntries(
-      Object.entries(item).filter(([key]) => key !== "time")
-    );
-    const keyArr = Object.keys(arr);
-    keyArr.forEach((key) => {
-      item[key] = parseFloat(item[key]);
+  console.log("data", data);
+  let datafloat = [];
+  if (data) {
+    datafloat = data.map((item) => {
+      let arr = [];
+      arr = Object.fromEntries(
+        Object.entries(item).filter(([key]) => key !== "time")
+      );
+      const keyArr = Object.keys(arr);
+      keyArr.forEach((key) => {
+        item[key] = parseFloat(item[key]);
+      });
+      return item;
     });
-    return item;
-  });
+  }
+
   const { t } = useTranslation();
 
   if (props.isLoading) {
