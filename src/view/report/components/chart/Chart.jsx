@@ -25,7 +25,6 @@ function Chart(props) {
   const data =
     props.chartData?.res?.DataChartEvent ||
     props.chartData?.res?.CompareChartEvent;
-  console.log("data", data);
   let datafloat = [];
   if (data) {
     datafloat = data.map((item) => {
